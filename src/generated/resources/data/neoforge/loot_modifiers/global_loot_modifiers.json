@@ -1,6 +1,7 @@
 {
   "entries": [
-    "floraexpansion:pine_cone_to_spruce_leaves"
+    "floraexpansion:pine_cone_to_spruce_leaves",
+    "floraexpansion:pine_litter_to_spruce_leaves"
   ],
   "replace": false
 }

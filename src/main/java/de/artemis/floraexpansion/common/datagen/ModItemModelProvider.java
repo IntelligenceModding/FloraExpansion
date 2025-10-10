@@ -14,5 +14,7 @@ public class ModItemModelProvider extends ItemModelProvider {
     @Override
     protected void registerModels() {
         basicItem(ModItems.PINE_CONE.get());
+        basicItem(ModItems.PINE_NUTS.get());
+        basicItem(ModItems.TOASTED_PINE_NUTS.get());
     }
 }

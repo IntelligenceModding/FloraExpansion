@@ -6,9 +6,9 @@
       "condition": "minecraft:block_state_property"
     },
     {
-      "chance": 0.2,
+      "chance": 0.1,
       "condition": "minecraft:random_chance"
     }
   ],
-  "item": "floraexpansion:pine_cone"
+  "item": "floraexpansion:pine_litter"
 }

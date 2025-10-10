@@ -1,3 +1,4 @@
-// 1.21.1	2025-10-10T14:26:37.8968004	Global Loot Modifiers : floraexpansion
-68f51ca95cd633c23e58384bf99986b6a107a005 data/floraexpansion/loot_modifiers/pine_cone_to_spruce_leaves.json
-1afb49a6b8fe1a9c587786d6c5ed5579ca898090 data/neoforge/loot_modifiers/global_loot_modifiers.json
+// 1.21.1	2025-10-10T18:59:35.3786632	Global Loot Modifiers : floraexpansion
+41894d8db8bb7cb3f94420deb55c7c295fa52fcb data/floraexpansion/loot_modifiers/pine_cone_to_spruce_leaves.json
+ed6eba28beb9c101a1642630c8bd49e857c2dc80 data/floraexpansion/loot_modifiers/pine_litter_to_spruce_leaves.json
+27b597f49fc3d3c79e6683192f88cdcb93bfbae1 data/neoforge/loot_modifiers/global_loot_modifiers.json

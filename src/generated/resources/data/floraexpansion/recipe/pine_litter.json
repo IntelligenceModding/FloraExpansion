@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "floraexpansion:pine_cone"
+    },
+    {
+      "item": "floraexpansion:pine_cone"
+    },
+    {
+      "item": "minecraft:spruce_leaves"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "floraexpansion:pine_litter"
+  }
+}

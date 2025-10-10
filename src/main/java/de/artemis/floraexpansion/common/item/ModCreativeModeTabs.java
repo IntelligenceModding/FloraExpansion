@@ -1,6 +1,7 @@
 package de.artemis.floraexpansion.common.item;
 
 import de.artemis.floraexpansion.FloraExpansion;
+import de.artemis.floraexpansion.common.block.ModBlocks;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.CreativeModeTab;
@@ -18,7 +19,10 @@ public class ModCreativeModeTabs {
             () -> CreativeModeTab.builder().icon(() -> new ItemStack(ModItems.PINE_CONE.get()))
                     .title(Component.translatable("floraexpansion.creative_tab"))
                     .displayItems((itemDisplayParameters, output) -> {
+                        output.accept(ModBlocks.PINE_LITTER);
                         output.accept(ModItems.PINE_CONE);
+                        output.accept(ModItems.PINE_NUTS);
+                        output.accept(ModItems.TOASTED_PINE_NUTS);
 
                     }).build());
 
