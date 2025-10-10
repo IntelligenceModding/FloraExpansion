@@ -25,7 +25,6 @@ base {
     archivesName = mod_id
 }
 
-// Mojang ships Java 21 to end users in 1.21.1, so mods should target Java 21.
 java.toolchain.languageVersion = JavaLanguageVersion.of(21)
 
 neoForge {
@@ -48,6 +47,7 @@ neoForge {
 
             // Comma-separated list of namespaces to load gametests from. Empty = all namespaces.
             systemProperty 'neoforge.enabledGameTestNamespaces', project.mod_id
+
         }
 
         server {
