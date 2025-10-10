@@ -23,5 +23,6 @@ public class ModItemTagProvider extends ItemTagsProvider {
     protected void addTags(HolderLookup.@NotNull Provider provider) {
         tag(ItemTags.CHICKEN_FOOD).add(ModItems.PINE_NUTS.get());
         tag(ItemTags.PARROT_FOOD).add(ModItems.PINE_NUTS.get());
+        tag(ItemTags.PARROT_POISONOUS_FOOD).add(ModItems.TOASTED_PINE_NUTS.get());
     }
 }

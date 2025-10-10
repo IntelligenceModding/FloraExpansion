@@ -23,18 +23,18 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
     @Override
     protected void buildRecipes(@NotNull RecipeOutput recipeOutput) {
 
-        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ModItems.PINE_CONE, 2)
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ModItems.PINE_CONE, 1)
                 .requires(ModBlocks.PINE_LITTER)
                 .unlockedBy("has_pine_litter", has(ModBlocks.PINE_LITTER))
                 .save(recipeOutput);
 
-        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ModItems.PINE_NUTS, 4)
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ModItems.PINE_NUTS, 2)
                 .requires(ModItems.PINE_CONE)
                 .unlockedBy("has_pine_cone", has(ModItems.PINE_CONE))
                 .save(recipeOutput);
 
         ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ModBlocks.PINE_LITTER, 1)
-                .requires(ModItems.PINE_CONE, 2)
+                .requires(ModItems.PINE_CONE)
                 .requires(Blocks.SPRUCE_LEAVES)
                 .unlockedBy("has_pine_cone", has(ModItems.PINE_CONE))
                 .unlockedBy("has_spruce_leaves", has(Blocks.SPRUCE_LEAVES))
