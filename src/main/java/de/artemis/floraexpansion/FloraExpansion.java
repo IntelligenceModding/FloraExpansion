@@ -1,5 +1,10 @@
 package de.artemis.floraexpansion;
 
+import de.artemis.floraexpansion.common.block.ModBlocks;
+import de.artemis.floraexpansion.common.item.ModCreativeModeTabs;
+import de.artemis.floraexpansion.common.item.ModItems;
+import de.artemis.floraexpansion.common.loot.ModLootModifiers;
+import net.minecraft.world.item.CreativeModeTabs;
 import org.slf4j.Logger;
 
 import com.mojang.logging.LogUtils;
@@ -35,6 +40,11 @@ public class FloraExpansion {
         CREATIVE_MODE_TABS.register(modEventBus);
         BLOCKS.register(modEventBus);
         ITEMS.register(modEventBus);
+
+        ModItems.register(modEventBus);
+        ModBlocks.register(modEventBus);
+        ModCreativeModeTabs.register(modEventBus);
+        ModLootModifiers.register(modEventBus);
     }
 
     private void commonSetup(FMLCommonSetupEvent event) {
