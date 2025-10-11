@@ -1,12 +1,14 @@
 package de.artemis.floraexpansion.common.datagen;
 
 import de.artemis.floraexpansion.FloraExpansion;
+import de.artemis.floraexpansion.common.block.ModBlocks;
 import de.artemis.floraexpansion.common.item.ModItems;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.tags.ItemTagsProvider;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.level.block.Block;
+import net.neoforged.neoforge.common.Tags;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import org.jetbrains.annotations.NotNull;
 
@@ -21,8 +23,15 @@ public class ModItemTagProvider extends ItemTagsProvider {
 
     @Override
     protected void addTags(HolderLookup.@NotNull Provider provider) {
+
+        //Minecraft
         tag(ItemTags.CHICKEN_FOOD).add(ModItems.PINE_NUTS.get());
         tag(ItemTags.PARROT_FOOD).add(ModItems.PINE_NUTS.get());
         tag(ItemTags.PARROT_POISONOUS_FOOD).add(ModItems.TOASTED_PINE_NUTS.get());
+        tag(ItemTags.ARROWS).add(ModItems.PINE_CONE.get());
+        tag(ItemTags.DAMPENS_VIBRATIONS).add(ModBlocks.LEAF_LITTER.get().asItem()).add(ModBlocks.PINE_LITTER.get().asItem());
+
+        //NeoForge
+        tag(Tags.Items.FOODS).add(ModItems.PINE_NUTS.get()).add(ModItems.TOASTED_PINE_NUTS.get());
     }
 }

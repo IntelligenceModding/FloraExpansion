@@ -26,5 +26,6 @@ public class ModLanguageProvider extends net.neoforged.neoforge.common.data.Lang
         add(ModItems.PINE_NUTS.get(), "Pine Nuts");
         add(ModItems.TOASTED_PINE_NUTS.get(), "Toasted Pine Nuts");
         add(ModItems.TWIG.get(), "Twig");
+        add(ModItems.FOREST_SNACK.get(), "Forest Snack");
     }
 }

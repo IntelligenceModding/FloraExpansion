@@ -22,6 +22,10 @@ public class ModItems {
     public static final DeferredItem<Item> TWIG = ITEMS.register("twig",
             () -> new Item(new Item.Properties()));
 
+    public static final DeferredItem<Item> FOREST_SNACK = ITEMS.register("forest_snack",
+            () -> new Item(new Item.Properties().food(ModFoods.FOREST_SNACK)));
+
+
     public static void register(IEventBus eventBus) {
         ITEMS.register(eventBus);
     }

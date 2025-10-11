@@ -6,5 +6,5 @@ public class ModFoods {
 
     public static final FoodProperties PINE_NUTS = (new FoodProperties.Builder()).nutrition(1).saturationModifier(0.3F).fast().build();
     public static final FoodProperties TOASTED_PINE_NUTS = (new FoodProperties.Builder()).nutrition(2).saturationModifier(0.3F).fast().build();
-
+    public static final FoodProperties FOREST_SNACK = (new FoodProperties.Builder()).nutrition(6).saturationModifier(0.6F).fast().build();
 }

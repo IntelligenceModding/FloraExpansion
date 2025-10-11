@@ -1,0 +1,65 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_honey_bottle": {
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:honey_bottle"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_pumpkin_seeds": {
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:pumpkin_seeds"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_sweet_berries": {
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:sweet_berries"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "floraexpansion:forest_snack"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    },
+    "has_toasted_pine_nuts": {
+      "conditions": {
+        "items": [
+          {
+            "items": "floraexpansion:toasted_pine_nuts"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_toasted_pine_nuts",
+      "has_pumpkin_seeds",
+      "has_sweet_berries",
+      "has_honey_bottle"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "floraexpansion:forest_snack"
+    ]
+  }
+}

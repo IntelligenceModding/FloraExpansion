@@ -1,9 +1,11 @@
-// 1.21.1	2025-10-11T17:07:50.1468766	Recipes
+// 1.21.1	2025-10-11T20:56:35.2073023	Recipes
 d36b7482d644f2d192c669ca386ec459f9aa171f data/floraexpansion/advancement/recipes/food/toasted_pine_nuts_from_campfire_cooking.json
 8af93f0f6731114fb9467d1ccc71945c3dee693d data/floraexpansion/advancement/recipes/food/toasted_pine_nuts_from_smelting.json
 3f26d4040f28986817eaa78a7cd37fc4e44c4bec data/floraexpansion/advancement/recipes/food/toasted_pine_nuts_from_smoking.json
+e045d8b7fbb9fd9efe03fd6ed9d96dbf229a7894 data/floraexpansion/advancement/recipes/misc/forest_snack.json
 54ddccae971fc1cb31fb6d0cc471efbb76533cc2 data/floraexpansion/advancement/recipes/misc/pine_cone.json
 67833b0e977709de2e283a3002ec30aef3a44958 data/floraexpansion/advancement/recipes/misc/pine_nuts.json
+7861eedd7ed31f0cb274d015384e0b64a893e593 data/floraexpansion/recipe/forest_snack.json
 c36dd48e353651460e6c31804127f9a6195cd46f data/floraexpansion/recipe/pine_cone.json
 b89fb3ecc04b276a698181304e7fe7106147f5c1 data/floraexpansion/recipe/pine_nuts.json
 418314e152b8a80893e8863687483d347fc2df2e data/floraexpansion/recipe/toasted_pine_nuts_from_campfire_cooking.json

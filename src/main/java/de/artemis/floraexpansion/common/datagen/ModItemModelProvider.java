@@ -17,5 +17,6 @@ public class ModItemModelProvider extends ItemModelProvider {
         basicItem(ModItems.PINE_NUTS.get());
         basicItem(ModItems.TOASTED_PINE_NUTS.get());
         basicItem(ModItems.TWIG.get());
+        basicItem(ModItems.FOREST_SNACK.get());
     }
 }

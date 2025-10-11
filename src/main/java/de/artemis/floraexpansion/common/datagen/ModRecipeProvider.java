@@ -39,6 +39,17 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .unlockedBy("has_twig", has(ModItems.TWIG))
                 .save(recipeOutput);
 
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ModItems.FOREST_SNACK, 3)
+                .requires(ModItems.TOASTED_PINE_NUTS)
+                .requires(Items.PUMPKIN_SEEDS)
+                .requires(Items.SWEET_BERRIES)
+                .requires(Items.HONEY_BOTTLE)
+                .unlockedBy("has_toasted_pine_nuts", has(ModItems.TOASTED_PINE_NUTS))
+                .unlockedBy("has_pumpkin_seeds", has(Items.PUMPKIN_SEEDS))
+                .unlockedBy("has_sweet_berries", has(Items.SWEET_BERRIES))
+                .unlockedBy("has_honey_bottle", has(Items.HONEY_BOTTLE))
+                .save(recipeOutput);
+
         //Smelting
         foodSmelting(recipeOutput, ModItems.PINE_NUTS.get(), ModItems.TOASTED_PINE_NUTS.get(), 0.1f, 100);
 
