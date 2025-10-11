@@ -10,8 +10,8 @@
 	},
 	"elements": [
 		{
-			"from": [8, 0.05, 0],
-			"to": [16, 0.05, 8],
+			"from": [8, 0.25, 0],
+			"to": [16, 0.25, 8],
 			"rotation": {"angle": 0, "axis": "y", "origin": [0, 0.05, 0]},
 			"faces": {
 				"north": {"uv": [0, 0, 8, 0], "texture": "#missing"},

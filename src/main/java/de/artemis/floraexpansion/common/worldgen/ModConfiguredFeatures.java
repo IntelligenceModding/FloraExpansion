@@ -2,16 +2,15 @@ package de.artemis.floraexpansion.common.worldgen;
 
 import de.artemis.floraexpansion.FloraExpansion;
 import de.artemis.floraexpansion.common.block.ModBlocks;
+import de.artemis.floraexpansion.common.block.PineLitterBlock;
 import net.minecraft.core.Direction;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.worldgen.BootstrapContext;
 import net.minecraft.data.worldgen.features.FeatureUtils;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.RandomSource;
 import net.minecraft.util.random.SimpleWeightedRandomList;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.PinkPetalsBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.feature.Feature;
@@ -33,8 +32,8 @@ public class ModConfiguredFeatures {
                 randomStates.add(
                         ModBlocks.PINE_LITTER.get()
                                 .defaultBlockState()
-                                .setValue(PinkPetalsBlock.FACING, dir)
-                                .setValue(PinkPetalsBlock.AMOUNT, amount),
+                                .setValue(PineLitterBlock.FACING, dir)
+                                .setValue(PineLitterBlock.AMOUNT, amount),
                         1 // equal weight
                 );
             }

@@ -19,6 +19,9 @@ public class ModItems {
     public static final DeferredItem<Item> TOASTED_PINE_NUTS = ITEMS.register("toasted_pine_nuts",
             () -> new Item(new Item.Properties().food(ModFoods.TOASTED_PINE_NUTS)));
 
+    public static final DeferredItem<Item> TWIG = ITEMS.register("twig",
+            () -> new Item(new Item.Properties()));
+
     public static void register(IEventBus eventBus) {
         ITEMS.register(eventBus);
     }

@@ -6,9 +6,9 @@ import de.artemis.floraexpansion.common.item.ModItems;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.recipes.*;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.level.ItemLike;
-import net.minecraft.world.level.block.Blocks;
 import net.neoforged.neoforge.common.conditions.IConditionBuilder;
 import org.jetbrains.annotations.NotNull;
 
@@ -23,6 +23,7 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
     @Override
     protected void buildRecipes(@NotNull RecipeOutput recipeOutput) {
 
+        //Shapeless
         ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ModItems.PINE_CONE, 1)
                 .requires(ModBlocks.PINE_LITTER)
                 .unlockedBy("has_pine_litter", has(ModBlocks.PINE_LITTER))
@@ -33,15 +34,18 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .unlockedBy("has_pine_cone", has(ModItems.PINE_CONE))
                 .save(recipeOutput);
 
-        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ModBlocks.PINE_LITTER, 1)
-                .requires(ModItems.PINE_CONE)
-                .requires(Blocks.SPRUCE_LEAVES)
-                .unlockedBy("has_pine_cone", has(ModItems.PINE_CONE))
-                .unlockedBy("has_spruce_leaves", has(Blocks.SPRUCE_LEAVES))
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, Items.STICK, 2)
+                .requires(ModItems.TWIG)
+                .unlockedBy("has_twig", has(ModItems.TWIG))
                 .save(recipeOutput);
 
+        //Smelting
         foodSmelting(recipeOutput, ModItems.PINE_NUTS.get(), ModItems.TOASTED_PINE_NUTS.get(), 0.1f, 100);
+
+        //Smoking
         foodSmoking(recipeOutput, ModItems.PINE_NUTS.get(), ModItems.TOASTED_PINE_NUTS.get(), 0.1f, 50);
+
+        //Campfire Cooking
         foodCampfireCooking(recipeOutput, ModItems.PINE_NUTS.get(), ModItems.TOASTED_PINE_NUTS.get(), 0.1f, 150);
 
         /**ShapedRecipeBuilder.shaped(RecipeCategory.MISC, Blocks.STONE_BRICKS)
