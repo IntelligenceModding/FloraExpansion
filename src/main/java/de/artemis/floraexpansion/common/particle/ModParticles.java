@@ -17,6 +17,12 @@ public class ModParticles {
     public static final Supplier<SimpleParticleType> LEAF_FLUFF_PARTICLES =
             PARTICLE_TYPES.register("leaf_fluff_particles", () -> new SimpleParticleType(true));
 
+    public static final Supplier<SimpleParticleType> PINE_LEAF_FLUFF_PARTICLES =
+            PARTICLE_TYPES.register("pine_leaf_fluff_particles", () -> new SimpleParticleType(true));
+
+    public static final Supplier<SimpleParticleType> PINE_PARTICLES =
+            PARTICLE_TYPES.register("pine_particles", () -> new SimpleParticleType(true));
+
     public static void register(IEventBus eventBus) {
         PARTICLE_TYPES.register(eventBus);
     }

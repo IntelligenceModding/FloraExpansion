@@ -1,6 +1,6 @@
 package de.artemis.floraexpansion.common.item;
 
-import de.artemis.floraexpansion.common.item.projectile.PineConeProjectile;
+import de.artemis.floraexpansion.common.projectile.PineConeProjectile;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Position;
 import net.minecraft.sounds.SoundEvents;
@@ -12,8 +12,10 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.SnowballItem;
+import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public class PineConeItem extends SnowballItem {
 
@@ -42,5 +44,10 @@ public class PineConeItem extends SnowballItem {
         PineConeProjectile pineCone = new PineConeProjectile(level, pos.x(), pos.y(), pos.z());
         pineCone.setItem(itemStack);
         return pineCone;
+    }
+
+    @Override
+    public int getBurnTime(@NotNull ItemStack itemStack, @Nullable RecipeType<?> recipeType) {
+        return 100;
     }
 }

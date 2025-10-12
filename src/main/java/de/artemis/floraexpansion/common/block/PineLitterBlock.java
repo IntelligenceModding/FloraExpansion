@@ -2,6 +2,7 @@ package de.artemis.floraexpansion.common.block;
 
 import com.mojang.serialization.MapCodec;
 import de.artemis.floraexpansion.common.item.ModItems;
+import de.artemis.floraexpansion.common.particle.ModParticles;
 import de.artemis.floraexpansion.common.util.ModBlockStateProperties;
 import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
@@ -50,29 +51,29 @@ public class PineLitterBlock extends BushBlock implements BonemealableBlock {
 
     public PineLitterBlock(Properties properties) {
         super(properties);
-        this.registerDefaultState((BlockState)((BlockState)((BlockState)this.stateDefinition.any()).setValue(FACING, Direction.NORTH)).setValue(AMOUNT, 1));
+        this.registerDefaultState((BlockState) ((BlockState) ((BlockState) this.stateDefinition.any()).setValue(FACING, Direction.NORTH)).setValue(AMOUNT, 1));
     }
 
     public @NotNull BlockState rotate(BlockState blockState, Rotation rotation) {
-        return (BlockState)blockState.setValue(FACING, rotation.rotate((Direction)blockState.getValue(FACING)));
+        return (BlockState) blockState.setValue(FACING, rotation.rotate((Direction) blockState.getValue(FACING)));
     }
 
     @SuppressWarnings("deprecation")
     public @NotNull BlockState mirror(BlockState blockState, Mirror mirror) {
-        return blockState.rotate(mirror.getRotation((Direction)blockState.getValue(FACING)));
+        return blockState.rotate(mirror.getRotation((Direction) blockState.getValue(FACING)));
     }
 
     public boolean canBeReplaced(@NotNull BlockState blockState, BlockPlaceContext blockPlaceContext) {
-        return !blockPlaceContext.isSecondaryUseActive() && blockPlaceContext.getItemInHand().is(this.asItem()) && (Integer)blockState.getValue(AMOUNT) < 4 ? true : super.canBeReplaced(blockState, blockPlaceContext);
+        return !blockPlaceContext.isSecondaryUseActive() && blockPlaceContext.getItemInHand().is(this.asItem()) && (Integer) blockState.getValue(AMOUNT) < 4 ? true : super.canBeReplaced(blockState, blockPlaceContext);
     }
 
     public @NotNull VoxelShape getShape(BlockState blockState, @NotNull BlockGetter blockGetter, @NotNull BlockPos blockPos, @NotNull CollisionContext context) {
-        return (VoxelShape)SHAPE_BY_PROPERTIES.apply((Direction)blockState.getValue(FACING), (Integer)blockState.getValue(AMOUNT));
+        return (VoxelShape) SHAPE_BY_PROPERTIES.apply((Direction) blockState.getValue(FACING), (Integer) blockState.getValue(AMOUNT));
     }
 
     public BlockState getStateForPlacement(BlockPlaceContext context) {
         BlockState blockstate = context.getLevel().getBlockState(context.getClickedPos());
-        return blockstate.is(this) ? (BlockState)blockstate.setValue(AMOUNT, Math.min(4, (Integer)blockstate.getValue(AMOUNT) + 1)) : (BlockState)this.defaultBlockState().setValue(FACING, context.getHorizontalDirection().getOpposite());
+        return blockstate.is(this) ? (BlockState) blockstate.setValue(AMOUNT, Math.min(4, (Integer) blockstate.getValue(AMOUNT) + 1)) : (BlockState) this.defaultBlockState().setValue(FACING, context.getHorizontalDirection().getOpposite());
     }
 
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> blockBlockStateBuilder) {
@@ -88,9 +89,9 @@ public class PineLitterBlock extends BushBlock implements BonemealableBlock {
     }
 
     public void performBonemeal(@NotNull ServerLevel serverLevel, @NotNull RandomSource randomSource, @NotNull BlockPos blockPos, BlockState blockState) {
-        int i = (Integer)blockState.getValue(AMOUNT);
+        int i = (Integer) blockState.getValue(AMOUNT);
         if (i < 4) {
-            serverLevel.setBlock(blockPos, (BlockState)blockState.setValue(AMOUNT, i + 1), 2);
+            serverLevel.setBlock(blockPos, (BlockState) blockState.setValue(AMOUNT, i + 1), 2);
         } else {
             popResource(serverLevel, blockPos, new ItemStack(this));
         }
@@ -127,15 +128,67 @@ public class PineLitterBlock extends BushBlock implements BonemealableBlock {
         FACING = BlockStateProperties.HORIZONTAL_FACING;
         AMOUNT = ModBlockStateProperties.SEGMENT_AMOUNT;
         SHAPE_BY_PROPERTIES = Util.memoize((p_296142_, p_294775_) -> {
-            VoxelShape[] avoxelshape = new VoxelShape[]{Block.box((double)8.0F, (double)0.0F, (double)8.0F, (double)16.0F, (double)3.0F, (double)16.0F), Block.box((double)8.0F, (double)0.0F, (double)0.0F, (double)16.0F, (double)3.0F, (double)8.0F), Block.box((double)0.0F, (double)0.0F, (double)0.0F, (double)8.0F, (double)3.0F, (double)8.0F), Block.box((double)0.0F, (double)0.0F, (double)8.0F, (double)8.0F, (double)3.0F, (double)16.0F)};
+            VoxelShape[] avoxelshape = new VoxelShape[]{Block.box((double) 8.0F, (double) 0.0F, (double) 8.0F, (double) 16.0F, (double) 3.0F, (double) 16.0F), Block.box((double) 8.0F, (double) 0.0F, (double) 0.0F, (double) 16.0F, (double) 3.0F, (double) 8.0F), Block.box((double) 0.0F, (double) 0.0F, (double) 0.0F, (double) 8.0F, (double) 3.0F, (double) 8.0F), Block.box((double) 0.0F, (double) 0.0F, (double) 8.0F, (double) 8.0F, (double) 3.0F, (double) 16.0F)};
             VoxelShape voxelshape = Shapes.empty();
 
-            for(int i = 0; i < p_294775_; ++i) {
+            for (int i = 0; i < p_294775_; ++i) {
                 int j = Math.floorMod(i - p_296142_.get2DDataValue(), 4);
                 voxelshape = Shapes.or(voxelshape, avoxelshape[j]);
             }
 
             return voxelshape.singleEncompassing();
         });
+    }
+
+    @Override
+    public void animateTick(@NotNull BlockState state, @NotNull Level level, @NotNull BlockPos pos, @NotNull RandomSource random) {
+        for (Player player : level.players()) {
+            if (player.onGround() && player.blockPosition().equals(pos)) {
+                double dx = player.getX() - player.xOld;
+                double dz = player.getZ() - player.zOld;
+                double speedSq = dx * dx + dz * dz;
+
+                if (speedSq > 0.0003 && random.nextFloat() < 0.65F) {
+                    int count = 2 + random.nextInt(4);
+
+                    for (int i = 0; i < count; i++) {
+                        double x = pos.getX() + 0.1 + random.nextDouble() * 0.8;
+                        double z = pos.getZ() + 0.1 + random.nextDouble() * 0.8;
+                        double y = pos.getY() + 0.05 + random.nextDouble() * 0.1;
+
+                        double angle = random.nextDouble() * Math.PI * 2;
+                        double speed = 0.025 + random.nextDouble() * 0.015;
+                        double vx = Math.cos(angle) * speed;
+                        double vz = Math.sin(angle) * speed;
+                        double vy = 0.005 + random.nextDouble() * 0.01;
+
+                        level.addParticle(ModParticles.PINE_LEAF_FLUFF_PARTICLES.get(), x, y, z, vx, vy, vz);
+                    }
+
+                    if (random.nextFloat() < 0.2F) {
+                        double x = pos.getX() + 0.3 + random.nextDouble() * 0.4; // centered within block
+                        double z = pos.getZ() + 0.3 + random.nextDouble() * 0.4;
+                        double y = pos.getY() + 0.05 + random.nextDouble() * 0.1;
+                        double angle = random.nextDouble() * Math.PI * 2;
+                        double speed = 0.012 + random.nextDouble() * 0.008; // gentle drift
+                        double vx = Math.cos(angle) * speed;
+                        double vz = Math.sin(angle) * speed;
+                        double vy = 0.025 + random.nextDouble() * 0.01; // short upward pop
+
+                        level.addParticle(ModParticles.PINE_PARTICLES.get(), x, y, z, vx, vy, vz);
+
+                    }
+
+                    level.playLocalSound(
+                            pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5,
+                            SoundEvents.HANGING_ROOTS_STEP,
+                            SoundSource.BLOCKS,
+                            0.8F + random.nextFloat() * 0.2F,
+                            0.9F + random.nextFloat() * 0.3F,
+                            false
+                    );
+                }
+            }
+        }
     }
 }

@@ -1,4 +1,4 @@
-package de.artemis.floraexpansion.common.item.projectile;
+package de.artemis.floraexpansion.common.projectile;
 
 import de.artemis.floraexpansion.common.item.ModItems;
 import net.minecraft.core.particles.ItemParticleOption;

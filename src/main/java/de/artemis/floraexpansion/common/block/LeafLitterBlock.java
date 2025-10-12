@@ -44,21 +44,6 @@ public class LeafLitterBlock extends PineLitterBlock {
             level.destroyBlock(blockPos, false);
             level.playSound(null, blockPos, SoundEvents.MOSS_BREAK, SoundSource.BLOCKS, 1.0F, 1.0F);
 
-            if (level.isClientSide) {
-                System.out.println("2");
-
-                System.out.println("3");
-
-                level.addParticle(
-                        ParticleTypes.ANGRY_VILLAGER,
-                        player.getX(),
-                        blockPos.getY() - 0.95,
-                        player.getZ(),
-                        1,
-                        1, 1
-                );
-            }
-
             if (player instanceof ServerPlayer serverPlayer) {
                 serverPlayer.awardStat(Stats.BLOCK_MINED.get(this));
             }
@@ -69,8 +54,6 @@ public class LeafLitterBlock extends PineLitterBlock {
 
     @Override
     public void animateTick(@NotNull BlockState state, @NotNull Level level, @NotNull BlockPos pos, @NotNull RandomSource random) {
-        super.animateTick(state, level, pos, random);
-
         for (Player player : level.players()) {
             if (player.onGround() && player.blockPosition().equals(pos)) {
                 double dx = player.getX() - player.xOld;

@@ -1,16 +1,13 @@
 package de.artemis.floraexpansion.client.event;
 
 import de.artemis.floraexpansion.FloraExpansion;
-import de.artemis.floraexpansion.common.block.ModBlocks;
 import de.artemis.floraexpansion.common.particle.LeafFluffParticles;
 import de.artemis.floraexpansion.common.particle.ModParticles;
-import net.minecraft.client.color.block.BlockColors;
-import net.minecraft.client.renderer.BiomeColors;
-import net.minecraft.world.level.FoliageColor;
+import de.artemis.floraexpansion.common.particle.PineLeafFluffParticles;
+import de.artemis.floraexpansion.common.particle.PineParticles;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
-import net.neoforged.neoforge.client.event.RegisterColorHandlersEvent;
 import net.neoforged.neoforge.client.event.RegisterParticleProvidersEvent;
 
 @EventBusSubscriber(modid = FloraExpansion.MODID, value = Dist.CLIENT)
@@ -33,5 +30,7 @@ public class ClientEvents {
     @SubscribeEvent
     public static void registerParticleFactories(RegisterParticleProvidersEvent event) {
         event.registerSpriteSet(ModParticles.LEAF_FLUFF_PARTICLES.get(), LeafFluffParticles.Provider::new);
+        event.registerSpriteSet(ModParticles.PINE_LEAF_FLUFF_PARTICLES.get(), PineLeafFluffParticles.Provider::new);
+        event.registerSpriteSet(ModParticles.PINE_PARTICLES.get(), PineParticles.Provider::new);
     }
 }

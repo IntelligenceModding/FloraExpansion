@@ -19,8 +19,8 @@ public class ModItems {
     public static final DeferredItem<Item> TOASTED_PINE_NUTS = ITEMS.register("toasted_pine_nuts",
             () -> new Item(new Item.Properties().food(ModFoods.TOASTED_PINE_NUTS)));
 
-    public static final DeferredItem<Item> TWIG = ITEMS.register("twig",
-            () -> new Item(new Item.Properties()));
+    public static final DeferredItem<ModItem> TWIG = ITEMS.register("twig",
+            () -> new ModItem(new Item.Properties(), 200));
 
     public static final DeferredItem<Item> FOREST_SNACK = ITEMS.register("forest_snack",
             () -> new Item(new Item.Properties().food(ModFoods.FOREST_SNACK)));
