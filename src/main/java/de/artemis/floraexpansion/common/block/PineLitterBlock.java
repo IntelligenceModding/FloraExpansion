@@ -166,14 +166,14 @@ public class PineLitterBlock extends BushBlock implements BonemealableBlock {
                     }
 
                     if (random.nextFloat() < 0.2F) {
-                        double x = pos.getX() + 0.3 + random.nextDouble() * 0.4; // centered within block
+                        double x = pos.getX() + 0.3 + random.nextDouble() * 0.4;
                         double z = pos.getZ() + 0.3 + random.nextDouble() * 0.4;
                         double y = pos.getY() + 0.05 + random.nextDouble() * 0.1;
                         double angle = random.nextDouble() * Math.PI * 2;
-                        double speed = 0.012 + random.nextDouble() * 0.008; // gentle drift
+                        double speed = 0.012 + random.nextDouble() * 0.008;
                         double vx = Math.cos(angle) * speed;
                         double vz = Math.sin(angle) * speed;
-                        double vy = 0.025 + random.nextDouble() * 0.01; // short upward pop
+                        double vy = 0.025 + random.nextDouble() * 0.01;
 
                         level.addParticle(ModParticles.PINE_PARTICLES.get(), x, y, z, vx, vy, vz);
 

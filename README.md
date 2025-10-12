@@ -1,25 +1,39 @@
+# Artemis' Flora Expansion
+
+Description
+=======
+
+Bring new life to your world with Artemis’ Flower Expansion — a NeoForge mod that enhances Minecraft’s natural beauty with new flora, foliage layers, and ambient forest life.
+
+Discover new flower species, realistic leaf litter, pine cones, forest snacks, and interactive natural blocks that make every forest, field, and grove feel alive.
+Perfect for players who love immersive worldbuilding, detailed landscapes, and nature-themed survival experiences.
 
 Installation information
 =======
 
-This template repository can be directly cloned to get you started with a new
-mod. Simply create a new repository cloned from this one, by following the
-instructions provided by [GitHub](https://docs.github.com/en/repositories/creating-and-managing-repositories/creating-a-repository-from-a-template).
+Built for Minecraft 1.21.1 using NeoForge.
 
-Once you have your clone, simply open the repository in the IDE of your choice. The usual recommendation for an IDE is either IntelliJ IDEA or Eclipse.
-
-If at any point you are missing libraries in your IDE, or you've run into problems you can
-run `gradlew --refresh-dependencies` to refresh the local cache. `gradlew clean` to reset everything 
-{this does not affect your code} and then start the process again.
-
-Mapping Names:
+Acknowledgments
 ============
-By default, the MDK is configured to use the official mapping names from Mojang for methods and fields 
-in the Minecraft codebase. These names are covered by a specific license. All modders should be aware of this
-license. For the latest license text, refer to the mapping file itself, or the reference copy here:
-https://github.com/NeoForged/NeoForm/blob/main/Mojang.md
+
+Some ambient sounds and textures are inspired by or adapted from vanilla Minecraft assets.
+
+Community
+==========
+
+This mod is developed as part of the Intelligence Modding Team.
+Follow our projects or join our community for updates, modding help, and previews of upcoming content!
+
+* **Discord:** [Invite](https://discord.intelligence-modding.de/)
+
+* **GitHub:** [Intelligence Modding Team](https://github.com/IntelligenceModding) or [Personal](https://github.com/DoomedArtemis)
+
+* **Modrinth:** coming soon
+
+* **CurseForge:** *coming soon*
+
 
 Additional Resources: 
 ==========
-Community Documentation: https://docs.neoforged.net/  
-NeoForged Discord: https://discord.neoforged.net/
+* **Community Documentation:** [Link](https://docs.neoforged.net/)
+* **NeoForged Discord:** [Invite](https://discord.neoforged.net/)

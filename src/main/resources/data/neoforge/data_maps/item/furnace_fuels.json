@@ -1,0 +1,16 @@
+{
+  "values": {
+    "floraexpansion:twig": {
+      "burn_time": 200
+    },
+    "floraexpansion:pine_cone": {
+      "burn_time": 50
+    },
+    "floraexpansion:leaf_litter": {
+      "burn_time": 100
+    },
+    "floraexpansion:pine_litter": {
+      "burn_time": 100
+    }
+  }
+}

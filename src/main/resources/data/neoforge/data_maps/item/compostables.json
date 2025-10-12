@@ -1,0 +1,13 @@
+{
+  "values": {
+    "floraexpansion:pine_cone": {
+      "chance": 0.3
+    },
+    "floraexpansion:leaf_litter": {
+      "chance": 0.3
+    },
+    "floraexpansion:pine_litter": {
+      "chance": 0.3
+    }
+  }
+}
