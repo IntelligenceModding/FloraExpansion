@@ -3,6 +3,11 @@ package de.artemis.floraexpansion;
 import de.artemis.floraexpansion.common.block.ModBlocks;
 import de.artemis.floraexpansion.common.item.ModItems;
 import de.artemis.floraexpansion.common.loot.ModLootModifiers;
+import de.artemis.floraexpansion.common.particle.LeafFluffParticles;
+import de.artemis.floraexpansion.common.particle.ModParticles;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.neoforge.client.event.RegisterParticleProvidersEvent;
 import org.slf4j.Logger;
 
 import com.mojang.logging.LogUtils;
@@ -43,6 +48,7 @@ public class FloraExpansion {
         ModBlocks.register(modEventBus);
         ModCreativeModeTabs.register(modEventBus);
         ModLootModifiers.register(modEventBus);
+        ModParticles.register(modEventBus);
     }
 
     private void commonSetup(FMLCommonSetupEvent event) {
