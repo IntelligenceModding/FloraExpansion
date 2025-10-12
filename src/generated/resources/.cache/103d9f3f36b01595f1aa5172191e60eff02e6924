@@ -1,4 +1,7 @@
-// 1.21.1	2025-10-11T18:08:52.3240325	Registries
+// 1.21.1	2025-10-12T22:37:05.6265128	Registries
+28eb2614252c03ae732ab8267723f69a3b455d2c data/floraexpansion/neoforge/biome_modifier/add_leaf_litter.json
 711f3684b5125ecbf7aedc0cd8de7091f662017c data/floraexpansion/neoforge/biome_modifier/add_pine_litter.json
+95867b72e083aa8e783e27b1723eafcd223f7f86 data/floraexpansion/worldgen/configured_feature/leaf_litter.json
 a29dc1a441b94d271e5641fc4571119b90179936 data/floraexpansion/worldgen/configured_feature/pine_litter.json
-808300495952012cfdf78e7fcdf623763288073c data/floraexpansion/worldgen/placed_feature/pine_litter_placed.json
+69a810cb6df133bf75210b6eca36ad8c43287b10 data/floraexpansion/worldgen/placed_feature/leaf_litter_placed.json
+57b39c3d0369e310f6cf0a67b0cb85bdb5254640 data/floraexpansion/worldgen/placed_feature/pine_litter_placed.json

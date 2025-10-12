@@ -1,6 +1,7 @@
 package de.artemis.floraexpansion.common.worldgen;
 
 import de.artemis.floraexpansion.FloraExpansion;
+import de.artemis.floraexpansion.common.block.LeafLitterBlock;
 import de.artemis.floraexpansion.common.block.ModBlocks;
 import de.artemis.floraexpansion.common.block.PineLitterBlock;
 import net.minecraft.core.Direction;
@@ -22,26 +23,33 @@ import java.util.List;
 
 public class ModConfiguredFeatures {
     public static final ResourceKey<ConfiguredFeature<?, ?>> PINE_LITTER_KEY = registerKey("pine_litter");
+    public static final ResourceKey<ConfiguredFeature<?, ?>> LEAF_LITTER_KEY = registerKey("leaf_litter");
 
     public static void bootstrap(BootstrapContext<ConfiguredFeature<?, ?>> context) {
 
-        SimpleWeightedRandomList.Builder<BlockState> randomStates = SimpleWeightedRandomList.builder();
+        SimpleWeightedRandomList.Builder<BlockState> PineLitterRandomStates = SimpleWeightedRandomList.builder();
+        SimpleWeightedRandomList.Builder<BlockState> LeafLitterRandomStates = SimpleWeightedRandomList.builder();
 
         for (Direction dir : Direction.Plane.HORIZONTAL) {
             for (int amount = 1; amount <= 4; amount++) {
-                randomStates.add(
-                        ModBlocks.PINE_LITTER.get()
-                                .defaultBlockState()
-                                .setValue(PineLitterBlock.FACING, dir)
-                                .setValue(PineLitterBlock.AMOUNT, amount),
-                        1 // equal weight
-                );
+                PineLitterRandomStates.add(ModBlocks.PINE_LITTER.get().defaultBlockState().setValue(PineLitterBlock.FACING, dir).setValue(PineLitterBlock.AMOUNT, amount), 1);
+            }
+        }
+
+        for (Direction dir : Direction.Plane.HORIZONTAL) {
+            for (int amount = 1; amount <= 4; amount++) {
+                LeafLitterRandomStates.add(ModBlocks.LEAF_LITTER.get().defaultBlockState().setValue(LeafLitterBlock.FACING, dir).setValue(LeafLitterBlock.AMOUNT, amount), 1);
             }
         }
 
         register(context, PINE_LITTER_KEY, Feature.RANDOM_PATCH,
                 FeatureUtils.simplePatchConfiguration(Feature.SIMPLE_BLOCK,
-                        new SimpleBlockConfiguration(new WeightedStateProvider(randomStates.build())),
+                        new SimpleBlockConfiguration(new WeightedStateProvider(PineLitterRandomStates.build())),
+                        List.of(Blocks.GRASS_BLOCK, Blocks.PODZOL, Blocks.COARSE_DIRT)));
+
+        register(context, LEAF_LITTER_KEY, Feature.RANDOM_PATCH,
+                FeatureUtils.simplePatchConfiguration(Feature.SIMPLE_BLOCK,
+                        new SimpleBlockConfiguration(new WeightedStateProvider(LeafLitterRandomStates.build())),
                         List.of(Blocks.GRASS_BLOCK, Blocks.PODZOL, Blocks.COARSE_DIRT)));
     }
 

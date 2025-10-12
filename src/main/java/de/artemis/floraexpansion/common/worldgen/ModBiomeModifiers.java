@@ -16,15 +16,20 @@ import java.util.List;
 
 public class ModBiomeModifiers {
     public static final ResourceKey<BiomeModifier> ADD_PINE_LITTER = registerKey("add_pine_litter");
+    public static final ResourceKey<BiomeModifier> ADD_LEAF_LITTER = registerKey("add_leaf_litter");
 
     public static void bootstrap(BootstrapContext<BiomeModifier> context) {
-        // CF -> PF -> BM
         var placedFeatures = context.lookup(Registries.PLACED_FEATURE);
         var biomes = context.lookup(Registries.BIOME);
 
         context.register(ADD_PINE_LITTER, new BiomeModifiers.AddFeaturesBiomeModifier(
                 biomes.getOrThrow(BiomeTags.IS_TAIGA),
                 HolderSet.direct(placedFeatures.getOrThrow(ModPlacedFeatures.PINE_LITTER_PLACED_KEY)),
+                GenerationStep.Decoration.VEGETAL_DECORATION));
+
+        context.register(ADD_LEAF_LITTER, new BiomeModifiers.AddFeaturesBiomeModifier(
+                biomes.getOrThrow(BiomeTags.IS_FOREST),
+                HolderSet.direct(placedFeatures.getOrThrow(ModPlacedFeatures.LEAF_LITTER_PLACED_KEY)),
                 GenerationStep.Decoration.VEGETAL_DECORATION));
     }
 

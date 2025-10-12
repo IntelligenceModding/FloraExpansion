@@ -30,5 +30,14 @@ public class ModGlobalLootModifierProvider extends GlobalLootModifierProvider {
                 new AddItemModifier(new LootItemCondition[] {
                         LootItemBlockStatePropertyCondition.hasBlockStateProperties(Blocks.SPRUCE_LEAVES).build(),
                         LootItemRandomChanceCondition.randomChance(0.1f).build() }, ModBlocks.PINE_LITTER.get().asItem()));
+
+        this.add("leaf_litter_to_oak_leaves",
+                new AddItemModifier(new LootItemCondition[] {
+                        LootItemBlockStatePropertyCondition.hasBlockStateProperties(Blocks.OAK_LEAVES).build(),
+                        LootItemRandomChanceCondition.randomChance(0.1f).build() }, ModBlocks.LEAF_LITTER.get().asItem()));
+        this.add("leaf_litter_to_dark_oak_leaves",
+                new AddItemModifier(new LootItemCondition[] {
+                        LootItemBlockStatePropertyCondition.hasBlockStateProperties(Blocks.DARK_OAK_LEAVES).build(),
+                        LootItemRandomChanceCondition.randomChance(0.1f).build() }, ModBlocks.LEAF_LITTER.get().asItem()));
     }
 }

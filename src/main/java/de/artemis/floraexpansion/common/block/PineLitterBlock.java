@@ -101,7 +101,7 @@ public class PineLitterBlock extends BushBlock implements BonemealableBlock {
     @Override
     protected @NotNull ItemInteractionResult useItemOn(@NotNull ItemStack itemStack, @NotNull BlockState blockState, @NotNull Level level, BlockPos blockPos, @NotNull Player player, @NotNull InteractionHand interactionHand, BlockHitResult blockHitResult) {
 
-        if (player.getItemInHand(interactionHand).isEmpty()) {
+        if (player.getItemInHand(interactionHand).isEmpty() && interactionHand == InteractionHand.MAIN_HAND) {
             level.addFreshEntity(new ItemEntity(level,
                     blockPos.getX() + 0.5,
                     blockPos.getY() + 0.5,
@@ -119,6 +119,8 @@ public class PineLitterBlock extends BushBlock implements BonemealableBlock {
             if (player instanceof ServerPlayer serverPlayer) {
                 serverPlayer.awardStat(Stats.BLOCK_MINED.get(this));
             }
+
+            return ItemInteractionResult.sidedSuccess(level.isClientSide);
         }
 
         return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
