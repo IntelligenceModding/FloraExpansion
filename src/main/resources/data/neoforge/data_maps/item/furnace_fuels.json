@@ -11,6 +11,9 @@
     },
     "floraexpansion:pine_litter": {
       "burn_time": 100
+    },
+    "floraexpansion:twig_ladder": {
+      "burn_time": 300
     }
   }
 }

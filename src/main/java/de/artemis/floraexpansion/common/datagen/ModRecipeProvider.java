@@ -23,6 +23,17 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
     @Override
     protected void buildRecipes(@NotNull RecipeOutput recipeOutput) {
 
+        //Shaped
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModBlocks.TWIG_LADDER, 3)
+                .pattern("A A")
+                .pattern("BBB")
+                .pattern("A A")
+                .define('A', Items.STRING)
+                .define('B', ModItems.TWIG)
+                .unlockedBy("has_string", has(Items.STRING))
+                .unlockedBy("has_twig", has(ModItems.TWIG))
+                .save(recipeOutput);
+
         //Shapeless
         ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ModItems.PINE_CONE, 1)
                 .requires(ModBlocks.PINE_LITTER)
@@ -58,14 +69,6 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
 
         //Campfire Cooking
         foodCampfireCooking(recipeOutput, ModItems.PINE_NUTS.get(), ModItems.TOASTED_PINE_NUTS.get(), 0.1f, 150);
-
-        /**ShapedRecipeBuilder.shaped(RecipeCategory.MISC, Blocks.STONE_BRICKS)
-                .pattern("AAA")
-                .pattern("AAA")
-                .pattern("AAA")
-                .define('A', Blocks.STONE)
-                .unlockedBy("has_stone", has(Blocks.STONE)).save(recipeOutput);**/
-
     }
 
     protected static void oreSmelting(@NotNull RecipeOutput recipeOutput, List<ItemLike> ingredients, @NotNull RecipeCategory category, @NotNull ItemLike result, float experience, int cookingTime, @NotNull String group) {

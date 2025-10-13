@@ -1,7 +1,9 @@
 {
   "entries": [
     "floraexpansion:pine_cone_to_spruce_leaves",
-    "floraexpansion:pine_litter_to_spruce_leaves"
+    "floraexpansion:pine_litter_to_spruce_leaves",
+    "floraexpansion:leaf_litter_to_oak_leaves",
+    "floraexpansion:leaf_litter_to_dark_oak_leaves"
   ],
   "replace": false
 }

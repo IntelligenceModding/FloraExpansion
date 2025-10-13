@@ -20,6 +20,7 @@ public class ModLanguageProvider extends net.neoforged.neoforge.common.data.Lang
 
         add(ModBlocks.PINE_LITTER.get(), "Pine Litter");
         add(ModBlocks.LEAF_LITTER.get(), "Leaf Litter");
+        add(ModBlocks.TWIG_LADDER.get(), "Twig Ladder");
 
         //Items
         add(ModItems.PINE_CONE.get(), "Pine Cone");

@@ -25,6 +25,7 @@ public class ModCreativeModeTabs {
                         output.accept(ModItems.PINE_NUTS);
                         output.accept(ModItems.TOASTED_PINE_NUTS);
                         output.accept(ModItems.TWIG);
+                        output.accept(ModBlocks.TWIG_LADDER);
                         output.accept(ModItems.FOREST_SNACK);
 
                     }).build());
