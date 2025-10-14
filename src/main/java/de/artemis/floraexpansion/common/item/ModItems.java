@@ -1,8 +1,10 @@
 package de.artemis.floraexpansion.common.item;
 
 import de.artemis.floraexpansion.FloraExpansion;
+import de.artemis.floraexpansion.common.block.ModBlocks;
 import de.artemis.floraexpansion.common.util.ModFoods;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemNameBlockItem;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
@@ -24,6 +26,15 @@ public class ModItems {
 
     public static final DeferredItem<Item> FOREST_SNACK = ITEMS.register("forest_snack",
             () -> new Item(new Item.Properties().food(ModFoods.FOREST_SNACK)));
+
+    public static final DeferredItem<Item> FLAX_SEED = ITEMS.register("flax_seed",
+            () -> new ItemNameBlockItem(ModBlocks.FLAX_CROP.get(), new Item.Properties()));
+
+    public static final DeferredItem<Item> FLAX_FIBER = ITEMS.register("flax_fiber",
+            () -> new Item(new Item.Properties()));
+
+    public static final DeferredItem<Item> FLAX_FLOWER = ITEMS.register("flax_flower",
+            () -> new Item(new Item.Properties()));
 
     public static void register(IEventBus eventBus) {
         ITEMS.register(eventBus);

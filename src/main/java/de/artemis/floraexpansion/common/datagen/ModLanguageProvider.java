@@ -21,6 +21,7 @@ public class ModLanguageProvider extends net.neoforged.neoforge.common.data.Lang
         add(ModBlocks.PINE_LITTER.get(), "Pine Litter");
         add(ModBlocks.LEAF_LITTER.get(), "Leaf Litter");
         add(ModBlocks.TWIG_LADDER.get(), "Twig Ladder");
+        add(ModBlocks.FLAX_CROP.get(), "Flax Crop");
 
         //Items
         add(ModItems.PINE_CONE.get(), "Pine Cone");
@@ -28,5 +29,8 @@ public class ModLanguageProvider extends net.neoforged.neoforge.common.data.Lang
         add(ModItems.TOASTED_PINE_NUTS.get(), "Toasted Pine Nuts");
         add(ModItems.TWIG.get(), "Twig");
         add(ModItems.FOREST_SNACK.get(), "Forest Snack");
+        add(ModItems.FLAX_SEED.get(), "Flax Seed");
+        add(ModItems.FLAX_FIBER.get(), "Flax Fiber");
+        add(ModItems.FLAX_FLOWER.get(), "Flax Flower");
     }
 }

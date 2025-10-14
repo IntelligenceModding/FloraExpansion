@@ -18,5 +18,8 @@ public class ModItemModelProvider extends ItemModelProvider {
         basicItem(ModItems.TOASTED_PINE_NUTS.get());
         basicItem(ModItems.TWIG.get());
         basicItem(ModItems.FOREST_SNACK.get());
+        basicItem(ModItems.FLAX_SEED.get());
+        basicItem(ModItems.FLAX_FLOWER.get());
+        basicItem(ModItems.FLAX_FIBER.get());
     }
 }

@@ -1,0 +1,15 @@
+{
+  "variants": {
+    "age=0,half=lower": { "model": "floraexpansion:block/flax_stage0" },
+    "age=1,half=lower": { "model": "floraexpansion:block/flax_stage1_bottom" },
+    "age=2,half=lower": { "model": "floraexpansion:block/flax_stage2_bottom" },
+    "age=3,half=lower": { "model": "floraexpansion:block/flax_stage3_bottom" },
+    "age=4,half=lower": { "model": "floraexpansion:block/flax_stage4_bottom" },
+
+    "age=0,half=upper": { "model": "floraexpansion:block/empty" },
+    "age=1,half=upper": { "model": "floraexpansion:block/flax_stage1_top" },
+    "age=2,half=upper": { "model": "floraexpansion:block/flax_stage2_top" },
+    "age=3,half=upper": { "model": "floraexpansion:block/flax_stage3_top" },
+    "age=4,half=upper": { "model": "floraexpansion:block/flax_stage4_top" }
+  }
+}

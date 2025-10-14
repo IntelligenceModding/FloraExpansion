@@ -27,6 +27,9 @@ public class ModCreativeModeTabs {
                         output.accept(ModItems.TWIG);
                         output.accept(ModBlocks.TWIG_LADDER);
                         output.accept(ModItems.FOREST_SNACK);
+                        output.accept(ModItems.FLAX_SEED);
+                        output.accept(ModItems.FLAX_FIBER);
+                        output.accept(ModItems.FLAX_FLOWER);
 
                     }).build());
 

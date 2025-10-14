@@ -40,6 +40,11 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .unlockedBy("has_pine_litter", has(ModBlocks.PINE_LITTER))
                 .save(recipeOutput);
 
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, Items.LIGHT_BLUE_DYE, 1)
+                .requires(ModItems.FLAX_FLOWER)
+                .unlockedBy("has_flax_flower", has(ModItems.FLAX_FLOWER))
+                .save(recipeOutput);
+
         ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ModItems.PINE_NUTS, 2)
                 .requires(ModItems.PINE_CONE)
                 .unlockedBy("has_pine_cone", has(ModItems.PINE_CONE))
