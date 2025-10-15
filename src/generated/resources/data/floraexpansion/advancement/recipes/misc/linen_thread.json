@@ -1,11 +1,11 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_linen_thread": {
+    "has_flax_fiber": {
       "conditions": {
         "items": [
           {
-            "items": "floraexpansion:linen_thread"
+            "items": "floraexpansion:flax_fiber"
           }
         ]
       },
@@ -13,31 +13,20 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "floraexpansion:twig_ladder"
+        "recipe": "floraexpansion:linen_thread"
       },
       "trigger": "minecraft:recipe_unlocked"
-    },
-    "has_twig": {
-      "conditions": {
-        "items": [
-          {
-            "items": "floraexpansion:twig"
-          }
-        ]
-      },
-      "trigger": "minecraft:inventory_changed"
     }
   },
   "requirements": [
     [
       "has_the_recipe",
-      "has_linen_thread",
-      "has_twig"
+      "has_flax_fiber"
     ]
   ],
   "rewards": {
     "recipes": [
-      "floraexpansion:twig_ladder"
+      "floraexpansion:linen_thread"
     ]
   }
 }

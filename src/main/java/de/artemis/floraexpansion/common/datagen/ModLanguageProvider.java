@@ -32,5 +32,7 @@ public class ModLanguageProvider extends net.neoforged.neoforge.common.data.Lang
         add(ModItems.FLAX_SEED.get(), "Flax Seed");
         add(ModItems.FLAX_FIBER.get(), "Flax Fiber");
         add(ModItems.FLAX_FLOWER.get(), "Flax Flower");
+        add(ModItems.LINEN_THREAD.get(), "Linen Thread");
+        add(ModItems.LINEN_CLOTH.get(), "Linen Cloth");
     }
 }

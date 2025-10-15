@@ -13,31 +13,20 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "floraexpansion:twig_ladder"
+        "recipe": "floraexpansion:linen_cloth"
       },
       "trigger": "minecraft:recipe_unlocked"
-    },
-    "has_twig": {
-      "conditions": {
-        "items": [
-          {
-            "items": "floraexpansion:twig"
-          }
-        ]
-      },
-      "trigger": "minecraft:inventory_changed"
     }
   },
   "requirements": [
     [
       "has_the_recipe",
-      "has_linen_thread",
-      "has_twig"
+      "has_linen_thread"
     ]
   ],
   "rewards": {
     "recipes": [
-      "floraexpansion:twig_ladder"
+      "floraexpansion:linen_cloth"
     ]
   }
 }

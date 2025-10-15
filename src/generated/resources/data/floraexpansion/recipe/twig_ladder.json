@@ -3,7 +3,7 @@
   "category": "misc",
   "key": {
     "A": {
-      "item": "minecraft:string"
+      "item": "floraexpansion:linen_thread"
     },
     "B": {
       "item": "floraexpansion:twig"

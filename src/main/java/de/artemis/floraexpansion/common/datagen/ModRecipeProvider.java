@@ -6,9 +6,11 @@ import de.artemis.floraexpansion.common.item.ModItems;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.recipes.*;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.level.ItemLike;
+import net.minecraft.world.level.block.Blocks;
 import net.neoforged.neoforge.common.conditions.IConditionBuilder;
 import org.jetbrains.annotations.NotNull;
 
@@ -28,9 +30,9 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .pattern("A A")
                 .pattern("BBB")
                 .pattern("A A")
-                .define('A', Items.STRING)
+                .define('A', ModItems.LINEN_THREAD)
                 .define('B', ModItems.TWIG)
-                .unlockedBy("has_string", has(Items.STRING))
+                .unlockedBy("has_linen_thread", has(ModItems.LINEN_THREAD))
                 .unlockedBy("has_twig", has(ModItems.TWIG))
                 .save(recipeOutput);
 
@@ -64,6 +66,16 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .unlockedBy("has_pumpkin_seeds", has(Items.PUMPKIN_SEEDS))
                 .unlockedBy("has_sweet_berries", has(Items.SWEET_BERRIES))
                 .unlockedBy("has_honey_bottle", has(Items.HONEY_BOTTLE))
+                .save(recipeOutput);
+
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ModItems.LINEN_THREAD, 2)
+                .requires(ModItems.FLAX_FIBER, 4)
+                .unlockedBy("has_flax_fiber", has(ModItems.FLAX_FIBER))
+                .save(recipeOutput);
+
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ModItems.LINEN_CLOTH, 2)
+                .requires(ModItems.LINEN_THREAD, 4)
+                .unlockedBy("has_linen_thread", has(ModItems.LINEN_THREAD))
                 .save(recipeOutput);
 
         //Smelting

@@ -36,6 +36,12 @@ public class ModItems {
     public static final DeferredItem<Item> FLAX_FLOWER = ITEMS.register("flax_flower",
             () -> new Item(new Item.Properties()));
 
+    public static final DeferredItem<Item> LINEN_THREAD = ITEMS.register("linen_thread",
+            () -> new Item(new Item.Properties()));
+
+    public static final DeferredItem<Item> LINEN_CLOTH = ITEMS.register("linen_cloth",
+            () -> new Item(new Item.Properties()));
+
     public static void register(IEventBus eventBus) {
         ITEMS.register(eventBus);
     }

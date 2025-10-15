@@ -1,12 +1,18 @@
 package de.artemis.floraexpansion.common.block;
 
 import de.artemis.floraexpansion.common.item.ModItems;
+import de.artemis.floraexpansion.common.particle.ModParticles;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.ItemInteractionResult;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.ShearsItem;
 import net.minecraft.world.level.*;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockBehaviour;
@@ -16,6 +22,7 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
 import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
+import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.NotNull;
@@ -143,6 +150,21 @@ public class FlaxCropBlock extends CropBlock {
 
     @Override
     public @NotNull BlockState playerWillDestroy(@NotNull Level level, @NotNull BlockPos pos, @NotNull BlockState state, @NotNull Player player) {
+        // Disallow breaking just the top when the plant is exactly age=2 (tall start)
+        if (isUpper(state)) {
+            BlockPos belowPos = pos.below();
+            BlockState belowState = level.getBlockState(belowPos);
+            if (belowState.getBlock() == this && isLower(belowState) && getAge(belowState) == DOUBLE_AGE
+                    && !player.getAbilities().instabuild) {
+                if (!level.isClientSide) {
+                    // Ensure upper still matches the lower half (server authority), no drops
+                    setUpper(level, pos, DOUBLE_AGE);
+                }
+                return state; // cancel the normal break path
+            }
+        }
+
+        // --- Existing behavior unchanged below ---
         if (isUpper(state)) {
             if (!level.isClientSide) {
                 BlockPos below = pos.below();
@@ -175,6 +197,56 @@ public class FlaxCropBlock extends CropBlock {
     }
 
     @Override
+    protected @NotNull ItemInteractionResult useItemOn(@NotNull ItemStack itemStack, @NotNull BlockState blockState, @NotNull Level level, @NotNull BlockPos blockPos, @NotNull Player player, @NotNull InteractionHand hand, @NotNull BlockHitResult result) {
+        // Only handle shearing when right-clicking the UPPER half
+        if (!isUpper(blockState)) {
+            return super.useItemOn(itemStack, blockState, level, blockPos, player, hand, result);
+        }
+
+        ItemStack held = player.getItemInHand(hand);
+        if (!(held.getItem() instanceof ShearsItem)) {
+            return super.useItemOn(itemStack, blockState, level, blockPos, player, hand, result);
+        }
+
+        if (level.isClientSide) {
+            // client handshake: show the swing/interaction immediately
+            return ItemInteractionResult.SUCCESS;
+        }
+
+        BlockPos belowPos = blockPos.below();
+        BlockState belowState = level.getBlockState(belowPos);
+        if (!(belowState.getBlock() == this && isLower(belowState))) {
+            return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
+        }
+
+        int age = getAge(belowState);
+        if (age < DOUBLE_AGE) {
+            // not tall yet – do nothing special
+            return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
+        }
+
+        // Drop normal loot as if broken “by hand”
+        // (Your loot table already ignores fortune, so passing shears here is fine.)
+        Block.dropResources(belowState, level, belowPos, null, player, held);
+
+        // Feedback
+        level.levelEvent(2001, blockPos, Block.getId(blockState));       // particles at top
+        level.levelEvent(2001, belowPos, Block.getId(belowState));
+
+        // Regress the crop to AGE = 1 (single-block stage) and remove upper
+        setLower(level, belowPos, 1);
+        if (level.getBlockState(blockPos).is(this)) {
+            level.removeBlock(blockPos, false);
+        }
+
+        // Damage the shears
+        EquipmentSlot slot = (hand == InteractionHand.MAIN_HAND) ? EquipmentSlot.MAINHAND : EquipmentSlot.OFFHAND;
+        held.hurtAndBreak(1, player, slot);
+
+        return ItemInteractionResult.CONSUME; // we handled it fully
+    }
+
+    @Override
     public @NotNull VoxelShape getShape(@NotNull BlockState blockState, @NotNull BlockGetter level, @NotNull BlockPos blockPos, @NotNull CollisionContext context) {
         return isUpper(blockState) ? SHAPES_TOP[getAge(blockState)] : SHAPES_BOTTOM[getAge(blockState)];
     }
@@ -190,6 +262,30 @@ public class FlaxCropBlock extends CropBlock {
         int age = this.getAge(blockState);
         if (age + 1 == DOUBLE_AGE) return level.getBlockState(blockPos.above()).canBeReplaced();
         return true;
+    }
+
+    @Override
+    public void animateTick(@NotNull BlockState blockState, @NotNull Level level, @NotNull BlockPos blockPos, @NotNull RandomSource random) {
+
+        if (!level.isClientSide) return;
+
+        if (!isLower(blockState)) return;
+
+        if (getAge(blockState) < DOUBLE_AGE) return;
+
+        if (random.nextFloat() < 0.05f) {
+            BlockPos topPos = blockPos.above();
+            double x = topPos.getX() + 0.25 + random.nextDouble() * 0.5;
+            double z = topPos.getZ() + 0.25 + random.nextDouble() * 0.5;
+            double y = topPos.getY() + 0.6 + random.nextDouble() * 0.3; // around crop top
+
+            double vx = (random.nextDouble() - 0.5) * 0.2;  // ±0.01
+            double vz = (random.nextDouble() - 0.5) * 0.2;  // ±0.01
+
+            double vy = 0.0 + random.nextDouble() * 0.01;    // 0–0.01
+
+            level.addParticle(ModParticles.FLAX_FLOWER.get(), x, y, z, vx, vy, vz);
+        }
     }
 
     @Override

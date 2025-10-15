@@ -21,5 +21,7 @@ public class ModItemModelProvider extends ItemModelProvider {
         basicItem(ModItems.FLAX_SEED.get());
         basicItem(ModItems.FLAX_FLOWER.get());
         basicItem(ModItems.FLAX_FIBER.get());
+        basicItem(ModItems.LINEN_THREAD.get());
+        basicItem(ModItems.LINEN_CLOTH.get());
     }
 }

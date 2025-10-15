@@ -1,10 +1,7 @@
 package de.artemis.floraexpansion.client.event;
 
 import de.artemis.floraexpansion.FloraExpansion;
-import de.artemis.floraexpansion.common.particle.LeafFluffParticles;
-import de.artemis.floraexpansion.common.particle.ModParticles;
-import de.artemis.floraexpansion.common.particle.PineLeafFluffParticles;
-import de.artemis.floraexpansion.common.particle.PineParticles;
+import de.artemis.floraexpansion.common.particle.*;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
@@ -32,5 +29,6 @@ public class ClientEvents {
         event.registerSpriteSet(ModParticles.LEAF_FLUFF_PARTICLES.get(), LeafFluffParticles.Provider::new);
         event.registerSpriteSet(ModParticles.PINE_LEAF_FLUFF_PARTICLES.get(), PineLeafFluffParticles.Provider::new);
         event.registerSpriteSet(ModParticles.PINE_PARTICLES.get(), PineParticles.Provider::new);
+        event.registerSpriteSet(ModParticles.FLAX_FLOWER.get(), FlaxFlowerParticles.Provider::new);
     }
 }

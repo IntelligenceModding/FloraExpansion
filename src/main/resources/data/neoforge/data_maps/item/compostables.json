@@ -14,6 +14,9 @@
     },
     "floraexpansion:flax_flower": {
       "chance": 0.3
+    },
+    "floraexpansion:flax_fiber": {
+      "chance": 0.3
     }
   }
 }

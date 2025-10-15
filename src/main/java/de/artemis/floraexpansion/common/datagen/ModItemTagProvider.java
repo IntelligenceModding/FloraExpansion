@@ -33,5 +33,7 @@ public class ModItemTagProvider extends ItemTagsProvider {
 
         //NeoForge
         tag(Tags.Items.FOODS).add(ModItems.PINE_NUTS.get()).add(ModItems.TOASTED_PINE_NUTS.get());
+        tag(Tags.Items.STRINGS).add(ModItems.LINEN_THREAD.get());
+        tag(Tags.Items.SEEDS).add(ModItems.FLAX_SEED.get());
     }
 }
