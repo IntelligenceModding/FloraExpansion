@@ -5,6 +5,8 @@ import de.artemis.floraexpansion.common.item.ModItems;
 import de.artemis.floraexpansion.common.loot.ModLootModifiers;
 import de.artemis.floraexpansion.common.particle.LeafFluffParticles;
 import de.artemis.floraexpansion.common.particle.ModParticles;
+import de.artemis.floraexpansion.common.worldgen.ModVillageAdditions;
+import de.artemis.floraexpansion.common.worldgen.ModVillagePools;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.RegisterParticleProvidersEvent;
@@ -52,6 +54,8 @@ public class FloraExpansion {
     }
 
     private void commonSetup(FMLCommonSetupEvent event) {
+        event.enqueueWork(ModVillagePools::register);
+        event.enqueueWork(ModVillageAdditions::register);
     }
 
     private void addCreative(BuildCreativeModeTabContentsEvent event) {

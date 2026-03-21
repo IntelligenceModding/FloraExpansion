@@ -22,6 +22,10 @@ public class ModLanguageProvider extends net.neoforged.neoforge.common.data.Lang
         add(ModBlocks.LEAF_LITTER.get(), "Leaf Litter");
         add(ModBlocks.TWIG_LADDER.get(), "Twig Ladder");
         add(ModBlocks.FLAX_CROP.get(), "Flax Crop");
+        add(ModBlocks.LINEN_CARPET.get(), "Linen Carpet");
+        add(ModBlocks.PEBBLE_PATCH.get(), "Pebble Patch");
+        add(ModBlocks.PEBBLE_BLOCK.get(), "Pebble Block");
+        add(ModBlocks.LINEN_BLOCK.get(), "Linen Block");
 
         //Items
         add(ModItems.PINE_CONE.get(), "Pine Cone");
@@ -34,5 +38,6 @@ public class ModLanguageProvider extends net.neoforged.neoforge.common.data.Lang
         add(ModItems.FLAX_FLOWER.get(), "Flax Flower");
         add(ModItems.LINEN_THREAD.get(), "Linen Thread");
         add(ModItems.LINEN_CLOTH.get(), "Linen Cloth");
+        add(ModItems.PEBBLES.get(), "Pebbles");
     }
 }

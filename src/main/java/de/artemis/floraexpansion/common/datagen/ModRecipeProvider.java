@@ -6,6 +6,7 @@ import de.artemis.floraexpansion.common.item.ModItems;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.recipes.*;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.*;
@@ -36,10 +37,21 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .unlockedBy("has_twig", has(ModItems.TWIG))
                 .save(recipeOutput);
 
+        ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, ModBlocks.LINEN_CARPET, 3)
+                .pattern("CC")
+                .define('C', ModBlocks.LINEN_BLOCK.get())
+                .unlockedBy("has_linen_block", has(ModBlocks.LINEN_BLOCK.get()))
+                .save(recipeOutput);
+
         //Shapeless
         ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ModItems.PINE_CONE, 1)
                 .requires(ModBlocks.PINE_LITTER)
                 .unlockedBy("has_pine_litter", has(ModBlocks.PINE_LITTER))
+                .save(recipeOutput);
+
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ModBlocks.PEBBLE_PATCH, 1)
+                .requires(ModItems.PEBBLES)
+                .unlockedBy("has_pebbles", has(ModItems.PEBBLES))
                 .save(recipeOutput);
 
         ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, Items.LIGHT_BLUE_DYE, 1)
@@ -76,6 +88,21 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
         ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ModItems.LINEN_CLOTH, 2)
                 .requires(ModItems.LINEN_THREAD, 4)
                 .unlockedBy("has_linen_thread", has(ModItems.LINEN_THREAD))
+                .save(recipeOutput);
+
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ModBlocks.LINEN_BLOCK, 1)
+                .requires(ModItems.LINEN_CLOTH, 4)
+                .unlockedBy("has_linen_cloth", has(ModItems.LINEN_CLOTH))
+                .save(recipeOutput);
+
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ModItems.PEBBLES, 9)
+                .requires(ModBlocks.PEBBLE_BLOCK, 1)
+                .unlockedBy("has_pebble_block", has(ModBlocks.PEBBLE_BLOCK))
+                .save(recipeOutput);
+
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ModBlocks.PEBBLE_BLOCK, 1)
+                .requires(ModItems.PEBBLES, 9)
+                .unlockedBy("has_pebbles", has(ModItems.PEBBLES))
                 .save(recipeOutput);
 
         //Smelting

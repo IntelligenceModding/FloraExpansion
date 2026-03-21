@@ -15,6 +15,9 @@ public class ModItems {
     public static final DeferredItem<PineConeItem> PINE_CONE = ITEMS.register("pine_cone",
             () -> new PineConeItem(new Item.Properties()));
 
+    public static final DeferredItem<PebblesItem> PEBBLES = ITEMS.register("pebbles",
+            () -> new PebblesItem(new Item.Properties()));
+
     public static final DeferredItem<Item> PINE_NUTS = ITEMS.register("pine_nuts",
             () -> new Item(new Item.Properties().food(ModFoods.PINE_NUTS)));
 

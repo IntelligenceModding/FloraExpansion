@@ -19,6 +19,15 @@ public class ModBlockTagProvider extends BlockTagsProvider {
 
     @Override
     protected void addTags(HolderLookup.@NotNull Provider provider) {
+
+        //Minecraft
         tag(BlockTags.CLIMBABLE).add(ModBlocks.TWIG_LADDER.get());
+        tag(BlockTags.MINEABLE_WITH_PICKAXE).add(ModBlocks.PEBBLE_BLOCK.get());
+        tag(BlockTags.MINEABLE_WITH_SHOVEL).add(ModBlocks.PEBBLE_BLOCK.get());
+        tag(BlockTags.MINEABLE_WITH_HOE).add(ModBlocks.LINEN_BLOCK.get());
+        tag(BlockTags.MAINTAINS_FARMLAND).add(ModBlocks.FLAX_CROP.get());
+        tag(BlockTags.CROPS).add(ModBlocks.FLAX_CROP.get());
+        tag(BlockTags.SWORD_EFFICIENT).add(ModBlocks.FLAX_CROP.get());
+        tag(BlockTags.BEE_GROWABLES).add(ModBlocks.FLAX_CROP.get());
     }
 }

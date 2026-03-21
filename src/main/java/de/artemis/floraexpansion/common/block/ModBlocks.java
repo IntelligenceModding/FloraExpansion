@@ -3,10 +3,9 @@ package de.artemis.floraexpansion.common.block;
 import de.artemis.floraexpansion.FloraExpansion;
 import de.artemis.floraexpansion.common.item.ModItems;
 import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.LadderBlock;
-import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.level.material.PushReaction;
@@ -32,6 +31,18 @@ public class ModBlocks {
 
     public static final DeferredBlock<FlaxCropBlock> FLAX_CROP =
             BLOCKS.register("flax_crop", () -> new FlaxCropBlock(BlockBehaviour.Properties.of().noCollission().randomTicks().instabreak().sound(SoundType.CROP).pushReaction(PushReaction.DESTROY)));
+
+    public static final DeferredBlock<CarpetBlock> LINEN_CARPET = registerBlock("linen_carpet",
+            () -> new CarpetBlock(BlockBehaviour.Properties.of().strength(0.1F).mapColor(MapColor.COLOR_BROWN).sound(SoundType.CAVE_VINES).ignitedByLava()));
+
+    public static final DeferredBlock<Block> LINEN_BLOCK = registerBlock("linen_block",
+            () -> new Block(BlockBehaviour.Properties.of().strength(0.8F).mapColor(MapColor.COLOR_BROWN).sound(SoundType.CAVE_VINES).ignitedByLava()));
+
+    public static final DeferredBlock<Block> PEBBLE_PATCH = registerBlock("pebble_patch",
+            () -> new PebblePatchBlock(BlockBehaviour.Properties.of().mapColor(MapColor.STONE).noCollission().strength(0.1F).sound(SoundType.POINTED_DRIPSTONE).pushReaction(PushReaction.DESTROY)));
+
+    public static final DeferredBlock<Block> PEBBLE_BLOCK = registerBlock("pebble_block",
+            () -> new Block(BlockBehaviour.Properties.of().mapColor(MapColor.STONE).strength(0.6F, 0.8F).sound(SoundType.DRIPSTONE_BLOCK)));
 
     private static <T extends Block> DeferredBlock<T> registerBlock(String name, Supplier<T> block) {
         DeferredBlock<T> toReturn = BLOCKS.register(name, block);

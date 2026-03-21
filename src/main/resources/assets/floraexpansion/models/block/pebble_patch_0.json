@@ -1,0 +1,22 @@
+{
+  "parent": "minecraft:block/block",
+  "render_type": "minecraft:cutout",
+  "textures": {
+    "particle": "floraexpansion:block/pebble_patch_0",
+    "texture": "floraexpansion:block/pebble_patch_0"
+  },
+  "elements": [
+    {
+      "from": [0, 0, 0],
+      "to": [16, 1, 16],
+      "faces": {
+        "up":    { "texture": "#texture", "uv": [0, 0, 16, 16] },
+        "down":  { "texture": "#texture", "uv": [0, 0, 16, 16] },
+        "north": { "texture": "#texture", "uv": [0, 15, 16, 16] },
+        "south": { "texture": "#texture", "uv": [0, 15, 16, 16] },
+        "west":  { "texture": "#texture", "uv": [0, 15, 16, 16] },
+        "east":  { "texture": "#texture", "uv": [0, 15, 16, 16] }
+      }
+    }
+  ]
+}

@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/cube_all",
+  "textures": {
+    "all": "floraexpansion:block/pebble_block",
+    "particle": "floraexpansion:block/pebble_block"
+  }
+}

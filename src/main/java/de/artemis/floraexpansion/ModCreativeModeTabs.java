@@ -16,7 +16,7 @@ public class ModCreativeModeTabs {
             DeferredRegister.create(Registries.CREATIVE_MODE_TAB, FloraExpansion.MODID);
 
     public static final Supplier<CreativeModeTab> FLORA_EXPANSION_CREATIVE_TAB = CREATIVE_MODE_TAB.register("flora_expansion_creative_tab",
-            () -> CreativeModeTab.builder().icon(() -> new ItemStack(ModItems.PINE_CONE.get()))
+            () -> CreativeModeTab.builder().icon(() -> new ItemStack(ModItems.FLAX_FLOWER.get()))
                     .title(Component.translatable("floraexpansion.creative_tab"))
                     .displayItems((itemDisplayParameters, output) -> {
                         output.accept(ModBlocks.LEAF_LITTER);
@@ -32,6 +32,11 @@ public class ModCreativeModeTabs {
                         output.accept(ModItems.FLAX_FLOWER);
                         output.accept(ModItems.LINEN_THREAD);
                         output.accept(ModItems.LINEN_CLOTH);
+                        output.accept(ModBlocks.LINEN_BLOCK);
+                        output.accept(ModBlocks.LINEN_CARPET);
+                        output.accept(ModBlocks.PEBBLE_BLOCK);
+                        output.accept(ModBlocks.PEBBLE_PATCH);
+                        output.accept(ModItems.PEBBLES);
 
                     }).build());
 

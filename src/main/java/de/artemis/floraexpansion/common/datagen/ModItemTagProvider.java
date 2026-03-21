@@ -25,11 +25,12 @@ public class ModItemTagProvider extends ItemTagsProvider {
     protected void addTags(HolderLookup.@NotNull Provider provider) {
 
         //Minecraft
-        tag(ItemTags.CHICKEN_FOOD).add(ModItems.PINE_NUTS.get());
-        tag(ItemTags.PARROT_FOOD).add(ModItems.PINE_NUTS.get());
+        tag(ItemTags.CHICKEN_FOOD).add(ModItems.PINE_NUTS.get()).add(ModItems.FLAX_SEED.get());
+        tag(ItemTags.PARROT_FOOD).add(ModItems.PINE_NUTS.get()).add(ModItems.FLAX_SEED.get());
         tag(ItemTags.PARROT_POISONOUS_FOOD).add(ModItems.TOASTED_PINE_NUTS.get());
-        tag(ItemTags.ARROWS).add(ModItems.PINE_CONE.get());
-        tag(ItemTags.DAMPENS_VIBRATIONS).add(ModBlocks.LEAF_LITTER.get().asItem()).add(ModBlocks.PINE_LITTER.get().asItem());
+        tag(ItemTags.ARROWS).add(ModItems.PINE_CONE.get()).add(ModItems.PEBBLES.get());
+        tag(ItemTags.DAMPENS_VIBRATIONS).add(ModBlocks.LEAF_LITTER.get().asItem()).add(ModBlocks.PINE_LITTER.get().asItem()).add(ModBlocks.LINEN_CARPET.get().asItem());
+        tag(ItemTags.VILLAGER_PLANTABLE_SEEDS).add(ModItems.FLAX_SEED.get());
 
         //NeoForge
         tag(Tags.Items.FOODS).add(ModItems.PINE_NUTS.get()).add(ModItems.TOASTED_PINE_NUTS.get());
