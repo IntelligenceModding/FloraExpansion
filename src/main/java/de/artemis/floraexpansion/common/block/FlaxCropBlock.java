@@ -2,6 +2,7 @@ package de.artemis.floraexpansion.common.block;
 
 import de.artemis.floraexpansion.common.item.ModItems;
 import de.artemis.floraexpansion.common.particle.ModParticles;
+import de.artemis.floraexpansion.common.util.ModBlockStateProperties;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
@@ -18,10 +19,7 @@ import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
-import net.minecraft.world.level.block.state.properties.BlockStateProperties;
-import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
-import net.minecraft.world.level.block.state.properties.EnumProperty;
-import net.minecraft.world.level.block.state.properties.IntegerProperty;
+import net.minecraft.world.level.block.state.properties.*;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
@@ -29,6 +27,7 @@ import org.jetbrains.annotations.NotNull;
 
 public class FlaxCropBlock extends CropBlock {
     public static final IntegerProperty AGE = BlockStateProperties.AGE_4;
+    public static final BooleanProperty WILD = ModBlockStateProperties.WILD_FLAX;
     public static final EnumProperty<DoubleBlockHalf> HALF = BlockStateProperties.DOUBLE_BLOCK_HALF;
     private static final int DOUBLE_AGE = 2;
     private static final int MAX_AGE = 4;
@@ -51,7 +50,7 @@ public class FlaxCropBlock extends CropBlock {
 
     public FlaxCropBlock(BlockBehaviour.Properties properties) {
         super(properties);
-        this.registerDefaultState(this.stateDefinition.any().setValue(AGE, 0).setValue(HALF, DoubleBlockHalf.LOWER));
+        this.registerDefaultState(this.stateDefinition.any().setValue(AGE, 0).setValue(HALF, DoubleBlockHalf.LOWER).setValue(WILD, false));
     }
 
     private static boolean isUpper(BlockState blockState) {
@@ -67,12 +66,18 @@ public class FlaxCropBlock extends CropBlock {
         return true;
     }
 
-    private void setLower(LevelAccessor level, BlockPos blockPos, int age) {
-        level.setBlock(blockPos, getStateForAge(age).setValue(HALF, DoubleBlockHalf.LOWER), 2);
+    private void setLower(LevelAccessor level, BlockPos pos, int age, boolean wild) {
+        level.setBlock(pos, this.defaultBlockState()
+                .setValue(AGE, age)
+                .setValue(HALF, DoubleBlockHalf.LOWER)
+                .setValue(WILD, wild), 2);
     }
 
-    private void setUpper(LevelAccessor level, BlockPos blockPos, int age) {
-        level.setBlock(blockPos, getStateForAge(age).setValue(HALF, DoubleBlockHalf.UPPER), 2);
+    private void setUpper(LevelAccessor level, BlockPos pos, int age, boolean wild) {
+        level.setBlock(pos, this.defaultBlockState()
+                .setValue(AGE, age)
+                .setValue(HALF, DoubleBlockHalf.UPPER)
+                .setValue(WILD, wild), 2);
     }
 
     @Override
@@ -105,47 +110,64 @@ public class FlaxCropBlock extends CropBlock {
         }
     }
 
-    public void growCropBy(Level level, BlockPos blockPos, BlockState blockState, int increment) {
-        if (isUpper(blockState)) {
-            blockPos = blockPos.below();
-            blockState = level.getBlockState(blockPos);
+    public void growCropBy(Level level, BlockPos pos, BlockState state, int increment) {
+        if (isUpper(state)) {
+            pos = pos.below();
+            state = level.getBlockState(pos);
         }
 
-        int newAge = Mth.clamp(getAge(blockState) + increment, 0, getMaxAge());
-        setLower(level, blockPos, newAge);
+        int newAge = Mth.clamp(getAge(state) + increment, 0, getMaxAge());
+        boolean wild = state.getValue(WILD);
 
-        BlockPos abovePos = blockPos.above();
+        setLower(level, pos, newAge, wild);
+
+        BlockPos abovePos = pos.above();
         if (newAge >= DOUBLE_AGE) {
-            setUpper(level, abovePos, newAge);
+            setUpper(level, abovePos, newAge, wild);
         } else if (level.getBlockState(abovePos).getBlock() == this) {
             level.removeBlock(abovePos, false);
         }
     }
-
     @Override
-    public boolean canSurvive(@NotNull BlockState blockState, @NotNull LevelReader level, @NotNull BlockPos blockPos) {
-        if (isUpper(blockState)) {
-            BlockState below = level.getBlockState(blockPos.below());
-            return below.is(this) && isLower(below) && getAge(below) >= DOUBLE_AGE;
+    public boolean canSurvive(@NotNull BlockState state, @NotNull LevelReader level, @NotNull BlockPos pos) {
+        if (isUpper(state)) {
+            BlockState below = level.getBlockState(pos.below());
+            return below.is(this)
+                    && isLower(below)
+                    && getAge(below) >= DOUBLE_AGE;
         } else {
-            BlockState soil = level.getBlockState(blockPos.below());
-            return mayPlaceOn(soil, level, blockPos.below());
+            BlockState soil = level.getBlockState(pos.below());
+
+            if (state.getValue(WILD)) {
+                return soil.is(Blocks.GRASS_BLOCK)
+                        || soil.is(Blocks.DIRT)
+                        || soil.is(Blocks.COARSE_DIRT)
+                        || soil.is(Blocks.PODZOL)
+                        || soil.is(Blocks.MOSS_BLOCK)
+                        || soil.is(Blocks.ROOTED_DIRT);
+            }
+
+            return mayPlaceOn(soil, level, pos.below());
         }
     }
 
     @Override
-    public @NotNull BlockState updateShape(@NotNull BlockState blockState, Direction facing, @NotNull BlockState facingBlockState, @NotNull LevelAccessor level, @NotNull BlockPos blockPos, @NotNull BlockPos facingBlockPos) {
+    public @NotNull BlockState updateShape(@NotNull BlockState state, Direction facing, @NotNull BlockState facingState,
+                                           @NotNull LevelAccessor level, @NotNull BlockPos pos, @NotNull BlockPos facingPos) {
         if (facing.getAxis() == Direction.Axis.Y) {
-            if (isLower(blockState) && facing == Direction.UP) {
-                if (facingBlockState.is(this) && isUpper(facingBlockState)) return blockState;
-                if (getAge(blockState) >= DOUBLE_AGE) {
-                    level.setBlock(blockPos.above(), getStateForAge(getAge(blockState)).setValue(HALF, DoubleBlockHalf.UPPER), 18);
+            if (isLower(state) && facing == Direction.UP) {
+                if (facingState.is(this) && isUpper(facingState)) return state;
+                if (getAge(state) >= DOUBLE_AGE) {
+                    level.setBlock(pos.above(), this.defaultBlockState()
+                            .setValue(AGE, getAge(state))
+                            .setValue(HALF, DoubleBlockHalf.UPPER)
+                            .setValue(WILD, state.getValue(WILD)), 18);
                 }
-            } else if (isUpper(blockState) && facing == Direction.DOWN) {
-                if (!facingBlockState.is(this) || !isLower(facingBlockState)) return Blocks.AIR.defaultBlockState();
+            } else if (isUpper(state) && facing == Direction.DOWN) {
+                if (!facingState.is(this) || !isLower(facingState)) return Blocks.AIR.defaultBlockState();
             }
         }
-        return super.updateShape(blockState, facing, facingBlockState, level, blockPos, facingBlockPos);
+        return super.updateShape(state, facing, facingState, level, pos, facingPos);
     }
 
     @Override
@@ -158,13 +180,12 @@ public class FlaxCropBlock extends CropBlock {
                     && !player.getAbilities().instabuild) {
                 if (!level.isClientSide) {
                     // Ensure upper still matches the lower half (server authority), no drops
-                    setUpper(level, pos, DOUBLE_AGE);
+                    setUpper(level, pos, DOUBLE_AGE, belowState.getValue(WILD));
                 }
                 return state; // cancel the normal break path
             }
         }
 
-        // --- Existing behavior unchanged below ---
         if (isUpper(state)) {
             if (!level.isClientSide) {
                 BlockPos below = pos.below();
@@ -234,7 +255,7 @@ public class FlaxCropBlock extends CropBlock {
         level.levelEvent(2001, belowPos, Block.getId(belowState));
 
         // Regress the crop to AGE = 1 (single-block stage) and remove upper
-        setLower(level, belowPos, 1);
+        setLower(level, belowPos, 1, belowState.getValue(WILD));
         if (level.getBlockState(blockPos).is(this)) {
             level.removeBlock(blockPos, false);
         }
@@ -306,6 +327,6 @@ public class FlaxCropBlock extends CropBlock {
 
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
-        builder.add(AGE, HALF);
+        builder.add(AGE, HALF, WILD);
     }
 }

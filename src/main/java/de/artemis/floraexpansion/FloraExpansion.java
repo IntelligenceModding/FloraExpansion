@@ -3,13 +3,8 @@ package de.artemis.floraexpansion;
 import de.artemis.floraexpansion.common.block.ModBlocks;
 import de.artemis.floraexpansion.common.item.ModItems;
 import de.artemis.floraexpansion.common.loot.ModLootModifiers;
-import de.artemis.floraexpansion.common.particle.LeafFluffParticles;
 import de.artemis.floraexpansion.common.particle.ModParticles;
-import de.artemis.floraexpansion.common.worldgen.ModVillageAdditions;
-import de.artemis.floraexpansion.common.worldgen.ModVillagePools;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.fml.common.EventBusSubscriber;
-import net.neoforged.neoforge.client.event.RegisterParticleProvidersEvent;
+import de.artemis.floraexpansion.common.worldgen.feature.ModFeatures;
 import org.slf4j.Logger;
 
 import com.mojang.logging.LogUtils;
@@ -51,11 +46,10 @@ public class FloraExpansion {
         ModCreativeModeTabs.register(modEventBus);
         ModLootModifiers.register(modEventBus);
         ModParticles.register(modEventBus);
+        ModFeatures.register(modEventBus);
     }
 
     private void commonSetup(FMLCommonSetupEvent event) {
-        event.enqueueWork(ModVillagePools::register);
-        event.enqueueWork(ModVillageAdditions::register);
     }
 
     private void addCreative(BuildCreativeModeTabContentsEvent event) {

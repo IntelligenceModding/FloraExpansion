@@ -8,6 +8,7 @@ import net.minecraft.data.PackOutput;
 import net.minecraft.data.recipes.*;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
+import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.level.ItemLike;
@@ -42,6 +43,32 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .define('C', ModBlocks.LINEN_BLOCK.get())
                 .unlockedBy("has_linen_block", has(ModBlocks.LINEN_BLOCK.get()))
                 .save(recipeOutput);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, Items.PAINTING)
+                .pattern("SSS")
+                .pattern("SLS")
+                .pattern("SSS")
+                .define('S', Items.STICK)
+                .define('L', ModBlocks.LINEN_BLOCK.get())
+                .unlockedBy("has_linen_block", has(ModBlocks.LINEN_BLOCK.get()))
+                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath(FloraExpansion.MODID, "painting_from_linen_block"));
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, Items.WHITE_BANNER)
+                .pattern("LLL")
+                .pattern("LLL")
+                .pattern(" S ")
+                .define('L', ModBlocks.LINEN_BLOCK.get())
+                .define('S', Items.STICK)
+                .unlockedBy("has_linen_block", has(ModBlocks.LINEN_BLOCK.get()))
+                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath(FloraExpansion.MODID, "white_banner_from_linen_block"));
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, Items.WHITE_BED)
+                .pattern("LLL")
+                .pattern("PPP")
+                .define('L', ModBlocks.LINEN_BLOCK.get())
+                .define('P', ItemTags.PLANKS)
+                .unlockedBy("has_linen_block", has(ModBlocks.LINEN_BLOCK.get()))
+                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath(FloraExpansion.MODID, "white_bed_from_linen_block"));
 
         //Shapeless
         ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ModItems.PINE_CONE, 1)
