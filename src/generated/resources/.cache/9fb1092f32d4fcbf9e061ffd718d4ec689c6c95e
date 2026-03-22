@@ -1,4 +1,4 @@
-// 1.21.1	2026-03-21T21:08:19.9762268	Recipes
+// 1.21.1	2026-03-22T18:04:42.1216798	Recipes
 51ae56ce3d4643bf6cf7da77c7303005ac662f14 data/floraexpansion/advancement/recipes/decorations/linen_carpet.json
 145fa96561b9c88488e09cdc1efe316599d099f7 data/floraexpansion/advancement/recipes/decorations/painting_from_linen_block.json
 64addf305b6910911e5c2db67303e02e6afe6f2f data/floraexpansion/advancement/recipes/decorations/white_banner_from_linen_block.json
@@ -6,6 +6,8 @@ c0a4692f25d02e861d7c44f603d36152bfbb10a2 data/floraexpansion/advancement/recipes
 d36b7482d644f2d192c669ca386ec459f9aa171f data/floraexpansion/advancement/recipes/food/toasted_pine_nuts_from_campfire_cooking.json
 8af93f0f6731114fb9467d1ccc71945c3dee693d data/floraexpansion/advancement/recipes/food/toasted_pine_nuts_from_smelting.json
 3f26d4040f28986817eaa78a7cd37fc4e44c4bec data/floraexpansion/advancement/recipes/food/toasted_pine_nuts_from_smoking.json
+574b9e37f6f5a7fa8eb9f8875c7f17070b7ee647 data/floraexpansion/advancement/recipes/misc/flax_bale.json
+dd99e1ed0911cfae931b1c986e8303853026d7ed data/floraexpansion/advancement/recipes/misc/flax_fiber.json
 e045d8b7fbb9fd9efe03fd6ed9d96dbf229a7894 data/floraexpansion/advancement/recipes/misc/forest_snack.json
 6a2c772a95b19ea1e9726f1bb86bc034b4bbe641 data/floraexpansion/advancement/recipes/misc/linen_block.json
 4dc498b86b3a792f7d5afceb739de2a561e4639c data/floraexpansion/advancement/recipes/misc/linen_cloth.json
@@ -16,6 +18,8 @@ f30193ec41566ff1aac1f6a886e758a91e36741f data/floraexpansion/advancement/recipes
 54ddccae971fc1cb31fb6d0cc471efbb76533cc2 data/floraexpansion/advancement/recipes/misc/pine_cone.json
 67833b0e977709de2e283a3002ec30aef3a44958 data/floraexpansion/advancement/recipes/misc/pine_nuts.json
 b4f2ad868591f4ab6df78f984713379ee5f198be data/floraexpansion/advancement/recipes/misc/twig_ladder.json
+b150a35d68c62e7fc6911debc2c7f95c6cdf40e9 data/floraexpansion/recipe/flax_bale.json
+a96ae4fe05e0d386a9b5f5aa0c244f7753b34390 data/floraexpansion/recipe/flax_fiber.json
 7861eedd7ed31f0cb274d015384e0b64a893e593 data/floraexpansion/recipe/forest_snack.json
 05925a1e502c2cb8d09861bcf97911f170a208c7 data/floraexpansion/recipe/linen_block.json
 646271b91cd79e6d4a4a656bec33154406d3aa71 data/floraexpansion/recipe/linen_carpet.json

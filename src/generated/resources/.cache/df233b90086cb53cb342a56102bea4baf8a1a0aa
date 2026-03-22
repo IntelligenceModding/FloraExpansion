@@ -1,9 +1,9 @@
-// 1.21.1	2026-03-21T13:21:54.3675372	Tags for minecraft:block mod id floraexpansion
+// 1.21.1	2026-03-22T17:59:48.0157058	Tags for minecraft:block mod id floraexpansion
 69bda1c36dfaced4a309917c43ba3ed1e277db7d data/minecraft/tags/block/bee_growables.json
 75a1d7e188841c16ed3ded794f154c52695b6797 data/minecraft/tags/block/climbable.json
 69bda1c36dfaced4a309917c43ba3ed1e277db7d data/minecraft/tags/block/crops.json
 69bda1c36dfaced4a309917c43ba3ed1e277db7d data/minecraft/tags/block/maintains_farmland.json
-734b9b800bfb048bf919d19089db357af93da911 data/minecraft/tags/block/mineable/hoe.json
+36cb6927fe205a4142ab1ec5b56d02c15f1dd7c7 data/minecraft/tags/block/mineable/hoe.json
 2177611a45e451590fd9aea078b68b533c2c53ba data/minecraft/tags/block/mineable/pickaxe.json
 2177611a45e451590fd9aea078b68b533c2c53ba data/minecraft/tags/block/mineable/shovel.json
 69bda1c36dfaced4a309917c43ba3ed1e277db7d data/minecraft/tags/block/sword_efficient.json

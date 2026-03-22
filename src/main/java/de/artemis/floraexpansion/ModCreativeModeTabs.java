@@ -29,6 +29,7 @@ public class ModCreativeModeTabs {
                         output.accept(ModItems.FOREST_SNACK);
                         output.accept(ModItems.FLAX_SEED);
                         output.accept(ModItems.FLAX_FIBER);
+                        output.accept(ModBlocks.FLAX_BALE);
                         output.accept(ModItems.FLAX_FLOWER);
                         output.accept(ModItems.LINEN_THREAD);
                         output.accept(ModItems.LINEN_CLOTH);

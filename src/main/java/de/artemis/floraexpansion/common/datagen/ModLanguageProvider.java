@@ -26,6 +26,7 @@ public class ModLanguageProvider extends net.neoforged.neoforge.common.data.Lang
         add(ModBlocks.PEBBLE_PATCH.get(), "Pebble Patch");
         add(ModBlocks.PEBBLE_BLOCK.get(), "Pebble Block");
         add(ModBlocks.LINEN_BLOCK.get(), "Linen Block");
+        add(ModBlocks.FLAX_BALE.get(), "Flax Bale");
 
         //Items
         add(ModItems.PINE_CONE.get(), "Pine Cone");

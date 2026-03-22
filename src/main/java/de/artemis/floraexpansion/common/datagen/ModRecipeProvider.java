@@ -132,6 +132,16 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .unlockedBy("has_pebbles", has(ModItems.PEBBLES))
                 .save(recipeOutput);
 
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ModBlocks.FLAX_BALE, 1)
+                .requires(ModItems.FLAX_FIBER, 9)
+                .unlockedBy("has_flax_fiber", has(ModItems.FLAX_FIBER))
+                .save(recipeOutput);
+
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ModItems.FLAX_FIBER, 9)
+                .requires(ModBlocks.FLAX_BALE, 1)
+                .unlockedBy("has_flax_bale", has(ModBlocks.FLAX_BALE))
+                .save(recipeOutput);
+
         //Smelting
         foodSmelting(recipeOutput, ModItems.PINE_NUTS.get(), ModItems.TOASTED_PINE_NUTS.get(), 0.1f, 100);
 

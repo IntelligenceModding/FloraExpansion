@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_flax_fiber": {
+      "conditions": {
+        "items": [
+          {
+            "items": "floraexpansion:flax_fiber"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "floraexpansion:flax_bale"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_flax_fiber"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "floraexpansion:flax_bale"
+    ]
+  }
+}
