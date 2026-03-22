@@ -30,7 +30,7 @@ Follow our projects or join our community for updates, modding help, and preview
 
 * **Modrinth:** coming soon
 
-* **CurseForge:** *coming soon*
+* **CurseForge:** [Project Page](https://www.curseforge.com/minecraft/mc-mods/flora-expansion)
 
 
 Additional Resources: 
