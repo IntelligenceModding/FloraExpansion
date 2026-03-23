@@ -27,6 +27,7 @@ public class ModCreativeModeTabs {
                         output.accept(ModItems.TWIG);
                         output.accept(ModBlocks.TWIG_LADDER);
                         output.accept(ModItems.FOREST_SNACK);
+                        output.accept(ModItems.SWEET_BERRY_MIX);
                         output.accept(ModItems.FLAX_SEED);
                         output.accept(ModItems.FLAX_FIBER);
                         output.accept(ModBlocks.FLAX_BALE);
@@ -38,6 +39,9 @@ public class ModCreativeModeTabs {
                         output.accept(ModBlocks.PEBBLE_BLOCK);
                         output.accept(ModBlocks.PEBBLE_PATCH);
                         output.accept(ModItems.PEBBLES);
+                        output.accept(ModBlocks.FRUITING_CHERRY_LEAVES);
+                        output.accept(ModItems.CHERRIES);
+                        output.accept(ModBlocks.CHERRY_PIT);
 
                     }).build());
 

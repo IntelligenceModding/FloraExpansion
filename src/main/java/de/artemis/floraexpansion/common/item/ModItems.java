@@ -30,6 +30,9 @@ public class ModItems {
     public static final DeferredItem<Item> FOREST_SNACK = ITEMS.register("forest_snack",
             () -> new Item(new Item.Properties().food(ModFoods.FOREST_SNACK)));
 
+    public static final DeferredItem<Item> SWEET_BERRY_MIX = ITEMS.register("sweet_berry_mix",
+            () -> new Item(new Item.Properties().food(ModFoods.SWEET_BERRY_MIX)));
+
     public static final DeferredItem<Item> FLAX_SEED = ITEMS.register("flax_seed",
             () -> new ItemNameBlockItem(ModBlocks.FLAX_CROP.get(), new Item.Properties()));
 
@@ -44,6 +47,9 @@ public class ModItems {
 
     public static final DeferredItem<Item> LINEN_CLOTH = ITEMS.register("linen_cloth",
             () -> new Item(new Item.Properties()));
+
+    public static final DeferredItem<Item> CHERRIES = ITEMS.register("cherries",
+            () -> new CherriesItem(new Item.Properties().food(ModFoods.CHERRIES)));
 
     public static void register(IEventBus eventBus) {
         ITEMS.register(eventBus);

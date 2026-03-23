@@ -31,9 +31,10 @@ public class ModItemTagProvider extends ItemTagsProvider {
         tag(ItemTags.ARROWS).add(ModItems.PINE_CONE.get()).add(ModItems.PEBBLES.get());
         tag(ItemTags.DAMPENS_VIBRATIONS).add(ModBlocks.LEAF_LITTER.get().asItem()).add(ModBlocks.PINE_LITTER.get().asItem()).add(ModBlocks.LINEN_CARPET.get().asItem());
         tag(ItemTags.VILLAGER_PLANTABLE_SEEDS).add(ModItems.FLAX_SEED.get());
+        tag(ItemTags.SAPLINGS).add(ModBlocks.CHERRY_PIT.get().asItem());
 
         //NeoForge
-        tag(Tags.Items.FOODS).add(ModItems.PINE_NUTS.get()).add(ModItems.TOASTED_PINE_NUTS.get());
+        tag(Tags.Items.FOODS).add(ModItems.PINE_NUTS.get()).add(ModItems.TOASTED_PINE_NUTS.get()).add(ModItems.CHERRIES.get()).add(ModItems.SWEET_BERRY_MIX.get()).add(ModItems.FOREST_SNACK.get());
         tag(Tags.Items.STRINGS).add(ModItems.LINEN_THREAD.get());
         tag(Tags.Items.SEEDS).add(ModItems.FLAX_SEED.get());
     }

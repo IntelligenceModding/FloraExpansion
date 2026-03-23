@@ -7,6 +7,7 @@ import net.minecraft.data.worldgen.BootstrapContext;
 import net.minecraft.data.worldgen.placement.PlacementUtils;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.placement.*;
 
@@ -17,6 +18,7 @@ public class ModPlacedFeatures {
     public static final ResourceKey<PlacedFeature> LEAF_LITTER_PLACED_KEY = registerKey("leaf_litter_placed");
     public static final ResourceKey<PlacedFeature> WILD_FLAX_PLACED_KEY = registerKey("wild_flax_placed");
     public static final ResourceKey<PlacedFeature> PEBBLE_CLUSTER_PLACED_KEY = registerKey("pebble_cluster_placed");
+    public static final ResourceKey<PlacedFeature> CHERRY_STONE_TEST_TREE_PLACED_KEY = registerKey("cherry_stone_test_tree_placed");
 
     public static void bootstrap(BootstrapContext<PlacedFeature> context) {
         var configuredFeatures = context.lookup(Registries.CONFIGURED_FEATURE);
@@ -50,6 +52,14 @@ public class ModPlacedFeatures {
                         RarityFilter.onAverageOnceEvery(6),
                         InSquarePlacement.spread(),
                         PlacementUtils.HEIGHTMAP_TOP_SOLID,
+                        BiomeFilter.biome()
+                ));
+
+        register(context, CHERRY_STONE_TEST_TREE_PLACED_KEY,
+                configuredFeatures.getOrThrow(ModTreeConfiguredFeatures.CHERRY_STONE_TEST_TREE_KEY),
+                List.of(
+                        PlacementUtils.HEIGHTMAP_WORLD_SURFACE,
+                        PlacementUtils.filteredByBlockSurvival(Blocks.CHERRY_SAPLING),
                         BiomeFilter.biome()
                 ));
     }

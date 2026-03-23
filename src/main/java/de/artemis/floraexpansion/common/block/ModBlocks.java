@@ -2,6 +2,7 @@ package de.artemis.floraexpansion.common.block;
 
 import de.artemis.floraexpansion.FloraExpansion;
 import de.artemis.floraexpansion.common.item.ModItems;
+import de.artemis.floraexpansion.common.worldgen.ModTreeGrowers;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.Item;
@@ -47,6 +48,12 @@ public class ModBlocks {
 
     public static final DeferredBlock<HayBlock> FLAX_BALE = registerBlock("flax_bale",
             () -> new HayBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_LIGHT_GREEN).instrument(NoteBlockInstrument.BANJO).strength(0.5F).sound(SoundType.MOSS)));
+
+    public static final DeferredBlock<Block> CHERRY_PIT = registerBlock("cherry_pit",
+            () -> new SaplingBlock(ModTreeGrowers.CHERRY_PIT, BlockBehaviour.Properties.ofFullCopy(Blocks.CHERRY_SAPLING)));
+
+    public static final DeferredBlock<Block> FRUITING_CHERRY_LEAVES = registerBlock("fruiting_cherry_leaves",
+            () -> new FruitingCherryLeavesBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.CHERRY_LEAVES).randomTicks()));
 
     private static <T extends Block> DeferredBlock<T> registerBlock(String name, Supplier<T> block) {
         DeferredBlock<T> toReturn = BLOCKS.register(name, block);

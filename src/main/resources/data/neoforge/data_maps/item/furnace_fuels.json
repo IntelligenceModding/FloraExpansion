@@ -17,6 +17,9 @@
     },
     "floraexpansion:flax_flower": {
       "burn_time": 50
+    },
+    "floraexpansion:cherry_pit": {
+      "burn_time": 50
     }
   }
 }

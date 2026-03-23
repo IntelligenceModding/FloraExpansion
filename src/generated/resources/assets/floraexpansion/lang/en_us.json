@@ -1,6 +1,8 @@
 {
+  "block.floraexpansion.cherry_pit": "Cherry Pit",
   "block.floraexpansion.flax_bale": "Flax Bale",
   "block.floraexpansion.flax_crop": "Flax Crop",
+  "block.floraexpansion.fruiting_cherry_leaves": "Fruiting Cherry Leaves",
   "block.floraexpansion.leaf_litter": "Leaf Litter",
   "block.floraexpansion.linen_block": "Linen Block",
   "block.floraexpansion.linen_carpet": "Linen Carpet",
@@ -9,6 +11,7 @@
   "block.floraexpansion.pine_litter": "Pine Litter",
   "block.floraexpansion.twig_ladder": "Twig Ladder",
   "floraexpansion.creative_tab": "Artemis' Flora Expansion",
+  "item.floraexpansion.cherries": "Cherries",
   "item.floraexpansion.flax_fiber": "Flax Fiber",
   "item.floraexpansion.flax_flower": "Flax Flower",
   "item.floraexpansion.flax_seed": "Flax Seed",
@@ -18,6 +21,7 @@
   "item.floraexpansion.pebbles": "Pebbles",
   "item.floraexpansion.pine_cone": "Pine Cone",
   "item.floraexpansion.pine_nuts": "Pine Nuts",
+  "item.floraexpansion.sweet_berry_mix": "Sweet Berry Mix",
   "item.floraexpansion.toasted_pine_nuts": "Toasted Pine Nuts",
   "item.floraexpansion.twig": "Twig"
 }

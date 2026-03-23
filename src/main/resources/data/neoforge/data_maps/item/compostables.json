@@ -17,6 +17,9 @@
     },
     "floraexpansion:flax_fiber": {
       "chance": 0.3
+    },
+    "floraexpansion:cherry_pit": {
+      "chance": 0.3
     }
   }
 }

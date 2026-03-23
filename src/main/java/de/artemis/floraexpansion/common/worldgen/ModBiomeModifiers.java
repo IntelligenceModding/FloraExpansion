@@ -18,6 +18,7 @@ public class ModBiomeModifiers {
     public static final ResourceKey<BiomeModifier> ADD_LEAF_LITTER = registerKey("add_leaf_litter");
     public static final ResourceKey<BiomeModifier> ADD_WILD_FLAX = registerKey("add_wild_flax");
     public static final ResourceKey<BiomeModifier> ADD_PEBBLE_CLUSTERS = registerKey("add_pebble_clusters");
+    public static final ResourceKey<BiomeModifier> ADD_CHERRY_STONE_TEST_TREES = registerKey("add_cherry_stone_test_trees");
 
     public static void bootstrap(BootstrapContext<BiomeModifier> context) {
         var placedFeatures = context.lookup(Registries.PLACED_FEATURE);
@@ -51,6 +52,14 @@ public class ModBiomeModifiers {
                 ),
                 HolderSet.direct(placedFeatures.getOrThrow(ModPlacedFeatures.WILD_FLAX_PLACED_KEY)),
                 GenerationStep.Decoration.VEGETAL_DECORATION));
+
+        context.register(ADD_CHERRY_STONE_TEST_TREES, new BiomeModifiers.AddFeaturesBiomeModifier(
+                HolderSet.direct(
+                        biomes.getOrThrow(Biomes.CHERRY_GROVE)
+                ),
+                HolderSet.direct(placedFeatures.getOrThrow(ModPlacedFeatures.CHERRY_STONE_TEST_TREE_PLACED_KEY)),
+                GenerationStep.Decoration.VEGETAL_DECORATION
+        ));
     }
 
     private static ResourceKey<BiomeModifier> registerKey(String name) {

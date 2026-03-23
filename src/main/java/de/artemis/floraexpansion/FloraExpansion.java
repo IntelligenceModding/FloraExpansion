@@ -5,6 +5,7 @@ import de.artemis.floraexpansion.common.item.ModItems;
 import de.artemis.floraexpansion.common.loot.ModLootModifiers;
 import de.artemis.floraexpansion.common.particle.ModParticles;
 import de.artemis.floraexpansion.common.worldgen.feature.ModFeatures;
+import de.artemis.floraexpansion.common.worldgen.treedecorator.ModTreeDecorators;
 import org.slf4j.Logger;
 
 import com.mojang.logging.LogUtils;
@@ -35,6 +36,7 @@ public class FloraExpansion {
         modEventBus.addListener(this::commonSetup);
         modEventBus.addListener(this::addCreative);
         modContainer.registerConfig(ModConfig.Type.COMMON, Config.SPEC);
+
         NeoForge.EVENT_BUS.register(this);
 
         CREATIVE_MODE_TABS.register(modEventBus);
@@ -47,6 +49,7 @@ public class FloraExpansion {
         ModLootModifiers.register(modEventBus);
         ModParticles.register(modEventBus);
         ModFeatures.register(modEventBus);
+        ModTreeDecorators.register(modEventBus);
     }
 
     private void commonSetup(FMLCommonSetupEvent event) {

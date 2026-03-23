@@ -107,6 +107,15 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .unlockedBy("has_honey_bottle", has(Items.HONEY_BOTTLE))
                 .save(recipeOutput);
 
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ModItems.SWEET_BERRY_MIX, 3)
+                .requires(Items.SWEET_BERRIES)
+                .requires(Items.GLOW_BERRIES)
+                .requires(ModItems.CHERRIES)
+                .unlockedBy("has_cherries", has(ModItems.CHERRIES))
+                .unlockedBy("has_glow_berries", has(Items.GLOW_BERRIES))
+                .unlockedBy("has_sweet_berries", has(Items.SWEET_BERRIES))
+                .save(recipeOutput);
+
         ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ModItems.LINEN_THREAD, 2)
                 .requires(ModItems.FLAX_FIBER, 4)
                 .unlockedBy("has_flax_fiber", has(ModItems.FLAX_FIBER))
@@ -140,6 +149,11 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
         ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ModItems.FLAX_FIBER, 9)
                 .requires(ModBlocks.FLAX_BALE, 1)
                 .unlockedBy("has_flax_bale", has(ModBlocks.FLAX_BALE))
+                .save(recipeOutput);
+
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, Items.BROWN_DYE, 1)
+                .requires(ModBlocks.CHERRY_PIT, 1)
+                .unlockedBy("has_cherry_pit", has(ModBlocks.CHERRY_PIT))
                 .save(recipeOutput);
 
         //Smelting
