@@ -1,3 +1,6 @@
 {
-  "parent": "floraexpansion:block/apple_core"
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "floraexpansion:item/apple_core"
+  }
 }

@@ -52,7 +52,10 @@ public class ModItems {
             () -> new CherriesItem(new Item.Properties().food(ModFoods.CHERRIES)));
 
     public static final DeferredItem<Item> CHERRY_JUICE = ITEMS.register("cherry_juice",
-            () -> new CherryJuiceItem(new Item.Properties().food(ModFoods.CHERRY_JUICE).stacksTo(16)));
+            () -> new BottledJuiceItem(new Item.Properties().food(ModFoods.CHERRY_JUICE).stacksTo(16)));
+
+    public static final DeferredItem<Item> APPLE_JUICE = ITEMS.register("apple_juice",
+            () -> new BottledJuiceItem(new Item.Properties().food(ModFoods.APPLE_JUICE).stacksTo(16)));
 
     public static void register(IEventBus eventBus) {
         ITEMS.register(eventBus);

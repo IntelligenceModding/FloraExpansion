@@ -166,6 +166,13 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .unlockedBy("has_glass_bottle", has(Items.GLASS_BOTTLE))
                 .save(recipeOutput);
 
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.FOOD, ModItems.APPLE_JUICE, 1)
+                .requires(Items.APPLE, 2)
+                .requires(Items.GLASS_BOTTLE)
+                .unlockedBy("has_apples", has(Items.APPLE))
+                .unlockedBy("has_glass_bottle", has(Items.GLASS_BOTTLE))
+                .save(recipeOutput);
+
         //Smelting
         foodSmelting(recipeOutput, ModItems.PINE_NUTS.get(), ModItems.TOASTED_PINE_NUTS.get(), 0.1f, 100);
 

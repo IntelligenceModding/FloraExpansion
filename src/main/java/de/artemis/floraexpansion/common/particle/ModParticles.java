@@ -26,8 +26,11 @@ public class ModParticles {
     public static final Supplier<SimpleParticleType> FLAX_FLOWER =
             PARTICLE_TYPES.register("flax_flower_particles", () -> new SimpleParticleType(true));
 
-    public static final Supplier<SimpleParticleType> PEBBLE_PARTICLES =
-            PARTICLE_TYPES.register("pebble_particles", () -> new SimpleParticleType(true));
+    public static final Supplier<SimpleParticleType> FALLING_CHERRY =
+            PARTICLE_TYPES.register("falling_cherry_particles", () -> new SimpleParticleType(true));
+
+    public static final Supplier<SimpleParticleType> FALLING_APPLE =
+            PARTICLE_TYPES.register("falling_apple_particles", () -> new SimpleParticleType(true));
 
     public static void register(IEventBus eventBus) {
         PARTICLE_TYPES.register(eventBus);

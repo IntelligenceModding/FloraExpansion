@@ -5,7 +5,6 @@ import de.artemis.floraexpansion.common.block.LeafLitterBlock;
 import de.artemis.floraexpansion.common.block.ModBlocks;
 import de.artemis.floraexpansion.common.block.PineLitterBlock;
 import de.artemis.floraexpansion.common.worldgen.feature.ModFeatures;
-import de.artemis.floraexpansion.common.worldgen.treedecorator.FruitingCherryLeavesDecorator;
 import net.minecraft.core.Direction;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.worldgen.BootstrapContext;
@@ -13,8 +12,6 @@ import net.minecraft.data.worldgen.features.FeatureUtils;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.random.SimpleWeightedRandomList;
-import net.minecraft.util.valueproviders.ConstantInt;
-import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
@@ -22,12 +19,8 @@ import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.configurations.FeatureConfiguration;
 import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
 import net.minecraft.world.level.levelgen.feature.configurations.SimpleBlockConfiguration;
-import net.minecraft.world.level.levelgen.feature.configurations.TreeConfiguration;
-import net.minecraft.world.level.levelgen.feature.featuresize.TwoLayersFeatureSize;
-import net.minecraft.world.level.levelgen.feature.foliageplacers.CherryFoliagePlacer;
-import net.minecraft.world.level.levelgen.feature.stateproviders.BlockStateProvider;
+import net.minecraft.world.level.levelgen.feature.stateproviders.SimpleStateProvider;
 import net.minecraft.world.level.levelgen.feature.stateproviders.WeightedStateProvider;
-import net.minecraft.world.level.levelgen.feature.trunkplacers.CherryTrunkPlacer;
 
 import java.util.List;
 
@@ -36,7 +29,6 @@ public class ModConfiguredFeatures {
     public static final ResourceKey<ConfiguredFeature<?, ?>> LEAF_LITTER_KEY = registerKey("leaf_litter");
     public static final ResourceKey<ConfiguredFeature<?, ?>> WILD_FLAX_KEY = registerKey("wild_flax");
     public static final ResourceKey<ConfiguredFeature<?, ?>> PEBBLE_CLUSTER_KEY = registerKey("pebble_cluster");
-    public static final ResourceKey<ConfiguredFeature<?, ?>> FRUITING_CHERRY_TREE_KEY = registerKey("fruiting_cherry_tree");
 
     public static void bootstrap(BootstrapContext<ConfiguredFeature<?, ?>> context) {
 
@@ -97,35 +89,6 @@ public class ModConfiguredFeatures {
                         ),
                         24
                 )
-        );
-
-        register(context, FRUITING_CHERRY_TREE_KEY, Feature.TREE,
-                new TreeConfiguration.TreeConfigurationBuilder(
-                        BlockStateProvider.simple(Blocks.CHERRY_LOG),
-                        new CherryTrunkPlacer(
-                                7,
-                                1,
-                                0,
-                                ConstantInt.of(3),
-                                ConstantInt.of(2),
-                                UniformInt.of(-4, -3),
-                                ConstantInt.of(-1)
-                        ),
-                        BlockStateProvider.simple(Blocks.CHERRY_LEAVES),
-                        new CherryFoliagePlacer(
-                                ConstantInt.of(4),
-                                ConstantInt.of(0),
-                                ConstantInt.of(5),
-                                0.25F,
-                                0.5F,
-                                0.16666667F,
-                                0.33333334F
-                        ),
-                        new TwoLayersFeatureSize(1, 0, 2)
-                )
-                        .decorators(List.of(FruitingCherryLeavesDecorator.INSTANCE))
-                        .ignoreVines()
-                        .build()
         );
     }
 

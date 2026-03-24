@@ -105,7 +105,7 @@ public class ModBlockLootTableProvider extends BlockLootSubProvider {
                         .setRolls(ConstantValue.exactly(1.0F))
                         .when(LootItemBlockStatePropertyCondition.hasBlockStateProperties(ModBlocks.FRUITING_OAK_LEAVES.get())
                                 .setProperties(StatePropertiesPredicate.Builder.properties()
-                                        .hasProperty(FruitingOakLeavesBlock.AGE, 1)))
+                                        .hasProperty(FruitingOakLeavesBlock.AGE, 2)))
                         .add(LootItem.lootTableItem(Items.APPLE)
                                 .apply(SetItemCountFunction.setCount(ConstantValue.exactly(1.0F)))
                                 .apply(ApplyExplosionDecay.explosionDecay())));

@@ -17,8 +17,10 @@ import net.minecraft.world.level.levelgen.feature.configurations.TreeConfigurati
 import net.minecraft.world.level.levelgen.feature.featuresize.TwoLayersFeatureSize;
 import net.minecraft.world.level.levelgen.feature.foliageplacers.BlobFoliagePlacer;
 import net.minecraft.world.level.levelgen.feature.foliageplacers.CherryFoliagePlacer;
+import net.minecraft.world.level.levelgen.feature.foliageplacers.FancyFoliagePlacer;
 import net.minecraft.world.level.levelgen.feature.stateproviders.BlockStateProvider;
 import net.minecraft.world.level.levelgen.feature.trunkplacers.CherryTrunkPlacer;
+import net.minecraft.world.level.levelgen.feature.trunkplacers.FancyTrunkPlacer;
 import net.minecraft.world.level.levelgen.feature.trunkplacers.StraightTrunkPlacer;
 
 import java.util.List;
@@ -44,7 +46,7 @@ public class ModTreeConfiguredFeatures {
             );
 
     public static void bootstrap(BootstrapContext<ConfiguredFeature<?, ?>> context) {
-        TreeConfiguration config = new TreeConfiguration.TreeConfigurationBuilder(
+        TreeConfiguration fruitingCherryConfig = new TreeConfiguration.TreeConfigurationBuilder(
                 BlockStateProvider.simple(Blocks.CHERRY_LOG),
                 new CherryTrunkPlacer(
                         7,
@@ -71,7 +73,7 @@ public class ModTreeConfiguredFeatures {
                 .ignoreVines()
                 .build();
 
-        FeatureUtils.register(context, FRUITING_CHERRY_TREE_KEY, Feature.TREE, config);
+        FeatureUtils.register(context, FRUITING_CHERRY_TREE_KEY, Feature.TREE, fruitingCherryConfig);
 
         TreeConfiguration fruitingOakConfig = new TreeConfiguration.TreeConfigurationBuilder(
                 BlockStateProvider.simple(Blocks.OAK_LOG),
@@ -86,7 +88,17 @@ public class ModTreeConfiguredFeatures {
 
         FeatureUtils.register(context, FRUITING_OAK_TREE_KEY, Feature.TREE, fruitingOakConfig);
 
-        // Leave fancy temporarily identical until normal growth is confirmed working
-        FeatureUtils.register(context, FANCY_FRUITING_OAK_TREE_KEY, Feature.TREE, fruitingOakConfig);
+        TreeConfiguration fancyFruitingOakConfig = new TreeConfiguration.TreeConfigurationBuilder(
+                BlockStateProvider.simple(Blocks.OAK_LOG),
+                new FancyTrunkPlacer(3, 11, 0),
+                BlockStateProvider.simple(Blocks.OAK_LEAVES),
+                new FancyFoliagePlacer(ConstantInt.of(2), ConstantInt.of(4), 4),
+                new TwoLayersFeatureSize(0, 0, 0)
+        )
+                .decorators(List.of(FruitingOakLeavesDecorator.INSTANCE))
+                .ignoreVines()
+                .build();
+
+        FeatureUtils.register(context, FANCY_FRUITING_OAK_TREE_KEY, Feature.TREE, fancyFruitingOakConfig);
     }
 }

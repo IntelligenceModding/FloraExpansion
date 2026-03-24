@@ -11,8 +11,7 @@ public class FlaxFlowerParticles extends TextureSheetParticle {
     private final float wobblePhase = random.nextFloat() * (float) Math.PI * 2f;
     private final float rotationSpeed;
 
-    protected FlaxFlowerParticles(ClientLevel level, double x, double y, double z,
-                                  SpriteSet sprites, double vx, double vy, double vz) {
+    protected FlaxFlowerParticles(ClientLevel level, double x, double y, double z, SpriteSet sprites, double vx, double vy, double vz) {
         super(level, x, y, z, 0, 0, 0);
 
         this.friction = 0.96F;

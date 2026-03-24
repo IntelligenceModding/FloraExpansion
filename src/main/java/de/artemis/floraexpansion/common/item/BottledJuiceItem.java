@@ -10,9 +10,9 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.entity.LivingEntity;
 import org.jetbrains.annotations.NotNull;
 
-public class CherryJuiceItem extends Item {
+public class BottledJuiceItem extends Item {
 
-    public CherryJuiceItem(Properties properties) {
+    public BottledJuiceItem(Properties properties) {
         super(properties);
     }
 

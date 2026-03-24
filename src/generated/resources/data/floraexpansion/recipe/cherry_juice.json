@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "floraexpansion:cherries"
+    },
+    {
+      "item": "floraexpansion:cherries"
+    },
+    {
+      "item": "floraexpansion:cherries"
+    },
+    {
+      "item": "minecraft:glass_bottle"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "floraexpansion:cherry_juice"
+  }
+}

@@ -45,6 +45,7 @@ public class ModCreativeModeTabs {
                         output.accept(ModItems.CHERRY_JUICE);
                         output.accept(ModBlocks.FRUITING_OAK_LEAVES);
                         output.accept(ModBlocks.APPLE_CORE);
+                        output.accept(ModItems.APPLE_JUICE);
 
                     }).build());
 

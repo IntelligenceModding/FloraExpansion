@@ -89,7 +89,7 @@
           "block": "floraexpansion:fruiting_oak_leaves",
           "condition": "minecraft:block_state_property",
           "properties": {
-            "age": "1"
+            "age": "2"
           }
         }
       ],

@@ -28,6 +28,7 @@ public class ModItemModelProvider extends ItemModelProvider {
         basicItem(ModItems.CHERRIES.get());
         basicItem(ModItems.SWEET_BERRY_MIX.get());
         basicItem(ModItems.CHERRY_JUICE.get());
+        basicItem(ModItems.APPLE_JUICE.get());
 
         basicItem(ModBlocks.APPLE_CORE.get().asItem());
     }

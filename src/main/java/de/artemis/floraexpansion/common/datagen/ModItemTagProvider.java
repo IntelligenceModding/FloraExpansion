@@ -59,6 +59,7 @@ public class ModItemTagProvider extends ItemTagsProvider {
                 .add(ModItems.CHERRIES.get())
                 .add(ModItems.SWEET_BERRY_MIX.get())
                 .add(ModItems.CHERRY_JUICE.get())
+                .add(ModItems.APPLE_JUICE.get())
                 .add(ModItems.FOREST_SNACK.get());
 
         tag(Tags.Items.STRINGS)

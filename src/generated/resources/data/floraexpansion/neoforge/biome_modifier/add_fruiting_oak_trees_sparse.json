@@ -1,0 +1,12 @@
+{
+  "type": "neoforge:add_features",
+  "biomes": [
+    "minecraft:plains",
+    "minecraft:meadow",
+    "minecraft:river",
+    "minecraft:savanna",
+    "minecraft:wooded_badlands"
+  ],
+  "features": "floraexpansion:fruiting_oak_sparse_placed",
+  "step": "vegetal_decoration"
+}

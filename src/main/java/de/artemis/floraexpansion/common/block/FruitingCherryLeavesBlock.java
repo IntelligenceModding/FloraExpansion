@@ -1,6 +1,8 @@
 package de.artemis.floraexpansion.common.block;
 
 import de.artemis.floraexpansion.common.item.ModItems;
+import de.artemis.floraexpansion.common.particle.FallingFruitParticle;
+import de.artemis.floraexpansion.common.particle.ModParticles;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
@@ -52,6 +54,22 @@ public class FruitingCherryLeavesBlock extends CherryLeavesBlock implements Bone
         if (age < MAX_AGE && random.nextInt(8) == 0) {
             level.setBlock(blockPos, blockState.setValue(AGE, age + 1), 2);
         }
+    }
+
+    @Override
+    public void animateTick(@NotNull BlockState blockState, @NotNull Level level, @NotNull BlockPos blockPos, @NotNull RandomSource random) {
+        super.animateTick(blockState, level, blockPos, random);
+
+        if (blockState.getValue(AGE) == 2) {
+            return;
+        }
+
+        // about every 5 seconds on average per block
+        if (random.nextInt(100) != 0) {
+            return;
+        }
+
+        FallingFruitParticle.spawnFromFruitingLeaves(level, blockPos, ModParticles.FALLING_CHERRY.get());
     }
 
     @Override

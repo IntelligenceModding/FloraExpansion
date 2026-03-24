@@ -48,5 +48,6 @@ public class ModLanguageProvider extends net.neoforged.neoforge.common.data.Lang
         add(ModItems.CHERRIES.get(), "Cherries");
         add(ModItems.SWEET_BERRY_MIX.get(), "Sweet Berry Mix");
         add(ModItems.CHERRY_JUICE.get(), "Cherry Juice");
+        add(ModItems.APPLE_JUICE.get(), "Apple Juice");
     }
 }
