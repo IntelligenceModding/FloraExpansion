@@ -25,17 +25,46 @@ public class ModItemTagProvider extends ItemTagsProvider {
     protected void addTags(HolderLookup.@NotNull Provider provider) {
 
         //Minecraft
-        tag(ItemTags.CHICKEN_FOOD).add(ModItems.PINE_NUTS.get()).add(ModItems.FLAX_SEED.get());
-        tag(ItemTags.PARROT_FOOD).add(ModItems.PINE_NUTS.get()).add(ModItems.FLAX_SEED.get());
-        tag(ItemTags.PARROT_POISONOUS_FOOD).add(ModItems.TOASTED_PINE_NUTS.get());
-        tag(ItemTags.ARROWS).add(ModItems.PINE_CONE.get()).add(ModItems.PEBBLES.get());
-        tag(ItemTags.DAMPENS_VIBRATIONS).add(ModBlocks.LEAF_LITTER.get().asItem()).add(ModBlocks.PINE_LITTER.get().asItem()).add(ModBlocks.LINEN_CARPET.get().asItem());
-        tag(ItemTags.VILLAGER_PLANTABLE_SEEDS).add(ModItems.FLAX_SEED.get());
-        tag(ItemTags.SAPLINGS).add(ModBlocks.CHERRY_PIT.get().asItem());
+        tag(ItemTags.CHICKEN_FOOD)
+                .add(ModItems.PINE_NUTS.get())
+                .add(ModItems.FLAX_SEED.get());
+
+        tag(ItemTags.PARROT_FOOD)
+                .add(ModItems.PINE_NUTS.get())
+                .add(ModItems.FLAX_SEED.get());
+
+        tag(ItemTags.PARROT_POISONOUS_FOOD)
+                .add(ModItems.TOASTED_PINE_NUTS.get());
+
+        tag(ItemTags.ARROWS)
+                .add(ModItems.PINE_CONE.get())
+                .add(ModItems.PEBBLES.get());
+
+        tag(ItemTags.DAMPENS_VIBRATIONS)
+                .add(ModBlocks.LEAF_LITTER.get().asItem())
+                .add(ModBlocks.PINE_LITTER.get().asItem())
+                .add(ModBlocks.LINEN_CARPET.get().asItem());
+
+        tag(ItemTags.VILLAGER_PLANTABLE_SEEDS)
+                .add(ModItems.FLAX_SEED.get());
+
+        tag(ItemTags.SAPLINGS)
+                .add(ModBlocks.APPLE_CORE.get().asItem())
+                .add(ModBlocks.CHERRY_PIT.get().asItem());
 
         //NeoForge
-        tag(Tags.Items.FOODS).add(ModItems.PINE_NUTS.get()).add(ModItems.TOASTED_PINE_NUTS.get()).add(ModItems.CHERRIES.get()).add(ModItems.SWEET_BERRY_MIX.get()).add(ModItems.FOREST_SNACK.get());
-        tag(Tags.Items.STRINGS).add(ModItems.LINEN_THREAD.get());
-        tag(Tags.Items.SEEDS).add(ModItems.FLAX_SEED.get());
+        tag(Tags.Items.FOODS)
+                .add(ModItems.PINE_NUTS.get())
+                .add(ModItems.TOASTED_PINE_NUTS.get())
+                .add(ModItems.CHERRIES.get())
+                .add(ModItems.SWEET_BERRY_MIX.get())
+                .add(ModItems.CHERRY_JUICE.get())
+                .add(ModItems.FOREST_SNACK.get());
+
+        tag(Tags.Items.STRINGS)
+                .add(ModItems.LINEN_THREAD.get());
+
+        tag(Tags.Items.SEEDS)
+                .add(ModItems.FLAX_SEED.get());
     }
 }

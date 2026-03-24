@@ -20,6 +20,12 @@
     },
     "floraexpansion:cherry_pit": {
       "chance": 0.3
+    },
+    "floraexpansion:cherries": {
+      "chance": 0.3
+    },
+    "floraexpansion:apple_core": {
+      "chance": 0.3
     }
   }
 }

@@ -7,12 +7,10 @@ import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.recipes.*;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.level.ItemLike;
-import net.minecraft.world.level.block.Blocks;
 import net.neoforged.neoforge.common.conditions.IConditionBuilder;
 import org.jetbrains.annotations.NotNull;
 
@@ -154,6 +152,18 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
         ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, Items.BROWN_DYE, 1)
                 .requires(ModBlocks.CHERRY_PIT, 1)
                 .unlockedBy("has_cherry_pit", has(ModBlocks.CHERRY_PIT))
+                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath(FloraExpansion.MODID, "brown_dye_from_cherry_pit"));
+
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, Items.BROWN_DYE, 1)
+                .requires(ModBlocks.APPLE_CORE, 1)
+                .unlockedBy("has_apple_core", has(ModBlocks.APPLE_CORE))
+                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath(FloraExpansion.MODID, "brown_dye_from_apple_core"));
+
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.FOOD, ModItems.CHERRY_JUICE, 1)
+                .requires(ModItems.CHERRIES, 3)
+                .requires(Items.GLASS_BOTTLE)
+                .unlockedBy("has_cherries", has(ModItems.CHERRIES))
+                .unlockedBy("has_glass_bottle", has(Items.GLASS_BOTTLE))
                 .save(recipeOutput);
 
         //Smelting

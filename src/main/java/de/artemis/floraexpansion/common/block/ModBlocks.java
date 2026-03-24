@@ -4,7 +4,6 @@ import de.artemis.floraexpansion.FloraExpansion;
 import de.artemis.floraexpansion.common.item.ModItems;
 import de.artemis.floraexpansion.common.worldgen.ModTreeGrowers;
 import net.minecraft.world.item.BlockItem;
-import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockBehaviour;
@@ -52,8 +51,22 @@ public class ModBlocks {
     public static final DeferredBlock<Block> CHERRY_PIT = registerBlock("cherry_pit",
             () -> new SaplingBlock(ModTreeGrowers.CHERRY_PIT, BlockBehaviour.Properties.ofFullCopy(Blocks.CHERRY_SAPLING)));
 
+    public static final DeferredBlock<Block> POTTED_CHERRY_PIT = BLOCKS.register("potted_cherry_pit",
+            () -> new FlowerPotBlock(() -> (FlowerPotBlock) Blocks.FLOWER_POT, CHERRY_PIT, BlockBehaviour.Properties.ofFullCopy(Blocks.POTTED_CHERRY_SAPLING).noOcclusion()));
+
     public static final DeferredBlock<Block> FRUITING_CHERRY_LEAVES = registerBlock("fruiting_cherry_leaves",
             () -> new FruitingCherryLeavesBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.CHERRY_LEAVES).randomTicks()));
+
+    public static final DeferredBlock<Block> APPLE_CORE = registerBlock("apple_core",
+            () -> new SaplingBlock(ModTreeGrowers.APPLE_CORE, BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_SAPLING)));
+
+    public static final DeferredBlock<Block> POTTED_APPLE_CORE = BLOCKS.register("potted_apple_core",
+            () -> new FlowerPotBlock(() -> (FlowerPotBlock) Blocks.FLOWER_POT, APPLE_CORE, BlockBehaviour.Properties.ofFullCopy(Blocks.POTTED_OAK_SAPLING).noOcclusion()));
+
+    public static final DeferredBlock<Block> FRUITING_OAK_LEAVES = registerBlock("fruiting_oak_leaves",
+            () -> new FruitingOakLeavesBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_LEAVES).randomTicks()));
+
+
 
     private static <T extends Block> DeferredBlock<T> registerBlock(String name, Supplier<T> block) {
         DeferredBlock<T> toReturn = BLOCKS.register(name, block);

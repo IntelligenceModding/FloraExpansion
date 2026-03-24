@@ -9,4 +9,5 @@ public class ModFoods {
     public static final FoodProperties TOASTED_PINE_NUTS = (new FoodProperties.Builder()).nutrition(2).saturationModifier(0.3F).fast().build();
     public static final FoodProperties FOREST_SNACK = (new FoodProperties.Builder()).nutrition(6).saturationModifier(0.6F).build();
     public static final FoodProperties SWEET_BERRY_MIX = (new FoodProperties.Builder()).nutrition(5).saturationModifier(0.4F).build();
+    public static final FoodProperties CHERRY_JUICE = (new FoodProperties.Builder()).nutrition(4).saturationModifier(0.45F).build();
 }

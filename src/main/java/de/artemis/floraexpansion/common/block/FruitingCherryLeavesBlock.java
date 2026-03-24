@@ -1,6 +1,5 @@
 package de.artemis.floraexpansion.common.block;
 
-import com.mojang.serialization.MapCodec;
 import de.artemis.floraexpansion.common.item.ModItems;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -34,30 +33,30 @@ public class FruitingCherryLeavesBlock extends CherryLeavesBlock implements Bone
     }
 
     @Override
-    protected void createBlockStateDefinition(StateDefinition.Builder<net.minecraft.world.level.block.Block, BlockState> builder) {
+    protected void createBlockStateDefinition(StateDefinition.@NotNull Builder<net.minecraft.world.level.block.Block, BlockState> builder) {
         super.createBlockStateDefinition(builder);
         builder.add(AGE);
     }
 
     @Override
-    protected boolean isRandomlyTicking(BlockState state) {
-        return super.isRandomlyTicking(state) || state.getValue(AGE) < MAX_AGE;
+    protected boolean isRandomlyTicking(@NotNull BlockState blockState) {
+        return super.isRandomlyTicking(blockState) || blockState.getValue(AGE) < MAX_AGE;
     }
 
     @Override
-    protected void randomTick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {
-        super.randomTick(state, level, pos, random);
+    protected void randomTick(@NotNull BlockState blockState, @NotNull ServerLevel level, @NotNull BlockPos blockPos, @NotNull RandomSource random) {
+        super.randomTick(blockState, level, blockPos, random);
 
         // Only regrow fruit here. Breaking/decay drops are handled by loot tables.
-        int age = state.getValue(AGE);
+        int age = blockState.getValue(AGE);
         if (age < MAX_AGE && random.nextInt(8) == 0) {
-            level.setBlock(pos, state.setValue(AGE, age + 1), 2);
+            level.setBlock(blockPos, blockState.setValue(AGE, age + 1), 2);
         }
     }
 
     @Override
-    protected @NotNull InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hitResult) {
-        int age = state.getValue(AGE);
+    protected @NotNull InteractionResult useWithoutItem(BlockState blockState, @NotNull Level level, @NotNull BlockPos blockPos, @NotNull Player player, @NotNull BlockHitResult result) {
+        int age = blockState.getValue(AGE);
 
         // Stage 0 = normal leaves, nothing to harvest
         if (age <= 0) {
@@ -73,20 +72,20 @@ public class FruitingCherryLeavesBlock extends CherryLeavesBlock implements Bone
             };
 
             if (amount > 0) {
-                spawnHarvestedCherries(level, pos, hitResult, amount);
+                spawnHarvestedCherries(level, blockPos, result, amount);
             }
 
-            level.setBlock(pos, state.setValue(AGE, 0), 2);
-            level.playSound(null, pos, SoundEvents.SWEET_BERRY_BUSH_PICK_BERRIES, SoundSource.BLOCKS, 1.0F,
+            level.setBlock(blockPos, blockState.setValue(AGE, 0), 2);
+            level.playSound(null, blockPos, SoundEvents.SWEET_BERRY_BUSH_PICK_BERRIES, SoundSource.BLOCKS, 1.0F,
                     0.8F + level.random.nextFloat() * 0.4F);
         }
 
         return InteractionResult.sidedSuccess(level.isClientSide);
     }
 
-    private static void spawnHarvestedCherries(Level level, BlockPos pos, BlockHitResult hitResult, int amount) {
-        Vec3 center = Vec3.atCenterOf(pos);
-        Direction face = hitResult.getDirection();
+    private static void spawnHarvestedCherries(Level level, BlockPos blockPos, BlockHitResult result, int amount) {
+        Vec3 center = Vec3.atCenterOf(blockPos);
+        Direction face = result.getDirection();
 
         double offset = 0.55D;
         double spawnX = center.x + face.getStepX() * offset;
@@ -112,18 +111,18 @@ public class FruitingCherryLeavesBlock extends CherryLeavesBlock implements Bone
     }
 
     @Override
-    public boolean isValidBonemealTarget(LevelReader levelReader, BlockPos blockPos, BlockState blockState) {
+    public boolean isValidBonemealTarget(@NotNull LevelReader levelReader, @NotNull BlockPos blockPos, BlockState blockState) {
         return blockState.getValue(AGE) < MAX_AGE;
     }
 
     @Override
-    public boolean isBonemealSuccess(Level level, RandomSource random, BlockPos pos, BlockState state) {
-        return state.getValue(AGE) < MAX_AGE;
+    public boolean isBonemealSuccess(@NotNull Level level, @NotNull RandomSource random, @NotNull BlockPos blockPos, BlockState blockState) {
+        return blockState.getValue(AGE) < MAX_AGE;
     }
 
     @Override
-    public void performBonemeal(ServerLevel level, RandomSource random, BlockPos pos, BlockState state) {
-        int newAge = Math.min(MAX_AGE, state.getValue(AGE) + 1);
-        level.setBlock(pos, state.setValue(AGE, newAge), 2);
+    public void performBonemeal(ServerLevel level, @NotNull RandomSource random, @NotNull BlockPos blockPos, BlockState blockState) {
+        int newAge = Math.min(MAX_AGE, blockState.getValue(AGE) + 1);
+        level.setBlock(blockPos, blockState.setValue(AGE, newAge), 2);
     }
 }

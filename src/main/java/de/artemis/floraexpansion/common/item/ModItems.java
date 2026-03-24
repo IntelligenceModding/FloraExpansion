@@ -51,6 +51,9 @@ public class ModItems {
     public static final DeferredItem<Item> CHERRIES = ITEMS.register("cherries",
             () -> new CherriesItem(new Item.Properties().food(ModFoods.CHERRIES)));
 
+    public static final DeferredItem<Item> CHERRY_JUICE = ITEMS.register("cherry_juice",
+            () -> new CherryJuiceItem(new Item.Properties().food(ModFoods.CHERRY_JUICE).stacksTo(16)));
+
     public static void register(IEventBus eventBus) {
         ITEMS.register(eventBus);
     }

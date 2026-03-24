@@ -21,16 +21,45 @@ public class ModBlockTagProvider extends BlockTagsProvider {
     protected void addTags(HolderLookup.@NotNull Provider provider) {
 
         //Minecraft
-        tag(BlockTags.CLIMBABLE).add(ModBlocks.TWIG_LADDER.get());
-        tag(BlockTags.MINEABLE_WITH_PICKAXE).add(ModBlocks.PEBBLE_BLOCK.get());
-        tag(BlockTags.MINEABLE_WITH_SHOVEL).add(ModBlocks.PEBBLE_BLOCK.get());
-        tag(BlockTags.MINEABLE_WITH_HOE).add(ModBlocks.LINEN_BLOCK.get()).add(ModBlocks.FLAX_BALE.get()).add(ModBlocks.FRUITING_CHERRY_LEAVES.get());
-        tag(BlockTags.MAINTAINS_FARMLAND).add(ModBlocks.FLAX_CROP.get());
-        tag(BlockTags.CROPS).add(ModBlocks.FLAX_CROP.get());
-        tag(BlockTags.SWORD_EFFICIENT).add(ModBlocks.FLAX_CROP.get());
-        tag(BlockTags.BEE_GROWABLES).add(ModBlocks.FLAX_CROP.get()).add(ModBlocks.FRUITING_CHERRY_LEAVES.get());
-        tag(BlockTags.SAPLINGS).add(ModBlocks.CHERRY_PIT.get());
-        tag(BlockTags.LEAVES).add(ModBlocks.FRUITING_CHERRY_LEAVES.get());
-        tag(BlockTags.FLOWERS).add(ModBlocks.FRUITING_CHERRY_LEAVES.get());
+        tag(BlockTags.CLIMBABLE)
+                .add(ModBlocks.TWIG_LADDER.get());
+
+        tag(BlockTags.MINEABLE_WITH_PICKAXE)
+                .add(ModBlocks.PEBBLE_BLOCK.get());
+
+        tag(BlockTags.MINEABLE_WITH_SHOVEL)
+                .add(ModBlocks.PEBBLE_BLOCK.get());
+
+        tag(BlockTags.MINEABLE_WITH_HOE)
+                .add(ModBlocks.LINEN_BLOCK.get())
+                .add(ModBlocks.FLAX_BALE.get())
+                .add(ModBlocks.FRUITING_OAK_LEAVES.get())
+                .add(ModBlocks.FRUITING_CHERRY_LEAVES.get());
+
+        tag(BlockTags.MAINTAINS_FARMLAND)
+                .add(ModBlocks.FLAX_CROP.get());
+
+        tag(BlockTags.CROPS)
+                .add(ModBlocks.FLAX_CROP.get());
+
+        tag(BlockTags.SWORD_EFFICIENT)
+                .add(ModBlocks.FLAX_CROP.get());
+
+        tag(BlockTags.BEE_GROWABLES)
+                .add(ModBlocks.FLAX_CROP.get())
+                .add(ModBlocks.FRUITING_OAK_LEAVES.get())
+                .add(ModBlocks.FRUITING_CHERRY_LEAVES.get());
+
+        tag(BlockTags.SAPLINGS)
+                .add(ModBlocks.APPLE_CORE.get())
+                .add(ModBlocks.CHERRY_PIT.get());
+
+        tag(BlockTags.LEAVES)
+                .add(ModBlocks.FRUITING_OAK_LEAVES.get())
+                .add(ModBlocks.FRUITING_CHERRY_LEAVES.get());
+
+        tag(BlockTags.FLOWERS)
+                .add(ModBlocks.FRUITING_OAK_LEAVES.get())
+                .add(ModBlocks.FRUITING_CHERRY_LEAVES.get());
     }
 }

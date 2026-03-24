@@ -1,6 +1,7 @@
 package de.artemis.floraexpansion.common.datagen;
 
 import de.artemis.floraexpansion.common.block.FruitingCherryLeavesBlock;
+import de.artemis.floraexpansion.common.block.FruitingOakLeavesBlock;
 import de.artemis.floraexpansion.common.block.ModBlocks;
 import de.artemis.floraexpansion.common.item.ModItems;
 import net.minecraft.advancements.critereon.StatePropertiesPredicate;
@@ -22,7 +23,6 @@ import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
 import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -35,6 +35,10 @@ public class ModBlockLootTableProvider extends BlockLootSubProvider {
     @Override
     protected void generate() {
         add(ModBlocks.FRUITING_CHERRY_LEAVES.get(), createFruitingCherryLeavesDrops());
+        add(ModBlocks.FRUITING_OAK_LEAVES.get(), createFruitingOakLeavesDrops());
+
+        dropPottedContents(ModBlocks.POTTED_CHERRY_PIT.get());
+        dropPottedContents(ModBlocks.POTTED_APPLE_CORE.get());
     }
 
     private LootTable.Builder createFruitingCherryLeavesDrops() {
@@ -43,7 +47,6 @@ public class ModBlockLootTableProvider extends BlockLootSubProvider {
 
         return createSilkTouchOrShearsDispatchTable(
                 ModBlocks.FRUITING_CHERRY_LEAVES.get(),
-
                 LootItem.lootTableItem(Items.CHERRY_SAPLING)
                         .when(BonusLevelTableCondition.bonusLevelFlatChance(
                                 fortune,
@@ -81,10 +84,40 @@ public class ModBlockLootTableProvider extends BlockLootSubProvider {
                                 .apply(ApplyExplosionDecay.explosionDecay())));
     }
 
+    private LootTable.Builder createFruitingOakLeavesDrops() {
+        var enchantmentLookup = registries.lookupOrThrow(Registries.ENCHANTMENT);
+        var fortune = enchantmentLookup.getOrThrow(Enchantments.FORTUNE);
+
+        return createSilkTouchOrShearsDispatchTable(
+                ModBlocks.FRUITING_OAK_LEAVES.get(),
+                LootItem.lootTableItem(Items.OAK_SAPLING)
+                        .when(BonusLevelTableCondition.bonusLevelFlatChance(
+                                fortune,
+                                0.05F, 0.0625F, 0.083333336F, 0.1F
+                        ))
+                        .otherwise(LootItem.lootTableItem(Items.STICK)
+                                .when(BonusLevelTableCondition.bonusLevelFlatChance(
+                                        fortune,
+                                        0.02F, 0.022222223F, 0.025F, 0.033333335F, 0.1F
+                                )))
+        )
+                .withPool(LootPool.lootPool()
+                        .setRolls(ConstantValue.exactly(1.0F))
+                        .when(LootItemBlockStatePropertyCondition.hasBlockStateProperties(ModBlocks.FRUITING_OAK_LEAVES.get())
+                                .setProperties(StatePropertiesPredicate.Builder.properties()
+                                        .hasProperty(FruitingOakLeavesBlock.AGE, 1)))
+                        .add(LootItem.lootTableItem(Items.APPLE)
+                                .apply(SetItemCountFunction.setCount(ConstantValue.exactly(1.0F)))
+                                .apply(ApplyExplosionDecay.explosionDecay())));
+    }
+
     @Override
     protected @NotNull Iterable<Block> getKnownBlocks() {
         return List.of(
-                ModBlocks.FRUITING_CHERRY_LEAVES.get()
+                ModBlocks.FRUITING_CHERRY_LEAVES.get(),
+                ModBlocks.FRUITING_OAK_LEAVES.get(),
+                ModBlocks.POTTED_CHERRY_PIT.get(),
+                ModBlocks.POTTED_APPLE_CORE.get()
         );
     }
 }

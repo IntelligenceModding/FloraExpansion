@@ -14,7 +14,7 @@ public class ModLanguageProvider extends net.neoforged.neoforge.common.data.Lang
     protected void addTranslations() {
         //Miscellaneous
 
-        add("floraexpansion.creative_tab", "Artemis' Flora Expansion");
+        add("floraexpansion.creative_tab", "Flora Expansion");
 
         //Blocks
         add(ModBlocks.PINE_LITTER.get(), "Pine Litter");
@@ -28,6 +28,10 @@ public class ModLanguageProvider extends net.neoforged.neoforge.common.data.Lang
         add(ModBlocks.FLAX_BALE.get(), "Flax Bale");
         add(ModBlocks.CHERRY_PIT.get(), "Cherry Pit");
         add(ModBlocks.FRUITING_CHERRY_LEAVES.get(), "Fruiting Cherry Leaves");
+        add(ModBlocks.POTTED_CHERRY_PIT.get(), "Potted Cherry Pit");
+        add(ModBlocks.APPLE_CORE.get(), "Apple Core");
+        add(ModBlocks.POTTED_APPLE_CORE.get(), "Potted Apple Core");
+        add(ModBlocks.FRUITING_OAK_LEAVES.get(), "Fruiting Oak Leaves");
 
         //Items
         add(ModItems.PINE_CONE.get(), "Pine Cone");
@@ -43,5 +47,6 @@ public class ModLanguageProvider extends net.neoforged.neoforge.common.data.Lang
         add(ModItems.PEBBLES.get(), "Pebbles");
         add(ModItems.CHERRIES.get(), "Cherries");
         add(ModItems.SWEET_BERRY_MIX.get(), "Sweet Berry Mix");
+        add(ModItems.CHERRY_JUICE.get(), "Cherry Juice");
     }
 }

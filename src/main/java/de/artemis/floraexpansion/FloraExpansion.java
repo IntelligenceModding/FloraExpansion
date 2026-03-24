@@ -6,6 +6,8 @@ import de.artemis.floraexpansion.common.loot.ModLootModifiers;
 import de.artemis.floraexpansion.common.particle.ModParticles;
 import de.artemis.floraexpansion.common.worldgen.feature.ModFeatures;
 import de.artemis.floraexpansion.common.worldgen.treedecorator.ModTreeDecorators;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.FlowerPotBlock;
 import org.slf4j.Logger;
 
 import com.mojang.logging.LogUtils;
@@ -53,6 +55,10 @@ public class FloraExpansion {
     }
 
     private void commonSetup(FMLCommonSetupEvent event) {
+        event.enqueueWork(() -> {
+            ((FlowerPotBlock) Blocks.FLOWER_POT).addPlant(ModBlocks.CHERRY_PIT.getId(), ModBlocks.POTTED_CHERRY_PIT);
+            ((FlowerPotBlock) Blocks.FLOWER_POT).addPlant(ModBlocks.APPLE_CORE.getId(), ModBlocks.POTTED_APPLE_CORE);
+        });
     }
 
     private void addCreative(BuildCreativeModeTabContentsEvent event) {

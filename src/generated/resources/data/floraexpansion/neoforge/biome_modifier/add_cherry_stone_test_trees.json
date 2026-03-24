@@ -1,6 +1,0 @@
-{
-  "type": "neoforge:add_features",
-  "biomes": "minecraft:cherry_grove",
-  "features": "floraexpansion:cherry_stone_test_tree_placed",
-  "step": "vegetal_decoration"
-}

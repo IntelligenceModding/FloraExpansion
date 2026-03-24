@@ -1,6 +1,7 @@
 package de.artemis.floraexpansion.common.datagen;
 
 import de.artemis.floraexpansion.FloraExpansion;
+import de.artemis.floraexpansion.common.block.ModBlocks;
 import de.artemis.floraexpansion.common.item.ModItems;
 import net.minecraft.data.PackOutput;
 import net.neoforged.neoforge.client.model.generators.ItemModelProvider;
@@ -26,5 +27,8 @@ public class ModItemModelProvider extends ItemModelProvider {
         basicItem(ModItems.PEBBLES.get());
         basicItem(ModItems.CHERRIES.get());
         basicItem(ModItems.SWEET_BERRY_MIX.get());
+        basicItem(ModItems.CHERRY_JUICE.get());
+
+        basicItem(ModBlocks.APPLE_CORE.get().asItem());
     }
 }

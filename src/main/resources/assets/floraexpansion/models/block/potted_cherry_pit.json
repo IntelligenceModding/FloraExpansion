@@ -1,0 +1,9 @@
+{
+  "parent": "minecraft:block/flower_pot_cross",
+  "render_type": "cutout",
+  "textures": {
+    "plant": "floraexpansion:block/planted_cherry_pit",
+    "dirt": "minecraft:block/rooted_dirt",
+    "flowerpot": "minecraft:block/flower_pot"
+  }
+}

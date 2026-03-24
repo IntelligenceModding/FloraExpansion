@@ -5,7 +5,7 @@ import de.artemis.floraexpansion.common.block.LeafLitterBlock;
 import de.artemis.floraexpansion.common.block.ModBlocks;
 import de.artemis.floraexpansion.common.block.PineLitterBlock;
 import de.artemis.floraexpansion.common.worldgen.feature.ModFeatures;
-import de.artemis.floraexpansion.common.worldgen.treedecorator.CherryStoneLeafDecorator;
+import de.artemis.floraexpansion.common.worldgen.treedecorator.FruitingCherryLeavesDecorator;
 import net.minecraft.core.Direction;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.worldgen.BootstrapContext;
@@ -36,7 +36,7 @@ public class ModConfiguredFeatures {
     public static final ResourceKey<ConfiguredFeature<?, ?>> LEAF_LITTER_KEY = registerKey("leaf_litter");
     public static final ResourceKey<ConfiguredFeature<?, ?>> WILD_FLAX_KEY = registerKey("wild_flax");
     public static final ResourceKey<ConfiguredFeature<?, ?>> PEBBLE_CLUSTER_KEY = registerKey("pebble_cluster");
-    public static final ResourceKey<ConfiguredFeature<?, ?>> CHERRY_STONE_TEST_TREE_KEY = registerKey("cherry_stone_test_tree");
+    public static final ResourceKey<ConfiguredFeature<?, ?>> FRUITING_CHERRY_TREE_KEY = registerKey("fruiting_cherry_tree");
 
     public static void bootstrap(BootstrapContext<ConfiguredFeature<?, ?>> context) {
 
@@ -99,7 +99,7 @@ public class ModConfiguredFeatures {
                 )
         );
 
-        register(context, CHERRY_STONE_TEST_TREE_KEY, Feature.TREE,
+        register(context, FRUITING_CHERRY_TREE_KEY, Feature.TREE,
                 new TreeConfiguration.TreeConfigurationBuilder(
                         BlockStateProvider.simple(Blocks.CHERRY_LOG),
                         new CherryTrunkPlacer(
@@ -123,7 +123,7 @@ public class ModConfiguredFeatures {
                         ),
                         new TwoLayersFeatureSize(1, 0, 2)
                 )
-                        .decorators(List.of(CherryStoneLeafDecorator.INSTANCE))
+                        .decorators(List.of(FruitingCherryLeavesDecorator.INSTANCE))
                         .ignoreVines()
                         .build()
         );
