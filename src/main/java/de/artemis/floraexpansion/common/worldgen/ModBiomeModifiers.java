@@ -19,12 +19,12 @@ public class ModBiomeModifiers {
     public static final ResourceKey<BiomeModifier> ADD_WILD_FLAX = registerKey("add_wild_flax");
     public static final ResourceKey<BiomeModifier> ADD_PEBBLE_CLUSTERS = registerKey("add_pebble_clusters");
     public static final ResourceKey<BiomeModifier> ADD_FRUITING_CHERRY_TREES = registerKey("add_fruiting_cherry_trees");
-
     public static final ResourceKey<BiomeModifier> ADD_FRUITING_OAK_TREES_SPARSE = registerKey("add_fruiting_oak_trees_sparse");
     public static final ResourceKey<BiomeModifier> ADD_FRUITING_OAK_TREES_FOREST = registerKey("add_fruiting_oak_trees_forest");
     public static final ResourceKey<BiomeModifier> ADD_FANCY_FRUITING_OAK_TREES_RARE = registerKey("add_fancy_fruiting_oak_trees_rare");
     public static final ResourceKey<BiomeModifier> ADD_FANCY_FRUITING_OAK_TREES_JUNGLE = registerKey("add_fancy_fruiting_oak_trees_jungle");
     public static final ResourceKey<BiomeModifier> ADD_FRUITING_OAK_TREES_DARK_FOREST = registerKey("add_fruiting_oak_trees_dark_forest");
+    public static final ResourceKey<BiomeModifier> ADD_GIANT_CACTUS = registerKey("add_giant_cactus");
 
     public static void bootstrap(BootstrapContext<BiomeModifier> context) {
         var placedFeatures = context.lookup(Registries.PLACED_FEATURE);
@@ -118,6 +118,17 @@ public class ModBiomeModifiers {
                         biomes.getOrThrow(Biomes.DARK_FOREST)
                 ),
                 HolderSet.direct(placedFeatures.getOrThrow(ModPlacedFeatures.FRUITING_OAK_DARK_FOREST_PLACED_KEY)),
+                GenerationStep.Decoration.VEGETAL_DECORATION
+        ));
+
+        context.register(ADD_GIANT_CACTUS, new BiomeModifiers.AddFeaturesBiomeModifier(
+                HolderSet.direct(
+                        biomes.getOrThrow(Biomes.DESERT),
+                        biomes.getOrThrow(Biomes.BADLANDS),
+                        biomes.getOrThrow(Biomes.ERODED_BADLANDS),
+                        biomes.getOrThrow(Biomes.WOODED_BADLANDS)
+                ),
+                HolderSet.direct(placedFeatures.getOrThrow(ModPlacedFeatures.GIANT_CACTUS_PLACED_KEY)),
                 GenerationStep.Decoration.VEGETAL_DECORATION
         ));
     }

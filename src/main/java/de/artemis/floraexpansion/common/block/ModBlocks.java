@@ -66,7 +66,41 @@ public class ModBlocks {
     public static final DeferredBlock<Block> FRUITING_OAK_LEAVES = registerBlock("fruiting_oak_leaves",
             () -> new FruitingOakLeavesBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_LEAVES).randomTicks()));
 
+    public static final DeferredBlock<Block> GIANT_CACTUS_BASE = registerBlock("giant_cactus_base",
+            () -> new GiantCactusBaseBlock(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.COLOR_GREEN)
+                    .strength(1.0F)
+                    .sound(SoundType.WOOD)
+                    .ignitedByLava()
+                    .randomTicks()));
 
+    public static final DeferredBlock<Block> STRIPPED_GIANT_CACTUS_BASE = registerBlock("stripped_giant_cactus_base",
+            () -> new RotatedPillarBlock(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.COLOR_LIGHT_GREEN)
+                    .strength(1.0F)
+                    .ignitedByLava()
+                    .sound(SoundType.WOOD)));
+
+    public static final DeferredBlock<Block> GIANT_CACTUS_STEM = registerBlock("giant_cactus_stem",
+            () -> new GiantCactusStemBlock(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.COLOR_GREEN)
+                    .strength(0.8F)
+                    .noOcclusion()
+                    .sound(SoundType.WOOL)));
+
+    public static final DeferredBlock<Block> CACTUS_THORN = registerBlock("cactus_thorn",
+            () -> new CactusThornBlock(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.COLOR_GREEN)
+                    .instabreak()
+                    .sound(SoundType.WOOL)
+                    .noCollission()));
+
+    public static final DeferredBlock<Block> CACTUS_FLOWER = registerBlock("cactus_flower",
+            () -> new CactusFlowerBlock(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.COLOR_PINK)
+                    .instabreak()
+                    .noCollission()
+                    .sound(SoundType.GRASS)));
 
     private static <T extends Block> DeferredBlock<T> registerBlock(String name, Supplier<T> block) {
         DeferredBlock<T> toReturn = BLOCKS.register(name, block);

@@ -32,6 +32,11 @@ public class ModLanguageProvider extends net.neoforged.neoforge.common.data.Lang
         add(ModBlocks.APPLE_CORE.get(), "Apple Core");
         add(ModBlocks.POTTED_APPLE_CORE.get(), "Potted Apple Core");
         add(ModBlocks.FRUITING_OAK_LEAVES.get(), "Fruiting Oak Leaves");
+        add(ModBlocks.GIANT_CACTUS_BASE.get(), "Giant Cactus Base");
+        add(ModBlocks.STRIPPED_GIANT_CACTUS_BASE.get(), "Stripped Giant Cactus Base");
+        add(ModBlocks.GIANT_CACTUS_STEM.get(), "Giant Cactus Stem");
+        add(ModBlocks.CACTUS_THORN.get(), "Cactus Thorn");
+        add(ModBlocks.CACTUS_FLOWER.get(), "Cactus Flower");
 
         //Items
         add(ModItems.PINE_CONE.get(), "Pine Cone");

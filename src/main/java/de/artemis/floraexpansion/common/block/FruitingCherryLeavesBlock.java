@@ -3,6 +3,7 @@ package de.artemis.floraexpansion.common.block;
 import de.artemis.floraexpansion.common.item.ModItems;
 import de.artemis.floraexpansion.common.particle.FallingFruitParticle;
 import de.artemis.floraexpansion.common.particle.ModParticles;
+import de.artemis.floraexpansion.common.util.ModUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
@@ -13,6 +14,7 @@ import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.BonemealableBlock;
@@ -101,31 +103,8 @@ public class FruitingCherryLeavesBlock extends CherryLeavesBlock implements Bone
         return InteractionResult.sidedSuccess(level.isClientSide);
     }
 
-    private static void spawnHarvestedCherries(Level level, BlockPos blockPos, BlockHitResult result, int amount) {
-        Vec3 center = Vec3.atCenterOf(blockPos);
-        Direction face = result.getDirection();
-
-        double offset = 0.55D;
-        double spawnX = center.x + face.getStepX() * offset;
-        double spawnY = center.y + face.getStepY() * offset;
-        double spawnZ = center.z + face.getStepZ() * offset;
-
-        ItemEntity itemEntity = new ItemEntity(
-                level,
-                spawnX,
-                spawnY,
-                spawnZ,
-                new ItemStack(ModItems.CHERRIES.get(), amount)
-        );
-
-        double motion = 0.12D;
-        itemEntity.setDeltaMovement(
-                face.getStepX() * motion,
-                face == Direction.UP ? 0.08D : face == Direction.DOWN ? -0.02D : 0.04D,
-                face.getStepZ() * motion
-        );
-
-        level.addFreshEntity(itemEntity);
+    private static void spawnHarvestedCherries(Level level, BlockPos blockPos, BlockHitResult hitResult, int amount) {
+        ModUtils.spawnItemAtClickedSide(level, blockPos, hitResult, new ItemStack(ModItems.CHERRIES.get(), 1));
     }
 
     @Override

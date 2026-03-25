@@ -52,6 +52,13 @@ public class ModItemTagProvider extends ItemTagsProvider {
                 .add(ModBlocks.APPLE_CORE.get().asItem())
                 .add(ModBlocks.CHERRY_PIT.get().asItem());
 
+        tag(ItemTags.FLOWERS)
+                .add(ModBlocks.CACTUS_FLOWER.get().asItem());
+
+        tag(ItemTags.LOGS_THAT_BURN)
+                .add(ModBlocks.STRIPPED_GIANT_CACTUS_BASE.get().asItem())
+                .add(ModBlocks.GIANT_CACTUS_BASE.get().asItem());
+
         //NeoForge
         tag(Tags.Items.FOODS)
                 .add(ModItems.PINE_NUTS.get())

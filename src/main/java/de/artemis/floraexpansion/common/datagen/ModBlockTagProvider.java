@@ -27,6 +27,11 @@ public class ModBlockTagProvider extends BlockTagsProvider {
         tag(BlockTags.MINEABLE_WITH_PICKAXE)
                 .add(ModBlocks.PEBBLE_BLOCK.get());
 
+        tag(BlockTags.MINEABLE_WITH_AXE)
+                .add(ModBlocks.GIANT_CACTUS_BASE.get())
+                .add(ModBlocks.STRIPPED_GIANT_CACTUS_BASE.get())
+                .add(ModBlocks.GIANT_CACTUS_STEM.get());
+
         tag(BlockTags.MINEABLE_WITH_SHOVEL)
                 .add(ModBlocks.PEBBLE_BLOCK.get());
 
@@ -60,6 +65,14 @@ public class ModBlockTagProvider extends BlockTagsProvider {
 
         tag(BlockTags.FLOWERS)
                 .add(ModBlocks.FRUITING_OAK_LEAVES.get())
+                .add(ModBlocks.CACTUS_FLOWER.get())
                 .add(ModBlocks.FRUITING_CHERRY_LEAVES.get());
+
+        tag(BlockTags.SMALL_FLOWERS)
+                .add(ModBlocks.CACTUS_FLOWER.get());
+
+        tag(BlockTags.LOGS_THAT_BURN)
+                .add(ModBlocks.STRIPPED_GIANT_CACTUS_BASE.get())
+                .add(ModBlocks.GIANT_CACTUS_BASE.get());
     }
 }

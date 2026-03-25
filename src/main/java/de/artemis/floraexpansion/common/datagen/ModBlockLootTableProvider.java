@@ -39,6 +39,12 @@ public class ModBlockLootTableProvider extends BlockLootSubProvider {
 
         dropPottedContents(ModBlocks.POTTED_CHERRY_PIT.get());
         dropPottedContents(ModBlocks.POTTED_APPLE_CORE.get());
+
+        dropSelf(ModBlocks.GIANT_CACTUS_BASE.get());
+        dropSelf(ModBlocks.STRIPPED_GIANT_CACTUS_BASE.get());
+        dropSelf(ModBlocks.GIANT_CACTUS_STEM.get());
+        dropSelf(ModBlocks.CACTUS_THORN.get());
+        dropSelf(ModBlocks.CACTUS_FLOWER.get());
     }
 
     private LootTable.Builder createFruitingCherryLeavesDrops() {
@@ -117,7 +123,12 @@ public class ModBlockLootTableProvider extends BlockLootSubProvider {
                 ModBlocks.FRUITING_CHERRY_LEAVES.get(),
                 ModBlocks.FRUITING_OAK_LEAVES.get(),
                 ModBlocks.POTTED_CHERRY_PIT.get(),
-                ModBlocks.POTTED_APPLE_CORE.get()
+                ModBlocks.POTTED_APPLE_CORE.get(),
+                ModBlocks.GIANT_CACTUS_BASE.get(),
+                ModBlocks.STRIPPED_GIANT_CACTUS_BASE.get(),
+                ModBlocks.GIANT_CACTUS_STEM.get(),
+                ModBlocks.CACTUS_THORN.get(),
+                ModBlocks.CACTUS_FLOWER.get()
         );
     }
 }

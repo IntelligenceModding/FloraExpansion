@@ -19,12 +19,12 @@ public class ModPlacedFeatures {
     public static final ResourceKey<PlacedFeature> WILD_FLAX_PLACED_KEY = registerKey("wild_flax_placed");
     public static final ResourceKey<PlacedFeature> PEBBLE_CLUSTER_PLACED_KEY = registerKey("pebble_cluster_placed");
     public static final ResourceKey<PlacedFeature> FRUITING_CHERRY_TREE_PLACED_KEY = registerKey("fruiting_cherry_tree_placed");
-
     public static final ResourceKey<PlacedFeature> FRUITING_OAK_SPARSE_PLACED_KEY = registerKey("fruiting_oak_sparse_placed");
     public static final ResourceKey<PlacedFeature> FRUITING_OAK_FOREST_PLACED_KEY = registerKey("fruiting_oak_forest_placed");
     public static final ResourceKey<PlacedFeature> FANCY_FRUITING_OAK_RARE_PLACED_KEY = registerKey("fancy_fruiting_oak_rare_placed");
     public static final ResourceKey<PlacedFeature> FANCY_FRUITING_OAK_JUNGLE_PLACED_KEY = registerKey("fancy_fruiting_oak_jungle_placed");
     public static final ResourceKey<PlacedFeature> FRUITING_OAK_DARK_FOREST_PLACED_KEY = registerKey("fruiting_oak_dark_forest_placed");
+    public static final ResourceKey<PlacedFeature> GIANT_CACTUS_PLACED_KEY = registerKey("giant_cactus_placed");
 
     public static void bootstrap(BootstrapContext<PlacedFeature> context) {
         var configuredFeatures = context.lookup(Registries.CONFIGURED_FEATURE);
@@ -116,6 +116,14 @@ public class ModPlacedFeatures {
                         InSquarePlacement.spread(),
                         PlacementUtils.HEIGHTMAP_WORLD_SURFACE,
                         PlacementUtils.filteredByBlockSurvival(Blocks.OAK_SAPLING),
+                        BiomeFilter.biome()
+                ));
+
+        register(context, GIANT_CACTUS_PLACED_KEY, configuredFeatures.getOrThrow(ModConfiguredFeatures.GIANT_CACTUS_KEY),
+                List.of(
+                        RarityFilter.onAverageOnceEvery(8),
+                        InSquarePlacement.spread(),
+                        PlacementUtils.HEIGHTMAP_WORLD_SURFACE,
                         BiomeFilter.biome()
                 ));
     }

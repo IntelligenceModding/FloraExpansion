@@ -21,6 +21,10 @@ public class ModFeatures {
             FEATURES.register("pebble_cluster_feature",
                     () -> new PebbleClusterFeature(NoneFeatureConfiguration.CODEC));
 
+    public static final Supplier<Feature<NoneFeatureConfiguration>> GIANT_CACTUS_FEATURE =
+            FEATURES.register("giant_cactus_feature",
+                    () -> new GiantCactusFeature(NoneFeatureConfiguration.CODEC));
+
     public static void register(IEventBus eventBus) {
         FEATURES.register(eventBus);
     }

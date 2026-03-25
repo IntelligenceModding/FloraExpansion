@@ -1,6 +1,7 @@
 package de.artemis.floraexpansion.common.datagen;
 
 import de.artemis.floraexpansion.FloraExpansion;
+import de.artemis.floraexpansion.common.block.CactusThornBlock;
 import de.artemis.floraexpansion.common.block.FruitingOakLeavesBlock;
 import de.artemis.floraexpansion.common.block.ModBlocks;
 import net.minecraft.core.Direction;
@@ -24,6 +25,11 @@ public class ModBlockStateProvider extends BlockStateProvider {
         saplingBlock(ModBlocks.APPLE_CORE.get(), "planted_apple_core");
         pottedPlantBlock(ModBlocks.POTTED_APPLE_CORE.get(), "planted_apple_core");
         fruitingOakLeavesBlock();
+        giantCactusBaseBlock();
+        giantCactusStemBlock();
+        strippedGiantCactusBaseBlock();
+        cactusThornBlock();
+        crossBlock(ModBlocks.CACTUS_FLOWER.get(), "cactus_flower");
     }
 
     private void fruitingOakLeavesBlock() {
@@ -54,33 +60,80 @@ public class ModBlockStateProvider extends BlockStateProvider {
         });
     }
 
-    private BlockModelBuilder oakLeavesItemModel(String name, ResourceLocation overlayTexture) {
-        return models().getBuilder(name)
-                .texture("leaves", mcLoc("block/oak_leaves"))
-                .texture("overlay", overlayTexture)
-                .renderType("cutout_mipped")
+    private void giantCactusBaseBlock() {
+        axisBlock((net.minecraft.world.level.block.RotatedPillarBlock) ModBlocks.GIANT_CACTUS_BASE.get(),
+                models().cubeColumn("giant_cactus_base",
+                        modLoc("block/giant_cactus_base_side"),
+                        modLoc("block/giant_cactus_base_top")),
+                models().cubeColumnHorizontal("giant_cactus_base_horizontal",
+                        modLoc("block/giant_cactus_base_side"),
+                        modLoc("block/giant_cactus_base_top")));
 
-                // normal cube for vanilla-like item rendering size/position
-                .element()
-                .from(0, 0, 0)
-                .to(16, 16, 16)
-                .face(Direction.DOWN).uvs(0, 0, 16, 16).texture("#leaves").tintindex(0).end()
-                .face(Direction.UP).uvs(0, 0, 16, 16).texture("#leaves").tintindex(0).end()
-                .face(Direction.NORTH).uvs(0, 0, 16, 16).texture("#leaves").tintindex(0).end()
-                .face(Direction.SOUTH).uvs(0, 0, 16, 16).texture("#leaves").tintindex(0).end()
-                .face(Direction.WEST).uvs(0, 0, 16, 16).texture("#leaves").tintindex(0).end()
-                .face(Direction.EAST).uvs(0, 0, 16, 16).texture("#leaves").tintindex(0).end()
-                .end()
+        simpleBlockItem(ModBlocks.GIANT_CACTUS_BASE.get(),
+                new net.neoforged.neoforge.client.model.generators.ModelFile.UncheckedModelFile(modLoc("block/giant_cactus_base")));
+    }
 
-                // overlay on side faces only, also normal cube size
-                .element()
-                .from(0, 0, 0)
-                .to(16, 16, 16)
-                .face(Direction.NORTH).uvs(0, 0, 16, 16).texture("#overlay").end()
-                .face(Direction.SOUTH).uvs(0, 0, 16, 16).texture("#overlay").end()
-                .face(Direction.WEST).uvs(0, 0, 16, 16).texture("#overlay").end()
-                .face(Direction.EAST).uvs(0, 0, 16, 16).texture("#overlay").end()
-                .end();
+    private void strippedGiantCactusBaseBlock() {
+        axisBlock((net.minecraft.world.level.block.RotatedPillarBlock) ModBlocks.STRIPPED_GIANT_CACTUS_BASE.get(),
+                models().cubeColumn("stripped_giant_cactus_base",
+                        modLoc("block/stripped_giant_cactus_base_side"),
+                        modLoc("block/stripped_giant_cactus_base_top")),
+                models().cubeColumnHorizontal("stripped_giant_cactus_base_horizontal",
+                        modLoc("block/stripped_giant_cactus_base_side"),
+                        modLoc("block/stripped_giant_cactus_base_top")));
+
+        simpleBlockItem(ModBlocks.STRIPPED_GIANT_CACTUS_BASE.get(),
+                new net.neoforged.neoforge.client.model.generators.ModelFile.UncheckedModelFile(modLoc("block/stripped_giant_cactus_base")));
+    }
+
+    private void giantCactusStemBlock() {
+        ModelFile model = models()
+                .withExistingParent("giant_cactus_stem", mcLoc("block/cactus"))
+                .renderType("cutout")
+                .texture("side", modLoc("block/giant_cactus_stem_side"))
+                .texture("top", modLoc("block/giant_cactus_stem_top"))
+                .texture("bottom", modLoc("block/giant_cactus_stem_bottom"));
+
+        simpleBlock(ModBlocks.GIANT_CACTUS_STEM.get(), model);
+        simpleBlockItem(ModBlocks.GIANT_CACTUS_STEM.get(), model);
+    }
+
+    private void cactusThornBlock() {
+        ModelFile model = models()
+                .withExistingParent("cactus_thorn", mcLoc("block/nether_sprouts"))
+                .renderType("cutout")
+                .texture("cross", modLoc("block/cactus_thorn"));
+
+        getVariantBuilder(ModBlocks.CACTUS_THORN.get()).forAllStates(state -> {
+            int xRot = 0;
+            int yRot = 0;
+
+            switch (state.getValue(CactusThornBlock.FACE)) {
+                case FLOOR -> {
+                    xRot = 0;
+                    yRot = ((int) state.getValue(CactusThornBlock.FACING).toYRot() + 180) % 360;
+                }
+                case CEILING -> {
+                    xRot = 180;
+                    yRot = ((int) state.getValue(CactusThornBlock.FACING).toYRot() + 180) % 360;
+                }
+                case WALL -> {
+                    xRot = 90;
+                    yRot = ((int) state.getValue(CactusThornBlock.FACING).toYRot() + 180) % 360;
+                }
+            }
+
+            return ConfiguredModel.builder()
+                    .modelFile(model)
+                    .rotationX(xRot)
+                    .rotationY(yRot)
+                    .build();
+        });
+    }
+
+    private void crossBlock(Block block, String textureName) {
+        var model = models().cross(name(block), modLoc("block/" + textureName)).renderType("cutout");
+        simpleBlock(block, model);
     }
 
     private BlockModelBuilder oakLeavesBaseModel(String name) {

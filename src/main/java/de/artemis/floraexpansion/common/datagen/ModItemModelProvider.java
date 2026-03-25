@@ -31,5 +31,6 @@ public class ModItemModelProvider extends ItemModelProvider {
         basicItem(ModItems.APPLE_JUICE.get());
 
         basicItem(ModBlocks.APPLE_CORE.get().asItem());
+        basicItem(ModBlocks.CACTUS_THORN.get().asItem());
     }
 }
