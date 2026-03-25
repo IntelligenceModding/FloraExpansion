@@ -25,10 +25,22 @@ public class ModBiomeModifiers {
     public static final ResourceKey<BiomeModifier> ADD_FANCY_FRUITING_OAK_TREES_JUNGLE = registerKey("add_fancy_fruiting_oak_trees_jungle");
     public static final ResourceKey<BiomeModifier> ADD_FRUITING_OAK_TREES_DARK_FOREST = registerKey("add_fruiting_oak_trees_dark_forest");
     public static final ResourceKey<BiomeModifier> ADD_GIANT_CACTUS = registerKey("add_giant_cactus");
+    public static final ResourceKey<BiomeModifier> ADD_FLOWERED_CACTUS = registerKey("add_flowered_cactus");
 
     public static void bootstrap(BootstrapContext<BiomeModifier> context) {
         var placedFeatures = context.lookup(Registries.PLACED_FEATURE);
         var biomes = context.lookup(Registries.BIOME);
+
+        context.register(ADD_FLOWERED_CACTUS, new BiomeModifiers.AddFeaturesBiomeModifier(
+                HolderSet.direct(
+                        biomes.getOrThrow(Biomes.DESERT),
+                        biomes.getOrThrow(Biomes.BADLANDS),
+                        biomes.getOrThrow(Biomes.ERODED_BADLANDS),
+                        biomes.getOrThrow(Biomes.WOODED_BADLANDS)
+                ),
+                HolderSet.direct(placedFeatures.getOrThrow(ModPlacedFeatures.FLOWERED_CACTUS_PLACED_KEY)),
+                GenerationStep.Decoration.VEGETAL_DECORATION
+        ));
 
         context.register(ADD_PEBBLE_CLUSTERS, new BiomeModifiers.AddFeaturesBiomeModifier(
                 HolderSet.direct(

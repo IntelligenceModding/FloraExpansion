@@ -37,6 +37,8 @@ public class ModLanguageProvider extends net.neoforged.neoforge.common.data.Lang
         add(ModBlocks.GIANT_CACTUS_STEM.get(), "Giant Cactus Stem");
         add(ModBlocks.CACTUS_THORN.get(), "Cactus Thorn");
         add(ModBlocks.CACTUS_FLOWER.get(), "Cactus Flower");
+        add(ModBlocks.GIANT_CACTUS_WOOD.get(), "Giant Cactus Wood");
+        add(ModBlocks.STRIPPED_GIANT_CACTUS_WOOD.get(), "Stripped Giant Cactus Wood");
 
         //Items
         add(ModItems.PINE_CONE.get(), "Pine Cone");

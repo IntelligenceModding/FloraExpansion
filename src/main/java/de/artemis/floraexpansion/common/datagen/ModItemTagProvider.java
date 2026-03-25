@@ -57,7 +57,9 @@ public class ModItemTagProvider extends ItemTagsProvider {
 
         tag(ItemTags.LOGS_THAT_BURN)
                 .add(ModBlocks.STRIPPED_GIANT_CACTUS_BASE.get().asItem())
-                .add(ModBlocks.GIANT_CACTUS_BASE.get().asItem());
+                .add(ModBlocks.GIANT_CACTUS_BASE.get().asItem())
+                .add(ModBlocks.STRIPPED_GIANT_CACTUS_WOOD.get().asItem())
+                .add(ModBlocks.GIANT_CACTUS_WOOD.get().asItem());
 
         //NeoForge
         tag(Tags.Items.FOODS)

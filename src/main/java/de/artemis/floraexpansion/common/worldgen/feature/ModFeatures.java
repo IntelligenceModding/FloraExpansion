@@ -25,6 +25,10 @@ public class ModFeatures {
             FEATURES.register("giant_cactus_feature",
                     () -> new GiantCactusFeature(NoneFeatureConfiguration.CODEC));
 
+    public static final Supplier<Feature<NoneFeatureConfiguration>> FLOWERED_CACTUS_FEATURE =
+            FEATURES.register("flowered_cactus_feature",
+                    () -> new FloweredCactusFeature(NoneFeatureConfiguration.CODEC));
+
     public static void register(IEventBus eventBus) {
         FEATURES.register(eventBus);
     }

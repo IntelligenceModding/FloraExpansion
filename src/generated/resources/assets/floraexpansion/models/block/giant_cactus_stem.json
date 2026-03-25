@@ -1,0 +1,9 @@
+{
+  "parent": "minecraft:block/cactus",
+  "render_type": "minecraft:cutout",
+  "textures": {
+    "bottom": "floraexpansion:block/giant_cactus_stem_bottom",
+    "side": "floraexpansion:block/giant_cactus_stem_side",
+    "top": "floraexpansion:block/giant_cactus_stem_top"
+  }
+}

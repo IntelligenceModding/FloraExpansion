@@ -173,6 +173,11 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .unlockedBy("has_glass_bottle", has(Items.GLASS_BOTTLE))
                 .save(recipeOutput);
 
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, Items.PINK_DYE, 1)
+                .requires(ModBlocks.CACTUS_FLOWER.get())
+                .unlockedBy("has_cactus_flower", has(ModBlocks.CACTUS_FLOWER.get()))
+                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath(FloraExpansion.MODID, "pink_dye_from_cactus_flower"));
+
         //Smelting
         foodSmelting(recipeOutput, ModItems.PINE_NUTS.get(), ModItems.TOASTED_PINE_NUTS.get(), 0.1f, 100);
 

@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/nether_sprouts",
+  "render_type": "minecraft:cutout",
+  "textures": {
+    "cross": "floraexpansion:block/cactus_thorn"
+  }
+}

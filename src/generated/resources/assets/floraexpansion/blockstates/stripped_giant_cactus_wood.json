@@ -1,0 +1,16 @@
+{
+  "variants": {
+    "axis=x": {
+      "model": "floraexpansion:block/stripped_giant_cactus_wood_horizontal",
+      "x": 90,
+      "y": 90
+    },
+    "axis=y": {
+      "model": "floraexpansion:block/stripped_giant_cactus_wood"
+    },
+    "axis=z": {
+      "model": "floraexpansion:block/stripped_giant_cactus_wood_horizontal",
+      "x": 90
+    }
+  }
+}

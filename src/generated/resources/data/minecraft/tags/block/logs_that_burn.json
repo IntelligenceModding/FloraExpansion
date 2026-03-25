@@ -1,6 +1,8 @@
 {
   "values": [
     "floraexpansion:stripped_giant_cactus_base",
-    "floraexpansion:giant_cactus_base"
+    "floraexpansion:giant_cactus_base",
+    "floraexpansion:giant_cactus_wood",
+    "floraexpansion:stripped_giant_cactus_wood"
   ]
 }

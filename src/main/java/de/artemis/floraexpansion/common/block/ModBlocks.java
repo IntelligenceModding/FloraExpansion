@@ -86,7 +86,8 @@ public class ModBlocks {
                     .mapColor(MapColor.COLOR_GREEN)
                     .strength(0.8F)
                     .noOcclusion()
-                    .sound(SoundType.WOOL)));
+                    .sound(SoundType.WOOL)
+                    .randomTicks()));
 
     public static final DeferredBlock<Block> CACTUS_THORN = registerBlock("cactus_thorn",
             () -> new CactusThornBlock(BlockBehaviour.Properties.of()
@@ -100,7 +101,24 @@ public class ModBlocks {
                     .mapColor(MapColor.COLOR_PINK)
                     .instabreak()
                     .noCollission()
-                    .sound(SoundType.GRASS)));
+                    .sound(SoundType.GRASS)
+                    .offsetType(BlockBehaviour.OffsetType.XZ)
+                    .pushReaction(PushReaction.DESTROY)
+                    .randomTicks()));
+
+    public static final DeferredBlock<Block> GIANT_CACTUS_WOOD = registerBlock("giant_cactus_wood",
+            () -> new GiantCactusWoodBlock(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.COLOR_GREEN)
+                    .strength(1.0F)
+                    .sound(SoundType.WOOD)
+                    .ignitedByLava()));
+
+    public static final DeferredBlock<Block> STRIPPED_GIANT_CACTUS_WOOD = registerBlock("stripped_giant_cactus_wood",
+            () -> new GiantCactusWoodBlock(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.COLOR_LIGHT_GREEN)
+                    .strength(1.0F)
+                    .sound(SoundType.WOOD)
+                    .ignitedByLava()));
 
     private static <T extends Block> DeferredBlock<T> registerBlock(String name, Supplier<T> block) {
         DeferredBlock<T> toReturn = BLOCKS.register(name, block);

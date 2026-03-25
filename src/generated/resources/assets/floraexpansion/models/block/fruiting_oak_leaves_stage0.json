@@ -1,0 +1,47 @@
+{
+  "elements": [
+    {
+      "faces": {
+        "down": {
+          "texture": "#leaves",
+          "tintindex": 0
+        },
+        "east": {
+          "texture": "#leaves",
+          "tintindex": 0
+        },
+        "north": {
+          "texture": "#leaves",
+          "tintindex": 0
+        },
+        "south": {
+          "texture": "#leaves",
+          "tintindex": 0
+        },
+        "up": {
+          "texture": "#leaves",
+          "tintindex": 0
+        },
+        "west": {
+          "texture": "#leaves",
+          "tintindex": 0
+        }
+      },
+      "from": [
+        0,
+        0,
+        0
+      ],
+      "to": [
+        16,
+        16,
+        16
+      ]
+    }
+  ],
+  "render_type": "minecraft:cutout_mipped",
+  "textures": {
+    "leaves": "minecraft:block/oak_leaves",
+    "particle": "minecraft:block/oak_leaves"
+  }
+}

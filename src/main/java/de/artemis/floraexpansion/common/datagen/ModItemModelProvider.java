@@ -4,8 +4,10 @@ import de.artemis.floraexpansion.FloraExpansion;
 import de.artemis.floraexpansion.common.block.ModBlocks;
 import de.artemis.floraexpansion.common.item.ModItems;
 import net.minecraft.data.PackOutput;
+import net.minecraft.world.level.block.Block;
 import net.neoforged.neoforge.client.model.generators.ItemModelProvider;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
+import net.neoforged.neoforge.registries.DeferredBlock;
 
 public class ModItemModelProvider extends ItemModelProvider {
     public ModItemModelProvider(PackOutput output, ExistingFileHelper existingFileHelper) {
@@ -32,5 +34,18 @@ public class ModItemModelProvider extends ItemModelProvider {
 
         basicItem(ModBlocks.APPLE_CORE.get().asItem());
         basicItem(ModBlocks.CACTUS_THORN.get().asItem());
+
+        blockTextureItem(ModBlocks.CACTUS_FLOWER);
+    }
+
+    private void blockTextureItem(DeferredBlock<? extends Block> block) {
+        String name = block.getId().getPath();
+        withExistingParent(name, mcLoc("item/generated"))
+                .texture("layer0", modLoc("block/" + name));
+    }
+
+    private void blockItem(DeferredBlock<? extends Block> block) {
+        String name = block.getId().getPath();
+        withExistingParent(name, modLoc("block/" + name));
     }
 }

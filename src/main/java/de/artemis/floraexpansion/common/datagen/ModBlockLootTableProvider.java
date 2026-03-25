@@ -2,6 +2,7 @@ package de.artemis.floraexpansion.common.datagen;
 
 import de.artemis.floraexpansion.common.block.FruitingCherryLeavesBlock;
 import de.artemis.floraexpansion.common.block.FruitingOakLeavesBlock;
+import de.artemis.floraexpansion.common.block.GiantCactusWoodBlock;
 import de.artemis.floraexpansion.common.block.ModBlocks;
 import de.artemis.floraexpansion.common.item.ModItems;
 import net.minecraft.advancements.critereon.StatePropertiesPredicate;
@@ -18,6 +19,7 @@ import net.minecraft.world.level.storage.loot.entries.LootItem;
 import net.minecraft.world.level.storage.loot.functions.ApplyExplosionDecay;
 import net.minecraft.world.level.storage.loot.functions.SetItemCountFunction;
 import net.minecraft.world.level.storage.loot.predicates.BonusLevelTableCondition;
+import net.minecraft.world.level.storage.loot.predicates.ExplosionCondition;
 import net.minecraft.world.level.storage.loot.predicates.LootItemBlockStatePropertyCondition;
 import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
 import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
@@ -45,6 +47,32 @@ public class ModBlockLootTableProvider extends BlockLootSubProvider {
         dropSelf(ModBlocks.GIANT_CACTUS_STEM.get());
         dropSelf(ModBlocks.CACTUS_THORN.get());
         dropSelf(ModBlocks.CACTUS_FLOWER.get());
+
+        add(ModBlocks.GIANT_CACTUS_WOOD.get(), LootTable.lootTable()
+                .withPool(LootPool.lootPool()
+                        .setRolls(ConstantValue.exactly(1))
+                        .add(LootItem.lootTableItem(ModBlocks.GIANT_CACTUS_BASE.get())
+                                .when(LootItemBlockStatePropertyCondition.hasBlockStateProperties(ModBlocks.GIANT_CACTUS_WOOD.get())
+                                        .setProperties(StatePropertiesPredicate.Builder.properties()
+                                                .hasProperty(GiantCactusWoodBlock.GENERATED, true))))
+                        .add(LootItem.lootTableItem(ModBlocks.GIANT_CACTUS_WOOD.get())
+                                .when(LootItemBlockStatePropertyCondition.hasBlockStateProperties(ModBlocks.GIANT_CACTUS_WOOD.get())
+                                        .setProperties(StatePropertiesPredicate.Builder.properties()
+                                                .hasProperty(GiantCactusWoodBlock.GENERATED, false))))
+                        .when(ExplosionCondition.survivesExplosion())));
+
+        add(ModBlocks.STRIPPED_GIANT_CACTUS_WOOD.get(), LootTable.lootTable()
+                .withPool(LootPool.lootPool()
+                        .setRolls(ConstantValue.exactly(1))
+                        .add(LootItem.lootTableItem(ModBlocks.STRIPPED_GIANT_CACTUS_BASE.get())
+                                .when(LootItemBlockStatePropertyCondition.hasBlockStateProperties(ModBlocks.STRIPPED_GIANT_CACTUS_WOOD.get())
+                                        .setProperties(StatePropertiesPredicate.Builder.properties()
+                                                .hasProperty(GiantCactusWoodBlock.GENERATED, true))))
+                        .add(LootItem.lootTableItem(ModBlocks.STRIPPED_GIANT_CACTUS_WOOD.get())
+                                .when(LootItemBlockStatePropertyCondition.hasBlockStateProperties(ModBlocks.STRIPPED_GIANT_CACTUS_WOOD.get())
+                                        .setProperties(StatePropertiesPredicate.Builder.properties()
+                                                .hasProperty(GiantCactusWoodBlock.GENERATED, false))))
+                        .when(ExplosionCondition.survivesExplosion())));
     }
 
     private LootTable.Builder createFruitingCherryLeavesDrops() {
@@ -128,6 +156,8 @@ public class ModBlockLootTableProvider extends BlockLootSubProvider {
                 ModBlocks.STRIPPED_GIANT_CACTUS_BASE.get(),
                 ModBlocks.GIANT_CACTUS_STEM.get(),
                 ModBlocks.CACTUS_THORN.get(),
+                ModBlocks.GIANT_CACTUS_WOOD.get(),
+                ModBlocks.STRIPPED_GIANT_CACTUS_WOOD.get(),
                 ModBlocks.CACTUS_FLOWER.get()
         );
     }

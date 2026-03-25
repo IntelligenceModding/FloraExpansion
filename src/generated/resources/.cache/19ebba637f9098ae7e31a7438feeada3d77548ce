@@ -1,0 +1,13 @@
+// 1.21.1	2026-03-25T21:21:23.0049098	Tags for minecraft:item mod id floraexpansion
+31d74850e49ddd7b7948436735fa8098d3b32d62 data/c/tags/item/foods.json
+4f98ff26428233b97415c1789017e0db5943a94e data/c/tags/item/seeds.json
+33c332a2d55f7124439c8ca91496c89d936ea9c7 data/c/tags/item/strings.json
+a89ffa6447405bbbf2ce7227e039e4848f55275b data/minecraft/tags/item/arrows.json
+6330c49a568e21089f1bb4adf538893bcb8cad81 data/minecraft/tags/item/chicken_food.json
+ff47487ff9569b8057b6196384aea29997703b7e data/minecraft/tags/item/dampens_vibrations.json
+ed120b8d39d92b3bcd4723285c4c87751bb48742 data/minecraft/tags/item/flowers.json
+3aefae81619e85bbbbcc8b67da1f53cfb4db35e0 data/minecraft/tags/item/logs_that_burn.json
+6330c49a568e21089f1bb4adf538893bcb8cad81 data/minecraft/tags/item/parrot_food.json
+c9aadd8aa861dc18394a6c048766e319d1449882 data/minecraft/tags/item/parrot_poisonous_food.json
+1a8dd4f89018305ff7fa70c34e127f9edddaaa0a data/minecraft/tags/item/saplings.json
+4f98ff26428233b97415c1789017e0db5943a94e data/minecraft/tags/item/villager_plantable_seeds.json

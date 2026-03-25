@@ -30,6 +30,8 @@ public class ModBlockTagProvider extends BlockTagsProvider {
         tag(BlockTags.MINEABLE_WITH_AXE)
                 .add(ModBlocks.GIANT_CACTUS_BASE.get())
                 .add(ModBlocks.STRIPPED_GIANT_CACTUS_BASE.get())
+                .add(ModBlocks.GIANT_CACTUS_WOOD.get())
+                .add(ModBlocks.STRIPPED_GIANT_CACTUS_WOOD.get())
                 .add(ModBlocks.GIANT_CACTUS_STEM.get());
 
         tag(BlockTags.MINEABLE_WITH_SHOVEL)
@@ -73,6 +75,8 @@ public class ModBlockTagProvider extends BlockTagsProvider {
 
         tag(BlockTags.LOGS_THAT_BURN)
                 .add(ModBlocks.STRIPPED_GIANT_CACTUS_BASE.get())
-                .add(ModBlocks.GIANT_CACTUS_BASE.get());
+                .add(ModBlocks.GIANT_CACTUS_BASE.get())
+                .add(ModBlocks.GIANT_CACTUS_WOOD.get())
+                .add(ModBlocks.STRIPPED_GIANT_CACTUS_WOOD.get());
     }
 }

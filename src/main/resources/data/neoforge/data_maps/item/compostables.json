@@ -26,6 +26,9 @@
     },
     "floraexpansion:apple_core": {
       "chance": 0.3
+    },
+    "floraexpansion:cactus_flower": {
+      "chance": 0.3
     }
   }
 }

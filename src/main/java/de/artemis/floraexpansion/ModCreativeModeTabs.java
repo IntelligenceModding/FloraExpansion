@@ -47,7 +47,9 @@ public class ModCreativeModeTabs {
                         output.accept(ModBlocks.APPLE_CORE);
                         output.accept(ModItems.APPLE_JUICE);
                         output.accept(ModBlocks.GIANT_CACTUS_BASE);
+                        output.accept(ModBlocks.GIANT_CACTUS_WOOD);
                         output.accept(ModBlocks.STRIPPED_GIANT_CACTUS_BASE);
+                        output.accept(ModBlocks.STRIPPED_GIANT_CACTUS_WOOD);
                         output.accept(ModBlocks.GIANT_CACTUS_STEM);
                         output.accept(ModBlocks.CACTUS_THORN);
                         output.accept(ModBlocks.CACTUS_FLOWER);
