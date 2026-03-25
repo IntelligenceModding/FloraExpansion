@@ -1,4 +1,4 @@
-![Title](https://cdn.jsdelivr.net/gh/IntelligenceModding/Flora-Expansion@63a3a3b1986c48311d713edce69a9a37aff7077f/Flora%20Expansion%200.1%20Release%20Title.png)
+![Title](https://cdn.jsdelivr.net/gh/IntelligenceModding/Flora-Expansion@3e3ff914d8b5ad4721c09edd8ccdf9595c368614/Version%200.2%20Bloom%20%26%20Bounty%20Title.png)
 
 Description
 =======
