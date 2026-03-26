@@ -53,6 +53,19 @@ public class ModCreativeModeTabs {
                         output.accept(ModBlocks.GIANT_CACTUS_STEM);
                         output.accept(ModBlocks.CACTUS_THORN);
                         output.accept(ModBlocks.CACTUS_FLOWER);
+                        output.accept(ModBlocks.CACTUS_PLANKS);
+                        output.accept(ModBlocks.CACTUS_STAIRS);
+                        output.accept(ModBlocks.CACTUS_SLAB);
+                        output.accept(ModBlocks.CACTUS_FENCE);
+                        output.accept(ModBlocks.CACTUS_FENCE_GATE);
+                        output.accept(ModBlocks.CACTUS_BUTTON);
+                        output.accept(ModBlocks.CACTUS_PRESSURE_PLATE);
+                        output.accept(ModBlocks.CACTUS_DOOR);
+                        output.accept(ModBlocks.CACTUS_TRAPDOOR);
+                        output.accept(ModItems.CACTUS_SIGN);
+                        output.accept(ModItems.CACTUS_HANGING_SIGN);
+                        output.accept(ModItems.CACTUS_BOAT);
+                        output.accept(ModItems.CACTUS_CHEST_BOAT);
                     }).build());
 
     public static void register(IEventBus eventBus) {

@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "group": "hanging_sign",
+  "key": {
+    "#": {
+      "item": "floraexpansion:stripped_giant_cactus_base"
+    },
+    "X": {
+      "item": "minecraft:chain"
+    }
+  },
+  "pattern": [
+    "X X",
+    "###",
+    "###"
+  ],
+  "result": {
+    "count": 6,
+    "id": "floraexpansion:cactus_hanging_sign"
+  }
+}

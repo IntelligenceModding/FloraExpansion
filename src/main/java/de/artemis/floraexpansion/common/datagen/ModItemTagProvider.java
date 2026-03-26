@@ -7,6 +7,7 @@ import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.tags.ItemTagsProvider;
 import net.minecraft.tags.ItemTags;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.neoforged.neoforge.common.Tags;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
@@ -60,6 +61,21 @@ public class ModItemTagProvider extends ItemTagsProvider {
                 .add(ModBlocks.GIANT_CACTUS_BASE.get().asItem())
                 .add(ModBlocks.STRIPPED_GIANT_CACTUS_WOOD.get().asItem())
                 .add(ModBlocks.GIANT_CACTUS_WOOD.get().asItem());
+
+        tag(ItemTags.PLANKS)
+                .add(ModBlocks.CACTUS_PLANKS.get().asItem());
+
+        tag(ItemTags.BOATS)
+                .add(ModItems.CACTUS_BOAT.get());
+
+        tag(ItemTags.CHEST_BOATS)
+                .add(ModItems.CACTUS_CHEST_BOAT.get());
+
+        tag(ItemTags.SIGNS)
+                .add(ModBlocks.CACTUS_SIGN.get().asItem());
+
+        tag(ItemTags.HANGING_SIGNS)
+                .add(ModBlocks.CACTUS_HANGING_SIGN.get().asItem());
 
         //NeoForge
         tag(Tags.Items.FOODS)

@@ -1,6 +1,8 @@
 package de.artemis.floraexpansion;
 
 import de.artemis.floraexpansion.common.block.ModBlocks;
+import de.artemis.floraexpansion.common.block.entity.ModBlockEntities;
+import de.artemis.floraexpansion.common.entity.ModEntityTypes;
 import de.artemis.floraexpansion.common.item.ModItems;
 import de.artemis.floraexpansion.common.loot.ModLootModifiers;
 import de.artemis.floraexpansion.common.particle.ModParticles;
@@ -52,6 +54,8 @@ public class FloraExpansion {
         ModParticles.register(modEventBus);
         ModFeatures.register(modEventBus);
         ModTreeDecorators.register(modEventBus);
+        ModBlockEntities.register(modEventBus);
+        ModEntityTypes.register(modEventBus);
     }
 
     private void commonSetup(FMLCommonSetupEvent event) {

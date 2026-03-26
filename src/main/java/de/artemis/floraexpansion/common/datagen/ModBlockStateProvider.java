@@ -8,8 +8,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.RotatedPillarBlock;
+import net.minecraft.world.level.block.*;
 import net.neoforged.neoforge.client.model.generators.BlockModelBuilder;
 import net.neoforged.neoforge.client.model.generators.BlockStateProvider;
 import net.neoforged.neoforge.client.model.generators.ConfiguredModel;
@@ -34,6 +33,90 @@ public class ModBlockStateProvider extends BlockStateProvider {
         crossBlock(ModBlocks.CACTUS_FLOWER.get(), "cactus_flower");
         cactusWoodFromBaseTextures(ModBlocks.GIANT_CACTUS_WOOD, "giant_cactus_base_side");
         cactusWoodFromBaseTextures(ModBlocks.STRIPPED_GIANT_CACTUS_WOOD, "stripped_giant_cactus_base_side");
+        planksBlock(ModBlocks.CACTUS_PLANKS, "cactus_planks");
+        stairsBlockFromTexture(ModBlocks.CACTUS_STAIRS, "cactus_planks");
+        slabBlockFromTexture(ModBlocks.CACTUS_SLAB, "cactus_planks");
+        fenceBlockFromTexture(ModBlocks.CACTUS_FENCE, "cactus_planks");
+        fenceGateBlockFromTexture(ModBlocks.CACTUS_FENCE_GATE, "cactus_planks");
+        buttonBlockFromTexture(ModBlocks.CACTUS_BUTTON, "cactus_planks");
+        pressurePlateBlockFromTexture(ModBlocks.CACTUS_PRESSURE_PLATE, "cactus_planks");
+        doorBlockFromTexture(ModBlocks.CACTUS_DOOR, "cactus_door_bottom", "cactus_door_top");
+        trapdoorBlockFromTexture(ModBlocks.CACTUS_TRAPDOOR, "cactus_trapdoor");
+        signBlocks();
+        hangingSignBlocks();
+    }
+
+    private void planksBlock(DeferredBlock<? extends Block> block, String textureName) {
+        String name = block.getId().getPath();
+        ModelFile model = models().cubeAll(name, modLoc("block/" + textureName));
+        simpleBlock(block.get(), model);
+        simpleBlockItem(block.get(), model);
+    }
+
+    private void stairsBlockFromTexture(DeferredBlock<? extends Block> block, String textureName) {
+        stairsBlock((StairBlock) block.get(), modLoc("block/" + textureName));
+        simpleBlockItem(block.get(), models().getExistingFile(modLoc("block/" + block.getId().getPath())));
+    }
+
+    private void slabBlockFromTexture(DeferredBlock<? extends Block> block, String textureName) {
+        slabBlock((SlabBlock) block.get(),
+                modLoc("block/" + textureName),
+                modLoc("block/" + textureName));
+        simpleBlockItem(block.get(), models().getExistingFile(modLoc("block/" + block.getId().getPath())));
+    }
+
+    private void fenceBlockFromTexture(DeferredBlock<? extends Block> block, String textureName) {
+        String name = block.getId().getPath();
+        fenceBlock((FenceBlock) block.get(), modLoc("block/" + textureName));
+        ModelFile inventoryModel = models().fenceInventory(name + "_inventory", modLoc("block/" + textureName));
+        simpleBlockItem(block.get(), inventoryModel);
+    }
+
+    private void fenceGateBlockFromTexture(DeferredBlock<? extends Block> block, String textureName) {
+        fenceGateBlock((FenceGateBlock) block.get(), modLoc("block/" + textureName));
+        simpleBlockItem(block.get(), models().getExistingFile(modLoc("block/" + block.getId().getPath())));
+    }
+
+    private void buttonBlockFromTexture(DeferredBlock<? extends Block> block, String textureName) {
+        String name = block.getId().getPath();
+        buttonBlock((ButtonBlock) block.get(), modLoc("block/" + textureName));
+        ModelFile inventoryModel = models().buttonInventory(name + "_inventory", modLoc("block/" + textureName));
+        simpleBlockItem(block.get(), inventoryModel);
+    }
+    private void pressurePlateBlockFromTexture(DeferredBlock<? extends Block> block, String textureName) {
+        pressurePlateBlock((PressurePlateBlock) block.get(), modLoc("block/" + textureName));
+        simpleBlockItem(block.get(), models().getExistingFile(modLoc("block/" + block.getId().getPath())));
+    }
+
+    private void doorBlockFromTexture(DeferredBlock<? extends Block> block, String bottom, String top) {
+        doorBlockWithRenderType((DoorBlock) block.get(),
+                modLoc("block/" + bottom),
+                modLoc("block/" + top),
+                "cutout");
+    }
+
+    private void trapdoorBlockFromTexture(DeferredBlock<? extends Block> block, String textureName) {
+        trapdoorBlockWithRenderType((TrapDoorBlock) block.get(),
+                modLoc("block/" + textureName),
+                true,
+                "cutout");
+        simpleBlockItem(block.get(), models().getExistingFile(modLoc("block/" + block.getId().getPath() + "_bottom")));
+    }
+
+    private void signBlocks() {
+        signBlock(
+                (StandingSignBlock) ModBlocks.CACTUS_SIGN.get(),
+                (WallSignBlock) ModBlocks.CACTUS_WALL_SIGN.get(),
+                modLoc("block/cactus_planks")
+        );
+    }
+
+    private void hangingSignBlocks() {
+        hangingSignBlock(
+                (CeilingHangingSignBlock) ModBlocks.CACTUS_HANGING_SIGN.get(),
+                (WallHangingSignBlock) ModBlocks.CACTUS_WALL_HANGING_SIGN.get(),
+                modLoc("block/cactus_planks")
+        );
     }
 
     private void cactusWoodFromBaseTextures(DeferredBlock<? extends Block> block, String baseTextureName) {

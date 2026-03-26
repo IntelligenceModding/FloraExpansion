@@ -11,6 +11,7 @@ import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.level.ItemLike;
+import net.minecraft.world.level.block.Blocks;
 import net.neoforged.neoforge.common.conditions.IConditionBuilder;
 import org.jetbrains.annotations.NotNull;
 
@@ -24,6 +25,56 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
 
     @Override
     protected void buildRecipes(@NotNull RecipeOutput recipeOutput) {
+
+
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.BUILDING_BLOCKS, ModBlocks.CACTUS_PLANKS.get(), 4)
+                .requires(ModBlocks.GIANT_CACTUS_BASE.get())
+                .unlockedBy(getHasName(ModBlocks.GIANT_CACTUS_BASE.get()), has(ModBlocks.GIANT_CACTUS_BASE.get()))
+                .save(recipeOutput);
+
+        stairBuilder(ModBlocks.CACTUS_STAIRS.get(), Ingredient.of(ModBlocks.CACTUS_PLANKS.get()))
+                .unlockedBy(getHasName(ModBlocks.CACTUS_PLANKS.get()), has(ModBlocks.CACTUS_PLANKS.get()))
+                .save(recipeOutput);
+
+        slab(recipeOutput, RecipeCategory.BUILDING_BLOCKS, ModBlocks.CACTUS_SLAB.get(), ModBlocks.CACTUS_PLANKS.get());
+
+        fenceBuilder(ModBlocks.CACTUS_FENCE.get(), Ingredient.of(ModBlocks.CACTUS_PLANKS.get()))
+                .unlockedBy(getHasName(ModBlocks.CACTUS_PLANKS.get()), has(ModBlocks.CACTUS_PLANKS.get()))
+                .save(recipeOutput);
+
+        fenceGateBuilder(ModBlocks.CACTUS_FENCE_GATE.get(), Ingredient.of(ModBlocks.CACTUS_PLANKS.get()))
+                .unlockedBy(getHasName(ModBlocks.CACTUS_PLANKS.get()), has(ModBlocks.CACTUS_PLANKS.get()))
+                .save(recipeOutput);
+
+        doorBuilder(ModBlocks.CACTUS_DOOR.get(), Ingredient.of(ModBlocks.CACTUS_PLANKS.get()))
+                .unlockedBy(getHasName(ModBlocks.CACTUS_PLANKS.get()), has(ModBlocks.CACTUS_PLANKS.get()))
+                .save(recipeOutput);
+
+        trapdoorBuilder(ModBlocks.CACTUS_TRAPDOOR.get(), Ingredient.of(ModBlocks.CACTUS_PLANKS.get()))
+                .unlockedBy(getHasName(ModBlocks.CACTUS_PLANKS.get()), has(ModBlocks.CACTUS_PLANKS.get()))
+                .save(recipeOutput);
+
+        buttonBuilder(ModBlocks.CACTUS_BUTTON.get(), Ingredient.of(ModBlocks.CACTUS_PLANKS.get()))
+                .unlockedBy(getHasName(ModBlocks.CACTUS_PLANKS.get()), has(ModBlocks.CACTUS_PLANKS.get()))
+                .save(recipeOutput);
+
+        pressurePlate(recipeOutput, ModBlocks.CACTUS_PRESSURE_PLATE.get(), ModBlocks.CACTUS_PLANKS.get());
+
+        signBuilder(ModItems.CACTUS_SIGN.get(), Ingredient.of(ModBlocks.CACTUS_PLANKS.get()))
+                .unlockedBy(getHasName(ModBlocks.CACTUS_PLANKS.get()), has(ModBlocks.CACTUS_PLANKS.get()))
+                .save(recipeOutput);
+
+        hangingSign(recipeOutput, ModItems.CACTUS_HANGING_SIGN.get(), ModBlocks.STRIPPED_GIANT_CACTUS_BASE.get());
+
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.TRANSPORTATION, ModItems.CACTUS_CHEST_BOAT.get())
+                .requires(ModItems.CACTUS_BOAT.get())
+                .requires(Blocks.CHEST)
+                .unlockedBy(getHasName(ModItems.CACTUS_BOAT.get()), has(ModItems.CACTUS_BOAT.get()))
+                .save(recipeOutput);
+
+
+
+
 
         //Shaped
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModBlocks.TWIG_LADDER, 3)

@@ -57,6 +57,23 @@ public class ModItems {
     public static final DeferredItem<Item> APPLE_JUICE = ITEMS.register("apple_juice",
             () -> new BottledJuiceItem(new Item.Properties().food(ModFoods.APPLE_JUICE).stacksTo(16)));
 
+    public static final DeferredItem<Item> CACTUS_SIGN = ITEMS.register("cactus_sign",
+            () -> new net.minecraft.world.item.SignItem(new Item.Properties().stacksTo(16),
+                    ModBlocks.CACTUS_SIGN.get(),
+                    ModBlocks.CACTUS_WALL_SIGN.get()));
+
+    public static final DeferredItem<Item> CACTUS_HANGING_SIGN = ITEMS.register("cactus_hanging_sign",
+            () -> new net.minecraft.world.item.HangingSignItem(
+                    ModBlocks.CACTUS_HANGING_SIGN.get(),
+                    ModBlocks.CACTUS_WALL_HANGING_SIGN.get(),
+                    new Item.Properties().stacksTo(16)));
+
+    public static final DeferredItem<Item> CACTUS_BOAT = ITEMS.register("cactus_boat",
+            () -> new CactusBoatItem(false, new Item.Properties().stacksTo(1)));
+
+    public static final DeferredItem<Item> CACTUS_CHEST_BOAT = ITEMS.register("cactus_chest_boat",
+            () -> new CactusBoatItem(true, new Item.Properties().stacksTo(1)));
+
     public static void register(IEventBus eventBus) {
         ITEMS.register(eventBus);
     }

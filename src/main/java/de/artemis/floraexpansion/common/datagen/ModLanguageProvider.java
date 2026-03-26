@@ -39,6 +39,15 @@ public class ModLanguageProvider extends net.neoforged.neoforge.common.data.Lang
         add(ModBlocks.CACTUS_FLOWER.get(), "Cactus Flower");
         add(ModBlocks.GIANT_CACTUS_WOOD.get(), "Giant Cactus Wood");
         add(ModBlocks.STRIPPED_GIANT_CACTUS_WOOD.get(), "Stripped Giant Cactus Wood");
+        add(ModBlocks.CACTUS_PLANKS.get(), "Cactus Planks");
+        add(ModBlocks.CACTUS_STAIRS.get(), "Cactus Stairs");
+        add(ModBlocks.CACTUS_SLAB.get(), "Cactus Slab");
+        add(ModBlocks.CACTUS_FENCE.get(), "Cactus Fence");
+        add(ModBlocks.CACTUS_FENCE_GATE.get(), "Cactus Fence Gate");
+        add(ModBlocks.CACTUS_BUTTON.get(), "Cactus Button");
+        add(ModBlocks.CACTUS_PRESSURE_PLATE.get(), "Cactus Pressure Plate");
+        add(ModBlocks.CACTUS_DOOR.get(), "Cactus Door");
+        add(ModBlocks.CACTUS_TRAPDOOR.get(), "Cactus Trapdoor");
 
         //Items
         add(ModItems.PINE_CONE.get(), "Pine Cone");
@@ -56,5 +65,9 @@ public class ModLanguageProvider extends net.neoforged.neoforge.common.data.Lang
         add(ModItems.SWEET_BERRY_MIX.get(), "Sweet Berry Mix");
         add(ModItems.CHERRY_JUICE.get(), "Cherry Juice");
         add(ModItems.APPLE_JUICE.get(), "Apple Juice");
+        add(ModItems.CACTUS_SIGN.get(), "Cactus Sign");
+        add(ModItems.CACTUS_HANGING_SIGN.get(), "Cactus Hanging Sign");
+        add(ModItems.CACTUS_BOAT.get(), "Cactus Boat");
+        add(ModItems.CACTUS_CHEST_BOAT.get(), "Cactus Chest Boat");
     }
 }

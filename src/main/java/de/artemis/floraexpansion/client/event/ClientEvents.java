@@ -1,10 +1,16 @@
 package de.artemis.floraexpansion.client.event;
 
 import de.artemis.floraexpansion.FloraExpansion;
+import de.artemis.floraexpansion.common.block.entity.ModBlockEntities;
 import de.artemis.floraexpansion.common.particle.*;
+import de.artemis.floraexpansion.common.util.ModWoodTypes;
+import net.minecraft.client.renderer.Sheets;
+import net.minecraft.client.renderer.blockentity.SignRenderer;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
+import net.neoforged.neoforge.client.event.EntityRenderersEvent;
 import net.neoforged.neoforge.client.event.RegisterParticleProvidersEvent;
 
 @EventBusSubscriber(modid = FloraExpansion.MODID, value = Dist.CLIENT)
@@ -23,6 +29,17 @@ public class ClientEvents {
                 ModBlocks.LEAF_LITTER.get()
         );
     }**/
+
+    @SubscribeEvent
+    public static void onClientSetup(FMLClientSetupEvent event) {
+        event.enqueueWork(() -> Sheets.addWoodType(ModWoodTypes.CACTUS_WOOD_TYPE));
+    }
+
+    @SubscribeEvent
+    public static void registerBlockEntityRenderers(EntityRenderersEvent.RegisterRenderers event) {
+        event.registerBlockEntityRenderer(ModBlockEntities.CACTUS_SIGN.get(), SignRenderer::new);
+        event.registerBlockEntityRenderer(ModBlockEntities.CACTUS_HANGING_SIGN.get(), SignRenderer::new);
+    }
 
     @SubscribeEvent
     public static void registerParticleFactories(RegisterParticleProvidersEvent event) {

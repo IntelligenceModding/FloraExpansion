@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/door_bottom_right_open",
+  "render_type": "minecraft:cutout",
+  "textures": {
+    "bottom": "floraexpansion:block/cactus_door_bottom",
+    "top": "floraexpansion:block/cactus_door_top"
+  }
+}

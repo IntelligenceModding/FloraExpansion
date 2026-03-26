@@ -78,5 +78,44 @@ public class ModBlockTagProvider extends BlockTagsProvider {
                 .add(ModBlocks.GIANT_CACTUS_BASE.get())
                 .add(ModBlocks.GIANT_CACTUS_WOOD.get())
                 .add(ModBlocks.STRIPPED_GIANT_CACTUS_WOOD.get());
+
+        tag(BlockTags.PLANKS)
+                .add(ModBlocks.CACTUS_PLANKS.get());
+
+        tag(BlockTags.WOODEN_STAIRS)
+                .add(ModBlocks.CACTUS_STAIRS.get());
+
+        tag(BlockTags.WOODEN_SLABS)
+                .add(ModBlocks.CACTUS_SLAB.get());
+
+        tag(BlockTags.WOODEN_FENCES)
+                .add(ModBlocks.CACTUS_FENCE.get());
+
+        tag(BlockTags.FENCE_GATES)
+                .add(ModBlocks.CACTUS_FENCE_GATE.get());
+
+        tag(BlockTags.WOODEN_BUTTONS)
+                .add(ModBlocks.CACTUS_BUTTON.get());
+
+        tag(BlockTags.WOODEN_PRESSURE_PLATES)
+                .add(ModBlocks.CACTUS_PRESSURE_PLATE.get());
+
+        tag(BlockTags.WOODEN_DOORS)
+                .add(ModBlocks.CACTUS_DOOR.get());
+
+        tag(BlockTags.WOODEN_TRAPDOORS)
+                .add(ModBlocks.CACTUS_TRAPDOOR.get());
+
+        tag(BlockTags.STANDING_SIGNS)
+                .add(ModBlocks.CACTUS_SIGN.get());
+
+        tag(BlockTags.WALL_SIGNS)
+                .add(ModBlocks.CACTUS_WALL_SIGN.get());
+
+        tag(BlockTags.CEILING_HANGING_SIGNS)
+                .add(ModBlocks.CACTUS_HANGING_SIGN.get());
+
+        tag(BlockTags.WALL_HANGING_SIGNS)
+                .add(ModBlocks.CACTUS_WALL_HANGING_SIGN.get());
     }
 }

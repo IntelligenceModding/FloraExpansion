@@ -2,6 +2,7 @@ package de.artemis.floraexpansion.common.block;
 
 import de.artemis.floraexpansion.FloraExpansion;
 import de.artemis.floraexpansion.common.item.ModItems;
+import de.artemis.floraexpansion.common.util.ModWoodTypes;
 import de.artemis.floraexpansion.common.worldgen.ModTreeGrowers;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
@@ -119,6 +120,51 @@ public class ModBlocks {
                     .strength(1.0F)
                     .sound(SoundType.WOOD)
                     .ignitedByLava()));
+
+    public static final DeferredBlock<Block> CACTUS_PLANKS = registerBlock("cactus_planks",
+            () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_PLANKS)));
+
+    public static final DeferredBlock<Block> CACTUS_STAIRS = registerBlock("cactus_stairs",
+            () -> new StairBlock(ModBlocks.CACTUS_PLANKS.get().defaultBlockState(),
+                    BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_STAIRS)));
+
+    public static final DeferredBlock<Block> CACTUS_SLAB = registerBlock("cactus_slab",
+            () -> new SlabBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_SLAB)));
+
+    public static final DeferredBlock<Block> CACTUS_FENCE = registerBlock("cactus_fence",
+            () -> new FenceBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_FENCE)));
+
+    public static final DeferredBlock<Block> CACTUS_FENCE_GATE = registerBlock("cactus_fence_gate",
+            () -> new FenceGateBlock(ModWoodTypes.CACTUS_WOOD_TYPE,
+                    BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_FENCE_GATE)));
+
+    public static final DeferredBlock<Block> CACTUS_BUTTON = registerBlock("cactus_button",
+            () -> new ButtonBlock(ModWoodTypes.CACTUS_SET_TYPE, 30,
+                    BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_BUTTON).noCollission()));
+
+    public static final DeferredBlock<Block> CACTUS_PRESSURE_PLATE = registerBlock("cactus_pressure_plate",
+            () -> new PressurePlateBlock(ModWoodTypes.CACTUS_SET_TYPE,
+                    BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_PRESSURE_PLATE)));
+
+    public static final DeferredBlock<Block> CACTUS_DOOR = registerBlock("cactus_door",
+            () -> new DoorBlock(ModWoodTypes.CACTUS_SET_TYPE,
+                    BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_DOOR).noOcclusion()));
+
+    public static final DeferredBlock<Block> CACTUS_TRAPDOOR = registerBlock("cactus_trapdoor",
+            () -> new TrapDoorBlock(ModWoodTypes.CACTUS_SET_TYPE,
+                    BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_TRAPDOOR).noOcclusion()));
+
+    public static final DeferredBlock<Block> CACTUS_SIGN = BLOCKS.register("cactus_sign",
+            () -> new CactusStandingSignBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_SIGN).noCollission().strength(1.0F)));
+
+    public static final DeferredBlock<Block> CACTUS_WALL_SIGN = BLOCKS.register("cactus_wall_sign",
+            () -> new CactusWallSignBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_WALL_SIGN).noCollission().strength(1.0F).lootFrom(CACTUS_SIGN)));
+
+    public static final DeferredBlock<Block> CACTUS_HANGING_SIGN = BLOCKS.register("cactus_hanging_sign",
+            () -> new CactusCeilingHangingSignBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_HANGING_SIGN).noCollission().strength(1.0F)));
+
+    public static final DeferredBlock<Block> CACTUS_WALL_HANGING_SIGN = BLOCKS.register("cactus_wall_hanging_sign",
+            () -> new CactusWallHangingSignBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_WALL_HANGING_SIGN).noCollission().strength(1.0F).lootFrom(CACTUS_HANGING_SIGN)));
 
     private static <T extends Block> DeferredBlock<T> registerBlock(String name, Supplier<T> block) {
         DeferredBlock<T> toReturn = BLOCKS.register(name, block);
