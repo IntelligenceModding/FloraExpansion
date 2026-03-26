@@ -1,5 +1,6 @@
 package de.artemis.floraexpansion.common.util;
 
+import de.artemis.floraexpansion.FloraExpansion;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.properties.BlockSetType;
@@ -8,7 +9,7 @@ import net.minecraft.world.level.block.state.properties.WoodType;
 public final class ModWoodTypes {
     private ModWoodTypes() {}
 
-    public static final String CACTUS_NAME = "cactus";
+    public static final String CACTUS_NAME = FloraExpansion.MODID + ":cactus";
 
     public static final BlockSetType CACTUS_SET_TYPE = BlockSetType.register(
             new BlockSetType(CACTUS_NAME)

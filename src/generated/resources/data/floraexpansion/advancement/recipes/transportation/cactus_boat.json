@@ -1,11 +1,11 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_giant_cactus_base": {
+    "has_cactus_planks": {
       "conditions": {
         "items": [
           {
-            "items": "floraexpansion:giant_cactus_base"
+            "items": "floraexpansion:cactus_planks"
           }
         ]
       },
@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "floraexpansion:cactus_planks"
+        "recipe": "floraexpansion:cactus_boat"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
@@ -21,12 +21,12 @@
   "requirements": [
     [
       "has_the_recipe",
-      "has_giant_cactus_base"
+      "has_cactus_planks"
     ]
   ],
   "rewards": {
     "recipes": [
-      "floraexpansion:cactus_planks"
+      "floraexpansion:cactus_boat"
     ]
   }
 }

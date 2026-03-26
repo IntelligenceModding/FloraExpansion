@@ -27,10 +27,7 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
     protected void buildRecipes(@NotNull RecipeOutput recipeOutput) {
 
 
-        ShapelessRecipeBuilder.shapeless(RecipeCategory.BUILDING_BLOCKS, ModBlocks.CACTUS_PLANKS.get(), 4)
-                .requires(ModBlocks.GIANT_CACTUS_BASE.get())
-                .unlockedBy(getHasName(ModBlocks.GIANT_CACTUS_BASE.get()), has(ModBlocks.GIANT_CACTUS_BASE.get()))
-                .save(recipeOutput);
+
 
         stairBuilder(ModBlocks.CACTUS_STAIRS.get(), Ingredient.of(ModBlocks.CACTUS_PLANKS.get()))
                 .unlockedBy(getHasName(ModBlocks.CACTUS_PLANKS.get()), has(ModBlocks.CACTUS_PLANKS.get()))
@@ -72,9 +69,63 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .unlockedBy(getHasName(ModItems.CACTUS_BOAT.get()), has(ModItems.CACTUS_BOAT.get()))
                 .save(recipeOutput);
 
+        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, ModBlocks.GIANT_CACTUS_WOOD.get(), 3)
+                .pattern("##")
+                .pattern("##")
+                .define('#', ModBlocks.GIANT_CACTUS_BASE.get())
+                .unlockedBy(getHasName(ModBlocks.GIANT_CACTUS_BASE.get()), has(ModBlocks.GIANT_CACTUS_BASE.get()))
+                .save(recipeOutput);
 
+        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, ModBlocks.STRIPPED_GIANT_CACTUS_WOOD.get(), 3)
+                .pattern("##")
+                .pattern("##")
+                .define('#', ModBlocks.STRIPPED_GIANT_CACTUS_BASE.get())
+                .unlockedBy(getHasName(ModBlocks.STRIPPED_GIANT_CACTUS_BASE.get()), has(ModBlocks.STRIPPED_GIANT_CACTUS_BASE.get()))
+                .save(recipeOutput);
 
+        ShapedRecipeBuilder.shaped(RecipeCategory.TRANSPORTATION, ModItems.CACTUS_BOAT.get())
+                .pattern("# #")
+                .pattern("###")
+                .define('#', ModBlocks.CACTUS_PLANKS.get())
+                .unlockedBy(getHasName(ModBlocks.CACTUS_PLANKS.get()), has(ModBlocks.CACTUS_PLANKS.get()))
+                .save(recipeOutput);
 
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.BUILDING_BLOCKS, ModBlocks.CACTUS_PLANKS.get(), 4)
+                .requires(ModBlocks.GIANT_CACTUS_BASE.get())
+                .unlockedBy(getHasName(ModBlocks.GIANT_CACTUS_BASE.get()),
+                        has(ModBlocks.GIANT_CACTUS_BASE.get()))
+                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath(FloraExpansion.MODID, "cactus_planks_from_giant_cactus_base"));
+
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.BUILDING_BLOCKS, ModBlocks.CACTUS_PLANKS.get(), 4)
+                .requires(ModBlocks.STRIPPED_GIANT_CACTUS_BASE.get())
+                .unlockedBy(getHasName(ModBlocks.STRIPPED_GIANT_CACTUS_BASE.get()),
+                        has(ModBlocks.STRIPPED_GIANT_CACTUS_BASE.get()))
+                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath(FloraExpansion.MODID, "cactus_planks_from_stripped_giant_cactus_base"));
+
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.BUILDING_BLOCKS, ModBlocks.CACTUS_PLANKS.get(), 4)
+                .requires(ModBlocks.GIANT_CACTUS_WOOD.get())
+                .unlockedBy(getHasName(ModBlocks.GIANT_CACTUS_WOOD.get()),
+                        has(ModBlocks.GIANT_CACTUS_WOOD.get()))
+                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath(FloraExpansion.MODID, "cactus_planks_from_giant_cactus_wood"));
+
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.BUILDING_BLOCKS, ModBlocks.CACTUS_PLANKS.get(), 4)
+                .requires(ModBlocks.STRIPPED_GIANT_CACTUS_WOOD.get())
+                .unlockedBy(getHasName(ModBlocks.STRIPPED_GIANT_CACTUS_WOOD.get()),
+                        has(ModBlocks.STRIPPED_GIANT_CACTUS_WOOD.get()))
+                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath(FloraExpansion.MODID, "cactus_planks_from_stripped_giant_cactus_wood"));
+
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.BUILDING_BLOCKS, ModBlocks.CACTUS_PLANKS.get())
+                .requires(ModBlocks.GIANT_CACTUS_STEM.get())
+                .unlockedBy(getHasName(ModBlocks.GIANT_CACTUS_STEM.get()),
+                        has(ModBlocks.GIANT_CACTUS_STEM.get()))
+                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath(FloraExpansion.MODID, "cactus_planks_from_giant_cactus_stem"));
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, Items.STICK, 4)
+                .pattern("#")
+                .pattern("#")
+                .define('#', ModBlocks.GIANT_CACTUS_STEM.get())
+                .unlockedBy(getHasName(Items.STICK), has(Items.STICK))
+                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath(FloraExpansion.MODID, "stick_from_giant_cactus_stem"));
 
         //Shaped
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModBlocks.TWIG_LADDER, 3)
@@ -143,7 +194,7 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
         ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, Items.STICK, 2)
                 .requires(ModItems.TWIG)
                 .unlockedBy("has_twig", has(ModItems.TWIG))
-                .save(recipeOutput);
+                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath(FloraExpansion.MODID, "stick_from_twig"));
 
         ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ModItems.FOREST_SNACK, 3)
                 .requires(ModItems.TOASTED_PINE_NUTS)

@@ -73,6 +73,22 @@ public class ModBlockLootTableProvider extends BlockLootSubProvider {
                                         .setProperties(StatePropertiesPredicate.Builder.properties()
                                                 .hasProperty(GiantCactusWoodBlock.GENERATED, false))))
                         .when(ExplosionCondition.survivesExplosion())));
+
+        dropSelf(ModBlocks.CACTUS_PLANKS.get());
+        dropSelf(ModBlocks.CACTUS_STAIRS.get());
+        add(ModBlocks.CACTUS_SLAB.get(), createSlabItemTable(ModBlocks.CACTUS_SLAB.get()));
+        dropSelf(ModBlocks.CACTUS_FENCE.get());
+        dropSelf(ModBlocks.CACTUS_FENCE_GATE.get());
+        dropSelf(ModBlocks.CACTUS_BUTTON.get());
+        dropSelf(ModBlocks.CACTUS_PRESSURE_PLATE.get());
+        add(ModBlocks.CACTUS_DOOR.get(), createDoorTable(ModBlocks.CACTUS_DOOR.get()));
+        dropSelf(ModBlocks.CACTUS_TRAPDOOR.get());
+
+        add(ModBlocks.CACTUS_SIGN.get(), createSingleItemTable(ModItems.CACTUS_SIGN.get()));
+        add(ModBlocks.CACTUS_WALL_SIGN.get(), createSingleItemTable(ModItems.CACTUS_SIGN.get()));
+
+        add(ModBlocks.CACTUS_HANGING_SIGN.get(), createSingleItemTable(ModItems.CACTUS_HANGING_SIGN.get()));
+        add(ModBlocks.CACTUS_WALL_HANGING_SIGN.get(), createSingleItemTable(ModItems.CACTUS_HANGING_SIGN.get()));
     }
 
     private LootTable.Builder createFruitingCherryLeavesDrops() {
@@ -158,7 +174,20 @@ public class ModBlockLootTableProvider extends BlockLootSubProvider {
                 ModBlocks.CACTUS_THORN.get(),
                 ModBlocks.GIANT_CACTUS_WOOD.get(),
                 ModBlocks.STRIPPED_GIANT_CACTUS_WOOD.get(),
-                ModBlocks.CACTUS_FLOWER.get()
+                ModBlocks.CACTUS_FLOWER.get(),
+                ModBlocks.CACTUS_PLANKS.get(),
+                ModBlocks.CACTUS_STAIRS.get(),
+                ModBlocks.CACTUS_SLAB.get(),
+                ModBlocks.CACTUS_FENCE.get(),
+                ModBlocks.CACTUS_FENCE_GATE.get(),
+                ModBlocks.CACTUS_BUTTON.get(),
+                ModBlocks.CACTUS_PRESSURE_PLATE.get(),
+                ModBlocks.CACTUS_DOOR.get(),
+                ModBlocks.CACTUS_TRAPDOOR.get(),
+                ModBlocks.CACTUS_SIGN.get(),
+                ModBlocks.CACTUS_WALL_SIGN.get(),
+                ModBlocks.CACTUS_HANGING_SIGN.get(),
+                ModBlocks.CACTUS_WALL_HANGING_SIGN.get()
         );
     }
 }

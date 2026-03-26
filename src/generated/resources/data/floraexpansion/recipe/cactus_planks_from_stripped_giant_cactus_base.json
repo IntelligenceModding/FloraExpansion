@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "building",
+  "ingredients": [
+    {
+      "item": "floraexpansion:stripped_giant_cactus_base"
+    }
+  ],
+  "result": {
+    "count": 4,
+    "id": "floraexpansion:cactus_planks"
+  }
+}

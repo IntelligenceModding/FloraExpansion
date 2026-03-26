@@ -8,6 +8,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.BonemealableBlock;
 import net.minecraft.world.level.block.BushBlock;
@@ -23,10 +24,7 @@ import org.jetbrains.annotations.NotNull;
 
 public class CactusFlowerBlock extends BushBlock implements BonemealableBlock {
     public static final MapCodec<CactusFlowerBlock> CODEC = simpleCodec(CactusFlowerBlock::new);
-
     private static final VoxelShape SHAPE = box(5.0D, 0.0D, 5.0D, 11.0D, 10.0D, 11.0D);
-
-    // Sapling-like: bonemeal does not always grow it immediately
     private static final float BONEMEAL_GROW_CHANCE = 0.45F;
 
     public CactusFlowerBlock(Properties properties) {
@@ -40,9 +38,6 @@ public class CactusFlowerBlock extends BushBlock implements BonemealableBlock {
 
     @Override
     protected boolean mayPlaceOn(@NotNull BlockState state, @NotNull BlockGetter level, @NotNull BlockPos pos) {
-        // Broad placement:
-        // - vanilla cactus flower style placement
-        // - plus your giant cactus stem so generated flowers survive there
         return state.getBlock() instanceof CactusBlock
                 || state.getBlock() instanceof FarmBlock
                 || state.is(ModBlocks.GIANT_CACTUS_STEM.get())
@@ -55,59 +50,39 @@ public class CactusFlowerBlock extends BushBlock implements BonemealableBlock {
     }
 
     @Override
-    protected @NotNull VoxelShape getShape(@NotNull BlockState state,
-                                           @NotNull BlockGetter level,
-                                           @NotNull BlockPos pos,
-                                           @NotNull CollisionContext context) {
+    protected @NotNull VoxelShape getShape(@NotNull BlockState state, @NotNull BlockGetter level, @NotNull BlockPos pos, @NotNull CollisionContext context) {
         return SHAPE;
     }
 
     @Override
-    protected @NotNull VoxelShape getCollisionShape(@NotNull BlockState state,
-                                                    @NotNull BlockGetter level,
-                                                    @NotNull BlockPos pos,
-                                                    @NotNull CollisionContext context) {
+    protected @NotNull VoxelShape getCollisionShape(@NotNull BlockState state, @NotNull BlockGetter level, @NotNull BlockPos pos, @NotNull CollisionContext context) {
         return Shapes.empty();
     }
 
     @Override
-    public boolean isValidBonemealTarget(@NotNull LevelReader level,
-                                         @NotNull BlockPos pos,
-                                         @NotNull BlockState state) {
-        // Always allow bonemeal to be used on the flower.
-        // Whether it actually grows is decided in isBonemealSuccess / performBonemeal.
+    public boolean isValidBonemealTarget(@NotNull LevelReader level, @NotNull BlockPos pos, @NotNull BlockState state) {
         return true;
     }
 
     @Override
-    public boolean isBonemealSuccess(@NotNull net.minecraft.world.level.Level level,
-                                     @NotNull RandomSource random,
-                                     @NotNull BlockPos pos,
-                                     @NotNull BlockState state) {
+    public boolean isBonemealSuccess(@NotNull Level level, @NotNull RandomSource random, @NotNull BlockPos pos, @NotNull BlockState state) {
         BlockState below = level.getBlockState(pos.below());
 
-        // Only allow actual growth attempts on valid giant cactus ground.
         if (!isValidGiantCactusGrowthGround(below)) {
             return false;
         }
 
-        // Like saplings: not guaranteed on the first bonemeal.
         return random.nextFloat() < BONEMEAL_GROW_CHANCE;
     }
 
     @Override
-    public void performBonemeal(@NotNull ServerLevel level,
-                                @NotNull RandomSource random,
-                                @NotNull BlockPos pos,
-                                @NotNull BlockState state) {
+    public void performBonemeal(@NotNull ServerLevel level, @NotNull RandomSource random, @NotNull BlockPos pos, @NotNull BlockState state) {
         BlockState below = level.getBlockState(pos.below());
 
-        // Safety check: even if called unexpectedly, only grow from true desert-style ground.
         if (!isValidGiantCactusGrowthGround(below)) {
             return;
         }
 
-        // Use a deterministic seed so validation and generation use the same exact plan.
         long seed = level.getSeed() ^ pos.asLong();
 
         RandomSource validationRandom = RandomSource.create(seed);
@@ -115,7 +90,6 @@ public class CactusFlowerBlock extends BushBlock implements BonemealableBlock {
             return;
         }
 
-        // Only remove the flower after validation succeeded
         level.removeBlock(pos, false);
 
         RandomSource generationRandom = RandomSource.create(seed);
@@ -137,18 +111,13 @@ public class CactusFlowerBlock extends BushBlock implements BonemealableBlock {
     }
 
     @Override
-    protected void randomTick(@NotNull BlockState state,
-                              @NotNull ServerLevel level,
-                              @NotNull BlockPos pos,
-                              @NotNull RandomSource random) {
+    protected void randomTick(@NotNull BlockState state, @NotNull ServerLevel level, @NotNull BlockPos pos, @NotNull RandomSource random) {
         BlockState below = level.getBlockState(pos.below());
 
-        // only true desert-style ground may grow a giant cactus
         if (!isValidGiantCactusGrowthGround(below)) {
             return;
         }
 
-        // low chance per random tick so it does not spam-grow
         if (random.nextFloat() >= 0.08F) {
             return;
         }
