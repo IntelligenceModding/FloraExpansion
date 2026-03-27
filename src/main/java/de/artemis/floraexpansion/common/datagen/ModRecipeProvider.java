@@ -127,6 +127,46 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .unlockedBy(getHasName(Items.STICK), has(Items.STICK))
                 .save(recipeOutput, ResourceLocation.fromNamespaceAndPath(FloraExpansion.MODID, "stick_from_giant_cactus_stem"));
 
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, ModItems.CACTUS_HELMET.get())
+                .pattern("TDT")
+                .pattern(" H ")
+                .pattern("T T")
+                .define('T', ModBlocks.CACTUS_THORN.get())
+                .define('H', Items.LEATHER_HELMET)
+                .define('D', Items.GREEN_DYE)
+                .unlockedBy(getHasName(ModBlocks.CACTUS_THORN.get()), has(ModBlocks.CACTUS_THORN.get()))
+                .save(recipeOutput);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, ModItems.CACTUS_CHESTPLATE.get())
+                .pattern("TDT")
+                .pattern("TCT")
+                .pattern("TTT")
+                .define('T', ModBlocks.CACTUS_THORN.get())
+                .define('C', Items.LEATHER_CHESTPLATE)
+                .define('D', Items.GREEN_DYE)
+                .unlockedBy(getHasName(ModBlocks.CACTUS_THORN.get()), has(ModBlocks.CACTUS_THORN.get()))
+                .save(recipeOutput);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, ModItems.CACTUS_LEGGINGS.get())
+                .pattern("TDT")
+                .pattern("TLT")
+                .pattern("T T")
+                .define('T', ModBlocks.CACTUS_THORN.get())
+                .define('L', Items.LEATHER_LEGGINGS)
+                .define('D', Items.GREEN_DYE)
+                .unlockedBy(getHasName(ModBlocks.CACTUS_THORN.get()), has(ModBlocks.CACTUS_THORN.get()))
+                .save(recipeOutput);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, ModItems.CACTUS_BOOTS.get())
+                .pattern("TDT")
+                .pattern(" B ")
+                .pattern("T T")
+                .define('T', ModBlocks.CACTUS_THORN.get())
+                .define('B', Items.LEATHER_BOOTS)
+                .define('D', Items.GREEN_DYE)
+                .unlockedBy(getHasName(ModBlocks.CACTUS_THORN.get()), has(ModBlocks.CACTUS_THORN.get()))
+                .save(recipeOutput);
+
         //Shaped
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModBlocks.TWIG_LADDER, 3)
                 .pattern("A A")

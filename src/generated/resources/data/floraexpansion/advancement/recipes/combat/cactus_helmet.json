@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_cactus_thorn": {
+      "conditions": {
+        "items": [
+          {
+            "items": "floraexpansion:cactus_thorn"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "floraexpansion:cactus_helmet"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_cactus_thorn"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "floraexpansion:cactus_helmet"
+    ]
+  }
+}

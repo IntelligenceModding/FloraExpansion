@@ -2,7 +2,9 @@ package de.artemis.floraexpansion.common.item;
 
 import de.artemis.floraexpansion.FloraExpansion;
 import de.artemis.floraexpansion.common.block.ModBlocks;
+import de.artemis.floraexpansion.common.util.ModArmorMaterials;
 import de.artemis.floraexpansion.common.util.ModFoods;
+import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemNameBlockItem;
 import net.neoforged.bus.api.IEventBus;
@@ -73,6 +75,34 @@ public class ModItems {
 
     public static final DeferredItem<Item> CACTUS_CHEST_BOAT = ITEMS.register("cactus_chest_boat",
             () -> new CactusBoatItem(true, new Item.Properties().stacksTo(1)));
+
+    public static final DeferredItem<Item> CACTUS_HELMET = ITEMS.register("cactus_helmet",
+            () -> new CactusArmorItem(
+                    ModArmorMaterials.CACTUS,
+                    ArmorItem.Type.HELMET,
+                    new Item.Properties().durability(ArmorItem.Type.HELMET.getDurability(7))
+            ));
+
+    public static final DeferredItem<Item> CACTUS_CHESTPLATE = ITEMS.register("cactus_chestplate",
+            () -> new CactusArmorItem(
+                    ModArmorMaterials.CACTUS,
+                    ArmorItem.Type.CHESTPLATE,
+                    new Item.Properties().durability(ArmorItem.Type.CHESTPLATE.getDurability(7))
+            ));
+
+    public static final DeferredItem<Item> CACTUS_LEGGINGS = ITEMS.register("cactus_leggings",
+            () -> new CactusArmorItem(
+                    ModArmorMaterials.CACTUS,
+                    ArmorItem.Type.LEGGINGS,
+                    new Item.Properties().durability(ArmorItem.Type.LEGGINGS.getDurability(7))
+            ));
+
+    public static final DeferredItem<Item> CACTUS_BOOTS = ITEMS.register("cactus_boots",
+            () -> new CactusArmorItem(
+                    ModArmorMaterials.CACTUS,
+                    ArmorItem.Type.BOOTS,
+                    new Item.Properties().durability(ArmorItem.Type.BOOTS.getDurability(7))
+            ));
 
     public static void register(IEventBus eventBus) {
         ITEMS.register(eventBus);

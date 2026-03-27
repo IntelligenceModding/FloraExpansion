@@ -6,6 +6,7 @@ import de.artemis.floraexpansion.common.entity.ModEntityTypes;
 import de.artemis.floraexpansion.common.item.ModItems;
 import de.artemis.floraexpansion.common.loot.ModLootModifiers;
 import de.artemis.floraexpansion.common.particle.ModParticles;
+import de.artemis.floraexpansion.common.util.ModArmorMaterials;
 import de.artemis.floraexpansion.common.worldgen.feature.ModFeatures;
 import de.artemis.floraexpansion.common.worldgen.treedecorator.ModTreeDecorators;
 import net.minecraft.world.level.block.Blocks;
@@ -56,12 +57,14 @@ public class FloraExpansion {
         ModTreeDecorators.register(modEventBus);
         ModBlockEntities.register(modEventBus);
         ModEntityTypes.register(modEventBus);
+        ModArmorMaterials.register(modEventBus);
     }
 
     private void commonSetup(FMLCommonSetupEvent event) {
         event.enqueueWork(() -> {
             ((FlowerPotBlock) Blocks.FLOWER_POT).addPlant(ModBlocks.CHERRY_PIT.getId(), ModBlocks.POTTED_CHERRY_PIT);
             ((FlowerPotBlock) Blocks.FLOWER_POT).addPlant(ModBlocks.APPLE_CORE.getId(), ModBlocks.POTTED_APPLE_CORE);
+            ((FlowerPotBlock) Blocks.FLOWER_POT).addPlant(ModBlocks.GIANT_CACTUS_STEM.getId(), ModBlocks.POTTED_GIANT_CACTUS_STEM);
         });
     }
 

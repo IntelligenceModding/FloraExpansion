@@ -90,6 +90,9 @@ public class ModBlocks {
                     .sound(SoundType.WOOL)
                     .randomTicks()));
 
+    public static final DeferredBlock<Block> POTTED_GIANT_CACTUS_STEM = BLOCKS.register("potted_giant_cactus_stem",
+            () -> new FlowerPotBlock(() -> (FlowerPotBlock) Blocks.FLOWER_POT, GIANT_CACTUS_STEM, BlockBehaviour.Properties.ofFullCopy(Blocks.POTTED_CHERRY_SAPLING).noOcclusion()));
+
     public static final DeferredBlock<Block> CACTUS_THORN = registerBlock("cactus_thorn",
             () -> new CactusThornBlock(BlockBehaviour.Properties.of()
                     .mapColor(MapColor.COLOR_GREEN)

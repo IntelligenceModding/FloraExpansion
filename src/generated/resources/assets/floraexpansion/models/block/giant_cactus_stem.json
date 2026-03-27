@@ -3,6 +3,7 @@
   "render_type": "minecraft:cutout",
   "textures": {
     "bottom": "floraexpansion:block/giant_cactus_stem_bottom",
+    "particle": "floraexpansion:block/giant_cactus_stem_top",
     "side": "floraexpansion:block/giant_cactus_stem_side",
     "top": "floraexpansion:block/giant_cactus_stem_top"
   }

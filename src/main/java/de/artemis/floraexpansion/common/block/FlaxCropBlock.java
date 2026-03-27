@@ -172,27 +172,13 @@ public class FlaxCropBlock extends CropBlock {
 
     @Override
     public @NotNull BlockState playerWillDestroy(@NotNull Level level, @NotNull BlockPos pos, @NotNull BlockState state, @NotNull Player player) {
-        // Disallow breaking just the top when the plant is exactly age=2 (tall start)
-        if (isUpper(state)) {
-            BlockPos belowPos = pos.below();
-            BlockState belowState = level.getBlockState(belowPos);
-            if (belowState.getBlock() == this && isLower(belowState) && getAge(belowState) == DOUBLE_AGE
-                    && !player.getAbilities().instabuild) {
-                if (!level.isClientSide) {
-                    // Ensure upper still matches the lower half (server authority), no drops
-                    setUpper(level, pos, DOUBLE_AGE, belowState.getValue(WILD));
-                }
-                return state; // cancel the normal break path
-            }
-        }
-
         if (isUpper(state)) {
             if (!level.isClientSide) {
                 BlockPos below = pos.below();
                 BlockState belowState = level.getBlockState(below);
 
                 level.setBlock(pos, Blocks.AIR.defaultBlockState(), 35);
-                level.levelEvent(player, 2001, pos, Block.getId(state)); // particles at top
+                level.levelEvent(player, 2001, pos, Block.getId(state));
 
                 if (belowState.getBlock() == this && isLower(belowState)) {
                     if (player.getAbilities().instabuild) {

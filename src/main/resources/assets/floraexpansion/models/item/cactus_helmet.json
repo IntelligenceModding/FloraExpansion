@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "floraexpansion:item/cactus_helmet",
+    "layer1": "floraexpansion:item/cactus_helmet_overlay"
+  }
+}

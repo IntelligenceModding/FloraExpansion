@@ -1,0 +1,9 @@
+{
+  "parent": "minecraft:block/potted_cactus",
+  "render_type": "cutout",
+  "textures": {
+    "cactus": "floraexpansion:block/giant_cactus_stem_side",
+    "cactus_top": "floraexpansion:block/giant_cactus_stem_top",
+    "flowerpot": "minecraft:block/flower_pot"
+  }
+}

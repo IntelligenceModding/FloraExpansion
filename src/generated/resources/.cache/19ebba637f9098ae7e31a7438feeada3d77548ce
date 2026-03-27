@@ -1,14 +1,24 @@
-// 1.21.1	2026-03-26T15:09:17.8445094	Tags for minecraft:item mod id floraexpansion
+// 1.21.1	2026-03-27T04:21:37.7994514	Tags for minecraft:item mod id floraexpansion
 31d74850e49ddd7b7948436735fa8098d3b32d62 data/c/tags/item/foods.json
 4f98ff26428233b97415c1789017e0db5943a94e data/c/tags/item/seeds.json
 33c332a2d55f7124439c8ca91496c89d936ea9c7 data/c/tags/item/strings.json
 a89ffa6447405bbbf2ce7227e039e4848f55275b data/minecraft/tags/item/arrows.json
 eac48c05b7c9bdd229f35c2c07112fd3ab2e82cf data/minecraft/tags/item/boats.json
+90bb3b061278f95a1e6fc2c77ad579de85725434 data/minecraft/tags/item/chest_armor.json
 b39e229a48d16407b087b23d2aedfc077a136511 data/minecraft/tags/item/chest_boats.json
 6330c49a568e21089f1bb4adf538893bcb8cad81 data/minecraft/tags/item/chicken_food.json
 ff47487ff9569b8057b6196384aea29997703b7e data/minecraft/tags/item/dampens_vibrations.json
+eee58acb4d2ddcd75d371fc5dfbd79609ce60475 data/minecraft/tags/item/enchantable/armor.json
+90bb3b061278f95a1e6fc2c77ad579de85725434 data/minecraft/tags/item/enchantable/chest_armor.json
+eee58acb4d2ddcd75d371fc5dfbd79609ce60475 data/minecraft/tags/item/enchantable/fire_aspect.json
+81f61eda44426b27e0f579cc7173103d4749c242 data/minecraft/tags/item/enchantable/foot_armor.json
+adbcb379e1d5a38d15af828c14c692c9abe268e0 data/minecraft/tags/item/enchantable/head_armor.json
+097c95b4f5e6d755f0a7393ad1699b6a01886097 data/minecraft/tags/item/enchantable/leg_armor.json
 ed120b8d39d92b3bcd4723285c4c87751bb48742 data/minecraft/tags/item/flowers.json
+81f61eda44426b27e0f579cc7173103d4749c242 data/minecraft/tags/item/foot_armor.json
 b2cc26306225c588cf023fa04b3f307abb928a8f data/minecraft/tags/item/hanging_signs.json
+adbcb379e1d5a38d15af828c14c692c9abe268e0 data/minecraft/tags/item/head_armor.json
+097c95b4f5e6d755f0a7393ad1699b6a01886097 data/minecraft/tags/item/leg_armor.json
 3aefae81619e85bbbbcc8b67da1f53cfb4db35e0 data/minecraft/tags/item/logs_that_burn.json
 6330c49a568e21089f1bb4adf538893bcb8cad81 data/minecraft/tags/item/parrot_food.json
 c9aadd8aa861dc18394a6c048766e319d1449882 data/minecraft/tags/item/parrot_poisonous_food.json

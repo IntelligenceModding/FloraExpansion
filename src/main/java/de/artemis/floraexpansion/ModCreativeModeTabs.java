@@ -66,6 +66,10 @@ public class ModCreativeModeTabs {
                         output.accept(ModItems.CACTUS_HANGING_SIGN);
                         output.accept(ModItems.CACTUS_BOAT);
                         output.accept(ModItems.CACTUS_CHEST_BOAT);
+                        output.accept(ModItems.CACTUS_HELMET);
+                        output.accept(ModItems.CACTUS_CHESTPLATE);
+                        output.accept(ModItems.CACTUS_LEGGINGS);
+                        output.accept(ModItems.CACTUS_BOOTS);
                     }).build());
 
     public static void register(IEventBus eventBus) {

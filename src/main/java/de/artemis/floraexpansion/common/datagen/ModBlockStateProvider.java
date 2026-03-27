@@ -195,6 +195,7 @@ public class ModBlockStateProvider extends BlockStateProvider {
                 .renderType("cutout")
                 .texture("side", modLoc("block/giant_cactus_stem_side"))
                 .texture("top", modLoc("block/giant_cactus_stem_top"))
+                .texture("particle", modLoc("block/giant_cactus_stem_top"))
                 .texture("bottom", modLoc("block/giant_cactus_stem_bottom"));
 
         simpleBlock(ModBlocks.GIANT_CACTUS_STEM.get(), model);
