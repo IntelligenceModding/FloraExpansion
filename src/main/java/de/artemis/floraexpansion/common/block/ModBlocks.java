@@ -124,8 +124,28 @@ public class ModBlocks {
                     .sound(SoundType.WOOD)
                     .ignitedByLava()));
 
+    public static final DeferredBlock<Block> DESERT_MOSS = registerBlock("desert_moss",
+            () -> new DesertMossBlock(BlockBehaviour.Properties.of()
+                    .noCollission()
+                    .instabreak()
+                    .sound(SoundType.MOSS_CARPET)
+                    .noOcclusion()
+                    .replaceable()
+            ));
+
+    public static final DeferredBlock<Block> CACTUS_CLUSTER = registerBlock("cactus_cluster",
+            () -> new CactusClusterBlock(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.COLOR_GREEN)
+                    .noCollission()
+                    .instabreak()
+                    .sound(SoundType.MOSS)
+                    .pushReaction(PushReaction.DESTROY)));
+
     public static final DeferredBlock<Block> CACTUS_PLANKS = registerBlock("cactus_planks",
             () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_PLANKS)));
+
+    public static final DeferredBlock<Block> CACTUS_MOSAIC = registerBlock("cactus_mosaic",
+            () -> new Block(BlockBehaviour.Properties.ofFullCopy(ModBlocks.CACTUS_PLANKS.get())));
 
     public static final DeferredBlock<Block> CACTUS_STAIRS = registerBlock("cactus_stairs",
             () -> new StairBlock(ModBlocks.CACTUS_PLANKS.get().defaultBlockState(),

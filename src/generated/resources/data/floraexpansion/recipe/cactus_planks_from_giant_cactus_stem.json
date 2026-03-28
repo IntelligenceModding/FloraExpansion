@@ -4,10 +4,19 @@
   "ingredients": [
     {
       "item": "floraexpansion:giant_cactus_stem"
+    },
+    {
+      "item": "floraexpansion:giant_cactus_stem"
+    },
+    {
+      "item": "floraexpansion:giant_cactus_stem"
+    },
+    {
+      "item": "floraexpansion:giant_cactus_stem"
     }
   ],
   "result": {
-    "count": 1,
+    "count": 4,
     "id": "floraexpansion:cactus_planks"
   }
 }

@@ -34,6 +34,7 @@ public class ModBlockStateProvider extends BlockStateProvider {
         cactusWoodFromBaseTextures(ModBlocks.GIANT_CACTUS_WOOD, "giant_cactus_base_side");
         cactusWoodFromBaseTextures(ModBlocks.STRIPPED_GIANT_CACTUS_WOOD, "stripped_giant_cactus_base_side");
         planksBlock(ModBlocks.CACTUS_PLANKS, "cactus_planks");
+        planksBlock(ModBlocks.CACTUS_MOSAIC, "cactus_mosaic");
         stairsBlockFromTexture(ModBlocks.CACTUS_STAIRS, "cactus_planks");
         slabBlockFromTexture(ModBlocks.CACTUS_SLAB, "cactus_planks");
         fenceBlockFromTexture(ModBlocks.CACTUS_FENCE, "cactus_planks");

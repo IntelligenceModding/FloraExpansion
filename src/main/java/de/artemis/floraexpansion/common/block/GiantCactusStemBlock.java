@@ -1,18 +1,28 @@
 package de.artemis.floraexpansion.common.block;
 
 import com.mojang.serialization.MapCodec;
+import de.artemis.floraexpansion.common.item.ModItems;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import net.neoforged.neoforge.common.ItemAbilities;
 import org.jetbrains.annotations.NotNull;
 
 public class GiantCactusStemBlock extends Block {
@@ -135,5 +145,65 @@ public class GiantCactusStemBlock extends Block {
                 || below.is(ModBlocks.GIANT_CACTUS_WOOD.get())
                 || below.is(ModBlocks.STRIPPED_GIANT_CACTUS_WOOD.get())
                 || below.is(ModBlocks.GIANT_CACTUS_STEM.get());
+    }
+
+    @Override
+    protected @NotNull ItemInteractionResult useItemOn(@NotNull ItemStack stack,
+                                                       @NotNull BlockState state,
+                                                       @NotNull net.minecraft.world.level.Level level,
+                                                       @NotNull BlockPos pos,
+                                                       @NotNull Player player,
+                                                       @NotNull InteractionHand hand,
+                                                       @NotNull BlockHitResult hitResult) {
+        if (!stack.canPerformAction(ItemAbilities.AXE_STRIP)) {
+            return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
+        }
+
+        if (!level.isClientSide) {
+            int harvestedStemCount = harvestStemColumn(level, pos);
+
+            if (harvestedStemCount > 0) {
+                int sliceCount = 0;
+                for (int i = 0; i < harvestedStemCount; i++) {
+                    sliceCount += 1 + level.random.nextInt(2); // 1-2 per stem
+                }
+
+                Block.popResource(level, pos, new ItemStack(ModItems.CACTUS_SLICE.get(), sliceCount));
+                level.playSound(null, pos, SoundEvents.AXE_STRIP, SoundSource.BLOCKS, 1.0F, 1.0F);
+
+                stack.hurtAndBreak(
+                        harvestedStemCount,
+                        player,
+                        hand == InteractionHand.MAIN_HAND ? EquipmentSlot.MAINHAND : EquipmentSlot.OFFHAND
+                );
+            }
+        }
+
+        return ItemInteractionResult.sidedSuccess(level.isClientSide);
+    }
+
+    private int harvestStemColumn(net.minecraft.world.level.Level level, BlockPos startPos) {
+        int harvested = 0;
+
+        BlockPos top = startPos;
+        while (level.getBlockState(top.above()).is(ModBlocks.GIANT_CACTUS_STEM.get())) {
+            top = top.above();
+        }
+
+        BlockPos flowerPos = top.above();
+        if (level.getBlockState(flowerPos).is(ModBlocks.CACTUS_FLOWER.get())) {
+            level.destroyBlock(flowerPos, true);
+        }
+
+        for (BlockPos current = top; current.getY() >= startPos.getY(); current = current.below()) {
+            if (!level.getBlockState(current).is(ModBlocks.GIANT_CACTUS_STEM.get())) {
+                continue;
+            }
+
+            level.destroyBlock(current, false);
+            harvested++;
+        }
+
+        return harvested;
     }
 }

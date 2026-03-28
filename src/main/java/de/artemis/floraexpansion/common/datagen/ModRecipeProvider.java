@@ -114,11 +114,17 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                         has(ModBlocks.STRIPPED_GIANT_CACTUS_WOOD.get()))
                 .save(recipeOutput, ResourceLocation.fromNamespaceAndPath(FloraExpansion.MODID, "cactus_planks_from_stripped_giant_cactus_wood"));
 
-        ShapelessRecipeBuilder.shapeless(RecipeCategory.BUILDING_BLOCKS, ModBlocks.CACTUS_PLANKS.get())
-                .requires(ModBlocks.GIANT_CACTUS_STEM.get())
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.BUILDING_BLOCKS, ModBlocks.CACTUS_PLANKS.get(), 4)
+                .requires(ModBlocks.GIANT_CACTUS_STEM.get(), 4)
                 .unlockedBy(getHasName(ModBlocks.GIANT_CACTUS_STEM.get()),
                         has(ModBlocks.GIANT_CACTUS_STEM.get()))
                 .save(recipeOutput, ResourceLocation.fromNamespaceAndPath(FloraExpansion.MODID, "cactus_planks_from_giant_cactus_stem"));
+
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.BUILDING_BLOCKS, ModItems.CACTUS_SLICE.get(), 2)
+                .requires(ModBlocks.GIANT_CACTUS_STEM, 1)
+                .unlockedBy(getHasName(ModBlocks.GIANT_CACTUS_STEM.get()),
+                        has(ModBlocks.GIANT_CACTUS_STEM.get()))
+                .save(recipeOutput);
 
         ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, Items.STICK, 4)
                 .pattern("#")
@@ -165,6 +171,13 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .define('B', Items.LEATHER_BOOTS)
                 .define('D', Items.GREEN_DYE)
                 .unlockedBy(getHasName(ModBlocks.CACTUS_THORN.get()), has(ModBlocks.CACTUS_THORN.get()))
+                .save(recipeOutput);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, ModBlocks.CACTUS_MOSAIC.get(), 1)
+                .pattern("S")
+                .pattern("S")
+                .define('S', ModBlocks.CACTUS_SLAB.get())
+                .unlockedBy(getHasName(ModBlocks.CACTUS_SLAB.get()), has(ModBlocks.CACTUS_SLAB.get()))
                 .save(recipeOutput);
 
         //Shaped
@@ -322,6 +335,16 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
 
         //Smelting
         foodSmelting(recipeOutput, ModItems.PINE_NUTS.get(), ModItems.TOASTED_PINE_NUTS.get(), 0.1f, 100);
+
+        SimpleCookingRecipeBuilder.smelting(
+                        Ingredient.of(ModBlocks.CACTUS_CLUSTER.get()),
+                        RecipeCategory.MISC,
+                        Items.GREEN_DYE,
+                        0.2f,
+                        200
+                )
+                .unlockedBy("has_cactus_cluster", has(ModBlocks.CACTUS_CLUSTER.get()))
+                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath(FloraExpansion.MODID, "green_dye_from_smelting_cactus_cluster"));
 
         //Smoking
         foodSmoking(recipeOutput, ModItems.PINE_NUTS.get(), ModItems.TOASTED_PINE_NUTS.get(), 0.1f, 50);

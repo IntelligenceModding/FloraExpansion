@@ -32,7 +32,8 @@ public class ModBlockTagProvider extends BlockTagsProvider {
                 .add(ModBlocks.STRIPPED_GIANT_CACTUS_BASE.get())
                 .add(ModBlocks.GIANT_CACTUS_WOOD.get())
                 .add(ModBlocks.STRIPPED_GIANT_CACTUS_WOOD.get())
-                .add(ModBlocks.GIANT_CACTUS_STEM.get());
+                .add(ModBlocks.GIANT_CACTUS_STEM.get())
+                .add(ModBlocks.CACTUS_MOSAIC.get());
 
         tag(BlockTags.MINEABLE_WITH_SHOVEL)
                 .add(ModBlocks.PEBBLE_BLOCK.get());

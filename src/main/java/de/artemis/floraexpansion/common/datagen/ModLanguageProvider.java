@@ -41,6 +41,7 @@ public class ModLanguageProvider extends net.neoforged.neoforge.common.data.Lang
         add(ModBlocks.GIANT_CACTUS_WOOD.get(), "Giant Cactus Wood");
         add(ModBlocks.STRIPPED_GIANT_CACTUS_WOOD.get(), "Stripped Giant Cactus Wood");
         add(ModBlocks.CACTUS_PLANKS.get(), "Cactus Planks");
+        add(ModBlocks.CACTUS_MOSAIC.get(), "Cactus Mosaic");
         add(ModBlocks.CACTUS_STAIRS.get(), "Cactus Stairs");
         add(ModBlocks.CACTUS_SLAB.get(), "Cactus Slab");
         add(ModBlocks.CACTUS_FENCE.get(), "Cactus Fence");
@@ -49,6 +50,8 @@ public class ModLanguageProvider extends net.neoforged.neoforge.common.data.Lang
         add(ModBlocks.CACTUS_PRESSURE_PLATE.get(), "Cactus Pressure Plate");
         add(ModBlocks.CACTUS_DOOR.get(), "Cactus Door");
         add(ModBlocks.CACTUS_TRAPDOOR.get(), "Cactus Trapdoor");
+        add(ModBlocks.DESERT_MOSS.get(), "Desert Moss");
+        add(ModBlocks.CACTUS_CLUSTER.get(), "Cactus Cluster");
 
         //Items
         add(ModItems.PINE_CONE.get(), "Pine Cone");
@@ -74,5 +77,6 @@ public class ModLanguageProvider extends net.neoforged.neoforge.common.data.Lang
         add(ModItems.CACTUS_CHESTPLATE.get(), "Cactus Chestplate");
         add(ModItems.CACTUS_LEGGINGS.get(), "Cactus Leggings");
         add(ModItems.CACTUS_BOOTS.get(), "Cactus Boots");
+        add(ModItems.CACTUS_SLICE.get(), "Cactus Slice");
     }
 }

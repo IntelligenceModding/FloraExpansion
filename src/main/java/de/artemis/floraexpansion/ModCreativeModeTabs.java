@@ -54,6 +54,7 @@ public class ModCreativeModeTabs {
                         output.accept(ModBlocks.CACTUS_THORN);
                         output.accept(ModBlocks.CACTUS_FLOWER);
                         output.accept(ModBlocks.CACTUS_PLANKS);
+                        output.accept(ModBlocks.CACTUS_MOSAIC);
                         output.accept(ModBlocks.CACTUS_STAIRS);
                         output.accept(ModBlocks.CACTUS_SLAB);
                         output.accept(ModBlocks.CACTUS_FENCE);
@@ -70,6 +71,9 @@ public class ModCreativeModeTabs {
                         output.accept(ModItems.CACTUS_CHESTPLATE);
                         output.accept(ModItems.CACTUS_LEGGINGS);
                         output.accept(ModItems.CACTUS_BOOTS);
+                        output.accept(ModBlocks.DESERT_MOSS);
+                        output.accept(ModItems.CACTUS_SLICE);
+                        output.accept(ModBlocks.CACTUS_CLUSTER);
                     }).build());
 
     public static void register(IEventBus eventBus) {

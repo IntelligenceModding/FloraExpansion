@@ -1,0 +1,8 @@
+{
+  "variants": {
+    "pickles=1": { "model": "floraexpansion:block/cactus_cluster_1" },
+    "pickles=2": { "model": "floraexpansion:block/cactus_cluster_2" },
+    "pickles=3": { "model": "floraexpansion:block/cactus_cluster_3" },
+    "pickles=4": { "model": "floraexpansion:block/cactus_cluster_4" }
+  }
+}

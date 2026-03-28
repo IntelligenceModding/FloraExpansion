@@ -1,0 +1,9 @@
+{
+  "type": "neoforge:add_features",
+  "biomes": [
+    "minecraft:desert",
+    "minecraft:badlands"
+  ],
+  "features": "floraexpansion:fallen_giant_cactus_placed",
+  "step": "vegetal_decoration"
+}

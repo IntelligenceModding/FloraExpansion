@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_cactus_cluster": {
+      "conditions": {
+        "items": [
+          {
+            "items": "floraexpansion:cactus_cluster"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "floraexpansion:green_dye_from_smelting_cactus_cluster"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_cactus_cluster"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "floraexpansion:green_dye_from_smelting_cactus_cluster"
+    ]
+  }
+}

@@ -35,12 +35,12 @@ public class ModItemModelProvider extends ItemModelProvider {
         basicItem(ModItems.CACTUS_HANGING_SIGN.get());
         basicItem(ModItems.CACTUS_BOAT.get());
         basicItem(ModItems.CACTUS_CHEST_BOAT.get());
+        basicItem(ModItems.CACTUS_SLICE.get());
 
         basicItem(ModBlocks.CACTUS_DOOR.get().asItem());
         basicItem(ModBlocks.APPLE_CORE.get().asItem());
         basicItem(ModBlocks.CACTUS_THORN.get().asItem());
-
-
+        basicItem(ModBlocks.CACTUS_CLUSTER.get().asItem());
 
         blockTextureItem(ModBlocks.CACTUS_FLOWER);
     }

@@ -11,4 +11,5 @@ public class ModFoods {
     public static final FoodProperties SWEET_BERRY_MIX = (new FoodProperties.Builder()).nutrition(5).saturationModifier(0.4F).build();
     public static final FoodProperties CHERRY_JUICE = (new FoodProperties.Builder()).nutrition(4).saturationModifier(0.45F).build();
     public static final FoodProperties APPLE_JUICE = (new FoodProperties.Builder()).nutrition(5).saturationModifier(0.45F).build();
+    public static final FoodProperties CACTUS_SLICE = (new FoodProperties.Builder()).nutrition(2).saturationModifier(0.3F).build();
 }

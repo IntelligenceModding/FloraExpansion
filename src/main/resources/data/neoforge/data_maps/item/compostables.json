@@ -29,6 +29,12 @@
     },
     "floraexpansion:cactus_flower": {
       "chance": 0.3
+    },
+    "floraexpansion:desert_moss": {
+      "chance": 0.3
+    },
+    "floraexpansion:cactus_cluster": {
+      "chance": 0.3
     }
   }
 }

@@ -30,6 +30,8 @@ public class ModConfiguredFeatures {
     public static final ResourceKey<ConfiguredFeature<?, ?>> WILD_FLAX_KEY = registerKey("wild_flax");
     public static final ResourceKey<ConfiguredFeature<?, ?>> PEBBLE_CLUSTER_KEY = registerKey("pebble_cluster");
     public static final ResourceKey<ConfiguredFeature<?, ?>> GIANT_CACTUS_KEY = registerKey("giant_cactus");
+    public static final ResourceKey<ConfiguredFeature<?, ?>> FALLEN_GIANT_CACTUS_KEY = registerKey("fallen_giant_cactus");
+    public static final ResourceKey<ConfiguredFeature<?, ?>> CACTUS_CLUSTER_KEY = registerKey("cactus_cluster");
 
     public static void bootstrap(BootstrapContext<ConfiguredFeature<?, ?>> context) {
 
@@ -57,6 +59,8 @@ public class ModConfiguredFeatures {
                 );
             }
         }
+
+        register(context, CACTUS_CLUSTER_KEY, ModFeatures.CACTUS_CLUSTER_FEATURE.get(), NoneFeatureConfiguration.NONE);
 
         register(context, PEBBLE_CLUSTER_KEY, ModFeatures.PEBBLE_CLUSTER_FEATURE.get(), NoneFeatureConfiguration.NONE);
 
@@ -93,6 +97,7 @@ public class ModConfiguredFeatures {
         );
 
         register(context, GIANT_CACTUS_KEY, ModFeatures.GIANT_CACTUS_FEATURE.get(), NoneFeatureConfiguration.NONE);
+        register(context, FALLEN_GIANT_CACTUS_KEY, ModFeatures.FALLEN_GIANT_CACTUS_FEATURE.get(), NoneFeatureConfiguration.NONE);
     }
 
     public static ResourceKey<ConfiguredFeature<?, ?>> registerKey(String name) {

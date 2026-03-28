@@ -38,6 +38,9 @@
     },
     "floraexpansion:cactus_planks": {
       "burn_time": 300
+    },,
+    "floraexpansion:cactus_mosaic": {
+      "burn_time": 300
     },
     "floraexpansion:cactus_stairs": {
       "burn_time": 300

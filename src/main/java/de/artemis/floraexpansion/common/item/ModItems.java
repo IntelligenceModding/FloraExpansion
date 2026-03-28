@@ -83,6 +83,9 @@ public class ModItems {
                     new Item.Properties().durability(ArmorItem.Type.HELMET.getDurability(7))
             ));
 
+    public static final DeferredItem<Item> CACTUS_SLICE = ITEMS.register("cactus_slice",
+            () -> new Item(new Item.Properties().food(ModFoods.CACTUS_SLICE)));
+
     public static final DeferredItem<Item> CACTUS_CHESTPLATE = ITEMS.register("cactus_chestplate",
             () -> new CactusArmorItem(
                     ModArmorMaterials.CACTUS,

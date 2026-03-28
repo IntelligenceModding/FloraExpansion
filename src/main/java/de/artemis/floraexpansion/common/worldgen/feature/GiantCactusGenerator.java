@@ -1,6 +1,7 @@
 package de.artemis.floraexpansion.common.worldgen.feature;
 
 import de.artemis.floraexpansion.common.block.CactusThornBlock;
+import de.artemis.floraexpansion.common.block.DesertMossBlock;
 import de.artemis.floraexpansion.common.block.GiantCactusWoodBlock;
 import de.artemis.floraexpansion.common.block.ModBlocks;
 import net.minecraft.core.BlockPos;
@@ -8,9 +9,11 @@ import net.minecraft.core.Direction;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.RotatedPillarBlock;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.levelgen.Heightmap;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -60,6 +63,72 @@ public final class GiantCactusGenerator {
         }
 
         return true;
+    }
+
+    private static void placeDesertMossPatches(LevelAccessor level, BlockPos origin, RandomSource random) {
+        if (!(level instanceof WorldGenLevel worldGenLevel)) {
+            return;
+        }
+
+        // Fewer total placements, biased strongly toward the cactus center.
+        int attempts = 22 + random.nextInt(10); // 22-31 attempts
+
+        for (int i = 0; i < attempts; i++) {
+            // Triangular distribution: much denser near 0,0 and rarer farther out.
+            int dx = Math.round((random.nextFloat() - random.nextFloat()) * 4.0F);
+            int dz = Math.round((random.nextFloat() - random.nextFloat()) * 4.0F);
+
+            double distSq = dx * dx + dz * dz;
+            if (distSq > 25.0D) { // hard cap at radius 5
+                continue;
+            }
+
+            // Extra falloff so it is denser near the cactus and thinner farther away.
+            float skipChance;
+            if (distSq <= 2.25D) {          // radius ~1.5
+                skipChance = 0.10F;
+            } else if (distSq <= 6.25D) {   // radius ~2.5
+                skipChance = 0.30F;
+            } else if (distSq <= 12.25D) {  // radius ~3.5
+                skipChance = 0.55F;
+            } else {                        // radius up to 5
+                skipChance = 0.78F;
+            }
+
+            if (random.nextFloat() < skipChance) {
+                continue;
+            }
+
+            BlockPos samplePos = new BlockPos(origin.getX() + dx, origin.getY(), origin.getZ() + dz);
+            BlockPos surfacePos = worldGenLevel.getHeightmapPos(Heightmap.Types.WORLD_SURFACE_WG, samplePos);
+
+            tryPlaceDesertMoss(level, surfacePos, random);
+        }
+    }
+
+    private static void tryPlaceDesertMoss(LevelAccessor level, BlockPos pos, RandomSource random) {
+        BlockPos belowPos = pos.below();
+        BlockState below = level.getBlockState(belowPos);
+
+        // Desert moss may only generate on sand or red sand.
+        if (!below.is(Blocks.SAND) && !below.is(Blocks.RED_SAND)) {
+            return;
+        }
+
+        if (!canReplace(level, pos)) {
+            return;
+        }
+
+        BlockState state = ModBlocks.DESERT_MOSS.get().defaultBlockState();
+
+        // If your DesertMossBlock has a VARIANT property, set it here.
+        if (state.hasProperty(DesertMossBlock.VARIANT)) {
+            state = state.setValue(DesertMossBlock.VARIANT, random.nextInt(4));
+        }
+
+        if (state.canSurvive(level, pos)) {
+            level.setBlock(pos, state, 2);
+        }
     }
 
     public static boolean generate(LevelAccessor level, BlockPos origin, RandomSource random, boolean worldgenPlaced) {
@@ -122,6 +191,10 @@ public final class GiantCactusGenerator {
 
         placeThorns(level, random, origin, plan.trunkHeight, plan.arms);
         placeFlowers(level, random, plan.flowerCandidates);
+
+        if (worldgenPlaced) {
+            placeDesertMossPatches(level, origin, random);
+        }
 
         return true;
     }
