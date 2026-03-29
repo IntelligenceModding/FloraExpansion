@@ -1,4 +1,4 @@
-![Title](https://cdn.jsdelivr.net/gh/IntelligenceModding/Flora-Expansion@3e3ff914d8b5ad4721c09edd8ccdf9595c368614/Version%200.2%20Bloom%20%26%20Bounty%20Title.png)
+![Title](https://cdn.jsdelivr.net/gh/IntelligenceModding/Flora-Expansion@77e0c7c81ea183cfeb2edee8f35aa06815495d11/Version%200.3%20Blooming%20Sands.png)
 
 Description
 =======
