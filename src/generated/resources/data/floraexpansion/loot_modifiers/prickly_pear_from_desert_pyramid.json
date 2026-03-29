@@ -1,0 +1,16 @@
+{
+  "type": "floraexpansion:add_item",
+  "conditions": [
+    {
+      "condition": "neoforge:loot_table_id",
+      "loot_table_id": "minecraft:chests/desert_pyramid"
+    },
+    {
+      "chance": 0.18,
+      "condition": "minecraft:random_chance"
+    }
+  ],
+  "item": "floraexpansion:prickly_pear",
+  "max_count": 4,
+  "min_count": 2
+}

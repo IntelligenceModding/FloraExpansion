@@ -1,0 +1,14 @@
+{
+  "type": "floraexpansion:add_item",
+  "conditions": [
+    {
+      "condition": "neoforge:loot_table_id",
+      "loot_table_id": "minecraft:archaeology/desert_well"
+    },
+    {
+      "chance": 0.06,
+      "condition": "minecraft:random_chance"
+    }
+  ],
+  "item": "floraexpansion:prickly_pear"
+}

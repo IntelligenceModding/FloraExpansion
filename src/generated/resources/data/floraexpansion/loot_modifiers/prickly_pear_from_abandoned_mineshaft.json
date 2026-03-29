@@ -1,0 +1,15 @@
+{
+  "type": "floraexpansion:add_item",
+  "conditions": [
+    {
+      "condition": "neoforge:loot_table_id",
+      "loot_table_id": "minecraft:chests/abandoned_mineshaft"
+    },
+    {
+      "chance": 0.14,
+      "condition": "minecraft:random_chance"
+    }
+  ],
+  "item": "floraexpansion:prickly_pear",
+  "max_count": 3
+}

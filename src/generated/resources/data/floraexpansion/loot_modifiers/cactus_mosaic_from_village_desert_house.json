@@ -1,0 +1,14 @@
+{
+  "type": "floraexpansion:add_item",
+  "conditions": [
+    {
+      "condition": "neoforge:loot_table_id",
+      "loot_table_id": "minecraft:chests/village/village_desert_house"
+    },
+    {
+      "chance": 0.03,
+      "condition": "minecraft:random_chance"
+    }
+  ],
+  "item": "floraexpansion:cactus_mosaic"
+}

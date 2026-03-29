@@ -76,5 +76,204 @@ public class ModGlobalLootModifierProvider extends GlobalLootModifierProvider {
                         LootTableIdCondition.builder(ResourceLocation.parse("minecraft:chests/woodland_mansion")).build(),
                         LootItemRandomChanceCondition.randomChance(0.12f).build()
                 }, ModItems.FLAX_SEED.get(), 2, 4));
+
+        // Desert Pyramid
+        this.add("prickly_pear_from_desert_pyramid",
+                new AddItemModifier(new LootItemCondition[] {
+                        LootTableIdCondition.builder(ResourceLocation.parse("minecraft:chests/desert_pyramid")).build(),
+                        LootItemRandomChanceCondition.randomChance(0.18f).build()
+                }, ModItems.PRICKLY_PEAR.get(), 2, 4));
+
+        this.add("cactus_thorn_from_desert_pyramid",
+                new AddItemModifier(new LootItemCondition[] {
+                        LootTableIdCondition.builder(ResourceLocation.parse("minecraft:chests/desert_pyramid")).build(),
+                        LootItemRandomChanceCondition.randomChance(0.14f).build()
+                }, ModBlocks.CACTUS_THORN.get().asItem(), 1, 2));
+
+        this.add("cactus_slice_from_desert_pyramid",
+                new AddItemModifier(new LootItemCondition[] {
+                        LootTableIdCondition.builder(ResourceLocation.parse("minecraft:chests/desert_pyramid")).build(),
+                        LootItemRandomChanceCondition.randomChance(0.12f).build()
+                }, ModItems.CACTUS_SLICE.get(), 1, 2));
+
+        this.add("cactus_juice_from_desert_pyramid",
+                new AddItemModifier(new LootItemCondition[] {
+                        LootTableIdCondition.builder(ResourceLocation.parse("minecraft:chests/desert_pyramid")).build(),
+                        LootItemRandomChanceCondition.randomChance(0.07f).build()
+                }, ModItems.CACTUS_JUICE.get()));
+
+        this.add("cactus_mosaic_from_desert_pyramid",
+                new AddItemModifier(new LootItemCondition[] {
+                        LootTableIdCondition.builder(ResourceLocation.parse("minecraft:chests/desert_pyramid")).build(),
+                        LootItemRandomChanceCondition.randomChance(0.05f).build()
+                }, ModBlocks.CACTUS_MOSAIC.get().asItem()));
+
+        this.add("cactus_helmet_from_desert_pyramid",
+                new AddItemModifier(new LootItemCondition[] {
+                        LootTableIdCondition.builder(ResourceLocation.parse("minecraft:chests/desert_pyramid")).build(),
+                        LootItemRandomChanceCondition.randomChance(0.025f).build()
+                }, ModItems.CACTUS_HELMET.get()));
+
+        this.add("cactus_boots_from_desert_pyramid",
+                new AddItemModifier(new LootItemCondition[] {
+                        LootTableIdCondition.builder(ResourceLocation.parse("minecraft:chests/desert_pyramid")).build(),
+                        LootItemRandomChanceCondition.randomChance(0.025f).build()
+                }, ModItems.CACTUS_BOOTS.get()));
+
+        // Desert Pyramid Archaeology
+        this.add("cactus_thorn_from_desert_pyramid_archaeology",
+                new AddItemModifier(new LootItemCondition[] {
+                        LootTableIdCondition.builder(ResourceLocation.parse("minecraft:archaeology/desert_pyramid")).build(),
+                        LootItemRandomChanceCondition.randomChance(0.05f).build()
+                }, ModBlocks.CACTUS_THORN.get().asItem()));
+
+        this.add("cactus_flower_from_desert_pyramid_archaeology",
+                new AddItemModifier(new LootItemCondition[] {
+                        LootTableIdCondition.builder(ResourceLocation.parse("minecraft:archaeology/desert_pyramid")).build(),
+                        LootItemRandomChanceCondition.randomChance(0.05f).build()
+                }, ModBlocks.CACTUS_FLOWER.get().asItem()));
+
+        this.add("prickly_pear_from_desert_pyramid_archaeology",
+                new AddItemModifier(new LootItemCondition[] {
+                        LootTableIdCondition.builder(ResourceLocation.parse("minecraft:archaeology/desert_pyramid")).build(),
+                        LootItemRandomChanceCondition.randomChance(0.04f).build()
+                }, ModItems.PRICKLY_PEAR.get()));
+
+        this.add("cactus_slice_from_desert_pyramid_archaeology",
+                new AddItemModifier(new LootItemCondition[] {
+                        LootTableIdCondition.builder(ResourceLocation.parse("minecraft:archaeology/desert_pyramid")).build(),
+                        LootItemRandomChanceCondition.randomChance(0.025f).build()
+                }, ModItems.CACTUS_SLICE.get()));
+
+        this.add("cactus_mosaic_from_desert_pyramid_archaeology",
+                new AddItemModifier(new LootItemCondition[] {
+                        LootTableIdCondition.builder(ResourceLocation.parse("minecraft:archaeology/desert_pyramid")).build(),
+                        LootItemRandomChanceCondition.randomChance(0.02f).build()
+                }, ModBlocks.CACTUS_MOSAIC.get().asItem()));
+
+        // Desert Well Archaeology
+        this.add("prickly_pear_from_desert_well_archaeology",
+                new AddItemModifier(new LootItemCondition[] {
+                        LootTableIdCondition.builder(ResourceLocation.parse("minecraft:archaeology/desert_well")).build(),
+                        LootItemRandomChanceCondition.randomChance(0.06f).build()
+                }, ModItems.PRICKLY_PEAR.get()));
+
+        this.add("cactus_flower_from_desert_well_archaeology",
+                new AddItemModifier(new LootItemCondition[] {
+                        LootTableIdCondition.builder(ResourceLocation.parse("minecraft:archaeology/desert_well")).build(),
+                        LootItemRandomChanceCondition.randomChance(0.05f).build()
+                }, ModBlocks.CACTUS_FLOWER.get().asItem()));
+
+        this.add("cactus_thorn_from_desert_well_archaeology",
+                new AddItemModifier(new LootItemCondition[] {
+                        LootTableIdCondition.builder(ResourceLocation.parse("minecraft:archaeology/desert_well")).build(),
+                        LootItemRandomChanceCondition.randomChance(0.02f).build()
+                }, ModBlocks.CACTUS_THORN.get().asItem()));
+
+        // Desert Village House
+        this.add("prickly_pear_from_village_desert_house",
+                new AddItemModifier(new LootItemCondition[] {
+                        LootTableIdCondition.builder(ResourceLocation.parse("minecraft:chests/village/village_desert_house")).build(),
+                        LootItemRandomChanceCondition.randomChance(0.25f).build()
+                }, ModItems.PRICKLY_PEAR.get(), 1, 3));
+
+        this.add("cactus_slice_from_village_desert_house",
+                new AddItemModifier(new LootItemCondition[] {
+                        LootTableIdCondition.builder(ResourceLocation.parse("minecraft:chests/village/village_desert_house")).build(),
+                        LootItemRandomChanceCondition.randomChance(0.18f).build()
+                }, ModItems.CACTUS_SLICE.get(), 1, 2));
+
+        this.add("cactus_juice_from_village_desert_house",
+                new AddItemModifier(new LootItemCondition[] {
+                        LootTableIdCondition.builder(ResourceLocation.parse("minecraft:chests/village/village_desert_house")).build(),
+                        LootItemRandomChanceCondition.randomChance(0.08f).build()
+                }, ModItems.CACTUS_JUICE.get()));
+
+        this.add("cactus_flower_from_village_desert_house",
+                new AddItemModifier(new LootItemCondition[] {
+                        LootTableIdCondition.builder(ResourceLocation.parse("minecraft:chests/village/village_desert_house")).build(),
+                        LootItemRandomChanceCondition.randomChance(0.06f).build()
+                }, ModBlocks.CACTUS_FLOWER.get().asItem()));
+
+        this.add("cactus_mosaic_from_village_desert_house",
+                new AddItemModifier(new LootItemCondition[] {
+                        LootTableIdCondition.builder(ResourceLocation.parse("minecraft:chests/village/village_desert_house")).build(),
+                        LootItemRandomChanceCondition.randomChance(0.03f).build()
+                }, ModBlocks.CACTUS_MOSAIC.get().asItem()));
+
+        // Village Toolsmith
+        this.add("cactus_thorn_from_village_toolsmith",
+                new AddItemModifier(new LootItemCondition[] {
+                        LootTableIdCondition.builder(ResourceLocation.parse("minecraft:chests/village/village_toolsmith")).build(),
+                        LootItemRandomChanceCondition.randomChance(0.16f).build()
+                }, ModBlocks.CACTUS_THORN.get().asItem(), 1, 3));
+
+        this.add("cactus_mosaic_from_village_toolsmith",
+                new AddItemModifier(new LootItemCondition[] {
+                        LootTableIdCondition.builder(ResourceLocation.parse("minecraft:chests/village/village_toolsmith")).build(),
+                        LootItemRandomChanceCondition.randomChance(0.05f).build()
+                }, ModBlocks.CACTUS_MOSAIC.get().asItem()));
+
+        this.add("cactus_helmet_from_village_toolsmith",
+                new AddItemModifier(new LootItemCondition[] {
+                        LootTableIdCondition.builder(ResourceLocation.parse("minecraft:chests/village/village_toolsmith")).build(),
+                        LootItemRandomChanceCondition.randomChance(0.02f).build()
+                }, ModItems.CACTUS_HELMET.get()));
+
+        this.add("cactus_boots_from_village_toolsmith",
+                new AddItemModifier(new LootItemCondition[] {
+                        LootTableIdCondition.builder(ResourceLocation.parse("minecraft:chests/village/village_toolsmith")).build(),
+                        LootItemRandomChanceCondition.randomChance(0.02f).build()
+                }, ModItems.CACTUS_BOOTS.get()));
+
+        // Village Weaponsmith
+        this.add("cactus_thorn_from_village_weaponsmith",
+                new AddItemModifier(new LootItemCondition[] {
+                        LootTableIdCondition.builder(ResourceLocation.parse("minecraft:chests/village/village_weaponsmith")).build(),
+                        LootItemRandomChanceCondition.randomChance(0.18f).build()
+                }, ModBlocks.CACTUS_THORN.get().asItem(), 1, 3));
+
+        this.add("cactus_mosaic_from_village_weaponsmith",
+                new AddItemModifier(new LootItemCondition[] {
+                        LootTableIdCondition.builder(ResourceLocation.parse("minecraft:chests/village/village_weaponsmith")).build(),
+                        LootItemRandomChanceCondition.randomChance(0.03f).build()
+                }, ModBlocks.CACTUS_MOSAIC.get().asItem()));
+
+        this.add("cactus_helmet_from_village_weaponsmith",
+                new AddItemModifier(new LootItemCondition[] {
+                        LootTableIdCondition.builder(ResourceLocation.parse("minecraft:chests/village/village_weaponsmith")).build(),
+                        LootItemRandomChanceCondition.randomChance(0.015f).build()
+                }, ModItems.CACTUS_HELMET.get()));
+
+        this.add("cactus_boots_from_village_weaponsmith",
+                new AddItemModifier(new LootItemCondition[] {
+                        LootTableIdCondition.builder(ResourceLocation.parse("minecraft:chests/village/village_weaponsmith")).build(),
+                        LootItemRandomChanceCondition.randomChance(0.02f).build()
+                }, ModItems.CACTUS_BOOTS.get()));
+
+        // Abandoned Mineshaft
+        this.add("prickly_pear_from_abandoned_mineshaft",
+                new AddItemModifier(new LootItemCondition[] {
+                        LootTableIdCondition.builder(ResourceLocation.parse("minecraft:chests/abandoned_mineshaft")).build(),
+                        LootItemRandomChanceCondition.randomChance(0.14f).build()
+                }, ModItems.PRICKLY_PEAR.get(), 1, 3));
+
+        this.add("cactus_slice_from_abandoned_mineshaft",
+                new AddItemModifier(new LootItemCondition[] {
+                        LootTableIdCondition.builder(ResourceLocation.parse("minecraft:chests/abandoned_mineshaft")).build(),
+                        LootItemRandomChanceCondition.randomChance(0.12f).build()
+                }, ModItems.CACTUS_SLICE.get(), 1, 2));
+
+        this.add("cactus_juice_from_abandoned_mineshaft",
+                new AddItemModifier(new LootItemCondition[] {
+                        LootTableIdCondition.builder(ResourceLocation.parse("minecraft:chests/abandoned_mineshaft")).build(),
+                        LootItemRandomChanceCondition.randomChance(0.05f).build()
+                }, ModItems.CACTUS_JUICE.get()));
+
+        this.add("cactus_thorn_from_abandoned_mineshaft",
+                new AddItemModifier(new LootItemCondition[] {
+                        LootTableIdCondition.builder(ResourceLocation.parse("minecraft:chests/abandoned_mineshaft")).build(),
+                        LootItemRandomChanceCondition.randomChance(0.11f).build()
+                }, ModBlocks.CACTUS_THORN.get().asItem(), 1, 2));
     }
 }
