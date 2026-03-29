@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "age=0": {
+      "model": "floraexpansion:block/opuntia_cactus_stage0"
+    },
+    "age=1": {
+      "model": "floraexpansion:block/opuntia_cactus_stage1"
+    }
+  }
+}

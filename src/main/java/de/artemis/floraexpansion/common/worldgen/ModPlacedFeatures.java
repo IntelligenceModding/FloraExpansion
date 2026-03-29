@@ -27,9 +27,18 @@ public class ModPlacedFeatures {
     public static final ResourceKey<PlacedFeature> GIANT_CACTUS_PLACED_KEY = registerKey("giant_cactus_placed");
     public static final ResourceKey<PlacedFeature> FALLEN_GIANT_CACTUS_PLACED_KEY = registerKey("fallen_giant_cactus_placed");
     public static final ResourceKey<PlacedFeature> CACTUS_CLUSTER_PLACED_KEY = registerKey("cactus_cluster_placed");
+    public static final ResourceKey<PlacedFeature> OPUNTIA_CACTUS_PLACED_KEY = registerKey("opuntia_cactus_placed");
 
     public static void bootstrap(BootstrapContext<PlacedFeature> context) {
         var configuredFeatures = context.lookup(Registries.CONFIGURED_FEATURE);
+
+        register(context, OPUNTIA_CACTUS_PLACED_KEY, configuredFeatures.getOrThrow(ModConfiguredFeatures.OPUNTIA_CACTUS_KEY),
+                List.of(
+                        RarityFilter.onAverageOnceEvery(5),
+                        InSquarePlacement.spread(),
+                        PlacementUtils.HEIGHTMAP_WORLD_SURFACE,
+                        BiomeFilter.biome()
+                ));
 
         register(context, CACTUS_CLUSTER_PLACED_KEY, configuredFeatures.getOrThrow(ModConfiguredFeatures.CACTUS_CLUSTER_KEY),
                 List.of(

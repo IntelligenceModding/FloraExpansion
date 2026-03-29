@@ -12,4 +12,6 @@ public class ModFoods {
     public static final FoodProperties CHERRY_JUICE = (new FoodProperties.Builder()).nutrition(4).saturationModifier(0.45F).build();
     public static final FoodProperties APPLE_JUICE = (new FoodProperties.Builder()).nutrition(5).saturationModifier(0.45F).build();
     public static final FoodProperties CACTUS_SLICE = (new FoodProperties.Builder()).nutrition(2).saturationModifier(0.3F).build();
+    public static final FoodProperties CACTUS_JUICE = (new FoodProperties.Builder()).nutrition(4).saturationModifier(0.45F).build();
+    public static final FoodProperties PRICKLY_PEAR = (new FoodProperties.Builder()).nutrition(2).saturationModifier(0.3F).fast().build();
 }

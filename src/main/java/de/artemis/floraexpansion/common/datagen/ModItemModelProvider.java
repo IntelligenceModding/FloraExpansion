@@ -36,6 +36,7 @@ public class ModItemModelProvider extends ItemModelProvider {
         basicItem(ModItems.CACTUS_BOAT.get());
         basicItem(ModItems.CACTUS_CHEST_BOAT.get());
         basicItem(ModItems.CACTUS_SLICE.get());
+        basicItem(ModItems.CACTUS_JUICE.get());
 
         basicItem(ModBlocks.CACTUS_DOOR.get().asItem());
         basicItem(ModBlocks.APPLE_CORE.get().asItem());

@@ -74,6 +74,9 @@ public class ModCreativeModeTabs {
                         output.accept(ModBlocks.DESERT_MOSS);
                         output.accept(ModItems.CACTUS_SLICE);
                         output.accept(ModBlocks.CACTUS_CLUSTER);
+                        output.accept(ModItems.CACTUS_JUICE);
+                        output.accept(ModBlocks.OPUNTIA_CACTUS);
+                        output.accept(ModItems.PRICKLY_PEAR);
                     }).build());
 
     public static void register(IEventBus eventBus) {

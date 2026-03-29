@@ -111,6 +111,9 @@ public class ModItemTagProvider extends ItemTagsProvider {
         tag(ItemTags.FOOT_ARMOR)
                 .add(ModItems.CACTUS_BOOTS.get());
 
+        tag(ItemTags.FOX_FOOD)
+                .add(ModItems.PRICKLY_PEAR.get());
+
         //NeoForge
         tag(Tags.Items.FOODS)
                 .add(ModItems.PINE_NUTS.get())
@@ -120,12 +123,20 @@ public class ModItemTagProvider extends ItemTagsProvider {
                 .add(ModItems.CHERRY_JUICE.get())
                 .add(ModItems.CACTUS_SLICE.get())
                 .add(ModItems.APPLE_JUICE.get())
-                .add(ModItems.FOREST_SNACK.get());
+                .add(ModItems.CACTUS_JUICE.get())
+                .add(ModItems.FOREST_SNACK.get())
+                .add(ModItems.PRICKLY_PEAR.get());
 
         tag(Tags.Items.STRINGS)
                 .add(ModItems.LINEN_THREAD.get());
 
         tag(Tags.Items.SEEDS)
                 .add(ModItems.FLAX_SEED.get());
+
+        tag(Tags.Items.FOODS_BERRY)
+                .add(ModItems.PRICKLY_PEAR.get());
+
+        tag(Tags.Items.ANIMAL_FOODS)
+                .add(ModItems.PRICKLY_PEAR.get());
     }
 }

@@ -35,6 +35,9 @@
     },
     "floraexpansion:cactus_cluster": {
       "chance": 0.3
+    },
+    "floraexpansion:opuntia_cactus": {
+      "chance": 0.3
     }
   }
 }

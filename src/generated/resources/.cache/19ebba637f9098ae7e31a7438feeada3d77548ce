@@ -1,5 +1,7 @@
-// 1.21.1	2026-03-28T00:28:15.4119048	Tags for minecraft:item mod id floraexpansion
-53c024487c2e67af6ba6637eb17677e3e8e47304 data/c/tags/item/foods.json
+// 1.21.1	2026-03-29T01:50:00.8117392	Tags for minecraft:item mod id floraexpansion
+f21a41e1774d2253c082e0a31797a2486fb2f719 data/c/tags/item/animal_foods.json
+83caad7f64ff805a484e2211a097aea913eb8b7b data/c/tags/item/foods.json
+f21a41e1774d2253c082e0a31797a2486fb2f719 data/c/tags/item/foods/berry.json
 4f98ff26428233b97415c1789017e0db5943a94e data/c/tags/item/seeds.json
 33c332a2d55f7124439c8ca91496c89d936ea9c7 data/c/tags/item/strings.json
 a89ffa6447405bbbf2ce7227e039e4848f55275b data/minecraft/tags/item/arrows.json
@@ -16,6 +18,7 @@ adbcb379e1d5a38d15af828c14c692c9abe268e0 data/minecraft/tags/item/enchantable/he
 097c95b4f5e6d755f0a7393ad1699b6a01886097 data/minecraft/tags/item/enchantable/leg_armor.json
 ed120b8d39d92b3bcd4723285c4c87751bb48742 data/minecraft/tags/item/flowers.json
 81f61eda44426b27e0f579cc7173103d4749c242 data/minecraft/tags/item/foot_armor.json
+f21a41e1774d2253c082e0a31797a2486fb2f719 data/minecraft/tags/item/fox_food.json
 b2cc26306225c588cf023fa04b3f307abb928a8f data/minecraft/tags/item/hanging_signs.json
 adbcb379e1d5a38d15af828c14c692c9abe268e0 data/minecraft/tags/item/head_armor.json
 097c95b4f5e6d755f0a7393ad1699b6a01886097 data/minecraft/tags/item/leg_armor.json

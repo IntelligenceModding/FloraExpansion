@@ -32,6 +32,7 @@ public class ModConfiguredFeatures {
     public static final ResourceKey<ConfiguredFeature<?, ?>> GIANT_CACTUS_KEY = registerKey("giant_cactus");
     public static final ResourceKey<ConfiguredFeature<?, ?>> FALLEN_GIANT_CACTUS_KEY = registerKey("fallen_giant_cactus");
     public static final ResourceKey<ConfiguredFeature<?, ?>> CACTUS_CLUSTER_KEY = registerKey("cactus_cluster");
+    public static final ResourceKey<ConfiguredFeature<?, ?>> OPUNTIA_CACTUS_KEY = registerKey("opuntia_cactus");
 
     public static void bootstrap(BootstrapContext<ConfiguredFeature<?, ?>> context) {
 
@@ -59,6 +60,8 @@ public class ModConfiguredFeatures {
                 );
             }
         }
+
+        register(context, OPUNTIA_CACTUS_KEY, ModFeatures.OPUNTIA_CACTUS_FEATURE.get(), NoneFeatureConfiguration.NONE);
 
         register(context, CACTUS_CLUSTER_KEY, ModFeatures.CACTUS_CLUSTER_FEATURE.get(), NoneFeatureConfiguration.NONE);
 

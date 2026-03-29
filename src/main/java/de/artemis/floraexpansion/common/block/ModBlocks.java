@@ -141,6 +141,16 @@ public class ModBlocks {
                     .sound(SoundType.MOSS)
                     .pushReaction(PushReaction.DESTROY)));
 
+    public static final DeferredBlock<Block> OPUNTIA_CACTUS = BLOCKS.register("opuntia_cactus",
+            () -> new CactusFruitPlantBlock(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.COLOR_GREEN)
+                    .noCollission()
+                    .instabreak()
+                    .sound(SoundType.MOSS)
+                    .pushReaction(PushReaction.DESTROY)
+                    .offsetType(BlockBehaviour.OffsetType.XZ)
+                    .randomTicks()));
+
     public static final DeferredBlock<Block> CACTUS_PLANKS = registerBlock("cactus_planks",
             () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_PLANKS)));
 

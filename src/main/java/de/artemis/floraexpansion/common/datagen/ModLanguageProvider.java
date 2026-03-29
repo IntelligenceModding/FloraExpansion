@@ -52,6 +52,7 @@ public class ModLanguageProvider extends net.neoforged.neoforge.common.data.Lang
         add(ModBlocks.CACTUS_TRAPDOOR.get(), "Cactus Trapdoor");
         add(ModBlocks.DESERT_MOSS.get(), "Desert Moss");
         add(ModBlocks.CACTUS_CLUSTER.get(), "Cactus Cluster");
+        add(ModBlocks.OPUNTIA_CACTUS.get(), "Opuntia Cactus");
 
         //Items
         add(ModItems.PINE_CONE.get(), "Pine Cone");
@@ -78,5 +79,7 @@ public class ModLanguageProvider extends net.neoforged.neoforge.common.data.Lang
         add(ModItems.CACTUS_LEGGINGS.get(), "Cactus Leggings");
         add(ModItems.CACTUS_BOOTS.get(), "Cactus Boots");
         add(ModItems.CACTUS_SLICE.get(), "Cactus Slice");
+        add(ModItems.CACTUS_JUICE.get(), "Cactus Juice");
+        add(ModItems.PRICKLY_PEAR.get(), "Prickly Pear");
     }
 }

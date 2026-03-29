@@ -25,7 +25,7 @@ public class CactusClusterFeature extends Feature<NoneFeatureConfiguration> {
         BlockPos origin = level.getHeightmapPos(Heightmap.Types.WORLD_SURFACE_WG, context.origin());
 
         int placed = 0;
-        int attempts = 14 + random.nextInt(9); // 14-22, slightly reduced
+        int attempts = 14 + random.nextInt(9); // 14-22
 
         for (int i = 0; i < attempts; i++) {
             int dx = Math.round((random.nextFloat() - random.nextFloat()) * 4.0F);
@@ -58,21 +58,37 @@ public class CactusClusterFeature extends Feature<NoneFeatureConfiguration> {
                 continue;
             }
 
-            // Inner area: mostly cactus clusters
-            // Outer area: more desert moss mixed in
             float mossChance;
             if (distSq <= 1.0D) {
-                mossChance = 0.18F;
+                mossChance = 0.14F;
             } else if (distSq <= 4.0D) {
-                mossChance = 0.30F;
+                mossChance = 0.24F;
             } else if (distSq <= 9.0D) {
-                mossChance = 0.45F;
+                mossChance = 0.36F;
             } else {
-                mossChance = 0.60F;
+                mossChance = 0.48F;
             }
 
             if (random.nextFloat() < mossChance) {
                 if (tryPlaceDesertMoss(level, pos, random)) {
+                    placed++;
+                }
+                continue;
+            }
+
+            float opuntiaChance;
+            if (distSq <= 1.0D) {
+                opuntiaChance = 0.08F;
+            } else if (distSq <= 4.0D) {
+                opuntiaChance = 0.18F;
+            } else if (distSq <= 9.0D) {
+                opuntiaChance = 0.28F;
+            } else {
+                opuntiaChance = 0.34F;
+            }
+
+            if (random.nextFloat() < opuntiaChance) {
+                if (tryPlaceOpuntia(level, pos)) {
                     placed++;
                 }
                 continue;
@@ -121,6 +137,17 @@ public class CactusClusterFeature extends Feature<NoneFeatureConfiguration> {
         }
 
         level.setBlock(pos, moss, 2);
+        return true;
+    }
+
+    private static boolean tryPlaceOpuntia(WorldGenLevel level, BlockPos pos) {
+        BlockState state = ModBlocks.OPUNTIA_CACTUS.get().defaultBlockState();
+
+        if (!state.canSurvive(level, pos)) {
+            return false;
+        }
+
+        level.setBlock(pos, state, 2);
         return true;
     }
 

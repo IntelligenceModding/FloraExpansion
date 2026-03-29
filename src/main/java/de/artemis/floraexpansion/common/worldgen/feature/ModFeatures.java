@@ -33,6 +33,10 @@ public class ModFeatures {
             FEATURES.register("cactus_cluster_feature",
                     () -> new CactusClusterFeature(NoneFeatureConfiguration.CODEC));
 
+    public static final Supplier<Feature<NoneFeatureConfiguration>> OPUNTIA_CACTUS_FEATURE =
+            FEATURES.register("opuntia_cactus_feature",
+                    () -> new OpuntiaCactusFeature(NoneFeatureConfiguration.CODEC));
+
     public static void register(IEventBus eventBus) {
         FEATURES.register(eventBus);
     }

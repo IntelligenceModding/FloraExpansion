@@ -91,6 +91,21 @@ public class ModBlockLootTableProvider extends BlockLootSubProvider {
         add(ModBlocks.CACTUS_WALL_HANGING_SIGN.get(), createSingleItemTable(ModItems.CACTUS_HANGING_SIGN.get()));
 
         add(ModBlocks.CACTUS_CLUSTER.get(), createCactusClusterDrops());
+
+        add(ModBlocks.OPUNTIA_CACTUS.get(), createOpuntiaCactusDrops());
+    }
+
+    private LootTable.Builder createOpuntiaCactusDrops() {
+        return LootTable.lootTable()
+                .withPool(LootPool.lootPool()
+                        .setRolls(ConstantValue.exactly(1.0F))
+                        .add(applyExplosionCondition(ModBlocks.OPUNTIA_CACTUS.get(),
+                                LootItem.lootTableItem(ModItems.PRICKLY_PEAR.get())
+                                        .when(LootItemBlockStatePropertyCondition.hasBlockStateProperties(ModBlocks.OPUNTIA_CACTUS.get())
+                                                .setProperties(StatePropertiesPredicate.Builder.properties()
+                                                        .hasProperty(CactusFruitPlantBlock.AGE, 1)))
+                                        .apply(SetItemCountFunction.setCount(UniformGenerator.between(1.0F, 2.0F)))
+                                        .apply(ApplyExplosionDecay.explosionDecay()))));
     }
 
     private LootTable.Builder createCactusClusterDrops() {
@@ -235,7 +250,8 @@ public class ModBlockLootTableProvider extends BlockLootSubProvider {
                 ModBlocks.CACTUS_WALL_HANGING_SIGN.get(),
                 ModBlocks.DESERT_MOSS.get(),
                 ModBlocks.CACTUS_MOSAIC.get(),
-                ModBlocks.CACTUS_CLUSTER.get()
+                ModBlocks.CACTUS_CLUSTER.get(),
+                ModBlocks.OPUNTIA_CACTUS.get()
         );
     }
 }
