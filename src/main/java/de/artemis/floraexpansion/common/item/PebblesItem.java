@@ -7,7 +7,7 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.stats.Stats;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.item.ItemStack;
@@ -22,28 +22,26 @@ public class PebblesItem extends SnowballItem {
     }
 
     @Override
-    public @NotNull InteractionResultHolder<ItemStack> use(Level level, Player player, @NotNull InteractionHand interactionHand) {
-        ItemStack itemstack = player.getItemInHand(interactionHand);
-        level.playSound((Player) null, player.getX(), player.getY(), player.getZ(),
+    public @NotNull InteractionResult use(Level level, Player player, @NotNull InteractionHand interactionHand) {
+        ItemStack itemStack = player.getItemInHand(interactionHand);
+
+        level.playSound(null, player.getX(), player.getY(), player.getZ(),
                 SoundEvents.POINTED_DRIPSTONE_BREAK, SoundSource.NEUTRAL,
                 0.5F, 0.4F / (level.getRandom().nextFloat() * 0.4F + 0.8F));
 
-        if (!level.isClientSide) {
-            PebblesProjectile pebble = new PebblesProjectile(level, player);
-            pebble.setItem(itemstack);
+        if (!level.isClientSide()) {
+            PebblesProjectile pebble = new PebblesProjectile(level, player, itemStack);
             pebble.shootFromRotation(player, player.getXRot(), player.getYRot(), 0.0F, 1.5F, 1.0F);
             level.addFreshEntity(pebble);
         }
 
         player.awardStat(Stats.ITEM_USED.get(this));
-        itemstack.consume(1, player);
-        return InteractionResultHolder.sidedSuccess(itemstack, level.isClientSide());
+        itemStack.consume(1, player);
+        return InteractionResult.SUCCESS.heldItemTransformedTo(itemStack);
     }
 
     @Override
     public @NotNull Projectile asProjectile(@NotNull Level level, Position pos, @NotNull ItemStack itemStack, @NotNull Direction direction) {
-        PebblesProjectile pebble = new PebblesProjectile(level, pos.x(), pos.y(), pos.z());
-        pebble.setItem(itemStack);
-        return pebble;
+        return new PebblesProjectile(level, pos.x(), pos.y(), pos.z(), itemStack);
     }
 }

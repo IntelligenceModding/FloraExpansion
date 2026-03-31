@@ -2,7 +2,7 @@ package de.artemis.floraexpansion.common.datagen;
 
 import de.artemis.floraexpansion.common.block.*;
 import de.artemis.floraexpansion.common.item.ModItems;
-import net.minecraft.advancements.critereon.StatePropertiesPredicate;
+import net.minecraft.advancements.criterion.StatePropertiesPredicate;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.loot.BlockLootSubProvider;
@@ -25,6 +25,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.List;
 import java.util.Set;
 
+@SuppressWarnings("unused")
 public class ModBlockLootTableProvider extends BlockLootSubProvider {
 
     protected ModBlockLootTableProvider(HolderLookup.Provider registries) {

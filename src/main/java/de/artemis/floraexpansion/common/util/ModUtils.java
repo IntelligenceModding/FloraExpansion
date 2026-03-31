@@ -18,7 +18,7 @@ public final class ModUtils {
     }
 
     public static void spawnItemAtClickedSide(@NotNull Level level, @NotNull BlockPos blockPos, @NotNull BlockHitResult hitResult, @NotNull ItemStack itemStack) {
-        if (itemStack.isEmpty() || level.isClientSide) {
+        if (itemStack.isEmpty() || level.isClientSide()) {
             return;
         }
 
@@ -40,8 +40,9 @@ public final class ModUtils {
         level.addFreshEntity(itemEntity);
     }
 
+    @SuppressWarnings("unused")
     public static void spawnItemAtClickedSide(@NotNull Level level, @NotNull BlockPos blockPos, @NotNull Direction face, @NotNull ItemStack itemStack) {
-        if (itemStack.isEmpty() || level.isClientSide) {
+        if (itemStack.isEmpty() || level.isClientSide()) {
             return;
         }
 

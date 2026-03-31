@@ -2,12 +2,8 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "A": {
-      "item": "floraexpansion:linen_thread"
-    },
-    "B": {
-      "item": "floraexpansion:twig"
-    }
+    "A": "floraexpansion:linen_thread",
+    "B": "floraexpansion:twig"
   },
   "pattern": [
     "A A",

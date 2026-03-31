@@ -3,9 +3,7 @@
   "category": "food",
   "cookingtime": 150,
   "experience": 0.1,
-  "ingredient": {
-    "item": "floraexpansion:pine_nuts"
-  },
+  "ingredient": "floraexpansion:pine_nuts",
   "result": {
     "count": 1,
     "id": "floraexpansion:toasted_pine_nuts"

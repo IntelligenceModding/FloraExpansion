@@ -2,9 +2,7 @@
   "type": "minecraft:crafting_shapeless",
   "category": "building",
   "ingredients": [
-    {
-      "item": "floraexpansion:stripped_giant_cactus_base"
-    }
+    "floraexpansion:stripped_giant_cactus_base"
   ],
   "result": {
     "count": 4,

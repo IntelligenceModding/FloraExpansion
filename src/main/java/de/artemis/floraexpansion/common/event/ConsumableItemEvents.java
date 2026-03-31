@@ -2,6 +2,7 @@ package de.artemis.floraexpansion.common.event;
 
 import de.artemis.floraexpansion.FloraExpansion;
 import de.artemis.floraexpansion.common.block.ModBlocks;
+import net.minecraft.world.Containers;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -21,7 +22,7 @@ public class ConsumableItemEvents {
         ItemStack consumedStack = event.getItem();
         LivingEntity entity = event.getEntity();
 
-        if (entity.level().isClientSide) {
+        if (entity.level().isClientSide()) {
             return;
         }
 
@@ -50,7 +51,7 @@ public class ConsumableItemEvents {
                 player.drop(stack, false);
             }
         } else {
-            entity.spawnAtLocation(stack);
+            Containers.dropItemStack(entity.level(), entity.getX(), entity.getY(), entity.getZ(), stack);
         }
     }
 }

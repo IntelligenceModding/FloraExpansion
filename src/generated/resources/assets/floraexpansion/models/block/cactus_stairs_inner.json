@@ -1,8 +1,0 @@
-{
-  "parent": "minecraft:block/inner_stairs",
-  "textures": {
-    "bottom": "floraexpansion:block/cactus_planks",
-    "side": "floraexpansion:block/cactus_planks",
-    "top": "floraexpansion:block/cactus_planks"
-  }
-}

@@ -2,15 +2,9 @@
   "type": "minecraft:crafting_shaped",
   "category": "equipment",
   "key": {
-    "D": {
-      "item": "minecraft:green_dye"
-    },
-    "H": {
-      "item": "minecraft:leather_helmet"
-    },
-    "T": {
-      "item": "floraexpansion:cactus_thorn"
-    }
+    "D": "minecraft:green_dye",
+    "H": "minecraft:leather_helmet",
+    "T": "floraexpansion:cactus_thorn"
   },
   "pattern": [
     "TDT",

@@ -2,15 +2,9 @@
   "type": "minecraft:crafting_shaped",
   "category": "equipment",
   "key": {
-    "C": {
-      "item": "minecraft:leather_chestplate"
-    },
-    "D": {
-      "item": "minecraft:green_dye"
-    },
-    "T": {
-      "item": "floraexpansion:cactus_thorn"
-    }
+    "C": "minecraft:leather_chestplate",
+    "D": "minecraft:green_dye",
+    "T": "floraexpansion:cactus_thorn"
   },
   "pattern": [
     "TDT",

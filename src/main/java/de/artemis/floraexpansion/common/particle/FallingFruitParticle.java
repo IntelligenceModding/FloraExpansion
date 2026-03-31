@@ -1,10 +1,10 @@
 package de.artemis.floraexpansion.common.particle;
 
 import net.minecraft.client.multiplayer.ClientLevel;
+import net.minecraft.client.particle.Particle;
 import net.minecraft.client.particle.ParticleProvider;
-import net.minecraft.client.particle.ParticleRenderType;
+import net.minecraft.client.particle.SingleQuadParticle;
 import net.minecraft.client.particle.SpriteSet;
-import net.minecraft.client.particle.TextureSheetParticle;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.SimpleParticleType;
@@ -17,7 +17,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class FallingFruitParticle extends TextureSheetParticle {
+@SuppressWarnings("unused")
+public class FallingFruitParticle extends SingleQuadParticle {
 
     private boolean restingOnGround = false;
     private int restAge = 0;
@@ -27,7 +28,7 @@ public class FallingFruitParticle extends TextureSheetParticle {
                                    double x, double y, double z,
                                    double xSpeed, double ySpeed, double zSpeed,
                                    SpriteSet sprites) {
-        super(level, x, y, z, xSpeed, ySpeed, zSpeed);
+        super(level, x, y, z, sprites.first());
 
         this.gravity = 0.08F;
         this.friction = 1.0F;
@@ -36,14 +37,8 @@ public class FallingFruitParticle extends TextureSheetParticle {
         this.maxRestAge = 20 + this.random.nextInt(20);
         this.hasPhysics = true;
 
-        this.pickSprite(sprites);
-
-        this.rCol = 1.0F;
-        this.gCol = 1.0F;
-        this.bCol = 1.0F;
         this.alpha = 1.0F;
 
-        // straight down like a dropped fruit / drip
         this.xd = 0.0D;
         this.yd = -0.01D;
         this.zd = 0.0D;
@@ -69,15 +64,15 @@ public class FallingFruitParticle extends TextureSheetParticle {
             this.roll = 0.0F;
             this.oRoll = 0.0F;
 
-            restAge++;
+            this.restAge++;
 
             int fadeTime = 10;
-            if (restAge > maxRestAge - fadeTime) {
-                float remaining = (maxRestAge - restAge) / (float) fadeTime;
+            if (this.restAge > this.maxRestAge - fadeTime) {
+                float remaining = (this.maxRestAge - this.restAge) / (float) fadeTime;
                 this.alpha = Mth.clamp(remaining, 0.0F, 1.0F);
             }
 
-            if (restAge >= maxRestAge) {
+            if (this.restAge >= this.maxRestAge) {
                 this.remove();
             }
             return;
@@ -100,14 +95,13 @@ public class FallingFruitParticle extends TextureSheetParticle {
     }
 
     @Override
-    public @NotNull ParticleRenderType getRenderType() {
-        return ParticleRenderType.PARTICLE_SHEET_TRANSLUCENT;
+    protected @NotNull Layer getLayer() {
+        return SingleQuadParticle.Layer.TRANSLUCENT;
     }
 
     public static void spawnFromFruitingLeaves(Level level, BlockPos pos, SimpleParticleType particleType) {
         RandomSource random = level.random;
 
-        // first try underside
         if (level.isEmptyBlock(pos.below())) {
             double x = pos.getX() + 0.5D + randomOffset(random, 0.18D);
             double y = pos.getY() - 0.02D;
@@ -117,7 +111,6 @@ public class FallingFruitParticle extends TextureSheetParticle {
             return;
         }
 
-        // if bottom is blocked, try shuffled sides until one is free
         List<Direction> sides = new ArrayList<>(List.of(
                 Direction.NORTH, Direction.SOUTH, Direction.WEST, Direction.EAST
         ));
@@ -159,11 +152,12 @@ public class FallingFruitParticle extends TextureSheetParticle {
         }
     }
 
+    @SuppressWarnings("SameParameterValue")
     private static double randomOffset(RandomSource random, double spread) {
         return (random.nextDouble() - 0.5D) * 2.0D * spread;
     }
 
-    public static class Provider implements ParticleProvider<SimpleParticleType> {
+    public static class Provider implements ParticleProvider<@NotNull SimpleParticleType> {
         private final SpriteSet sprites;
 
         public Provider(SpriteSet sprites) {
@@ -171,11 +165,12 @@ public class FallingFruitParticle extends TextureSheetParticle {
         }
 
         @Override
-        public TextureSheetParticle createParticle(@NotNull SimpleParticleType type,
-                                                   @NotNull ClientLevel level,
-                                                   double x, double y, double z,
-                                                   double xSpeed, double ySpeed, double zSpeed) {
-            return new FallingFruitParticle(level, x, y, z, xSpeed, ySpeed, zSpeed, sprites);
+        public Particle createParticle(@NotNull SimpleParticleType type,
+                                       @NotNull ClientLevel level,
+                                       double x, double y, double z,
+                                       double xSpeed, double ySpeed, double zSpeed,
+                                       @NotNull RandomSource random) {
+            return new FallingFruitParticle(level, x, y, z, xSpeed, ySpeed, zSpeed, this.sprites);
         }
     }
 }

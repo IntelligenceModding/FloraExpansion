@@ -2,9 +2,7 @@
   "type": "minecraft:crafting_shapeless",
   "category": "misc",
   "ingredients": [
-    {
-      "item": "floraexpansion:pine_cone"
-    }
+    "floraexpansion:pine_cone"
   ],
   "result": {
     "count": 2,

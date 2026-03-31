@@ -12,7 +12,7 @@ import net.minecraft.core.Holder;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.Enchantments;
@@ -27,13 +27,14 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
+@SuppressWarnings("unused")
 @JeiPlugin
 public final class FloraExpansionJeiPlugin implements IModPlugin {
-    private static final ResourceLocation UID =
-            ResourceLocation.fromNamespaceAndPath(FloraExpansion.MODID, "jei_plugin");
+    private static final Identifier UID =
+            Identifier.fromNamespaceAndPath(FloraExpansion.MODID, "jei_plugin");
 
     @Override
-    public @NotNull ResourceLocation getPluginUid() {
+    public @NotNull Identifier getPluginUid() {
         return UID;
     }
 

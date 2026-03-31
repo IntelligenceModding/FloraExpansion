@@ -3,27 +3,26 @@ package de.artemis.floraexpansion.common.datagen;
 import de.artemis.floraexpansion.FloraExpansion;
 import de.artemis.floraexpansion.common.block.ModBlocks;
 import de.artemis.floraexpansion.common.item.ModItems;
+import de.artemis.floraexpansion.common.util.ModTags;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
-import net.minecraft.data.tags.ItemTagsProvider;
 import net.minecraft.tags.ItemTags;
-import net.minecraft.world.level.block.Block;
 import net.neoforged.neoforge.common.Tags;
-import net.neoforged.neoforge.common.data.ExistingFileHelper;
+import net.neoforged.neoforge.common.data.ItemTagsProvider;
 import org.jetbrains.annotations.NotNull;
 
-import javax.annotation.Nullable;
 import java.util.concurrent.CompletableFuture;
 
 public class ModItemTagProvider extends ItemTagsProvider {
-    public ModItemTagProvider(PackOutput output, CompletableFuture<HolderLookup.Provider> lookupProvider, CompletableFuture<TagLookup<Block>> blockTags, @Nullable ExistingFileHelper existingFileHelper) {
-        super(output, lookupProvider, blockTags, FloraExpansion.MODID, existingFileHelper);
+    public ModItemTagProvider(PackOutput output, CompletableFuture<HolderLookup.Provider> lookupProvider) {
+        super(output, lookupProvider, FloraExpansion.MODID);
     }
 
     @Override
     protected void addTags(HolderLookup.@NotNull Provider provider) {
 
-        //Minecraft
+        // Minecraft
+
         tag(ItemTags.CHICKEN_FOOD)
                 .add(ModItems.PINE_NUTS.get())
                 .add(ModItems.FLAX_SEED.get());
@@ -114,7 +113,8 @@ public class ModItemTagProvider extends ItemTagsProvider {
         tag(ItemTags.FOX_FOOD)
                 .add(ModItems.PRICKLY_PEAR.get());
 
-        //NeoForge
+        // NeoForge
+
         tag(Tags.Items.FOODS)
                 .add(ModItems.PINE_NUTS.get())
                 .add(ModItems.TOASTED_PINE_NUTS.get())
@@ -138,5 +138,10 @@ public class ModItemTagProvider extends ItemTagsProvider {
 
         tag(Tags.Items.ANIMAL_FOODS)
                 .add(ModItems.PRICKLY_PEAR.get());
+
+        // Mod
+
+        tag(ModTags.Items.CACTUS_ARMOR_REPAIRABLE)
+                .add(ModBlocks.CACTUS_THORN.get().asItem());
     }
 }

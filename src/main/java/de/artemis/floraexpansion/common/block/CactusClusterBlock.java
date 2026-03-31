@@ -6,7 +6,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.ItemInteractionResult;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -27,7 +27,7 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.NotNull;
 
 public class CactusClusterBlock extends BushBlock {
-    public static final MapCodec<CactusClusterBlock> CODEC = simpleCodec(CactusClusterBlock::new);
+    public static final MapCodec<BushBlock> CODEC = simpleCodec(CactusClusterBlock::new);
     public static final IntegerProperty PICKLES = BlockStateProperties.PICKLES;
 
     private static final VoxelShape SHAPE_ONE = Block.box(6.0D, 0.0D, 6.0D, 10.0D, 6.0D, 10.0D);
@@ -41,7 +41,7 @@ public class CactusClusterBlock extends BushBlock {
     }
 
     @Override
-    protected @NotNull MapCodec<? extends BushBlock> codec() {
+    public @NotNull MapCodec<BushBlock> codec() {
         return CODEC;
     }
 
@@ -69,7 +69,7 @@ public class CactusClusterBlock extends BushBlock {
     }
 
     @Override
-    public @NotNull BlockState getStateForPlacement(BlockPlaceContext context) {
+    public @NotNull BlockState getStateForPlacement(@NotNull BlockPlaceContext context) {
         BlockState existing = context.getLevel().getBlockState(context.getClickedPos());
         if (existing.is(this)) {
             return existing.setValue(PICKLES, Math.min(4, existing.getValue(PICKLES) + 1));
@@ -79,18 +79,18 @@ public class CactusClusterBlock extends BushBlock {
     }
 
     @Override
-    protected @NotNull ItemInteractionResult useItemOn(@NotNull ItemStack stack,
-                                                       @NotNull BlockState state,
-                                                       @NotNull Level level,
-                                                       @NotNull BlockPos pos,
-                                                       @NotNull Player player,
-                                                       @NotNull InteractionHand hand,
-                                                       @NotNull BlockHitResult hitResult) {
+    protected @NotNull InteractionResult useItemOn(@NotNull ItemStack stack,
+                                                   @NotNull BlockState state,
+                                                   @NotNull Level level,
+                                                   @NotNull BlockPos pos,
+                                                   @NotNull Player player,
+                                                   @NotNull InteractionHand hand,
+                                                   @NotNull BlockHitResult hitResult) {
         if (!stack.is(Items.GLASS_BOTTLE)) {
-            return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
+            return InteractionResult.TRY_WITH_EMPTY_HAND;
         }
 
-        if (!level.isClientSide) {
+        if (!level.isClientSide()) {
             ItemStack juiceStack = new ItemStack(ModItems.CACTUS_JUICE.get());
 
             if (!player.getAbilities().instabuild) {
@@ -101,10 +101,8 @@ public class CactusClusterBlock extends BushBlock {
                 } else if (!player.getInventory().add(juiceStack)) {
                     player.drop(juiceStack, false);
                 }
-            } else {
-                if (!player.getInventory().add(juiceStack)) {
-                    player.drop(juiceStack, false);
-                }
+            } else if (!player.getInventory().add(juiceStack)) {
+                player.drop(juiceStack, false);
             }
 
             int count = state.getValue(PICKLES);
@@ -117,7 +115,7 @@ public class CactusClusterBlock extends BushBlock {
             level.playSound(null, pos, SoundEvents.BOTTLE_FILL, SoundSource.BLOCKS, 1.0F, 1.0F);
         }
 
-        return ItemInteractionResult.sidedSuccess(level.isClientSide);
+        return InteractionResult.SUCCESS;
     }
 
     @Override
@@ -134,7 +132,7 @@ public class CactusClusterBlock extends BushBlock {
     }
 
     @Override
-    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
+    protected void createBlockStateDefinition(StateDefinition.Builder<Block, @NotNull BlockState> builder) {
         builder.add(PICKLES);
     }
 }

@@ -4,8 +4,8 @@ import de.artemis.floraexpansion.FloraExpansion;
 import net.minecraft.core.HolderSet;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.worldgen.BootstrapContext;
+import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BiomeTags;
 import net.minecraft.world.level.biome.Biomes;
 import net.minecraft.world.level.levelgen.GenerationStep;
@@ -170,7 +170,7 @@ public class ModBiomeModifiers {
     private static ResourceKey<BiomeModifier> registerKey(String name) {
         return ResourceKey.create(
                 NeoForgeRegistries.Keys.BIOME_MODIFIERS,
-                ResourceLocation.fromNamespaceAndPath(FloraExpansion.MODID, name)
+                Identifier.fromNamespaceAndPath(FloraExpansion.MODID, name)
         );
     }
 }

@@ -3,9 +3,7 @@
   "category": "misc",
   "cookingtime": 200,
   "experience": 0.2,
-  "ingredient": {
-    "item": "floraexpansion:cactus_cluster"
-  },
+  "ingredient": "floraexpansion:cactus_cluster",
   "result": {
     "count": 1,
     "id": "minecraft:green_dye"

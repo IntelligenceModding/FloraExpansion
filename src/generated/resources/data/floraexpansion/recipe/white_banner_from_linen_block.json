@@ -2,12 +2,8 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "L": {
-      "item": "floraexpansion:linen_block"
-    },
-    "S": {
-      "item": "minecraft:stick"
-    }
+    "L": "floraexpansion:linen_block",
+    "S": "minecraft:stick"
   },
   "pattern": [
     "LLL",

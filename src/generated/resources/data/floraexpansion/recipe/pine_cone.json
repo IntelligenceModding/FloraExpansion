@@ -2,9 +2,7 @@
   "type": "minecraft:crafting_shapeless",
   "category": "misc",
   "ingredients": [
-    {
-      "item": "floraexpansion:pine_litter"
-    }
+    "floraexpansion:pine_litter"
   ],
   "result": {
     "count": 1,

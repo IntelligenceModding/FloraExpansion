@@ -101,7 +101,7 @@ public final class CactusArmorEvents {
             retaliateDamage += THREE_PLUS_BONUS_DAMAGE;
         }
 
-        boolean hitLanded = attacker.hurt(victim.damageSources().thorns(victim), retaliateDamage);
+        boolean hitLanded = attacker.hurtServer(serverLevel, victim.damageSources().thorns(victim), retaliateDamage);
         if (!hitLanded) {
             return;
         }

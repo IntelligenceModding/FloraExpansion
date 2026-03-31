@@ -2,9 +2,7 @@
   "type": "minecraft:crafting_shapeless",
   "category": "misc",
   "ingredients": [
-    {
-      "item": "floraexpansion:cherry_pit"
-    }
+    "floraexpansion:cherry_pit"
   ],
   "result": {
     "count": 1,

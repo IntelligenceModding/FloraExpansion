@@ -7,7 +7,7 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.ItemInteractionResult;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -36,18 +36,27 @@ public class GiantCactusBaseBlock extends RotatedPillarBlock {
     }
 
     @Override
-    protected @NotNull ItemInteractionResult useItemOn(@NotNull ItemStack stack, @NotNull BlockState state, @NotNull Level level, @NotNull BlockPos pos, @NotNull Player player, @NotNull InteractionHand hand, @NotNull BlockHitResult hitResult) {
+    protected @NotNull InteractionResult useItemOn(@NotNull ItemStack stack,
+                                                   @NotNull BlockState state,
+                                                   @NotNull Level level,
+                                                   @NotNull BlockPos pos,
+                                                   @NotNull Player player,
+                                                   @NotNull InteractionHand hand,
+                                                   @NotNull BlockHitResult hitResult) {
         if (!stack.canPerformAction(ItemAbilities.AXE_STRIP)) {
-            return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
+            return InteractionResult.TRY_WITH_EMPTY_HAND;
         }
 
-        BlockState strippedState = ModBlocks.STRIPPED_GIANT_CACTUS_BASE.get().defaultBlockState().setValue(AXIS, state.getValue(AXIS));
+        BlockState strippedState = ModBlocks.STRIPPED_GIANT_CACTUS_BASE.get()
+                .defaultBlockState()
+                .setValue(AXIS, state.getValue(AXIS));
 
-        if (!level.isClientSide) {
+        if (!level.isClientSide()) {
             level.setBlock(pos, strippedState, Block.UPDATE_ALL_IMMEDIATE);
             level.playSound(null, pos, SoundEvents.AXE_STRIP, SoundSource.BLOCKS, 1.0F, 1.0F);
 
-            Holder<net.minecraft.world.item.enchantment.Enchantment> fortune = level.registryAccess().lookupOrThrow(Registries.ENCHANTMENT).getOrThrow(Enchantments.FORTUNE);
+            Holder<net.minecraft.world.item.enchantment.Enchantment> fortune =
+                    level.registryAccess().lookupOrThrow(Registries.ENCHANTMENT).getOrThrow(Enchantments.FORTUNE);
 
             int fortuneLevel = stack.getEnchantmentLevel(fortune);
             float thornDropChance = BASE_THORN_DROP_CHANCE_ON_STRIP + (fortuneLevel * FORTUNE_BONUS_PER_LEVEL);
@@ -60,6 +69,6 @@ public class GiantCactusBaseBlock extends RotatedPillarBlock {
                     hand == InteractionHand.MAIN_HAND ? EquipmentSlot.MAINHAND : EquipmentSlot.OFFHAND);
         }
 
-        return ItemInteractionResult.sidedSuccess(level.isClientSide);
+        return InteractionResult.SUCCESS;
     }
 }

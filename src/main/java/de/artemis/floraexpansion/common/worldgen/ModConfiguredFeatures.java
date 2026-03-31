@@ -9,9 +9,9 @@ import net.minecraft.core.Direction;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.worldgen.BootstrapContext;
 import net.minecraft.data.worldgen.features.FeatureUtils;
+import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.random.SimpleWeightedRandomList;
+import net.minecraft.util.random.WeightedList;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
@@ -19,7 +19,6 @@ import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.configurations.FeatureConfiguration;
 import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
 import net.minecraft.world.level.levelgen.feature.configurations.SimpleBlockConfiguration;
-import net.minecraft.world.level.levelgen.feature.stateproviders.SimpleStateProvider;
 import net.minecraft.world.level.levelgen.feature.stateproviders.WeightedStateProvider;
 
 import java.util.List;
@@ -36,8 +35,8 @@ public class ModConfiguredFeatures {
 
     public static void bootstrap(BootstrapContext<ConfiguredFeature<?, ?>> context) {
 
-        SimpleWeightedRandomList.Builder<BlockState> pineLitterRandomStates = SimpleWeightedRandomList.builder();
-        SimpleWeightedRandomList.Builder<BlockState> leafLitterRandomStates = SimpleWeightedRandomList.builder();
+        WeightedList.Builder<BlockState> pineLitterRandomStates = WeightedList.builder();
+        WeightedList.Builder<BlockState> leafLitterRandomStates = WeightedList.builder();
 
         for (Direction dir : Direction.Plane.HORIZONTAL) {
             for (int amount = 1; amount <= 4; amount++) {
@@ -62,9 +61,7 @@ public class ModConfiguredFeatures {
         }
 
         register(context, OPUNTIA_CACTUS_KEY, ModFeatures.OPUNTIA_CACTUS_FEATURE.get(), NoneFeatureConfiguration.NONE);
-
         register(context, CACTUS_CLUSTER_KEY, ModFeatures.CACTUS_CLUSTER_FEATURE.get(), NoneFeatureConfiguration.NONE);
-
         register(context, PEBBLE_CLUSTER_KEY, ModFeatures.PEBBLE_CLUSTER_FEATURE.get(), NoneFeatureConfiguration.NONE);
 
         register(context, PINE_LITTER_KEY, Feature.RANDOM_PATCH,
@@ -106,11 +103,11 @@ public class ModConfiguredFeatures {
     public static ResourceKey<ConfiguredFeature<?, ?>> registerKey(String name) {
         return ResourceKey.create(
                 Registries.CONFIGURED_FEATURE,
-                ResourceLocation.fromNamespaceAndPath(FloraExpansion.MODID, name)
+                Identifier.fromNamespaceAndPath(FloraExpansion.MODID, name)
         );
     }
 
-    private static <FC extends FeatureConfiguration, F extends Feature<FC>> void register(
+    private static <FC extends FeatureConfiguration, F extends Feature<@org.jetbrains.annotations.NotNull FC>> void register(
             BootstrapContext<ConfiguredFeature<?, ?>> context,
             ResourceKey<ConfiguredFeature<?, ?>> key,
             F feature,

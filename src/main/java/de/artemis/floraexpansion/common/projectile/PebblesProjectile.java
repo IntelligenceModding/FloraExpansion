@@ -8,8 +8,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.item.ItemEntity;
-import net.minecraft.world.entity.projectile.Snowball;
-import net.minecraft.world.entity.projectile.ThrowableItemProjectile;
+import net.minecraft.world.entity.projectile.throwableitemprojectile.ThrowableItemProjectile;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -19,16 +18,17 @@ import org.jetbrains.annotations.NotNull;
 
 public class PebblesProjectile extends ThrowableItemProjectile {
 
-    public PebblesProjectile(EntityType<? extends Snowball> entityType, Level level) {
+    @SuppressWarnings("unused")
+    public PebblesProjectile(EntityType<? extends PebblesProjectile> entityType, Level level) {
         super(entityType, level);
     }
 
-    public PebblesProjectile(Level level, LivingEntity shooter) {
-        super(EntityType.SNOWBALL, shooter, level);
+    public PebblesProjectile(Level level, LivingEntity shooter, ItemStack stack) {
+        super(EntityType.SNOWBALL, shooter, level, stack);
     }
 
-    public PebblesProjectile(Level level, double x, double y, double z) {
-        super(EntityType.SNOWBALL, x, y, z, level);
+    public PebblesProjectile(Level level, double x, double y, double z, ItemStack stack) {
+        super(EntityType.SNOWBALL, x, y, z, level, stack);
     }
 
     @Override
@@ -37,20 +37,20 @@ public class PebblesProjectile extends ThrowableItemProjectile {
     }
 
     private ParticleOptions getParticle() {
-        ItemStack itemstack = this.getItem();
-        return !itemstack.isEmpty() && !itemstack.is(this.getDefaultItem())
-                ? new ItemParticleOption(ParticleTypes.ITEM, itemstack)
+        ItemStack itemStack = this.getItem();
+        return !itemStack.isEmpty() && !itemStack.is(this.getDefaultItem())
+                ? new ItemParticleOption(ParticleTypes.ITEM, itemStack)
                 : ParticleTypes.CRIT;
     }
 
     @Override
     public void handleEntityEvent(byte id) {
         if (id == 3) {
-            ParticleOptions particleoptions = this.getParticle();
+            ParticleOptions particleOptions = this.getParticle();
 
             for (int i = 0; i < 8; ++i) {
                 this.level().addParticle(
-                        particleoptions,
+                        particleOptions,
                         this.getX(),
                         this.getY(),
                         this.getZ(),
@@ -62,6 +62,7 @@ public class PebblesProjectile extends ThrowableItemProjectile {
         }
     }
 
+    @SuppressWarnings("deprecation")
     @Override
     protected void onHitEntity(@NotNull EntityHitResult result) {
         super.onHitEntity(result);
@@ -74,7 +75,7 @@ public class PebblesProjectile extends ThrowableItemProjectile {
     protected void onHit(@NotNull HitResult result) {
         super.onHit(result);
 
-        if (!this.level().isClientSide) {
+        if (!this.level().isClientSide()) {
             this.level().broadcastEntityEvent(this, (byte) 3);
 
             ItemEntity itemEntity = new ItemEntity(

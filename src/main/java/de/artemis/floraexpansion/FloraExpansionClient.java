@@ -45,10 +45,10 @@ public class FloraExpansionClient {
     @SubscribeEvent
     public static void registerEntityRenderers(EntityRenderersEvent.RegisterRenderers event) {
         event.registerEntityRenderer(ModEntityTypes.CACTUS_BOAT.get(),
-                context -> new CactusBoatRenderer<>(context, false));
+                context -> new CactusBoatRenderer(context, false));
 
         event.registerEntityRenderer(ModEntityTypes.CACTUS_CHEST_BOAT.get(),
-                context -> new CactusBoatRenderer<>(context, true));
+                context -> new CactusBoatRenderer(context, true));
     }
 
     @SubscribeEvent

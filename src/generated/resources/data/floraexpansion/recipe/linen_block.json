@@ -2,18 +2,10 @@
   "type": "minecraft:crafting_shapeless",
   "category": "misc",
   "ingredients": [
-    {
-      "item": "floraexpansion:linen_cloth"
-    },
-    {
-      "item": "floraexpansion:linen_cloth"
-    },
-    {
-      "item": "floraexpansion:linen_cloth"
-    },
-    {
-      "item": "floraexpansion:linen_cloth"
-    }
+    "floraexpansion:linen_cloth",
+    "floraexpansion:linen_cloth",
+    "floraexpansion:linen_cloth",
+    "floraexpansion:linen_cloth"
   ],
   "result": {
     "count": 1,

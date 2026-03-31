@@ -10,7 +10,6 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -28,7 +27,7 @@ import net.minecraft.world.phys.BlockHitResult;
 import org.jetbrains.annotations.NotNull;
 
 public class CactusFruitPlantBlock extends BushBlock implements BonemealableBlock {
-    public static final MapCodec<CactusFruitPlantBlock> CODEC = simpleCodec(CactusFruitPlantBlock::new);
+    public static final MapCodec<BushBlock> CODEC = simpleCodec(CactusFruitPlantBlock::new);
     public static final IntegerProperty AGE = IntegerProperty.create("age", 0, 1);
     public static final int MAX_AGE = 1;
 
@@ -38,12 +37,12 @@ public class CactusFruitPlantBlock extends BushBlock implements BonemealableBloc
     }
 
     @Override
-    protected @NotNull MapCodec<? extends BushBlock> codec() {
+    public @NotNull MapCodec<BushBlock> codec() {
         return CODEC;
     }
 
     @Override
-    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
+    protected void createBlockStateDefinition(StateDefinition.@NotNull Builder<Block, @NotNull BlockState> builder) {
         super.createBlockStateDefinition(builder);
         builder.add(AGE);
     }
@@ -77,36 +76,34 @@ public class CactusFruitPlantBlock extends BushBlock implements BonemealableBloc
                                                         @NotNull BlockPos pos,
                                                         @NotNull Player player,
                                                         @NotNull BlockHitResult hitResult) {
-        return harvest(state, level, pos, player, hitResult);
+        return harvest(state, level, pos, hitResult);
     }
 
     @Override
-    protected @NotNull ItemInteractionResult useItemOn(@NotNull ItemStack stack,
-                                                       @NotNull BlockState state,
-                                                       @NotNull Level level,
-                                                       @NotNull BlockPos pos,
-                                                       @NotNull Player player,
-                                                       @NotNull InteractionHand hand,
-                                                       @NotNull BlockHitResult hitResult) {
+    protected @NotNull InteractionResult useItemOn(@NotNull ItemStack stack,
+                                                   @NotNull BlockState state,
+                                                   @NotNull Level level,
+                                                   @NotNull BlockPos pos,
+                                                   @NotNull Player player,
+                                                   @NotNull InteractionHand hand,
+                                                   @NotNull BlockHitResult hitResult) {
         if (stack.is(Items.BONE_MEAL)) {
-            return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
+            return InteractionResult.TRY_WITH_EMPTY_HAND;
         }
 
-        return harvest(state, level, pos, player, hitResult).consumesAction()
-                ? ItemInteractionResult.sidedSuccess(level.isClientSide)
-                : ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
+        InteractionResult result = harvest(state, level, pos, hitResult);
+        return result.consumesAction() ? InteractionResult.SUCCESS : InteractionResult.TRY_WITH_EMPTY_HAND;
     }
 
     private @NotNull InteractionResult harvest(@NotNull BlockState state,
                                                @NotNull Level level,
                                                @NotNull BlockPos pos,
-                                               @NotNull Player player,
                                                @NotNull BlockHitResult hitResult) {
         if (state.getValue(AGE) <= 0) {
             return InteractionResult.PASS;
         }
 
-        if (!level.isClientSide) {
+        if (!level.isClientSide()) {
             int amount = 1 + level.random.nextInt(2);
             ModUtils.spawnItemAtClickedSide(level, pos, hitResult, new ItemStack(ModItems.PRICKLY_PEAR.get(), amount));
 
@@ -115,7 +112,7 @@ public class CactusFruitPlantBlock extends BushBlock implements BonemealableBloc
                     1.0F, 0.8F + level.random.nextFloat() * 0.4F);
         }
 
-        return InteractionResult.sidedSuccess(level.isClientSide);
+        return InteractionResult.SUCCESS;
     }
 
     @Override

@@ -2,9 +2,7 @@
   "type": "minecraft:crafting_shaped",
   "category": "building",
   "key": {
-    "S": {
-      "item": "floraexpansion:cactus_slab"
-    }
+    "S": "floraexpansion:cactus_slab"
   },
   "pattern": [
     "S",

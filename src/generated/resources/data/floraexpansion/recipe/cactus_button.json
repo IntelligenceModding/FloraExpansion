@@ -2,9 +2,7 @@
   "type": "minecraft:crafting_shapeless",
   "category": "redstone",
   "ingredients": [
-    {
-      "item": "floraexpansion:cactus_planks"
-    }
+    "floraexpansion:cactus_planks"
   ],
   "result": {
     "count": 1,

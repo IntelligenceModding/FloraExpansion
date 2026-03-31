@@ -3,12 +3,8 @@
   "category": "misc",
   "group": "hanging_sign",
   "key": {
-    "#": {
-      "item": "floraexpansion:stripped_giant_cactus_base"
-    },
-    "X": {
-      "item": "minecraft:chain"
-    }
+    "#": "floraexpansion:stripped_giant_cactus_base",
+    "X": "minecraft:iron_chain"
   },
   "pattern": [
     "X X",

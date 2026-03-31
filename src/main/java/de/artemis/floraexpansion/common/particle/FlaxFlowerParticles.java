@@ -1,33 +1,39 @@
 package de.artemis.floraexpansion.common.particle;
 
 import net.minecraft.client.multiplayer.ClientLevel;
-import net.minecraft.client.particle.*;
+import net.minecraft.client.particle.Particle;
+import net.minecraft.client.particle.ParticleProvider;
+import net.minecraft.client.particle.SingleQuadParticle;
+import net.minecraft.client.particle.SpriteSet;
 import net.minecraft.core.particles.SimpleParticleType;
+import net.minecraft.util.RandomSource;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
-import javax.annotation.Nullable;
-
-public class FlaxFlowerParticles extends TextureSheetParticle {
-    private final float wobblePhase = random.nextFloat() * (float) Math.PI * 2f;
+@SuppressWarnings("unused")
+public class FlaxFlowerParticles extends SingleQuadParticle {
+    private final float wobblePhase;
     private final float rotationSpeed;
 
-    protected FlaxFlowerParticles(ClientLevel level, double x, double y, double z, SpriteSet sprites, double vx, double vy, double vz) {
-        super(level, x, y, z, 0, 0, 0);
+    protected FlaxFlowerParticles(ClientLevel level, double x, double y, double z, SpriteSet spriteSet,
+                                  double vx, double vy, double vz) {
+        super(level, x, y, z, spriteSet.first());
+
+        this.wobblePhase = this.random.nextFloat() * (float) Math.PI * 2.0F;
+        this.rotationSpeed = (this.random.nextFloat() - 0.5F) * 0.01F;
 
         this.friction = 0.96F;
         this.gravity = 0.20F;
-        this.quadSize = 0.5F + random.nextFloat() * 0.04F;
-        this.lifetime = 50 + random.nextInt(15);
+        this.quadSize = 0.5F + this.random.nextFloat() * 0.04F;
+        this.lifetime = 50 + this.random.nextInt(15);
 
-        this.xd = (random.nextDouble() - 0.5) * 0.02;
-        this.yd = -0.012 - random.nextDouble() * 0.006;
-        this.zd = (random.nextDouble() - 0.5) * 0.002;
+        this.xd = (this.random.nextDouble() - 0.5D) * 0.02D;
+        this.yd = -0.012D - this.random.nextDouble() * 0.006D;
+        this.zd = (this.random.nextDouble() - 0.5D) * 0.002D;
 
-        this.roll = random.nextFloat() * (float) Math.PI * 2f;
+        this.roll = this.random.nextFloat() * (float) Math.PI * 2.0F;
         this.oRoll = this.roll;
-        this.rotationSpeed = (random.nextFloat() - 0.5f) * 0.01f;
 
-        this.pickSprite(sprites);
         this.alpha = 0.95F;
     }
 
@@ -35,37 +41,42 @@ public class FlaxFlowerParticles extends TextureSheetParticle {
     public void tick() {
         super.tick();
 
+        this.oRoll = this.roll;
         this.roll += this.rotationSpeed;
 
-        float t = this.age * 0.12f;
-        double flutter = 0.0035;
-        this.xd += Math.cos(t + wobblePhase) * flutter * 0.08;
-        this.zd += Math.sin(t + wobblePhase) * flutter * 0.08;
+        float t = this.age * 0.12F;
+        double flutter = 0.0035D;
+        this.xd += Math.cos(t + this.wobblePhase) * flutter * 0.08D;
+        this.zd += Math.sin(t + this.wobblePhase) * flutter * 0.08D;
 
-        this.xd *= 0.986;
-        this.zd *= 0.986;
+        this.xd *= 0.986D;
+        this.zd *= 0.986D;
 
         float a = (float) this.age / (float) this.lifetime;
-        if (a > 0.8f) this.alpha = 1.0f - (a - 0.8f) / 0.2f;
-
+        if (a > 0.8F) {
+            this.alpha = 1.0F - (a - 0.8F) / 0.2F;
+        }
     }
 
     @Override
-    public @NotNull ParticleRenderType getRenderType() {
-        return ParticleRenderType.PARTICLE_SHEET_TRANSLUCENT;
+    protected @NotNull Layer getLayer() {
+        return SingleQuadParticle.Layer.TRANSLUCENT;
     }
 
-    public static class Provider implements ParticleProvider<SimpleParticleType> {
+    public static class Provider implements ParticleProvider<@NotNull SimpleParticleType> {
         private final SpriteSet spriteSet;
 
         public Provider(SpriteSet spriteSet) {
             this.spriteSet = spriteSet;
         }
 
-        @Nullable
         @Override
-        public Particle createParticle(@NotNull SimpleParticleType simpleParticleType, @NotNull ClientLevel clientLevel, double pX, double pY, double pZ, double pXSpeed, double pYSpeed, double pZSpeed) {
-            return new FlaxFlowerParticles(clientLevel, pX, pY, pZ, this.spriteSet, pXSpeed, pYSpeed, pZSpeed);
+        public @Nullable Particle createParticle(@NotNull SimpleParticleType simpleParticleType,
+                                                 @NotNull ClientLevel clientLevel,
+                                                 double x, double y, double z,
+                                                 double xSpeed, double ySpeed, double zSpeed,
+                                                 @NotNull RandomSource random) {
+            return new FlaxFlowerParticles(clientLevel, x, y, z, this.spriteSet, xSpeed, ySpeed, zSpeed);
         }
     }
 }

@@ -2,9 +2,7 @@
   "type": "minecraft:crafting_shaped",
   "category": "redstone",
   "key": {
-    "#": {
-      "item": "floraexpansion:cactus_planks"
-    }
+    "#": "floraexpansion:cactus_planks"
   },
   "pattern": [
     "##",

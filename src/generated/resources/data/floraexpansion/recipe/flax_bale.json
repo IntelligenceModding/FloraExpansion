@@ -2,33 +2,15 @@
   "type": "minecraft:crafting_shapeless",
   "category": "misc",
   "ingredients": [
-    {
-      "item": "floraexpansion:flax_fiber"
-    },
-    {
-      "item": "floraexpansion:flax_fiber"
-    },
-    {
-      "item": "floraexpansion:flax_fiber"
-    },
-    {
-      "item": "floraexpansion:flax_fiber"
-    },
-    {
-      "item": "floraexpansion:flax_fiber"
-    },
-    {
-      "item": "floraexpansion:flax_fiber"
-    },
-    {
-      "item": "floraexpansion:flax_fiber"
-    },
-    {
-      "item": "floraexpansion:flax_fiber"
-    },
-    {
-      "item": "floraexpansion:flax_fiber"
-    }
+    "floraexpansion:flax_fiber",
+    "floraexpansion:flax_fiber",
+    "floraexpansion:flax_fiber",
+    "floraexpansion:flax_fiber",
+    "floraexpansion:flax_fiber",
+    "floraexpansion:flax_fiber",
+    "floraexpansion:flax_fiber",
+    "floraexpansion:flax_fiber",
+    "floraexpansion:flax_fiber"
   ],
   "result": {
     "count": 1,

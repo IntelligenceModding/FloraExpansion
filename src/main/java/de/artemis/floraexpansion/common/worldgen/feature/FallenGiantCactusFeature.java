@@ -15,8 +15,9 @@ import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
 import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
+import org.jetbrains.annotations.NotNull;
 
-public class FallenGiantCactusFeature extends Feature<NoneFeatureConfiguration> {
+public class FallenGiantCactusFeature extends Feature<@NotNull NoneFeatureConfiguration> {
     private static final Direction[] HORIZONTAL_DIRECTIONS = new Direction[]{
             Direction.NORTH, Direction.SOUTH, Direction.WEST, Direction.EAST
     };
@@ -26,7 +27,7 @@ public class FallenGiantCactusFeature extends Feature<NoneFeatureConfiguration> 
     }
 
     @Override
-    public boolean place(FeaturePlaceContext<NoneFeatureConfiguration> context) {
+    public boolean place(FeaturePlaceContext<@NotNull NoneFeatureConfiguration> context) {
         WorldGenLevel level = context.level();
         RandomSource random = context.random();
 

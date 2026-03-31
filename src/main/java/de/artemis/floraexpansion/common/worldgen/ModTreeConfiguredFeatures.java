@@ -6,8 +6,8 @@ import de.artemis.floraexpansion.common.worldgen.treedecorator.FruitingOakLeaves
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.worldgen.BootstrapContext;
 import net.minecraft.data.worldgen.features.FeatureUtils;
+import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.valueproviders.ConstantInt;
 import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.level.block.Blocks;
@@ -30,19 +30,19 @@ public class ModTreeConfiguredFeatures {
     public static final ResourceKey<ConfiguredFeature<?, ?>> FRUITING_CHERRY_TREE_KEY =
             ResourceKey.create(
                     Registries.CONFIGURED_FEATURE,
-                    ResourceLocation.fromNamespaceAndPath(FloraExpansion.MODID, "fruiting_cherry_tree")
+                    Identifier.fromNamespaceAndPath(FloraExpansion.MODID, "fruiting_cherry_tree")
             );
 
     public static final ResourceKey<ConfiguredFeature<?, ?>> FRUITING_OAK_TREE_KEY =
             ResourceKey.create(
                     Registries.CONFIGURED_FEATURE,
-                    ResourceLocation.fromNamespaceAndPath(FloraExpansion.MODID, "fruiting_oak_tree")
+                    Identifier.fromNamespaceAndPath(FloraExpansion.MODID, "fruiting_oak_tree")
             );
 
     public static final ResourceKey<ConfiguredFeature<?, ?>> FANCY_FRUITING_OAK_TREE_KEY =
             ResourceKey.create(
                     Registries.CONFIGURED_FEATURE,
-                    ResourceLocation.fromNamespaceAndPath(FloraExpansion.MODID, "fancy_fruiting_oak_tree")
+                    Identifier.fromNamespaceAndPath(FloraExpansion.MODID, "fancy_fruiting_oak_tree")
             );
 
     public static void bootstrap(BootstrapContext<ConfiguredFeature<?, ?>> context) {

@@ -2,15 +2,9 @@
   "type": "minecraft:crafting_shaped",
   "category": "equipment",
   "key": {
-    "B": {
-      "item": "minecraft:leather_boots"
-    },
-    "D": {
-      "item": "minecraft:green_dye"
-    },
-    "T": {
-      "item": "floraexpansion:cactus_thorn"
-    }
+    "B": "minecraft:leather_boots",
+    "D": "minecraft:green_dye",
+    "T": "floraexpansion:cactus_thorn"
   },
   "pattern": [
     "TDT",

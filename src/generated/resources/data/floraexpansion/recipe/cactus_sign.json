@@ -3,12 +3,8 @@
   "category": "misc",
   "group": "sign",
   "key": {
-    "#": {
-      "item": "floraexpansion:cactus_planks"
-    },
-    "X": {
-      "item": "minecraft:stick"
-    }
+    "#": "floraexpansion:cactus_planks",
+    "X": "minecraft:stick"
   },
   "pattern": [
     "###",

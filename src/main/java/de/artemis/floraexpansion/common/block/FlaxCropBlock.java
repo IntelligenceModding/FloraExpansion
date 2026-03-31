@@ -9,7 +9,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.ItemInteractionResult;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -28,7 +28,7 @@ import org.jetbrains.annotations.NotNull;
 public class FlaxCropBlock extends CropBlock {
     public static final IntegerProperty AGE = BlockStateProperties.AGE_4;
     public static final BooleanProperty WILD = ModBlockStateProperties.WILD_FLAX;
-    public static final EnumProperty<DoubleBlockHalf> HALF = BlockStateProperties.DOUBLE_BLOCK_HALF;
+    public static final EnumProperty<@NotNull DoubleBlockHalf> HALF = BlockStateProperties.DOUBLE_BLOCK_HALF;
     private static final int DOUBLE_AGE = 2;
     private static final int MAX_AGE = 4;
 
@@ -152,28 +152,37 @@ public class FlaxCropBlock extends CropBlock {
     }
 
     @Override
-    public @NotNull BlockState updateShape(@NotNull BlockState state, Direction facing, @NotNull BlockState facingState,
-                                           @NotNull LevelAccessor level, @NotNull BlockPos pos, @NotNull BlockPos facingPos) {
-        if (facing.getAxis() == Direction.Axis.Y) {
-            if (isLower(state) && facing == Direction.UP) {
-                if (facingState.is(this) && isUpper(facingState)) return state;
-                if (getAge(state) >= DOUBLE_AGE) {
-                    level.setBlock(pos.above(), this.defaultBlockState()
-                            .setValue(AGE, getAge(state))
-                            .setValue(HALF, DoubleBlockHalf.UPPER)
-                            .setValue(WILD, state.getValue(WILD)), 18);
+    public @NotNull BlockState updateShape(@NotNull BlockState state,
+                                           @NotNull LevelReader level,
+                                           @NotNull ScheduledTickAccess scheduledTickAccess,
+                                           @NotNull BlockPos pos,
+                                           @NotNull Direction direction,
+                                           @NotNull BlockPos neighborPos,
+                                           @NotNull BlockState neighborState,
+                                           @NotNull RandomSource random) {
+        if (direction.getAxis() == Direction.Axis.Y) {
+            if (isLower(state) && direction == Direction.UP) {
+                if (neighborState.is(this) && isUpper(neighborState)) {
+                    return state;
                 }
-            } else if (isUpper(state) && facing == Direction.DOWN) {
-                if (!facingState.is(this) || !isLower(facingState)) return Blocks.AIR.defaultBlockState();
+
+                if (getAge(state) >= DOUBLE_AGE) {
+                    scheduledTickAccess.scheduleTick(pos, this, 1);
+                }
+            } else if (isUpper(state) && direction == Direction.DOWN) {
+                if (!neighborState.is(this) || !isLower(neighborState)) {
+                    return Blocks.AIR.defaultBlockState();
+                }
             }
         }
-        return super.updateShape(state, facing, facingState, level, pos, facingPos);
+
+        return super.updateShape(state, level, scheduledTickAccess, pos, direction, neighborPos, neighborState, random);
     }
 
     @Override
     public @NotNull BlockState playerWillDestroy(@NotNull Level level, @NotNull BlockPos pos, @NotNull BlockState state, @NotNull Player player) {
         if (isUpper(state)) {
-            if (!level.isClientSide) {
+            if (!level.isClientSide()) {
                 BlockPos below = pos.below();
                 BlockState belowState = level.getBlockState(below);
 
@@ -194,7 +203,7 @@ public class FlaxCropBlock extends CropBlock {
             BlockPos above = pos.above();
             BlockState aboveState = level.getBlockState(above);
             if (aboveState.getBlock() == this && isUpper(aboveState)) {
-                if (!level.isClientSide) {
+                if (!level.isClientSide()) {
                     level.removeBlock(above, false);
                     level.levelEvent(player, 2001, above, Block.getId(aboveState));
                 }
@@ -204,8 +213,13 @@ public class FlaxCropBlock extends CropBlock {
     }
 
     @Override
-    protected @NotNull ItemInteractionResult useItemOn(@NotNull ItemStack itemStack, @NotNull BlockState blockState, @NotNull Level level, @NotNull BlockPos blockPos, @NotNull Player player, @NotNull InteractionHand hand, @NotNull BlockHitResult result) {
-        // Only handle shearing when right-clicking the UPPER half
+    protected @NotNull InteractionResult useItemOn(@NotNull ItemStack itemStack,
+                                                   @NotNull BlockState blockState,
+                                                   @NotNull Level level,
+                                                   @NotNull BlockPos blockPos,
+                                                   @NotNull Player player,
+                                                   @NotNull InteractionHand hand,
+                                                   @NotNull BlockHitResult result) {
         if (!isUpper(blockState)) {
             return super.useItemOn(itemStack, blockState, level, blockPos, player, hand, result);
         }
@@ -215,42 +229,35 @@ public class FlaxCropBlock extends CropBlock {
             return super.useItemOn(itemStack, blockState, level, blockPos, player, hand, result);
         }
 
-        if (level.isClientSide) {
-            // client handshake: show the swing/interaction immediately
-            return ItemInteractionResult.SUCCESS;
+        if (level.isClientSide()) {
+            return InteractionResult.SUCCESS;
         }
 
         BlockPos belowPos = blockPos.below();
         BlockState belowState = level.getBlockState(belowPos);
         if (!(belowState.getBlock() == this && isLower(belowState))) {
-            return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
+            return InteractionResult.TRY_WITH_EMPTY_HAND;
         }
 
         int age = getAge(belowState);
         if (age < DOUBLE_AGE) {
-            // not tall yet – do nothing special
-            return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
+            return InteractionResult.TRY_WITH_EMPTY_HAND;
         }
 
-        // Drop normal loot as if broken “by hand”
-        // (Your loot table already ignores fortune, so passing shears here is fine.)
         Block.dropResources(belowState, level, belowPos, null, player, held);
 
-        // Feedback
-        level.levelEvent(2001, blockPos, Block.getId(blockState));       // particles at top
+        level.levelEvent(2001, blockPos, Block.getId(blockState));
         level.levelEvent(2001, belowPos, Block.getId(belowState));
 
-        // Regress the crop to AGE = 1 (single-block stage) and remove upper
         setLower(level, belowPos, 1, belowState.getValue(WILD));
         if (level.getBlockState(blockPos).is(this)) {
             level.removeBlock(blockPos, false);
         }
 
-        // Damage the shears
         EquipmentSlot slot = (hand == InteractionHand.MAIN_HAND) ? EquipmentSlot.MAINHAND : EquipmentSlot.OFFHAND;
         held.hurtAndBreak(1, player, slot);
 
-        return ItemInteractionResult.CONSUME; // we handled it fully
+        return InteractionResult.CONSUME;
     }
 
     @Override
@@ -274,7 +281,7 @@ public class FlaxCropBlock extends CropBlock {
     @Override
     public void animateTick(@NotNull BlockState blockState, @NotNull Level level, @NotNull BlockPos blockPos, @NotNull RandomSource random) {
 
-        if (!level.isClientSide) return;
+        if (!level.isClientSide()) return;
 
         if (!isLower(blockState)) return;
 
@@ -312,7 +319,7 @@ public class FlaxCropBlock extends CropBlock {
     }
 
     @Override
-    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
+    protected void createBlockStateDefinition(StateDefinition.Builder<Block, @NotNull BlockState> builder) {
         builder.add(AGE, HALF, WILD);
     }
 }

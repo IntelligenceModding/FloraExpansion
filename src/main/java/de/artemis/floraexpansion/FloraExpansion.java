@@ -6,7 +6,6 @@ import de.artemis.floraexpansion.common.entity.ModEntityTypes;
 import de.artemis.floraexpansion.common.item.ModItems;
 import de.artemis.floraexpansion.common.loot.ModLootModifiers;
 import de.artemis.floraexpansion.common.particle.ModParticles;
-import de.artemis.floraexpansion.common.util.ModArmorMaterials;
 import de.artemis.floraexpansion.common.worldgen.feature.ModFeatures;
 import de.artemis.floraexpansion.common.worldgen.treedecorator.ModTreeDecorators;
 import net.minecraft.world.level.block.Blocks;
@@ -57,7 +56,6 @@ public class FloraExpansion {
         ModTreeDecorators.register(modEventBus);
         ModBlockEntities.register(modEventBus);
         ModEntityTypes.register(modEventBus);
-        ModArmorMaterials.register(modEventBus);
     }
 
     private void commonSetup(FMLCommonSetupEvent event) {

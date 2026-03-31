@@ -2,9 +2,7 @@
   "type": "minecraft:crafting_shaped",
   "category": "building",
   "key": {
-    "#": {
-      "item": "floraexpansion:giant_cactus_stem"
-    }
+    "#": "floraexpansion:giant_cactus_stem"
   },
   "pattern": [
     "#",

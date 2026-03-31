@@ -1,0 +1,82 @@
+{
+  "values": {
+    "floraexpansion:cactus_boat": {
+      "burn_time": 1200
+    },
+    "floraexpansion:cactus_button": {
+      "burn_time": 100
+    },
+    "floraexpansion:cactus_chest_boat": {
+      "burn_time": 1200
+    },
+    "floraexpansion:cactus_door": {
+      "burn_time": 200
+    },
+    "floraexpansion:cactus_fence": {
+      "burn_time": 300
+    },
+    "floraexpansion:cactus_fence_gate": {
+      "burn_time": 300
+    },
+    "floraexpansion:cactus_hanging_sign": {
+      "burn_time": 800
+    },
+    "floraexpansion:cactus_mosaic": {
+      "burn_time": 300
+    },
+    "floraexpansion:cactus_planks": {
+      "burn_time": 300
+    },
+    "floraexpansion:cactus_pressure_plate": {
+      "burn_time": 300
+    },
+    "floraexpansion:cactus_sign": {
+      "burn_time": 200
+    },
+    "floraexpansion:cactus_slab": {
+      "burn_time": 150
+    },
+    "floraexpansion:cactus_stairs": {
+      "burn_time": 300
+    },
+    "floraexpansion:cactus_trapdoor": {
+      "burn_time": 300
+    },
+    "floraexpansion:cherry_pit": {
+      "burn_time": 50
+    },
+    "floraexpansion:flax_flower": {
+      "burn_time": 50
+    },
+    "floraexpansion:giant_cactus_base": {
+      "burn_time": 300
+    },
+    "floraexpansion:giant_cactus_stem": {
+      "burn_time": 300
+    },
+    "floraexpansion:giant_cactus_wood": {
+      "burn_time": 300
+    },
+    "floraexpansion:leaf_litter": {
+      "burn_time": 100
+    },
+    "floraexpansion:pine_cone": {
+      "burn_time": 50
+    },
+    "floraexpansion:pine_litter": {
+      "burn_time": 100
+    },
+    "floraexpansion:stripped_giant_cactus_base": {
+      "burn_time": 300
+    },
+    "floraexpansion:stripped_giant_cactus_wood": {
+      "burn_time": 300
+    },
+    "floraexpansion:twig": {
+      "burn_time": 200
+    },
+    "floraexpansion:twig_ladder": {
+      "burn_time": 300
+    }
+  }
+}

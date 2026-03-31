@@ -4,7 +4,6 @@ import com.mojang.serialization.MapCodec;
 import de.artemis.floraexpansion.common.item.ModItems;
 import de.artemis.floraexpansion.common.particle.ModParticles;
 import de.artemis.floraexpansion.common.util.ModBlockStateProperties;
-import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
@@ -13,8 +12,9 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.stats.Stats;
 import net.minecraft.util.RandomSource;
+import net.minecraft.util.Util;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.ItemInteractionResult;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -22,13 +22,16 @@ import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
-import net.minecraft.world.level.block.*;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.BonemealableBlock;
+import net.minecraft.world.level.block.BushBlock;
+import net.minecraft.world.level.block.Mirror;
+import net.minecraft.world.level.block.Rotation;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
-import net.minecraft.world.level.block.state.properties.DirectionProperty;
+import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
-import net.minecraft.world.level.block.state.properties.Property;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
@@ -37,113 +40,149 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.function.BiFunction;
 
+@SuppressWarnings({"unused", "deprecation"})
 public class PineLitterBlock extends BushBlock implements BonemealableBlock {
-    public static final MapCodec<PineLitterBlock> CODEC = simpleCodec(PineLitterBlock::new);
+    public static final MapCodec<BushBlock> CODEC = simpleCodec(PineLitterBlock::new);
+
     public static final int MIN_SEGMENTS = 1;
     public static final int MAX_SEGMENTS = 4;
-    public static final DirectionProperty FACING;
-    public static final IntegerProperty AMOUNT;
-    private static final BiFunction<Direction, Integer, VoxelShape> SHAPE_BY_PROPERTIES;
 
-    public @NotNull MapCodec<PineLitterBlock> codec() {
-        return CODEC;
-    }
+    public static final EnumProperty<@NotNull Direction> FACING = BlockStateProperties.HORIZONTAL_FACING;
+    public static final IntegerProperty AMOUNT = ModBlockStateProperties.SEGMENT_AMOUNT;
+
+    private static final BiFunction<Direction, Integer, VoxelShape> SHAPE_BY_PROPERTIES = Util.memoize(
+            (Direction direction, Integer amount) -> {
+                VoxelShape[] shapes = new VoxelShape[]{
+                        Block.box(8.0, 0.0, 8.0, 16.0, 3.0, 16.0),
+                        Block.box(8.0, 0.0, 0.0, 16.0, 3.0, 8.0),
+                        Block.box(0.0, 0.0, 0.0, 8.0, 3.0, 8.0),
+                        Block.box(0.0, 0.0, 8.0, 8.0, 3.0, 16.0)
+                };
+
+                VoxelShape shape = Shapes.empty();
+
+                for (int i = 0; i < amount; ++i) {
+                    int index = Math.floorMod(i - direction.get2DDataValue(), 4);
+                    shape = Shapes.or(shape, shapes[index]);
+                }
+
+                return shape.singleEncompassing();
+            }
+    );
 
     public PineLitterBlock(Properties properties) {
         super(properties);
-        this.registerDefaultState((BlockState) ((BlockState) ((BlockState) this.stateDefinition.any()).setValue(FACING, Direction.NORTH)).setValue(AMOUNT, 1));
-    }
-
-    public @NotNull BlockState rotate(BlockState blockState, Rotation rotation) {
-        return (BlockState) blockState.setValue(FACING, rotation.rotate((Direction) blockState.getValue(FACING)));
-    }
-
-    @SuppressWarnings("deprecation")
-    public @NotNull BlockState mirror(BlockState blockState, Mirror mirror) {
-        return blockState.rotate(mirror.getRotation((Direction) blockState.getValue(FACING)));
-    }
-
-    public boolean canBeReplaced(@NotNull BlockState blockState, BlockPlaceContext blockPlaceContext) {
-        return !blockPlaceContext.isSecondaryUseActive() && blockPlaceContext.getItemInHand().is(this.asItem()) && (Integer) blockState.getValue(AMOUNT) < 4 ? true : super.canBeReplaced(blockState, blockPlaceContext);
-    }
-
-    public @NotNull VoxelShape getShape(BlockState blockState, @NotNull BlockGetter blockGetter, @NotNull BlockPos blockPos, @NotNull CollisionContext context) {
-        return (VoxelShape) SHAPE_BY_PROPERTIES.apply((Direction) blockState.getValue(FACING), (Integer) blockState.getValue(AMOUNT));
-    }
-
-    public BlockState getStateForPlacement(BlockPlaceContext context) {
-        BlockState blockstate = context.getLevel().getBlockState(context.getClickedPos());
-        return blockstate.is(this) ? (BlockState) blockstate.setValue(AMOUNT, Math.min(4, (Integer) blockstate.getValue(AMOUNT) + 1)) : (BlockState) this.defaultBlockState().setValue(FACING, context.getHorizontalDirection().getOpposite());
-    }
-
-    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> blockBlockStateBuilder) {
-        blockBlockStateBuilder.add(new Property[]{FACING, AMOUNT});
-    }
-
-    public boolean isValidBonemealTarget(@NotNull LevelReader levelReader, @NotNull BlockPos blockPos, @NotNull BlockState blockState) {
-        return true;
-    }
-
-    public boolean isBonemealSuccess(@NotNull Level level, @NotNull RandomSource randomSource, @NotNull BlockPos blockPos, @NotNull BlockState blockState) {
-        return true;
-    }
-
-    public void performBonemeal(@NotNull ServerLevel serverLevel, @NotNull RandomSource randomSource, @NotNull BlockPos blockPos, BlockState blockState) {
-        int i = (Integer) blockState.getValue(AMOUNT);
-        if (i < 4) {
-            serverLevel.setBlock(blockPos, (BlockState) blockState.setValue(AMOUNT, i + 1), 2);
-        } else {
-            popResource(serverLevel, blockPos, new ItemStack(this));
-        }
-
+        this.registerDefaultState(this.stateDefinition.any()
+                .setValue(FACING, Direction.NORTH)
+                .setValue(AMOUNT, 1));
     }
 
     @Override
-    protected @NotNull ItemInteractionResult useItemOn(@NotNull ItemStack itemStack, @NotNull BlockState blockState, @NotNull Level level, BlockPos blockPos, @NotNull Player player, @NotNull InteractionHand interactionHand, BlockHitResult blockHitResult) {
+    public @NotNull MapCodec<BushBlock> codec() {
+        return CODEC;
+    }
 
-        if (player.getItemInHand(interactionHand).isEmpty() && interactionHand == InteractionHand.MAIN_HAND) {
-            level.addFreshEntity(new ItemEntity(level,
-                    blockPos.getX() + 0.5,
-                    blockPos.getY() + 0.5,
-                    blockPos.getZ() + 0.5,
-                    new ItemStack(ModItems.PINE_CONE.get(), blockState.getValue(LeafLitterBlock.AMOUNT))));
-            level.addFreshEntity(new ItemEntity(level,
-                    blockPos.getX() + 0.5,
-                    blockPos.getY() + 0.5,
-                    blockPos.getZ() + 0.5,
-                    new ItemStack(ModItems.TWIG.get(), level.random.nextInt(2 * blockState.getValue(LeafLitterBlock.AMOUNT)))));
+    @Override
+    public @NotNull BlockState rotate(@NotNull BlockState state, @NotNull Rotation rotation) {
+        return state.setValue(FACING, rotation.rotate(state.getValue(FACING)));
+    }
 
-            level.destroyBlock(blockPos, false);
-            level.playSound(null, blockPos, SoundEvents.MOSS_BREAK, SoundSource.BLOCKS, 1.0F, 1.0F);
+    @Override
+    public @NotNull BlockState mirror(@NotNull BlockState state, @NotNull Mirror mirror) {
+        return state.rotate(mirror.getRotation(state.getValue(FACING)));
+    }
+
+    @Override
+    public boolean canBeReplaced(@NotNull BlockState state, @NotNull BlockPlaceContext context) {
+        return !context.isSecondaryUseActive()
+                && context.getItemInHand().is(this.asItem())
+                && state.getValue(AMOUNT) < 4
+                || super.canBeReplaced(state, context);
+    }
+
+    @Override
+    public @NotNull VoxelShape getShape(@NotNull BlockState state, @NotNull BlockGetter level,
+                                        @NotNull BlockPos pos, @NotNull CollisionContext context) {
+        return SHAPE_BY_PROPERTIES.apply(state.getValue(FACING), state.getValue(AMOUNT));
+    }
+
+    @Override
+    public BlockState getStateForPlacement(@NotNull BlockPlaceContext context) {
+        BlockState existing = context.getLevel().getBlockState(context.getClickedPos());
+
+        if (existing.is(this)) {
+            return existing.setValue(AMOUNT, Math.min(4, existing.getValue(AMOUNT) + 1));
+        }
+
+        return this.defaultBlockState().setValue(FACING, context.getHorizontalDirection().getOpposite());
+    }
+
+    @Override
+    protected void createBlockStateDefinition(StateDefinition.Builder<Block, @NotNull BlockState> builder) {
+        builder.add(FACING, AMOUNT);
+    }
+
+    @Override
+    public boolean isValidBonemealTarget(@NotNull LevelReader level, @NotNull BlockPos pos, @NotNull BlockState state) {
+        return true;
+    }
+
+    @Override
+    public boolean isBonemealSuccess(@NotNull Level level, @NotNull RandomSource random,
+                                     @NotNull BlockPos pos, @NotNull BlockState state) {
+        return true;
+    }
+
+    @Override
+    public void performBonemeal(@NotNull ServerLevel level, @NotNull RandomSource random,
+                                @NotNull BlockPos pos, @NotNull BlockState state) {
+        int amount = state.getValue(AMOUNT);
+
+        if (amount < 4) {
+            level.setBlock(pos, state.setValue(AMOUNT, amount + 1), 2);
+        } else {
+            popResource(level, pos, new ItemStack(this));
+        }
+    }
+
+    @Override
+    protected @NotNull InteractionResult useItemOn(@NotNull ItemStack stack, @NotNull BlockState state,
+                                                   @NotNull Level level, @NotNull BlockPos pos,
+                                                   @NotNull Player player, @NotNull InteractionHand hand,
+                                                   @NotNull BlockHitResult hitResult) {
+        if (player.getItemInHand(hand).isEmpty() && hand == InteractionHand.MAIN_HAND) {
+            level.addFreshEntity(new ItemEntity(
+                    level,
+                    pos.getX() + 0.5,
+                    pos.getY() + 0.5,
+                    pos.getZ() + 0.5,
+                    new ItemStack(ModItems.PINE_CONE.get(), state.getValue(AMOUNT))
+            ));
+
+            level.addFreshEntity(new ItemEntity(
+                    level,
+                    pos.getX() + 0.5,
+                    pos.getY() + 0.5,
+                    pos.getZ() + 0.5,
+                    new ItemStack(ModItems.TWIG.get(), level.random.nextInt(2 * state.getValue(AMOUNT)))
+            ));
+
+            level.destroyBlock(pos, false);
+            level.playSound(null, pos, SoundEvents.MOSS_BREAK, SoundSource.BLOCKS, 1.0F, 1.0F);
 
             if (player instanceof ServerPlayer serverPlayer) {
                 serverPlayer.awardStat(Stats.BLOCK_MINED.get(this));
             }
 
-            return ItemInteractionResult.sidedSuccess(level.isClientSide);
+            return InteractionResult.SUCCESS.withoutItem();
         }
 
-        return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
-    }
-
-    static {
-        FACING = BlockStateProperties.HORIZONTAL_FACING;
-        AMOUNT = ModBlockStateProperties.SEGMENT_AMOUNT;
-        SHAPE_BY_PROPERTIES = Util.memoize((p_296142_, p_294775_) -> {
-            VoxelShape[] avoxelshape = new VoxelShape[]{Block.box((double) 8.0F, (double) 0.0F, (double) 8.0F, (double) 16.0F, (double) 3.0F, (double) 16.0F), Block.box((double) 8.0F, (double) 0.0F, (double) 0.0F, (double) 16.0F, (double) 3.0F, (double) 8.0F), Block.box((double) 0.0F, (double) 0.0F, (double) 0.0F, (double) 8.0F, (double) 3.0F, (double) 8.0F), Block.box((double) 0.0F, (double) 0.0F, (double) 8.0F, (double) 8.0F, (double) 3.0F, (double) 16.0F)};
-            VoxelShape voxelshape = Shapes.empty();
-
-            for (int i = 0; i < p_294775_; ++i) {
-                int j = Math.floorMod(i - p_296142_.get2DDataValue(), 4);
-                voxelshape = Shapes.or(voxelshape, avoxelshape[j]);
-            }
-
-            return voxelshape.singleEncompassing();
-        });
+        return InteractionResult.TRY_WITH_EMPTY_HAND;
     }
 
     @Override
-    public void animateTick(@NotNull BlockState state, @NotNull Level level, @NotNull BlockPos pos, @NotNull RandomSource random) {
+    public void animateTick(@NotNull BlockState state, @NotNull Level level, @NotNull BlockPos pos,
+                            @NotNull RandomSource random) {
         for (Player player : level.players()) {
             if (player.onGround() && player.blockPosition().equals(pos)) {
                 double dx = player.getX() - player.xOld;
@@ -158,7 +197,7 @@ public class PineLitterBlock extends BushBlock implements BonemealableBlock {
                         double z = pos.getZ() + 0.1 + random.nextDouble() * 0.8;
                         double y = pos.getY() + 0.05 + random.nextDouble() * 0.1;
 
-                        double angle = random.nextDouble() * Math.PI * 2;
+                        double angle = random.nextDouble() * Math.PI * 2.0;
                         double speed = 0.025 + random.nextDouble() * 0.015;
                         double vx = Math.cos(angle) * speed;
                         double vz = Math.sin(angle) * speed;
@@ -171,14 +210,14 @@ public class PineLitterBlock extends BushBlock implements BonemealableBlock {
                         double x = pos.getX() + 0.3 + random.nextDouble() * 0.4;
                         double z = pos.getZ() + 0.3 + random.nextDouble() * 0.4;
                         double y = pos.getY() + 0.05 + random.nextDouble() * 0.1;
-                        double angle = random.nextDouble() * Math.PI * 2;
+
+                        double angle = random.nextDouble() * Math.PI * 2.0;
                         double speed = 0.012 + random.nextDouble() * 0.008;
                         double vx = Math.cos(angle) * speed;
                         double vz = Math.sin(angle) * speed;
                         double vy = 0.025 + random.nextDouble() * 0.01;
 
                         level.addParticle(ModParticles.PINE_PARTICLES.get(), x, y, z, vx, vy, vz);
-
                     }
 
                     level.playLocalSound(

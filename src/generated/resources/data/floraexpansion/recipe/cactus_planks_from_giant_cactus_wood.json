@@ -2,9 +2,7 @@
   "type": "minecraft:crafting_shapeless",
   "category": "building",
   "ingredients": [
-    {
-      "item": "floraexpansion:giant_cactus_wood"
-    }
+    "floraexpansion:giant_cactus_wood"
   ],
   "result": {
     "count": 4,

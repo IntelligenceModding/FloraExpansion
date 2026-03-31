@@ -2,12 +2,8 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "L": {
-      "item": "floraexpansion:linen_block"
-    },
-    "P": {
-      "tag": "minecraft:planks"
-    }
+    "L": "floraexpansion:linen_block",
+    "P": "#minecraft:planks"
   },
   "pattern": [
     "LLL",

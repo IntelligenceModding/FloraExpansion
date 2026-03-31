@@ -2,9 +2,7 @@
   "type": "minecraft:crafting_shapeless",
   "category": "misc",
   "ingredients": [
-    {
-      "item": "floraexpansion:cactus_flower"
-    }
+    "floraexpansion:cactus_flower"
   ],
   "result": {
     "count": 1,

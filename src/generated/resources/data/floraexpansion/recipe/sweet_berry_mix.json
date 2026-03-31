@@ -2,15 +2,9 @@
   "type": "minecraft:crafting_shapeless",
   "category": "misc",
   "ingredients": [
-    {
-      "item": "minecraft:sweet_berries"
-    },
-    {
-      "item": "minecraft:glow_berries"
-    },
-    {
-      "item": "floraexpansion:cherries"
-    }
+    "minecraft:sweet_berries",
+    "minecraft:glow_berries",
+    "floraexpansion:cherries"
   ],
   "result": {
     "count": 3,

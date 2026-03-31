@@ -23,7 +23,7 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.NotNull;
 
 public class CactusFlowerBlock extends BushBlock implements BonemealableBlock {
-    public static final MapCodec<CactusFlowerBlock> CODEC = simpleCodec(CactusFlowerBlock::new);
+    public static final MapCodec<BushBlock> CODEC = simpleCodec(CactusFlowerBlock::new);
     private static final VoxelShape SHAPE = box(5.0D, 0.0D, 5.0D, 11.0D, 10.0D, 11.0D);
     private static final float BONEMEAL_GROW_CHANCE = 0.45F;
 
@@ -32,7 +32,7 @@ public class CactusFlowerBlock extends BushBlock implements BonemealableBlock {
     }
 
     @Override
-    protected @NotNull MapCodec<? extends BushBlock> codec() {
+    public @NotNull MapCodec<BushBlock> codec() {
         return CODEC;
     }
 
