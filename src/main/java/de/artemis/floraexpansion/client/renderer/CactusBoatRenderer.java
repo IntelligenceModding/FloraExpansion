@@ -4,12 +4,9 @@ import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.ModelLayers;
 import net.minecraft.client.renderer.entity.BoatRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.api.distmarker.OnlyIn;
 import org.jetbrains.annotations.NotNull;
 
 @SuppressWarnings("unused")
-@OnlyIn(Dist.CLIENT)
 public class CactusBoatRenderer extends BoatRenderer {
 
     public CactusBoatRenderer(EntityRendererProvider.@NotNull Context context, boolean chestBoat) {
