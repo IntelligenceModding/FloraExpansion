@@ -1,0 +1,36 @@
+{
+  "multipart": [
+    {
+      "apply": {
+        "model": "floraexpansion:block/cactus_cluster_1"
+      },
+      "when": {
+        "pickles": "1"
+      }
+    },
+    {
+      "apply": {
+        "model": "floraexpansion:block/cactus_cluster_2"
+      },
+      "when": {
+        "pickles": "2"
+      }
+    },
+    {
+      "apply": {
+        "model": "floraexpansion:block/cactus_cluster_3"
+      },
+      "when": {
+        "pickles": "3"
+      }
+    },
+    {
+      "apply": {
+        "model": "floraexpansion:block/cactus_cluster_4"
+      },
+      "when": {
+        "pickles": "4"
+      }
+    }
+  ]
+}

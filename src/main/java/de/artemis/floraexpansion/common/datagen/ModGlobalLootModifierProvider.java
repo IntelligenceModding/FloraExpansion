@@ -35,18 +35,6 @@ public class ModGlobalLootModifierProvider extends GlobalLootModifierProvider {
                         LootItemRandomChanceCondition.randomChance(0.1f).build()
                 }, ModBlocks.PINE_LITTER.get().asItem()));
 
-        this.add("leaf_litter_to_oak_leaves",
-                new AddItemModifier(new LootItemCondition[]{
-                        LootItemBlockStatePropertyCondition.hasBlockStateProperties(Blocks.OAK_LEAVES).build(),
-                        LootItemRandomChanceCondition.randomChance(0.1f).build()
-                }, ModBlocks.LEAF_LITTER.get().asItem()));
-
-        this.add("leaf_litter_to_dark_oak_leaves",
-                new AddItemModifier(new LootItemCondition[]{
-                        LootItemBlockStatePropertyCondition.hasBlockStateProperties(Blocks.DARK_OAK_LEAVES).build(),
-                        LootItemRandomChanceCondition.randomChance(0.1f).build()
-                }, ModBlocks.LEAF_LITTER.get().asItem()));
-
         this.add("flax_seed_from_abandoned_mineshaft",
                 new AddItemModifier(new LootItemCondition[]{
                         LootTableIdCondition.builder(Identifier.fromNamespaceAndPath("minecraft", "chests/abandoned_mineshaft")).build(),
@@ -125,11 +113,11 @@ public class ModGlobalLootModifierProvider extends GlobalLootModifierProvider {
                         LootItemRandomChanceCondition.randomChance(0.05f).build()
                 }, ModBlocks.CACTUS_THORN.get().asItem()));
 
-        this.add("cactus_flower_from_desert_pyramid_archaeology",
+        this.add("giant_cactus_blossom_from_desert_pyramid_archaeology",
                 new AddItemModifier(new LootItemCondition[]{
                         LootTableIdCondition.builder(Identifier.fromNamespaceAndPath("minecraft", "archaeology/desert_pyramid")).build(),
                         LootItemRandomChanceCondition.randomChance(0.05f).build()
-                }, ModBlocks.CACTUS_FLOWER.get().asItem()));
+                }, ModBlocks.GIANT_CACTUS_BLOSSOM.get().asItem()));
 
         this.add("prickly_pear_from_desert_pyramid_archaeology",
                 new AddItemModifier(new LootItemCondition[]{
@@ -155,11 +143,11 @@ public class ModGlobalLootModifierProvider extends GlobalLootModifierProvider {
                         LootItemRandomChanceCondition.randomChance(0.06f).build()
                 }, ModItems.PRICKLY_PEAR.get()));
 
-        this.add("cactus_flower_from_desert_well_archaeology",
+        this.add("giant_cactus_blossom_from_desert_well_archaeology",
                 new AddItemModifier(new LootItemCondition[]{
                         LootTableIdCondition.builder(Identifier.fromNamespaceAndPath("minecraft", "archaeology/desert_well")).build(),
                         LootItemRandomChanceCondition.randomChance(0.05f).build()
-                }, ModBlocks.CACTUS_FLOWER.get().asItem()));
+                }, ModBlocks.GIANT_CACTUS_BLOSSOM.get().asItem()));
 
         this.add("cactus_thorn_from_desert_well_archaeology",
                 new AddItemModifier(new LootItemCondition[]{
@@ -185,11 +173,11 @@ public class ModGlobalLootModifierProvider extends GlobalLootModifierProvider {
                         LootItemRandomChanceCondition.randomChance(0.08f).build()
                 }, ModItems.CACTUS_JUICE.get()));
 
-        this.add("cactus_flower_from_village_desert_house",
+        this.add("giant_cactus_blossom_from_village_desert_house",
                 new AddItemModifier(new LootItemCondition[]{
                         LootTableIdCondition.builder(Identifier.fromNamespaceAndPath("minecraft", "chests/village/village_desert_house")).build(),
                         LootItemRandomChanceCondition.randomChance(0.06f).build()
-                }, ModBlocks.CACTUS_FLOWER.get().asItem()));
+                }, ModBlocks.GIANT_CACTUS_BLOSSOM.get().asItem()));
 
         this.add("cactus_mosaic_from_village_desert_house",
                 new AddItemModifier(new LootItemCondition[]{

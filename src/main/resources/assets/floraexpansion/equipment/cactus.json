@@ -1,0 +1,20 @@
+{
+  "layers": {
+    "humanoid": [
+      {
+        "texture": "floraexpansion:cactus"
+      },
+      {
+        "texture": "floraexpansion:cactus_overlay"
+      }
+    ],
+    "humanoid_leggings": [
+      {
+        "texture": "floraexpansion:cactus"
+      },
+      {
+        "texture": "floraexpansion:cactus_overlay"
+      }
+    ]
+  }
+}

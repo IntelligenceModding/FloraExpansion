@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/cross",
+  "textures": {
+    "cross": "floraexpansion:block/planted_apple_core"
+  }
+}

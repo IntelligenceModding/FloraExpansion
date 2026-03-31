@@ -15,7 +15,6 @@ import java.util.List;
 
 public class ModPlacedFeatures {
     public static final ResourceKey<PlacedFeature> PINE_LITTER_PLACED_KEY = registerKey("pine_litter_placed");
-    public static final ResourceKey<PlacedFeature> LEAF_LITTER_PLACED_KEY = registerKey("leaf_litter_placed");
     public static final ResourceKey<PlacedFeature> WILD_FLAX_PLACED_KEY = registerKey("wild_flax_placed");
     public static final ResourceKey<PlacedFeature> PEBBLE_CLUSTER_PLACED_KEY = registerKey("pebble_cluster_placed");
     public static final ResourceKey<PlacedFeature> FRUITING_CHERRY_TREE_PLACED_KEY = registerKey("fruiting_cherry_tree_placed");
@@ -65,14 +64,6 @@ public class ModPlacedFeatures {
                 ));
 
         register(context, PINE_LITTER_PLACED_KEY, configuredFeatures.getOrThrow(ModConfiguredFeatures.PINE_LITTER_KEY),
-                List.of(
-                        RarityFilter.onAverageOnceEvery(4),
-                        InSquarePlacement.spread(),
-                        PlacementUtils.HEIGHTMAP_TOP_SOLID,
-                        BiomeFilter.biome()
-                ));
-
-        register(context, LEAF_LITTER_PLACED_KEY, configuredFeatures.getOrThrow(ModConfiguredFeatures.LEAF_LITTER_KEY),
                 List.of(
                         RarityFilter.onAverageOnceEvery(4),
                         InSquarePlacement.spread(),

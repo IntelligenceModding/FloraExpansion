@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/slab_top",
+  "textures": {
+    "bottom": "floraexpansion:block/cactus_planks",
+    "side": "floraexpansion:block/cactus_planks",
+    "top": "floraexpansion:block/cactus_planks"
+  }
+}

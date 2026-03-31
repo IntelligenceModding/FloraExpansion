@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/cross",
+  "textures": {
+    "cross": "floraexpansion:block/opuntia_cactus_stage0"
+  }
+}

@@ -1,0 +1,199 @@
+{
+  "multipart": [
+    {
+      "apply": {
+        "model": "floraexpansion:block/pebble_patch_0"
+      },
+      "when": {
+        "facing": "north",
+        "pebble_amount": "1"
+      }
+    },
+    {
+      "apply": {
+        "model": "floraexpansion:block/pebble_patch_1"
+      },
+      "when": {
+        "facing": "north",
+        "pebble_amount": "2"
+      }
+    },
+    {
+      "apply": {
+        "model": "floraexpansion:block/pebble_patch_2"
+      },
+      "when": {
+        "facing": "north",
+        "pebble_amount": "3"
+      }
+    },
+    {
+      "apply": {
+        "model": "floraexpansion:block/pebble_patch_3"
+      },
+      "when": {
+        "facing": "north",
+        "pebble_amount": "4"
+      }
+    },
+    {
+      "apply": {
+        "model": "floraexpansion:block/pebble_patch_4"
+      },
+      "when": {
+        "facing": "north",
+        "pebble_amount": "5"
+      }
+    },
+    {
+      "apply": {
+        "model": "floraexpansion:block/pebble_patch_0",
+        "y": 90
+      },
+      "when": {
+        "facing": "east",
+        "pebble_amount": "1"
+      }
+    },
+    {
+      "apply": {
+        "model": "floraexpansion:block/pebble_patch_1",
+        "y": 90
+      },
+      "when": {
+        "facing": "east",
+        "pebble_amount": "2"
+      }
+    },
+    {
+      "apply": {
+        "model": "floraexpansion:block/pebble_patch_2",
+        "y": 90
+      },
+      "when": {
+        "facing": "east",
+        "pebble_amount": "3"
+      }
+    },
+    {
+      "apply": {
+        "model": "floraexpansion:block/pebble_patch_3",
+        "y": 90
+      },
+      "when": {
+        "facing": "east",
+        "pebble_amount": "4"
+      }
+    },
+    {
+      "apply": {
+        "model": "floraexpansion:block/pebble_patch_4",
+        "y": 90
+      },
+      "when": {
+        "facing": "east",
+        "pebble_amount": "5"
+      }
+    },
+    {
+      "apply": {
+        "model": "floraexpansion:block/pebble_patch_0",
+        "y": 180
+      },
+      "when": {
+        "facing": "south",
+        "pebble_amount": "1"
+      }
+    },
+    {
+      "apply": {
+        "model": "floraexpansion:block/pebble_patch_1",
+        "y": 180
+      },
+      "when": {
+        "facing": "south",
+        "pebble_amount": "2"
+      }
+    },
+    {
+      "apply": {
+        "model": "floraexpansion:block/pebble_patch_2",
+        "y": 180
+      },
+      "when": {
+        "facing": "south",
+        "pebble_amount": "3"
+      }
+    },
+    {
+      "apply": {
+        "model": "floraexpansion:block/pebble_patch_3",
+        "y": 180
+      },
+      "when": {
+        "facing": "south",
+        "pebble_amount": "4"
+      }
+    },
+    {
+      "apply": {
+        "model": "floraexpansion:block/pebble_patch_4",
+        "y": 180
+      },
+      "when": {
+        "facing": "south",
+        "pebble_amount": "5"
+      }
+    },
+    {
+      "apply": {
+        "model": "floraexpansion:block/pebble_patch_0",
+        "y": 270
+      },
+      "when": {
+        "facing": "west",
+        "pebble_amount": "1"
+      }
+    },
+    {
+      "apply": {
+        "model": "floraexpansion:block/pebble_patch_1",
+        "y": 270
+      },
+      "when": {
+        "facing": "west",
+        "pebble_amount": "2"
+      }
+    },
+    {
+      "apply": {
+        "model": "floraexpansion:block/pebble_patch_2",
+        "y": 270
+      },
+      "when": {
+        "facing": "west",
+        "pebble_amount": "3"
+      }
+    },
+    {
+      "apply": {
+        "model": "floraexpansion:block/pebble_patch_3",
+        "y": 270
+      },
+      "when": {
+        "facing": "west",
+        "pebble_amount": "4"
+      }
+    },
+    {
+      "apply": {
+        "model": "floraexpansion:block/pebble_patch_4",
+        "y": 270
+      },
+      "when": {
+        "facing": "west",
+        "pebble_amount": "5"
+      }
+    }
+  ]
+}

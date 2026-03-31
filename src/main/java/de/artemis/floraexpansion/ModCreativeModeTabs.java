@@ -19,7 +19,6 @@ public class ModCreativeModeTabs {
             () -> CreativeModeTab.builder().icon(() -> new ItemStack(ModItems.FLAX_FLOWER.get()))
                     .title(Component.translatable("floraexpansion.creative_tab"))
                     .displayItems((itemDisplayParameters, output) -> {
-                        output.accept(ModBlocks.LEAF_LITTER);
                         output.accept(ModBlocks.PINE_LITTER);
                         output.accept(ModItems.PINE_CONE);
                         output.accept(ModItems.PINE_NUTS);
@@ -52,7 +51,7 @@ public class ModCreativeModeTabs {
                         output.accept(ModBlocks.STRIPPED_GIANT_CACTUS_WOOD);
                         output.accept(ModBlocks.GIANT_CACTUS_STEM);
                         output.accept(ModBlocks.CACTUS_THORN);
-                        output.accept(ModBlocks.CACTUS_FLOWER);
+                        output.accept(ModBlocks.GIANT_CACTUS_BLOSSOM);
                         output.accept(ModBlocks.CACTUS_PLANKS);
                         output.accept(ModBlocks.CACTUS_MOSAIC);
                         output.accept(ModBlocks.CACTUS_STAIRS);

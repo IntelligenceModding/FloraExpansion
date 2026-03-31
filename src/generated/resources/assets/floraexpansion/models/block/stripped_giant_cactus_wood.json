@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/cube_column",
+  "textures": {
+    "end": "floraexpansion:block/stripped_giant_cactus_base_side",
+    "side": "floraexpansion:block/stripped_giant_cactus_base_side"
+  }
+}

@@ -114,7 +114,7 @@ public class FallenGiantCactusFeature extends Feature<@NotNull NoneFeatureConfig
                 continue;
             }
 
-            BlockState flower = ModBlocks.CACTUS_FLOWER.get().defaultBlockState();
+            BlockState flower = ModBlocks.GIANT_CACTUS_BLOSSOM.get().defaultBlockState();
             if (flower.canSurvive(level, flowerPos)) {
                 level.setBlock(flowerPos, flower, 2);
             }

@@ -15,7 +15,6 @@ import net.neoforged.neoforge.registries.NeoForgeRegistries;
 
 public class ModBiomeModifiers {
     public static final ResourceKey<BiomeModifier> ADD_PINE_LITTER = registerKey("add_pine_litter");
-    public static final ResourceKey<BiomeModifier> ADD_LEAF_LITTER = registerKey("add_leaf_litter");
     public static final ResourceKey<BiomeModifier> ADD_WILD_FLAX = registerKey("add_wild_flax");
     public static final ResourceKey<BiomeModifier> ADD_PEBBLE_CLUSTERS = registerKey("add_pebble_clusters");
     public static final ResourceKey<BiomeModifier> ADD_FRUITING_CHERRY_TREES = registerKey("add_fruiting_cherry_trees");
@@ -77,11 +76,6 @@ public class ModBiomeModifiers {
         context.register(ADD_PINE_LITTER, new BiomeModifiers.AddFeaturesBiomeModifier(
                 biomes.getOrThrow(BiomeTags.IS_TAIGA),
                 HolderSet.direct(placedFeatures.getOrThrow(ModPlacedFeatures.PINE_LITTER_PLACED_KEY)),
-                GenerationStep.Decoration.VEGETAL_DECORATION));
-
-        context.register(ADD_LEAF_LITTER, new BiomeModifiers.AddFeaturesBiomeModifier(
-                biomes.getOrThrow(BiomeTags.IS_FOREST),
-                HolderSet.direct(placedFeatures.getOrThrow(ModPlacedFeatures.LEAF_LITTER_PLACED_KEY)),
                 GenerationStep.Decoration.VEGETAL_DECORATION));
 
         context.register(ADD_WILD_FLAX, new BiomeModifiers.AddFeaturesBiomeModifier(

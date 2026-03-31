@@ -34,7 +34,8 @@ public class DataGenerators {
 
         generator.addProvider(true, new ModDataMapProvider(packOutput, lookupProvider));
 
-        generator.addProvider(false, new ModModelProvider(packOutput));
+        generator.addProvider(true, new ModModelProvider(packOutput));
+        generator.addProvider(true, new ModLanguageProvider(packOutput, "en_us"));
 
         generator.addProvider(true, new ModDatapackProvider(packOutput, lookupProvider));
         generator.addProvider(true, new ModGlobalLootModifierProvider(packOutput, lookupProvider));
@@ -56,7 +57,8 @@ public class DataGenerators {
 
         generator.addProvider(true, new ModDataMapProvider(packOutput, lookupProvider));
 
-        generator.addProvider(false, new ModModelProvider(packOutput));
+        generator.addProvider(true, new ModModelProvider(packOutput));
+        generator.addProvider(true, new ModLanguageProvider(packOutput, "en_us"));
 
         generator.addProvider(true, new ModDatapackProvider(packOutput, lookupProvider));
         generator.addProvider(true, new ModGlobalLootModifierProvider(packOutput, lookupProvider));

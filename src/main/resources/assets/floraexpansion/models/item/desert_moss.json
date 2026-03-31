@@ -1,6 +1,0 @@
-{
-  "parent": "minecraft:item/generated",
-  "textures": {
-    "layer0": "floraexpansion:block/desert_moss_2"
-  }
-}

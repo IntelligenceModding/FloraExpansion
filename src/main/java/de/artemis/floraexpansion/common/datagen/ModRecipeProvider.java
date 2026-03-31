@@ -343,9 +343,9 @@ public class ModRecipeProvider extends RecipeProvider {
                 .save(output);
 
         shapeless(RecipeCategory.MISC, Items.PINK_DYE, 1)
-                .requires(ModBlocks.CACTUS_FLOWER.get())
-                .unlockedBy("has_cactus_flower", has(ModBlocks.CACTUS_FLOWER.get()))
-                .save(output, modLoc("pink_dye_from_cactus_flower"));
+                .requires(ModBlocks.GIANT_CACTUS_BLOSSOM.get())
+                .unlockedBy("has_giant_cactus_blossom", has(ModBlocks.GIANT_CACTUS_BLOSSOM.get()))
+                .save(output, modLoc("pink_dye_from_giant_cactus_blossom"));
 
         foodSmelting(ModItems.PINE_NUTS.get(), ModItems.TOASTED_PINE_NUTS.get(), 0.1f, 100);
 

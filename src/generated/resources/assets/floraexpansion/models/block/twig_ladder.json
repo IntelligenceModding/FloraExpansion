@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/ladder",
+  "textures": {
+    "particle": "floraexpansion:block/twig_ladder",
+    "texture": "floraexpansion:block/twig_ladder"
+  }
+}

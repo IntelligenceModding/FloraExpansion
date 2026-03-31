@@ -198,7 +198,6 @@ public class FlaxCropBlock extends CropBlock {
                     }
                 }
             }
-            return super.playerWillDestroy(level, pos, state, player);
         } else {
             BlockPos above = pos.above();
             BlockState aboveState = level.getBlockState(above);
@@ -208,8 +207,8 @@ public class FlaxCropBlock extends CropBlock {
                     level.levelEvent(player, 2001, above, Block.getId(aboveState));
                 }
             }
-            return super.playerWillDestroy(level, pos, state, player);
         }
+        return super.playerWillDestroy(level, pos, state, player);
     }
 
     @Override

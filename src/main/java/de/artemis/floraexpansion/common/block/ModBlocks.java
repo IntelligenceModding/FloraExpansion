@@ -28,14 +28,6 @@ public class ModBlocks {
                     .sound(SoundType.PINK_PETALS)
                     .pushReaction(PushReaction.DESTROY));
 
-    public static final DeferredBlock<LeafLitterBlock> LEAF_LITTER = registerBlock("leaf_litter",
-            LeafLitterBlock::new,
-            BlockBehaviour.Properties.of()
-                    .mapColor(MapColor.PLANT)
-                    .noCollision()
-                    .sound(SoundType.PINK_PETALS)
-                    .pushReaction(PushReaction.DESTROY));
-
     public static final DeferredBlock<LadderBlock> TWIG_LADDER = registerBlock("twig_ladder",
             LadderBlock::new,
             BlockBehaviour.Properties.of()
@@ -156,8 +148,8 @@ public class ModBlocks {
                     .sound(SoundType.WOOL)
                     .noCollision());
 
-    public static final DeferredBlock<CactusFlowerBlock> CACTUS_FLOWER = registerBlock("cactus_flower",
-            CactusFlowerBlock::new,
+    public static final DeferredBlock<GiantCactusBlossomBlock> GIANT_CACTUS_BLOSSOM = registerBlock("giant_cactus_blossom",
+            GiantCactusBlossomBlock::new,
             BlockBehaviour.Properties.of()
                     .mapColor(MapColor.COLOR_PINK)
                     .instabreak()

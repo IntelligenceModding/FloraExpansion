@@ -289,7 +289,7 @@ public final class GiantCactusGenerator {
                 continue;
             }
 
-            level.setBlock(candidate.flowerPos(), ModBlocks.CACTUS_FLOWER.get().defaultBlockState(), 2);
+            level.setBlock(candidate.flowerPos(), ModBlocks.GIANT_CACTUS_BLOSSOM.get().defaultBlockState(), 2);
         }
     }
 

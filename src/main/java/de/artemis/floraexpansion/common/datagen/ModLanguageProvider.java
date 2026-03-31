@@ -19,7 +19,6 @@ public class ModLanguageProvider extends net.neoforged.neoforge.common.data.Lang
 
         //Blocks
         add(ModBlocks.PINE_LITTER.get(), "Pine Litter");
-        add(ModBlocks.LEAF_LITTER.get(), "Leaf Litter");
         add(ModBlocks.TWIG_LADDER.get(), "Twig Ladder");
         add(ModBlocks.FLAX_CROP.get(), "Flax Crop");
         add(ModBlocks.LINEN_CARPET.get(), "Linen Carpet");
@@ -38,7 +37,7 @@ public class ModLanguageProvider extends net.neoforged.neoforge.common.data.Lang
         add(ModBlocks.GIANT_CACTUS_STEM.get(), "Giant Cactus Stem");
         add(ModBlocks.POTTED_GIANT_CACTUS_STEM.get(), "Potted Giant Cactus Stem");
         add(ModBlocks.CACTUS_THORN.get(), "Cactus Thorn");
-        add(ModBlocks.CACTUS_FLOWER.get(), "Cactus Flower");
+        add(ModBlocks.GIANT_CACTUS_BLOSSOM.get(), "Giant Cactus Blossom");
         add(ModBlocks.GIANT_CACTUS_WOOD.get(), "Giant Cactus Wood");
         add(ModBlocks.STRIPPED_GIANT_CACTUS_WOOD.get(), "Stripped Giant Cactus Wood");
         add(ModBlocks.CACTUS_PLANKS.get(), "Cactus Planks");

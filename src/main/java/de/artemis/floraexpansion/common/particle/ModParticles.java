@@ -14,9 +14,6 @@ public class ModParticles {
     public static final DeferredRegister<ParticleType<?>> PARTICLE_TYPES =
             DeferredRegister.create(BuiltInRegistries.PARTICLE_TYPE, FloraExpansion.MODID);
 
-    public static final Supplier<SimpleParticleType> LEAF_FLUFF_PARTICLES =
-            PARTICLE_TYPES.register("leaf_fluff_particles", () -> new SimpleParticleType(true));
-
     public static final Supplier<SimpleParticleType> PINE_LEAF_FLUFF_PARTICLES =
             PARTICLE_TYPES.register("pine_leaf_fluff_particles", () -> new SimpleParticleType(true));
 

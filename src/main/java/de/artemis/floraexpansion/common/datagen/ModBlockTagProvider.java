@@ -66,11 +66,11 @@ public class ModBlockTagProvider extends BlockTagsProvider {
 
         tag(BlockTags.FLOWERS)
                 .add(ModBlocks.FRUITING_OAK_LEAVES.get())
-                .add(ModBlocks.CACTUS_FLOWER.get())
+                .add(ModBlocks.GIANT_CACTUS_BLOSSOM.get())
                 .add(ModBlocks.FRUITING_CHERRY_LEAVES.get());
 
         tag(BlockTags.SMALL_FLOWERS)
-                .add(ModBlocks.CACTUS_FLOWER.get());
+                .add(ModBlocks.GIANT_CACTUS_BLOSSOM.get());
 
         tag(BlockTags.LOGS_THAT_BURN)
                 .add(ModBlocks.STRIPPED_GIANT_CACTUS_BASE.get())

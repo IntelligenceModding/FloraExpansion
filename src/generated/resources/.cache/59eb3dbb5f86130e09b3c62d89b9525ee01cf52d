@@ -1,10 +1,9 @@
-// 1.21.11	2026-03-31T17:26:50.7690381	Loot Tables
+// 1.21.11	2026-04-01T00:40:55.8840011	Loot Tables
 6f65b38a0c7ed581138f1426b71229aed90066e7 data/floraexpansion/loot_table/blocks/cactus_button.json
 9a1681c3248ae66685383f036904df208b4baf27 data/floraexpansion/loot_table/blocks/cactus_cluster.json
 cfab77699706bc54c7426d9221c31303f76f99ac data/floraexpansion/loot_table/blocks/cactus_door.json
 8b1c1b3ea98d752ed779e77d1eb01a31844c876e data/floraexpansion/loot_table/blocks/cactus_fence.json
 710a9e7f5f451fb508c551fa6e9688e7861ecf24 data/floraexpansion/loot_table/blocks/cactus_fence_gate.json
-e7afbad0227a906f9f901173117af4652ba81464 data/floraexpansion/loot_table/blocks/cactus_flower.json
 2a3062043e0e333df05e07182ecd9f0cfdfe9e45 data/floraexpansion/loot_table/blocks/cactus_hanging_sign.json
 38412243dfbbe3144177a4292142da8a4e219a4f data/floraexpansion/loot_table/blocks/cactus_mosaic.json
 529489c3aa4c9460f08522ea22bac6e23bdd9a03 data/floraexpansion/loot_table/blocks/cactus_planks.json
@@ -18,6 +17,7 @@ a505abe7ed43636a7fa4200aa808d022d4c012e0 data/floraexpansion/loot_table/blocks/c
 bc37e594dac1c865d5bbd6353c0cae1345ac79bc data/floraexpansion/loot_table/blocks/fruiting_cherry_leaves.json
 cef4e7a877866223016ecef452a5b11902491bda data/floraexpansion/loot_table/blocks/fruiting_oak_leaves.json
 c76348e69b07f242d3dbd7faa9c7a05186123317 data/floraexpansion/loot_table/blocks/giant_cactus_base.json
+3afdbaabc3a4b4be1003d88bd0c781333fa06e0e data/floraexpansion/loot_table/blocks/giant_cactus_blossom.json
 fb0b28362b8b639ae9019bd53e52c144df157fcc data/floraexpansion/loot_table/blocks/giant_cactus_stem.json
 8ef45188e2936867ef0691fdab79abe0455d3930 data/floraexpansion/loot_table/blocks/giant_cactus_wood.json
 c9ad0b410b03134e63df3ce9c258037210415bdf data/floraexpansion/loot_table/blocks/opuntia_cactus.json

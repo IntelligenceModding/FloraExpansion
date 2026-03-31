@@ -1,0 +1,64 @@
+{
+  "multipart": [
+    {
+      "apply": {
+        "model": "floraexpansion:block/stripped_giant_cactus_wood"
+      },
+      "when": {
+        "axis": "y",
+        "generated": "false"
+      }
+    },
+    {
+      "apply": {
+        "model": "floraexpansion:block/stripped_giant_cactus_wood_horizontal",
+        "x": 90,
+        "y": 90
+      },
+      "when": {
+        "axis": "x",
+        "generated": "false"
+      }
+    },
+    {
+      "apply": {
+        "model": "floraexpansion:block/stripped_giant_cactus_wood_horizontal",
+        "x": 90
+      },
+      "when": {
+        "axis": "z",
+        "generated": "false"
+      }
+    },
+    {
+      "apply": {
+        "model": "floraexpansion:block/stripped_giant_cactus_wood"
+      },
+      "when": {
+        "axis": "y",
+        "generated": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "floraexpansion:block/stripped_giant_cactus_wood_horizontal",
+        "x": 90,
+        "y": 90
+      },
+      "when": {
+        "axis": "x",
+        "generated": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "floraexpansion:block/stripped_giant_cactus_wood_horizontal",
+        "x": 90
+      },
+      "when": {
+        "axis": "z",
+        "generated": "true"
+      }
+    }
+  ]
+}

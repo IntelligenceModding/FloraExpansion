@@ -1,0 +1,14 @@
+{
+  "type": "floraexpansion:add_item",
+  "conditions": [
+    {
+      "condition": "neoforge:loot_table_id",
+      "loot_table_id": "minecraft:archaeology/desert_pyramid"
+    },
+    {
+      "chance": 0.05,
+      "condition": "minecraft:random_chance"
+    }
+  ],
+  "item": "floraexpansion:giant_cactus_blossom"
+}

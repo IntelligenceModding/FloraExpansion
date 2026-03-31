@@ -57,9 +57,6 @@
     "floraexpansion:giant_cactus_wood": {
       "burn_time": 300
     },
-    "floraexpansion:leaf_litter": {
-      "burn_time": 100
-    },
     "floraexpansion:pine_cone": {
       "burn_time": 50
     },

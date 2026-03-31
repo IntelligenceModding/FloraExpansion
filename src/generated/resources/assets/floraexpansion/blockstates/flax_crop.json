@@ -1,0 +1,94 @@
+{
+  "multipart": [
+    {
+      "apply": {
+        "model": "floraexpansion:block/flax_stage0"
+      },
+      "when": {
+        "age": "0",
+        "half": "lower"
+      }
+    },
+    {
+      "apply": {
+        "model": "floraexpansion:block/flax_stage1_top"
+      },
+      "when": {
+        "age": "0",
+        "half": "upper"
+      }
+    },
+    {
+      "apply": {
+        "model": "floraexpansion:block/flax_stage1_bottom"
+      },
+      "when": {
+        "age": "1",
+        "half": "lower"
+      }
+    },
+    {
+      "apply": {
+        "model": "floraexpansion:block/flax_stage1_top"
+      },
+      "when": {
+        "age": "1",
+        "half": "upper"
+      }
+    },
+    {
+      "apply": {
+        "model": "floraexpansion:block/flax_stage2_bottom"
+      },
+      "when": {
+        "age": "2",
+        "half": "lower"
+      }
+    },
+    {
+      "apply": {
+        "model": "floraexpansion:block/flax_stage2_top"
+      },
+      "when": {
+        "age": "2",
+        "half": "upper"
+      }
+    },
+    {
+      "apply": {
+        "model": "floraexpansion:block/flax_stage3_bottom"
+      },
+      "when": {
+        "age": "3",
+        "half": "lower"
+      }
+    },
+    {
+      "apply": {
+        "model": "floraexpansion:block/flax_stage3_top"
+      },
+      "when": {
+        "age": "3",
+        "half": "upper"
+      }
+    },
+    {
+      "apply": {
+        "model": "floraexpansion:block/flax_stage4_bottom"
+      },
+      "when": {
+        "age": "4",
+        "half": "lower"
+      }
+    },
+    {
+      "apply": {
+        "model": "floraexpansion:block/flax_stage4_top"
+      },
+      "when": {
+        "age": "4",
+        "half": "upper"
+      }
+    }
+  ]
+}

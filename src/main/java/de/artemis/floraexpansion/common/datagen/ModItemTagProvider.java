@@ -39,7 +39,6 @@ public class ModItemTagProvider extends ItemTagsProvider {
                 .add(ModItems.PEBBLES.get());
 
         tag(ItemTags.DAMPENS_VIBRATIONS)
-                .add(ModBlocks.LEAF_LITTER.get().asItem())
                 .add(ModBlocks.PINE_LITTER.get().asItem())
                 .add(ModBlocks.LINEN_CARPET.get().asItem());
 
@@ -51,7 +50,7 @@ public class ModItemTagProvider extends ItemTagsProvider {
                 .add(ModBlocks.CHERRY_PIT.get().asItem());
 
         tag(ItemTags.FLOWERS)
-                .add(ModBlocks.CACTUS_FLOWER.get().asItem());
+                .add(ModBlocks.GIANT_CACTUS_BLOSSOM.get().asItem());
 
         tag(ItemTags.LOGS_THAT_BURN)
                 .add(ModBlocks.STRIPPED_GIANT_CACTUS_BASE.get().asItem())

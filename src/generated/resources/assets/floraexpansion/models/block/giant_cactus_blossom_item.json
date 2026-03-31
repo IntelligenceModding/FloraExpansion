@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "floraexpansion:block/giant_cactus_blossom"
+  }
+}

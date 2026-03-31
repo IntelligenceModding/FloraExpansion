@@ -6,9 +6,6 @@
     "floraexpansion:cactus_cluster": {
       "chance": 0.3
     },
-    "floraexpansion:cactus_flower": {
-      "chance": 0.3
-    },
     "floraexpansion:cherries": {
       "chance": 0.3
     },
@@ -27,7 +24,7 @@
     "floraexpansion:flax_seed": {
       "chance": 0.3
     },
-    "floraexpansion:leaf_litter": {
+    "floraexpansion:giant_cactus_blossom": {
       "chance": 0.3
     },
     "floraexpansion:opuntia_cactus": {

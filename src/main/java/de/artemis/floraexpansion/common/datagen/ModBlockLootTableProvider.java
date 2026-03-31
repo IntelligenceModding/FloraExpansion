@@ -45,7 +45,7 @@ public class ModBlockLootTableProvider extends BlockLootSubProvider {
         dropSelf(ModBlocks.STRIPPED_GIANT_CACTUS_BASE.get());
         dropSelf(ModBlocks.GIANT_CACTUS_STEM.get());
         dropSelf(ModBlocks.CACTUS_THORN.get());
-        dropSelf(ModBlocks.CACTUS_FLOWER.get());
+        dropSelf(ModBlocks.GIANT_CACTUS_BLOSSOM.get());
 
         add(ModBlocks.GIANT_CACTUS_WOOD.get(), LootTable.lootTable()
                 .withPool(LootPool.lootPool()
@@ -235,7 +235,7 @@ public class ModBlockLootTableProvider extends BlockLootSubProvider {
                 ModBlocks.CACTUS_THORN.get(),
                 ModBlocks.GIANT_CACTUS_WOOD.get(),
                 ModBlocks.STRIPPED_GIANT_CACTUS_WOOD.get(),
-                ModBlocks.CACTUS_FLOWER.get(),
+                ModBlocks.GIANT_CACTUS_BLOSSOM.get(),
                 ModBlocks.CACTUS_PLANKS.get(),
                 ModBlocks.CACTUS_STAIRS.get(),
                 ModBlocks.CACTUS_SLAB.get(),

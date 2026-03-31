@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/door_top_left_open",
+  "textures": {
+    "bottom": "floraexpansion:block/cactus_door_bottom",
+    "top": "floraexpansion:block/cactus_door_top"
+  }
+}

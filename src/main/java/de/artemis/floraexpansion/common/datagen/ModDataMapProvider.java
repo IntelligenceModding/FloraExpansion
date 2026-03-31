@@ -21,7 +21,6 @@ public class ModDataMapProvider extends DataMapProvider {
     protected void gather(HolderLookup.@NotNull Provider provider) {
         this.builder(NeoForgeDataMaps.COMPOSTABLES)
                 .add(ModItems.PINE_CONE.getId(), new Compostable(0.3f), false)
-                .add(ModBlocks.LEAF_LITTER.getId(), new Compostable(0.3f), false)
                 .add(ModBlocks.PINE_LITTER.getId(), new Compostable(0.3f), false)
                 .add(ModItems.FLAX_SEED.getId(), new Compostable(0.3f), false)
                 .add(ModItems.FLAX_FLOWER.getId(), new Compostable(0.3f), false)
@@ -29,7 +28,7 @@ public class ModDataMapProvider extends DataMapProvider {
                 .add(ModBlocks.CHERRY_PIT.getId(), new Compostable(0.3f), false)
                 .add(ModItems.CHERRIES.getId(), new Compostable(0.3f), false)
                 .add(ModBlocks.APPLE_CORE.getId(), new Compostable(0.3f), false)
-                .add(ModBlocks.CACTUS_FLOWER.getId(), new Compostable(0.3f), false)
+                .add(ModBlocks.GIANT_CACTUS_BLOSSOM.getId(), new Compostable(0.3f), false)
                 .add(ModBlocks.DESERT_MOSS.getId(), new Compostable(0.3f), false)
                 .add(ModBlocks.CACTUS_CLUSTER.getId(), new Compostable(0.3f), false)
                 .add(ModBlocks.OPUNTIA_CACTUS.getId(), new Compostable(0.3f), false);
@@ -37,7 +36,6 @@ public class ModDataMapProvider extends DataMapProvider {
         this.builder(NeoForgeDataMaps.FURNACE_FUELS)
                 .add(ModItems.TWIG.getId(), new FurnaceFuel(200), false)
                 .add(ModItems.PINE_CONE.getId(), new FurnaceFuel(50), false)
-                .add(ModBlocks.LEAF_LITTER.getId(), new FurnaceFuel(100), false)
                 .add(ModBlocks.PINE_LITTER.getId(), new FurnaceFuel(100), false)
                 .add(ModBlocks.TWIG_LADDER.getId(), new FurnaceFuel(300), false)
                 .add(ModItems.FLAX_FLOWER.getId(), new FurnaceFuel(50), false)

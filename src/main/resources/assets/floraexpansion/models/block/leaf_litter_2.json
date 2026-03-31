@@ -1,6 +1,0 @@
-{
-  "parent": "floraexpansion:block/template/template_leaf_litter_2",
-  "textures": {
-    "texture": "floraexpansion:block/leaf_litter"
-  }
-}

@@ -1,7 +1,6 @@
 package de.artemis.floraexpansion.common.worldgen;
 
 import de.artemis.floraexpansion.FloraExpansion;
-import de.artemis.floraexpansion.common.block.LeafLitterBlock;
 import de.artemis.floraexpansion.common.block.ModBlocks;
 import de.artemis.floraexpansion.common.block.PineLitterBlock;
 import de.artemis.floraexpansion.common.worldgen.feature.ModFeatures;
@@ -25,7 +24,6 @@ import java.util.List;
 
 public class ModConfiguredFeatures {
     public static final ResourceKey<ConfiguredFeature<?, ?>> PINE_LITTER_KEY = registerKey("pine_litter");
-    public static final ResourceKey<ConfiguredFeature<?, ?>> LEAF_LITTER_KEY = registerKey("leaf_litter");
     public static final ResourceKey<ConfiguredFeature<?, ?>> WILD_FLAX_KEY = registerKey("wild_flax");
     public static final ResourceKey<ConfiguredFeature<?, ?>> PEBBLE_CLUSTER_KEY = registerKey("pebble_cluster");
     public static final ResourceKey<ConfiguredFeature<?, ?>> GIANT_CACTUS_KEY = registerKey("giant_cactus");
@@ -36,7 +34,6 @@ public class ModConfiguredFeatures {
     public static void bootstrap(BootstrapContext<ConfiguredFeature<?, ?>> context) {
 
         WeightedList.Builder<BlockState> pineLitterRandomStates = WeightedList.builder();
-        WeightedList.Builder<BlockState> leafLitterRandomStates = WeightedList.builder();
 
         for (Direction dir : Direction.Plane.HORIZONTAL) {
             for (int amount = 1; amount <= 4; amount++) {
@@ -44,17 +41,6 @@ public class ModConfiguredFeatures {
                         ModBlocks.PINE_LITTER.get().defaultBlockState()
                                 .setValue(PineLitterBlock.FACING, dir)
                                 .setValue(PineLitterBlock.AMOUNT, amount),
-                        1
-                );
-            }
-        }
-
-        for (Direction dir : Direction.Plane.HORIZONTAL) {
-            for (int amount = 1; amount <= 4; amount++) {
-                leafLitterRandomStates.add(
-                        ModBlocks.LEAF_LITTER.get().defaultBlockState()
-                                .setValue(LeafLitterBlock.FACING, dir)
-                                .setValue(LeafLitterBlock.AMOUNT, amount),
                         1
                 );
             }
@@ -68,14 +54,6 @@ public class ModConfiguredFeatures {
                 FeatureUtils.simplePatchConfiguration(
                         Feature.SIMPLE_BLOCK,
                         new SimpleBlockConfiguration(new WeightedStateProvider(pineLitterRandomStates.build())),
-                        List.of(Blocks.GRASS_BLOCK, Blocks.PODZOL, Blocks.COARSE_DIRT)
-                )
-        );
-
-        register(context, LEAF_LITTER_KEY, Feature.RANDOM_PATCH,
-                FeatureUtils.simplePatchConfiguration(
-                        Feature.SIMPLE_BLOCK,
-                        new SimpleBlockConfiguration(new WeightedStateProvider(leafLitterRandomStates.build())),
                         List.of(Blocks.GRASS_BLOCK, Blocks.PODZOL, Blocks.COARSE_DIRT)
                 )
         );

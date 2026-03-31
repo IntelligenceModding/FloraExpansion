@@ -98,7 +98,7 @@ public class GiantCactusStemBlock extends Block {
 
         BlockPos flowerPos = top.above();
 
-        if (level.getBlockState(flowerPos).is(ModBlocks.CACTUS_FLOWER.get())) {
+        if (level.getBlockState(flowerPos).is(ModBlocks.GIANT_CACTUS_BLOSSOM.get())) {
             return;
         }
 
@@ -127,7 +127,7 @@ public class GiantCactusStemBlock extends Block {
         float flowerChance = totalHeight >= 3 ? 0.25F : 0.10F;
 
         if (random.nextFloat() < flowerChance) {
-            level.setBlock(flowerPos, ModBlocks.CACTUS_FLOWER.get().defaultBlockState(), Block.UPDATE_ALL);
+            level.setBlock(flowerPos, ModBlocks.GIANT_CACTUS_BLOSSOM.get().defaultBlockState(), Block.UPDATE_ALL);
             return;
         }
 
@@ -190,7 +190,7 @@ public class GiantCactusStemBlock extends Block {
         }
 
         BlockPos flowerPos = top.above();
-        if (level.getBlockState(flowerPos).is(ModBlocks.CACTUS_FLOWER.get())) {
+        if (level.getBlockState(flowerPos).is(ModBlocks.GIANT_CACTUS_BLOSSOM.get())) {
             level.destroyBlock(flowerPos, true);
         }
 

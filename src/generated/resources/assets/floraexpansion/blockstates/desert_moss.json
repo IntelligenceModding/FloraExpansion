@@ -1,0 +1,36 @@
+{
+  "multipart": [
+    {
+      "apply": {
+        "model": "floraexpansion:block/desert_moss_0"
+      },
+      "when": {
+        "variant": "0"
+      }
+    },
+    {
+      "apply": {
+        "model": "floraexpansion:block/desert_moss_1"
+      },
+      "when": {
+        "variant": "1"
+      }
+    },
+    {
+      "apply": {
+        "model": "floraexpansion:block/desert_moss_2"
+      },
+      "when": {
+        "variant": "2"
+      }
+    },
+    {
+      "apply": {
+        "model": "floraexpansion:block/desert_moss_3"
+      },
+      "when": {
+        "variant": "3"
+      }
+    }
+  ]
+}

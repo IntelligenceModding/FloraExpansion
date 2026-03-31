@@ -1,0 +1,20 @@
+{
+  "multipart": [
+    {
+      "apply": {
+        "model": "floraexpansion:block/opuntia_cactus_stage0"
+      },
+      "when": {
+        "age": "0"
+      }
+    },
+    {
+      "apply": {
+        "model": "floraexpansion:block/opuntia_cactus_stage1"
+      },
+      "when": {
+        "age": "1"
+      }
+    }
+  ]
+}
