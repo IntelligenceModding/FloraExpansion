@@ -3,11 +3,12 @@ package de.artemis.floraexpansion.common.datagen;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import de.artemis.floraexpansion.FloraExpansion;
-import de.artemis.floraexpansion.common.block.GiantCactusWoodBlock;
 import de.artemis.floraexpansion.common.block.DesertMossBlock;
 import de.artemis.floraexpansion.common.block.FruitingCherryLeavesBlock;
 import de.artemis.floraexpansion.common.block.FruitingOakLeavesBlock;
 import de.artemis.floraexpansion.common.block.FlaxCropBlock;
+import de.artemis.floraexpansion.common.block.GiantCactusBlossomBlock;
+import de.artemis.floraexpansion.common.block.GiantCactusWoodBlock;
 import de.artemis.floraexpansion.common.block.ModBlocks;
 import de.artemis.floraexpansion.common.block.CactusFruitPlantBlock;
 import de.artemis.floraexpansion.common.block.PebblePatchBlock;
@@ -93,6 +94,7 @@ public class ModModelProvider extends ModelProvider {
         createFlaxCropBlockState(blockModels);
         createFruitingCherryLeavesBlockState(blockModels);
         createFruitingOakLeavesBlockState(blockModels);
+        createGiantCactusBlossomBlockState(blockModels);
         createGiantCactusWoodBlockState(blockModels, ModBlocks.GIANT_CACTUS_WOOD.get(), "giant_cactus_wood");
         createGiantCactusWoodBlockState(blockModels, ModBlocks.STRIPPED_GIANT_CACTUS_WOOD.get(), "stripped_giant_cactus_wood");
         createOpuntiaCactusBlockState(blockModels);
@@ -268,6 +270,20 @@ public class ModModelProvider extends ModelProvider {
             generator.with(
                     BlockModelGenerators.condition().term(CactusFruitPlantBlock.AGE, age),
                     BlockModelGenerators.plainVariant(modModel("opuntia_cactus_stage" + age))
+            );
+        }
+
+        blockModels.blockStateOutput.accept(generator);
+    }
+
+    private void createGiantCactusBlossomBlockState(BlockModelGenerators blockModels) {
+        MultiPartGenerator generator = MultiPartGenerator.multiPart(ModBlocks.GIANT_CACTUS_BLOSSOM.get());
+        String[] textures = {"giant_cactus_blossom_0", "giant_cactus_blossom_1", "giant_cactus_blossom_3"};
+
+        for (int variant = 0; variant < textures.length; variant++) {
+            generator.with(
+                    BlockModelGenerators.condition().term(GiantCactusBlossomBlock.VARIANT, variant),
+                    BlockModelGenerators.plainVariant(modModel("giant_cactus_blossom_variant_" + variant))
             );
         }
 
@@ -507,20 +523,19 @@ public class ModModelProvider extends ModelProvider {
     }
 
     private void createGiantCactusBlossomModels(BlockModelGenerators blockModels) {
-        Identifier giantCactusBlossomModel = modModel("giant_cactus_blossom");
         Identifier giantCactusBlossomItemModel = modModel("giant_cactus_blossom_item");
+        String[] textures = {"giant_cactus_blossom_0", "giant_cactus_blossom_1", "giant_cactus_blossom_3"};
 
-        blockModels.modelOutput.accept(giantCactusBlossomModel, () ->
-                createCutoutCrossModelJson("floraexpansion:block/giant_cactus_blossom"));
+        for (int variant = 0; variant < textures.length; variant++) {
+            String modelName = "giant_cactus_blossom_variant_" + variant;
+            String texture = "floraexpansion:block/" + textures[variant];
+            blockModels.modelOutput.accept(
+                    modModel(modelName),
+                    () -> createCutoutCrossModelJson(texture)
+            );
+        }
         blockModels.modelOutput.accept(giantCactusBlossomItemModel, () ->
-                createGeneratedItemModelJson("floraexpansion:block/giant_cactus_blossom"));
-
-        blockModels.blockStateOutput.accept(
-                BlockModelGenerators.createSimpleBlock(
-                        ModBlocks.GIANT_CACTUS_BLOSSOM.get(),
-                        BlockModelGenerators.plainVariant(giantCactusBlossomModel)
-                )
-        );
+                createGeneratedItemModelJson("floraexpansion:block/giant_cactus_blossom_0"));
         blockModels.registerSimpleItemModel(ModBlocks.GIANT_CACTUS_BLOSSOM.get(), giantCactusBlossomItemModel);
     }
 

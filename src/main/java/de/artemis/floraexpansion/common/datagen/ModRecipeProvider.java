@@ -359,6 +359,26 @@ public class ModRecipeProvider extends RecipeProvider {
                 .unlockedBy("has_cactus_cluster", has(ModBlocks.CACTUS_CLUSTER.get()))
                 .save(output, modLoc("green_dye_from_smelting_cactus_cluster"));
 
+        SimpleCookingRecipeBuilder.smelting(
+                        Ingredient.of(ModBlocks.FRUITING_CHERRY_LEAVES.get()),
+                        RecipeCategory.DECORATIONS,
+                        Blocks.LEAF_LITTER,
+                        0.1f,
+                        200
+                )
+                .unlockedBy("has_fruiting_cherry_leaves", has(ModBlocks.FRUITING_CHERRY_LEAVES.get()))
+                .save(output, modLoc("leaf_litter_from_smelting_fruiting_cherry_leaves"));
+
+        SimpleCookingRecipeBuilder.smelting(
+                        Ingredient.of(ModBlocks.FRUITING_OAK_LEAVES.get()),
+                        RecipeCategory.DECORATIONS,
+                        Blocks.LEAF_LITTER,
+                        0.1f,
+                        200
+                )
+                .unlockedBy("has_fruiting_oak_leaves", has(ModBlocks.FRUITING_OAK_LEAVES.get()))
+                .save(output, modLoc("leaf_litter_from_smelting_fruiting_oak_leaves"));
+
         foodSmoking(ModItems.PINE_NUTS.get(), ModItems.TOASTED_PINE_NUTS.get(), 0.1f, 50);
 
         foodCampfireCooking(ModItems.PINE_NUTS.get(), ModItems.TOASTED_PINE_NUTS.get(), 0.1f, 150);

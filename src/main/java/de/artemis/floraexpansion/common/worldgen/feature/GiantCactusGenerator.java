@@ -2,6 +2,7 @@ package de.artemis.floraexpansion.common.worldgen.feature;
 
 import de.artemis.floraexpansion.common.block.CactusThornBlock;
 import de.artemis.floraexpansion.common.block.DesertMossBlock;
+import de.artemis.floraexpansion.common.block.GiantCactusBlossomBlock;
 import de.artemis.floraexpansion.common.block.GiantCactusWoodBlock;
 import de.artemis.floraexpansion.common.block.ModBlocks;
 import net.minecraft.core.BlockPos;
@@ -289,7 +290,11 @@ public final class GiantCactusGenerator {
                 continue;
             }
 
-            level.setBlock(candidate.flowerPos(), ModBlocks.GIANT_CACTUS_BLOSSOM.get().defaultBlockState(), 2);
+            level.setBlock(
+                    candidate.flowerPos(),
+                    GiantCactusBlossomBlock.withRandomVariant(ModBlocks.GIANT_CACTUS_BLOSSOM.get().defaultBlockState(), random),
+                    2
+            );
         }
     }
 

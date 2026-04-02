@@ -2,118 +2,90 @@
   "type": "minecraft:block",
   "pools": [
     {
-      "rolls": 1,
-      "conditions": [
-        {
-          "condition": "minecraft:block_state_property",
-          "block": "floraexpansion:pebble_patch",
-          "properties": {
-            "pebble_amount": "1"
-          }
-        }
-      ],
+      "bonus_rolls": 0.0,
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "floraexpansion:pebbles"
-        }
-      ]
-    },
-    {
-      "rolls": 1,
-      "conditions": [
-        {
-          "condition": "minecraft:block_state_property",
-          "block": "floraexpansion:pebble_patch",
-          "properties": {
-            "pebble_amount": "2"
-          }
-        }
-      ],
-      "entries": [
-        {
-          "type": "minecraft:item",
-          "name": "floraexpansion:pebbles",
+          "name": "floraexpansion:pebble_patch",
           "functions": [
             {
               "function": "minecraft:set_count",
-              "count": 2
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "rolls": 1,
-      "conditions": [
-        {
-          "condition": "minecraft:block_state_property",
-          "block": "floraexpansion:pebble_patch",
-          "properties": {
-            "pebble_amount": "3"
-          }
-        }
-      ],
-      "entries": [
-        {
-          "type": "minecraft:item",
-          "name": "floraexpansion:pebbles",
-          "functions": [
+              "count": 1.0,
+              "add": false,
+              "conditions": [
+                {
+                  "condition": "minecraft:block_state_property",
+                  "block": "floraexpansion:pebble_patch",
+                  "properties": {
+                    "pebble_amount": "1"
+                  }
+                }
+              ]
+            },
             {
               "function": "minecraft:set_count",
-              "count": 3
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "rolls": 1,
-      "conditions": [
-        {
-          "condition": "minecraft:block_state_property",
-          "block": "floraexpansion:pebble_patch",
-          "properties": {
-            "pebble_amount": "4"
-          }
-        }
-      ],
-      "entries": [
-        {
-          "type": "minecraft:item",
-          "name": "floraexpansion:pebbles",
-          "functions": [
+              "count": 2.0,
+              "add": false,
+              "conditions": [
+                {
+                  "condition": "minecraft:block_state_property",
+                  "block": "floraexpansion:pebble_patch",
+                  "properties": {
+                    "pebble_amount": "2"
+                  }
+                }
+              ]
+            },
             {
               "function": "minecraft:set_count",
-              "count": 4
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "rolls": 1,
-      "conditions": [
-        {
-          "condition": "minecraft:block_state_property",
-          "block": "floraexpansion:pebble_patch",
-          "properties": {
-            "pebble_amount": "5"
-          }
-        }
-      ],
-      "entries": [
-        {
-          "type": "minecraft:item",
-          "name": "floraexpansion:pebbles",
-          "functions": [
+              "count": 3.0,
+              "add": false,
+              "conditions": [
+                {
+                  "condition": "minecraft:block_state_property",
+                  "block": "floraexpansion:pebble_patch",
+                  "properties": {
+                    "pebble_amount": "3"
+                  }
+                }
+              ]
+            },
             {
               "function": "minecraft:set_count",
-              "count": 5
+              "count": 4.0,
+              "add": false,
+              "conditions": [
+                {
+                  "condition": "minecraft:block_state_property",
+                  "block": "floraexpansion:pebble_patch",
+                  "properties": {
+                    "pebble_amount": "4"
+                  }
+                }
+              ]
+            },
+            {
+              "function": "minecraft:set_count",
+              "count": 5.0,
+              "add": false,
+              "conditions": [
+                {
+                  "condition": "minecraft:block_state_property",
+                  "block": "floraexpansion:pebble_patch",
+                  "properties": {
+                    "pebble_amount": "5"
+                  }
+                }
+              ]
+            },
+            {
+              "function": "minecraft:explosion_decay"
             }
           ]
         }
-      ]
+      ],
+      "rolls": 1.0
     }
-  ]
+  ],
+  "random_sequence": "floraexpansion:blocks/pebble_patch"
 }

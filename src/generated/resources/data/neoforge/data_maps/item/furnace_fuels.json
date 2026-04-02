@@ -57,17 +57,29 @@
     "floraexpansion:giant_cactus_wood": {
       "burn_time": 300
     },
+    "floraexpansion:linen_block": {
+      "burn_time": 100
+    },
+    "floraexpansion:linen_carpet": {
+      "burn_time": 67
+    },
     "floraexpansion:pine_cone": {
       "burn_time": 50
     },
     "floraexpansion:pine_litter": {
       "burn_time": 100
     },
+    "floraexpansion:pine_nuts": {
+      "burn_time": 50
+    },
     "floraexpansion:stripped_giant_cactus_base": {
       "burn_time": 300
     },
     "floraexpansion:stripped_giant_cactus_wood": {
       "burn_time": 300
+    },
+    "floraexpansion:toasted_pine_nuts": {
+      "burn_time": 50
     },
     "floraexpansion:twig": {
       "burn_time": 200

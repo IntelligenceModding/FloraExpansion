@@ -24,12 +24,15 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.NotNull;
 
 public class CactusFruitPlantBlock extends BushBlock implements BonemealableBlock {
     public static final MapCodec<BushBlock> CODEC = simpleCodec(CactusFruitPlantBlock::new);
     public static final IntegerProperty AGE = IntegerProperty.create("age", 0, 1);
     public static final int MAX_AGE = 1;
+    private static final VoxelShape SHAPE = Block.box(1.0D, 0.0D, 1.0D, 15.0D, 15.0D, 15.0D);
 
     public CactusFruitPlantBlock(Properties properties) {
         super(properties);
@@ -45,6 +48,14 @@ public class CactusFruitPlantBlock extends BushBlock implements BonemealableBloc
     protected void createBlockStateDefinition(StateDefinition.@NotNull Builder<Block, @NotNull BlockState> builder) {
         super.createBlockStateDefinition(builder);
         builder.add(AGE);
+    }
+
+    @Override
+    protected @NotNull VoxelShape getShape(@NotNull BlockState state,
+                                           @NotNull BlockGetter level,
+                                           @NotNull BlockPos pos,
+                                           @NotNull CollisionContext context) {
+        return SHAPE;
     }
 
     @Override

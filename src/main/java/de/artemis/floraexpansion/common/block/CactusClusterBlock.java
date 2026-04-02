@@ -30,10 +30,10 @@ public class CactusClusterBlock extends BushBlock {
     public static final MapCodec<BushBlock> CODEC = simpleCodec(CactusClusterBlock::new);
     public static final IntegerProperty PICKLES = BlockStateProperties.PICKLES;
 
-    private static final VoxelShape SHAPE_ONE = Block.box(6.0D, 0.0D, 6.0D, 10.0D, 6.0D, 10.0D);
-    private static final VoxelShape SHAPE_TWO = Block.box(3.0D, 0.0D, 3.0D, 13.0D, 6.0D, 13.0D);
-    private static final VoxelShape SHAPE_THREE = Block.box(2.0D, 0.0D, 2.0D, 14.0D, 6.0D, 14.0D);
-    private static final VoxelShape SHAPE_FOUR = Block.box(2.0D, 0.0D, 2.0D, 14.0D, 7.0D, 14.0D);
+    private static final VoxelShape SHAPE_ONE = Block.column(4.0D, 0.0D, 6.0D);
+    private static final VoxelShape SHAPE_TWO = Block.column(10.0D, 0.0D, 6.0D);
+    private static final VoxelShape SHAPE_THREE = Block.column(12.0D, 0.0D, 6.0D);
+    private static final VoxelShape SHAPE_FOUR = Block.column(12.0D, 0.0D, 7.0D);
 
     public CactusClusterBlock(Properties properties) {
         super(properties);

@@ -1,7 +1,28 @@
 {
-  "variants": {
-    "": {
-      "model": "floraexpansion:block/giant_cactus_blossom"
+  "multipart": [
+    {
+      "apply": {
+        "model": "floraexpansion:block/giant_cactus_blossom_variant_0"
+      },
+      "when": {
+        "variant": "0"
+      }
+    },
+    {
+      "apply": {
+        "model": "floraexpansion:block/giant_cactus_blossom_variant_1"
+      },
+      "when": {
+        "variant": "1"
+      }
+    },
+    {
+      "apply": {
+        "model": "floraexpansion:block/giant_cactus_blossom_variant_2"
+      },
+      "when": {
+        "variant": "2"
+      }
     }
-  }
+  ]
 }

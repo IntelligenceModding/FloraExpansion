@@ -7,7 +7,9 @@ import de.artemis.floraexpansion.common.util.ModFoods;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.HangingSignItem;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.SignItem;
+import net.minecraft.world.item.component.Consumables;
 import net.minecraft.world.item.equipment.ArmorType;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredItem;
@@ -60,11 +62,17 @@ public class ModItems {
 
     public static final DeferredItem<BottledJuiceItem> CHERRY_JUICE =
             ITEMS.registerItem("cherry_juice", BottledJuiceItem::new,
-                    new Item.Properties().food(ModFoods.CHERRY_JUICE).stacksTo(16));
+                    new Item.Properties()
+                            .food(ModFoods.CHERRY_JUICE, Consumables.DEFAULT_DRINK)
+                            .usingConvertsTo(Items.GLASS_BOTTLE)
+                            .stacksTo(16));
 
     public static final DeferredItem<BottledJuiceItem> APPLE_JUICE =
             ITEMS.registerItem("apple_juice", BottledJuiceItem::new,
-                    new Item.Properties().food(ModFoods.APPLE_JUICE).stacksTo(16));
+                    new Item.Properties()
+                            .food(ModFoods.APPLE_JUICE, Consumables.DEFAULT_DRINK)
+                            .usingConvertsTo(Items.GLASS_BOTTLE)
+                            .stacksTo(16));
 
     public static final DeferredItem<SignItem> CACTUS_SIGN =
             ITEMS.registerItem("cactus_sign",
@@ -103,7 +111,10 @@ public class ModItems {
 
     public static final DeferredItem<BottledJuiceItem> CACTUS_JUICE =
             ITEMS.registerItem("cactus_juice", BottledJuiceItem::new,
-                    new Item.Properties().food(ModFoods.CACTUS_JUICE).stacksTo(16));
+                    new Item.Properties()
+                            .food(ModFoods.CACTUS_JUICE, Consumables.DEFAULT_DRINK)
+                            .usingConvertsTo(Items.GLASS_BOTTLE)
+                            .stacksTo(16));
 
     public static final DeferredItem<CactusArmorItem> CACTUS_CHESTPLATE =
             ITEMS.registerItem("cactus_chestplate",

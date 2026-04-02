@@ -34,23 +34,21 @@ public final class CactusArmorEvents {
     @SubscribeEvent
     public static void onAnvilUpdate(AnvilUpdateEvent event) {
         ItemStack left = event.getLeft();
-        ItemStack right = event.getRight();
-
         if (!CactusArmorItem.isCactusArmor(left)) {
             return;
         }
 
-        ItemEnchantments enchants = right.get(DataComponents.STORED_ENCHANTMENTS);
+        ItemStack output = event.getOutput();
+        if (output.isEmpty()) {
+            return;
+        }
+
+        ItemEnchantments enchants = output.get(DataComponents.ENCHANTMENTS);
         if (enchants == null || enchants.isEmpty()) {
             return;
         }
 
-        HolderLookup.Provider lookupProvider = event.getPlayer().level().registryAccess();
-        HolderLookup.RegistryLookup<Enchantment> enchantmentLookup =
-                lookupProvider.lookupOrThrow(Registries.ENCHANTMENT);
-        Holder.Reference<Enchantment> thorns = enchantmentLookup.getOrThrow(Enchantments.THORNS);
-
-        if (enchants.getLevel(thorns) > 0) {
+        if (!CactusArmorItem.hasOnlySupportedEnchantments(output, enchants)) {
             event.setCanceled(true);
         }
     }
