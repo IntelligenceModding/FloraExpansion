@@ -35,13 +35,10 @@ public class ModItemTagProvider extends ItemTagsProvider {
         tag(ItemTags.PARROT_POISONOUS_FOOD)
                 .add(ModItems.TOASTED_PINE_NUTS.get());
 
-        tag(ItemTags.ARROWS)
-                .add(ModItems.PINE_CONE.get())
-                .add(ModItems.PEBBLES.get());
-
         tag(ItemTags.DAMPENS_VIBRATIONS)
                 .add(ModBlocks.LEAF_LITTER.get().asItem())
                 .add(ModBlocks.PINE_LITTER.get().asItem())
+                .add(ModBlocks.LINEN_BLOCK.get().asItem())
                 .add(ModBlocks.LINEN_CARPET.get().asItem());
 
         tag(ItemTags.VILLAGER_PLANTABLE_SEEDS)

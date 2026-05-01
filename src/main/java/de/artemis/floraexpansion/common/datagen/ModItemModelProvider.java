@@ -43,13 +43,19 @@ public class ModItemModelProvider extends ItemModelProvider {
         basicItem(ModBlocks.CACTUS_THORN.get().asItem());
         basicItem(ModBlocks.CACTUS_CLUSTER.get().asItem());
 
-        blockTextureItem(ModBlocks.CACTUS_FLOWER);
+        blockTextureItem(ModBlocks.CACTUS_FLOWER, "giant_cactus_blossom_0");
     }
 
     private void blockTextureItem(DeferredBlock<? extends Block> block) {
         String name = block.getId().getPath();
         withExistingParent(name, mcLoc("item/generated"))
                 .texture("layer0", modLoc("block/" + name));
+    }
+
+    private void blockTextureItem(DeferredBlock<? extends Block> block, String textureName) {
+        String name = block.getId().getPath();
+        withExistingParent(name, mcLoc("item/generated"))
+                .texture("layer0", modLoc("block/" + textureName));
     }
 
     private void blockItem(DeferredBlock<? extends Block> block) {

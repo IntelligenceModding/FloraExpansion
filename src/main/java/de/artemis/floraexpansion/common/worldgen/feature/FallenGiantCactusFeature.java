@@ -2,6 +2,7 @@ package de.artemis.floraexpansion.common.worldgen.feature;
 
 import de.artemis.floraexpansion.common.block.CactusThornBlock;
 import de.artemis.floraexpansion.common.block.DesertMossBlock;
+import de.artemis.floraexpansion.common.block.CactusFlowerBlock;
 import de.artemis.floraexpansion.common.block.GiantCactusWoodBlock;
 import de.artemis.floraexpansion.common.block.ModBlocks;
 import net.minecraft.core.BlockPos;
@@ -113,7 +114,10 @@ public class FallenGiantCactusFeature extends Feature<NoneFeatureConfiguration> 
                 continue;
             }
 
-            BlockState flower = ModBlocks.CACTUS_FLOWER.get().defaultBlockState();
+            BlockState flower = CactusFlowerBlock.withRandomVariant(
+                    ModBlocks.CACTUS_FLOWER.get().defaultBlockState(),
+                    random
+            );
             if (flower.canSurvive(level, flowerPos)) {
                 level.setBlock(flowerPos, flower, 2);
             }

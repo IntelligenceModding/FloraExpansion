@@ -91,7 +91,6 @@ public class GiantCactusStemBlock extends Block {
 
         BlockPos flowerPos = top.above();
 
-        // If flower already exists, stop further growth
         if (level.getBlockState(flowerPos).is(ModBlocks.CACTUS_FLOWER.get())) {
             return;
         }
@@ -127,7 +126,11 @@ public class GiantCactusStemBlock extends Block {
         float flowerChance = totalHeight >= 3 ? 0.25F : 0.10F;
 
         if (random.nextFloat() < flowerChance) {
-            level.setBlock(flowerPos, ModBlocks.CACTUS_FLOWER.get().defaultBlockState(), Block.UPDATE_ALL);
+            level.setBlock(
+                    flowerPos,
+                    CactusFlowerBlock.withRandomVariant(ModBlocks.CACTUS_FLOWER.get().defaultBlockState(), random),
+                    Block.UPDATE_ALL
+            );
             return;
         }
 

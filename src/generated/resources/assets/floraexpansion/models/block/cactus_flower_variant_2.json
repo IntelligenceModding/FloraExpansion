@@ -2,6 +2,6 @@
   "parent": "minecraft:block/cross",
   "render_type": "minecraft:cutout",
   "textures": {
-    "cross": "floraexpansion:block/cactus_flower"
+    "cross": "floraexpansion:block/giant_cactus_blossom_3"
   }
 }

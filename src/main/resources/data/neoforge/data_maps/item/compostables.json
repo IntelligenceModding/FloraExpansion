@@ -1,42 +1,57 @@
 {
   "values": {
-    "floraexpansion:pine_cone": {
-      "chance": 0.3
-    },
-    "floraexpansion:leaf_litter": {
-      "chance": 0.3
-    },
-    "floraexpansion:pine_litter": {
-      "chance": 0.3
-    },
-    "floraexpansion:flax_seed": {
-      "chance": 0.3
-    },
-    "floraexpansion:flax_flower": {
-      "chance": 0.3
-    },
-    "floraexpansion:flax_fiber": {
-      "chance": 0.3
-    },
-    "floraexpansion:cherry_pit": {
-      "chance": 0.3
-    },
-    "floraexpansion:cherries": {
-      "chance": 0.3
-    },
     "floraexpansion:apple_core": {
-      "chance": 0.3
-    },
-    "floraexpansion:cactus_flower": {
-      "chance": 0.3
-    },
-    "floraexpansion:desert_moss": {
       "chance": 0.3
     },
     "floraexpansion:cactus_cluster": {
       "chance": 0.3
     },
+    "floraexpansion:cactus_slice": {
+      "chance": 0.2
+    },
+    "floraexpansion:cherries": {
+      "chance": 0.3
+    },
+    "floraexpansion:cherry_pit": {
+      "chance": 0.3
+    },
+    "floraexpansion:desert_moss": {
+      "chance": 0.3
+    },
+    "floraexpansion:flax_fiber": {
+      "chance": 0.3
+    },
+    "floraexpansion:flax_flower": {
+      "chance": 0.3
+    },
+    "floraexpansion:flax_seed": {
+      "chance": 0.3
+    },
+    "floraexpansion:leaf_litter": {
+      "chance": 0.3
+    },
+    "floraexpansion:fruiting_cherry_leaves": {
+      "chance": 0.5
+    },
+    "floraexpansion:fruiting_oak_leaves": {
+      "chance": 0.5
+    },
+    "floraexpansion:cactus_flower": {
+      "chance": 0.3
+    },
     "floraexpansion:opuntia_cactus": {
+      "chance": 0.3
+    },
+    "floraexpansion:pine_cone": {
+      "chance": 0.3
+    },
+    "floraexpansion:pine_litter": {
+      "chance": 0.3
+    },
+    "floraexpansion:pine_nuts": {
+      "chance": 0.3
+    },
+    "floraexpansion:toasted_pine_nuts": {
       "chance": 0.3
     }
   }

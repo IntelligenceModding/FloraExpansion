@@ -237,7 +237,7 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
         ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, Items.LIGHT_BLUE_DYE, 1)
                 .requires(ModItems.FLAX_FLOWER)
                 .unlockedBy("has_flax_flower", has(ModItems.FLAX_FLOWER))
-                .save(recipeOutput);
+                .save(recipeOutput, ResourceLocation.fromNamespaceAndPath(FloraExpansion.MODID, "light_blue_dye_from_flax_flower"));
 
         ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ModItems.PINE_NUTS, 2)
                 .requires(ModItems.PINE_CONE)

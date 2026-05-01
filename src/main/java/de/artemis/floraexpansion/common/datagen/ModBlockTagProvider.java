@@ -33,6 +33,7 @@ public class ModBlockTagProvider extends BlockTagsProvider {
                 .add(ModBlocks.GIANT_CACTUS_WOOD.get())
                 .add(ModBlocks.STRIPPED_GIANT_CACTUS_WOOD.get())
                 .add(ModBlocks.GIANT_CACTUS_STEM.get())
+                .add(ModBlocks.TWIG_LADDER.get())
                 .add(ModBlocks.CACTUS_MOSAIC.get());
 
         tag(BlockTags.MINEABLE_WITH_SHOVEL)
@@ -42,6 +43,7 @@ public class ModBlockTagProvider extends BlockTagsProvider {
                 .add(ModBlocks.LINEN_BLOCK.get())
                 .add(ModBlocks.FLAX_BALE.get())
                 .add(ModBlocks.FRUITING_OAK_LEAVES.get())
+                .add(ModBlocks.LINEN_CARPET.get())
                 .add(ModBlocks.FRUITING_CHERRY_LEAVES.get());
 
         tag(BlockTags.MAINTAINS_FARMLAND)

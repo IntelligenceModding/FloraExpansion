@@ -38,7 +38,6 @@ public class ModConfiguredFeatures {
 
         SimpleWeightedRandomList.Builder<BlockState> pineLitterRandomStates = SimpleWeightedRandomList.builder();
         SimpleWeightedRandomList.Builder<BlockState> leafLitterRandomStates = SimpleWeightedRandomList.builder();
-
         for (Direction dir : Direction.Plane.HORIZONTAL) {
             for (int amount = 1; amount <= 4; amount++) {
                 pineLitterRandomStates.add(

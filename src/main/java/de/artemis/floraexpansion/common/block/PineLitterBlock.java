@@ -106,12 +106,12 @@ public class PineLitterBlock extends BushBlock implements BonemealableBlock {
                     blockPos.getX() + 0.5,
                     blockPos.getY() + 0.5,
                     blockPos.getZ() + 0.5,
-                    new ItemStack(ModItems.PINE_CONE.get(), blockState.getValue(LeafLitterBlock.AMOUNT))));
+                    new ItemStack(ModItems.PINE_CONE.get(), blockState.getValue(AMOUNT))));
             level.addFreshEntity(new ItemEntity(level,
                     blockPos.getX() + 0.5,
                     blockPos.getY() + 0.5,
                     blockPos.getZ() + 0.5,
-                    new ItemStack(ModItems.TWIG.get(), level.random.nextInt(2 * blockState.getValue(LeafLitterBlock.AMOUNT)))));
+                    new ItemStack(ModItems.TWIG.get(), level.random.nextInt(2 * blockState.getValue(AMOUNT)))));
 
             level.destroyBlock(blockPos, false);
             level.playSound(null, blockPos, SoundEvents.MOSS_BREAK, SoundSource.BLOCKS, 1.0F, 1.0F);

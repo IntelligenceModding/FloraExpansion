@@ -1,6 +1,7 @@
 package de.artemis.floraexpansion.common.datagen;
 
 import de.artemis.floraexpansion.FloraExpansion;
+import de.artemis.floraexpansion.common.block.CactusFlowerBlock;
 import de.artemis.floraexpansion.common.block.CactusThornBlock;
 import de.artemis.floraexpansion.common.block.FruitingOakLeavesBlock;
 import de.artemis.floraexpansion.common.block.ModBlocks;
@@ -30,7 +31,7 @@ public class ModBlockStateProvider extends BlockStateProvider {
         giantCactusStemBlock();
         strippedGiantCactusBaseBlock();
         cactusThornBlock();
-        crossBlock(ModBlocks.CACTUS_FLOWER.get(), "cactus_flower");
+        cactusFlowerBlock();
         cactusWoodFromBaseTextures(ModBlocks.GIANT_CACTUS_WOOD, "giant_cactus_base_side");
         cactusWoodFromBaseTextures(ModBlocks.STRIPPED_GIANT_CACTUS_WOOD, "stripped_giant_cactus_base_side");
         planksBlock(ModBlocks.CACTUS_PLANKS, "cactus_planks");
@@ -232,6 +233,25 @@ public class ModBlockStateProvider extends BlockStateProvider {
                     .modelFile(model)
                     .rotationX(xRot)
                     .rotationY(yRot)
+                    .build();
+        });
+    }
+
+    private void cactusFlowerBlock() {
+        BlockModelBuilder variant0 = models().cross("cactus_flower_variant_0", modLoc("block/giant_cactus_blossom_0")).renderType("cutout");
+        BlockModelBuilder variant1 = models().cross("cactus_flower_variant_1", modLoc("block/giant_cactus_blossom_1")).renderType("cutout");
+        BlockModelBuilder variant2 = models().cross("cactus_flower_variant_2", modLoc("block/giant_cactus_blossom_3")).renderType("cutout");
+
+        getVariantBuilder(ModBlocks.CACTUS_FLOWER.get()).forAllStates(state -> {
+            int variant = state.getValue(CactusFlowerBlock.VARIANT);
+            ModelFile model = switch (variant) {
+                case 1 -> variant1;
+                case 2 -> variant2;
+                default -> variant0;
+            };
+
+            return ConfiguredModel.builder()
+                    .modelFile(model)
                     .build();
         });
     }

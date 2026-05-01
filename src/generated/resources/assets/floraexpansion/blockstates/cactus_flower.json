@@ -1,7 +1,13 @@
 {
   "variants": {
-    "": {
-      "model": "floraexpansion:block/cactus_flower"
+    "variant=0": {
+      "model": "floraexpansion:block/cactus_flower_variant_0"
+    },
+    "variant=1": {
+      "model": "floraexpansion:block/cactus_flower_variant_1"
+    },
+    "variant=2": {
+      "model": "floraexpansion:block/cactus_flower_variant_2"
     }
   }
 }

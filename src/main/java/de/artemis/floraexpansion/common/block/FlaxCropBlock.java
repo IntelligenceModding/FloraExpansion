@@ -278,7 +278,7 @@ public class FlaxCropBlock extends CropBlock {
 
         if (!isLower(blockState)) return;
 
-        if (getAge(blockState) < DOUBLE_AGE) return;
+        if (getAge(blockState) < MAX_AGE) return;
 
         if (random.nextFloat() < 0.05f) {
             BlockPos topPos = blockPos.above();
