@@ -17,6 +17,7 @@ public class ModPlacedFeatures {
     public static final ResourceKey<PlacedFeature> PINE_LITTER_PLACED_KEY = registerKey("pine_litter_placed");
     public static final ResourceKey<PlacedFeature> LEAF_LITTER_PLACED_KEY = registerKey("leaf_litter_placed");
     public static final ResourceKey<PlacedFeature> WILD_FLAX_PLACED_KEY = registerKey("wild_flax_placed");
+    public static final ResourceKey<PlacedFeature> PILE_FLAX_PLACED_KEY = registerKey("pile_flax");
     public static final ResourceKey<PlacedFeature> PEBBLE_CLUSTER_PLACED_KEY = registerKey("pebble_cluster_placed");
     public static final ResourceKey<PlacedFeature> FRUITING_CHERRY_TREE_PLACED_KEY = registerKey("fruiting_cherry_tree_placed");
     public static final ResourceKey<PlacedFeature> FRUITING_OAK_SPARSE_PLACED_KEY = registerKey("fruiting_oak_sparse_placed");
@@ -87,6 +88,9 @@ public class ModPlacedFeatures {
                         PlacementUtils.HEIGHTMAP_TOP_SOLID,
                         BiomeFilter.biome()
                 ));
+
+        register(context, PILE_FLAX_PLACED_KEY, configuredFeatures.getOrThrow(ModConfiguredFeatures.PILE_FLAX_KEY),
+                List.of());
 
         register(context, FRUITING_CHERRY_TREE_PLACED_KEY,
                 configuredFeatures.getOrThrow(ModTreeConfiguredFeatures.FRUITING_CHERRY_TREE_KEY),

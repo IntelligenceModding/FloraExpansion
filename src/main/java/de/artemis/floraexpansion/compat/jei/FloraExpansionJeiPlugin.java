@@ -2,16 +2,20 @@ package de.artemis.floraexpansion.compat.jei;
 
 import de.artemis.floraexpansion.FloraExpansion;
 import de.artemis.floraexpansion.common.item.CactusArmorItem;
+import de.artemis.floraexpansion.common.registry.ModBlocks;
+import de.artemis.floraexpansion.common.registry.ModItems;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
 import mezz.jei.api.constants.RecipeTypes;
 import mezz.jei.api.recipe.IRecipeManager;
 import mezz.jei.api.recipe.vanilla.IJeiAnvilRecipe;
+import mezz.jei.api.registration.IRecipeRegistration;
 import mezz.jei.api.runtime.IJeiRuntime;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.Enchantment;
@@ -36,6 +40,237 @@ public final class FloraExpansionJeiPlugin implements IModPlugin {
     @Override
     public @NotNull ResourceLocation getPluginUid() {
         return UID;
+    }
+
+    @Override
+    public void registerRecipes(IRecipeRegistration registration) {
+        registration.addIngredientInfo(
+                ModBlocks.LEAF_LITTER.get(),
+                translatedLines(
+                        "jei.floraexpansion.leaf_litter.info.1",
+                        "jei.floraexpansion.leaf_litter.info.2",
+                        "jei.floraexpansion.leaf_litter.info.3",
+                        "jei.floraexpansion.leaf_litter.info.4"
+                )
+        );
+
+        registration.addIngredientInfo(
+                ModBlocks.PINE_LITTER.get(),
+                translatedLines(
+                        "jei.floraexpansion.pine_litter.info.1",
+                        "jei.floraexpansion.pine_litter.info.2",
+                        "jei.floraexpansion.pine_litter.info.3",
+                        "jei.floraexpansion.pine_litter.info.4"
+                )
+        );
+
+        registration.addIngredientInfo(
+                ModItems.PINE_CONE.get(),
+                translatedLines(
+                        "jei.floraexpansion.pine_cone.info.1",
+                        "jei.floraexpansion.pine_cone.info.2",
+                        "jei.floraexpansion.pine_cone.info.3",
+                        "jei.floraexpansion.pine_cone.info.4"
+                )
+        );
+
+        registration.addIngredientInfo(
+                ModItems.FLAX_SEED.get(),
+                translatedLines(
+                        "jei.floraexpansion.flax_seed.info.1",
+                        "jei.floraexpansion.flax_seed.info.2",
+                        "jei.floraexpansion.flax_seed.info.3",
+                        "jei.floraexpansion.flax_seed.info.4"
+                )
+        );
+
+        registration.addIngredientInfo(
+                ModBlocks.PEBBLE_PATCH.get(),
+                translatedLines(
+                        "jei.floraexpansion.pebble_patch.info.1",
+                        "jei.floraexpansion.pebble_patch.info.2",
+                        "jei.floraexpansion.pebble_patch.info.3"
+                )
+        );
+
+        registration.addIngredientInfo(
+                ModItems.PEBBLES.get(),
+                translatedLines(
+                        "jei.floraexpansion.pebbles.info.1",
+                        "jei.floraexpansion.pebbles.info.2"
+                )
+        );
+
+        registration.addIngredientInfo(
+                ModBlocks.FRUITING_CHERRY_LEAVES.get(),
+                translatedLines(
+                        "jei.floraexpansion.fruiting_cherry_leaves.info.1",
+                        "jei.floraexpansion.fruiting_cherry_leaves.info.2",
+                        "jei.floraexpansion.fruiting_cherry_leaves.info.3",
+                        "jei.floraexpansion.fruiting_cherry_leaves.info.4"
+                )
+        );
+
+        registration.addIngredientInfo(
+                ModItems.CHERRIES.get(),
+                translatedLines(
+                        "jei.floraexpansion.cherries.info.1",
+                        "jei.floraexpansion.cherries.info.2"
+                )
+        );
+
+        registration.addIngredientInfo(
+                ModBlocks.CHERRY_PIT.get(),
+                translatedLines(
+                        "jei.floraexpansion.cherry_pit.info.1",
+                        "jei.floraexpansion.cherry_pit.info.2"
+                )
+        );
+
+        registration.addIngredientInfo(
+                ModItems.CHERRY_JUICE.get(),
+                translatedLines(
+                        "jei.floraexpansion.bottled_juice.info.1",
+                        "jei.floraexpansion.bottled_juice.info.2"
+                )
+        );
+
+        registration.addIngredientInfo(
+                ModBlocks.FRUITING_OAK_LEAVES.get(),
+                translatedLines(
+                        "jei.floraexpansion.fruiting_oak_leaves.info.1",
+                        "jei.floraexpansion.fruiting_oak_leaves.info.2",
+                        "jei.floraexpansion.fruiting_oak_leaves.info.3"
+                )
+        );
+
+        registration.addIngredientInfo(
+                ModBlocks.APPLE_CORE.get(),
+                translatedLines(
+                        "jei.floraexpansion.apple_core.info.1",
+                        "jei.floraexpansion.apple_core.info.2"
+                )
+        );
+
+        registration.addIngredientInfo(
+                ModItems.APPLE_JUICE.get(),
+                translatedLines(
+                        "jei.floraexpansion.bottled_juice.info.1",
+                        "jei.floraexpansion.bottled_juice.info.2"
+                )
+        );
+
+        registration.addIngredientInfo(
+                ModBlocks.GIANT_CACTUS_BASE.get(),
+                translatedLines(
+                        "jei.floraexpansion.giant_cactus_base.info.1",
+                        "jei.floraexpansion.giant_cactus_base.info.2"
+                )
+        );
+
+        registration.addIngredientInfo(
+                ModBlocks.GIANT_CACTUS_WOOD.get(),
+                translatedLines(
+                        "jei.floraexpansion.giant_cactus_wood.info.1",
+                        "jei.floraexpansion.giant_cactus_wood.info.2"
+                )
+        );
+
+        registration.addIngredientInfo(
+                ModBlocks.GIANT_CACTUS_STEM.get(),
+                translatedLines(
+                        "jei.floraexpansion.giant_cactus_stem.info.1",
+                        "jei.floraexpansion.giant_cactus_stem.info.2",
+                        "jei.floraexpansion.giant_cactus_stem.info.3"
+                )
+        );
+
+        registration.addIngredientInfo(
+                ModBlocks.CACTUS_THORN.get(),
+                translatedLines(
+                        "jei.floraexpansion.cactus_thorn.info.1",
+                        "jei.floraexpansion.cactus_thorn.info.2"
+                )
+        );
+
+        registration.addIngredientInfo(
+                ModBlocks.CACTUS_FLOWER.get(),
+                translatedLines(
+                        "jei.floraexpansion.cactus_flower.info.1",
+                        "jei.floraexpansion.cactus_flower.info.2",
+                        "jei.floraexpansion.cactus_flower.info.3"
+                )
+        );
+
+        registration.addIngredientInfo(
+                ModItems.CACTUS_HELMET.get(),
+                translatedLines(
+                        "jei.floraexpansion.cactus_armor.info.1",
+                        "jei.floraexpansion.cactus_armor.info.2",
+                        "jei.floraexpansion.cactus_armor.info.3"
+                )
+        );
+
+        registration.addIngredientInfo(
+                ModItems.CACTUS_CHESTPLATE.get(),
+                translatedLines(
+                        "jei.floraexpansion.cactus_armor.info.1",
+                        "jei.floraexpansion.cactus_armor.info.2",
+                        "jei.floraexpansion.cactus_armor.info.3"
+                )
+        );
+
+        registration.addIngredientInfo(
+                ModItems.CACTUS_LEGGINGS.get(),
+                translatedLines(
+                        "jei.floraexpansion.cactus_armor.info.1",
+                        "jei.floraexpansion.cactus_armor.info.2",
+                        "jei.floraexpansion.cactus_armor.info.3"
+                )
+        );
+
+        registration.addIngredientInfo(
+                ModItems.CACTUS_BOOTS.get(),
+                translatedLines(
+                        "jei.floraexpansion.cactus_armor.info.1",
+                        "jei.floraexpansion.cactus_armor.info.2",
+                        "jei.floraexpansion.cactus_armor.info.3"
+                )
+        );
+
+        registration.addIngredientInfo(
+                ModBlocks.CACTUS_CLUSTER.get(),
+                translatedLines(
+                        "jei.floraexpansion.cactus_cluster.info.1",
+                        "jei.floraexpansion.cactus_cluster.info.2",
+                        "jei.floraexpansion.cactus_cluster.info.3"
+                )
+        );
+
+        registration.addIngredientInfo(
+                ModItems.CACTUS_JUICE.get(),
+                translatedLines(
+                        "jei.floraexpansion.bottled_juice.info.1",
+                        "jei.floraexpansion.bottled_juice.info.2"
+                )
+        );
+
+        registration.addIngredientInfo(
+                ModBlocks.OPUNTIA_CACTUS.get(),
+                translatedLines(
+                        "jei.floraexpansion.opuntia_cactus.info.1",
+                        "jei.floraexpansion.opuntia_cactus.info.2",
+                        "jei.floraexpansion.opuntia_cactus.info.3"
+                )
+        );
+
+        registration.addIngredientInfo(
+                ModItems.PRICKLY_PEAR.get(),
+                translatedLines(
+                        "jei.floraexpansion.prickly_pear.info.1",
+                        "jei.floraexpansion.prickly_pear.info.2"
+                )
+        );
     }
 
     @Override
@@ -167,5 +402,13 @@ public final class FloraExpansionJeiPlugin implements IModPlugin {
                 }
             }
         }
+    }
+
+    private static Component[] translatedLines(String... keys) {
+        Component[] lines = new Component[keys.length];
+        for (int i = 0; i < keys.length; i++) {
+            lines[i] = Component.translatable(keys[i]);
+        }
+        return lines;
     }
 }

@@ -16,9 +16,11 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.feature.Feature;
+import net.minecraft.world.level.levelgen.feature.configurations.BlockPileConfiguration;
 import net.minecraft.world.level.levelgen.feature.configurations.FeatureConfiguration;
 import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
 import net.minecraft.world.level.levelgen.feature.configurations.SimpleBlockConfiguration;
+import net.minecraft.world.level.levelgen.feature.stateproviders.RotatedBlockProvider;
 import net.minecraft.world.level.levelgen.feature.stateproviders.WeightedStateProvider;
 
 import java.util.List;
@@ -27,6 +29,7 @@ public class ModConfiguredFeatures {
     public static final ResourceKey<ConfiguredFeature<?, ?>> PINE_LITTER_KEY = registerKey("pine_litter");
     public static final ResourceKey<ConfiguredFeature<?, ?>> LEAF_LITTER_KEY = registerKey("leaf_litter");
     public static final ResourceKey<ConfiguredFeature<?, ?>> WILD_FLAX_KEY = registerKey("wild_flax");
+    public static final ResourceKey<ConfiguredFeature<?, ?>> PILE_FLAX_KEY = registerKey("pile_flax");
     public static final ResourceKey<ConfiguredFeature<?, ?>> PEBBLE_CLUSTER_KEY = registerKey("pebble_cluster");
     public static final ResourceKey<ConfiguredFeature<?, ?>> GIANT_CACTUS_KEY = registerKey("giant_cactus");
     public static final ResourceKey<ConfiguredFeature<?, ?>> FALLEN_GIANT_CACTUS_KEY = registerKey("fallen_giant_cactus");
@@ -95,6 +98,10 @@ public class ModConfiguredFeatures {
                         ),
                         24
                 )
+        );
+
+        register(context, PILE_FLAX_KEY, Feature.BLOCK_PILE,
+                new BlockPileConfiguration(new RotatedBlockProvider(ModBlocks.FLAX_BALE.get()))
         );
 
         register(context, GIANT_CACTUS_KEY, ModFeatures.GIANT_CACTUS_FEATURE.get(), NoneFeatureConfiguration.NONE);
