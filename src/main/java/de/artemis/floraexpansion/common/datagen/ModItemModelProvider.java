@@ -1,8 +1,8 @@
 package de.artemis.floraexpansion.common.datagen;
 
 import de.artemis.floraexpansion.FloraExpansion;
-import de.artemis.floraexpansion.common.block.ModBlocks;
-import de.artemis.floraexpansion.common.item.ModItems;
+import de.artemis.floraexpansion.common.registry.ModBlocks;
+import de.artemis.floraexpansion.common.registry.ModItems;
 import net.minecraft.data.PackOutput;
 import net.minecraft.world.level.block.Block;
 import net.neoforged.neoforge.client.model.generators.ItemModelProvider;
@@ -63,3 +63,4 @@ public class ModItemModelProvider extends ItemModelProvider {
         withExistingParent(name, modLoc("block/" + name));
     }
 }
+

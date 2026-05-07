@@ -1,7 +1,7 @@
 package de.artemis.floraexpansion.common.block;
 
 import com.mojang.serialization.MapCodec;
-import de.artemis.floraexpansion.common.item.ModItems;
+import de.artemis.floraexpansion.common.registry.ModItems;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
@@ -24,6 +24,7 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.neoforged.neoforge.common.ItemAbilities;
 import org.jetbrains.annotations.NotNull;
+import de.artemis.floraexpansion.common.registry.ModBlocks;
 
 public class GiantCactusStemBlock extends Block {
     public static final MapCodec<GiantCactusStemBlock> CODEC = simpleCodec(GiantCactusStemBlock::new);
@@ -210,3 +211,5 @@ public class GiantCactusStemBlock extends Block {
         return harvested;
     }
 }
+
+

@@ -1,21 +1,21 @@
 package de.artemis.floraexpansion.common.block;
 
 import com.mojang.serialization.MapCodec;
-import de.artemis.floraexpansion.common.item.ModItems;
-import de.artemis.floraexpansion.common.particle.ModParticles;
-import de.artemis.floraexpansion.common.util.ModBlockStateProperties;
+import de.artemis.floraexpansion.common.registry.ModItems;
+import de.artemis.floraexpansion.common.registry.ModParticles;
+import de.artemis.floraexpansion.common.registry.ModBlockStateProperties;
+import de.artemis.floraexpansion.common.util.ModUtils;
 import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
-import net.minecraft.stats.Stats;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.ItemInteractionResult;
-import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
@@ -35,6 +35,7 @@ import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.List;
 import java.util.function.BiFunction;
 
 public class PineLitterBlock extends BushBlock implements BonemealableBlock {
@@ -100,26 +101,8 @@ public class PineLitterBlock extends BushBlock implements BonemealableBlock {
 
     @Override
     protected @NotNull ItemInteractionResult useItemOn(@NotNull ItemStack itemStack, @NotNull BlockState blockState, @NotNull Level level, BlockPos blockPos, @NotNull Player player, @NotNull InteractionHand interactionHand, BlockHitResult blockHitResult) {
-
         if (player.getItemInHand(interactionHand).isEmpty() && interactionHand == InteractionHand.MAIN_HAND) {
-            level.addFreshEntity(new ItemEntity(level,
-                    blockPos.getX() + 0.5,
-                    blockPos.getY() + 0.5,
-                    blockPos.getZ() + 0.5,
-                    new ItemStack(ModItems.PINE_CONE.get(), blockState.getValue(AMOUNT))));
-            level.addFreshEntity(new ItemEntity(level,
-                    blockPos.getX() + 0.5,
-                    blockPos.getY() + 0.5,
-                    blockPos.getZ() + 0.5,
-                    new ItemStack(ModItems.TWIG.get(), level.random.nextInt(2 * blockState.getValue(AMOUNT)))));
-
-            level.destroyBlock(blockPos, false);
-            level.playSound(null, blockPos, SoundEvents.MOSS_BREAK, SoundSource.BLOCKS, 1.0F, 1.0F);
-
-            if (player instanceof ServerPlayer serverPlayer) {
-                serverPlayer.awardStat(Stats.BLOCK_MINED.get(this));
-            }
-
+            harvestLitter(level, blockPos, player, blockState);
             return ItemInteractionResult.sidedSuccess(level.isClientSide);
         }
 
@@ -151,46 +134,87 @@ public class PineLitterBlock extends BushBlock implements BonemealableBlock {
                 double speedSq = dx * dx + dz * dz;
 
                 if (speedSq > 0.0003 && random.nextFloat() < 0.65F) {
-                    int count = 2 + random.nextInt(4);
-
-                    for (int i = 0; i < count; i++) {
-                        double x = pos.getX() + 0.1 + random.nextDouble() * 0.8;
-                        double z = pos.getZ() + 0.1 + random.nextDouble() * 0.8;
-                        double y = pos.getY() + 0.05 + random.nextDouble() * 0.1;
-
-                        double angle = random.nextDouble() * Math.PI * 2;
-                        double speed = 0.025 + random.nextDouble() * 0.015;
-                        double vx = Math.cos(angle) * speed;
-                        double vz = Math.sin(angle) * speed;
-                        double vy = 0.005 + random.nextDouble() * 0.01;
-
-                        level.addParticle(ModParticles.PINE_LEAF_FLUFF_PARTICLES.get(), x, y, z, vx, vy, vz);
-                    }
-
-                    if (random.nextFloat() < 0.2F) {
-                        double x = pos.getX() + 0.3 + random.nextDouble() * 0.4;
-                        double z = pos.getZ() + 0.3 + random.nextDouble() * 0.4;
-                        double y = pos.getY() + 0.05 + random.nextDouble() * 0.1;
-                        double angle = random.nextDouble() * Math.PI * 2;
-                        double speed = 0.012 + random.nextDouble() * 0.008;
-                        double vx = Math.cos(angle) * speed;
-                        double vz = Math.sin(angle) * speed;
-                        double vy = 0.025 + random.nextDouble() * 0.01;
-
-                        level.addParticle(ModParticles.PINE_PARTICLES.get(), x, y, z, vx, vy, vz);
-
-                    }
-
-                    level.playLocalSound(
-                            pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5,
-                            SoundEvents.HANGING_ROOTS_STEP,
-                            SoundSource.BLOCKS,
-                            0.8F + random.nextFloat() * 0.2F,
-                            0.9F + random.nextFloat() * 0.3F,
-                            false
-                    );
+                    spawnFootstepParticles(level, pos, random);
+                    spawnExtraFootstepParticles(level, pos, random);
+                    playFootstepSound(level, pos, random);
                 }
             }
         }
     }
+
+    protected List<ItemStack> getHarvestDrops(Level level, BlockState state) {
+        return List.of(
+                new ItemStack(ModItems.PINE_CONE.get(), state.getValue(AMOUNT)),
+                new ItemStack(ModItems.TWIG.get(), level.random.nextInt(2 * state.getValue(AMOUNT)))
+        );
+    }
+
+    protected void harvestLitter(Level level, BlockPos pos, Player player, BlockState state) {
+        if (level.isClientSide) {
+            return;
+        }
+
+        for (ItemStack drop : getHarvestDrops(level, state)) {
+            ModUtils.spawnCenteredItem(level, pos, drop);
+        }
+
+        level.destroyBlock(pos, false);
+        level.playSound(null, pos, SoundEvents.MOSS_BREAK, SoundSource.BLOCKS, 1.0F, 1.0F);
+        ModUtils.awardBlockMinedStat(player, this);
+    }
+
+    protected ParticleOptions getFootstepFluffParticle() {
+        return ModParticles.PINE_LEAF_FLUFF_PARTICLES.get();
+    }
+
+    protected SoundEvent getFootstepSound() {
+        return SoundEvents.HANGING_ROOTS_STEP;
+    }
+
+    protected void spawnExtraFootstepParticles(Level level, BlockPos pos, RandomSource random) {
+        if (random.nextFloat() >= 0.2F) {
+            return;
+        }
+
+        double x = pos.getX() + 0.3 + random.nextDouble() * 0.4;
+        double z = pos.getZ() + 0.3 + random.nextDouble() * 0.4;
+        double y = pos.getY() + 0.05 + random.nextDouble() * 0.1;
+        double angle = random.nextDouble() * Math.PI * 2;
+        double speed = 0.012 + random.nextDouble() * 0.008;
+        double vx = Math.cos(angle) * speed;
+        double vz = Math.sin(angle) * speed;
+        double vy = 0.025 + random.nextDouble() * 0.01;
+
+        level.addParticle(ModParticles.PINE_PARTICLES.get(), x, y, z, vx, vy, vz);
+    }
+
+    private void spawnFootstepParticles(Level level, BlockPos pos, RandomSource random) {
+        int count = 2 + random.nextInt(4);
+
+        for (int i = 0; i < count; i++) {
+            double x = pos.getX() + 0.1 + random.nextDouble() * 0.8;
+            double z = pos.getZ() + 0.1 + random.nextDouble() * 0.8;
+            double y = pos.getY() + 0.05 + random.nextDouble() * 0.1;
+
+            double angle = random.nextDouble() * Math.PI * 2;
+            double speed = 0.025 + random.nextDouble() * 0.015;
+            double vx = Math.cos(angle) * speed;
+            double vz = Math.sin(angle) * speed;
+            double vy = 0.005 + random.nextDouble() * 0.01;
+
+            level.addParticle(getFootstepFluffParticle(), x, y, z, vx, vy, vz);
+        }
+    }
+
+    private void playFootstepSound(Level level, BlockPos pos, RandomSource random) {
+        level.playLocalSound(
+                pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5,
+                getFootstepSound(),
+                SoundSource.BLOCKS,
+                0.8F + random.nextFloat() * 0.2F,
+                0.9F + random.nextFloat() * 0.3F,
+                false
+        );
+    }
 }
+

@@ -1,7 +1,7 @@
 package de.artemis.floraexpansion.client;
 
 import de.artemis.floraexpansion.FloraExpansion;
-import de.artemis.floraexpansion.common.block.ModBlocks;
+import de.artemis.floraexpansion.common.registry.ModBlocks;
 import net.minecraft.client.renderer.BiomeColors;
 import net.minecraft.world.level.FoliageColor;
 import net.neoforged.bus.api.SubscribeEvent;

@@ -1,4 +1,4 @@
-package de.artemis.floraexpansion.common.worldgen;
+package de.artemis.floraexpansion.common.registry;
 
 import net.minecraft.world.level.block.grower.TreeGrower;
 

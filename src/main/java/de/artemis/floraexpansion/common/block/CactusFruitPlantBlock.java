@@ -1,7 +1,7 @@
 package de.artemis.floraexpansion.common.block;
 
 import com.mojang.serialization.MapCodec;
-import de.artemis.floraexpansion.common.item.ModItems;
+import de.artemis.floraexpansion.common.registry.ModItems;
 import de.artemis.floraexpansion.common.util.ModUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
@@ -146,3 +146,4 @@ public class CactusFruitPlantBlock extends BushBlock implements BonemealableBloc
         }
     }
 }
+

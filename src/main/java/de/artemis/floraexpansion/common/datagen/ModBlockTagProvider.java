@@ -1,7 +1,7 @@
 package de.artemis.floraexpansion.common.datagen;
 
 import de.artemis.floraexpansion.FloraExpansion;
-import de.artemis.floraexpansion.common.block.ModBlocks;
+import de.artemis.floraexpansion.common.registry.ModBlocks;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
 import net.minecraft.tags.BlockTags;
@@ -122,3 +122,4 @@ public class ModBlockTagProvider extends BlockTagsProvider {
                 .add(ModBlocks.CACTUS_WALL_HANGING_SIGN.get());
     }
 }
+

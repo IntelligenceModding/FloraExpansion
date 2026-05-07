@@ -1,6 +1,6 @@
 package de.artemis.floraexpansion.common.item;
 
-import de.artemis.floraexpansion.common.block.ModBlocks;
+import de.artemis.floraexpansion.common.registry.ModBlocks;
 import net.minecraft.stats.Stats;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.LivingEntity;

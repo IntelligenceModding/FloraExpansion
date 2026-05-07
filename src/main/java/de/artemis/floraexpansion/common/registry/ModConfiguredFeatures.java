@@ -1,10 +1,10 @@
-package de.artemis.floraexpansion.common.worldgen;
+package de.artemis.floraexpansion.common.registry;
 
 import de.artemis.floraexpansion.FloraExpansion;
 import de.artemis.floraexpansion.common.block.LeafLitterBlock;
-import de.artemis.floraexpansion.common.block.ModBlocks;
+import de.artemis.floraexpansion.common.registry.ModBlocks;
 import de.artemis.floraexpansion.common.block.PineLitterBlock;
-import de.artemis.floraexpansion.common.worldgen.feature.ModFeatures;
+import de.artemis.floraexpansion.common.registry.ModFeatures;
 import net.minecraft.core.Direction;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.worldgen.BootstrapContext;
@@ -19,7 +19,6 @@ import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.configurations.FeatureConfiguration;
 import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
 import net.minecraft.world.level.levelgen.feature.configurations.SimpleBlockConfiguration;
-import net.minecraft.world.level.levelgen.feature.stateproviders.SimpleStateProvider;
 import net.minecraft.world.level.levelgen.feature.stateproviders.WeightedStateProvider;
 
 import java.util.List;
@@ -118,3 +117,4 @@ public class ModConfiguredFeatures {
         context.register(key, new ConfiguredFeature<>(feature, configuration));
     }
 }
+

@@ -1,7 +1,7 @@
 package de.artemis.floraexpansion.common.block;
 
 import com.mojang.serialization.MapCodec;
-import de.artemis.floraexpansion.common.item.ModItems;
+import de.artemis.floraexpansion.common.registry.ModItems;
 import net.minecraft.core.BlockPos;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;

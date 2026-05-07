@@ -4,7 +4,7 @@ import de.artemis.floraexpansion.FloraExpansion;
 import de.artemis.floraexpansion.common.block.CactusFlowerBlock;
 import de.artemis.floraexpansion.common.block.CactusThornBlock;
 import de.artemis.floraexpansion.common.block.FruitingOakLeavesBlock;
-import de.artemis.floraexpansion.common.block.ModBlocks;
+import de.artemis.floraexpansion.common.registry.ModBlocks;
 import net.minecraft.core.Direction;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.PackOutput;
@@ -328,3 +328,4 @@ public class ModBlockStateProvider extends BlockStateProvider {
         return BuiltInRegistries.BLOCK.getKey(block).getPath();
     }
 }
+

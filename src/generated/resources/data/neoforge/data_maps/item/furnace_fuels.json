@@ -57,14 +57,14 @@
     "floraexpansion:giant_cactus_wood": {
       "burn_time": 300
     },
+    "floraexpansion:leaf_litter": {
+      "burn_time": 100
+    },
     "floraexpansion:linen_block": {
       "burn_time": 100
     },
     "floraexpansion:linen_carpet": {
       "burn_time": 67
-    },
-    "floraexpansion:leaf_litter": {
-      "burn_time": 100
     },
     "floraexpansion:pine_cone": {
       "burn_time": 50

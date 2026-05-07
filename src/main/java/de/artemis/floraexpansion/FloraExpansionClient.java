@@ -1,10 +1,10 @@
 package de.artemis.floraexpansion;
 
 import de.artemis.floraexpansion.client.renderer.CactusBoatRenderer;
-import de.artemis.floraexpansion.common.block.entity.ModBlockEntities;
-import de.artemis.floraexpansion.common.entity.ModEntityTypes;
+import de.artemis.floraexpansion.common.registry.ModBlockEntities;
+import de.artemis.floraexpansion.common.registry.ModEntityTypes;
 import de.artemis.floraexpansion.common.particle.*;
-import de.artemis.floraexpansion.common.util.ModWoodTypes;
+import de.artemis.floraexpansion.common.registry.ModWoodTypes;
 import net.minecraft.client.renderer.Sheets;
 import net.minecraft.client.renderer.blockentity.HangingSignRenderer;
 import net.minecraft.client.renderer.blockentity.SignRenderer;
@@ -18,6 +18,7 @@ import net.neoforged.neoforge.client.event.EntityRenderersEvent;
 import net.neoforged.neoforge.client.event.RegisterParticleProvidersEvent;
 import net.neoforged.neoforge.client.gui.ConfigurationScreen;
 import net.neoforged.neoforge.client.gui.IConfigScreenFactory;
+import de.artemis.floraexpansion.common.registry.ModParticles;
 
 @Mod(value = FloraExpansion.MODID, dist = Dist.CLIENT)
 @EventBusSubscriber(modid = FloraExpansion.MODID, value = Dist.CLIENT)
@@ -58,3 +59,5 @@ public class FloraExpansionClient {
         event.registerBlockEntityRenderer(ModBlockEntities.CACTUS_HANGING_SIGN.get(), HangingSignRenderer::new);
     }
 }
+
+

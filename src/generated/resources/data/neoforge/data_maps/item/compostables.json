@@ -6,6 +6,9 @@
     "floraexpansion:cactus_cluster": {
       "chance": 0.3
     },
+    "floraexpansion:cactus_flower": {
+      "chance": 0.3
+    },
     "floraexpansion:cactus_slice": {
       "chance": 0.2
     },
@@ -27,16 +30,13 @@
     "floraexpansion:flax_seed": {
       "chance": 0.3
     },
-    "floraexpansion:leaf_litter": {
-      "chance": 0.3
-    },
     "floraexpansion:fruiting_cherry_leaves": {
       "chance": 0.5
     },
     "floraexpansion:fruiting_oak_leaves": {
       "chance": 0.5
     },
-    "floraexpansion:cactus_flower": {
+    "floraexpansion:leaf_litter": {
       "chance": 0.3
     },
     "floraexpansion:opuntia_cactus": {

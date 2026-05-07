@@ -2,7 +2,7 @@ package de.artemis.floraexpansion.common.block;
 
 import com.mojang.serialization.MapCodec;
 import de.artemis.floraexpansion.common.block.entity.CactusSignBlockEntity;
-import de.artemis.floraexpansion.common.util.ModWoodTypes;
+import de.artemis.floraexpansion.common.registry.ModWoodTypes;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.StandingSignBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;

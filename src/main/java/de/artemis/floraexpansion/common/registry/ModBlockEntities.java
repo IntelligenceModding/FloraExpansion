@@ -1,12 +1,13 @@
-package de.artemis.floraexpansion.common.block.entity;
+package de.artemis.floraexpansion.common.registry;
 
 import de.artemis.floraexpansion.FloraExpansion;
-import de.artemis.floraexpansion.common.block.ModBlocks;
+import de.artemis.floraexpansion.common.registry.ModBlocks;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
+import de.artemis.floraexpansion.common.block.entity.*;
 
 public class ModBlockEntities {
     public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITIES =
@@ -32,3 +33,5 @@ public class ModBlockEntities {
         BLOCK_ENTITIES.register(eventBus);
     }
 }
+
+

@@ -1,8 +1,8 @@
 package de.artemis.floraexpansion.common.datagen;
 
 import de.artemis.floraexpansion.FloraExpansion;
-import de.artemis.floraexpansion.common.block.ModBlocks;
-import de.artemis.floraexpansion.common.item.ModItems;
+import de.artemis.floraexpansion.common.registry.ModBlocks;
+import de.artemis.floraexpansion.common.registry.ModItems;
 import net.minecraft.data.PackOutput;
 
 public class ModLanguageProvider extends net.neoforged.neoforge.common.data.LanguageProvider {
@@ -83,3 +83,4 @@ public class ModLanguageProvider extends net.neoforged.neoforge.common.data.Lang
         add(ModItems.PRICKLY_PEAR.get(), "Prickly Pear");
     }
 }
+

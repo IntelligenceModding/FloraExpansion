@@ -1,4 +1,4 @@
-package de.artemis.floraexpansion.common.worldgen;
+package de.artemis.floraexpansion.common.registry;
 
 import de.artemis.floraexpansion.FloraExpansion;
 import net.minecraft.core.HolderSet;

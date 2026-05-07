@@ -26,6 +26,7 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.NotNull;
+import de.artemis.floraexpansion.common.registry.ModBlocks;
 
 public class CactusFlowerBlock extends BushBlock implements BonemealableBlock {
     public static final int VARIANT_COUNT = 3;
@@ -162,3 +163,4 @@ public class CactusFlowerBlock extends BushBlock implements BonemealableBlock {
         builder.add(VARIANT);
     }
 }
+

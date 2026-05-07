@@ -1,7 +1,7 @@
-package de.artemis.floraexpansion.common.util;
+package de.artemis.floraexpansion.common.registry;
 
 import de.artemis.floraexpansion.FloraExpansion;
-import de.artemis.floraexpansion.common.block.ModBlocks;
+import de.artemis.floraexpansion.common.registry.ModBlocks;
 import net.minecraft.Util;
 import net.minecraft.core.Holder;
 import net.minecraft.core.registries.Registries;
@@ -54,3 +54,4 @@ public final class ModArmorMaterials {
         ARMOR_MATERIALS.register(eventBus);
     }
 }
+

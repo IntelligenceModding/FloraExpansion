@@ -27,6 +27,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
+@SuppressWarnings("unused")
 @JeiPlugin
 public final class FloraExpansionJeiPlugin implements IModPlugin {
     private static final ResourceLocation UID =
@@ -145,29 +146,25 @@ public final class FloraExpansionJeiPlugin implements IModPlugin {
             return;
         }
 
-        if (value instanceof ItemStack stack) {
-            if (!stack.isEmpty()) {
-                out.add(stack);
+        switch (value) {
+            case ItemStack stack -> {
+                if (!stack.isEmpty()) {
+                    out.add(stack);
+                }
             }
-            return;
-        }
-
-        if (value instanceof Optional<?> optional) {
-            optional.ifPresent(v -> extractInto(out, v));
-            return;
-        }
-
-        if (value instanceof Collection<?> collection) {
-            for (Object element : collection) {
-                extractInto(out, element);
+            case Optional<?> optional -> optional.ifPresent(v -> extractInto(out, v));
+            case Collection<?> collection -> {
+                for (Object element : collection) {
+                    extractInto(out, element);
+                }
             }
-            return;
-        }
-
-        if (value.getClass().isArray()) {
-            int len = Array.getLength(value);
-            for (int i = 0; i < len; i++) {
-                extractInto(out, Array.get(value, i));
+            default -> {
+                if (value.getClass().isArray()) {
+                    int len = Array.getLength(value);
+                    for (int i = 0; i < len; i++) {
+                        extractInto(out, Array.get(value, i));
+                    }
+                }
             }
         }
     }

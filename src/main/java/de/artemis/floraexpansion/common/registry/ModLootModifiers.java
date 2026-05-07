@@ -1,4 +1,4 @@
-package de.artemis.floraexpansion.common.loot;
+package de.artemis.floraexpansion.common.registry;
 
 import com.mojang.serialization.MapCodec;
 import de.artemis.floraexpansion.FloraExpansion;
@@ -6,6 +6,7 @@ import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.common.loot.IGlobalLootModifier;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import net.neoforged.neoforge.registries.NeoForgeRegistries;
+import de.artemis.floraexpansion.common.loot.*;
 
 import java.util.function.Supplier;
 
@@ -20,3 +21,4 @@ public class ModLootModifiers {
         LOOT_MODIFIER_SERIALIZERS.register(eventBus);
     }
 }
+

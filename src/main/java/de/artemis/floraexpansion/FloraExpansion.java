@@ -1,17 +1,18 @@
 package de.artemis.floraexpansion;
 
-import de.artemis.floraexpansion.common.block.ModBlocks;
-import de.artemis.floraexpansion.common.block.entity.ModBlockEntities;
-import de.artemis.floraexpansion.common.entity.ModEntityTypes;
-import de.artemis.floraexpansion.common.item.ModItems;
-import de.artemis.floraexpansion.common.loot.ModLootModifiers;
-import de.artemis.floraexpansion.common.particle.ModParticles;
-import de.artemis.floraexpansion.common.util.ModArmorMaterials;
-import de.artemis.floraexpansion.common.worldgen.feature.ModFeatures;
-import de.artemis.floraexpansion.common.worldgen.treedecorator.ModTreeDecorators;
+import de.artemis.floraexpansion.common.registry.ModBlocks;
+import de.artemis.floraexpansion.common.registry.ModBlockEntities;
+import de.artemis.floraexpansion.common.registry.ModEntityTypes;
+import de.artemis.floraexpansion.common.registry.ModItems;
+import de.artemis.floraexpansion.common.registry.ModLootModifiers;
+import de.artemis.floraexpansion.common.registry.ModParticles;
+import de.artemis.floraexpansion.common.registry.ModArmorMaterials;
+import de.artemis.floraexpansion.common.registry.ModFeatures;
+import de.artemis.floraexpansion.common.registry.ModTreeDecorators;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.FlowerPotBlock;
 import org.slf4j.Logger;
+import de.artemis.floraexpansion.common.registry.ModCreativeModeTabs;
 
 import com.mojang.logging.LogUtils;
 
@@ -20,7 +21,6 @@ import net.minecraft.world.item.CreativeModeTab;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.Mod;
-import net.neoforged.fml.config.ModConfig;
 import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.neoforge.common.NeoForge;
@@ -40,7 +40,6 @@ public class FloraExpansion {
     public FloraExpansion(IEventBus modEventBus, ModContainer modContainer) {
         modEventBus.addListener(this::commonSetup);
         modEventBus.addListener(this::addCreative);
-        modContainer.registerConfig(ModConfig.Type.COMMON, Config.SPEC);
 
         NeoForge.EVENT_BUS.register(this);
 
@@ -75,3 +74,5 @@ public class FloraExpansion {
     public void onServerStarting(ServerStartingEvent event) {
     }
 }
+
+

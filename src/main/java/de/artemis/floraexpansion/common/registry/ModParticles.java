@@ -1,4 +1,4 @@
-package de.artemis.floraexpansion.common.particle;
+package de.artemis.floraexpansion.common.registry;
 
 import de.artemis.floraexpansion.FloraExpansion;
 import net.minecraft.core.particles.ParticleType;
@@ -6,6 +6,7 @@ import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredRegister;
+import de.artemis.floraexpansion.common.particle.*;
 
 import java.util.function.Supplier;
 
@@ -36,3 +37,5 @@ public class ModParticles {
         PARTICLE_TYPES.register(eventBus);
     }
 }
+
+

@@ -1,7 +1,9 @@
-package de.artemis.floraexpansion;
+package de.artemis.floraexpansion.common.registry;
 
-import de.artemis.floraexpansion.common.block.ModBlocks;
-import de.artemis.floraexpansion.common.item.ModItems;
+import de.artemis.floraexpansion.FloraExpansion;
+
+import de.artemis.floraexpansion.common.registry.ModBlocks;
+import de.artemis.floraexpansion.common.registry.ModItems;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.CreativeModeTab;
@@ -15,6 +17,7 @@ public class ModCreativeModeTabs {
     public static final DeferredRegister<CreativeModeTab> CREATIVE_MODE_TAB =
             DeferredRegister.create(Registries.CREATIVE_MODE_TAB, FloraExpansion.MODID);
 
+    @SuppressWarnings("unused")
     public static final Supplier<CreativeModeTab> FLORA_EXPANSION_CREATIVE_TAB = CREATIVE_MODE_TAB.register("flora_expansion_creative_tab",
             () -> CreativeModeTab.builder().icon(() -> new ItemStack(ModItems.FLAX_FLOWER.get()))
                     .title(Component.translatable("floraexpansion.creative_tab"))
@@ -83,3 +86,5 @@ public class ModCreativeModeTabs {
         CREATIVE_MODE_TAB.register(eventBus);
     }
 }
+
+

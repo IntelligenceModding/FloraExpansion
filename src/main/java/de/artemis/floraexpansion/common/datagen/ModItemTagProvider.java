@@ -1,8 +1,8 @@
 package de.artemis.floraexpansion.common.datagen;
 
 import de.artemis.floraexpansion.FloraExpansion;
-import de.artemis.floraexpansion.common.block.ModBlocks;
-import de.artemis.floraexpansion.common.item.ModItems;
+import de.artemis.floraexpansion.common.registry.ModBlocks;
+import de.artemis.floraexpansion.common.registry.ModItems;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.tags.ItemTagsProvider;
@@ -137,3 +137,4 @@ public class ModItemTagProvider extends ItemTagsProvider {
                 .add(ModItems.PRICKLY_PEAR.get());
     }
 }
+

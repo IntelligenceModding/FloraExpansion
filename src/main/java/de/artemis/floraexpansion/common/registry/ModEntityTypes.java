@@ -1,4 +1,4 @@
-package de.artemis.floraexpansion.common.entity;
+package de.artemis.floraexpansion.common.registry;
 
 import de.artemis.floraexpansion.FloraExpansion;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -7,6 +7,7 @@ import net.minecraft.world.entity.MobCategory;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
+import de.artemis.floraexpansion.common.entity.*;
 
 public class ModEntityTypes {
     public static final DeferredRegister<EntityType<?>> ENTITY_TYPES =
@@ -32,3 +33,4 @@ public class ModEntityTypes {
         ENTITY_TYPES.register(eventBus);
     }
 }
+

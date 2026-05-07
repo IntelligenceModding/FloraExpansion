@@ -4,7 +4,7 @@ import de.artemis.floraexpansion.common.block.CactusThornBlock;
 import de.artemis.floraexpansion.common.block.DesertMossBlock;
 import de.artemis.floraexpansion.common.block.CactusFlowerBlock;
 import de.artemis.floraexpansion.common.block.GiantCactusWoodBlock;
-import de.artemis.floraexpansion.common.block.ModBlocks;
+import de.artemis.floraexpansion.common.registry.ModBlocks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.util.RandomSource;
@@ -197,3 +197,4 @@ public class FallenGiantCactusFeature extends Feature<NoneFeatureConfiguration> 
         }
     }
 }
+

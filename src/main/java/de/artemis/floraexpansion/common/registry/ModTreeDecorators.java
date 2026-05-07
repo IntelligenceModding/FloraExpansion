@@ -1,4 +1,4 @@
-package de.artemis.floraexpansion.common.worldgen.treedecorator;
+package de.artemis.floraexpansion.common.registry;
 
 import de.artemis.floraexpansion.FloraExpansion;
 import net.minecraft.core.registries.Registries;
@@ -6,6 +6,7 @@ import net.minecraft.world.level.levelgen.feature.treedecorators.TreeDecoratorTy
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import net.neoforged.neoforge.registries.DeferredHolder;
+import de.artemis.floraexpansion.common.worldgen.treedecorator.*;
 
 public class ModTreeDecorators {
 
@@ -24,3 +25,4 @@ public class ModTreeDecorators {
         TREE_DECORATORS.register(eventBus);
     }
 }
+

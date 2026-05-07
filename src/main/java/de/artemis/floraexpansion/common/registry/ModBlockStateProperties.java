@@ -1,4 +1,4 @@
-package de.artemis.floraexpansion.common.util;
+package de.artemis.floraexpansion.common.registry;
 
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;

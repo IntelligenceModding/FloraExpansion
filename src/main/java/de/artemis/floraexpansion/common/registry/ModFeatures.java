@@ -1,4 +1,4 @@
-package de.artemis.floraexpansion.common.worldgen.feature;
+package de.artemis.floraexpansion.common.registry;
 
 import de.artemis.floraexpansion.FloraExpansion;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -6,6 +6,7 @@ import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredRegister;
+import de.artemis.floraexpansion.common.worldgen.feature.*;
 
 import java.util.function.Supplier;
 
@@ -41,3 +42,4 @@ public class ModFeatures {
         FEATURES.register(eventBus);
     }
 }
+

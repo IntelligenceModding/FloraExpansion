@@ -1,15 +1,16 @@
-package de.artemis.floraexpansion.common.item;
+package de.artemis.floraexpansion.common.registry;
 
 import de.artemis.floraexpansion.FloraExpansion;
-import de.artemis.floraexpansion.common.block.ModBlocks;
-import de.artemis.floraexpansion.common.util.ModArmorMaterials;
-import de.artemis.floraexpansion.common.util.ModFoods;
+import de.artemis.floraexpansion.common.registry.ModBlocks;
+import de.artemis.floraexpansion.common.registry.ModArmorMaterials;
+import de.artemis.floraexpansion.common.registry.ModFoods;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemNameBlockItem;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
+import de.artemis.floraexpansion.common.item.*;
 
 public class ModItems {
     public static final DeferredRegister.Items ITEMS = DeferredRegister.createItems(FloraExpansion.MODID);
@@ -117,3 +118,6 @@ public class ModItems {
         ITEMS.register(eventBus);
     }
 }
+
+
+

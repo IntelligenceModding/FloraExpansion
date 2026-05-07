@@ -1,20 +1,15 @@
 package de.artemis.floraexpansion.common.block;
 
-import de.artemis.floraexpansion.common.item.ModItems;
-import de.artemis.floraexpansion.common.particle.FallingFruitParticle;
-import de.artemis.floraexpansion.common.particle.ModParticles;
+import de.artemis.floraexpansion.common.registry.ModItems;
+import de.artemis.floraexpansion.common.registry.ModParticles;
+import de.artemis.floraexpansion.common.util.FruitingLeavesHelper;
 import de.artemis.floraexpansion.common.util.ModUtils;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.sounds.SoundEvents;
-import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.BonemealableBlock;
@@ -24,7 +19,6 @@ import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.minecraft.world.phys.BlockHitResult;
-import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
 
 public class FruitingCherryLeavesBlock extends CherryLeavesBlock implements BonemealableBlock {
@@ -44,34 +38,22 @@ public class FruitingCherryLeavesBlock extends CherryLeavesBlock implements Bone
 
     @Override
     protected boolean isRandomlyTicking(@NotNull BlockState blockState) {
-        return super.isRandomlyTicking(blockState) || blockState.getValue(AGE) < MAX_AGE;
+        return FruitingLeavesHelper.isRandomlyTicking(super.isRandomlyTicking(blockState), blockState, AGE, MAX_AGE);
     }
 
     @Override
     protected void randomTick(@NotNull BlockState blockState, @NotNull ServerLevel level, @NotNull BlockPos blockPos, @NotNull RandomSource random) {
         super.randomTick(blockState, level, blockPos, random);
 
-        // Only regrow fruit here. Breaking/decay drops are handled by loot tables.
-        int age = blockState.getValue(AGE);
-        if (age < MAX_AGE && random.nextInt(8) == 0) {
-            level.setBlock(blockPos, blockState.setValue(AGE, age + 1), 2);
-        }
+        FruitingLeavesHelper.growIfAble(blockState, level, blockPos, random, AGE, MAX_AGE, 8);
     }
 
     @Override
     public void animateTick(@NotNull BlockState blockState, @NotNull Level level, @NotNull BlockPos blockPos, @NotNull RandomSource random) {
         super.animateTick(blockState, level, blockPos, random);
 
-        if (blockState.getValue(AGE) == 2) {
-            return;
-        }
-
-        // about every 5 seconds on average per block
-        if (random.nextInt(100) != 0) {
-            return;
-        }
-
-        FallingFruitParticle.spawnFromFruitingLeaves(level, blockPos, ModParticles.FALLING_CHERRY.get());
+        FruitingLeavesHelper.animateFruit(blockState, level, blockPos, random, AGE,
+                age -> age != 2, ModParticles.FALLING_CHERRY.get());
     }
 
     @Override
@@ -95,31 +77,29 @@ public class FruitingCherryLeavesBlock extends CherryLeavesBlock implements Bone
                 spawnHarvestedCherries(level, blockPos, result, amount);
             }
 
-            level.setBlock(blockPos, blockState.setValue(AGE, 0), 2);
-            level.playSound(null, blockPos, SoundEvents.SWEET_BERRY_BUSH_PICK_BERRIES, SoundSource.BLOCKS, 1.0F,
-                    0.8F + level.random.nextFloat() * 0.4F);
+            FruitingLeavesHelper.resetFruitAge(level, blockPos, blockState, AGE);
         }
 
         return InteractionResult.sidedSuccess(level.isClientSide);
     }
 
     private static void spawnHarvestedCherries(Level level, BlockPos blockPos, BlockHitResult hitResult, int amount) {
-        ModUtils.spawnItemAtClickedSide(level, blockPos, hitResult, new ItemStack(ModItems.CHERRIES.get(), 1));
+        ModUtils.spawnItemAtClickedSide(level, blockPos, hitResult, new ItemStack(ModItems.CHERRIES.get(), amount));
     }
 
     @Override
     public boolean isValidBonemealTarget(@NotNull LevelReader levelReader, @NotNull BlockPos blockPos, BlockState blockState) {
-        return blockState.getValue(AGE) < MAX_AGE;
+        return FruitingLeavesHelper.canGrow(blockState, AGE, MAX_AGE);
     }
 
     @Override
     public boolean isBonemealSuccess(@NotNull Level level, @NotNull RandomSource random, @NotNull BlockPos blockPos, BlockState blockState) {
-        return blockState.getValue(AGE) < MAX_AGE;
+        return FruitingLeavesHelper.canGrow(blockState, AGE, MAX_AGE);
     }
 
     @Override
     public void performBonemeal(ServerLevel level, @NotNull RandomSource random, @NotNull BlockPos blockPos, BlockState blockState) {
-        int newAge = Math.min(MAX_AGE, blockState.getValue(AGE) + 1);
-        level.setBlock(blockPos, blockState.setValue(AGE, newAge), 2);
+        FruitingLeavesHelper.applyBonemeal(level, blockPos, blockState, AGE, MAX_AGE);
     }
 }
+

@@ -1,8 +1,8 @@
 package de.artemis.floraexpansion.common.block;
 
-import de.artemis.floraexpansion.common.item.ModItems;
-import de.artemis.floraexpansion.common.particle.ModParticles;
-import de.artemis.floraexpansion.common.util.ModBlockStateProperties;
+import de.artemis.floraexpansion.common.registry.ModItems;
+import de.artemis.floraexpansion.common.registry.ModParticles;
+import de.artemis.floraexpansion.common.registry.ModBlockStateProperties;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
@@ -316,3 +316,4 @@ public class FlaxCropBlock extends CropBlock {
         builder.add(AGE, HALF, WILD);
     }
 }
+

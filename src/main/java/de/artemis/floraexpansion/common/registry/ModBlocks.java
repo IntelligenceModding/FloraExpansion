@@ -1,9 +1,9 @@
-package de.artemis.floraexpansion.common.block;
+package de.artemis.floraexpansion.common.registry;
 
 import de.artemis.floraexpansion.FloraExpansion;
-import de.artemis.floraexpansion.common.item.ModItems;
-import de.artemis.floraexpansion.common.util.ModWoodTypes;
-import de.artemis.floraexpansion.common.worldgen.ModTreeGrowers;
+import de.artemis.floraexpansion.common.registry.ModItems;
+import de.artemis.floraexpansion.common.registry.ModWoodTypes;
+import de.artemis.floraexpansion.common.registry.ModTreeGrowers;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.*;
@@ -14,6 +14,7 @@ import net.minecraft.world.level.material.PushReaction;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredBlock;
 import net.neoforged.neoforge.registries.DeferredRegister;
+import de.artemis.floraexpansion.common.block.*;
 
 import java.util.function.Supplier;
 
@@ -213,3 +214,6 @@ public class ModBlocks {
         BLOCKS.register(eventBus);
     }
 }
+
+
+
