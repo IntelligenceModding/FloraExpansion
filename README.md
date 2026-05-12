@@ -1,4 +1,4 @@
-![Title](https://cdn.jsdelivr.net/gh/IntelligenceModding/Flora-Expansion@77e0c7c81ea183cfeb2edee8f35aa06815495d11/Version%200.3%20Blooming%20Sands.png)
+![Title](https://cdn.jsdelivr.net/gh/IntelligenceModding/Flora-Expansion@1a058647e9fe2138192582bb0fbeecbefd1db686/Version%200.4%20Berries%20%26%20Barrels.png)
 
 Description
 =======

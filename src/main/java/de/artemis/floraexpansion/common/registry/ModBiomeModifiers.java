@@ -16,7 +16,9 @@ import net.neoforged.neoforge.registries.NeoForgeRegistries;
 public class ModBiomeModifiers {
     public static final ResourceKey<BiomeModifier> ADD_PINE_LITTER = registerKey("add_pine_litter");
     public static final ResourceKey<BiomeModifier> ADD_LEAF_LITTER = registerKey("add_leaf_litter");
+    public static final ResourceKey<BiomeModifier> ADD_BLUEBERRY_BUSHES = registerKey("add_blueberry_bushes");
     public static final ResourceKey<BiomeModifier> ADD_WILD_FLAX = registerKey("add_wild_flax");
+    public static final ResourceKey<BiomeModifier> ADD_WILD_STRAWBERRIES = registerKey("add_wild_strawberries");
     public static final ResourceKey<BiomeModifier> ADD_PEBBLE_CLUSTERS = registerKey("add_pebble_clusters");
     public static final ResourceKey<BiomeModifier> ADD_FRUITING_CHERRY_TREES = registerKey("add_fruiting_cherry_trees");
     public static final ResourceKey<BiomeModifier> ADD_FRUITING_OAK_TREES_SPARSE = registerKey("add_fruiting_oak_trees_sparse");
@@ -84,6 +86,22 @@ public class ModBiomeModifiers {
                 HolderSet.direct(placedFeatures.getOrThrow(ModPlacedFeatures.LEAF_LITTER_PLACED_KEY)),
                 GenerationStep.Decoration.VEGETAL_DECORATION));
 
+        context.register(ADD_BLUEBERRY_BUSHES, new BiomeModifiers.AddFeaturesBiomeModifier(
+                HolderSet.direct(
+                        biomes.getOrThrow(Biomes.BIRCH_FOREST),
+                        biomes.getOrThrow(Biomes.FOREST),
+                        biomes.getOrThrow(Biomes.FLOWER_FOREST),
+                        biomes.getOrThrow(Biomes.GROVE),
+                        biomes.getOrThrow(Biomes.MEADOW),
+                        biomes.getOrThrow(Biomes.OLD_GROWTH_BIRCH_FOREST),
+                        biomes.getOrThrow(Biomes.TAIGA),
+                        biomes.getOrThrow(Biomes.OLD_GROWTH_PINE_TAIGA),
+                        biomes.getOrThrow(Biomes.OLD_GROWTH_SPRUCE_TAIGA),
+                        biomes.getOrThrow(Biomes.SNOWY_TAIGA)
+                ),
+                HolderSet.direct(placedFeatures.getOrThrow(ModPlacedFeatures.BLUEBERRY_BUSH_PLACED_KEY)),
+                GenerationStep.Decoration.VEGETAL_DECORATION));
+
         context.register(ADD_WILD_FLAX, new BiomeModifiers.AddFeaturesBiomeModifier(
                 HolderSet.direct(
                         biomes.getOrThrow(Biomes.PLAINS),
@@ -91,6 +109,15 @@ public class ModBiomeModifiers {
                         biomes.getOrThrow(Biomes.SUNFLOWER_PLAINS)
                 ),
                 HolderSet.direct(placedFeatures.getOrThrow(ModPlacedFeatures.WILD_FLAX_PLACED_KEY)),
+                GenerationStep.Decoration.VEGETAL_DECORATION));
+
+        context.register(ADD_WILD_STRAWBERRIES, new BiomeModifiers.AddFeaturesBiomeModifier(
+                HolderSet.direct(
+                        biomes.getOrThrow(Biomes.PLAINS),
+                        biomes.getOrThrow(Biomes.MEADOW),
+                        biomes.getOrThrow(Biomes.SUNFLOWER_PLAINS)
+                ),
+                HolderSet.direct(placedFeatures.getOrThrow(ModPlacedFeatures.WILD_STRAWBERRY_PLACED_KEY)),
                 GenerationStep.Decoration.VEGETAL_DECORATION));
 
         context.register(ADD_FRUITING_CHERRY_TREES, new BiomeModifiers.AddFeaturesBiomeModifier(

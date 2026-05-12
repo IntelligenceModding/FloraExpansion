@@ -1,6 +1,7 @@
 package de.artemis.floraexpansion.common.datagen;
 
 import de.artemis.floraexpansion.common.block.*;
+import net.minecraft.advancements.critereon.ItemPredicate;
 import de.artemis.floraexpansion.common.registry.ModItems;
 import net.minecraft.advancements.critereon.StatePropertiesPredicate;
 import net.minecraft.core.HolderLookup;
@@ -17,7 +18,9 @@ import net.minecraft.world.level.storage.loot.functions.ApplyExplosionDecay;
 import net.minecraft.world.level.storage.loot.functions.SetItemCountFunction;
 import net.minecraft.world.level.storage.loot.predicates.BonusLevelTableCondition;
 import net.minecraft.world.level.storage.loot.predicates.ExplosionCondition;
+import net.minecraft.world.level.storage.loot.predicates.InvertedLootItemCondition;
 import net.minecraft.world.level.storage.loot.predicates.LootItemBlockStatePropertyCondition;
+import net.minecraft.world.level.storage.loot.predicates.MatchTool;
 import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
 import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
 import org.jetbrains.annotations.NotNull;
@@ -34,9 +37,30 @@ public class ModBlockLootTableProvider extends BlockLootSubProvider {
 
     @Override
     protected void generate() {
-
+        add(ModBlocks.BLUEBERRY_BUSH.get(), createBlueberryBushDrops(ModBlocks.BLUEBERRY_BUSH.get(), UniformGenerator.between(2.0F, 3.0F)));
+        add(ModBlocks.LARGE_BLUEBERRY_BUSH.get(), createLargeBlueberryBushDrops());
+        add(ModBlocks.STRAWBERRY_PLANT.get(), createStrawberryCropDrops());
+        add(ModBlocks.STRAWBERRY_CAKE.get(), LootTable.lootTable());
+        add(ModBlocks.STRAWBERRY_CANDLE_CAKE.get(), createSingleItemTable(Items.CANDLE));
+        add(ModBlocks.WHITE_STRAWBERRY_CANDLE_CAKE.get(), createSingleItemTable(Items.WHITE_CANDLE));
+        add(ModBlocks.ORANGE_STRAWBERRY_CANDLE_CAKE.get(), createSingleItemTable(Items.ORANGE_CANDLE));
+        add(ModBlocks.MAGENTA_STRAWBERRY_CANDLE_CAKE.get(), createSingleItemTable(Items.MAGENTA_CANDLE));
+        add(ModBlocks.LIGHT_BLUE_STRAWBERRY_CANDLE_CAKE.get(), createSingleItemTable(Items.LIGHT_BLUE_CANDLE));
+        add(ModBlocks.YELLOW_STRAWBERRY_CANDLE_CAKE.get(), createSingleItemTable(Items.YELLOW_CANDLE));
+        add(ModBlocks.LIME_STRAWBERRY_CANDLE_CAKE.get(), createSingleItemTable(Items.LIME_CANDLE));
+        add(ModBlocks.PINK_STRAWBERRY_CANDLE_CAKE.get(), createSingleItemTable(Items.PINK_CANDLE));
+        add(ModBlocks.GRAY_STRAWBERRY_CANDLE_CAKE.get(), createSingleItemTable(Items.GRAY_CANDLE));
+        add(ModBlocks.LIGHT_GRAY_STRAWBERRY_CANDLE_CAKE.get(), createSingleItemTable(Items.LIGHT_GRAY_CANDLE));
+        add(ModBlocks.CYAN_STRAWBERRY_CANDLE_CAKE.get(), createSingleItemTable(Items.CYAN_CANDLE));
+        add(ModBlocks.PURPLE_STRAWBERRY_CANDLE_CAKE.get(), createSingleItemTable(Items.PURPLE_CANDLE));
+        add(ModBlocks.BLUE_STRAWBERRY_CANDLE_CAKE.get(), createSingleItemTable(Items.BLUE_CANDLE));
+        add(ModBlocks.BROWN_STRAWBERRY_CANDLE_CAKE.get(), createSingleItemTable(Items.BROWN_CANDLE));
+        add(ModBlocks.GREEN_STRAWBERRY_CANDLE_CAKE.get(), createSingleItemTable(Items.GREEN_CANDLE));
+        add(ModBlocks.RED_STRAWBERRY_CANDLE_CAKE.get(), createSingleItemTable(Items.RED_CANDLE));
+        add(ModBlocks.BLACK_STRAWBERRY_CANDLE_CAKE.get(), createSingleItemTable(Items.BLACK_CANDLE));
         add(ModBlocks.FRUITING_CHERRY_LEAVES.get(), createFruitingCherryLeavesDrops());
         add(ModBlocks.FRUITING_OAK_LEAVES.get(), createFruitingOakLeavesDrops());
+        dropSelf(ModBlocks.CRATE.get());
 
         dropPottedContents(ModBlocks.POTTED_CHERRY_PIT.get());
         dropPottedContents(ModBlocks.POTTED_APPLE_CORE.get());
@@ -109,6 +133,56 @@ public class ModBlockLootTableProvider extends BlockLootSubProvider {
                                         .apply(ApplyExplosionDecay.explosionDecay()))));
     }
 
+    private LootTable.Builder createBlueberryBushDrops(Block block, UniformGenerator ripeCount) {
+        return LootTable.lootTable()
+                .withPool(LootPool.lootPool()
+                        .setRolls(ConstantValue.exactly(1.0F))
+                        .add(applyExplosionCondition(block,
+                                LootItem.lootTableItem(ModItems.BLUEBERRIES.get())
+                                        .when(LootItemBlockStatePropertyCondition.hasBlockStateProperties(block)
+                                                .setProperties(StatePropertiesPredicate.Builder.properties()
+                                                        .hasProperty(SmallBlueberryBushBlock.AGE, 0)))
+                                        .apply(SetItemCountFunction.setCount(ConstantValue.exactly(1.0F))))))
+                .withPool(LootPool.lootPool()
+                        .setRolls(ConstantValue.exactly(1.0F))
+                        .add(applyExplosionCondition(block,
+                                LootItem.lootTableItem(ModItems.BLUEBERRIES.get())
+                                        .when(LootItemBlockStatePropertyCondition.hasBlockStateProperties(block)
+                                                .setProperties(StatePropertiesPredicate.Builder.properties()
+                                                        .hasProperty(SmallBlueberryBushBlock.AGE, 1)))
+                                        .apply(SetItemCountFunction.setCount(ConstantValue.exactly(1.0F))))))
+                .withPool(LootPool.lootPool()
+                        .setRolls(ConstantValue.exactly(1.0F))
+                        .add(applyExplosionCondition(block,
+                                LootItem.lootTableItem(ModItems.BLUEBERRIES.get())
+                                        .when(LootItemBlockStatePropertyCondition.hasBlockStateProperties(block)
+                                                .setProperties(StatePropertiesPredicate.Builder.properties()
+                                                        .hasProperty(SmallBlueberryBushBlock.AGE, 2)))
+                                        .apply(SetItemCountFunction.setCount(ConstantValue.exactly(1.0F))))))
+                .withPool(LootPool.lootPool()
+                        .setRolls(ConstantValue.exactly(1.0F))
+                        .add(applyExplosionCondition(block,
+                                LootItem.lootTableItem(ModItems.BLUEBERRIES.get())
+                                        .when(LootItemBlockStatePropertyCondition.hasBlockStateProperties(block)
+                                                .setProperties(StatePropertiesPredicate.Builder.properties()
+                                                        .hasProperty(SmallBlueberryBushBlock.AGE, 3)))
+                                        .apply(SetItemCountFunction.setCount(ripeCount))
+                                        .apply(ApplyExplosionDecay.explosionDecay()))));
+    }
+
+    private LootTable.Builder createStrawberryCropDrops() {
+        return LootTable.lootTable()
+                .withPool(LootPool.lootPool()
+                        .setRolls(ConstantValue.exactly(1.0F))
+                        .add(applyExplosionCondition(ModBlocks.STRAWBERRY_PLANT.get(),
+                                LootItem.lootTableItem(ModItems.STRAWBERRY.get())
+                                        .when(LootItemBlockStatePropertyCondition.hasBlockStateProperties(ModBlocks.STRAWBERRY_PLANT.get())
+                                                .setProperties(StatePropertiesPredicate.Builder.properties()
+                                                        .hasProperty(StrawberryCropBlock.AGE, 3)))
+                                        .apply(SetItemCountFunction.setCount(UniformGenerator.between(2.0F, 4.0F)))
+                                        .apply(ApplyExplosionDecay.explosionDecay()))));
+    }
+
     private LootTable.Builder createCactusClusterDrops() {
         return LootTable.lootTable()
                 .withPool(LootPool.lootPool()
@@ -150,6 +224,21 @@ public class ModBlockLootTableProvider extends BlockLootSubProvider {
                 block,
                 applyExplosionCondition(block, LootItem.lootTableItem(block))
         );
+    }
+
+    private LootTable.Builder createLargeBlueberryBushDrops() {
+        return LootTable.lootTable()
+                .withPool(LootPool.lootPool()
+                        .setRolls(ConstantValue.exactly(1.0F))
+                        .add(applyExplosionCondition(ModBlocks.LARGE_BLUEBERRY_BUSH.get(),
+                                LootItem.lootTableItem(ModBlocks.LARGE_BLUEBERRY_BUSH.get())
+                                        .when(MatchTool.toolMatches(ItemPredicate.Builder.item().of(Items.SHEARS))))))
+                .withPool(LootPool.lootPool()
+                        .setRolls(ConstantValue.exactly(1.0F))
+                        .when(InvertedLootItemCondition.invert(MatchTool.toolMatches(ItemPredicate.Builder.item().of(Items.SHEARS))))
+                        .add(applyExplosionCondition(ModBlocks.LARGE_BLUEBERRY_BUSH.get(),
+                                LootItem.lootTableItem(ModItems.TWIG.get())
+                                        .apply(SetItemCountFunction.setCount(UniformGenerator.between(1.0F, 2.0F))))));
     }
 
     private LootTable.Builder createFruitingCherryLeavesDrops() {
@@ -252,7 +341,29 @@ public class ModBlockLootTableProvider extends BlockLootSubProvider {
                 ModBlocks.DESERT_MOSS.get(),
                 ModBlocks.CACTUS_MOSAIC.get(),
                 ModBlocks.CACTUS_CLUSTER.get(),
-                ModBlocks.OPUNTIA_CACTUS.get()
+                ModBlocks.OPUNTIA_CACTUS.get(),
+                ModBlocks.STRAWBERRY_PLANT.get(),
+                ModBlocks.STRAWBERRY_CAKE.get(),
+                ModBlocks.STRAWBERRY_CANDLE_CAKE.get(),
+                ModBlocks.WHITE_STRAWBERRY_CANDLE_CAKE.get(),
+                ModBlocks.ORANGE_STRAWBERRY_CANDLE_CAKE.get(),
+                ModBlocks.MAGENTA_STRAWBERRY_CANDLE_CAKE.get(),
+                ModBlocks.LIGHT_BLUE_STRAWBERRY_CANDLE_CAKE.get(),
+                ModBlocks.YELLOW_STRAWBERRY_CANDLE_CAKE.get(),
+                ModBlocks.LIME_STRAWBERRY_CANDLE_CAKE.get(),
+                ModBlocks.PINK_STRAWBERRY_CANDLE_CAKE.get(),
+                ModBlocks.GRAY_STRAWBERRY_CANDLE_CAKE.get(),
+                ModBlocks.LIGHT_GRAY_STRAWBERRY_CANDLE_CAKE.get(),
+                ModBlocks.CYAN_STRAWBERRY_CANDLE_CAKE.get(),
+                ModBlocks.PURPLE_STRAWBERRY_CANDLE_CAKE.get(),
+                ModBlocks.BLUE_STRAWBERRY_CANDLE_CAKE.get(),
+                ModBlocks.BROWN_STRAWBERRY_CANDLE_CAKE.get(),
+                ModBlocks.GREEN_STRAWBERRY_CANDLE_CAKE.get(),
+                ModBlocks.RED_STRAWBERRY_CANDLE_CAKE.get(),
+                ModBlocks.BLACK_STRAWBERRY_CANDLE_CAKE.get(),
+                ModBlocks.CRATE.get(),
+                ModBlocks.LARGE_BLUEBERRY_BUSH.get(),
+                ModBlocks.BLUEBERRY_BUSH.get()
         );
     }
 }

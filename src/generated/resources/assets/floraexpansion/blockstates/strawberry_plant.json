@@ -1,0 +1,28 @@
+{
+  "variants": {
+    "age=0,wild_strawberry=false": {
+      "model": "floraexpansion:block/strawberry_plant_stage0"
+    },
+    "age=0,wild_strawberry=true": {
+      "model": "floraexpansion:block/strawberry_plant_stage0"
+    },
+    "age=1,wild_strawberry=false": {
+      "model": "floraexpansion:block/strawberry_plant_stage1"
+    },
+    "age=1,wild_strawberry=true": {
+      "model": "floraexpansion:block/strawberry_plant_stage1"
+    },
+    "age=2,wild_strawberry=false": {
+      "model": "floraexpansion:block/strawberry_plant_stage2"
+    },
+    "age=2,wild_strawberry=true": {
+      "model": "floraexpansion:block/strawberry_plant_stage2"
+    },
+    "age=3,wild_strawberry=false": {
+      "model": "floraexpansion:block/strawberry_plant_stage3"
+    },
+    "age=3,wild_strawberry=true": {
+      "model": "floraexpansion:block/strawberry_plant_stage3"
+    }
+  }
+}

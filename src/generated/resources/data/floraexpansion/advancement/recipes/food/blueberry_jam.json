@@ -1,0 +1,43 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_blueberries": {
+      "conditions": {
+        "items": [
+          {
+            "items": "floraexpansion:blueberries"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_empty_jar": {
+      "conditions": {
+        "items": [
+          {
+            "items": "floraexpansion:empty_jar"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "floraexpansion:blueberry_jam"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_blueberries",
+      "has_empty_jar"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "floraexpansion:blueberry_jam"
+    ]
+  }
+}

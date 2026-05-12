@@ -2,9 +2,7 @@ package de.artemis.floraexpansion.common.registry;
 
 import de.artemis.floraexpansion.FloraExpansion;
 import de.artemis.floraexpansion.common.block.LeafLitterBlock;
-import de.artemis.floraexpansion.common.registry.ModBlocks;
 import de.artemis.floraexpansion.common.block.PineLitterBlock;
-import de.artemis.floraexpansion.common.registry.ModFeatures;
 import net.minecraft.core.Direction;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.worldgen.BootstrapContext;
@@ -28,7 +26,9 @@ import java.util.List;
 public class ModConfiguredFeatures {
     public static final ResourceKey<ConfiguredFeature<?, ?>> PINE_LITTER_KEY = registerKey("pine_litter");
     public static final ResourceKey<ConfiguredFeature<?, ?>> LEAF_LITTER_KEY = registerKey("leaf_litter");
+    public static final ResourceKey<ConfiguredFeature<?, ?>> BLUEBERRY_BUSH_KEY = registerKey("blueberry_bush");
     public static final ResourceKey<ConfiguredFeature<?, ?>> WILD_FLAX_KEY = registerKey("wild_flax");
+    public static final ResourceKey<ConfiguredFeature<?, ?>> WILD_STRAWBERRY_KEY = registerKey("wild_strawberry");
     public static final ResourceKey<ConfiguredFeature<?, ?>> PILE_FLAX_KEY = registerKey("pile_flax");
     public static final ResourceKey<ConfiguredFeature<?, ?>> PEBBLE_CLUSTER_KEY = registerKey("pebble_cluster");
     public static final ResourceKey<ConfiguredFeature<?, ?>> GIANT_CACTUS_KEY = registerKey("giant_cactus");
@@ -84,9 +84,27 @@ public class ModConfiguredFeatures {
                 )
         );
 
+        register(context, BLUEBERRY_BUSH_KEY, ModFeatures.BLUEBERRY_BUSH_PATCH_FEATURE.get(), NoneFeatureConfiguration.NONE);
+
         register(context, WILD_FLAX_KEY, Feature.RANDOM_PATCH,
                 FeatureUtils.simplePatchConfiguration(
                         ModFeatures.WILD_FLAX_FEATURE.get(),
+                        NoneFeatureConfiguration.NONE,
+                        List.of(
+                                Blocks.GRASS_BLOCK,
+                                Blocks.DIRT,
+                                Blocks.COARSE_DIRT,
+                                Blocks.PODZOL,
+                                Blocks.MOSS_BLOCK,
+                                Blocks.ROOTED_DIRT
+                        ),
+                        24
+                )
+        );
+
+        register(context, WILD_STRAWBERRY_KEY, Feature.RANDOM_PATCH,
+                FeatureUtils.simplePatchConfiguration(
+                        ModFeatures.WILD_STRAWBERRY_FEATURE.get(),
                         NoneFeatureConfiguration.NONE,
                         List.of(
                                 Blocks.GRASS_BLOCK,

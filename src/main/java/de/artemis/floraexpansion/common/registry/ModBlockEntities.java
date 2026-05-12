@@ -29,6 +29,13 @@ public class ModBlockEntities {
                             ModBlocks.CACTUS_WALL_HANGING_SIGN.get()
                     ).build(null));
 
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<CrateBlockEntity>> CRATE =
+            BLOCK_ENTITIES.register("crate",
+                    () -> BlockEntityType.Builder.of(
+                            CrateBlockEntity::new,
+                            ModBlocks.CRATE.get()
+                    ).build(null));
+
     public static void register(IEventBus eventBus) {
         BLOCK_ENTITIES.register(eventBus);
     }

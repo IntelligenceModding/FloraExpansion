@@ -1,8 +1,8 @@
-// 1.21.1	2026-05-07T18:24:59.190803	Tags for minecraft:item mod id floraexpansion
+// 1.21.1	2026-05-10T22:39:41.0428809	Tags for minecraft:item mod id floraexpansion
 f21a41e1774d2253c082e0a31797a2486fb2f719 data/c/tags/item/animal_foods.json
-83caad7f64ff805a484e2211a097aea913eb8b7b data/c/tags/item/foods.json
-f21a41e1774d2253c082e0a31797a2486fb2f719 data/c/tags/item/foods/berry.json
-4f98ff26428233b97415c1789017e0db5943a94e data/c/tags/item/seeds.json
+5f1a2f12edb293e5debfe1da1e853517bd75fd8c data/c/tags/item/foods.json
+125436bd11707425ebd52468f7cdce1bd5d52d13 data/c/tags/item/foods/berry.json
+f0c510cfcf468154f86cf32484fdd67ed3c17851 data/c/tags/item/seeds.json
 33c332a2d55f7124439c8ca91496c89d936ea9c7 data/c/tags/item/strings.json
 eac48c05b7c9bdd229f35c2c07112fd3ab2e82cf data/minecraft/tags/item/boats.json
 90bb3b061278f95a1e6fc2c77ad579de85725434 data/minecraft/tags/item/chest_armor.json
@@ -17,7 +17,7 @@ adbcb379e1d5a38d15af828c14c692c9abe268e0 data/minecraft/tags/item/enchantable/he
 097c95b4f5e6d755f0a7393ad1699b6a01886097 data/minecraft/tags/item/enchantable/leg_armor.json
 ed120b8d39d92b3bcd4723285c4c87751bb48742 data/minecraft/tags/item/flowers.json
 81f61eda44426b27e0f579cc7173103d4749c242 data/minecraft/tags/item/foot_armor.json
-f21a41e1774d2253c082e0a31797a2486fb2f719 data/minecraft/tags/item/fox_food.json
+125436bd11707425ebd52468f7cdce1bd5d52d13 data/minecraft/tags/item/fox_food.json
 b2cc26306225c588cf023fa04b3f307abb928a8f data/minecraft/tags/item/hanging_signs.json
 adbcb379e1d5a38d15af828c14c692c9abe268e0 data/minecraft/tags/item/head_armor.json
 097c95b4f5e6d755f0a7393ad1699b6a01886097 data/minecraft/tags/item/leg_armor.json
@@ -27,4 +27,4 @@ c9aadd8aa861dc18394a6c048766e319d1449882 data/minecraft/tags/item/parrot_poisono
 02d6a0a3880286b9e2ba904885843cd8b592d0ac data/minecraft/tags/item/planks.json
 1a8dd4f89018305ff7fa70c34e127f9edddaaa0a data/minecraft/tags/item/saplings.json
 619ba1a70b7500595487551b70695e74118ec3af data/minecraft/tags/item/signs.json
-4f98ff26428233b97415c1789017e0db5943a94e data/minecraft/tags/item/villager_plantable_seeds.json
+f0c510cfcf468154f86cf32484fdd67ed3c17851 data/minecraft/tags/item/villager_plantable_seeds.json

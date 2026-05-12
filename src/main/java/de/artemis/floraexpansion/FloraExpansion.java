@@ -5,10 +5,12 @@ import de.artemis.floraexpansion.common.registry.ModBlockEntities;
 import de.artemis.floraexpansion.common.registry.ModEntityTypes;
 import de.artemis.floraexpansion.common.registry.ModItems;
 import de.artemis.floraexpansion.common.registry.ModLootModifiers;
+import de.artemis.floraexpansion.common.registry.ModMenuTypes;
 import de.artemis.floraexpansion.common.registry.ModParticles;
 import de.artemis.floraexpansion.common.registry.ModArmorMaterials;
 import de.artemis.floraexpansion.common.registry.ModFeatures;
 import de.artemis.floraexpansion.common.registry.ModTreeDecorators;
+import de.artemis.floraexpansion.common.network.ModPayloads;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.FlowerPotBlock;
 import org.slf4j.Logger;
@@ -40,6 +42,7 @@ public class FloraExpansion {
     public FloraExpansion(IEventBus modEventBus, ModContainer modContainer) {
         modEventBus.addListener(this::commonSetup);
         modEventBus.addListener(this::addCreative);
+        modEventBus.addListener(ModPayloads::register);
 
         NeoForge.EVENT_BUS.register(this);
 
@@ -57,6 +60,7 @@ public class FloraExpansion {
         ModBlockEntities.register(modEventBus);
         ModEntityTypes.register(modEventBus);
         ModArmorMaterials.register(modEventBus);
+        ModMenuTypes.register(modEventBus);
     }
 
     private void commonSetup(FMLCommonSetupEvent event) {

@@ -3,14 +3,29 @@
     "floraexpansion:apple_core": {
       "chance": 0.3
     },
-    "floraexpansion:cactus_cluster": {
+    "floraexpansion:blueberries": {
       "chance": 0.3
+    },
+    "floraexpansion:blueberry_cookie": {
+      "chance": 0.85
+    },
+    "floraexpansion:blueberry_jam": {
+      "chance": 0.65
+    },
+    "floraexpansion:blueberry_pie": {
+      "chance": 1.0
+    },
+    "floraexpansion:blueberry_pie_slice": {
+      "chance": 0.85
+    },
+    "floraexpansion:cactus_cluster": {
+      "chance": 0.5
     },
     "floraexpansion:cactus_flower": {
-      "chance": 0.3
+      "chance": 0.65
     },
     "floraexpansion:cactus_slice": {
-      "chance": 0.2
+      "chance": 0.5
     },
     "floraexpansion:cherries": {
       "chance": 0.3
@@ -21,11 +36,14 @@
     "floraexpansion:desert_moss": {
       "chance": 0.3
     },
+    "floraexpansion:flax_bale": {
+      "chance": 0.85
+    },
     "floraexpansion:flax_fiber": {
       "chance": 0.3
     },
     "floraexpansion:flax_flower": {
-      "chance": 0.3
+      "chance": 0.65
     },
     "floraexpansion:flax_seed": {
       "chance": 0.3
@@ -36,10 +54,10 @@
     "floraexpansion:fruiting_oak_leaves": {
       "chance": 0.5
     },
-    "floraexpansion:leaf_litter": {
-      "chance": 0.3
+    "floraexpansion:large_blueberry_bush": {
+      "chance": 0.65
     },
-    "floraexpansion:opuntia_cactus": {
+    "floraexpansion:leaf_litter": {
       "chance": 0.3
     },
     "floraexpansion:pine_cone": {
@@ -50,6 +68,15 @@
     },
     "floraexpansion:pine_nuts": {
       "chance": 0.3
+    },
+    "floraexpansion:prickly_pear": {
+      "chance": 0.5
+    },
+    "floraexpansion:strawberry": {
+      "chance": 0.3
+    },
+    "floraexpansion:strawberry_jam": {
+      "chance": 0.65
     },
     "floraexpansion:toasted_pine_nuts": {
       "chance": 0.3

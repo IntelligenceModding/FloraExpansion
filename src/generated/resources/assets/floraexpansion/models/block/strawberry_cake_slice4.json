@@ -1,0 +1,10 @@
+{
+  "parent": "minecraft:block/cake_slice4",
+  "textures": {
+    "bottom": "floraexpansion:block/strawberry_cake_bottom",
+    "inside": "floraexpansion:block/strawberry_cake_inner",
+    "particle": "floraexpansion:block/strawberry_cake_side",
+    "side": "floraexpansion:block/strawberry_cake_side",
+    "top": "floraexpansion:block/strawberry_cake_top"
+  }
+}

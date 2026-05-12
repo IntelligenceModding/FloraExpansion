@@ -1,8 +1,12 @@
 package de.artemis.floraexpansion;
 
 import de.artemis.floraexpansion.client.renderer.CactusBoatRenderer;
+import de.artemis.floraexpansion.client.renderer.CrateBlockEntityRenderer;
+import de.artemis.floraexpansion.client.screen.BasketScreen;
+import de.artemis.floraexpansion.client.screen.CrateScreen;
 import de.artemis.floraexpansion.common.registry.ModBlockEntities;
 import de.artemis.floraexpansion.common.registry.ModEntityTypes;
+import de.artemis.floraexpansion.common.registry.ModMenuTypes;
 import de.artemis.floraexpansion.common.particle.*;
 import de.artemis.floraexpansion.common.registry.ModWoodTypes;
 import net.minecraft.client.renderer.Sheets;
@@ -15,6 +19,7 @@ import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
+import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
 import net.neoforged.neoforge.client.event.RegisterParticleProvidersEvent;
 import net.neoforged.neoforge.client.gui.ConfigurationScreen;
 import net.neoforged.neoforge.client.gui.IConfigScreenFactory;
@@ -38,6 +43,12 @@ public class FloraExpansionClient {
     }
 
     @SubscribeEvent
+    public static void registerMenuScreens(RegisterMenuScreensEvent event) {
+        event.register(ModMenuTypes.CRATE.get(), CrateScreen::new);
+        event.register(ModMenuTypes.BASKET.get(), BasketScreen::new);
+    }
+
+    @SubscribeEvent
     public static void onClientSetup(FMLClientSetupEvent event) {
         FloraExpansion.LOGGER.info("Running cactus client setup");
         event.enqueueWork(() -> Sheets.addWoodType(ModWoodTypes.CACTUS_WOOD_TYPE));
@@ -57,6 +68,7 @@ public class FloraExpansionClient {
         FloraExpansion.LOGGER.info("Registering cactus sign renderers");
         event.registerBlockEntityRenderer(ModBlockEntities.CACTUS_SIGN.get(), SignRenderer::new);
         event.registerBlockEntityRenderer(ModBlockEntities.CACTUS_HANGING_SIGN.get(), HangingSignRenderer::new);
+        event.registerBlockEntityRenderer(ModBlockEntities.CRATE.get(), CrateBlockEntityRenderer::new);
     }
 }
 

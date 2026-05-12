@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "T": {
+      "item": "floraexpansion:linen_thread"
+    }
+  },
+  "pattern": [
+    "T T",
+    "TTT"
+  ],
+  "result": {
+    "count": 1,
+    "id": "floraexpansion:basket"
+  }
+}

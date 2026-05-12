@@ -42,7 +42,8 @@ public class ModItemTagProvider extends ItemTagsProvider {
                 .add(ModBlocks.LINEN_CARPET.get().asItem());
 
         tag(ItemTags.VILLAGER_PLANTABLE_SEEDS)
-                .add(ModItems.FLAX_SEED.get());
+                .add(ModItems.FLAX_SEED.get())
+                .add(ModItems.STRAWBERRY.get());
 
         tag(ItemTags.SAPLINGS)
                 .add(ModBlocks.APPLE_CORE.get().asItem())
@@ -109,10 +110,19 @@ public class ModItemTagProvider extends ItemTagsProvider {
                 .add(ModItems.CACTUS_BOOTS.get());
 
         tag(ItemTags.FOX_FOOD)
-                .add(ModItems.PRICKLY_PEAR.get());
+                .add(ModItems.PRICKLY_PEAR.get())
+                .add(ModItems.BLUEBERRIES.get())
+                .add(ModItems.STRAWBERRY.get());
 
         //NeoForge
         tag(Tags.Items.FOODS)
+                .add(ModItems.BLUEBERRIES.get())
+                .add(ModItems.BLUEBERRY_COOKIE.get())
+                .add(ModItems.BLUEBERRY_PIE.get())
+                .add(ModItems.BLUEBERRY_PIE_SLICE.get())
+                .add(ModItems.BLUEBERRY_JUICE.get())
+                .add(ModItems.STRAWBERRY.get())
+                .add(ModItems.STRAWBERRY_JAM.get())
                 .add(ModItems.PINE_NUTS.get())
                 .add(ModItems.TOASTED_PINE_NUTS.get())
                 .add(ModItems.CHERRIES.get())
@@ -128,10 +138,13 @@ public class ModItemTagProvider extends ItemTagsProvider {
                 .add(ModItems.LINEN_THREAD.get());
 
         tag(Tags.Items.SEEDS)
-                .add(ModItems.FLAX_SEED.get());
+                .add(ModItems.FLAX_SEED.get())
+                .add(ModItems.STRAWBERRY.get());
 
         tag(Tags.Items.FOODS_BERRY)
-                .add(ModItems.PRICKLY_PEAR.get());
+                .add(ModItems.PRICKLY_PEAR.get())
+                .add(ModItems.BLUEBERRIES.get())
+                .add(ModItems.STRAWBERRY.get());
 
         tag(Tags.Items.ANIMAL_FOODS)
                 .add(ModItems.PRICKLY_PEAR.get());

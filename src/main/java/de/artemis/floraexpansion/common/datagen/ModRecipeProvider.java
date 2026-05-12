@@ -191,6 +191,29 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .unlockedBy("has_twig", has(ModItems.TWIG))
                 .save(recipeOutput);
 
+        ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, ModBlocks.CRATE.get())
+                .pattern("PPP")
+                .pattern("PCP")
+                .pattern("PPP")
+                .define('P', ItemTags.PLANKS)
+                .define('C', Items.CHEST)
+                .unlockedBy("has_chest", has(Items.CHEST))
+                .save(recipeOutput);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS, ModItems.BASKET.get())
+                .pattern("T T")
+                .pattern("TTT")
+                .define('T', ModItems.LINEN_THREAD.get())
+                .unlockedBy("has_linen_thread", has(ModItems.LINEN_THREAD.get()))
+                .save(recipeOutput);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS, ModItems.WOODEN_BUCKET.get())
+                .pattern("P P")
+                .pattern(" P ")
+                .define('P', ItemTags.PLANKS)
+                .unlockedBy("has_planks", has(ItemTags.PLANKS))
+                .save(recipeOutput);
+
         ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, ModBlocks.LINEN_CARPET, 3)
                 .pattern("CC")
                 .define('C', ModBlocks.LINEN_BLOCK.get())
@@ -269,6 +292,29 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .unlockedBy("has_sweet_berries", has(Items.SWEET_BERRIES))
                 .save(recipeOutput);
 
+        ShapedRecipeBuilder.shaped(RecipeCategory.FOOD, ModItems.BLUEBERRY_COOKIE.get(), 8)
+                .pattern("WBW")
+                .define('W', Items.WHEAT)
+                .define('B', ModItems.BLUEBERRIES.get())
+                .unlockedBy("has_blueberries", has(ModItems.BLUEBERRIES.get()))
+                .save(recipeOutput);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.FOOD, ModItems.BLUEBERRY_PIE.get())
+                .pattern("BBB")
+                .pattern("SES")
+                .pattern("WWW")
+                .define('B', ModItems.BLUEBERRIES.get())
+                .define('S', Items.SUGAR)
+                .define('E', Items.EGG)
+                .define('W', Items.WHEAT)
+                .unlockedBy("has_blueberries", has(ModItems.BLUEBERRIES.get()))
+                .save(recipeOutput);
+
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.FOOD, ModItems.BLUEBERRY_PIE_SLICE.get(), 4)
+                .requires(ModItems.BLUEBERRY_PIE.get())
+                .unlockedBy("has_blueberry_pie", has(ModItems.BLUEBERRY_PIE.get()))
+                .save(recipeOutput);
+
         ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ModItems.LINEN_THREAD, 2)
                 .requires(ModItems.FLAX_FIBER, 4)
                 .unlockedBy("has_flax_fiber", has(ModItems.FLAX_FIBER))
@@ -326,6 +372,44 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .requires(Items.GLASS_BOTTLE)
                 .unlockedBy("has_cactus_slice", has(ModItems.CACTUS_SLICE))
                 .unlockedBy("has_glass_bottle", has(Items.GLASS_BOTTLE))
+                .save(recipeOutput);
+
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.FOOD, ModItems.BLUEBERRY_JUICE, 1)
+                .requires(ModItems.BLUEBERRIES.get(), 3)
+                .requires(Items.GLASS_BOTTLE)
+                .unlockedBy("has_blueberries", has(ModItems.BLUEBERRIES.get()))
+                .unlockedBy("has_glass_bottle", has(Items.GLASS_BOTTLE))
+                .save(recipeOutput);
+
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.FOOD, ModItems.BLUEBERRY_JAM, 1)
+                .requires(ModItems.BLUEBERRIES.get(), 4)
+                .requires(Items.SUGAR)
+                .requires(ModItems.EMPTY_JAR.get())
+                .unlockedBy("has_blueberries", has(ModItems.BLUEBERRIES.get()))
+                .unlockedBy("has_empty_jar", has(ModItems.EMPTY_JAR.get()))
+                .save(recipeOutput);
+
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.FOOD, ModItems.STRAWBERRY_JAM, 1)
+                .requires(ModItems.STRAWBERRY.get(), 4)
+                .requires(Items.SUGAR)
+                .requires(ModItems.EMPTY_JAR.get())
+                .unlockedBy("has_strawberry", has(ModItems.STRAWBERRY.get()))
+                .unlockedBy("has_empty_jar", has(ModItems.EMPTY_JAR.get()))
+                .save(recipeOutput);
+
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.FOOD, ModBlocks.STRAWBERRY_CAKE.get())
+                .requires(Items.CAKE)
+                .requires(ModItems.STRAWBERRY.get(), 3)
+                .unlockedBy("has_cake", has(Items.CAKE))
+                .unlockedBy("has_strawberry", has(ModItems.STRAWBERRY.get()))
+                .save(recipeOutput);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.EMPTY_JAR.get(), 3)
+                .pattern("G G")
+                .pattern("G G")
+                .pattern(" G ")
+                .define('G', Items.GLASS)
+                .unlockedBy("has_glass", has(Items.GLASS))
                 .save(recipeOutput);
 
         ShapelessRecipeBuilder.shapeless(RecipeCategory.FOOD, ModItems.APPLE_JUICE, 1)

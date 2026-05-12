@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "food",
+  "ingredients": [
+    {
+      "item": "floraexpansion:blueberry_pie"
+    }
+  ],
+  "result": {
+    "count": 4,
+    "id": "floraexpansion:blueberry_pie_slice"
+  }
+}

@@ -3,7 +3,10 @@ package de.artemis.floraexpansion.common.datagen;
 import de.artemis.floraexpansion.FloraExpansion;
 import de.artemis.floraexpansion.common.block.CactusFlowerBlock;
 import de.artemis.floraexpansion.common.block.CactusThornBlock;
+import de.artemis.floraexpansion.common.block.CrateBlock;
 import de.artemis.floraexpansion.common.block.FruitingOakLeavesBlock;
+import de.artemis.floraexpansion.common.block.LargeBlueberryBushBlock;
+import de.artemis.floraexpansion.common.block.StrawberryCropBlock;
 import de.artemis.floraexpansion.common.registry.ModBlocks;
 import net.minecraft.core.Direction;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -24,6 +27,12 @@ public class ModBlockStateProvider extends BlockStateProvider {
 
     @Override
     protected void registerStatesAndModels() {
+        crateBlock();
+        strawberryCakeBlock();
+        strawberryCandleCakeBlocks();
+        smallBlueberryBushBlock();
+        largeBlueberryBushBlock();
+        strawberryCropBlock();
         saplingBlock(ModBlocks.APPLE_CORE.get(), "planted_apple_core");
         pottedPlantBlock(ModBlocks.POTTED_APPLE_CORE.get(), "planted_apple_core");
         fruitingOakLeavesBlock();
@@ -46,6 +55,154 @@ public class ModBlockStateProvider extends BlockStateProvider {
         trapdoorBlockFromTexture(ModBlocks.CACTUS_TRAPDOOR, "cactus_trapdoor");
         signBlocks();
         hangingSignBlocks();
+    }
+
+    private void crateBlock() {
+        ModelFile openModel = models().withExistingParent("crate", mcLoc("block/composter"))
+                .texture("particle", mcLoc("block/barrel_side"))
+                .texture("top", mcLoc("block/barrel_top"))
+                .texture("bottom", mcLoc("block/barrel_bottom"))
+                .texture("side", mcLoc("block/barrel_side"))
+                .texture("inside", mcLoc("block/barrel_bottom"));
+
+        ModelFile closedModel = models().getExistingFile(mcLoc("block/barrel"));
+        ModelFile packedModel = models().getExistingFile(modLoc("block/crate_packed"));
+
+        getVariantBuilder(ModBlocks.CRATE.get()).forAllStates(state -> {
+            ModelFile model;
+            if (state.getValue(CrateBlock.PACKED)) {
+                model = packedModel;
+            } else if (state.getValue(CrateBlock.POWERED)) {
+                model = closedModel;
+            } else {
+                model = openModel;
+            }
+
+            return ConfiguredModel.builder()
+                    .modelFile(model)
+                    .build();
+        });
+    }
+
+    private void strawberryCakeBlock() {
+        ModelFile wholeCake = models().withExistingParent("strawberry_cake", mcLoc("block/cake"))
+                .texture("particle", modLoc("block/strawberry_cake_side"))
+                .texture("bottom", modLoc("block/strawberry_cake_bottom"))
+                .texture("top", modLoc("block/strawberry_cake_top"))
+                .texture("side", modLoc("block/strawberry_cake_side"));
+
+        ModelFile[] sliceModels = new ModelFile[6];
+        for (int bite = 1; bite <= 6; bite++) {
+            sliceModels[bite - 1] = models().withExistingParent("strawberry_cake_slice" + bite, mcLoc("block/cake_slice" + bite))
+                    .texture("particle", modLoc("block/strawberry_cake_side"))
+                    .texture("bottom", modLoc("block/strawberry_cake_bottom"))
+                    .texture("top", modLoc("block/strawberry_cake_top"))
+                    .texture("side", modLoc("block/strawberry_cake_side"))
+                    .texture("inside", modLoc("block/strawberry_cake_inner"));
+        }
+
+        getVariantBuilder(ModBlocks.STRAWBERRY_CAKE.get()).forAllStates(state -> {
+            int bites = state.getValue(CakeBlock.BITES);
+            ModelFile model = bites == 0 ? wholeCake : sliceModels[bites - 1];
+            return ConfiguredModel.builder().modelFile(model).build();
+        });
+    }
+
+    private void strawberryCandleCakeBlocks() {
+        candleCakeBlock(ModBlocks.STRAWBERRY_CANDLE_CAKE, "candle");
+        candleCakeBlock(ModBlocks.WHITE_STRAWBERRY_CANDLE_CAKE, "white_candle");
+        candleCakeBlock(ModBlocks.ORANGE_STRAWBERRY_CANDLE_CAKE, "orange_candle");
+        candleCakeBlock(ModBlocks.MAGENTA_STRAWBERRY_CANDLE_CAKE, "magenta_candle");
+        candleCakeBlock(ModBlocks.LIGHT_BLUE_STRAWBERRY_CANDLE_CAKE, "light_blue_candle");
+        candleCakeBlock(ModBlocks.YELLOW_STRAWBERRY_CANDLE_CAKE, "yellow_candle");
+        candleCakeBlock(ModBlocks.LIME_STRAWBERRY_CANDLE_CAKE, "lime_candle");
+        candleCakeBlock(ModBlocks.PINK_STRAWBERRY_CANDLE_CAKE, "pink_candle");
+        candleCakeBlock(ModBlocks.GRAY_STRAWBERRY_CANDLE_CAKE, "gray_candle");
+        candleCakeBlock(ModBlocks.LIGHT_GRAY_STRAWBERRY_CANDLE_CAKE, "light_gray_candle");
+        candleCakeBlock(ModBlocks.CYAN_STRAWBERRY_CANDLE_CAKE, "cyan_candle");
+        candleCakeBlock(ModBlocks.PURPLE_STRAWBERRY_CANDLE_CAKE, "purple_candle");
+        candleCakeBlock(ModBlocks.BLUE_STRAWBERRY_CANDLE_CAKE, "blue_candle");
+        candleCakeBlock(ModBlocks.BROWN_STRAWBERRY_CANDLE_CAKE, "brown_candle");
+        candleCakeBlock(ModBlocks.GREEN_STRAWBERRY_CANDLE_CAKE, "green_candle");
+        candleCakeBlock(ModBlocks.RED_STRAWBERRY_CANDLE_CAKE, "red_candle");
+        candleCakeBlock(ModBlocks.BLACK_STRAWBERRY_CANDLE_CAKE, "black_candle");
+    }
+
+    private void candleCakeBlock(DeferredBlock<? extends Block> block, String candleTextureName) {
+        String name = block.getId().getPath();
+        ModelFile unlitModel = models().withExistingParent(name, mcLoc("block/template_cake_with_candle"))
+                .texture("particle", modLoc("block/strawberry_cake_side"))
+                .texture("bottom", modLoc("block/strawberry_cake_bottom"))
+                .texture("top", modLoc("block/strawberry_cake_top"))
+                .texture("side", modLoc("block/strawberry_cake_side"))
+                .texture("candle", mcLoc("block/" + candleTextureName));
+        ModelFile litModel = models().withExistingParent(name + "_lit", mcLoc("block/template_cake_with_candle"))
+                .texture("particle", modLoc("block/strawberry_cake_side"))
+                .texture("bottom", modLoc("block/strawberry_cake_bottom"))
+                .texture("top", modLoc("block/strawberry_cake_top"))
+                .texture("side", modLoc("block/strawberry_cake_side"))
+                .texture("candle", mcLoc("block/" + candleTextureName + "_lit"));
+
+        getVariantBuilder(block.get()).forAllStates(state -> ConfiguredModel.builder()
+                .modelFile(state.getValue(CandleCakeBlock.LIT) ? litModel : unlitModel)
+                .build());
+    }
+
+    private void smallBlueberryBushBlock() {
+        BlockModelBuilder stage0 = models().cross("small_blueberry_bush_stage0", modLoc("block/small_blueberry_bush_stage0")).renderType("cutout");
+        BlockModelBuilder stage1 = models().cross("small_blueberry_bush_stage1", modLoc("block/small_blueberry_bush_stage1")).renderType("cutout");
+        BlockModelBuilder stage2 = models().cross("small_blueberry_bush_stage2", modLoc("block/small_blueberry_bush_stage2")).renderType("cutout");
+        BlockModelBuilder stage3 = models().cross("small_blueberry_bush_stage3", modLoc("block/small_blueberry_bush_stage3")).renderType("cutout");
+
+        getVariantBuilder(ModBlocks.BLUEBERRY_BUSH.get()).forAllStates(state -> {
+            int age = state.getValue(net.minecraft.world.level.block.SweetBerryBushBlock.AGE);
+            ModelFile model = switch (age) {
+                case 1 -> stage1;
+                case 2 -> stage2;
+                case 3 -> stage3;
+                default -> stage0;
+            };
+
+            return ConfiguredModel.builder().modelFile(model).build();
+        });
+    }
+
+    private void largeBlueberryBushBlock() {
+        ModelFile stage0 = models().getExistingFile(modLoc("block/large_blueberry_bush_stage0"));
+        ModelFile stage1 = models().getExistingFile(modLoc("block/large_blueberry_bush_stage1"));
+        ModelFile stage2 = models().getExistingFile(modLoc("block/large_blueberry_bush_stage2"));
+        ModelFile stage3 = models().getExistingFile(modLoc("block/large_blueberry_bush_stage3"));
+
+        getVariantBuilder(ModBlocks.LARGE_BLUEBERRY_BUSH.get()).forAllStates(state -> {
+            int age = state.getValue(LargeBlueberryBushBlock.AGE);
+            ModelFile model = switch (age) {
+                case 1 -> stage1;
+                case 2 -> stage2;
+                case 3 -> stage3;
+                default -> stage0;
+            };
+
+            return ConfiguredModel.builder().modelFile(model).build();
+        });
+    }
+
+    private void strawberryCropBlock() {
+        ModelFile stage0 = models().crop("strawberry_plant_stage0", modLoc("block/strawberry_plant_stage0")).renderType("cutout");
+        ModelFile stage1 = models().crop("strawberry_plant_stage1", modLoc("block/strawberry_plant_stage1")).renderType("cutout");
+        ModelFile stage2 = models().crop("strawberry_plant_stage2", modLoc("block/strawberry_plant_stage2")).renderType("cutout");
+        ModelFile stage3 = models().crop("strawberry_plant_stage3", modLoc("block/strawberry_plant_stage3")).renderType("cutout");
+
+        getVariantBuilder(ModBlocks.STRAWBERRY_PLANT.get()).forAllStates(state -> {
+            int age = state.getValue(StrawberryCropBlock.AGE);
+            ModelFile model = switch (age) {
+                case 1 -> stage1;
+                case 2 -> stage2;
+                case 3 -> stage3;
+                default -> stage0;
+            };
+
+            return ConfiguredModel.builder().modelFile(model).build();
+        });
     }
 
     private void planksBlock(DeferredBlock<? extends Block> block, String textureName) {

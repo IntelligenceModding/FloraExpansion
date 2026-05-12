@@ -14,8 +14,12 @@ public class ModLanguageProvider extends net.neoforged.neoforge.common.data.Lang
     protected void addTranslations() {
         //Miscellaneous
         add("floraexpansion.creative_tab", "Flora Expansion");
+        add("tooltip.floraexpansion.crate_contents_suffix", " stored");
 
         //JEI
+        add("jei.floraexpansion.basket.info.1", "Right-click mature crops and berry-like plants with a basket to collect their harvest without uprooting them.");
+        add("jei.floraexpansion.basket.info.2", "Crop-style plants are replanted automatically, including vanilla and many modded crops that use normal crop behavior.");
+        add("jei.floraexpansion.basket.info.3", "Right-click in the air, or Shift-right-click a block, to open the basket's 9 inventory slots.");
         add("jei.floraexpansion.leaf_litter.info.1", "Right-click with an empty main hand to gather twigs from leaf litter.");
         add("jei.floraexpansion.leaf_litter.info.2", "Thicker patches can yield more twigs.");
         add("jei.floraexpansion.leaf_litter.info.3", "Bonemeal increases the patch up to 4 layers instead of spreading to a new block.");
@@ -37,6 +41,13 @@ public class ModLanguageProvider extends net.neoforged.neoforge.common.data.Lang
         add("jei.floraexpansion.pebble_patch.info.3", "A fuller patch returns more pebbles.");
         add("jei.floraexpansion.pebbles.info.1", "Pebbles can be thrown.");
         add("jei.floraexpansion.pebbles.info.2", "Thrown pebbles deal damage and usually drop themselves again on impact.");
+        add("jei.floraexpansion.crate.info.1", "Crates hold only one kind of item at a time, but store far more of it than a barrel.");
+        add("jei.floraexpansion.crate.info.2", "Right-click inserts the held stack, and quickly right-clicking twice deposits matching items from your inventory.");
+        add("jei.floraexpansion.crate.info.3", "Left-click removes one item, while Shift-left-click removes a full stack.");
+        add("jei.floraexpansion.crate.info.4", "Shift-right-click opens the full storage screen, and a redstone signal locks all hand, hopper, and menu access.");
+        add("jei.floraexpansion.crate.info.5", "Use linen thread to tie a crate shut so it can be broken, moved with its contents, and opened again after placement.");
+        add("jei.floraexpansion.linen_thread.info.1", "Linen thread can be used on a crate to tie it shut and preserve its contents when broken.");
+        add("jei.floraexpansion.linen_thread.info.2", "Place the tied crate again and right-click it to untie the thread and restore normal access.");
         add("jei.floraexpansion.fruiting_cherry_leaves.info.1", "Fruiting cherry leaves slowly ripen over time.");
         add("jei.floraexpansion.fruiting_cherry_leaves.info.2", "Right-click by hand to harvest cherries once fruit has grown.");
         add("jei.floraexpansion.fruiting_cherry_leaves.info.3", "Riper leaves yield more cherries.");
@@ -75,11 +86,37 @@ public class ModLanguageProvider extends net.neoforged.neoforge.common.data.Lang
         add("jei.floraexpansion.opuntia_cactus.info.3", "Bonemeal ripens the plant immediately.");
         add("jei.floraexpansion.prickly_pear.info.1", "Prickly pears are the fruit harvested from opuntia cacti.");
         add("jei.floraexpansion.prickly_pear.info.2", "The item can also be planted to place a new opuntia cactus.");
+        add("jei.floraexpansion.small_blueberry_bush.info.1", "Small blueberry bushes grow through three leafy stages before producing berries.");
+        add("jei.floraexpansion.small_blueberry_bush.info.2", "Right-click a ripe bush to harvest blueberries without uprooting it.");
+        add("jei.floraexpansion.small_blueberry_bush.info.3", "Harvesting resets the bush to its last leafy stage so it can fruit again sooner.");
+        add("jei.floraexpansion.small_blueberry_bush.info.4", "Small blueberry bushes continue growing on their own over time.");
+        add("jei.floraexpansion.large_blueberry_bush.info.1", "Large blueberry bushes grow through two leafy stages before they start fruiting.");
+        add("jei.floraexpansion.large_blueberry_bush.info.2", "They can be harvested at the first berry stage, then harvested again for double yield when fully ripe.");
+        add("jei.floraexpansion.large_blueberry_bush.info.3", "Harvesting by hand resets the bush to its later leafy stage, and shears pick the whole bush back up.");
+        add("jei.floraexpansion.blueberry_pie.info.1", "Blueberry pie is eaten as a single food item, like pumpkin pie.");
+        add("jei.floraexpansion.blueberry_pie.info.2", "It takes four times as long to eat as a blueberry pie slice.");
+        add("jei.floraexpansion.blueberry_pie.info.3", "Eating it grants 5 seconds of regeneration, and it can also be crafted into 4 slices.");
+        add("jei.floraexpansion.empty_jar.info.1", "Empty jars are used to preserve foods like blueberry jam.");
+        add("jei.floraexpansion.empty_jar.info.2", "Eating jam returns the empty jar to your inventory or drops it nearby if there is no space.");
+        add("jei.floraexpansion.blueberry_jam.info.1", "Blueberry jam is a preserved berry food made from blueberries, sugar, and an empty jar.");
+        add("jei.floraexpansion.blueberry_jam.info.2", "Eating it returns the empty jar to your inventory or drops it nearby if there is no space.");
+        add("jei.floraexpansion.strawberry.info.1", "Strawberries are planted directly, like carrots or potatoes.");
+        add("jei.floraexpansion.strawberry.info.2", "Only fully grown strawberry plants drop strawberries when broken.");
+        add("jei.floraexpansion.strawberry_jam.info.1", "Strawberry jam is a preserved berry food made from strawberries, sugar, and an empty jar.");
+        add("jei.floraexpansion.strawberry_jam.info.2", "Eating it returns the empty jar to your inventory or drops it nearby if there is no space.");
+        add("jei.floraexpansion.wooden_bucket.info.1", "Wooden buckets behave like normal buckets for water, powder snow, milk, and bucketable water creatures.");
+        add("jei.floraexpansion.wooden_bucket.info.2", "Each successful use damages the bucket, and it breaks after 10 uses.");
+        add("jei.floraexpansion.wooden_bucket.info.3", "They can scoop lava, but the wooden lava bucket chars into charcoal after a few seconds and sets its carrier on fire.");
 
         //Blocks
         add(ModBlocks.PINE_LITTER.get(), "Pine Litter");
         add(ModBlocks.LEAF_LITTER.get(), "Leaf Litter");
         add(ModBlocks.TWIG_LADDER.get(), "Twig Ladder");
+        add(ModBlocks.CRATE.get(), "Crate");
+        add(ModBlocks.BLUEBERRY_BUSH.get(), "Small Blueberry Bush");
+        add(ModBlocks.LARGE_BLUEBERRY_BUSH.get(), "Large Blueberry Bush");
+        add(ModBlocks.STRAWBERRY_PLANT.get(), "Strawberry Plant");
+        add(ModBlocks.STRAWBERRY_CAKE.get(), "Strawberry Cake");
         add(ModBlocks.FLAX_CROP.get(), "Flax Crop");
         add(ModBlocks.LINEN_CARPET.get(), "Linen Carpet");
         add(ModBlocks.PEBBLE_PATCH.get(), "Pebble Patch");
@@ -125,7 +162,28 @@ public class ModLanguageProvider extends net.neoforged.neoforge.common.data.Lang
         add(ModItems.FLAX_FLOWER.get(), "Flax Flower");
         add(ModItems.LINEN_THREAD.get(), "Linen Thread");
         add(ModItems.LINEN_CLOTH.get(), "Linen Cloth");
+        add(ModItems.BASKET.get(), "Basket");
         add(ModItems.PEBBLES.get(), "Pebbles");
+        add(ModItems.BLUEBERRIES.get(), "Blueberries");
+        add(ModItems.BLUEBERRY_COOKIE.get(), "Blueberry Cookie");
+        add(ModItems.BLUEBERRY_PIE.get(), "Blueberry Pie");
+        add(ModItems.BLUEBERRY_PIE_SLICE.get(), "Blueberry Pie Slice");
+        add(ModItems.BLUEBERRY_JUICE.get(), "Blueberry Juice");
+        add(ModItems.EMPTY_JAR.get(), "Empty Jar");
+        add(ModItems.BLUEBERRY_JAM.get(), "Blueberry Jam");
+        add(ModItems.STRAWBERRY.get(), "Strawberry");
+        add(ModItems.STRAWBERRY_JAM.get(), "Strawberry Jam");
+        add(ModItems.WOODEN_BUCKET.get(), "Wooden Bucket");
+        add(ModItems.WOODEN_WATER_BUCKET.get(), "Wooden Water Bucket");
+        add(ModItems.WOODEN_LAVA_BUCKET.get(), "Wooden Lava Bucket");
+        add(ModItems.WOODEN_POWDER_SNOW_BUCKET.get(), "Wooden Powder Snow Bucket");
+        add(ModItems.WOODEN_MILK_BUCKET.get(), "Wooden Milk Bucket");
+        add(ModItems.COD_WOODEN_BUCKET.get(), "Wooden Bucket of Cod");
+        add(ModItems.SALMON_WOODEN_BUCKET.get(), "Wooden Bucket of Salmon");
+        add(ModItems.PUFFERFISH_WOODEN_BUCKET.get(), "Wooden Bucket of Pufferfish");
+        add(ModItems.TROPICAL_FISH_WOODEN_BUCKET.get(), "Wooden Bucket of Tropical Fish");
+        add(ModItems.AXOLOTL_WOODEN_BUCKET.get(), "Wooden Bucket of Axolotl");
+        add(ModItems.TADPOLE_WOODEN_BUCKET.get(), "Wooden Bucket of Tadpole");
         add(ModItems.CHERRIES.get(), "Cherries");
         add(ModItems.SWEET_BERRY_MIX.get(), "Sweet Berry Mix");
         add(ModItems.CHERRY_JUICE.get(), "Cherry Juice");

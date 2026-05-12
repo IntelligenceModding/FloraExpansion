@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "floraexpansion:item/pufferfish_wooden_bucket"
+  }
+}

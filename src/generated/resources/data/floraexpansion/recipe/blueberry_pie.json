@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "food",
+  "key": {
+    "B": {
+      "item": "floraexpansion:blueberries"
+    },
+    "E": {
+      "item": "minecraft:egg"
+    },
+    "S": {
+      "item": "minecraft:sugar"
+    },
+    "W": {
+      "item": "minecraft:wheat"
+    }
+  },
+  "pattern": [
+    "BBB",
+    "SES",
+    "WWW"
+  ],
+  "result": {
+    "count": 1,
+    "id": "floraexpansion:blueberry_pie"
+  }
+}

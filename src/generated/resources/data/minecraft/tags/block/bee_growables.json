@@ -1,7 +1,10 @@
 {
   "values": [
     "floraexpansion:flax_crop",
+    "floraexpansion:strawberry_plant",
     "floraexpansion:fruiting_oak_leaves",
-    "floraexpansion:fruiting_cherry_leaves"
+    "floraexpansion:fruiting_cherry_leaves",
+    "floraexpansion:large_blueberry_bush",
+    "floraexpansion:blueberry_bush"
   ]
 }

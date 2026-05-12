@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "floraexpansion:item/axolotl_wooden_bucket"
+  }
+}

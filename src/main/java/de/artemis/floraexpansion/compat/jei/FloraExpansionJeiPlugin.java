@@ -102,6 +102,34 @@ public final class FloraExpansionJeiPlugin implements IModPlugin {
         );
 
         registration.addIngredientInfo(
+                ModBlocks.CRATE.get(),
+                translatedLines(
+                        "jei.floraexpansion.crate.info.1",
+                        "jei.floraexpansion.crate.info.2",
+                        "jei.floraexpansion.crate.info.3",
+                        "jei.floraexpansion.crate.info.4",
+                        "jei.floraexpansion.crate.info.5"
+                )
+        );
+
+        registration.addIngredientInfo(
+                ModItems.BASKET.get(),
+                translatedLines(
+                        "jei.floraexpansion.basket.info.1",
+                        "jei.floraexpansion.basket.info.2",
+                        "jei.floraexpansion.basket.info.3"
+                )
+        );
+
+        registration.addIngredientInfo(
+                ModItems.LINEN_THREAD.get(),
+                translatedLines(
+                        "jei.floraexpansion.linen_thread.info.1",
+                        "jei.floraexpansion.linen_thread.info.2"
+                )
+        );
+
+        registration.addIngredientInfo(
                 ModBlocks.FRUITING_CHERRY_LEAVES.get(),
                 translatedLines(
                         "jei.floraexpansion.fruiting_cherry_leaves.info.1",
@@ -269,6 +297,83 @@ public final class FloraExpansionJeiPlugin implements IModPlugin {
                 translatedLines(
                         "jei.floraexpansion.prickly_pear.info.1",
                         "jei.floraexpansion.prickly_pear.info.2"
+                )
+        );
+
+        registration.addIngredientInfo(
+                ModBlocks.BLUEBERRY_BUSH.get(),
+                translatedLines(
+                        "jei.floraexpansion.small_blueberry_bush.info.1",
+                        "jei.floraexpansion.small_blueberry_bush.info.2",
+                        "jei.floraexpansion.small_blueberry_bush.info.3",
+                        "jei.floraexpansion.small_blueberry_bush.info.4"
+                )
+        );
+
+        registration.addIngredientInfo(
+                ModBlocks.LARGE_BLUEBERRY_BUSH.get(),
+                translatedLines(
+                        "jei.floraexpansion.large_blueberry_bush.info.1",
+                        "jei.floraexpansion.large_blueberry_bush.info.2",
+                        "jei.floraexpansion.large_blueberry_bush.info.3"
+                )
+        );
+
+        registration.addIngredientInfo(
+                ModItems.BLUEBERRY_PIE.get(),
+                translatedLines(
+                        "jei.floraexpansion.blueberry_pie.info.1",
+                        "jei.floraexpansion.blueberry_pie.info.2",
+                        "jei.floraexpansion.blueberry_pie.info.3"
+                )
+        );
+
+        registration.addIngredientInfo(
+                ModItems.BLUEBERRY_JUICE.get(),
+                translatedLines(
+                        "jei.floraexpansion.bottled_juice.info.1",
+                        "jei.floraexpansion.bottled_juice.info.2"
+                )
+        );
+
+        registration.addIngredientInfo(
+                ModItems.BLUEBERRY_JAM.get(),
+                translatedLines(
+                        "jei.floraexpansion.blueberry_jam.info.1",
+                        "jei.floraexpansion.blueberry_jam.info.2"
+                )
+        );
+
+        registration.addIngredientInfo(
+                ModItems.STRAWBERRY.get(),
+                translatedLines(
+                        "jei.floraexpansion.strawberry.info.1",
+                        "jei.floraexpansion.strawberry.info.2"
+                )
+        );
+
+        registration.addIngredientInfo(
+                ModItems.STRAWBERRY_JAM.get(),
+                translatedLines(
+                        "jei.floraexpansion.strawberry_jam.info.1",
+                        "jei.floraexpansion.strawberry_jam.info.2"
+                )
+        );
+
+        registration.addIngredientInfo(
+                ModItems.EMPTY_JAR.get(),
+                translatedLines(
+                        "jei.floraexpansion.empty_jar.info.1",
+                        "jei.floraexpansion.empty_jar.info.2"
+                )
+        );
+
+        registration.addIngredientInfo(
+                ModItems.WOODEN_BUCKET.get(),
+                translatedLines(
+                        "jei.floraexpansion.wooden_bucket.info.1",
+                        "jei.floraexpansion.wooden_bucket.info.2",
+                        "jei.floraexpansion.wooden_bucket.info.3"
                 )
         );
     }
