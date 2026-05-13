@@ -11,7 +11,7 @@ Perfect for players who love immersive worldbuilding, detailed landscapes, and n
 Installation information
 =======
 
-Built for Minecraft 1.21.1 using NeoForge.
+Built for Minecraft using NeoForge.
 
 Acknowledgments
 ============
