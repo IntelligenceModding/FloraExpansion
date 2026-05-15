@@ -28,8 +28,6 @@ Follow our projects or join our community for updates, modding help, and preview
 
 * **GitHub:** [Intelligence Modding Team](https://github.com/IntelligenceModding) or [Personal](https://github.com/DoomedArtemis)
 
-* **Modrinth:** coming soon
-
 * **CurseForge:** [Project Page](https://www.curseforge.com/minecraft/mc-mods/flora-expansion)
 
 
