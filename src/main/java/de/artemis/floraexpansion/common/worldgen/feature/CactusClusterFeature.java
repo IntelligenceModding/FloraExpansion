@@ -2,7 +2,7 @@ package de.artemis.floraexpansion.common.worldgen.feature;
 
 import de.artemis.floraexpansion.common.block.CactusClusterBlock;
 import de.artemis.floraexpansion.common.block.DesertMossBlock;
-import de.artemis.floraexpansion.common.block.ModBlocks;
+import de.artemis.floraexpansion.common.registry.ModBlocks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.WorldGenLevel;

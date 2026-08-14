@@ -1,9 +1,10 @@
 package de.artemis.floraexpansion.common.entity;
 
-import de.artemis.floraexpansion.common.item.ModItems;
+import de.artemis.floraexpansion.common.registry.ModItems;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.vehicle.boat.Boat;
 import net.minecraft.world.level.Level;
+import de.artemis.floraexpansion.common.registry.ModEntityTypes;
 
 public class CactusBoatEntity extends Boat {
     public CactusBoatEntity(EntityType<? extends CactusBoatEntity> type, Level level) {
@@ -18,3 +19,4 @@ public class CactusBoatEntity extends Boat {
         this.zo = z;
     }
 }
+

@@ -18,13 +18,14 @@ import java.util.concurrent.CompletableFuture;
 
 @EventBusSubscriber(modid = FloraExpansion.MODID)
 public class DataGenerators {
+
     @SubscribeEvent
     public static void gatherClientData(GatherDataEvent.Client event) {
         DataGenerator generator = event.getGenerator();
         PackOutput packOutput = generator.getPackOutput();
         CompletableFuture<HolderLookup.Provider> lookupProvider = event.getLookupProvider();
 
-        generator.addProvider(true , new LootTableProvider(packOutput, Collections.emptySet(),
+        generator.addProvider(true, new LootTableProvider(packOutput, Collections.emptySet(),
                 List.of(new LootTableProvider.SubProviderEntry(ModBlockLootTableProvider::new, LootContextParamSets.BLOCK)), lookupProvider));
         generator.addProvider(true, new ModRecipeProvider.Runner(packOutput, lookupProvider));
 

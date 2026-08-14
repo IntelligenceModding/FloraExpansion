@@ -1,12 +1,12 @@
 package de.artemis.floraexpansion.common.datagen;
 
 import de.artemis.floraexpansion.FloraExpansion;
-import de.artemis.floraexpansion.common.block.ModBlocks;
-import de.artemis.floraexpansion.common.item.ModItems;
-import de.artemis.floraexpansion.common.util.ModTags;
+import de.artemis.floraexpansion.common.registry.ModBlocks;
+import de.artemis.floraexpansion.common.registry.ModItems;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
 import net.minecraft.tags.ItemTags;
+import net.minecraft.world.level.block.Block;
 import net.neoforged.neoforge.common.Tags;
 import net.neoforged.neoforge.common.data.ItemTagsProvider;
 import org.jetbrains.annotations.NotNull;
@@ -21,8 +21,7 @@ public class ModItemTagProvider extends ItemTagsProvider {
     @Override
     protected void addTags(HolderLookup.@NotNull Provider provider) {
 
-        // Minecraft
-
+        //Minecraft
         tag(ItemTags.CHICKEN_FOOD)
                 .add(ModItems.PINE_NUTS.get())
                 .add(ModItems.FLAX_SEED.get());
@@ -40,7 +39,8 @@ public class ModItemTagProvider extends ItemTagsProvider {
                 .add(ModBlocks.LINEN_CARPET.get().asItem());
 
         tag(ItemTags.VILLAGER_PLANTABLE_SEEDS)
-                .add(ModItems.FLAX_SEED.get());
+                .add(ModItems.FLAX_SEED.get())
+                .add(ModItems.STRAWBERRY.get());
 
         tag(ItemTags.SAPLINGS)
                 .add(ModBlocks.APPLE_CORE.get().asItem())
@@ -107,11 +107,19 @@ public class ModItemTagProvider extends ItemTagsProvider {
                 .add(ModItems.CACTUS_BOOTS.get());
 
         tag(ItemTags.FOX_FOOD)
-                .add(ModItems.PRICKLY_PEAR.get());
+                .add(ModItems.PRICKLY_PEAR.get())
+                .add(ModItems.BLUEBERRIES.get())
+                .add(ModItems.STRAWBERRY.get());
 
-        // NeoForge
-
+        //NeoForge
         tag(Tags.Items.FOODS)
+                .add(ModItems.BLUEBERRIES.get())
+                .add(ModItems.BLUEBERRY_COOKIE.get())
+                .add(ModItems.BLUEBERRY_PIE.get())
+                .add(ModItems.BLUEBERRY_PIE_SLICE.get())
+                .add(ModItems.BLUEBERRY_JUICE.get())
+                .add(ModItems.STRAWBERRY.get())
+                .add(ModItems.STRAWBERRY_JAM.get())
                 .add(ModItems.PINE_NUTS.get())
                 .add(ModItems.TOASTED_PINE_NUTS.get())
                 .add(ModItems.CHERRIES.get())
@@ -127,17 +135,16 @@ public class ModItemTagProvider extends ItemTagsProvider {
                 .add(ModItems.LINEN_THREAD.get());
 
         tag(Tags.Items.SEEDS)
-                .add(ModItems.FLAX_SEED.get());
+                .add(ModItems.FLAX_SEED.get())
+                .add(ModItems.STRAWBERRY.get());
 
         tag(Tags.Items.FOODS_BERRY)
-                .add(ModItems.PRICKLY_PEAR.get());
+                .add(ModItems.PRICKLY_PEAR.get())
+                .add(ModItems.BLUEBERRIES.get())
+                .add(ModItems.STRAWBERRY.get());
 
         tag(Tags.Items.ANIMAL_FOODS)
                 .add(ModItems.PRICKLY_PEAR.get());
-
-        // Mod
-
-        tag(ModTags.Items.CACTUS_ARMOR_REPAIRABLE)
-                .add(ModBlocks.CACTUS_THORN.get().asItem());
     }
 }
+

@@ -1,13 +1,14 @@
 package de.artemis.floraexpansion.common.worldgen.treedecorator;
 
 import com.mojang.serialization.MapCodec;
-import de.artemis.floraexpansion.common.block.ModBlocks;
+import de.artemis.floraexpansion.common.registry.ModBlocks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.levelgen.feature.treedecorators.TreeDecorator;
 import net.minecraft.world.level.levelgen.feature.treedecorators.TreeDecoratorType;
 import org.jetbrains.annotations.NotNull;
+import de.artemis.floraexpansion.common.registry.ModTreeDecorators;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -66,3 +67,4 @@ public class FruitingCherryLeavesDecorator extends TreeDecorator {
                 || context.isAir(pos.west());
     }
 }
+

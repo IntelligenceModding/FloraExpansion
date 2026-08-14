@@ -1,0 +1,17 @@
+{
+  "type": "neoforge:add_features",
+  "biomes": [
+    "minecraft:birch_forest",
+    "minecraft:forest",
+    "minecraft:flower_forest",
+    "minecraft:grove",
+    "minecraft:meadow",
+    "minecraft:old_growth_birch_forest",
+    "minecraft:taiga",
+    "minecraft:old_growth_pine_taiga",
+    "minecraft:old_growth_spruce_taiga",
+    "minecraft:snowy_taiga"
+  ],
+  "features": "floraexpansion:blueberry_bush_placed",
+  "step": "vegetal_decoration"
+}

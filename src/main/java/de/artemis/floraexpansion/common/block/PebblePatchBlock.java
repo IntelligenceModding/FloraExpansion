@@ -1,8 +1,8 @@
 package de.artemis.floraexpansion.common.block;
 
 import com.mojang.serialization.MapCodec;
-import de.artemis.floraexpansion.common.item.ModItems;
-import de.artemis.floraexpansion.common.util.ModBlockStateProperties;
+import de.artemis.floraexpansion.common.registry.ModItems;
+import de.artemis.floraexpansion.common.registry.ModBlockStateProperties;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerPlayer;
@@ -130,3 +130,4 @@ public class PebblePatchBlock extends BushBlock {
         return this.mayPlaceOn(level.getBlockState(below), level, below);
     }
 }
+

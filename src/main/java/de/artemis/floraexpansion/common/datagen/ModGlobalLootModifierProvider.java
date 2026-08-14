@@ -1,8 +1,8 @@
 package de.artemis.floraexpansion.common.datagen;
 
 import de.artemis.floraexpansion.FloraExpansion;
-import de.artemis.floraexpansion.common.block.ModBlocks;
-import de.artemis.floraexpansion.common.item.ModItems;
+import de.artemis.floraexpansion.common.registry.ModBlocks;
+import de.artemis.floraexpansion.common.registry.ModItems;
 import de.artemis.floraexpansion.common.loot.AddItemModifier;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
@@ -258,3 +258,4 @@ public class ModGlobalLootModifierProvider extends GlobalLootModifierProvider {
                 }, ModBlocks.CACTUS_THORN.get().asItem(), 1, 2));
     }
 }
+

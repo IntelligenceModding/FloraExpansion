@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    "floraexpansion:blueberries",
+    "floraexpansion:blueberries",
+    "floraexpansion:blueberries",
+    "floraexpansion:blueberries",
+    "minecraft:sugar",
+    "floraexpansion:empty_jar"
+  ],
+  "result": {
+    "count": 1,
+    "id": "floraexpansion:blueberry_jam"
+  }
+}

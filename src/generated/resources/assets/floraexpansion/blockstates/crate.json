@@ -1,0 +1,16 @@
+{
+  "variants": {
+    "packed=false,powered=false": {
+      "model": "floraexpansion:block/crate"
+    },
+    "packed=false,powered=true": {
+      "model": "floraexpansion:block/crate_packed"
+    },
+    "packed=true,powered=false": {
+      "model": "floraexpansion:block/crate_packed"
+    },
+    "packed=true,powered=true": {
+      "model": "floraexpansion:block/crate_packed"
+    }
+  }
+}

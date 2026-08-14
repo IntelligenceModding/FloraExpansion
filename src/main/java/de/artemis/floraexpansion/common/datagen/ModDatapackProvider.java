@@ -1,10 +1,10 @@
 package de.artemis.floraexpansion.common.datagen;
 
 import de.artemis.floraexpansion.FloraExpansion;
-import de.artemis.floraexpansion.common.worldgen.ModBiomeModifiers;
-import de.artemis.floraexpansion.common.worldgen.ModConfiguredFeatures;
-import de.artemis.floraexpansion.common.worldgen.ModPlacedFeatures;
-import de.artemis.floraexpansion.common.worldgen.ModTreeConfiguredFeatures;
+import de.artemis.floraexpansion.common.registry.ModBiomeModifiers;
+import de.artemis.floraexpansion.common.registry.ModConfiguredFeatures;
+import de.artemis.floraexpansion.common.registry.ModPlacedFeatures;
+import de.artemis.floraexpansion.common.registry.ModTreeConfiguredFeatures;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.RegistrySetBuilder;
 import net.minecraft.core.registries.Registries;

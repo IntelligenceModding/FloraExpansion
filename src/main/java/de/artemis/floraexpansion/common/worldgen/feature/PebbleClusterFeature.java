@@ -1,7 +1,7 @@
 package de.artemis.floraexpansion.common.worldgen.feature;
 
 import com.mojang.serialization.Codec;
-import de.artemis.floraexpansion.common.block.ModBlocks;
+import de.artemis.floraexpansion.common.registry.ModBlocks;
 import de.artemis.floraexpansion.common.block.PebblePatchBlock;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;

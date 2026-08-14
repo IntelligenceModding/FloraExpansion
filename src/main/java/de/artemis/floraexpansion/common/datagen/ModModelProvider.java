@@ -3,17 +3,21 @@ package de.artemis.floraexpansion.common.datagen;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import de.artemis.floraexpansion.FloraExpansion;
+import de.artemis.floraexpansion.common.block.CrateBlock;
 import de.artemis.floraexpansion.common.block.DesertMossBlock;
 import de.artemis.floraexpansion.common.block.FruitingCherryLeavesBlock;
 import de.artemis.floraexpansion.common.block.FruitingOakLeavesBlock;
 import de.artemis.floraexpansion.common.block.FlaxCropBlock;
 import de.artemis.floraexpansion.common.block.GiantCactusBlossomBlock;
 import de.artemis.floraexpansion.common.block.GiantCactusWoodBlock;
-import de.artemis.floraexpansion.common.block.ModBlocks;
+import de.artemis.floraexpansion.common.block.LargeBlueberryBushBlock;
+import de.artemis.floraexpansion.common.registry.ModBlocks;
 import de.artemis.floraexpansion.common.block.CactusFruitPlantBlock;
 import de.artemis.floraexpansion.common.block.PebblePatchBlock;
 import de.artemis.floraexpansion.common.block.PineLitterBlock;
-import de.artemis.floraexpansion.common.item.ModItems;
+import de.artemis.floraexpansion.common.block.SmallBlueberryBushBlock;
+import de.artemis.floraexpansion.common.block.StrawberryCropBlock;
+import de.artemis.floraexpansion.common.registry.ModItems;
 import net.minecraft.client.data.models.BlockModelGenerators;
 import net.minecraft.client.data.models.ItemModelGenerators;
 import net.minecraft.client.data.models.MultiVariant;
@@ -21,9 +25,11 @@ import net.minecraft.client.data.models.ModelProvider;
 import net.minecraft.client.data.models.blockstates.MultiPartGenerator;
 import net.minecraft.client.data.models.blockstates.MultiVariantGenerator;
 import net.minecraft.client.data.models.blockstates.PropertyDispatch;
+import net.minecraft.client.data.models.model.ItemModelUtils;
 import net.minecraft.client.data.models.model.ModelTemplates;
 import net.minecraft.client.data.models.model.TextureMapping;
 import net.minecraft.client.data.models.model.TextureSlot;
+import net.minecraft.client.renderer.item.properties.numeric.CustomModelDataProperty;
 import net.minecraft.core.Holder;
 import net.minecraft.core.Direction;
 import net.minecraft.data.PackOutput;
@@ -31,9 +37,11 @@ import net.minecraft.data.BlockFamily;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
 import net.minecraft.world.level.block.RotatedPillarBlock;
 import net.minecraft.world.level.block.state.properties.AttachFace;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import org.jetbrains.annotations.NotNull;
 import org.jspecify.annotations.NonNull;
 
@@ -53,6 +61,8 @@ public class ModModelProvider extends ModelProvider {
     }
 
     private void registerItemModels(BlockModelGenerators blockModels, ItemModelGenerators itemModels) {
+        registerCrateItemModel(blockModels);
+
         itemModels.generateFlatItem(ModBlocks.APPLE_CORE.get().asItem(), ModelTemplates.FLAT_ITEM);
         itemModels.generateFlatItem(ModBlocks.CACTUS_CLUSTER.get().asItem(), ModelTemplates.FLAT_ITEM);
         itemModels.generateFlatItem(ModBlocks.CACTUS_THORN.get().asItem(), ModelTemplates.FLAT_ITEM);
@@ -60,16 +70,28 @@ public class ModModelProvider extends ModelProvider {
         itemModels.generateFlatItem(ModBlocks.DESERT_MOSS.get().asItem(), ModelTemplates.FLAT_ITEM);
         itemModels.generateFlatItem(ModBlocks.PINE_LITTER.get().asItem(), ModelTemplates.FLAT_ITEM);
         itemModels.generateFlatItem(ModBlocks.PEBBLE_PATCH.get().asItem(), ModelTemplates.FLAT_ITEM);
+        itemModels.generateFlatItem(ModBlocks.STRAWBERRY_CAKE.get().asItem(), ModelTemplates.FLAT_ITEM);
         blockModels.registerSimpleFlatItemModel(ModBlocks.TWIG_LADDER.get());
         blockModels.registerSimpleItemModel(ModBlocks.FRUITING_CHERRY_LEAVES.get(), modModel("fruiting_cherry_leaves_item"));
         blockModels.registerSimpleItemModel(ModBlocks.FRUITING_OAK_LEAVES.get(), modModel("fruiting_oak_leaves_item"));
-        getSimpleItems().forEach(item -> itemModels.generateFlatItem(item, ModelTemplates.FLAT_ITEM));
+        blockModels.registerSimpleItemModel(ModBlocks.LARGE_BLUEBERRY_BUSH.get(), modModel("large_blueberry_bush_stage1"));
+
+        getFlatItems().forEach(item -> itemModels.generateFlatItem(item, ModelTemplates.FLAT_ITEM));
+        registerExistingItemModel(blockModels, ModItems.BLUEBERRY_JAM.get(), "blueberry_jam");
+        registerExistingItemModel(blockModels, ModItems.EMPTY_JAR.get(), "empty_jar");
+        registerGeneratedItemWithTexture(blockModels, itemModels, ModItems.BASKET.get(), "minecraft:item/bundle");
+        registerGeneratedItemWithTexture(blockModels, itemModels, ModItems.WOODEN_WATER_BUCKET.get(), "floraexpansion:item/water_wooden_bucket");
+        registerGeneratedItemWithTexture(blockModels, itemModels, ModItems.WOODEN_LAVA_BUCKET.get(), "floraexpansion:item/lava_wooden_bucket");
+        registerGeneratedItemWithTexture(blockModels, itemModels, ModItems.WOODEN_POWDER_SNOW_BUCKET.get(), "floraexpansion:item/powder_snow_wooden_bucket");
+        registerGeneratedItemWithTexture(blockModels, itemModels, ModItems.WOODEN_MILK_BUCKET.get(), "floraexpansion:item/milk_wooden_bucket");
     }
 
     private void registerSimpleBlockModels(BlockModelGenerators blockModels) {
         createAppleCoreModels(blockModels);
+        createBlueberryBushModels(blockModels);
         createCactusWoodFamilyModels(blockModels);
         createCherryPitModels(blockModels);
+        createCrateModels(blockModels);
         createDesertMossModels(blockModels);
         createFlaxBaleModels(blockModels);
         createFruitingCherryLeavesModels(blockModels);
@@ -82,14 +104,18 @@ public class ModModelProvider extends ModelProvider {
         createGiantCactusWoodModels(blockModels);
         createOpuntiaCactusModels(blockModels);
         createPebbleBlockModels(blockModels);
+        createStrawberryCakeModels(blockModels);
+        createStrawberryCropModels(blockModels);
         blockModels.createFullAndCarpetBlocks(ModBlocks.LINEN_BLOCK.get(), ModBlocks.LINEN_CARPET.get());
         createTwigLadderBlockModel(blockModels);
         blockModels.createNonTemplateHorizontalBlock(ModBlocks.TWIG_LADDER.get());
     }
 
     private void registerSpecialBlockModels(BlockModelGenerators blockModels) {
+        createBlueberryBushBlockState(blockModels);
         createCactusClusterBlockState(blockModels);
         createCactusThornModels(blockModels);
+        createCrateBlockState(blockModels);
         createDesertMossBlockState(blockModels);
         createFlaxCropBlockState(blockModels);
         createFruitingCherryLeavesBlockState(blockModels);
@@ -100,6 +126,55 @@ public class ModModelProvider extends ModelProvider {
         createOpuntiaCactusBlockState(blockModels);
         createPebblePatchBlockState(blockModels);
         createPineLitterBlockState(blockModels);
+        createStrawberryCakeBlockState(blockModels);
+        createStrawberryCropBlockState(blockModels);
+    }
+
+    private void registerCrateItemModel(BlockModelGenerators blockModels) {
+        blockModels.itemModelOutput.accept(ModBlocks.CRATE.get().asItem(),
+                ItemModelUtils.rangeSelect(
+                        new CustomModelDataProperty(0),
+                        ItemModelUtils.plainModel(modItemModel("crate")),
+                        ItemModelUtils.override(ItemModelUtils.plainModel(modItemModel("crate_packed")), 1.0F)
+                ));
+    }
+
+    private void registerExistingItemModel(BlockModelGenerators blockModels, Item item, String modelName) {
+        blockModels.registerSimpleItemModel(item, modItemModel(modelName));
+    }
+
+    private void registerGeneratedItemWithTexture(BlockModelGenerators blockModels, ItemModelGenerators itemModels, Item item, String texture) {
+        Identifier model = modItemModel(item.builtInRegistryHolder().key().identifier().getPath());
+        itemModels.modelOutput.accept(model, () -> createGeneratedItemModelJson(texture));
+        blockModels.registerSimpleItemModel(item, model);
+    }
+
+    private void createBlueberryBushBlockState(BlockModelGenerators blockModels) {
+        blockModels.blockStateOutput.accept(
+                MultiVariantGenerator.dispatch(ModBlocks.BLUEBERRY_BUSH.get())
+                        .with(PropertyDispatch.initial(SmallBlueberryBushBlock.AGE)
+                                .generate(age -> BlockModelGenerators.plainVariant(modModel("blueberry_bush_stage" + age))))
+        );
+
+        blockModels.blockStateOutput.accept(
+                MultiVariantGenerator.dispatch(ModBlocks.LARGE_BLUEBERRY_BUSH.get())
+                        .with(PropertyDispatch.initial(LargeBlueberryBushBlock.AGE)
+                                .generate(age -> BlockModelGenerators.plainVariant(modModel("large_blueberry_bush_stage" + age))))
+        );
+    }
+
+    private void createCrateBlockState(BlockModelGenerators blockModels) {
+        MultiVariant open = BlockModelGenerators.plainVariant(modModel("crate"));
+        MultiVariant closed = BlockModelGenerators.plainVariant(modModel("crate_packed"));
+
+        blockModels.blockStateOutput.accept(
+                MultiVariantGenerator.dispatch(ModBlocks.CRATE.get())
+                        .with(PropertyDispatch.initial(CrateBlock.PACKED, CrateBlock.POWERED)
+                                .select(false, false, open)
+                                .select(false, true, closed)
+                                .select(true, false, closed)
+                                .select(true, true, closed))
+        );
     }
 
     private void createCactusClusterBlockState(BlockModelGenerators blockModels) {
@@ -365,6 +440,26 @@ public class ModModelProvider extends ModelProvider {
         );
     }
 
+    private void createBlueberryBushModels(BlockModelGenerators blockModels) {
+        for (int age = 0; age <= 3; age++) {
+            String modelName = "blueberry_bush_stage" + age;
+            String textureName = "small_blueberry_bush_stage" + age;
+            ModelTemplates.CROSS.create(
+                    modModel(modelName),
+                    TextureMapping.cross(modBlock(textureName)),
+                    blockModels.modelOutput
+            );
+        }
+    }
+
+    private void createCrateModels(BlockModelGenerators blockModels) {
+        blockModels.modelOutput.accept(modModel("crate"), () -> createCubeBottomTopModelJson(
+                "floraexpansion:block/crate_packed_bottom",
+                "floraexpansion:block/crate_packed_top",
+                "floraexpansion:block/crate_packed_side"
+        ));
+    }
+
     private void createCactusWoodFamilyModels(BlockModelGenerators blockModels) {
         Identifier cactusPlanksModel = ModelTemplates.CUBE_ALL.create(
                 ModBlocks.CACTUS_PLANKS.get(),
@@ -567,6 +662,101 @@ public class ModModelProvider extends ModelProvider {
         }
     }
 
+    private void createStrawberryCakeModels(BlockModelGenerators blockModels) {
+        blockModels.modelOutput.accept(modModel("strawberry_cake"), () -> createCakeModelJson("minecraft:block/cake"));
+        for (int bites = 1; bites <= 6; bites++) {
+            int slice = bites;
+            blockModels.modelOutput.accept(modModel("strawberry_cake_slice" + bites), () -> createCakeModelJson("minecraft:block/cake_slice" + slice));
+        }
+
+        createStrawberryCandleCakeModels(blockModels, Blocks.CANDLE, ModBlocks.STRAWBERRY_CANDLE_CAKE.get());
+        createStrawberryCandleCakeModels(blockModels, Blocks.WHITE_CANDLE, ModBlocks.WHITE_STRAWBERRY_CANDLE_CAKE.get());
+        createStrawberryCandleCakeModels(blockModels, Blocks.ORANGE_CANDLE, ModBlocks.ORANGE_STRAWBERRY_CANDLE_CAKE.get());
+        createStrawberryCandleCakeModels(blockModels, Blocks.MAGENTA_CANDLE, ModBlocks.MAGENTA_STRAWBERRY_CANDLE_CAKE.get());
+        createStrawberryCandleCakeModels(blockModels, Blocks.LIGHT_BLUE_CANDLE, ModBlocks.LIGHT_BLUE_STRAWBERRY_CANDLE_CAKE.get());
+        createStrawberryCandleCakeModels(blockModels, Blocks.YELLOW_CANDLE, ModBlocks.YELLOW_STRAWBERRY_CANDLE_CAKE.get());
+        createStrawberryCandleCakeModels(blockModels, Blocks.LIME_CANDLE, ModBlocks.LIME_STRAWBERRY_CANDLE_CAKE.get());
+        createStrawberryCandleCakeModels(blockModels, Blocks.PINK_CANDLE, ModBlocks.PINK_STRAWBERRY_CANDLE_CAKE.get());
+        createStrawberryCandleCakeModels(blockModels, Blocks.GRAY_CANDLE, ModBlocks.GRAY_STRAWBERRY_CANDLE_CAKE.get());
+        createStrawberryCandleCakeModels(blockModels, Blocks.LIGHT_GRAY_CANDLE, ModBlocks.LIGHT_GRAY_STRAWBERRY_CANDLE_CAKE.get());
+        createStrawberryCandleCakeModels(blockModels, Blocks.CYAN_CANDLE, ModBlocks.CYAN_STRAWBERRY_CANDLE_CAKE.get());
+        createStrawberryCandleCakeModels(blockModels, Blocks.PURPLE_CANDLE, ModBlocks.PURPLE_STRAWBERRY_CANDLE_CAKE.get());
+        createStrawberryCandleCakeModels(blockModels, Blocks.BLUE_CANDLE, ModBlocks.BLUE_STRAWBERRY_CANDLE_CAKE.get());
+        createStrawberryCandleCakeModels(blockModels, Blocks.BROWN_CANDLE, ModBlocks.BROWN_STRAWBERRY_CANDLE_CAKE.get());
+        createStrawberryCandleCakeModels(blockModels, Blocks.GREEN_CANDLE, ModBlocks.GREEN_STRAWBERRY_CANDLE_CAKE.get());
+        createStrawberryCandleCakeModels(blockModels, Blocks.RED_CANDLE, ModBlocks.RED_STRAWBERRY_CANDLE_CAKE.get());
+        createStrawberryCandleCakeModels(blockModels, Blocks.BLACK_CANDLE, ModBlocks.BLACK_STRAWBERRY_CANDLE_CAKE.get());
+    }
+
+    private void createStrawberryCandleCakeModels(BlockModelGenerators blockModels, Block candle, Block candleCake) {
+        String modelName = candleCake.builtInRegistryHolder().key().identifier().getPath();
+        String candleName = candle.builtInRegistryHolder().key().identifier().getPath();
+
+        blockModels.modelOutput.accept(modModel(modelName), () -> createCandleCakeModelJson("minecraft:block/" + candleName));
+        blockModels.modelOutput.accept(modModel(modelName + "_lit"), () -> createCandleCakeModelJson("minecraft:block/" + candleName + "_lit"));
+    }
+
+    private void createStrawberryCropModels(BlockModelGenerators blockModels) {
+        for (int age = 0; age <= StrawberryCropBlock.AGE.getPossibleValues().stream().mapToInt(Integer::intValue).max().orElse(3); age++) {
+            String texture = "strawberry_plant_stage" + age;
+            ModelTemplates.CROSS.create(
+                    modModel(texture),
+                    TextureMapping.cross(modBlock(texture)),
+                    blockModels.modelOutput
+            );
+        }
+    }
+
+    private void createStrawberryCakeBlockState(BlockModelGenerators blockModels) {
+        blockModels.blockStateOutput.accept(
+                MultiVariantGenerator.dispatch(ModBlocks.STRAWBERRY_CAKE.get())
+                        .with(PropertyDispatch.initial(BlockStateProperties.BITES)
+                                .select(0, BlockModelGenerators.plainVariant(modModel("strawberry_cake")))
+                                .select(1, BlockModelGenerators.plainVariant(modModel("strawberry_cake_slice1")))
+                                .select(2, BlockModelGenerators.plainVariant(modModel("strawberry_cake_slice2")))
+                                .select(3, BlockModelGenerators.plainVariant(modModel("strawberry_cake_slice3")))
+                                .select(4, BlockModelGenerators.plainVariant(modModel("strawberry_cake_slice4")))
+                                .select(5, BlockModelGenerators.plainVariant(modModel("strawberry_cake_slice5")))
+                                .select(6, BlockModelGenerators.plainVariant(modModel("strawberry_cake_slice6"))))
+        );
+
+        createStrawberryCandleCakeBlockState(blockModels, ModBlocks.STRAWBERRY_CANDLE_CAKE.get());
+        createStrawberryCandleCakeBlockState(blockModels, ModBlocks.WHITE_STRAWBERRY_CANDLE_CAKE.get());
+        createStrawberryCandleCakeBlockState(blockModels, ModBlocks.ORANGE_STRAWBERRY_CANDLE_CAKE.get());
+        createStrawberryCandleCakeBlockState(blockModels, ModBlocks.MAGENTA_STRAWBERRY_CANDLE_CAKE.get());
+        createStrawberryCandleCakeBlockState(blockModels, ModBlocks.LIGHT_BLUE_STRAWBERRY_CANDLE_CAKE.get());
+        createStrawberryCandleCakeBlockState(blockModels, ModBlocks.YELLOW_STRAWBERRY_CANDLE_CAKE.get());
+        createStrawberryCandleCakeBlockState(blockModels, ModBlocks.LIME_STRAWBERRY_CANDLE_CAKE.get());
+        createStrawberryCandleCakeBlockState(blockModels, ModBlocks.PINK_STRAWBERRY_CANDLE_CAKE.get());
+        createStrawberryCandleCakeBlockState(blockModels, ModBlocks.GRAY_STRAWBERRY_CANDLE_CAKE.get());
+        createStrawberryCandleCakeBlockState(blockModels, ModBlocks.LIGHT_GRAY_STRAWBERRY_CANDLE_CAKE.get());
+        createStrawberryCandleCakeBlockState(blockModels, ModBlocks.CYAN_STRAWBERRY_CANDLE_CAKE.get());
+        createStrawberryCandleCakeBlockState(blockModels, ModBlocks.PURPLE_STRAWBERRY_CANDLE_CAKE.get());
+        createStrawberryCandleCakeBlockState(blockModels, ModBlocks.BLUE_STRAWBERRY_CANDLE_CAKE.get());
+        createStrawberryCandleCakeBlockState(blockModels, ModBlocks.BROWN_STRAWBERRY_CANDLE_CAKE.get());
+        createStrawberryCandleCakeBlockState(blockModels, ModBlocks.GREEN_STRAWBERRY_CANDLE_CAKE.get());
+        createStrawberryCandleCakeBlockState(blockModels, ModBlocks.RED_STRAWBERRY_CANDLE_CAKE.get());
+        createStrawberryCandleCakeBlockState(blockModels, ModBlocks.BLACK_STRAWBERRY_CANDLE_CAKE.get());
+    }
+
+    private void createStrawberryCandleCakeBlockState(BlockModelGenerators blockModels, Block candleCake) {
+        String modelName = candleCake.builtInRegistryHolder().key().identifier().getPath();
+        blockModels.blockStateOutput.accept(
+                MultiVariantGenerator.dispatch(candleCake)
+                        .with(PropertyDispatch.initial(BlockStateProperties.LIT)
+                                .select(false, BlockModelGenerators.plainVariant(modModel(modelName)))
+                                .select(true, BlockModelGenerators.plainVariant(modModel(modelName + "_lit"))))
+        );
+    }
+
+    private void createStrawberryCropBlockState(BlockModelGenerators blockModels) {
+        blockModels.blockStateOutput.accept(
+                MultiVariantGenerator.dispatch(ModBlocks.STRAWBERRY_PLANT.get())
+                        .with(PropertyDispatch.initial(StrawberryCropBlock.AGE, StrawberryCropBlock.WILD)
+                                .generate((age, wild) -> BlockModelGenerators.plainVariant(modModel("strawberry_plant_stage" + age))))
+        );
+    }
+
     private void createFlaxBaleModels(BlockModelGenerators blockModels) {
         TextureMapping textures = new TextureMapping()
                 .put(TextureSlot.END, modBlock("flax_bale_top"))
@@ -668,6 +858,47 @@ public class ModModelProvider extends ModelProvider {
 
         model.addProperty("parent", "minecraft:item/generated");
         textures.addProperty("layer0", texture);
+        model.add("textures", textures);
+        return model;
+    }
+
+    private static JsonObject createCubeBottomTopModelJson(String bottomTexture, String topTexture, String sideTexture) {
+        JsonObject model = new JsonObject();
+        JsonObject textures = new JsonObject();
+
+        model.addProperty("parent", "minecraft:block/cube_bottom_top");
+        textures.addProperty("particle", sideTexture);
+        textures.addProperty("bottom", bottomTexture);
+        textures.addProperty("top", topTexture);
+        textures.addProperty("side", sideTexture);
+        model.add("textures", textures);
+        return model;
+    }
+
+    private static JsonObject createCakeModelJson(String parent) {
+        JsonObject model = new JsonObject();
+        JsonObject textures = new JsonObject();
+
+        model.addProperty("parent", parent);
+        textures.addProperty("particle", "floraexpansion:block/strawberry_cake_side");
+        textures.addProperty("bottom", "floraexpansion:block/strawberry_cake_bottom");
+        textures.addProperty("top", "floraexpansion:block/strawberry_cake_top");
+        textures.addProperty("side", "floraexpansion:block/strawberry_cake_side");
+        textures.addProperty("inside", "floraexpansion:block/strawberry_cake_inner");
+        model.add("textures", textures);
+        return model;
+    }
+
+    private static JsonObject createCandleCakeModelJson(String candleTexture) {
+        JsonObject model = new JsonObject();
+        JsonObject textures = new JsonObject();
+
+        model.addProperty("parent", "minecraft:block/template_cake_with_candle");
+        textures.addProperty("particle", "floraexpansion:block/strawberry_cake_side");
+        textures.addProperty("bottom", "floraexpansion:block/strawberry_cake_bottom");
+        textures.addProperty("top", "floraexpansion:block/strawberry_cake_top");
+        textures.addProperty("side", "floraexpansion:block/strawberry_cake_side");
+        textures.addProperty("candle", candleTexture);
         model.add("textures", textures);
         return model;
     }
@@ -915,90 +1146,25 @@ public class ModModelProvider extends ModelProvider {
         return Identifier.fromNamespaceAndPath(FloraExpansion.MODID, "block/" + path);
     }
 
+    private static Identifier modItemModel(String path) {
+        return Identifier.fromNamespaceAndPath(FloraExpansion.MODID, "item/" + path);
+    }
+
     @Override
     protected @NonNull Stream<? extends Holder<Block>> getKnownBlocks() {
-        return ModBlocks.BLOCKS.getEntries().stream().filter(x ->
-                x.is(ModBlocks.APPLE_CORE)
-                        || x.is(ModBlocks.POTTED_APPLE_CORE)
-                        || x.is(ModBlocks.CHERRY_PIT)
-                        || x.is(ModBlocks.POTTED_CHERRY_PIT)
-                        || x.is(ModBlocks.PINE_LITTER)
-                        || x.is(ModBlocks.FRUITING_CHERRY_LEAVES)
-                        || x.is(ModBlocks.FRUITING_OAK_LEAVES)
-                        || x.is(ModBlocks.PEBBLE_PATCH)
-                        || x.is(ModBlocks.PEBBLE_BLOCK)
-                        || x.is(ModBlocks.CACTUS_PLANKS)
-                        || x.is(ModBlocks.CACTUS_MOSAIC)
-                        || x.is(ModBlocks.CACTUS_STAIRS)
-                        || x.is(ModBlocks.CACTUS_SLAB)
-                        || x.is(ModBlocks.CACTUS_FENCE)
-                        || x.is(ModBlocks.CACTUS_FENCE_GATE)
-                        || x.is(ModBlocks.CACTUS_BUTTON)
-                        || x.is(ModBlocks.CACTUS_PRESSURE_PLATE)
-                        || x.is(ModBlocks.CACTUS_CLUSTER)
-                        || x.is(ModBlocks.CACTUS_DOOR)
-                        || x.is(ModBlocks.CACTUS_TRAPDOOR)
-                        || x.is(ModBlocks.GIANT_CACTUS_BLOSSOM)
-                        || x.is(ModBlocks.CACTUS_SIGN)
-                        || x.is(ModBlocks.CACTUS_WALL_SIGN)
-                        || x.is(ModBlocks.CACTUS_HANGING_SIGN)
-                        || x.is(ModBlocks.CACTUS_WALL_HANGING_SIGN)
-                        || x.is(ModBlocks.CACTUS_THORN)
-                        || x.is(ModBlocks.DESERT_MOSS)
-                        || x.is(ModBlocks.GIANT_CACTUS_BASE)
-                        || x.is(ModBlocks.GIANT_CACTUS_STEM)
-                        || x.is(ModBlocks.GIANT_CACTUS_WOOD)
-                        || x.is(ModBlocks.OPUNTIA_CACTUS)
-                        || x.is(ModBlocks.POTTED_GIANT_CACTUS_STEM)
-                        || x.is(ModBlocks.STRIPPED_GIANT_CACTUS_BASE)
-                        || x.is(ModBlocks.STRIPPED_GIANT_CACTUS_WOOD)
-                        || x.is(ModBlocks.TWIG_LADDER)
-                        || x.is(ModBlocks.FLAX_CROP)
-                        || x.is(ModBlocks.FLAX_BALE)
-                        || x.is(ModBlocks.LINEN_BLOCK)
-                        || x.is(ModBlocks.LINEN_CARPET));
+        return ModBlocks.BLOCKS.getEntries().stream();
     }
 
     @Override
     protected @NonNull Stream<? extends Holder<Item>> getKnownItems() {
-        return Stream.concat(
-                Stream.of(
-                        ModBlocks.APPLE_CORE.get().asItem().builtInRegistryHolder(),
-                        ModBlocks.CHERRY_PIT.get().asItem().builtInRegistryHolder(),
-                        ModBlocks.PINE_LITTER.get().asItem().builtInRegistryHolder(),
-                        ModBlocks.FRUITING_CHERRY_LEAVES.get().asItem().builtInRegistryHolder(),
-                        ModBlocks.FRUITING_OAK_LEAVES.get().asItem().builtInRegistryHolder(),
-                        ModBlocks.PEBBLE_PATCH.get().asItem().builtInRegistryHolder(),
-                        ModBlocks.PEBBLE_BLOCK.get().asItem().builtInRegistryHolder(),
-                        ModBlocks.CACTUS_PLANKS.get().asItem().builtInRegistryHolder(),
-                        ModBlocks.CACTUS_MOSAIC.get().asItem().builtInRegistryHolder(),
-                        ModBlocks.CACTUS_STAIRS.get().asItem().builtInRegistryHolder(),
-                        ModBlocks.CACTUS_SLAB.get().asItem().builtInRegistryHolder(),
-                        ModBlocks.CACTUS_FENCE.get().asItem().builtInRegistryHolder(),
-                        ModBlocks.CACTUS_FENCE_GATE.get().asItem().builtInRegistryHolder(),
-                        ModBlocks.CACTUS_BUTTON.get().asItem().builtInRegistryHolder(),
-                        ModBlocks.CACTUS_PRESSURE_PLATE.get().asItem().builtInRegistryHolder(),
-                        ModBlocks.CACTUS_CLUSTER.get().asItem().builtInRegistryHolder(),
-                        ModBlocks.CACTUS_DOOR.get().asItem().builtInRegistryHolder(),
-                        ModBlocks.CACTUS_TRAPDOOR.get().asItem().builtInRegistryHolder(),
-                        ModBlocks.GIANT_CACTUS_BLOSSOM.get().asItem().builtInRegistryHolder(),
-                        ModBlocks.CACTUS_THORN.get().asItem().builtInRegistryHolder(),
-                        ModBlocks.DESERT_MOSS.get().asItem().builtInRegistryHolder(),
-                        ModBlocks.GIANT_CACTUS_BASE.get().asItem().builtInRegistryHolder(),
-                        ModBlocks.GIANT_CACTUS_STEM.get().asItem().builtInRegistryHolder(),
-                        ModBlocks.GIANT_CACTUS_WOOD.get().asItem().builtInRegistryHolder(),
-                        ModBlocks.STRIPPED_GIANT_CACTUS_BASE.get().asItem().builtInRegistryHolder(),
-                        ModBlocks.STRIPPED_GIANT_CACTUS_WOOD.get().asItem().builtInRegistryHolder(),
-                        ModBlocks.TWIG_LADDER.get().asItem().builtInRegistryHolder(),
-                        ModBlocks.FLAX_BALE.get().asItem().builtInRegistryHolder(),
-                        ModBlocks.LINEN_BLOCK.get().asItem().builtInRegistryHolder(),
-                        ModBlocks.LINEN_CARPET.get().asItem().builtInRegistryHolder()
-                ),
-                getSimpleItems().map(Item::builtInRegistryHolder)
-        );
+        return ModItems.ITEMS.getEntries().stream()
+                .filter(item -> !item.is(ModItems.CACTUS_HELMET)
+                        && !item.is(ModItems.CACTUS_CHESTPLATE)
+                        && !item.is(ModItems.CACTUS_LEGGINGS)
+                        && !item.is(ModItems.CACTUS_BOOTS));
     }
 
-    private static Stream<Item> getSimpleItems() {
+    private static Stream<Item> getFlatItems() {
         return Stream.of(
                 ModItems.PINE_CONE.get(),
                 ModItems.PEBBLES.get(),
@@ -1007,6 +1173,20 @@ public class ModModelProvider extends ModelProvider {
                 ModItems.TWIG.get(),
                 ModItems.FOREST_SNACK.get(),
                 ModItems.SWEET_BERRY_MIX.get(),
+                ModItems.BLUEBERRIES.get(),
+                ModItems.BLUEBERRY_COOKIE.get(),
+                ModItems.BLUEBERRY_PIE.get(),
+                ModItems.BLUEBERRY_PIE_SLICE.get(),
+                ModItems.BLUEBERRY_JUICE.get(),
+                ModItems.STRAWBERRY.get(),
+                ModItems.STRAWBERRY_JAM.get(),
+                ModItems.WOODEN_BUCKET.get(),
+                ModItems.COD_WOODEN_BUCKET.get(),
+                ModItems.SALMON_WOODEN_BUCKET.get(),
+                ModItems.PUFFERFISH_WOODEN_BUCKET.get(),
+                ModItems.TROPICAL_FISH_WOODEN_BUCKET.get(),
+                ModItems.AXOLOTL_WOODEN_BUCKET.get(),
+                ModItems.TADPOLE_WOODEN_BUCKET.get(),
                 ModItems.FLAX_SEED.get(),
                 ModItems.FLAX_FIBER.get(),
                 ModItems.FLAX_FLOWER.get(),

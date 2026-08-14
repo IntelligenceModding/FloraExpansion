@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    "minecraft:cake",
+    "floraexpansion:strawberry",
+    "floraexpansion:strawberry",
+    "floraexpansion:strawberry"
+  ],
+  "result": {
+    "count": 1,
+    "id": "floraexpansion:strawberry_cake"
+  }
+}

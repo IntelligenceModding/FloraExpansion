@@ -1,0 +1,9 @@
+{
+  "parent": "minecraft:block/cube_bottom_top",
+  "textures": {
+    "bottom": "floraexpansion:block/crate_packed_bottom",
+    "particle": "floraexpansion:block/crate_packed_side",
+    "side": "floraexpansion:block/crate_packed_side",
+    "top": "floraexpansion:block/crate_packed_top"
+  }
+}

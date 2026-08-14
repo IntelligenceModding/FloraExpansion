@@ -1,8 +1,8 @@
 package de.artemis.floraexpansion.common.block;
 
-import de.artemis.floraexpansion.common.item.ModItems;
-import de.artemis.floraexpansion.common.particle.ModParticles;
-import de.artemis.floraexpansion.common.util.ModBlockStateProperties;
+import de.artemis.floraexpansion.common.registry.ModItems;
+import de.artemis.floraexpansion.common.registry.ModParticles;
+import de.artemis.floraexpansion.common.registry.ModBlockStateProperties;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
@@ -292,10 +292,10 @@ public class FlaxCropBlock extends CropBlock {
             double z = topPos.getZ() + 0.25 + random.nextDouble() * 0.5;
             double y = topPos.getY() + 0.6 + random.nextDouble() * 0.3; // around crop top
 
-            double vx = (random.nextDouble() - 0.5) * 0.2;  // ±0.01
-            double vz = (random.nextDouble() - 0.5) * 0.2;  // ±0.01
+            double vx = (random.nextDouble() - 0.5) * 0.2;  // Â±0.01
+            double vz = (random.nextDouble() - 0.5) * 0.2;  // Â±0.01
 
-            double vy = 0.0 + random.nextDouble() * 0.01;    // 0–0.01
+            double vy = 0.0 + random.nextDouble() * 0.01;    // 0â€“0.01
 
             level.addParticle(ModParticles.FLAX_FLOWER.get(), x, y, z, vx, vy, vz);
         }
@@ -322,3 +322,4 @@ public class FlaxCropBlock extends CropBlock {
         builder.add(AGE, HALF, WILD);
     }
 }
+

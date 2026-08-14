@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/cross",
+  "textures": {
+    "cross": "floraexpansion:block/strawberry_plant_stage2"
+  }
+}

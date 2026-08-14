@@ -1,7 +1,7 @@
 package de.artemis.floraexpansion.common.datagen;
 
 import de.artemis.floraexpansion.FloraExpansion;
-import de.artemis.floraexpansion.common.block.ModBlocks;
+import de.artemis.floraexpansion.common.registry.ModBlocks;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
 import net.minecraft.tags.BlockTags;
@@ -26,6 +26,7 @@ public class ModBlockTagProvider extends BlockTagsProvider {
                 .add(ModBlocks.PEBBLE_BLOCK.get());
 
         tag(BlockTags.MINEABLE_WITH_AXE)
+                .add(ModBlocks.CRATE.get())
                 .add(ModBlocks.GIANT_CACTUS_BASE.get())
                 .add(ModBlocks.STRIPPED_GIANT_CACTUS_BASE.get())
                 .add(ModBlocks.GIANT_CACTUS_WOOD.get())
@@ -42,21 +43,50 @@ public class ModBlockTagProvider extends BlockTagsProvider {
                 .add(ModBlocks.FLAX_BALE.get())
                 .add(ModBlocks.FRUITING_OAK_LEAVES.get())
                 .add(ModBlocks.LINEN_CARPET.get())
-                .add(ModBlocks.FRUITING_CHERRY_LEAVES.get());
+                .add(ModBlocks.FRUITING_CHERRY_LEAVES.get())
+                .add(ModBlocks.LARGE_BLUEBERRY_BUSH.get())
+                .add(ModBlocks.BLUEBERRY_BUSH.get());
 
         tag(BlockTags.MAINTAINS_FARMLAND)
-                .add(ModBlocks.FLAX_CROP.get());
+                .add(ModBlocks.FLAX_CROP.get())
+                .add(ModBlocks.STRAWBERRY_PLANT.get());
 
         tag(BlockTags.CROPS)
-                .add(ModBlocks.FLAX_CROP.get());
+                .add(ModBlocks.FLAX_CROP.get())
+                .add(ModBlocks.STRAWBERRY_PLANT.get());
+
+        tag(BlockTags.CANDLE_CAKES)
+                .add(ModBlocks.STRAWBERRY_CANDLE_CAKE.get())
+                .add(ModBlocks.WHITE_STRAWBERRY_CANDLE_CAKE.get())
+                .add(ModBlocks.ORANGE_STRAWBERRY_CANDLE_CAKE.get())
+                .add(ModBlocks.MAGENTA_STRAWBERRY_CANDLE_CAKE.get())
+                .add(ModBlocks.LIGHT_BLUE_STRAWBERRY_CANDLE_CAKE.get())
+                .add(ModBlocks.YELLOW_STRAWBERRY_CANDLE_CAKE.get())
+                .add(ModBlocks.LIME_STRAWBERRY_CANDLE_CAKE.get())
+                .add(ModBlocks.PINK_STRAWBERRY_CANDLE_CAKE.get())
+                .add(ModBlocks.GRAY_STRAWBERRY_CANDLE_CAKE.get())
+                .add(ModBlocks.LIGHT_GRAY_STRAWBERRY_CANDLE_CAKE.get())
+                .add(ModBlocks.CYAN_STRAWBERRY_CANDLE_CAKE.get())
+                .add(ModBlocks.PURPLE_STRAWBERRY_CANDLE_CAKE.get())
+                .add(ModBlocks.BLUE_STRAWBERRY_CANDLE_CAKE.get())
+                .add(ModBlocks.BROWN_STRAWBERRY_CANDLE_CAKE.get())
+                .add(ModBlocks.GREEN_STRAWBERRY_CANDLE_CAKE.get())
+                .add(ModBlocks.RED_STRAWBERRY_CANDLE_CAKE.get())
+                .add(ModBlocks.BLACK_STRAWBERRY_CANDLE_CAKE.get());
 
         tag(BlockTags.SWORD_EFFICIENT)
-                .add(ModBlocks.FLAX_CROP.get());
+                .add(ModBlocks.FLAX_CROP.get())
+                .add(ModBlocks.STRAWBERRY_PLANT.get())
+                .add(ModBlocks.LARGE_BLUEBERRY_BUSH.get())
+                .add(ModBlocks.BLUEBERRY_BUSH.get());
 
         tag(BlockTags.BEE_GROWABLES)
                 .add(ModBlocks.FLAX_CROP.get())
+                .add(ModBlocks.STRAWBERRY_PLANT.get())
                 .add(ModBlocks.FRUITING_OAK_LEAVES.get())
-                .add(ModBlocks.FRUITING_CHERRY_LEAVES.get());
+                .add(ModBlocks.FRUITING_CHERRY_LEAVES.get())
+                .add(ModBlocks.LARGE_BLUEBERRY_BUSH.get())
+                .add(ModBlocks.BLUEBERRY_BUSH.get());
 
         tag(BlockTags.SAPLINGS)
                 .add(ModBlocks.APPLE_CORE.get())
@@ -120,3 +150,4 @@ public class ModBlockTagProvider extends BlockTagsProvider {
                 .add(ModBlocks.CACTUS_WALL_HANGING_SIGN.get());
     }
 }
+

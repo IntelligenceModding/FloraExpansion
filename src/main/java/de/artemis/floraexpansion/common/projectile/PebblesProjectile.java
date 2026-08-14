@@ -1,6 +1,6 @@
 package de.artemis.floraexpansion.common.projectile;
 
-import de.artemis.floraexpansion.common.item.ModItems;
+import de.artemis.floraexpansion.common.registry.ModItems;
 import net.minecraft.core.particles.ItemParticleOption;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
@@ -18,8 +18,7 @@ import org.jetbrains.annotations.NotNull;
 
 public class PebblesProjectile extends ThrowableItemProjectile {
 
-    @SuppressWarnings("unused")
-    public PebblesProjectile(EntityType<? extends PebblesProjectile> entityType, Level level) {
+    public PebblesProjectile(EntityType<? extends ThrowableItemProjectile> entityType, Level level) {
         super(entityType, level);
     }
 
@@ -37,20 +36,20 @@ public class PebblesProjectile extends ThrowableItemProjectile {
     }
 
     private ParticleOptions getParticle() {
-        ItemStack itemStack = this.getItem();
-        return !itemStack.isEmpty() && !itemStack.is(this.getDefaultItem())
-                ? new ItemParticleOption(ParticleTypes.ITEM, itemStack)
+        ItemStack itemstack = this.getItem();
+        return !itemstack.isEmpty() && !itemstack.is(this.getDefaultItem())
+                ? new ItemParticleOption(ParticleTypes.ITEM, itemstack)
                 : ParticleTypes.CRIT;
     }
 
     @Override
     public void handleEntityEvent(byte id) {
         if (id == 3) {
-            ParticleOptions particleOptions = this.getParticle();
+            ParticleOptions particleoptions = this.getParticle();
 
             for (int i = 0; i < 8; ++i) {
                 this.level().addParticle(
-                        particleOptions,
+                        particleoptions,
                         this.getX(),
                         this.getY(),
                         this.getZ(),
@@ -62,7 +61,6 @@ public class PebblesProjectile extends ThrowableItemProjectile {
         }
     }
 
-    @SuppressWarnings("deprecation")
     @Override
     protected void onHitEntity(@NotNull EntityHitResult result) {
         super.onHitEntity(result);
@@ -97,3 +95,4 @@ public class PebblesProjectile extends ThrowableItemProjectile {
         }
     }
 }
+

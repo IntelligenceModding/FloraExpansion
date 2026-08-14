@@ -42,11 +42,8 @@
     "floraexpansion:cactus_trapdoor": {
       "burn_time": 300
     },
-    "floraexpansion:cherry_pit": {
-      "burn_time": 50
-    },
-    "floraexpansion:flax_flower": {
-      "burn_time": 50
+    "floraexpansion:crate": {
+      "burn_time": 300
     },
     "floraexpansion:giant_cactus_base": {
       "burn_time": 300
@@ -57,6 +54,9 @@
     "floraexpansion:giant_cactus_wood": {
       "burn_time": 300
     },
+    "floraexpansion:large_blueberry_bush": {
+      "burn_time": 100
+    },
     "floraexpansion:linen_block": {
       "burn_time": 100
     },
@@ -64,22 +64,16 @@
       "burn_time": 67
     },
     "floraexpansion:pine_cone": {
-      "burn_time": 50
+      "burn_time": 100
     },
     "floraexpansion:pine_litter": {
       "burn_time": 100
-    },
-    "floraexpansion:pine_nuts": {
-      "burn_time": 50
     },
     "floraexpansion:stripped_giant_cactus_base": {
       "burn_time": 300
     },
     "floraexpansion:stripped_giant_cactus_wood": {
       "burn_time": 300
-    },
-    "floraexpansion:toasted_pine_nuts": {
-      "burn_time": 50
     },
     "floraexpansion:twig": {
       "burn_time": 200

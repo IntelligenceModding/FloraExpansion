@@ -1,6 +1,6 @@
 package de.artemis.floraexpansion.common.item;
 
-import de.artemis.floraexpansion.common.block.ModBlocks;
+import de.artemis.floraexpansion.common.registry.ModBlocks;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.stats.Stats;
 import net.minecraft.util.RandomSource;
@@ -28,13 +28,15 @@ public class CherriesItem extends Item {
                 ItemStack cherryPit = new ItemStack(ModBlocks.CHERRY_PIT.get());
 
                 if (livingEntity instanceof Player player) {
+                    // Same general behavior as bowl-returning foods:
+                    // try inventory first, drop if it doesn't fit.
                     if (!player.getInventory().add(cherryPit)) {
                         player.drop(cherryPit, false);
                     }
 
                     player.awardStat(Stats.ITEM_USED.get(this));
-                } else {
-                    livingEntity.spawnAtLocation((ServerLevel) level, cherryPit);
+                } else if (level instanceof ServerLevel serverLevel) {
+                    livingEntity.spawnAtLocation(serverLevel, cherryPit);
                 }
             }
         }

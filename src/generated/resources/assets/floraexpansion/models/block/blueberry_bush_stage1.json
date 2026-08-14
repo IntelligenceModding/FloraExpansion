@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/cross",
+  "textures": {
+    "cross": "floraexpansion:block/small_blueberry_bush_stage1"
+  }
+}
