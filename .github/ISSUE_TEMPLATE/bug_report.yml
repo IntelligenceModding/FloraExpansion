@@ -1,0 +1,163 @@
+name: Bug Report
+description: Report a reproducible problem with Flora Expansion
+title: "[Bug] "
+labels:
+  - bug
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for reporting a problem with Flora Expansion.
+
+        Please provide enough information for the issue to be reproduced and investigated.
+
+  - type: input
+    id: minecraft-version
+    attributes:
+      label: Minecraft Version
+      description: Which Minecraft version are you using?
+      placeholder: "Example: 1.21.1"
+    validations:
+      required: true
+
+  - type: input
+    id: mod-version
+    attributes:
+      label: Flora Expansion Version
+      description: Which version of Flora Expansion are you using?
+      placeholder: "Example: 0.4.1r"
+    validations:
+      required: true
+
+  - type: input
+    id: loader
+    attributes:
+      label: Mod Loader
+      description: Which mod loader and version are you using?
+      placeholder: "Example: NeoForge 21.1.209"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: issue-area
+    attributes:
+      label: Affected Feature
+      description: Which part of Flora Expansion is affected?
+      options:
+        - Leaf / Pine Litter
+        - Pebbles
+        - Flax / Linen
+        - Blueberries / Strawberries
+        - Cherries / Apples
+        - Foods / Juices / Jams
+        - Basket
+        - Crate
+        - Wooden Buckets
+        - Giant Cactus / Desert Content
+        - Twig Ladder
+        - Plants / Crops
+        - World Generation
+        - Block / Item Interactions
+        - JEI Integration
+        - Rendering / Textures
+        - Multiplayer Behavior
+        - Other
+        - Not sure
+    validations:
+      required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: What happened?
+      description: Describe the problem clearly.
+      placeholder: Explain what went wrong.
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected Behavior
+      description: What did you expect to happen instead?
+      placeholder: Explain what you expected.
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Steps to Reproduce
+      description: Provide clear steps that can be used to reproduce the issue.
+      placeholder: |
+        1. Launch the game with ...
+        2. Find/place/use ...
+        3. Perform ...
+        4. The issue occurs.
+    validations:
+      required: true
+
+  - type: textarea
+    id: configuration
+    attributes:
+      label: Relevant Flora Expansion Details
+      description: If the problem involves a specific block, item, plant, crop, food, biome, world-generation feature, growth stage, interaction, storage feature, or optional integration, describe it here.
+      placeholder: |
+        Example:
+        - Feature: Large Blueberry Bush
+        - Biome: Forest
+        - Interaction: Harvesting
+        - Growth stage: Fully ripe
+        - Integration: JEI installed
+
+  - type: dropdown
+    id: multiplayer
+    attributes:
+      label: Where Does the Issue Occur?
+      description: Does the problem happen in singleplayer, multiplayer, or both?
+      options:
+        - Singleplayer only
+        - Multiplayer only
+        - Both singleplayer and multiplayer
+        - Not sure
+    validations:
+      required: true
+
+  - type: textarea
+    id: other-mods
+    attributes:
+      label: Other Installed Mods
+      description: List other mods that may be relevant. If the issue may be compatibility-related, provide the full mod list if possible.
+      placeholder: |
+        Example:
+        - JEI 19.25.0.322
+        - AppleSkin 3.0.7
+        - Example Mod 1.2.3
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs / Crash Report
+      description: Attach or paste relevant logs or crash reports. Use a file attachment or code block for long logs.
+      render: shell
+
+  - type: textarea
+    id: additional
+    attributes:
+      label: Additional Information
+      description: Add screenshots, videos, server information, world-generation details, plant or crop information, block or item information, or anything else that may help.
+
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Before Submitting
+      options:
+        - label: I searched existing issues and did not find the same problem.
+          required: true
+        - label: I am using a Flora Expansion version intended for my Minecraft version.
+          required: true
+        - label: I am using compatible versions of the required dependencies.
+          required: true
+        - label: I can reproduce this issue.
+          required: true
