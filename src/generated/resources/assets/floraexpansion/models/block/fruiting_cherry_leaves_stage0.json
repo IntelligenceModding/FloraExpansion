@@ -76,6 +76,7 @@
       ]
     }
   ],
+  "render_type": "cutout",
   "textures": {
     "all": "floraexpansion:block/fruiting_cherry_leaves_stage0",
     "particle": "floraexpansion:block/fruiting_cherry_leaves_stage0"

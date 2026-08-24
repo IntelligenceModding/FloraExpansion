@@ -412,6 +412,7 @@ public class ModModelProvider extends ModelProvider {
             JsonObject model = new JsonObject();
             JsonObject textures = new JsonObject();
             model.addProperty("parent", "minecraft:block/ladder");
+            model.addProperty("render_type", "cutout");
 
             textures.addProperty("particle", "floraexpansion:block/twig_ladder");
             textures.addProperty("texture", "floraexpansion:block/twig_ladder");
@@ -421,16 +422,11 @@ public class ModModelProvider extends ModelProvider {
     }
 
     private void createCherryPitModels(BlockModelGenerators blockModels) {
-        Identifier cherryPitModel = ModelTemplates.CROSS.create(
-                ModBlocks.CHERRY_PIT.get(),
-                TextureMapping.cross(modBlock("planted_cherry_pit")),
-                blockModels.modelOutput
-        );
-        Identifier pottedCherryPitModel = ModelTemplates.FLOWER_POT_CROSS.create(
-                ModBlocks.POTTED_CHERRY_PIT.get(),
-                TextureMapping.plant(modBlock("planted_cherry_pit")),
-                blockModels.modelOutput
-        );
+        Identifier cherryPitModel = modModel("cherry_pit");
+        Identifier pottedCherryPitModel = modModel("potted_cherry_pit");
+
+        blockModels.modelOutput.accept(cherryPitModel, () -> createCutoutCrossModelJson("floraexpansion:block/planted_cherry_pit"));
+        blockModels.modelOutput.accept(pottedCherryPitModel, () -> createCutoutPottedPlantModelJson("floraexpansion:block/planted_cherry_pit"));
 
         blockModels.blockStateOutput.accept(
                 BlockModelGenerators.createSimpleBlock(ModBlocks.CHERRY_PIT.get(), BlockModelGenerators.plainVariant(cherryPitModel))
@@ -444,11 +440,8 @@ public class ModModelProvider extends ModelProvider {
         for (int age = 0; age <= 3; age++) {
             String modelName = "blueberry_bush_stage" + age;
             String textureName = "small_blueberry_bush_stage" + age;
-            ModelTemplates.CROSS.create(
-                    modModel(modelName),
-                    TextureMapping.cross(modBlock(textureName)),
-                    blockModels.modelOutput
-            );
+            blockModels.modelOutput.accept(modModel(modelName), () ->
+                    createCutoutCrossModelJson("floraexpansion:block/" + textureName));
         }
     }
 
@@ -488,10 +481,10 @@ public class ModModelProvider extends ModelProvider {
                 .fenceGate(ModBlocks.CACTUS_FENCE_GATE.get())
                 .button(ModBlocks.CACTUS_BUTTON.get())
                 .pressurePlate(ModBlocks.CACTUS_PRESSURE_PLATE.get())
-                .door(ModBlocks.CACTUS_DOOR.get())
-                .trapdoor(ModBlocks.CACTUS_TRAPDOOR.get())
                 .getFamily();
         blockModels.familyWithExistingFullBlock(ModBlocks.CACTUS_PLANKS.get()).generateFor(family);
+        createCactusDoorModels(blockModels);
+        createCactusTrapdoorModels(blockModels);
 
         Identifier cactusSignModel = ModelTemplates.PARTICLE_ONLY.create(
                 modModel("cactus_sign"),
@@ -519,16 +512,11 @@ public class ModModelProvider extends ModelProvider {
     }
 
     private void createAppleCoreModels(BlockModelGenerators blockModels) {
-        Identifier appleCoreModel = ModelTemplates.CROSS.create(
-                ModBlocks.APPLE_CORE.get(),
-                TextureMapping.cross(modBlock("planted_apple_core")),
-                blockModels.modelOutput
-        );
-        Identifier pottedAppleCoreModel = ModelTemplates.FLOWER_POT_CROSS.create(
-                ModBlocks.POTTED_APPLE_CORE.get(),
-                TextureMapping.plant(modBlock("planted_apple_core")),
-                blockModels.modelOutput
-        );
+        Identifier appleCoreModel = modModel("apple_core");
+        Identifier pottedAppleCoreModel = modModel("potted_apple_core");
+
+        blockModels.modelOutput.accept(appleCoreModel, () -> createCutoutCrossModelJson("floraexpansion:block/planted_apple_core"));
+        blockModels.modelOutput.accept(pottedAppleCoreModel, () -> createCutoutPottedPlantModelJson("floraexpansion:block/planted_apple_core"));
 
         blockModels.blockStateOutput.accept(
                 BlockModelGenerators.createSimpleBlock(ModBlocks.APPLE_CORE.get(), BlockModelGenerators.plainVariant(appleCoreModel))
@@ -654,11 +642,8 @@ public class ModModelProvider extends ModelProvider {
     private void createOpuntiaCactusModels(BlockModelGenerators blockModels) {
         for (int age = 0; age <= CactusFruitPlantBlock.MAX_AGE; age++) {
             String texture = "opuntia_cactus_stage" + age;
-            ModelTemplates.CROSS.create(
-                    modModel(texture),
-                    TextureMapping.cross(modBlock(texture)),
-                    blockModels.modelOutput
-            );
+            blockModels.modelOutput.accept(modModel(texture), () ->
+                    createCutoutCrossModelJson("floraexpansion:block/" + texture));
         }
     }
 
@@ -699,11 +684,8 @@ public class ModModelProvider extends ModelProvider {
     private void createStrawberryCropModels(BlockModelGenerators blockModels) {
         for (int age = 0; age <= StrawberryCropBlock.AGE.getPossibleValues().stream().mapToInt(Integer::intValue).max().orElse(3); age++) {
             String texture = "strawberry_plant_stage" + age;
-            ModelTemplates.CROSS.create(
-                    modModel(texture),
-                    TextureMapping.cross(modBlock(texture)),
-                    blockModels.modelOutput
-            );
+            blockModels.modelOutput.accept(modModel(texture), () ->
+                    createCutoutCrossModelJson("floraexpansion:block/" + texture));
         }
     }
 
@@ -848,6 +830,90 @@ public class ModModelProvider extends ModelProvider {
         model.addProperty("render_type", "cutout");
         textures.addProperty("cross", texture);
         textures.addProperty("particle", texture);
+        model.add("textures", textures);
+        return model;
+    }
+
+    private static JsonObject createCutoutPottedPlantModelJson(String plantTexture) {
+        JsonObject model = new JsonObject();
+        JsonObject textures = new JsonObject();
+
+        model.addProperty("parent", "minecraft:block/flower_pot_cross");
+        model.addProperty("render_type", "cutout");
+        textures.addProperty("plant", plantTexture);
+        model.add("textures", textures);
+        return model;
+    }
+
+    private void createCactusDoorModels(BlockModelGenerators blockModels) {
+        MultiVariant bottomLeft = createCactusDoorModel(blockModels, "bottom_left");
+        MultiVariant bottomLeftOpen = createCactusDoorModel(blockModels, "bottom_left_open");
+        MultiVariant bottomRight = createCactusDoorModel(blockModels, "bottom_right");
+        MultiVariant bottomRightOpen = createCactusDoorModel(blockModels, "bottom_right_open");
+        MultiVariant topLeft = createCactusDoorModel(blockModels, "top_left");
+        MultiVariant topLeftOpen = createCactusDoorModel(blockModels, "top_left_open");
+        MultiVariant topRight = createCactusDoorModel(blockModels, "top_right");
+        MultiVariant topRightOpen = createCactusDoorModel(blockModels, "top_right_open");
+
+        blockModels.blockStateOutput.accept(BlockModelGenerators.createDoor(
+                ModBlocks.CACTUS_DOOR.get(),
+                bottomLeft,
+                bottomLeftOpen,
+                bottomRight,
+                bottomRightOpen,
+                topLeft,
+                topLeftOpen,
+                topRight,
+                topRightOpen
+        ));
+        blockModels.registerSimpleFlatItemModel(ModBlocks.CACTUS_DOOR.get().asItem());
+    }
+
+    private void createCactusTrapdoorModels(BlockModelGenerators blockModels) {
+        Identifier bottomModel = createCactusTrapdoorModel(blockModels, "bottom", "minecraft:block/template_orientable_trapdoor_bottom");
+        MultiVariant bottom = BlockModelGenerators.plainVariant(bottomModel);
+        MultiVariant top = BlockModelGenerators.plainVariant(createCactusTrapdoorModel(blockModels, "top", "minecraft:block/template_orientable_trapdoor_top"));
+        MultiVariant open = BlockModelGenerators.plainVariant(createCactusTrapdoorModel(blockModels, "open", "minecraft:block/template_orientable_trapdoor_open"));
+
+        blockModels.blockStateOutput.accept(BlockModelGenerators.createOrientableTrapdoor(ModBlocks.CACTUS_TRAPDOOR.get(), top, bottom, open));
+        blockModels.registerSimpleItemModel(ModBlocks.CACTUS_TRAPDOOR.get(), bottomModel);
+    }
+
+    private MultiVariant createCactusDoorModel(BlockModelGenerators blockModels, String variant) {
+        Identifier model = modModel("cactus_door_" + variant);
+        blockModels.modelOutput.accept(model, () -> createDoorModelJson(
+                "minecraft:block/door_" + variant,
+                "floraexpansion:block/cactus_door_bottom",
+                "floraexpansion:block/cactus_door_top"
+        ));
+        return BlockModelGenerators.plainVariant(model);
+    }
+
+    private Identifier createCactusTrapdoorModel(BlockModelGenerators blockModels, String variant, String parent) {
+        Identifier model = modModel("cactus_trapdoor_" + variant);
+        blockModels.modelOutput.accept(model, () -> createTrapdoorModelJson(parent));
+        return model;
+    }
+
+    private static JsonObject createDoorModelJson(String parent, String bottomTexture, String topTexture) {
+        JsonObject model = new JsonObject();
+        JsonObject textures = new JsonObject();
+
+        model.addProperty("parent", parent);
+        model.addProperty("render_type", "cutout");
+        textures.addProperty("bottom", bottomTexture);
+        textures.addProperty("top", topTexture);
+        model.add("textures", textures);
+        return model;
+    }
+
+    private static JsonObject createTrapdoorModelJson(String parent) {
+        JsonObject model = new JsonObject();
+        JsonObject textures = new JsonObject();
+
+        model.addProperty("parent", parent);
+        model.addProperty("render_type", "cutout");
+        textures.addProperty("texture", "floraexpansion:block/cactus_trapdoor");
         model.add("textures", textures);
         return model;
     }
@@ -1050,6 +1116,7 @@ public class ModModelProvider extends ModelProvider {
         JsonArray elements = new JsonArray();
 
         model.addProperty("parent", "minecraft:block/block");
+        model.addProperty("render_type", "cutout");
         textures.addProperty("particle", texture);
         textures.addProperty("all", texture);
         model.add("textures", textures);

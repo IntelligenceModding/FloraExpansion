@@ -37,13 +37,5 @@
       "translation": [0, 0, 0],
       "scale": [0.4, 0.4, 0.4]
     }
-  },
-  "overrides": [
-    {
-      "predicate": {
-        "custom_model_data": 1
-      },
-      "model": "floraexpansion:item/crate_packed"
-    }
-  ]
+  }
 }

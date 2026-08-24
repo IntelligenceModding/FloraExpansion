@@ -1,6 +1,8 @@
 {
   "parent": "minecraft:block/cross",
+  "render_type": "cutout",
   "textures": {
-    "cross": "floraexpansion:block/opuntia_cactus_stage0"
+    "cross": "floraexpansion:block/opuntia_cactus_stage0",
+    "particle": "floraexpansion:block/opuntia_cactus_stage0"
   }
 }

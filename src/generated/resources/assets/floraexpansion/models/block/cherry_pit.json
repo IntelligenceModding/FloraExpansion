@@ -1,6 +1,8 @@
 {
   "parent": "minecraft:block/cross",
+  "render_type": "cutout",
   "textures": {
-    "cross": "floraexpansion:block/planted_cherry_pit"
+    "cross": "floraexpansion:block/planted_cherry_pit",
+    "particle": "floraexpansion:block/planted_cherry_pit"
   }
 }
