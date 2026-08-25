@@ -4,7 +4,7 @@
       "model": "floraexpansion:block/crate"
     },
     "packed=false,powered=true": {
-      "model": "floraexpansion:block/crate_packed"
+      "model": "minecraft:block/barrel"
     },
     "packed=true,powered=false": {
       "model": "floraexpansion:block/crate_packed"

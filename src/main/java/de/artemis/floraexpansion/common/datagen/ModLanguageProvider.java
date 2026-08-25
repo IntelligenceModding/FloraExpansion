@@ -249,6 +249,10 @@ public class ModLanguageProvider extends net.neoforged.neoforge.common.data.Lang
         add(ModItems.CACTUS_SLICE.get(), "Cactus Slice");
         add(ModItems.CACTUS_JUICE.get(), "Cactus Juice");
         add(ModItems.PRICKLY_PEAR.get(), "Prickly Pear");
+
+        //Entities
+        add("entity.floraexpansion.cactus_boat", "Cactus Boat");
+        add("entity.floraexpansion.cactus_chest_boat", "Cactus Chest Boat");
     }
 }
 

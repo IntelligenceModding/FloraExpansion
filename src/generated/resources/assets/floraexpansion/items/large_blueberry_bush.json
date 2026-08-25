@@ -1,6 +1,6 @@
 {
   "model": {
     "type": "minecraft:model",
-    "model": "floraexpansion:block/large_blueberry_bush_stage1"
+    "model": "floraexpansion:item/large_blueberry_bush"
   }
 }

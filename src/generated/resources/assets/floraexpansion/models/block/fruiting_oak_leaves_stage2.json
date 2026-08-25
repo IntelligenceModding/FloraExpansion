@@ -1,73 +1,30 @@
 {
-  "parent": "minecraft:block/block",
   "elements": [
     {
       "faces": {
         "down": {
-          "cullface": "down",
-          "texture": "#all",
-          "tintindex": 0,
-          "uv": [
-            0,
-            0,
-            16,
-            16
-          ]
+          "texture": "#leaves",
+          "tintindex": 0
         },
         "east": {
-          "cullface": "east",
-          "texture": "#all",
-          "tintindex": 0,
-          "uv": [
-            0,
-            0,
-            16,
-            16
-          ]
+          "texture": "#leaves",
+          "tintindex": 0
         },
         "north": {
-          "cullface": "north",
-          "texture": "#all",
-          "tintindex": 0,
-          "uv": [
-            0,
-            0,
-            16,
-            16
-          ]
+          "texture": "#leaves",
+          "tintindex": 0
         },
         "south": {
-          "cullface": "south",
-          "texture": "#all",
-          "tintindex": 0,
-          "uv": [
-            0,
-            0,
-            16,
-            16
-          ]
+          "texture": "#leaves",
+          "tintindex": 0
         },
         "up": {
-          "cullface": "up",
-          "texture": "#all",
-          "tintindex": 0,
-          "uv": [
-            0,
-            0,
-            16,
-            16
-          ]
+          "texture": "#leaves",
+          "tintindex": 0
         },
         "west": {
-          "cullface": "west",
-          "texture": "#all",
-          "tintindex": 0,
-          "uv": [
-            0,
-            0,
-            16,
-            16
-          ]
+          "texture": "#leaves",
+          "tintindex": 0
         }
       },
       "from": [
@@ -83,82 +40,58 @@
     },
     {
       "faces": {
-        "down": {
-          "cullface": "down",
-          "texture": "#overlay",
-          "uv": [
-            0,
-            0,
-            16,
-            16
-          ]
-        },
         "east": {
-          "cullface": "east",
           "texture": "#overlay",
           "uv": [
-            0,
-            0,
-            16,
-            16
+            0.0,
+            0.0,
+            16.0,
+            16.0
           ]
         },
         "north": {
-          "cullface": "north",
           "texture": "#overlay",
           "uv": [
-            0,
-            0,
-            16,
-            16
+            0.0,
+            0.0,
+            16.0,
+            16.0
           ]
         },
         "south": {
-          "cullface": "south",
           "texture": "#overlay",
           "uv": [
-            0,
-            0,
-            16,
-            16
-          ]
-        },
-        "up": {
-          "cullface": "up",
-          "texture": "#overlay",
-          "uv": [
-            0,
-            0,
-            16,
-            16
+            0.0,
+            0.0,
+            16.0,
+            16.0
           ]
         },
         "west": {
-          "cullface": "west",
           "texture": "#overlay",
           "uv": [
-            0,
-            0,
-            16,
-            16
+            0.0,
+            0.0,
+            16.0,
+            16.0
           ]
         }
       },
       "from": [
-        0,
-        0,
-        0
+        -0.01,
+        -0.01,
+        -0.01
       ],
       "to": [
-        16,
-        16,
-        16
+        16.01,
+        16.01,
+        16.01
       ]
     }
   ],
-  "render_type": "cutout",
+  "render_type": "minecraft:cutout_mipped",
   "textures": {
-    "all": "minecraft:block/oak_leaves",
+    "leaves": "minecraft:block/oak_leaves",
     "overlay": "floraexpansion:block/fruiting_oak_leaves_stage2_overlay",
     "particle": "minecraft:block/oak_leaves"
   }

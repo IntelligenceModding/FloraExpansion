@@ -1,9 +1,10 @@
 {
-  "parent": "minecraft:block/cube_bottom_top",
+  "parent": "minecraft:block/composter",
   "textures": {
-    "bottom": "floraexpansion:block/crate_packed_bottom",
-    "particle": "floraexpansion:block/crate_packed_side",
-    "side": "floraexpansion:block/crate_packed_side",
-    "top": "floraexpansion:block/crate_packed_top"
+    "bottom": "minecraft:block/barrel_bottom",
+    "inside": "minecraft:block/barrel_bottom",
+    "particle": "minecraft:block/barrel_side",
+    "side": "minecraft:block/barrel_side",
+    "top": "minecraft:block/barrel_top"
   }
 }

@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "floraexpansion:item/emtpty_jar"
+    "layer0": "floraexpansion:item/empty_jar"
   }
 }
