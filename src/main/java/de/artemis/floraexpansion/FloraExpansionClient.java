@@ -12,9 +12,7 @@ import de.artemis.floraexpansion.common.particle.FlaxFlowerParticles;
 import de.artemis.floraexpansion.common.particle.PineLeafFluffParticles;
 import de.artemis.floraexpansion.common.particle.PineParticles;
 import de.artemis.floraexpansion.common.registry.ModParticles;
-import de.artemis.floraexpansion.common.registry.ModWoodTypes;
 import net.minecraft.client.model.object.boat.BoatModel;
-import net.minecraft.client.renderer.Sheets;
 import net.minecraft.client.renderer.blockentity.HangingSignRenderer;
 import net.minecraft.client.renderer.blockentity.StandingSignRenderer;
 import net.neoforged.api.distmarker.Dist;
@@ -22,7 +20,6 @@ import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.common.Mod;
-import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
 import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
 import net.neoforged.neoforge.client.event.RegisterParticleProvidersEvent;
@@ -46,12 +43,6 @@ public class FloraExpansionClient {
     public static void registerMenuScreens(RegisterMenuScreensEvent event) {
         event.register(ModMenuTypes.CRATE.get(), CrateScreen::new);
         event.register(ModMenuTypes.BASKET.get(), BasketScreen::new);
-    }
-
-    @SubscribeEvent
-    public static void onClientSetup(FMLClientSetupEvent event) {
-        FloraExpansion.LOGGER.info("Running cactus client setup");
-        event.enqueueWork(() -> Sheets.addWoodType(ModWoodTypes.CACTUS_WOOD_TYPE));
     }
 
     @SubscribeEvent

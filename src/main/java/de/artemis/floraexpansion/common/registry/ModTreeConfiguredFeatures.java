@@ -67,7 +67,8 @@ public class ModTreeConfiguredFeatures {
                         0.16666667F,
                         0.33333334F
                 ),
-                new TwoLayersFeatureSize(1, 0, 2)
+                new TwoLayersFeatureSize(1, 0, 2),
+                BlockStateProvider.simple(Blocks.DIRT)
         )
                 .decorators(List.of(FruitingCherryLeavesDecorator.INSTANCE))
                 .ignoreVines()
@@ -80,7 +81,8 @@ public class ModTreeConfiguredFeatures {
                 new StraightTrunkPlacer(4, 2, 0),
                 BlockStateProvider.simple(Blocks.OAK_LEAVES),
                 new BlobFoliagePlacer(ConstantInt.of(2), ConstantInt.of(0), 3),
-                new TwoLayersFeatureSize(1, 0, 1)
+                new TwoLayersFeatureSize(1, 0, 1),
+                BlockStateProvider.simple(Blocks.DIRT)
         )
                 .decorators(List.of(FruitingOakLeavesDecorator.INSTANCE))
                 .ignoreVines()
@@ -93,7 +95,8 @@ public class ModTreeConfiguredFeatures {
                 new FancyTrunkPlacer(3, 11, 0),
                 BlockStateProvider.simple(Blocks.OAK_LEAVES),
                 new FancyFoliagePlacer(ConstantInt.of(2), ConstantInt.of(4), 4),
-                new TwoLayersFeatureSize(0, 0, 0)
+                new TwoLayersFeatureSize(0, 0, 0),
+                BlockStateProvider.simple(Blocks.DIRT)
         )
                 .decorators(List.of(FruitingOakLeavesDecorator.INSTANCE))
                 .ignoreVines()

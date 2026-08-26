@@ -115,9 +115,9 @@ public class GiantCactusBlossomBlock extends BushBlock implements BonemealableBl
         return below.is(BlockTags.SAND)
                 || below.is(Blocks.RED_SAND)
                 || below.is(Blocks.TERRACOTTA)
-                || below.is(Blocks.WHITE_TERRACOTTA)
-                || below.is(Blocks.ORANGE_TERRACOTTA)
-                || below.is(Blocks.YELLOW_TERRACOTTA);
+                || below.is(Blocks.DYED_TERRACOTTA.white())
+                || below.is(Blocks.DYED_TERRACOTTA.orange())
+                || below.is(Blocks.DYED_TERRACOTTA.yellow());
     }
 
     @Override

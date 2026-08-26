@@ -121,9 +121,9 @@ public class CactusClusterFeature extends Feature<@NotNull NoneFeatureConfigurat
         return below.is(Blocks.SAND)
                 || below.is(Blocks.RED_SAND)
                 || below.is(Blocks.TERRACOTTA)
-                || below.is(Blocks.WHITE_TERRACOTTA)
-                || below.is(Blocks.ORANGE_TERRACOTTA)
-                || below.is(Blocks.YELLOW_TERRACOTTA);
+                || below.is(Blocks.DYED_TERRACOTTA.white())
+                || below.is(Blocks.DYED_TERRACOTTA.orange())
+                || below.is(Blocks.DYED_TERRACOTTA.yellow());
     }
 
     private static boolean tryPlaceDesertMoss(WorldGenLevel level, BlockPos pos, RandomSource random) {

@@ -13,6 +13,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 
@@ -32,7 +33,7 @@ public final class ModPayloads {
 
             Level level = player.level();
             BlockPos pos = payload.pos();
-            if (!level.isLoaded(pos) || player.distanceToSqr(pos.getCenter()) > 36.0D) {
+            if (!level.isLoaded(pos) || player.distanceToSqr(Vec3.atCenterOf(pos)) > 36.0D) {
                 return;
             }
 

@@ -4,10 +4,15 @@ import de.artemis.floraexpansion.FloraExpansion;
 import de.artemis.floraexpansion.common.registry.ModBlocks;
 import de.artemis.floraexpansion.common.registry.ModItems;
 import net.minecraft.core.HolderLookup;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.data.PackOutput;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.tags.ItemTags;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.level.block.Block;
 import net.neoforged.neoforge.common.Tags;
 import net.neoforged.neoforge.common.data.ItemTagsProvider;
+import net.neoforged.neoforge.registries.DeferredBlock;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.concurrent.CompletableFuture;
@@ -20,127 +25,128 @@ public class ModItemTagProvider extends ItemTagsProvider {
     @Override
     protected void addTags(HolderLookup.@NotNull Provider provider) {
         tag(ItemTags.CHICKEN_FOOD)
-                .add(ModItems.PINE_NUTS.get())
-                .add(ModItems.FLAX_SEED.get());
+                .add(ModItems.PINE_NUTS.getKey())
+                .add(ModItems.FLAX_SEED.getKey());
 
         tag(ItemTags.PARROT_FOOD)
-                .add(ModItems.PINE_NUTS.get())
-                .add(ModItems.FLAX_SEED.get());
+                .add(ModItems.PINE_NUTS.getKey())
+                .add(ModItems.FLAX_SEED.getKey());
 
         tag(ItemTags.PARROT_POISONOUS_FOOD)
-                .add(ModItems.TOASTED_PINE_NUTS.get());
+                .add(ModItems.TOASTED_PINE_NUTS.getKey());
 
         tag(ItemTags.DAMPENS_VIBRATIONS)
-                .add(ModBlocks.PINE_LITTER.get().asItem())
-                .add(ModBlocks.LINEN_BLOCK.get().asItem())
-                .add(ModBlocks.LINEN_CARPET.get().asItem());
+                .add(blockItemKey(ModBlocks.PINE_LITTER))
+                .add(blockItemKey(ModBlocks.LINEN_BLOCK))
+                .add(blockItemKey(ModBlocks.LINEN_CARPET));
 
         tag(ItemTags.VILLAGER_PLANTABLE_SEEDS)
-                .add(ModItems.FLAX_SEED.get())
-                .add(ModItems.STRAWBERRY.get());
+                .add(ModItems.FLAX_SEED.getKey())
+                .add(ModItems.STRAWBERRY.getKey());
 
         tag(ItemTags.SAPLINGS)
-                .add(ModBlocks.APPLE_CORE.get().asItem())
-                .add(ModBlocks.CHERRY_PIT.get().asItem());
-
-        tag(ItemTags.FLOWERS)
-                .add(ModBlocks.GIANT_CACTUS_BLOSSOM.get().asItem());
+                .add(blockItemKey(ModBlocks.APPLE_CORE))
+                .add(blockItemKey(ModBlocks.CHERRY_PIT));
 
         tag(ItemTags.LOGS_THAT_BURN)
-                .add(ModBlocks.STRIPPED_GIANT_CACTUS_BASE.get().asItem())
-                .add(ModBlocks.GIANT_CACTUS_BASE.get().asItem())
-                .add(ModBlocks.STRIPPED_GIANT_CACTUS_WOOD.get().asItem())
-                .add(ModBlocks.GIANT_CACTUS_WOOD.get().asItem());
+                .add(blockItemKey(ModBlocks.STRIPPED_GIANT_CACTUS_BASE))
+                .add(blockItemKey(ModBlocks.GIANT_CACTUS_BASE))
+                .add(blockItemKey(ModBlocks.STRIPPED_GIANT_CACTUS_WOOD))
+                .add(blockItemKey(ModBlocks.GIANT_CACTUS_WOOD));
 
         tag(ItemTags.PLANKS)
-                .add(ModBlocks.CACTUS_PLANKS.get().asItem());
+                .add(blockItemKey(ModBlocks.CACTUS_PLANKS));
 
         tag(ItemTags.BOATS)
-                .add(ModItems.CACTUS_BOAT.get());
+                .add(ModItems.CACTUS_BOAT.getKey());
 
         tag(ItemTags.CHEST_BOATS)
-                .add(ModItems.CACTUS_CHEST_BOAT.get());
+                .add(ModItems.CACTUS_CHEST_BOAT.getKey());
 
         tag(ItemTags.SIGNS)
-                .add(ModBlocks.CACTUS_SIGN.get().asItem());
+                .add(ModItems.CACTUS_SIGN.getKey());
 
         tag(ItemTags.HANGING_SIGNS)
-                .add(ModBlocks.CACTUS_HANGING_SIGN.get().asItem());
+                .add(ModItems.CACTUS_HANGING_SIGN.getKey());
 
         tag(ItemTags.ARMOR_ENCHANTABLE)
-                .add(ModItems.CACTUS_HELMET.get())
-                .add(ModItems.CACTUS_CHESTPLATE.get())
-                .add(ModItems.CACTUS_LEGGINGS.get())
-                .add(ModItems.CACTUS_BOOTS.get());
+                .add(ModItems.CACTUS_HELMET.getKey())
+                .add(ModItems.CACTUS_CHESTPLATE.getKey())
+                .add(ModItems.CACTUS_LEGGINGS.getKey())
+                .add(ModItems.CACTUS_BOOTS.getKey());
 
         tag(ItemTags.FIRE_ASPECT_ENCHANTABLE)
-                .add(ModItems.CACTUS_HELMET.get())
-                .add(ModItems.CACTUS_CHESTPLATE.get())
-                .add(ModItems.CACTUS_LEGGINGS.get())
-                .add(ModItems.CACTUS_BOOTS.get());
+                .add(ModItems.CACTUS_HELMET.getKey())
+                .add(ModItems.CACTUS_CHESTPLATE.getKey())
+                .add(ModItems.CACTUS_LEGGINGS.getKey())
+                .add(ModItems.CACTUS_BOOTS.getKey());
 
         tag(ItemTags.HEAD_ARMOR_ENCHANTABLE)
-                .add(ModItems.CACTUS_HELMET.get());
+                .add(ModItems.CACTUS_HELMET.getKey());
 
         tag(ItemTags.CHEST_ARMOR_ENCHANTABLE)
-                .add(ModItems.CACTUS_CHESTPLATE.get());
+                .add(ModItems.CACTUS_CHESTPLATE.getKey());
 
         tag(ItemTags.LEG_ARMOR_ENCHANTABLE)
-                .add(ModItems.CACTUS_LEGGINGS.get());
+                .add(ModItems.CACTUS_LEGGINGS.getKey());
 
         tag(ItemTags.FOOT_ARMOR_ENCHANTABLE)
-                .add(ModItems.CACTUS_BOOTS.get());
+                .add(ModItems.CACTUS_BOOTS.getKey());
 
         tag(ItemTags.HEAD_ARMOR)
-                .add(ModItems.CACTUS_HELMET.get());
+                .add(ModItems.CACTUS_HELMET.getKey());
 
         tag(ItemTags.CHEST_ARMOR)
-                .add(ModItems.CACTUS_CHESTPLATE.get());
+                .add(ModItems.CACTUS_CHESTPLATE.getKey());
 
         tag(ItemTags.LEG_ARMOR)
-                .add(ModItems.CACTUS_LEGGINGS.get());
+                .add(ModItems.CACTUS_LEGGINGS.getKey());
 
         tag(ItemTags.FOOT_ARMOR)
-                .add(ModItems.CACTUS_BOOTS.get());
+                .add(ModItems.CACTUS_BOOTS.getKey());
 
         tag(ItemTags.FOX_FOOD)
-                .add(ModItems.PRICKLY_PEAR.get())
-                .add(ModItems.BLUEBERRIES.get())
-                .add(ModItems.STRAWBERRY.get());
+                .add(ModItems.PRICKLY_PEAR.getKey())
+                .add(ModItems.BLUEBERRIES.getKey())
+                .add(ModItems.STRAWBERRY.getKey());
 
         tag(Tags.Items.FOODS)
-                .add(ModItems.BLUEBERRIES.get())
-                .add(ModItems.BLUEBERRY_COOKIE.get())
-                .add(ModItems.BLUEBERRY_PIE.get())
-                .add(ModItems.BLUEBERRY_PIE_SLICE.get())
-                .add(ModItems.BLUEBERRY_JUICE.get())
-                .add(ModItems.STRAWBERRY.get())
-                .add(ModItems.STRAWBERRY_JAM.get())
-                .add(ModItems.PINE_NUTS.get())
-                .add(ModItems.TOASTED_PINE_NUTS.get())
-                .add(ModItems.CHERRIES.get())
-                .add(ModItems.SWEET_BERRY_MIX.get())
-                .add(ModItems.CHERRY_JUICE.get())
-                .add(ModItems.CACTUS_SLICE.get())
-                .add(ModItems.APPLE_JUICE.get())
-                .add(ModItems.CACTUS_JUICE.get())
-                .add(ModItems.FOREST_SNACK.get())
-                .add(ModItems.PRICKLY_PEAR.get());
+                .add(ModItems.BLUEBERRIES.getKey())
+                .add(ModItems.BLUEBERRY_COOKIE.getKey())
+                .add(ModItems.BLUEBERRY_PIE.getKey())
+                .add(ModItems.BLUEBERRY_PIE_SLICE.getKey())
+                .add(ModItems.BLUEBERRY_JUICE.getKey())
+                .add(ModItems.STRAWBERRY.getKey())
+                .add(ModItems.STRAWBERRY_JAM.getKey())
+                .add(ModItems.PINE_NUTS.getKey())
+                .add(ModItems.TOASTED_PINE_NUTS.getKey())
+                .add(ModItems.CHERRIES.getKey())
+                .add(ModItems.SWEET_BERRY_MIX.getKey())
+                .add(ModItems.CHERRY_JUICE.getKey())
+                .add(ModItems.CACTUS_SLICE.getKey())
+                .add(ModItems.APPLE_JUICE.getKey())
+                .add(ModItems.CACTUS_JUICE.getKey())
+                .add(ModItems.FOREST_SNACK.getKey())
+                .add(ModItems.PRICKLY_PEAR.getKey());
 
         tag(Tags.Items.STRINGS)
-                .add(ModItems.LINEN_THREAD.get());
+                .add(ModItems.LINEN_THREAD.getKey());
 
         tag(Tags.Items.SEEDS)
-                .add(ModItems.FLAX_SEED.get())
-                .add(ModItems.STRAWBERRY.get());
+                .add(ModItems.FLAX_SEED.getKey())
+                .add(ModItems.STRAWBERRY.getKey());
 
         tag(Tags.Items.FOODS_BERRY)
-                .add(ModItems.PRICKLY_PEAR.get())
-                .add(ModItems.BLUEBERRIES.get())
-                .add(ModItems.STRAWBERRY.get());
+                .add(ModItems.PRICKLY_PEAR.getKey())
+                .add(ModItems.BLUEBERRIES.getKey())
+                .add(ModItems.STRAWBERRY.getKey());
 
         tag(Tags.Items.ANIMAL_FOODS)
-                .add(ModItems.PRICKLY_PEAR.get());
+                .add(ModItems.PRICKLY_PEAR.getKey());
+    }
+
+    private static ResourceKey<Item> blockItemKey(DeferredBlock<? extends Block> block) {
+        return ResourceKey.create(Registries.ITEM, block.getId());
     }
 }
 

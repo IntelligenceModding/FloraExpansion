@@ -40,37 +40,37 @@ public class ModBlocks {
     public static final DeferredBlock<StrawberryCandleCakeBlock> STRAWBERRY_CANDLE_CAKE = registerBlockWithoutItem("strawberry_candle_cake",
             () -> new StrawberryCandleCakeBlock(Blocks.CANDLE, blockProperties("strawberry_candle_cake", BlockBehaviour.Properties.ofFullCopy(Blocks.CANDLE_CAKE))));
     public static final DeferredBlock<StrawberryCandleCakeBlock> WHITE_STRAWBERRY_CANDLE_CAKE = registerBlockWithoutItem("white_strawberry_candle_cake",
-            () -> new StrawberryCandleCakeBlock(Blocks.WHITE_CANDLE, blockProperties("white_strawberry_candle_cake", BlockBehaviour.Properties.ofFullCopy(Blocks.CANDLE_CAKE))));
+            () -> new StrawberryCandleCakeBlock(Blocks.DYED_CANDLE.white(), blockProperties("white_strawberry_candle_cake", BlockBehaviour.Properties.ofFullCopy(Blocks.CANDLE_CAKE))));
     public static final DeferredBlock<StrawberryCandleCakeBlock> ORANGE_STRAWBERRY_CANDLE_CAKE = registerBlockWithoutItem("orange_strawberry_candle_cake",
-            () -> new StrawberryCandleCakeBlock(Blocks.ORANGE_CANDLE, blockProperties("orange_strawberry_candle_cake", BlockBehaviour.Properties.ofFullCopy(Blocks.CANDLE_CAKE))));
+            () -> new StrawberryCandleCakeBlock(Blocks.DYED_CANDLE.orange(), blockProperties("orange_strawberry_candle_cake", BlockBehaviour.Properties.ofFullCopy(Blocks.CANDLE_CAKE))));
     public static final DeferredBlock<StrawberryCandleCakeBlock> MAGENTA_STRAWBERRY_CANDLE_CAKE = registerBlockWithoutItem("magenta_strawberry_candle_cake",
-            () -> new StrawberryCandleCakeBlock(Blocks.MAGENTA_CANDLE, blockProperties("magenta_strawberry_candle_cake", BlockBehaviour.Properties.ofFullCopy(Blocks.CANDLE_CAKE))));
+            () -> new StrawberryCandleCakeBlock(Blocks.DYED_CANDLE.magenta(), blockProperties("magenta_strawberry_candle_cake", BlockBehaviour.Properties.ofFullCopy(Blocks.CANDLE_CAKE))));
     public static final DeferredBlock<StrawberryCandleCakeBlock> LIGHT_BLUE_STRAWBERRY_CANDLE_CAKE = registerBlockWithoutItem("light_blue_strawberry_candle_cake",
-            () -> new StrawberryCandleCakeBlock(Blocks.LIGHT_BLUE_CANDLE, blockProperties("light_blue_strawberry_candle_cake", BlockBehaviour.Properties.ofFullCopy(Blocks.CANDLE_CAKE))));
+            () -> new StrawberryCandleCakeBlock(Blocks.DYED_CANDLE.lightBlue(), blockProperties("light_blue_strawberry_candle_cake", BlockBehaviour.Properties.ofFullCopy(Blocks.CANDLE_CAKE))));
     public static final DeferredBlock<StrawberryCandleCakeBlock> YELLOW_STRAWBERRY_CANDLE_CAKE = registerBlockWithoutItem("yellow_strawberry_candle_cake",
-            () -> new StrawberryCandleCakeBlock(Blocks.YELLOW_CANDLE, blockProperties("yellow_strawberry_candle_cake", BlockBehaviour.Properties.ofFullCopy(Blocks.CANDLE_CAKE))));
+            () -> new StrawberryCandleCakeBlock(Blocks.DYED_CANDLE.yellow(), blockProperties("yellow_strawberry_candle_cake", BlockBehaviour.Properties.ofFullCopy(Blocks.CANDLE_CAKE))));
     public static final DeferredBlock<StrawberryCandleCakeBlock> LIME_STRAWBERRY_CANDLE_CAKE = registerBlockWithoutItem("lime_strawberry_candle_cake",
-            () -> new StrawberryCandleCakeBlock(Blocks.LIME_CANDLE, blockProperties("lime_strawberry_candle_cake", BlockBehaviour.Properties.ofFullCopy(Blocks.CANDLE_CAKE))));
+            () -> new StrawberryCandleCakeBlock(Blocks.DYED_CANDLE.lime(), blockProperties("lime_strawberry_candle_cake", BlockBehaviour.Properties.ofFullCopy(Blocks.CANDLE_CAKE))));
     public static final DeferredBlock<StrawberryCandleCakeBlock> PINK_STRAWBERRY_CANDLE_CAKE = registerBlockWithoutItem("pink_strawberry_candle_cake",
-            () -> new StrawberryCandleCakeBlock(Blocks.PINK_CANDLE, blockProperties("pink_strawberry_candle_cake", BlockBehaviour.Properties.ofFullCopy(Blocks.CANDLE_CAKE))));
+            () -> new StrawberryCandleCakeBlock(Blocks.DYED_CANDLE.pink(), blockProperties("pink_strawberry_candle_cake", BlockBehaviour.Properties.ofFullCopy(Blocks.CANDLE_CAKE))));
     public static final DeferredBlock<StrawberryCandleCakeBlock> GRAY_STRAWBERRY_CANDLE_CAKE = registerBlockWithoutItem("gray_strawberry_candle_cake",
-            () -> new StrawberryCandleCakeBlock(Blocks.GRAY_CANDLE, blockProperties("gray_strawberry_candle_cake", BlockBehaviour.Properties.ofFullCopy(Blocks.CANDLE_CAKE))));
+            () -> new StrawberryCandleCakeBlock(Blocks.DYED_CANDLE.gray(), blockProperties("gray_strawberry_candle_cake", BlockBehaviour.Properties.ofFullCopy(Blocks.CANDLE_CAKE))));
     public static final DeferredBlock<StrawberryCandleCakeBlock> LIGHT_GRAY_STRAWBERRY_CANDLE_CAKE = registerBlockWithoutItem("light_gray_strawberry_candle_cake",
-            () -> new StrawberryCandleCakeBlock(Blocks.LIGHT_GRAY_CANDLE, blockProperties("light_gray_strawberry_candle_cake", BlockBehaviour.Properties.ofFullCopy(Blocks.CANDLE_CAKE))));
+            () -> new StrawberryCandleCakeBlock(Blocks.DYED_CANDLE.lightGray(), blockProperties("light_gray_strawberry_candle_cake", BlockBehaviour.Properties.ofFullCopy(Blocks.CANDLE_CAKE))));
     public static final DeferredBlock<StrawberryCandleCakeBlock> CYAN_STRAWBERRY_CANDLE_CAKE = registerBlockWithoutItem("cyan_strawberry_candle_cake",
-            () -> new StrawberryCandleCakeBlock(Blocks.CYAN_CANDLE, blockProperties("cyan_strawberry_candle_cake", BlockBehaviour.Properties.ofFullCopy(Blocks.CANDLE_CAKE))));
+            () -> new StrawberryCandleCakeBlock(Blocks.DYED_CANDLE.cyan(), blockProperties("cyan_strawberry_candle_cake", BlockBehaviour.Properties.ofFullCopy(Blocks.CANDLE_CAKE))));
     public static final DeferredBlock<StrawberryCandleCakeBlock> PURPLE_STRAWBERRY_CANDLE_CAKE = registerBlockWithoutItem("purple_strawberry_candle_cake",
-            () -> new StrawberryCandleCakeBlock(Blocks.PURPLE_CANDLE, blockProperties("purple_strawberry_candle_cake", BlockBehaviour.Properties.ofFullCopy(Blocks.CANDLE_CAKE))));
+            () -> new StrawberryCandleCakeBlock(Blocks.DYED_CANDLE.purple(), blockProperties("purple_strawberry_candle_cake", BlockBehaviour.Properties.ofFullCopy(Blocks.CANDLE_CAKE))));
     public static final DeferredBlock<StrawberryCandleCakeBlock> BLUE_STRAWBERRY_CANDLE_CAKE = registerBlockWithoutItem("blue_strawberry_candle_cake",
-            () -> new StrawberryCandleCakeBlock(Blocks.BLUE_CANDLE, blockProperties("blue_strawberry_candle_cake", BlockBehaviour.Properties.ofFullCopy(Blocks.CANDLE_CAKE))));
+            () -> new StrawberryCandleCakeBlock(Blocks.DYED_CANDLE.blue(), blockProperties("blue_strawberry_candle_cake", BlockBehaviour.Properties.ofFullCopy(Blocks.CANDLE_CAKE))));
     public static final DeferredBlock<StrawberryCandleCakeBlock> BROWN_STRAWBERRY_CANDLE_CAKE = registerBlockWithoutItem("brown_strawberry_candle_cake",
-            () -> new StrawberryCandleCakeBlock(Blocks.BROWN_CANDLE, blockProperties("brown_strawberry_candle_cake", BlockBehaviour.Properties.ofFullCopy(Blocks.CANDLE_CAKE))));
+            () -> new StrawberryCandleCakeBlock(Blocks.DYED_CANDLE.brown(), blockProperties("brown_strawberry_candle_cake", BlockBehaviour.Properties.ofFullCopy(Blocks.CANDLE_CAKE))));
     public static final DeferredBlock<StrawberryCandleCakeBlock> GREEN_STRAWBERRY_CANDLE_CAKE = registerBlockWithoutItem("green_strawberry_candle_cake",
-            () -> new StrawberryCandleCakeBlock(Blocks.GREEN_CANDLE, blockProperties("green_strawberry_candle_cake", BlockBehaviour.Properties.ofFullCopy(Blocks.CANDLE_CAKE))));
+            () -> new StrawberryCandleCakeBlock(Blocks.DYED_CANDLE.green(), blockProperties("green_strawberry_candle_cake", BlockBehaviour.Properties.ofFullCopy(Blocks.CANDLE_CAKE))));
     public static final DeferredBlock<StrawberryCandleCakeBlock> RED_STRAWBERRY_CANDLE_CAKE = registerBlockWithoutItem("red_strawberry_candle_cake",
-            () -> new StrawberryCandleCakeBlock(Blocks.RED_CANDLE, blockProperties("red_strawberry_candle_cake", BlockBehaviour.Properties.ofFullCopy(Blocks.CANDLE_CAKE))));
+            () -> new StrawberryCandleCakeBlock(Blocks.DYED_CANDLE.red(), blockProperties("red_strawberry_candle_cake", BlockBehaviour.Properties.ofFullCopy(Blocks.CANDLE_CAKE))));
     public static final DeferredBlock<StrawberryCandleCakeBlock> BLACK_STRAWBERRY_CANDLE_CAKE = registerBlockWithoutItem("black_strawberry_candle_cake",
-            () -> new StrawberryCandleCakeBlock(Blocks.BLACK_CANDLE, blockProperties("black_strawberry_candle_cake", BlockBehaviour.Properties.ofFullCopy(Blocks.CANDLE_CAKE))));
+            () -> new StrawberryCandleCakeBlock(Blocks.DYED_CANDLE.black(), blockProperties("black_strawberry_candle_cake", BlockBehaviour.Properties.ofFullCopy(Blocks.CANDLE_CAKE))));
 
     public static final DeferredBlock<SmallBlueberryBushBlock> BLUEBERRY_BUSH =
             BLOCKS.register("blueberry_bush", () -> new SmallBlueberryBushBlock(blockProperties("blueberry_bush", BlockBehaviour.Properties.ofFullCopy(Blocks.SWEET_BERRY_BUSH).randomTicks())));

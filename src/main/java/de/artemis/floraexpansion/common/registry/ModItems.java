@@ -2,7 +2,7 @@ package de.artemis.floraexpansion.common.registry;
 
 import de.artemis.floraexpansion.FloraExpansion;
 import net.minecraft.sounds.SoundEvents;
-import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.EntityTypes;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.BlockItem;
@@ -79,22 +79,22 @@ public class ModItems {
             properties -> new WoodenMilkBucketItem(properties.stacksTo(1).durability(10)));
 
     public static final DeferredItem<Item> COD_WOODEN_BUCKET = ITEMS.registerItem("cod_wooden_bucket",
-            properties -> new WoodenMobBucketItem(EntityType.COD, SoundEvents.BUCKET_EMPTY_FISH, properties.stacksTo(1).durability(10)));
+            properties -> new WoodenMobBucketItem(EntityTypes.COD, SoundEvents.BUCKET_EMPTY_FISH, properties.stacksTo(1).durability(10)));
 
     public static final DeferredItem<Item> SALMON_WOODEN_BUCKET = ITEMS.registerItem("salmon_wooden_bucket",
-            properties -> new WoodenMobBucketItem(EntityType.SALMON, SoundEvents.BUCKET_EMPTY_FISH, properties.stacksTo(1).durability(10)));
+            properties -> new WoodenMobBucketItem(EntityTypes.SALMON, SoundEvents.BUCKET_EMPTY_FISH, properties.stacksTo(1).durability(10)));
 
     public static final DeferredItem<Item> PUFFERFISH_WOODEN_BUCKET = ITEMS.registerItem("pufferfish_wooden_bucket",
-            properties -> new WoodenMobBucketItem(EntityType.PUFFERFISH, SoundEvents.BUCKET_EMPTY_FISH, properties.stacksTo(1).durability(10)));
+            properties -> new WoodenMobBucketItem(EntityTypes.PUFFERFISH, SoundEvents.BUCKET_EMPTY_FISH, properties.stacksTo(1).durability(10)));
 
     public static final DeferredItem<Item> TROPICAL_FISH_WOODEN_BUCKET = ITEMS.registerItem("tropical_fish_wooden_bucket",
-            properties -> new WoodenMobBucketItem(EntityType.TROPICAL_FISH, SoundEvents.BUCKET_EMPTY_FISH, properties.stacksTo(1).durability(10)));
+            properties -> new WoodenMobBucketItem(EntityTypes.TROPICAL_FISH, SoundEvents.BUCKET_EMPTY_FISH, properties.stacksTo(1).durability(10)));
 
     public static final DeferredItem<Item> AXOLOTL_WOODEN_BUCKET = ITEMS.registerItem("axolotl_wooden_bucket",
-            properties -> new WoodenMobBucketItem(EntityType.AXOLOTL, SoundEvents.BUCKET_EMPTY_AXOLOTL, properties.stacksTo(1).durability(10)));
+            properties -> new WoodenMobBucketItem(EntityTypes.AXOLOTL, SoundEvents.BUCKET_EMPTY_AXOLOTL, properties.stacksTo(1).durability(10)));
 
     public static final DeferredItem<Item> TADPOLE_WOODEN_BUCKET = ITEMS.registerItem("tadpole_wooden_bucket",
-            properties -> new WoodenMobBucketItem(EntityType.TADPOLE, SoundEvents.BUCKET_EMPTY_TADPOLE, properties.stacksTo(1).durability(10)));
+            properties -> new WoodenMobBucketItem(EntityTypes.TADPOLE, SoundEvents.BUCKET_EMPTY_TADPOLE, properties.stacksTo(1).durability(10)));
 
     public static final DeferredItem<Item> FLAX_SEED = ITEMS.registerItem("flax_seed",
             properties -> new BlockItem(ModBlocks.FLAX_CROP.get(), properties));

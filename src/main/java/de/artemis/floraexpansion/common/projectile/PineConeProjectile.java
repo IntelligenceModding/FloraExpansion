@@ -8,6 +8,7 @@ import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.EntityTypes;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.projectile.throwableitemprojectile.ThrowableItemProjectile;
@@ -27,11 +28,11 @@ public class PineConeProjectile extends ThrowableItemProjectile {
     }
 
     public PineConeProjectile(Level level, LivingEntity shooter, ItemStack stack) {
-        super(EntityType.SNOWBALL, shooter, level, stack);
+        super(EntityTypes.SNOWBALL, shooter, level, stack);
     }
 
     public PineConeProjectile(Level level, double x, double y, double z, ItemStack stack) {
-        super(EntityType.SNOWBALL, x, y, z, level, stack);
+        super(EntityTypes.SNOWBALL, x, y, z, level, stack);
     }
 
     @Override

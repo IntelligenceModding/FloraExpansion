@@ -63,9 +63,9 @@ public class CactusFruitPlantBlock extends BushBlock implements BonemealableBloc
         return state.is(Blocks.SAND)
                 || state.is(Blocks.RED_SAND)
                 || state.is(Blocks.TERRACOTTA)
-                || state.is(Blocks.WHITE_TERRACOTTA)
-                || state.is(Blocks.ORANGE_TERRACOTTA)
-                || state.is(Blocks.YELLOW_TERRACOTTA);
+                || state.is(Blocks.DYED_TERRACOTTA.white())
+                || state.is(Blocks.DYED_TERRACOTTA.orange())
+                || state.is(Blocks.DYED_TERRACOTTA.yellow());
     }
 
     @Override

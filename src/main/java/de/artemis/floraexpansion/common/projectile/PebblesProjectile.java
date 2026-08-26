@@ -6,6 +6,7 @@ import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.EntityTypes;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.projectile.throwableitemprojectile.ThrowableItemProjectile;
@@ -24,11 +25,11 @@ public class PebblesProjectile extends ThrowableItemProjectile {
     }
 
     public PebblesProjectile(Level level, LivingEntity shooter, ItemStack stack) {
-        super(EntityType.SNOWBALL, shooter, level, stack);
+        super(EntityTypes.SNOWBALL, shooter, level, stack);
     }
 
     public PebblesProjectile(Level level, double x, double y, double z, ItemStack stack) {
-        super(EntityType.SNOWBALL, x, y, z, level, stack);
+        super(EntityTypes.SNOWBALL, x, y, z, level, stack);
     }
 
     @Override

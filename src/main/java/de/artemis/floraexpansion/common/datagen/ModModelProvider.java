@@ -648,22 +648,22 @@ public class ModModelProvider extends ModelProvider {
         }
 
         createStrawberryCandleCakeModels(blockModels, Blocks.CANDLE, ModBlocks.STRAWBERRY_CANDLE_CAKE.get());
-        createStrawberryCandleCakeModels(blockModels, Blocks.WHITE_CANDLE, ModBlocks.WHITE_STRAWBERRY_CANDLE_CAKE.get());
-        createStrawberryCandleCakeModels(blockModels, Blocks.ORANGE_CANDLE, ModBlocks.ORANGE_STRAWBERRY_CANDLE_CAKE.get());
-        createStrawberryCandleCakeModels(blockModels, Blocks.MAGENTA_CANDLE, ModBlocks.MAGENTA_STRAWBERRY_CANDLE_CAKE.get());
-        createStrawberryCandleCakeModels(blockModels, Blocks.LIGHT_BLUE_CANDLE, ModBlocks.LIGHT_BLUE_STRAWBERRY_CANDLE_CAKE.get());
-        createStrawberryCandleCakeModels(blockModels, Blocks.YELLOW_CANDLE, ModBlocks.YELLOW_STRAWBERRY_CANDLE_CAKE.get());
-        createStrawberryCandleCakeModels(blockModels, Blocks.LIME_CANDLE, ModBlocks.LIME_STRAWBERRY_CANDLE_CAKE.get());
-        createStrawberryCandleCakeModels(blockModels, Blocks.PINK_CANDLE, ModBlocks.PINK_STRAWBERRY_CANDLE_CAKE.get());
-        createStrawberryCandleCakeModels(blockModels, Blocks.GRAY_CANDLE, ModBlocks.GRAY_STRAWBERRY_CANDLE_CAKE.get());
-        createStrawberryCandleCakeModels(blockModels, Blocks.LIGHT_GRAY_CANDLE, ModBlocks.LIGHT_GRAY_STRAWBERRY_CANDLE_CAKE.get());
-        createStrawberryCandleCakeModels(blockModels, Blocks.CYAN_CANDLE, ModBlocks.CYAN_STRAWBERRY_CANDLE_CAKE.get());
-        createStrawberryCandleCakeModels(blockModels, Blocks.PURPLE_CANDLE, ModBlocks.PURPLE_STRAWBERRY_CANDLE_CAKE.get());
-        createStrawberryCandleCakeModels(blockModels, Blocks.BLUE_CANDLE, ModBlocks.BLUE_STRAWBERRY_CANDLE_CAKE.get());
-        createStrawberryCandleCakeModels(blockModels, Blocks.BROWN_CANDLE, ModBlocks.BROWN_STRAWBERRY_CANDLE_CAKE.get());
-        createStrawberryCandleCakeModels(blockModels, Blocks.GREEN_CANDLE, ModBlocks.GREEN_STRAWBERRY_CANDLE_CAKE.get());
-        createStrawberryCandleCakeModels(blockModels, Blocks.RED_CANDLE, ModBlocks.RED_STRAWBERRY_CANDLE_CAKE.get());
-        createStrawberryCandleCakeModels(blockModels, Blocks.BLACK_CANDLE, ModBlocks.BLACK_STRAWBERRY_CANDLE_CAKE.get());
+        createStrawberryCandleCakeModels(blockModels, Blocks.DYED_CANDLE.white(), ModBlocks.WHITE_STRAWBERRY_CANDLE_CAKE.get());
+        createStrawberryCandleCakeModels(blockModels, Blocks.DYED_CANDLE.orange(), ModBlocks.ORANGE_STRAWBERRY_CANDLE_CAKE.get());
+        createStrawberryCandleCakeModels(blockModels, Blocks.DYED_CANDLE.magenta(), ModBlocks.MAGENTA_STRAWBERRY_CANDLE_CAKE.get());
+        createStrawberryCandleCakeModels(blockModels, Blocks.DYED_CANDLE.lightBlue(), ModBlocks.LIGHT_BLUE_STRAWBERRY_CANDLE_CAKE.get());
+        createStrawberryCandleCakeModels(blockModels, Blocks.DYED_CANDLE.yellow(), ModBlocks.YELLOW_STRAWBERRY_CANDLE_CAKE.get());
+        createStrawberryCandleCakeModels(blockModels, Blocks.DYED_CANDLE.lime(), ModBlocks.LIME_STRAWBERRY_CANDLE_CAKE.get());
+        createStrawberryCandleCakeModels(blockModels, Blocks.DYED_CANDLE.pink(), ModBlocks.PINK_STRAWBERRY_CANDLE_CAKE.get());
+        createStrawberryCandleCakeModels(blockModels, Blocks.DYED_CANDLE.gray(), ModBlocks.GRAY_STRAWBERRY_CANDLE_CAKE.get());
+        createStrawberryCandleCakeModels(blockModels, Blocks.DYED_CANDLE.lightGray(), ModBlocks.LIGHT_GRAY_STRAWBERRY_CANDLE_CAKE.get());
+        createStrawberryCandleCakeModels(blockModels, Blocks.DYED_CANDLE.cyan(), ModBlocks.CYAN_STRAWBERRY_CANDLE_CAKE.get());
+        createStrawberryCandleCakeModels(blockModels, Blocks.DYED_CANDLE.purple(), ModBlocks.PURPLE_STRAWBERRY_CANDLE_CAKE.get());
+        createStrawberryCandleCakeModels(blockModels, Blocks.DYED_CANDLE.blue(), ModBlocks.BLUE_STRAWBERRY_CANDLE_CAKE.get());
+        createStrawberryCandleCakeModels(blockModels, Blocks.DYED_CANDLE.brown(), ModBlocks.BROWN_STRAWBERRY_CANDLE_CAKE.get());
+        createStrawberryCandleCakeModels(blockModels, Blocks.DYED_CANDLE.green(), ModBlocks.GREEN_STRAWBERRY_CANDLE_CAKE.get());
+        createStrawberryCandleCakeModels(blockModels, Blocks.DYED_CANDLE.red(), ModBlocks.RED_STRAWBERRY_CANDLE_CAKE.get());
+        createStrawberryCandleCakeModels(blockModels, Blocks.DYED_CANDLE.black(), ModBlocks.BLACK_STRAWBERRY_CANDLE_CAKE.get());
     }
 
     private void createStrawberryCandleCakeModels(BlockModelGenerators blockModels, Block candle, Block candleCake) {

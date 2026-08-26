@@ -1,7 +1,7 @@
 package de.artemis.floraexpansion.common.item;
 
 import de.artemis.floraexpansion.common.registry.ModItems;
-import net.minecraft.advancements.CriteriaTriggers;
+import net.minecraft.advancements.triggers.CriteriaTriggers;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.stats.Stats;
 import net.minecraft.world.InteractionHand;

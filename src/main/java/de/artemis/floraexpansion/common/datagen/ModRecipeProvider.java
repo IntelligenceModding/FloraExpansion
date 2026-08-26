@@ -77,7 +77,9 @@ public class ModRecipeProvider extends RecipeProvider {
                 .unlockedBy(getHasName(ModBlocks.CACTUS_PLANKS.get()), has(ModBlocks.CACTUS_PLANKS.get()))
                 .save(recipeOutput);
 
-        hangingSign(ModItems.CACTUS_HANGING_SIGN.get(), ModBlocks.STRIPPED_GIANT_CACTUS_BASE.get());
+        hangingSignBuilder(ModItems.CACTUS_HANGING_SIGN.get(), Ingredient.of(ModBlocks.STRIPPED_GIANT_CACTUS_BASE.get()))
+                .unlockedBy(getHasName(ModBlocks.STRIPPED_GIANT_CACTUS_BASE.get()), has(ModBlocks.STRIPPED_GIANT_CACTUS_BASE.get()))
+                .save(recipeOutput);
 
         shapeless(RecipeCategory.TRANSPORTATION, ModItems.CACTUS_CHEST_BOAT.get())
                 .requires(ModItems.CACTUS_BOAT.get())
@@ -155,7 +157,7 @@ public class ModRecipeProvider extends RecipeProvider {
                 .pattern("T T")
                 .define('T', ModBlocks.CACTUS_THORN.get())
                 .define('H', Items.LEATHER_HELMET)
-                .define('D', Items.GREEN_DYE)
+                .define('D', Items.DYE.green())
                 .unlockedBy(getHasName(ModBlocks.CACTUS_THORN.get()), has(ModBlocks.CACTUS_THORN.get()))
                 .save(recipeOutput);
 
@@ -165,7 +167,7 @@ public class ModRecipeProvider extends RecipeProvider {
                 .pattern("TTT")
                 .define('T', ModBlocks.CACTUS_THORN.get())
                 .define('C', Items.LEATHER_CHESTPLATE)
-                .define('D', Items.GREEN_DYE)
+                .define('D', Items.DYE.green())
                 .unlockedBy(getHasName(ModBlocks.CACTUS_THORN.get()), has(ModBlocks.CACTUS_THORN.get()))
                 .save(recipeOutput);
 
@@ -175,7 +177,7 @@ public class ModRecipeProvider extends RecipeProvider {
                 .pattern("T T")
                 .define('T', ModBlocks.CACTUS_THORN.get())
                 .define('L', Items.LEATHER_LEGGINGS)
-                .define('D', Items.GREEN_DYE)
+                .define('D', Items.DYE.green())
                 .unlockedBy(getHasName(ModBlocks.CACTUS_THORN.get()), has(ModBlocks.CACTUS_THORN.get()))
                 .save(recipeOutput);
 
@@ -185,7 +187,7 @@ public class ModRecipeProvider extends RecipeProvider {
                 .pattern("T T")
                 .define('T', ModBlocks.CACTUS_THORN.get())
                 .define('B', Items.LEATHER_BOOTS)
-                .define('D', Items.GREEN_DYE)
+                .define('D', Items.DYE.green())
                 .unlockedBy(getHasName(ModBlocks.CACTUS_THORN.get()), has(ModBlocks.CACTUS_THORN.get()))
                 .save(recipeOutput);
 
@@ -244,7 +246,7 @@ public class ModRecipeProvider extends RecipeProvider {
                 .unlockedBy("has_linen_block", has(ModBlocks.LINEN_BLOCK.get()))
                 .save(recipeOutput, modLoc("painting_from_linen_block"));
 
-        shaped(RecipeCategory.DECORATIONS, Items.WHITE_BANNER)
+        shaped(RecipeCategory.DECORATIONS, Items.BANNER.white())
                 .pattern("LLL")
                 .pattern("LLL")
                 .pattern(" S ")
@@ -253,7 +255,7 @@ public class ModRecipeProvider extends RecipeProvider {
                 .unlockedBy("has_linen_block", has(ModBlocks.LINEN_BLOCK.get()))
                 .save(recipeOutput, modLoc("white_banner_from_linen_block"));
 
-        shaped(RecipeCategory.DECORATIONS, Items.WHITE_BED)
+        shaped(RecipeCategory.DECORATIONS, Items.BED.white())
                 .pattern("LLL")
                 .pattern("PPP")
                 .define('L', ModBlocks.LINEN_BLOCK.get())
@@ -271,7 +273,7 @@ public class ModRecipeProvider extends RecipeProvider {
                 .unlockedBy("has_pebbles", has(ModItems.PEBBLES))
                 .save(recipeOutput);
 
-        shapeless(RecipeCategory.MISC, Items.LIGHT_BLUE_DYE, 1)
+        shapeless(RecipeCategory.MISC, Items.DYE.lightBlue(), 1)
                 .requires(ModItems.FLAX_FLOWER)
                 .unlockedBy("has_flax_flower", has(ModItems.FLAX_FLOWER))
                 .save(recipeOutput, modLoc("light_blue_dye_from_flax_flower"));
@@ -364,12 +366,12 @@ public class ModRecipeProvider extends RecipeProvider {
                 .unlockedBy("has_flax_bale", has(ModBlocks.FLAX_BALE))
                 .save(recipeOutput);
 
-        shapeless(RecipeCategory.MISC, Items.BROWN_DYE, 1)
+        shapeless(RecipeCategory.MISC, Items.DYE.brown(), 1)
                 .requires(ModBlocks.CHERRY_PIT, 1)
                 .unlockedBy("has_cherry_pit", has(ModBlocks.CHERRY_PIT))
                 .save(recipeOutput, modLoc("brown_dye_from_cherry_pit"));
 
-        shapeless(RecipeCategory.MISC, Items.BROWN_DYE, 1)
+        shapeless(RecipeCategory.MISC, Items.DYE.brown(), 1)
                 .requires(ModBlocks.APPLE_CORE, 1)
                 .unlockedBy("has_apple_core", has(ModBlocks.APPLE_CORE))
                 .save(recipeOutput, modLoc("brown_dye_from_apple_core"));
@@ -433,7 +435,7 @@ public class ModRecipeProvider extends RecipeProvider {
                 .unlockedBy("has_glass_bottle", has(Items.GLASS_BOTTLE))
                 .save(recipeOutput);
 
-        shapeless(RecipeCategory.MISC, Items.PINK_DYE, 1)
+        shapeless(RecipeCategory.MISC, Items.DYE.pink(), 1)
                 .requires(ModBlocks.GIANT_CACTUS_BLOSSOM.get())
                 .unlockedBy("has_giant_cactus_blossom", has(ModBlocks.GIANT_CACTUS_BLOSSOM.get()))
                 .save(recipeOutput, modLoc("pink_dye_from_giant_cactus_blossom"));
@@ -444,7 +446,7 @@ public class ModRecipeProvider extends RecipeProvider {
                         Ingredient.of(ModBlocks.CACTUS_CLUSTER.get()),
                         RecipeCategory.MISC,
                         CookingBookCategory.MISC,
-                        Items.GREEN_DYE,
+                        Items.DYE.green(),
                         0.2f,
                         200
                 )

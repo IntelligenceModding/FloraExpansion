@@ -1,6 +1,5 @@
 {
   "type": "minecraft:crafting_shapeless",
-  "category": "misc",
   "ingredients": [
     "floraexpansion:toasted_pine_nuts",
     "minecraft:pumpkin_seeds",

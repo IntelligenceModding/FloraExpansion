@@ -16,9 +16,9 @@ Explain the purpose of the change rather than only listing modified files.
 <!--
 Example:
 
-- Minecraft version: 1.21.11
+- Minecraft version: 26.2
 - Mod loader: NeoForge
-- Target branch: 1.21.11-neoforge
+- Target branch: 26.2-neoforge
 -->
 
 ## Changes
@@ -42,7 +42,7 @@ Please mention:
 Example:
 
 - `gradlew.bat build` completed successfully.
-- Tested the changes in the 1.21.11 NeoForge development client.
+- Tested the changes in the 26.2 NeoForge development client.
 - Tested affected plants, crops, litter, pebbles, foods, baskets, crates, wooden buckets, cactus content, or interactions where applicable.
 - Tested affected world generation in newly generated chunks and relevant biomes where applicable.
 - Tested JEI or multiplayer behavior where applicable.
