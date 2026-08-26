@@ -1,0 +1,12 @@
+{
+  "gives": {
+    "id": "floraexpansion:blueberry_jam"
+  },
+  "max_uses": 2.0,
+  "reputation_discount": 0.05,
+  "wants": {
+    "count": 3.0,
+    "id": "minecraft:emerald"
+  },
+  "xp": 1.0
+}

@@ -10,7 +10,8 @@ import net.minecraft.world.entity.MobCategory;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
-import de.artemis.floraexpansion.common.entity.*;
+import de.artemis.floraexpansion.common.entity.CactusBoatEntity;
+import de.artemis.floraexpansion.common.entity.CactusChestBoatEntity;
 
 public class ModEntityTypes {
     public static final DeferredRegister<EntityType<?>> ENTITY_TYPES =

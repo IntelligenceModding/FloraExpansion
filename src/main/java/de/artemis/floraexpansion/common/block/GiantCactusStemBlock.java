@@ -169,7 +169,7 @@ public class GiantCactusStemBlock extends Block {
             if (harvestedStemCount > 0) {
                 int sliceCount = 0;
                 for (int i = 0; i < harvestedStemCount; i++) {
-                    sliceCount += 1 + level.random.nextInt(2);
+                    sliceCount += 1 + level.getRandom().nextInt(2);
                 }
 
                 Block.popResource(level, pos, new ItemStack(ModItems.CACTUS_SLICE.get(), sliceCount));

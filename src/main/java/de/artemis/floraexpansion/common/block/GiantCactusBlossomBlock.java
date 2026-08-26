@@ -15,7 +15,7 @@ import net.minecraft.world.level.block.BonemealableBlock;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.BushBlock;
 import net.minecraft.world.level.block.CactusBlock;
-import net.minecraft.world.level.block.FarmBlock;
+import net.minecraft.world.level.block.FarmlandBlock;
 import net.minecraft.world.level.block.SupportType;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
@@ -48,7 +48,7 @@ public class GiantCactusBlossomBlock extends BushBlock implements BonemealableBl
     @Override
     protected boolean mayPlaceOn(@NotNull BlockState state, @NotNull BlockGetter level, @NotNull BlockPos pos) {
         return state.getBlock() instanceof CactusBlock
-                || state.getBlock() instanceof FarmBlock
+                || state.getBlock() instanceof FarmlandBlock
                 || state.is(ModBlocks.GIANT_CACTUS_STEM.get())
                 || state.isFaceSturdy(level, pos, Direction.UP, SupportType.CENTER);
     }

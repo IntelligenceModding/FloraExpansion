@@ -32,7 +32,7 @@ public class CrateBlockItem extends BlockItem {
         ItemStack storedType = ItemStack.EMPTY;
         int totalCount = 0;
 
-        for (ItemStack contentStack : contents.nonEmptyItems()) {
+        for (ItemStack contentStack : contents.nonEmptyItemCopyStream().toList()) {
             if (storedType.isEmpty()) {
                 storedType = contentStack.copyWithCount(1);
             }

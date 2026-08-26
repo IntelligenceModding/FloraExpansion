@@ -17,6 +17,7 @@ import net.neoforged.neoforge.registries.DeferredRegister;
 import de.artemis.floraexpansion.common.block.*;
 import de.artemis.floraexpansion.common.item.CrateBlockItem;
 
+import java.util.Optional;
 import java.util.function.Supplier;
 
 @SuppressWarnings("deprecation")
@@ -268,7 +269,10 @@ public class ModBlocks {
     }
 
     private static BlockBehaviour.Properties blockProperties(String name, BlockBehaviour.Properties properties) {
-        return properties.setId(ResourceKey.create(Registries.BLOCK, Identifier.fromNamespaceAndPath(FloraExpansion.MODID, name)));
+        Identifier id = Identifier.fromNamespaceAndPath(FloraExpansion.MODID, name);
+        return properties
+                .setId(ResourceKey.create(Registries.BLOCK, id))
+                .overrideLootTable(Optional.of(ResourceKey.create(Registries.LOOT_TABLE, id.withPrefix("blocks/"))));
     }
 
     private static Item.Properties itemProperties(String name, Item.Properties properties) {

@@ -6,7 +6,8 @@ import net.minecraft.world.level.levelgen.feature.treedecorators.TreeDecoratorTy
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import net.neoforged.neoforge.registries.DeferredHolder;
-import de.artemis.floraexpansion.common.worldgen.treedecorator.*;
+import de.artemis.floraexpansion.common.worldgen.treedecorator.FruitingCherryLeavesDecorator;
+import de.artemis.floraexpansion.common.worldgen.treedecorator.FruitingOakLeavesDecorator;
 
 public class ModTreeDecorators {
 

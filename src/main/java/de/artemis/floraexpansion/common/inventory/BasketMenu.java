@@ -7,7 +7,7 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
-import net.minecraft.world.inventory.ClickType;
+import net.minecraft.world.inventory.ContainerInput;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.NotNull;
@@ -88,7 +88,7 @@ public class BasketMenu extends AbstractContainerMenu {
     }
 
     @Override
-    public void clicked(int slotId, int button, @NotNull ClickType clickType, @NotNull Player player) {
+    public void clicked(int slotId, int button, @NotNull ContainerInput clickType, @NotNull Player player) {
         if (this.shouldBlockClick(slotId, button, clickType)) {
             return;
         }
@@ -102,12 +102,12 @@ public class BasketMenu extends AbstractContainerMenu {
         this.basketContainer.stopOpen(player);
     }
 
-    private boolean shouldBlockClick(int slotId, int button, ClickType clickType) {
+    private boolean shouldBlockClick(int slotId, int button, ContainerInput clickType) {
         if (slotId >= 0 && slotId < this.slots.size() && this.isSourceMenuSlot(slotId)) {
             return true;
         }
 
-        return clickType == ClickType.SWAP
+        return clickType == ContainerInput.SWAP
                 && this.sourceHand == InteractionHand.MAIN_HAND
                 && this.sourceSlot >= 0
                 && this.sourceSlot < 9

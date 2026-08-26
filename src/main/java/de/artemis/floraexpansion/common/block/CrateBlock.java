@@ -13,7 +13,6 @@ import net.minecraft.stats.Stats;
 import net.minecraft.util.Util;
 import net.minecraft.world.Containers;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.monster.piglin.PiglinAi;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -120,7 +119,7 @@ public class CrateBlock extends BaseEntityBlock {
 
             crate.recordInsertClick(player, referenceStack, level.getGameTime());
             this.syncPlayerInventory(player);
-            level.playSound(null, pos, SoundEvents.ITEM_FRAME_ADD_ITEM, SoundSource.BLOCKS, 0.6F, 0.9F + level.random.nextFloat() * 0.2F);
+            level.playSound(null, pos, SoundEvents.ITEM_FRAME_ADD_ITEM, SoundSource.BLOCKS, 0.6F, 0.9F + level.getRandom().nextFloat() * 0.2F);
         }
 
         return ((level.isClientSide() ? InteractionResult.SUCCESS : InteractionResult.SUCCESS_SERVER));
@@ -175,7 +174,7 @@ public class CrateBlock extends BaseEntityBlock {
         if (inserted > 0) {
             crate.recordInsertClick(player, referenceStack, level.getGameTime());
             this.syncPlayerInventory(player);
-            level.playSound(null, pos, SoundEvents.ITEM_FRAME_ADD_ITEM, SoundSource.BLOCKS, 0.6F, 0.9F + level.random.nextFloat() * 0.2F);
+            level.playSound(null, pos, SoundEvents.ITEM_FRAME_ADD_ITEM, SoundSource.BLOCKS, 0.6F, 0.9F + level.getRandom().nextFloat() * 0.2F);
         }
 
         return InteractionResult.CONSUME;

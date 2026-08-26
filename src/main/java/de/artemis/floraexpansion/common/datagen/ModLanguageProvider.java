@@ -13,11 +13,9 @@ public class ModLanguageProvider extends net.neoforged.neoforge.common.data.Lang
 
     @Override
     protected void addTranslations() {
-        //Miscellaneous
         add("floraexpansion.creative_tab", "Flora Expansion");
         add("tooltip.floraexpansion.crate_contents_suffix", " stored");
 
-        //JEI
         add("jei.floraexpansion.basket.info.1", "Right-click mature crops and berry-like plants with a basket to collect their harvest without uprooting them.");
         add("jei.floraexpansion.basket.info.2", "Crop-style plants are replanted automatically, including vanilla and many modded crops that use normal crop behavior.");
         add("jei.floraexpansion.basket.info.3", "Right-click in the air, or Shift-right-click a block, to open the basket's 9 inventory slots.");
@@ -105,7 +103,6 @@ public class ModLanguageProvider extends net.neoforged.neoforge.common.data.Lang
         add("jei.floraexpansion.wooden_bucket.info.2", "Each successful use damages the bucket, and it breaks after 10 uses.");
         add("jei.floraexpansion.wooden_bucket.info.3", "They can scoop lava, but the wooden lava bucket chars into charcoal after a few seconds and sets its carrier on fire.");
 
-        //Blocks
         add(ModBlocks.PINE_LITTER.get(), "Pine Litter");
         add(ModBlocks.TWIG_LADDER.get(), "Twig Ladder");
         add(ModBlocks.CRATE.get(), "Crate");
@@ -168,7 +165,6 @@ public class ModLanguageProvider extends net.neoforged.neoforge.common.data.Lang
         add(ModBlocks.CACTUS_CLUSTER.get(), "Cactus Cluster");
         add(ModBlocks.OPUNTIA_CACTUS.get(), "Opuntia Cactus");
 
-        //Items
         add("item.floraexpansion.pine_litter", "Pine Litter");
         add("item.floraexpansion.twig_ladder", "Twig Ladder");
         add("item.floraexpansion.crate", "Crate");
@@ -250,7 +246,6 @@ public class ModLanguageProvider extends net.neoforged.neoforge.common.data.Lang
         add(ModItems.CACTUS_JUICE.get(), "Cactus Juice");
         add(ModItems.PRICKLY_PEAR.get(), "Prickly Pear");
 
-        //Entities
         add("entity.floraexpansion.cactus_boat", "Cactus Boat");
         add("entity.floraexpansion.cactus_chest_boat", "Cactus Chest Boat");
     }

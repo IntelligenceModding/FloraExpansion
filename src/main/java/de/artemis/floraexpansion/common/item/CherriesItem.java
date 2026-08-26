@@ -28,8 +28,6 @@ public class CherriesItem extends Item {
                 ItemStack cherryPit = new ItemStack(ModBlocks.CHERRY_PIT.get());
 
                 if (livingEntity instanceof Player player) {
-                    // Same general behavior as bowl-returning foods:
-                    // try inventory first, drop if it doesn't fit.
                     if (!player.getInventory().add(cherryPit)) {
                         player.drop(cherryPit, false);
                     }

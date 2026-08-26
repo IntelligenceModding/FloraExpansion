@@ -7,12 +7,16 @@ import de.artemis.floraexpansion.client.screen.CrateScreen;
 import de.artemis.floraexpansion.common.registry.ModBlockEntities;
 import de.artemis.floraexpansion.common.registry.ModEntityTypes;
 import de.artemis.floraexpansion.common.registry.ModMenuTypes;
-import de.artemis.floraexpansion.common.particle.*;
+import de.artemis.floraexpansion.common.particle.FallingFruitParticle;
+import de.artemis.floraexpansion.common.particle.FlaxFlowerParticles;
+import de.artemis.floraexpansion.common.particle.PineLeafFluffParticles;
+import de.artemis.floraexpansion.common.particle.PineParticles;
+import de.artemis.floraexpansion.common.registry.ModParticles;
 import de.artemis.floraexpansion.common.registry.ModWoodTypes;
 import net.minecraft.client.model.object.boat.BoatModel;
 import net.minecraft.client.renderer.Sheets;
 import net.minecraft.client.renderer.blockentity.HangingSignRenderer;
-import net.minecraft.client.renderer.blockentity.SignRenderer;
+import net.minecraft.client.renderer.blockentity.StandingSignRenderer;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.ModContainer;
@@ -22,7 +26,6 @@ import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
 import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
 import net.neoforged.neoforge.client.event.RegisterParticleProvidersEvent;
-import de.artemis.floraexpansion.common.registry.ModParticles;
 
 @Mod(value = FloraExpansion.MODID, dist = Dist.CLIENT)
 @EventBusSubscriber(modid = FloraExpansion.MODID, value = Dist.CLIENT)
@@ -69,7 +72,7 @@ public class FloraExpansionClient {
     @SubscribeEvent
     public static void registerBlockEntityRenderers(EntityRenderersEvent.RegisterRenderers event) {
         FloraExpansion.LOGGER.info("Registering cactus sign renderers");
-        event.registerBlockEntityRenderer(ModBlockEntities.CACTUS_SIGN.get(), SignRenderer::new);
+        event.registerBlockEntityRenderer(ModBlockEntities.CACTUS_SIGN.get(), StandingSignRenderer::new);
         event.registerBlockEntityRenderer(ModBlockEntities.CACTUS_HANGING_SIGN.get(), HangingSignRenderer::new);
         event.registerBlockEntityRenderer(ModBlockEntities.CRATE.get(), CrateBlockEntityRenderer::new);
     }

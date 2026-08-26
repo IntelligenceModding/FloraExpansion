@@ -53,7 +53,7 @@ public final class ModPayloads {
 
             giveExtractedItem(player, extracted);
             syncPlayerInventory(player);
-            level.playSound(null, pos, SoundEvents.ITEM_FRAME_REMOVE_ITEM, SoundSource.BLOCKS, 0.6F, payload.fullStack() ? 0.95F + level.random.nextFloat() * 0.2F : 1.05F + level.random.nextFloat() * 0.2F);
+            level.playSound(null, pos, SoundEvents.ITEM_FRAME_REMOVE_ITEM, SoundSource.BLOCKS, 0.6F, payload.fullStack() ? 0.95F + level.getRandom().nextFloat() * 0.2F : 1.05F + level.getRandom().nextFloat() * 0.2F);
         });
     }
 

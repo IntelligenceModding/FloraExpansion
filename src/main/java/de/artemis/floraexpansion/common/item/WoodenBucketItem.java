@@ -91,7 +91,7 @@ public class WoodenBucketItem extends BucketItem {
 
         if (pickedUpStack.is(Items.LAVA_BUCKET)) {
             return WoodenBucketUtil.transformInto(sourceStack, player, ModItems.WOODEN_LAVA_BUCKET.get(),
-                    result -> WoodenBucketUtil.initializeLavaTimeout(result, level.getGameTime(), level.random));
+                    result -> WoodenBucketUtil.initializeLavaTimeout(result, level.getGameTime(), level.getRandom()));
         }
 
         if (pickedUpStack.is(Items.POWDER_SNOW_BUCKET)) {

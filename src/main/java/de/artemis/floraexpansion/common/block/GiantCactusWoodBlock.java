@@ -53,7 +53,6 @@ public class GiantCactusWoodBlock extends RotatedPillarBlock {
             return InteractionResult.TRY_WITH_EMPTY_HAND;
         }
 
-        // Already stripped: do nothing special
         if (state.is(ModBlocks.STRIPPED_GIANT_CACTUS_WOOD.get())) {
             return InteractionResult.TRY_WITH_EMPTY_HAND;
         }

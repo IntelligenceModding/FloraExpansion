@@ -5,11 +5,9 @@ import de.artemis.floraexpansion.common.block.PineLitterBlock;
 import net.minecraft.core.Direction;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.worldgen.BootstrapContext;
-import net.minecraft.data.worldgen.features.FeatureUtils;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.Identifier;
 import net.minecraft.util.random.WeightedList;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.feature.Feature;
@@ -19,8 +17,6 @@ import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConf
 import net.minecraft.world.level.levelgen.feature.configurations.SimpleBlockConfiguration;
 import net.minecraft.world.level.levelgen.feature.stateproviders.RotatedBlockProvider;
 import net.minecraft.world.level.levelgen.feature.stateproviders.WeightedStateProvider;
-
-import java.util.List;
 
 public class ModConfiguredFeatures {
     public static final ResourceKey<ConfiguredFeature<?, ?>> PINE_LITTER_KEY = registerKey("pine_litter");
@@ -54,47 +50,14 @@ public class ModConfiguredFeatures {
 
         register(context, PEBBLE_CLUSTER_KEY, ModFeatures.PEBBLE_CLUSTER_FEATURE.get(), NoneFeatureConfiguration.NONE);
 
-        register(context, PINE_LITTER_KEY, Feature.RANDOM_PATCH,
-                FeatureUtils.simplePatchConfiguration(
-                        Feature.SIMPLE_BLOCK,
-                        new SimpleBlockConfiguration(new WeightedStateProvider(pineLitterRandomStates.build())),
-                        List.of(Blocks.GRASS_BLOCK, Blocks.PODZOL, Blocks.COARSE_DIRT)
-                )
-        );
+        register(context, PINE_LITTER_KEY, Feature.SIMPLE_BLOCK,
+                new SimpleBlockConfiguration(new WeightedStateProvider(pineLitterRandomStates.build())));
 
         register(context, BLUEBERRY_BUSH_KEY, ModFeatures.BLUEBERRY_BUSH_PATCH_FEATURE.get(), NoneFeatureConfiguration.NONE);
 
-        register(context, WILD_FLAX_KEY, Feature.RANDOM_PATCH,
-                FeatureUtils.simplePatchConfiguration(
-                        ModFeatures.WILD_FLAX_FEATURE.get(),
-                        NoneFeatureConfiguration.NONE,
-                        List.of(
-                                Blocks.GRASS_BLOCK,
-                                Blocks.DIRT,
-                                Blocks.COARSE_DIRT,
-                                Blocks.PODZOL,
-                                Blocks.MOSS_BLOCK,
-                                Blocks.ROOTED_DIRT
-                        ),
-                        24
-                )
-        );
+        register(context, WILD_FLAX_KEY, ModFeatures.WILD_FLAX_FEATURE.get(), NoneFeatureConfiguration.NONE);
 
-        register(context, WILD_STRAWBERRY_KEY, Feature.RANDOM_PATCH,
-                FeatureUtils.simplePatchConfiguration(
-                        ModFeatures.WILD_STRAWBERRY_FEATURE.get(),
-                        NoneFeatureConfiguration.NONE,
-                        List.of(
-                                Blocks.GRASS_BLOCK,
-                                Blocks.DIRT,
-                                Blocks.COARSE_DIRT,
-                                Blocks.PODZOL,
-                                Blocks.MOSS_BLOCK,
-                                Blocks.ROOTED_DIRT
-                        ),
-                        24
-                )
-        );
+        register(context, WILD_STRAWBERRY_KEY, ModFeatures.WILD_STRAWBERRY_FEATURE.get(), NoneFeatureConfiguration.NONE);
 
         register(context, PILE_FLAX_KEY, Feature.BLOCK_PILE,
                 new BlockPileConfiguration(new RotatedBlockProvider(ModBlocks.FLAX_BALE.get()))

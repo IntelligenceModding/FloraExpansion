@@ -1,4 +1,4 @@
-// 1.21.11	2026-08-25T21:26:27.6776517	Loot Tables
+// 26.1	2026-08-26T16:07:08.4943804	Loot Tables
 e2b2764e8a6d97aa33fd9a24e86a1993330e0647 data/floraexpansion/loot_table/blocks/black_strawberry_candle_cake.json
 0f5e6bf175198d01bd9b5048c06dffa90fb64cfe data/floraexpansion/loot_table/blocks/blueberry_bush.json
 2cdb7f9bb3fe3a43744ecaf8ad628c239d0d998d data/floraexpansion/loot_table/blocks/blue_strawberry_candle_cake.json
@@ -17,6 +17,8 @@ a505abe7ed43636a7fa4200aa808d022d4c012e0 data/floraexpansion/loot_table/blocks/c
 6e6a921282ea45e22695a516ebd84fe8ed1b953f data/floraexpansion/loot_table/blocks/cactus_stairs.json
 8633c30fdb1c99127b977dc1b9fd64705327d5c7 data/floraexpansion/loot_table/blocks/cactus_thorn.json
 8db13430131cc98ffc41d288d7789e48803bd2d3 data/floraexpansion/loot_table/blocks/cactus_trapdoor.json
+4590c908e0d8c4fa9e17f93280871f981490ee18 data/floraexpansion/loot_table/blocks/cactus_wall_hanging_sign.json
+a7eed53dd040d2dfbd85d6120d087c68f06cc8d3 data/floraexpansion/loot_table/blocks/cactus_wall_sign.json
 e3bd41a46202beb29ccc5278e4dfbfe2c78b222e data/floraexpansion/loot_table/blocks/crate.json
 850b1f812c4bf0b1476cd28097aa85ac6907e0b4 data/floraexpansion/loot_table/blocks/cyan_strawberry_candle_cake.json
 34b52b77e0280bb52c7f9374ce2134b0939b152c data/floraexpansion/loot_table/blocks/desert_moss.json
@@ -47,5 +49,3 @@ c765101df406776a0a65ba2531992eff2d614d83 data/floraexpansion/loot_table/blocks/p
 4367116fcde27f174ddb5882fb60a8f6cf5ab3e8 data/floraexpansion/loot_table/blocks/stripped_giant_cactus_wood.json
 c6a4dcb9dc4cba75eab6588f86e2b5671771ed4b data/floraexpansion/loot_table/blocks/white_strawberry_candle_cake.json
 45fa0a18a343737da205b11b64bb3a66e42139db data/floraexpansion/loot_table/blocks/yellow_strawberry_candle_cake.json
-b728433f75395aa6e4c06cbad73a75ccb641052d data/minecraft/loot_table/blocks/oak_hanging_sign.json
-7f156238232cc8da0dd3dfe2f8fdc40d28fc1596 data/minecraft/loot_table/blocks/oak_sign.json

@@ -6,11 +6,17 @@ import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredRegister;
-import de.artemis.floraexpansion.common.worldgen.feature.*;
+import de.artemis.floraexpansion.common.worldgen.feature.BlueberryBushPatchFeature;
+import de.artemis.floraexpansion.common.worldgen.feature.CactusClusterFeature;
+import de.artemis.floraexpansion.common.worldgen.feature.FallenGiantCactusFeature;
+import de.artemis.floraexpansion.common.worldgen.feature.GiantCactusFeature;
+import de.artemis.floraexpansion.common.worldgen.feature.OpuntiaCactusFeature;
+import de.artemis.floraexpansion.common.worldgen.feature.PebbleClusterFeature;
+import de.artemis.floraexpansion.common.worldgen.feature.WildFlaxFeature;
+import de.artemis.floraexpansion.common.worldgen.feature.WildStrawberryFeature;
 
 import java.util.function.Supplier;
 
-@SuppressWarnings("all")
 public class ModFeatures {
     public static final DeferredRegister<Feature<?>> FEATURES =
             DeferredRegister.create(BuiltInRegistries.FEATURE, FloraExpansion.MODID);

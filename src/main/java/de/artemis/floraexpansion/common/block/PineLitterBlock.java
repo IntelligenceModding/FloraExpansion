@@ -146,7 +146,7 @@ public class PineLitterBlock extends BushBlock implements BonemealableBlock {
     protected List<ItemStack> getHarvestDrops(Level level, BlockState state) {
         return List.of(
                 new ItemStack(ModItems.PINE_CONE.get(), state.getValue(AMOUNT)),
-                new ItemStack(ModItems.TWIG.get(), level.random.nextInt(2 * state.getValue(AMOUNT)))
+                new ItemStack(ModItems.TWIG.get(), level.getRandom().nextInt(2 * state.getValue(AMOUNT)))
         );
     }
 

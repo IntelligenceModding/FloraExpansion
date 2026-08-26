@@ -36,7 +36,7 @@ public final class CactusStripHelper {
             int fortuneLevel = tool.getEnchantmentLevel(fortune);
             float thornDropChance = BASE_THORN_DROP_CHANCE_ON_STRIP + (fortuneLevel * FORTUNE_BONUS_PER_LEVEL);
 
-            if (level.random.nextFloat() < thornDropChance) {
+            if (level.getRandom().nextFloat() < thornDropChance) {
                 Block.popResource(level, pos, new ItemStack(ModBlocks.CACTUS_THORN.get()));
             }
 

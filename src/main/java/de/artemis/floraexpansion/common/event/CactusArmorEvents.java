@@ -90,7 +90,7 @@ public final class CactusArmorEvents {
         }
 
         float procChance = pieceCount * RETALIATE_CHANCE_PER_PIECE;
-        if (serverLevel.random.nextFloat() >= procChance) {
+        if (serverLevel.getRandom().nextFloat() >= procChance) {
             return;
         }
 

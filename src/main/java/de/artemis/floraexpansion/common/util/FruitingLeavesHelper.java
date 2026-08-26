@@ -61,6 +61,6 @@ public final class FruitingLeavesHelper {
     public static void resetFruitAge(Level level, BlockPos pos, BlockState state, IntegerProperty ageProperty) {
         level.setBlock(pos, state.setValue(ageProperty, 0), 2);
         level.playSound(null, pos, SoundEvents.SWEET_BERRY_BUSH_PICK_BERRIES, SoundSource.BLOCKS, 1.0F,
-                0.8F + level.random.nextFloat() * 0.4F);
+                0.8F + level.getRandom().nextFloat() * 0.4F);
     }
 }

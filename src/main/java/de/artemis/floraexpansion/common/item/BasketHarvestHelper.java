@@ -11,7 +11,6 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.Containers;
-import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Inventory;
@@ -192,7 +191,7 @@ public final class BasketHarvestHelper {
                 return false;
             }
 
-            int amount = 1 + context.getLevel().random.nextInt(2);
+            int amount = 1 + context.getLevel().getRandom().nextInt(2);
             depositOrDrop(context.getLevel(), context.getClickedPos(), basket, List.of(new ItemStack(ModItems.BLUEBERRIES.get(), amount)));
             playBerryHarvestEffects(context, state.setValue(SmallBlueberryBushBlock.AGE, 2));
             return true;
@@ -204,7 +203,7 @@ public final class BasketHarvestHelper {
                 return false;
             }
 
-            int amount = 1 + context.getLevel().random.nextInt(2);
+            int amount = 1 + context.getLevel().getRandom().nextInt(2);
             if (age == LargeBlueberryBushBlock.MAX_AGE) {
                 amount *= 2;
             }
@@ -228,7 +227,7 @@ public final class BasketHarvestHelper {
             return false;
         }
 
-        int amount = 1 + context.getLevel().random.nextInt(2);
+        int amount = 1 + context.getLevel().getRandom().nextInt(2);
         if (age == 3) {
             amount++;
         }
@@ -251,7 +250,7 @@ public final class BasketHarvestHelper {
         depositOrDrop(context.getLevel(), context.getClickedPos(), basket, List.of(new ItemStack(Items.GLOW_BERRIES)));
         BlockState resetState = state.setValue(BlockStateProperties.BERRIES, false);
         context.getLevel().setBlock(context.getClickedPos(), resetState, 3);
-        context.getLevel().playSound(null, context.getClickedPos(), SoundEvents.CAVE_VINES_PICK_BERRIES, SoundSource.BLOCKS, 1.0F, 0.8F + context.getLevel().random.nextFloat() * 0.4F);
+        context.getLevel().playSound(null, context.getClickedPos(), SoundEvents.CAVE_VINES_PICK_BERRIES, SoundSource.BLOCKS, 1.0F, 0.8F + context.getLevel().getRandom().nextFloat() * 0.4F);
         context.getLevel().gameEvent(GameEvent.BLOCK_CHANGE, context.getClickedPos(), GameEvent.Context.of(context.getPlayer(), resetState));
         return true;
     }
@@ -265,8 +264,8 @@ public final class BasketHarvestHelper {
 
             int amount = switch (age) {
                 case 1 -> 1;
-                case 2 -> 2 + context.getLevel().random.nextInt(2);
-                case 3 -> 3 + context.getLevel().random.nextInt(2);
+                case 2 -> 2 + context.getLevel().getRandom().nextInt(2);
+                case 3 -> 3 + context.getLevel().getRandom().nextInt(2);
                 default -> 0;
             };
 
@@ -320,7 +319,7 @@ public final class BasketHarvestHelper {
     }
 
     private static void playBerryHarvestEffects(UseOnContext context, BlockState resetState) {
-        context.getLevel().playSound(null, context.getClickedPos(), SoundEvents.SWEET_BERRY_BUSH_PICK_BERRIES, SoundSource.BLOCKS, 1.0F, 0.8F + context.getLevel().random.nextFloat() * 0.4F);
+        context.getLevel().playSound(null, context.getClickedPos(), SoundEvents.SWEET_BERRY_BUSH_PICK_BERRIES, SoundSource.BLOCKS, 1.0F, 0.8F + context.getLevel().getRandom().nextFloat() * 0.4F);
         context.getLevel().setBlock(context.getClickedPos(), resetState, 3);
         context.getLevel().gameEvent(GameEvent.BLOCK_CHANGE, context.getClickedPos(), GameEvent.Context.of(context.getPlayer(), resetState));
     }

@@ -7,7 +7,7 @@ import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
-import net.minecraft.world.inventory.ClickType;
+import net.minecraft.world.inventory.ContainerInput;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.NotNull;
@@ -92,7 +92,7 @@ public class CrateMenu extends AbstractContainerMenu {
     }
 
     @Override
-    public void clicked(int slotId, int button, @NotNull ClickType clickType, @NotNull Player player) {
+    public void clicked(int slotId, int button, @NotNull ContainerInput clickType, @NotNull Player player) {
         if (this.shouldRejectClientInsert(slotId, button, clickType, player)) {
             return;
         }
@@ -162,7 +162,7 @@ public class CrateMenu extends AbstractContainerMenu {
         return Mth.clamp(scrollOffs - (float) (input / (double) this.getMaxScrollRow()), 0.0F, 1.0F);
     }
 
-    private boolean shouldRejectClientInsert(int slotId, int button, ClickType clickType, Player player) {
+    private boolean shouldRejectClientInsert(int slotId, int button, ContainerInput clickType, Player player) {
         if (slotId < 0 || slotId >= VISIBLE_SLOT_COUNT) {
             return false;
         }

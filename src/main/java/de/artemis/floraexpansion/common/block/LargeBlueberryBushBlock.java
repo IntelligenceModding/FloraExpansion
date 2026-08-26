@@ -10,7 +10,6 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -127,7 +126,7 @@ public class LargeBlueberryBushBlock extends BushBlock implements BonemealableBl
             return InteractionResult.PASS;
         }
 
-        int amount = 1 + level.random.nextInt(2);
+        int amount = 1 + level.getRandom().nextInt(2);
         if (age == MAX_AGE) {
             amount *= 2;
         }
@@ -135,7 +134,7 @@ public class LargeBlueberryBushBlock extends BushBlock implements BonemealableBl
         if (!level.isClientSide()) {
             popResource(level, pos, new ItemStack(ModItems.BLUEBERRIES.get(), amount));
             level.playSound(null, pos, SoundEvents.SWEET_BERRY_BUSH_PICK_BERRIES, SoundSource.BLOCKS, 1.0F,
-                    0.8F + level.random.nextFloat() * 0.4F);
+                    0.8F + level.getRandom().nextFloat() * 0.4F);
 
             BlockState resetState = state.setValue(AGE, RESET_AGE);
             level.setBlock(pos, resetState, 2);

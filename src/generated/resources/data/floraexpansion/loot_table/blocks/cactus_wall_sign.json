@@ -11,11 +11,11 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "floraexpansion:cactus_hanging_sign"
+          "name": "floraexpansion:cactus_sign"
         }
       ],
       "rolls": 1.0
     }
   ],
-  "random_sequence": "minecraft:blocks/oak_hanging_sign"
+  "random_sequence": "floraexpansion:blocks/cactus_wall_sign"
 }

@@ -71,7 +71,6 @@ public class FruitingCherryLeavesBlock extends LeavesBlock implements Bonemealab
     protected @NotNull InteractionResult useWithoutItem(BlockState blockState, @NotNull Level level, @NotNull BlockPos blockPos, @NotNull Player player, @NotNull BlockHitResult result) {
         int age = blockState.getValue(AGE);
 
-        // Stage 0 = normal leaves, nothing to harvest
         if (age <= 0) {
             return InteractionResult.PASS;
         }
@@ -79,8 +78,8 @@ public class FruitingCherryLeavesBlock extends LeavesBlock implements Bonemealab
         if (!level.isClientSide()) {
             int amount = switch (age) {
                 case 1 -> 1;
-                case 2 -> 2 + level.random.nextInt(2); // 2-3
-                case 3 -> 3 + level.random.nextInt(2); // 3-4
+                case 2 -> 2 + level.getRandom().nextInt(2);
+                case 3 -> 3 + level.getRandom().nextInt(2);
                 default -> 0;
             };
 

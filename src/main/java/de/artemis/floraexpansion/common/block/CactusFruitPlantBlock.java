@@ -115,12 +115,12 @@ public class CactusFruitPlantBlock extends BushBlock implements BonemealableBloc
         }
 
         if (!level.isClientSide()) {
-            int amount = 1 + level.random.nextInt(2);
+            int amount = 1 + level.getRandom().nextInt(2);
             ModUtils.spawnItemAtClickedSide(level, pos, hitResult, new ItemStack(ModItems.PRICKLY_PEAR.get(), amount));
 
             level.setBlock(pos, state.setValue(AGE, 0), 2);
             level.playSound(null, pos, SoundEvents.SWEET_BERRY_BUSH_PICK_BERRIES, SoundSource.BLOCKS,
-                    1.0F, 0.8F + level.random.nextFloat() * 0.4F);
+                    1.0F, 0.8F + level.getRandom().nextFloat() * 0.4F);
         }
 
         return InteractionResult.SUCCESS;

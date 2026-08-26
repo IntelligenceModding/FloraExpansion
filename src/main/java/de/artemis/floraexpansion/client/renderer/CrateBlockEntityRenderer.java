@@ -12,14 +12,15 @@ import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.renderer.feature.ModelFeatureRenderer;
 import net.minecraft.client.renderer.rendertype.RenderTypes;
-import net.minecraft.client.renderer.state.CameraRenderState;
+import net.minecraft.client.renderer.state.level.CameraRenderState;
 import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
-import net.minecraft.client.resources.model.Material;
-import net.minecraft.client.resources.model.MaterialSet;
+import net.minecraft.client.resources.model.sprite.SpriteGetter;
+import net.minecraft.client.resources.model.sprite.SpriteId;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
 import org.jspecify.annotations.Nullable;
@@ -30,14 +31,14 @@ public class CrateBlockEntityRenderer implements BlockEntityRenderer<CrateBlockE
     private static final float MIN_Y = 2.0F / 16.0F;
     private static final float MAX_Y = 15.0F / 16.0F;
     private static final int COLOR = 0xFFFFFFFF;
-    private static final Material DEFAULT_CONTENTS =
+    private static final SpriteId DEFAULT_CONTENTS =
             contentsMaterial("default");
-    private static final Material BLUEBERRIES_CONTENTS =
+    private static final SpriteId BLUEBERRIES_CONTENTS =
             contentsMaterial("blueberries");
-    private final MaterialSet materials;
+    private final SpriteGetter sprites;
 
     public CrateBlockEntityRenderer(BlockEntityRendererProvider.Context context) {
-        this.materials = context.materials();
+        this.sprites = context.sprites();
     }
 
     @Override
@@ -55,7 +56,8 @@ public class CrateBlockEntityRenderer implements BlockEntityRenderer<CrateBlockE
         ItemStack storedType = blockEntity.getStoredTypeCopy();
 
         renderState.fillRatio = blockEntity.getFillRatio();
-        renderState.contentsSprite = storedType.isEmpty() ? null : this.materials.get(getContentsMaterial(storedType));
+        renderState.blockState = blockEntity.getBlockState();
+        renderState.contentsSprite = storedType.isEmpty() ? null : this.sprites.get(getContentsMaterial(storedType));
     }
 
     @Override
@@ -63,11 +65,12 @@ public class CrateBlockEntityRenderer implements BlockEntityRenderer<CrateBlockE
                        @NotNull PoseStack poseStack,
                        @NotNull SubmitNodeCollector collector,
                        @NotNull CameraRenderState cameraState) {
-        if (state.blockState.hasProperty(CrateBlock.PACKED) && state.blockState.getValue(CrateBlock.PACKED)) {
+        BlockState blockState = state.blockState;
+        if (blockState.hasProperty(CrateBlock.PACKED) && blockState.getValue(CrateBlock.PACKED)) {
             return;
         }
 
-        if (state.blockState.hasProperty(CrateBlock.POWERED) && state.blockState.getValue(CrateBlock.POWERED)) {
+        if (blockState.hasProperty(CrateBlock.POWERED) && blockState.getValue(CrateBlock.POWERED)) {
             return;
         }
 
@@ -81,12 +84,12 @@ public class CrateBlockEntityRenderer implements BlockEntityRenderer<CrateBlockE
         int light = state.lightCoords;
 
         poseStack.pushPose();
-        collector.submitCustomGeometry(poseStack, RenderTypes.entityCutoutNoCull(TextureAtlas.LOCATION_BLOCKS), (pose, consumer) ->
+        collector.submitCustomGeometry(poseStack, RenderTypes.entityCutout(TextureAtlas.LOCATION_BLOCKS), (pose, consumer) ->
                 renderContentsCuboid(pose, consumer, sprite, y, light));
         poseStack.popPose();
     }
 
-    private static Material getContentsMaterial(ItemStack storedType) {
+    private static SpriteId getContentsMaterial(ItemStack storedType) {
         if (storedType.is(ModItems.BLUEBERRIES.get())) {
             return BLUEBERRIES_CONTENTS;
         }
@@ -94,8 +97,8 @@ public class CrateBlockEntityRenderer implements BlockEntityRenderer<CrateBlockE
         return DEFAULT_CONTENTS;
     }
 
-    private static Material contentsMaterial(String path) {
-        return new Material(
+    private static SpriteId contentsMaterial(String path) {
+        return new SpriteId(
                 TextureAtlas.LOCATION_BLOCKS,
                 Identifier.fromNamespaceAndPath(FloraExpansion.MODID, "block/crate_contents/" + path)
         );

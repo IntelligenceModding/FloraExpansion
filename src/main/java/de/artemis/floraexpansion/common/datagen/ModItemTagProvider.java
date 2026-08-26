@@ -6,7 +6,6 @@ import de.artemis.floraexpansion.common.registry.ModItems;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
 import net.minecraft.tags.ItemTags;
-import net.minecraft.world.level.block.Block;
 import net.neoforged.neoforge.common.Tags;
 import net.neoforged.neoforge.common.data.ItemTagsProvider;
 import org.jetbrains.annotations.NotNull;
@@ -20,8 +19,6 @@ public class ModItemTagProvider extends ItemTagsProvider {
 
     @Override
     protected void addTags(HolderLookup.@NotNull Provider provider) {
-
-        //Minecraft
         tag(ItemTags.CHICKEN_FOOD)
                 .add(ModItems.PINE_NUTS.get())
                 .add(ModItems.FLAX_SEED.get());
@@ -111,7 +108,6 @@ public class ModItemTagProvider extends ItemTagsProvider {
                 .add(ModItems.BLUEBERRIES.get())
                 .add(ModItems.STRAWBERRY.get());
 
-        //NeoForge
         tag(Tags.Items.FOODS)
                 .add(ModItems.BLUEBERRIES.get())
                 .add(ModItems.BLUEBERRY_COOKIE.get())

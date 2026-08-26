@@ -100,7 +100,7 @@ public class FallingFruitParticle extends SingleQuadParticle {
     }
 
     public static void spawnFromFruitingLeaves(Level level, BlockPos pos, SimpleParticleType particleType) {
-        RandomSource random = level.random;
+        RandomSource random = level.getRandom();
 
         if (level.isEmptyBlock(pos.below())) {
             double x = pos.getX() + 0.5D + randomOffset(random, 0.18D);

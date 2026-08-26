@@ -30,7 +30,6 @@ public class PebbleClusterFeature extends Feature<@NotNull NoneFeatureConfigurat
 
         boolean placedAny = false;
 
-        // radius 1..3 => diameter about 3..7
         int radius = 1 + random.nextInt(3);
 
         for (int dx = -radius; dx <= radius; dx++) {
@@ -56,16 +55,13 @@ public class PebbleClusterFeature extends Feature<@NotNull NoneFeatureConfigurat
 
                 double normalizedDist = Math.sqrt(distSq) / radius;
 
-                // -----------------------------
-                // 1. Replace ground
-                // -----------------------------
                 float replaceChance;
                 if (normalizedDist <= 0.33D) {
-                    replaceChance = 0.92f; // dense center
+                    replaceChance = 0.92f;
                 } else if (normalizedDist <= 0.66D) {
-                    replaceChance = 0.62f; // mixed middle
+                    replaceChance = 0.62f;
                 } else {
-                    replaceChance = 0.28f; // loose edge
+                    replaceChance = 0.28f;
                 }
 
                 boolean replacedGround = false;
@@ -80,9 +76,6 @@ public class PebbleClusterFeature extends Feature<@NotNull NoneFeatureConfigurat
                     continue;
                 }
 
-                // -----------------------------
-                // 2. Main pebble decoration
-                // -----------------------------
                 float patchChance;
                 if (normalizedDist <= 0.33D) {
                     patchChance = 0.78f;
@@ -107,10 +100,6 @@ public class PebbleClusterFeature extends Feature<@NotNull NoneFeatureConfigurat
                     }
                 }
 
-                // -----------------------------
-                // 3. Edge decoration variation
-                // only rarely, mostly near the outer ring
-                // -----------------------------
                 if (normalizedDist > 0.50D && random.nextFloat() < 0.18f) {
                     BlockState edgeDecoration = getEdgeDecoration(random);
 
@@ -129,19 +118,16 @@ public class PebbleClusterFeature extends Feature<@NotNull NoneFeatureConfigurat
         int roll = random.nextInt(100);
 
         if (normalizedDist <= 0.33D) {
-            // dense center: mostly pebble block
             if (roll < 68) return ModBlocks.PEBBLE_BLOCK.get().defaultBlockState();
             if (roll < 88) return Blocks.GRAVEL.defaultBlockState();
             if (roll < 96) return Blocks.COARSE_DIRT.defaultBlockState();
             return Blocks.ANDESITE.defaultBlockState();
         } else if (normalizedDist <= 0.66D) {
-            // mixed middle
             if (roll < 42) return ModBlocks.PEBBLE_BLOCK.get().defaultBlockState();
             if (roll < 72) return Blocks.GRAVEL.defaultBlockState();
             if (roll < 90) return Blocks.COARSE_DIRT.defaultBlockState();
             return Blocks.STONE.defaultBlockState();
         } else {
-            // edge transition
             if (roll < 18) return ModBlocks.PEBBLE_BLOCK.get().defaultBlockState();
             if (roll < 52) return Blocks.GRAVEL.defaultBlockState();
             if (roll < 82) return Blocks.COARSE_DIRT.defaultBlockState();

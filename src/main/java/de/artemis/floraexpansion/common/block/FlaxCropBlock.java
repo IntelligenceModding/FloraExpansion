@@ -1,8 +1,8 @@
 package de.artemis.floraexpansion.common.block;
 
+import de.artemis.floraexpansion.common.registry.ModBlockStateProperties;
 import de.artemis.floraexpansion.common.registry.ModItems;
 import de.artemis.floraexpansion.common.registry.ModParticles;
-import de.artemis.floraexpansion.common.registry.ModBlockStateProperties;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
@@ -14,12 +14,23 @@ import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.ShearsItem;
-import net.minecraft.world.level.*;
-import net.minecraft.world.level.block.*;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.ItemLike;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.ScheduledTickAccess;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.CropBlock;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
-import net.minecraft.world.level.block.state.properties.*;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.block.state.properties.BooleanProperty;
+import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
+import net.minecraft.world.level.block.state.properties.EnumProperty;
+import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
@@ -128,6 +139,7 @@ public class FlaxCropBlock extends CropBlock {
             level.removeBlock(abovePos, false);
         }
     }
+
     @Override
     public boolean canSurvive(@NotNull BlockState state, @NotNull LevelReader level, @NotNull BlockPos pos) {
         if (isUpper(state)) {
@@ -279,23 +291,19 @@ public class FlaxCropBlock extends CropBlock {
 
     @Override
     public void animateTick(@NotNull BlockState blockState, @NotNull Level level, @NotNull BlockPos blockPos, @NotNull RandomSource random) {
-
         if (!level.isClientSide()) return;
-
         if (!isLower(blockState)) return;
-
         if (getAge(blockState) < MAX_AGE) return;
 
         if (random.nextFloat() < 0.05f) {
             BlockPos topPos = blockPos.above();
             double x = topPos.getX() + 0.25 + random.nextDouble() * 0.5;
             double z = topPos.getZ() + 0.25 + random.nextDouble() * 0.5;
-            double y = topPos.getY() + 0.6 + random.nextDouble() * 0.3; // around crop top
+            double y = topPos.getY() + 0.6 + random.nextDouble() * 0.3;
 
-            double vx = (random.nextDouble() - 0.5) * 0.2;  // Â±0.01
-            double vz = (random.nextDouble() - 0.5) * 0.2;  // Â±0.01
-
-            double vy = 0.0 + random.nextDouble() * 0.01;    // 0â€“0.01
+            double vx = (random.nextDouble() - 0.5) * 0.2;
+            double vz = (random.nextDouble() - 0.5) * 0.2;
+            double vy = random.nextDouble() * 0.01;
 
             level.addParticle(ModParticles.FLAX_FLOWER.get(), x, y, z, vx, vy, vz);
         }
@@ -322,4 +330,3 @@ public class FlaxCropBlock extends CropBlock {
         builder.add(AGE, HALF, WILD);
     }
 }
-

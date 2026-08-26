@@ -10,7 +10,6 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -40,7 +39,6 @@ public class SmallBlueberryBushBlock extends SweetBerryBushBlock {
 
     @Override
     protected void entityInside(@NotNull BlockState state, @NotNull Level level, @NotNull BlockPos pos, @NotNull net.minecraft.world.entity.Entity entity, @NotNull InsideBlockEffectApplier effectApplier, boolean inside) {
-        // Blueberry bushes are a forage plant, not a hazard.
     }
 
     @Override
@@ -113,11 +111,11 @@ public class SmallBlueberryBushBlock extends SweetBerryBushBlock {
             return InteractionResult.PASS;
         }
 
-        int amount = getHarvestAmount(level.random);
+        int amount = getHarvestAmount(level.getRandom());
         if (!level.isClientSide()) {
             popResource(level, pos, new ItemStack(ModItems.BLUEBERRIES.get(), amount));
             level.playSound(null, pos, SoundEvents.SWEET_BERRY_BUSH_PICK_BERRIES, SoundSource.BLOCKS, 1.0F,
-                    0.8F + level.random.nextFloat() * 0.4F);
+                    0.8F + level.getRandom().nextFloat() * 0.4F);
 
             BlockState resetState = state.setValue(AGE, 2);
             level.setBlock(pos, resetState, 2);

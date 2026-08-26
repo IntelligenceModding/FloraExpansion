@@ -30,6 +30,7 @@ import net.minecraft.client.data.models.model.ModelTemplates;
 import net.minecraft.client.data.models.model.TextureMapping;
 import net.minecraft.client.data.models.model.TextureSlot;
 import net.minecraft.client.renderer.item.properties.numeric.CustomModelDataProperty;
+import net.minecraft.client.resources.model.sprite.Material;
 import net.minecraft.core.Holder;
 import net.minecraft.core.Direction;
 import net.minecraft.data.PackOutput;
@@ -458,12 +459,12 @@ public class ModModelProvider extends ModelProvider {
     private void createCactusWoodFamilyModels(BlockModelGenerators blockModels) {
         Identifier cactusPlanksModel = ModelTemplates.CUBE_ALL.create(
                 ModBlocks.CACTUS_PLANKS.get(),
-                TextureMapping.cube(modBlock("cactus_planks")),
+                TextureMapping.cube(modBlockMaterial("cactus_planks")),
                 blockModels.modelOutput
         );
         Identifier cactusMosaicModel = ModelTemplates.CUBE_ALL.create(
                 ModBlocks.CACTUS_MOSAIC.get(),
-                TextureMapping.cube(modBlock("cactus_mosaic")),
+                TextureMapping.cube(modBlockMaterial("cactus_mosaic")),
                 blockModels.modelOutput
         );
 
@@ -490,12 +491,12 @@ public class ModModelProvider extends ModelProvider {
 
         Identifier cactusSignModel = ModelTemplates.PARTICLE_ONLY.create(
                 modModel("cactus_sign"),
-                new TextureMapping().put(TextureSlot.PARTICLE, modBlock("cactus_planks")),
+                new TextureMapping().put(TextureSlot.PARTICLE, modBlockMaterial("cactus_planks")),
                 blockModels.modelOutput
         );
         Identifier cactusHangingSignModel = ModelTemplates.PARTICLE_ONLY.create(
                 modModel("cactus_hanging_sign"),
-                new TextureMapping().put(TextureSlot.PARTICLE, modBlock("stripped_giant_cactus_base_side")),
+                new TextureMapping().put(TextureSlot.PARTICLE, modBlockMaterial("stripped_giant_cactus_base_side")),
                 blockModels.modelOutput
         );
 
@@ -733,8 +734,8 @@ public class ModModelProvider extends ModelProvider {
 
     private void createFlaxBaleModels(BlockModelGenerators blockModels) {
         TextureMapping textures = new TextureMapping()
-                .put(TextureSlot.END, modBlock("flax_bale_top"))
-                .put(TextureSlot.SIDE, modBlock("flax_bale_side"));
+                .put(TextureSlot.END, modBlockMaterial("flax_bale_top"))
+                .put(TextureSlot.SIDE, modBlockMaterial("flax_bale_side"));
 
         Identifier verticalModel = ModelTemplates.CUBE_COLUMN.create(ModBlocks.FLAX_BALE.get(), textures, blockModels.modelOutput);
         Identifier horizontalModel = ModelTemplates.CUBE_COLUMN_HORIZONTAL.create(ModBlocks.FLAX_BALE.get(), textures, blockModels.modelOutput);
@@ -756,8 +757,8 @@ public class ModModelProvider extends ModelProvider {
                                            String endTexture,
                                            String sideTexture) {
         TextureMapping textures = new TextureMapping()
-                .put(TextureSlot.END, Identifier.parse(endTexture))
-                .put(TextureSlot.SIDE, Identifier.parse(sideTexture));
+                .put(TextureSlot.END, new Material(Identifier.parse(endTexture)))
+                .put(TextureSlot.SIDE, new Material(Identifier.parse(sideTexture)));
 
         Identifier verticalModel = ModelTemplates.CUBE_COLUMN.create(
                 modModel(verticalModelName),
@@ -786,8 +787,8 @@ public class ModModelProvider extends ModelProvider {
                                         String horizontalModelName,
                                         String texture) {
         TextureMapping textures = new TextureMapping()
-                .put(TextureSlot.END, Identifier.parse(texture))
-                .put(TextureSlot.SIDE, Identifier.parse(texture));
+                .put(TextureSlot.END, new Material(Identifier.parse(texture)))
+                .put(TextureSlot.SIDE, new Material(Identifier.parse(texture)));
 
         Identifier verticalModel = ModelTemplates.CUBE_COLUMN.create(
                 modModel(verticalModelName),
@@ -806,7 +807,7 @@ public class ModModelProvider extends ModelProvider {
     private void createPebbleBlockModels(BlockModelGenerators blockModels) {
         Identifier model = ModelTemplates.CUBE_ALL.create(
                 ModBlocks.PEBBLE_BLOCK.get(),
-                new TextureMapping().put(TextureSlot.ALL, modBlock("pebble_block")),
+                new TextureMapping().put(TextureSlot.ALL, modBlockMaterial("pebble_block")),
                 blockModels.modelOutput
         );
 
@@ -1298,6 +1299,10 @@ public class ModModelProvider extends ModelProvider {
 
     private static Identifier modBlock(String path) {
         return Identifier.fromNamespaceAndPath(FloraExpansion.MODID, "block/" + path);
+    }
+
+    private static Material modBlockMaterial(String path) {
+        return new Material(modBlock(path));
     }
 
     private static Identifier mcBlock(String path) {

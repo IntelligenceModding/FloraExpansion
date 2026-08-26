@@ -17,8 +17,6 @@ public class ModBlockTagProvider extends BlockTagsProvider {
 
     @Override
     protected void addTags(HolderLookup.@NotNull Provider provider) {
-
-        //Minecraft
         tag(BlockTags.CLIMBABLE)
                 .add(ModBlocks.TWIG_LADDER.get());
 

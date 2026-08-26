@@ -35,7 +35,7 @@ public class FallenGiantCactusFeature extends Feature<@NotNull NoneFeatureConfig
         BlockPos origin = level.getHeightmapPos(Heightmap.Types.WORLD_SURFACE_WG, context.origin());
 
         Direction direction = HORIZONTAL_DIRECTIONS[random.nextInt(HORIZONTAL_DIRECTIONS.length)];
-        int length = 3 + random.nextInt(4); // 3-6
+        int length = 3 + random.nextInt(4);
         boolean woodAtFront = random.nextBoolean();
 
         if (!canPlaceFallenCactus(level, origin, direction, length)) {
@@ -100,8 +100,7 @@ public class FallenGiantCactusFeature extends Feature<@NotNull NoneFeatureConfig
     }
 
     private static void placeFlowers(WorldGenLevel level, RandomSource random, BlockPos start, Direction direction, int length) {
-        // Only place flowers directly on top of the fallen cactus itself.
-        int flowerAttempts = 1 + random.nextInt(2); // 1-2 attempts
+        int flowerAttempts = 1 + random.nextInt(2);
 
         for (int i = 0; i < flowerAttempts; i++) {
             if (random.nextFloat() >= 0.55F) {
@@ -128,7 +127,7 @@ public class FallenGiantCactusFeature extends Feature<@NotNull NoneFeatureConfig
     private static void placeDesertMossAround(WorldGenLevel level, RandomSource random, BlockPos start, Direction direction, int length) {
         BlockPos center = start.relative(direction, length / 2);
 
-        int attempts = 18 + random.nextInt(10); // 18-27
+        int attempts = 18 + random.nextInt(10);
 
         for (int i = 0; i < attempts; i++) {
             int dx = Math.round((random.nextFloat() - random.nextFloat()) * 4.0F);

@@ -26,7 +26,7 @@ public class CactusClusterFeature extends Feature<@NotNull NoneFeatureConfigurat
         BlockPos origin = level.getHeightmapPos(Heightmap.Types.WORLD_SURFACE_WG, context.origin());
 
         int placed = 0;
-        int attempts = 14 + random.nextInt(9); // 14-22
+        int attempts = 14 + random.nextInt(9);
 
         for (int i = 0; i < attempts; i++) {
             int dx = Math.round((random.nextFloat() - random.nextFloat()) * 4.0F);

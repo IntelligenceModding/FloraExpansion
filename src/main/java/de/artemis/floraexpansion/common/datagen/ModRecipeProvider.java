@@ -196,7 +196,6 @@ public class ModRecipeProvider extends RecipeProvider {
                 .unlockedBy(getHasName(ModBlocks.CACTUS_SLAB.get()), has(ModBlocks.CACTUS_SLAB.get()))
                 .save(recipeOutput);
 
-        //Shaped
         shaped(RecipeCategory.MISC, ModBlocks.TWIG_LADDER, 3)
                 .pattern("A A")
                 .pattern("BBB")
@@ -262,7 +261,6 @@ public class ModRecipeProvider extends RecipeProvider {
                 .unlockedBy("has_linen_block", has(ModBlocks.LINEN_BLOCK.get()))
                 .save(recipeOutput, modLoc("white_bed_from_linen_block"));
 
-        //Shapeless
         shapeless(RecipeCategory.MISC, ModItems.PINE_CONE, 1)
                 .requires(ModBlocks.PINE_LITTER)
                 .unlockedBy("has_pine_litter", has(ModBlocks.PINE_LITTER))
@@ -440,12 +438,12 @@ public class ModRecipeProvider extends RecipeProvider {
                 .unlockedBy("has_giant_cactus_blossom", has(ModBlocks.GIANT_CACTUS_BLOSSOM.get()))
                 .save(recipeOutput, modLoc("pink_dye_from_giant_cactus_blossom"));
 
-        //Smelting
         foodSmelting(recipeOutput, ModItems.PINE_NUTS.get(), ModItems.TOASTED_PINE_NUTS.get(), 0.1f, 100);
 
         SimpleCookingRecipeBuilder.smelting(
                         Ingredient.of(ModBlocks.CACTUS_CLUSTER.get()),
                         RecipeCategory.MISC,
+                        CookingBookCategory.MISC,
                         Items.GREEN_DYE,
                         0.2f,
                         200
@@ -453,25 +451,23 @@ public class ModRecipeProvider extends RecipeProvider {
                 .unlockedBy("has_cactus_cluster", has(ModBlocks.CACTUS_CLUSTER.get()))
                 .save(recipeOutput, modLoc("green_dye_from_smelting_cactus_cluster"));
 
-        //Smoking
         foodSmoking(recipeOutput, ModItems.PINE_NUTS.get(), ModItems.TOASTED_PINE_NUTS.get(), 0.1f, 50);
 
-        //Campfire Cooking
         foodCampfireCooking(recipeOutput, ModItems.PINE_NUTS.get(), ModItems.TOASTED_PINE_NUTS.get(), 0.1f, 150);
     }
 
     protected void oreSmelting(@NotNull RecipeOutput recipeOutput, List<ItemLike> ingredients, @NotNull RecipeCategory category, @NotNull ItemLike result, float experience, int cookingTime, @NotNull String group) {
-        oreCooking(recipeOutput, RecipeSerializer.SMELTING_RECIPE, SmeltingRecipe::new, ingredients, category, result,
+        oreCooking(recipeOutput, SmeltingRecipe::new, ingredients, category, result,
                 experience, cookingTime, group, "_from_smelting");
     }
 
     protected void oreBlasting(@NotNull RecipeOutput recipeOutput, List<ItemLike> ingredients, @NotNull RecipeCategory category, @NotNull ItemLike result, float experience, int cookingTime, @NotNull String group) {
-        oreCooking(recipeOutput, RecipeSerializer.BLASTING_RECIPE, BlastingRecipe::new, ingredients, category, result,
+        oreCooking(recipeOutput, BlastingRecipe::new, ingredients, category, result,
                 experience, cookingTime, group, "_from_blasting");
     }
 
     protected void foodSmelting(RecipeOutput recipeOutput, ItemLike input, ItemLike output, float exp, int time) {
-        SimpleCookingRecipeBuilder.smelting(Ingredient.of(input), RecipeCategory.FOOD, output, exp, time)
+        SimpleCookingRecipeBuilder.smelting(Ingredient.of(input), RecipeCategory.FOOD, CookingBookCategory.FOOD, output, exp, time)
                 .unlockedBy(getHasName(input), has(input))
                 .save(recipeOutput, FloraExpansion.MODID + ":" + getItemName(output) + "_from_smelting");
     }
@@ -488,9 +484,9 @@ public class ModRecipeProvider extends RecipeProvider {
                 .save(recipeOutput, FloraExpansion.MODID + ":" + getItemName(output) + "_from_campfire_cooking");
     }
 
-    protected <T extends AbstractCookingRecipe> void oreCooking(@NotNull RecipeOutput recipeOutput, RecipeSerializer<T> cookingSerializer, AbstractCookingRecipe.@NotNull Factory<T> factory, List<ItemLike> ingredients, @NotNull RecipeCategory category, @NotNull ItemLike result, float experience, int cookingTime, @NotNull String group, String recipeName) {
+    protected <T extends AbstractCookingRecipe> void oreCooking(@NotNull RecipeOutput recipeOutput, AbstractCookingRecipe.@NotNull Factory<T> factory, List<ItemLike> ingredients, @NotNull RecipeCategory category, @NotNull ItemLike result, float experience, int cookingTime, @NotNull String group, String recipeName) {
         for(ItemLike itemlike : ingredients) {
-            SimpleCookingRecipeBuilder.generic(Ingredient.of(itemlike), category, result, experience, cookingTime, cookingSerializer, factory).group(group).unlockedBy(getHasName(itemlike), has(itemlike))
+            SimpleCookingRecipeBuilder.generic(Ingredient.of(itemlike), category, CookingBookCategory.BLOCKS, result, experience, cookingTime, factory).group(group).unlockedBy(getHasName(itemlike), has(itemlike))
                     .save(recipeOutput, FloraExpansion.MODID + ":" + getItemName(result) + recipeName + "_" + getItemName(itemlike));
         }
     }

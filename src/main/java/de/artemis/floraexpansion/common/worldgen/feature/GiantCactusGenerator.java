@@ -52,8 +52,6 @@ public final class GiantCactusGenerator {
         }
 
         for (BlockPos checkPos : plan.plannedBlocks) {
-            // When validating from a flower block, origin is still occupied by that flower.
-            // Allow that one exact position.
             if (checkPos.equals(origin)) {
                 continue;
             }
@@ -71,28 +69,25 @@ public final class GiantCactusGenerator {
             return;
         }
 
-        // Fewer total placements, biased strongly toward the cactus center.
-        int attempts = 22 + random.nextInt(10); // 22-31 attempts
+        int attempts = 22 + random.nextInt(10);
 
         for (int i = 0; i < attempts; i++) {
-            // Triangular distribution: much denser near 0,0 and rarer farther out.
             int dx = Math.round((random.nextFloat() - random.nextFloat()) * 4.0F);
             int dz = Math.round((random.nextFloat() - random.nextFloat()) * 4.0F);
 
             double distSq = dx * dx + dz * dz;
-            if (distSq > 25.0D) { // hard cap at radius 5
+            if (distSq > 25.0D) {
                 continue;
             }
 
-            // Extra falloff so it is denser near the cactus and thinner farther away.
             float skipChance;
-            if (distSq <= 2.25D) {          // radius ~1.5
+            if (distSq <= 2.25D) {
                 skipChance = 0.10F;
-            } else if (distSq <= 6.25D) {   // radius ~2.5
+            } else if (distSq <= 6.25D) {
                 skipChance = 0.30F;
-            } else if (distSq <= 12.25D) {  // radius ~3.5
+            } else if (distSq <= 12.25D) {
                 skipChance = 0.55F;
-            } else {                        // radius up to 5
+            } else {
                 skipChance = 0.78F;
             }
 
@@ -111,7 +106,6 @@ public final class GiantCactusGenerator {
         BlockPos belowPos = pos.below();
         BlockState below = level.getBlockState(belowPos);
 
-        // Desert moss may only generate on sand or red sand.
         if (!below.is(Blocks.SAND) && !below.is(Blocks.RED_SAND)) {
             return;
         }
@@ -122,7 +116,6 @@ public final class GiantCactusGenerator {
 
         BlockState state = ModBlocks.DESERT_MOSS.get().defaultBlockState();
 
-        // If your DesertMossBlock has a VARIANT property, set it here.
         if (state.hasProperty(DesertMossBlock.VARIANT)) {
             state = state.setValue(DesertMossBlock.VARIANT, random.nextInt(4));
         }
@@ -151,7 +144,6 @@ public final class GiantCactusGenerator {
                 .setValue(RotatedPillarBlock.AXIS, Direction.Axis.Y)
                 .setValue(GiantCactusWoodBlock.GENERATED, worldgenPlaced);
 
-        // Main trunk: base blocks, with wood on the very top
         for (int y = 0; y < plan.trunkHeight; y++) {
             BlockPos trunkPos = origin.above(y);
 
@@ -162,8 +154,6 @@ public final class GiantCactusGenerator {
             }
         }
 
-        // Arms:
-        // horizontal = base blocks, end cap = wood, upward section = stems
         for (ArmData arm : plan.arms) {
             BlockPos armStart = origin.above(arm.startY());
             BlockPos current = armStart;
@@ -208,9 +198,9 @@ public final class GiantCactusGenerator {
             return null;
         }
 
-        int trunkHeight = 4 + random.nextInt(4); // 4-7
+        int trunkHeight = 4 + random.nextInt(4);
 
-        int armCount = 1 + random.nextInt(2); // 1-2
+        int armCount = 1 + random.nextInt(2);
         if (trunkHeight >= 6 && random.nextFloat() < 0.35F) {
             armCount = 3;
         }
@@ -226,13 +216,12 @@ public final class GiantCactusGenerator {
         for (int i = 0; i < usableDirections; i++) {
             Direction dir = directions.get(i);
 
-            // Arms only start from trunk base blocks, not too low and not at the very top
             int minStartY = Math.max(1, trunkHeight / 3);
             int maxStartY = Math.max(minStartY, trunkHeight - 2);
             int startY = minStartY + random.nextInt(maxStartY - minStartY + 1);
 
-            int horizontalLength = 1 + random.nextInt(2);   // 1-2
-            int verticalStemHeight = 2 + random.nextInt(3); // 2-4
+            int horizontalLength = 1 + random.nextInt(2);
+            int verticalStemHeight = 2 + random.nextInt(3);
 
             arms.add(new ArmData(dir, startY, horizontalLength, verticalStemHeight));
         }
@@ -240,28 +229,23 @@ public final class GiantCactusGenerator {
         List<BlockPos> plannedBlocks = new ArrayList<>();
         List<FlowerCandidate> flowerCandidates = new ArrayList<>();
 
-        // Main trunk positions
         for (int y = 0; y < trunkHeight; y++) {
             plannedBlocks.add(origin.above(y));
         }
 
-        // Arm positions
         for (ArmData arm : arms) {
             BlockPos armStart = origin.above(arm.startY());
             BlockPos current = armStart;
 
-            // Horizontal arm section
             for (int i = 1; i <= arm.horizontalLength(); i++) {
                 current = armStart.relative(arm.direction(), i);
                 plannedBlocks.add(current);
             }
 
-            // Upward stem section
             for (int y = 1; y <= arm.verticalStemHeight(); y++) {
                 plannedBlocks.add(current.above(y));
             }
 
-            // Flowers only on top of some arm stems, never on main trunk
             flowerCandidates.add(new FlowerCandidate(
                     current.above(arm.verticalStemHeight() + 1),
                     current.above(arm.verticalStemHeight())
@@ -273,7 +257,6 @@ public final class GiantCactusGenerator {
 
     private static void placeFlowers(LevelAccessor level, RandomSource random, List<FlowerCandidate> candidates) {
         for (FlowerCandidate candidate : candidates) {
-            // Only some arm stems get flowers
             if (random.nextFloat() >= 0.55F) {
                 continue;
             }
@@ -299,7 +282,6 @@ public final class GiantCactusGenerator {
     }
 
     private static void placeThorns(LevelAccessor level, RandomSource random, BlockPos origin, int trunkHeight, List<ArmData> arms) {
-        // Thorns on main trunk
         for (int y = 0; y < trunkHeight; y++) {
             BlockPos cactusPos = origin.above(y);
 
@@ -311,7 +293,6 @@ public final class GiantCactusGenerator {
             }
         }
 
-        // Thorns on arms and stem tips
         for (ArmData arm : arms) {
             BlockPos armStart = origin.above(arm.startY());
             BlockPos current = armStart;
