@@ -1,4 +1,4 @@
-// 26.1.1	2026-08-26T17:42:43.8842519	Global Loot Modifiers : floraexpansion
+// 26.1.2	2026-08-26T19:55:06.7446085	Global Loot Modifiers : floraexpansion
 ea62c3a01e6624cabe66c542fb4d507c3fb5822b data/floraexpansion/loot_modifiers/cactus_boots_from_desert_pyramid.json
 57b2e2f670817c1146856387f167eb2287c2bf34 data/floraexpansion/loot_modifiers/cactus_boots_from_village_toolsmith.json
 945d8d45c861d7554da5c440cdff64004b12f506 data/floraexpansion/loot_modifiers/cactus_boots_from_village_weaponsmith.json
@@ -38,4 +38,3 @@ e5fad9d0d90de036487392a411aab303e474e8cc data/floraexpansion/loot_modifiers/pric
 c622798d770abd209acdec626b90b96a5a029baa data/floraexpansion/loot_modifiers/prickly_pear_from_desert_pyramid_archaeology.json
 3ceb4b7b81d63efeff502c08e18553b2af8aff1f data/floraexpansion/loot_modifiers/prickly_pear_from_desert_well_archaeology.json
 14fd8976cbb4ae75d3f47dfed33b01f933fcdee7 data/floraexpansion/loot_modifiers/prickly_pear_from_village_desert_house.json
-5908256f827d42dd898bc627fb74171912c6b929 data/neoforge/loot_modifiers/global_loot_modifiers.json

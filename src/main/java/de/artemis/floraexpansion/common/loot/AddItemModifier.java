@@ -14,6 +14,8 @@ import net.neoforged.neoforge.common.loot.LootModifier;
 import org.jetbrains.annotations.NotNull;
 
 public class AddItemModifier extends LootModifier {
+    private static final int DEFAULT_PRIORITY = 1000;
+
     public static final MapCodec<AddItemModifier> CODEC = RecordCodecBuilder.mapCodec(inst ->
             LootModifier.codecStart(inst).and(inst.group(
                     BuiltInRegistries.ITEM.byNameCodec().fieldOf("item").forGetter(m -> m.item),
@@ -30,7 +32,11 @@ public class AddItemModifier extends LootModifier {
     }
 
     public AddItemModifier(LootItemCondition[] conditionsIn, Item item, int minCount, int maxCount) {
-        super(conditionsIn);
+        this(conditionsIn, DEFAULT_PRIORITY, item, minCount, maxCount);
+    }
+
+    public AddItemModifier(LootItemCondition[] conditionsIn, int priority, Item item, int minCount, int maxCount) {
+        super(conditionsIn, priority);
         this.item = item;
         this.minCount = minCount;
         this.maxCount = maxCount;
