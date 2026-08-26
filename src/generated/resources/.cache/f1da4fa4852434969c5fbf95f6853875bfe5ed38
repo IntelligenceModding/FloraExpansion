@@ -1,4 +1,4 @@
-// 1.21.11	2026-08-25T21:48:38.8201322	Model Definitions - floraexpansion
+// 1.21.11	2026-08-26T13:46:42.8093024	Model Definitions - floraexpansion
 041d784f79393c389e7585dcddc94c9a180830cd assets/floraexpansion/blockstates/apple_core.json
 7dd84c436267705b3a6ea63a704572e8bc70072e assets/floraexpansion/blockstates/black_strawberry_candle_cake.json
 072b2a420eaa8e4df138c0eb075195d99b23f5f4 assets/floraexpansion/blockstates/blueberry_bush.json
@@ -101,7 +101,7 @@ b09762c03f99e80778a34a1454536e5fda03eb6a assets/floraexpansion/items/flax_fiber.
 fefd160c312d04f99a22054b073cc2e8061fbaae assets/floraexpansion/items/flax_seed.json
 b858257a1fa6342091ca0fff37e76caddfad6177 assets/floraexpansion/items/forest_snack.json
 754a3e23b52c45786ce2c558618b0ab24b432494 assets/floraexpansion/items/fruiting_cherry_leaves.json
-9a1278f2dda97c3879757aadc2e3bc53c4ea394e assets/floraexpansion/items/fruiting_oak_leaves.json
+1c576db296110dce2fbead1ba02467cd28cb56dc assets/floraexpansion/items/fruiting_oak_leaves.json
 50eafa97ce8afbfb7766ad002846b7ce9a9fc4bd assets/floraexpansion/items/giant_cactus_base.json
 ff46a04a0ca84b6ad7b819b18602a8c2ab8e21ab assets/floraexpansion/items/giant_cactus_blossom.json
 0b71e9c2a1233acba66a21de520c6f3d630b32b0 assets/floraexpansion/items/giant_cactus_stem.json

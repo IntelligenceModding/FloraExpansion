@@ -36,6 +36,7 @@ import net.minecraft.data.PackOutput;
 import net.minecraft.data.BlockFamily;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.level.FoliageColor;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
@@ -72,7 +73,9 @@ public class ModModelProvider extends ModelProvider {
         itemModels.generateFlatItem(ModBlocks.STRAWBERRY_CAKE.get().asItem(), ModelTemplates.FLAT_ITEM);
         blockModels.registerSimpleFlatItemModel(ModBlocks.TWIG_LADDER.get());
         blockModels.registerSimpleItemModel(ModBlocks.FRUITING_CHERRY_LEAVES.get(), modModel("fruiting_cherry_leaves_stage3"));
-        blockModels.registerSimpleItemModel(ModBlocks.FRUITING_OAK_LEAVES.get(), modItemModel("fruiting_oak_leaves"));
+        blockModels.itemModelOutput.accept(ModBlocks.FRUITING_OAK_LEAVES.get().asItem(),
+                ItemModelUtils.tintedModel(modItemModel("fruiting_oak_leaves"),
+                        ItemModelUtils.constantTint(FoliageColor.FOLIAGE_DEFAULT)));
         registerGeneratedItemWithTexture(blockModels, itemModels, ModBlocks.LARGE_BLUEBERRY_BUSH.get().asItem(), "floraexpansion:block/large_blueberry_bush_stage3");
         registerGeneratedItemWithTexture(blockModels, itemModels, ModBlocks.DESERT_MOSS.get().asItem(), "floraexpansion:block/desert_moss_2");
 

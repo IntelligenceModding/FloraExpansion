@@ -4,11 +4,12 @@ import de.artemis.floraexpansion.FloraExpansion;
 import de.artemis.floraexpansion.common.registry.ModBlocks;
 import net.minecraft.client.renderer.BiomeColors;
 import net.minecraft.world.level.FoliageColor;
+import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.RegisterColorHandlersEvent;
 
-@EventBusSubscriber(modid = FloraExpansion.MODID)
+@EventBusSubscriber(modid = FloraExpansion.MODID, value = Dist.CLIENT)
 public class ModColorHandlers {
 
     @SubscribeEvent
