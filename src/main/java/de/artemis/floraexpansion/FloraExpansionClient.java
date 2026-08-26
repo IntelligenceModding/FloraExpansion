@@ -22,15 +22,12 @@ import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
 import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
 import net.neoforged.neoforge.client.event.RegisterParticleProvidersEvent;
-import net.neoforged.neoforge.client.gui.ConfigurationScreen;
-import net.neoforged.neoforge.client.gui.IConfigScreenFactory;
 import de.artemis.floraexpansion.common.registry.ModParticles;
 
 @Mod(value = FloraExpansion.MODID, dist = Dist.CLIENT)
 @EventBusSubscriber(modid = FloraExpansion.MODID, value = Dist.CLIENT)
 public class FloraExpansionClient {
     public FloraExpansionClient(ModContainer container) {
-        container.registerExtensionPoint(IConfigScreenFactory.class, ConfigurationScreen::new);
     }
 
     @SubscribeEvent
