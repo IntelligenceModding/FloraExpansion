@@ -1,7 +1,5 @@
 package de.artemis.floraexpansion.common.block;
 
-import com.mojang.serialization.MapCodec;
-import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.stats.Stats;
@@ -25,15 +23,6 @@ import java.util.Map;
 
 public class StrawberryCandleCakeBlock extends CandleCakeBlock {
     private static final Map<CandleBlock, StrawberryCandleCakeBlock> BY_CANDLE = new HashMap<>();
-    private static final MapCodec<StrawberryCandleCakeBlock> DIRECT_CODEC = RecordCodecBuilder.mapCodec(
-            instance -> instance.group(
-                            BuiltInRegistries.BLOCK.byNameCodec().fieldOf("candle").forGetter((StrawberryCandleCakeBlock block) -> block.candleBlock),
-                            propertiesCodec()
-                    )
-                    .apply(instance, StrawberryCandleCakeBlock::new)
-    );
-    @SuppressWarnings("unchecked")
-    public static final MapCodec<CandleCakeBlock> CODEC = (MapCodec<CandleCakeBlock>) (MapCodec<?>) DIRECT_CODEC;
 
     private final CandleBlock candleBlock;
 
@@ -48,10 +37,6 @@ public class StrawberryCandleCakeBlock extends CandleCakeBlock {
         throw new IllegalArgumentException("Expected CandleBlock but got " + candleBlock.getClass());
     }
 
-    @Override
-    public @NotNull MapCodec<CandleCakeBlock> codec() {
-        return CODEC;
-    }
 
     @Override
     protected @NotNull InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hitResult) {

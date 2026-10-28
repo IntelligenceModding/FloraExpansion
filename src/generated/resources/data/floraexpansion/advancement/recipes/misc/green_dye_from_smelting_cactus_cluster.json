@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "floraexpansion:green_dye_from_smelting_cactus_cluster"
+        "recipes": "floraexpansion:green_dye_from_smelting_cactus_cluster"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

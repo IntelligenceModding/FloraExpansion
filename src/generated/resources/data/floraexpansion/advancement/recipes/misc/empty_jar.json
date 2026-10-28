@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "floraexpansion:empty_jar"
+        "recipes": "floraexpansion:empty_jar"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

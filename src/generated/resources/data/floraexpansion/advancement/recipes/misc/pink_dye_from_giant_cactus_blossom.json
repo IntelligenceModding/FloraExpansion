@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "floraexpansion:pink_dye_from_giant_cactus_blossom"
+        "recipes": "floraexpansion:pink_dye_from_giant_cactus_blossom"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

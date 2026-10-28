@@ -1,6 +1,5 @@
 package de.artemis.floraexpansion.common.block;
 
-import com.mojang.serialization.MapCodec;
 import de.artemis.floraexpansion.common.registry.ModItems;
 import de.artemis.floraexpansion.common.registry.ModParticles;
 import de.artemis.floraexpansion.common.util.FruitingLeavesHelper;
@@ -22,20 +21,15 @@ import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.minecraft.world.phys.BlockHitResult;
 import org.jetbrains.annotations.NotNull;
 
-public class FruitingCherryLeavesBlock extends LeavesBlock implements BonemealableBlock {
-    public static final MapCodec<FruitingCherryLeavesBlock> CODEC = simpleCodec(FruitingCherryLeavesBlock::new);
+public class FruitingCherryLeavesBlock extends net.minecraft.world.level.block.FallingParticlesLeavesBlock implements BonemealableBlock {
     public static final IntegerProperty AGE = BlockStateProperties.AGE_3;
     public static final int MAX_AGE = 3;
 
     public FruitingCherryLeavesBlock(Properties properties) {
-        super(0.0F, properties);
+        super(0.0F, net.minecraft.world.level.block.sounds.AmbientLeavesBlockSoundPlayer.noAmbientSound(), properties);
         this.registerDefaultState(this.defaultBlockState().setValue(AGE, 0));
     }
 
-    @Override
-    public @NotNull MapCodec<? extends LeavesBlock> codec() {
-        return CODEC;
-    }
 
     @Override
     protected void createBlockStateDefinition(StateDefinition.@NotNull Builder<net.minecraft.world.level.block.Block, BlockState> builder) {
@@ -98,17 +92,17 @@ public class FruitingCherryLeavesBlock extends LeavesBlock implements Bonemealab
     }
 
     @Override
-    public boolean isValidBonemealTarget(@NotNull LevelReader levelReader, @NotNull BlockPos blockPos, BlockState blockState) {
+    public boolean isValidBonemealTarget(@NotNull LevelReader levelReader, @NotNull BlockPos blockPos, BlockState blockState, net.minecraft.world.level.block.BonemealSource source) {
         return FruitingLeavesHelper.canGrow(blockState, AGE, MAX_AGE);
     }
 
     @Override
-    public boolean isBonemealSuccess(@NotNull Level level, @NotNull RandomSource random, @NotNull BlockPos blockPos, BlockState blockState) {
+    public boolean isBonemealSuccess(@NotNull Level level, @NotNull RandomSource random, @NotNull BlockPos blockPos, BlockState blockState, net.minecraft.world.level.block.BonemealSource source) {
         return FruitingLeavesHelper.canGrow(blockState, AGE, MAX_AGE);
     }
 
     @Override
-    public void performBonemeal(ServerLevel level, @NotNull RandomSource random, @NotNull BlockPos blockPos, BlockState blockState) {
+    public void performBonemeal(ServerLevel level, @NotNull RandomSource random, @NotNull BlockPos blockPos, BlockState blockState, net.minecraft.world.level.block.BonemealSource source) {
         FruitingLeavesHelper.applyBonemeal(level, blockPos, blockState, AGE, MAX_AGE);
     }
 }

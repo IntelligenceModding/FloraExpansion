@@ -2,25 +2,26 @@ package de.artemis.floraexpansion.common.registry;
 
 import net.minecraft.world.level.block.grower.TreeGrower;
 
-import java.util.Optional;
+import net.minecraft.util.random.Weighted;
+import net.minecraft.util.random.WeightedList;
 
 public class ModTreeGrowers {
     public static final TreeGrower CHERRY_PIT = new TreeGrower(
             "floraexpansion:cherry_pit",
-            Optional.empty(),
-            Optional.of(ModTreeConfiguredFeatures.FRUITING_CHERRY_TREE_KEY),
-            Optional.of(ModTreeConfiguredFeatures.FRUITING_CHERRY_TREE_KEY)
+            WeightedList.of(ModTreeConfiguredFeatures.FRUITING_CHERRY_TREE_KEY),
+            WeightedList.of(),
+            WeightedList.of(ModTreeConfiguredFeatures.FRUITING_CHERRY_TREE_KEY),
+            ModTreeConfiguredFeatures.FRUITING_CHERRY_TREE_KEY
     );
 
     public static final TreeGrower APPLE_CORE = new TreeGrower(
             "floraexpansion:apple_core",
-            0.15F,
-            Optional.empty(),
-            Optional.empty(),
-            Optional.of(ModTreeConfiguredFeatures.FRUITING_OAK_TREE_KEY),
-            Optional.of(ModTreeConfiguredFeatures.FANCY_FRUITING_OAK_TREE_KEY),
-            Optional.of(ModTreeConfiguredFeatures.FRUITING_OAK_TREE_KEY),
-            Optional.of(ModTreeConfiguredFeatures.FANCY_FRUITING_OAK_TREE_KEY)
+            WeightedList.of(new Weighted<>(ModTreeConfiguredFeatures.FRUITING_OAK_TREE_KEY, 85),
+                    new Weighted<>(ModTreeConfiguredFeatures.FANCY_FRUITING_OAK_TREE_KEY, 15)),
+            WeightedList.of(),
+            WeightedList.of(new Weighted<>(ModTreeConfiguredFeatures.FRUITING_OAK_TREE_KEY, 85),
+                    new Weighted<>(ModTreeConfiguredFeatures.FANCY_FRUITING_OAK_TREE_KEY, 15)),
+            ModTreeConfiguredFeatures.FRUITING_OAK_TREE_KEY
     );
 
     private ModTreeGrowers() {

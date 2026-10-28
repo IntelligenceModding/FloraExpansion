@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "floraexpansion:cactus_mosaic"
+        "recipes": "floraexpansion:cactus_mosaic"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

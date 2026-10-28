@@ -75,7 +75,7 @@ public class StrawberryCropBlock extends CropBlock {
     }
 
     @Override
-    public void performBonemeal(@NotNull ServerLevel level, @NotNull RandomSource random, @NotNull BlockPos pos, @NotNull BlockState state) {
+    public void performBonemeal(@NotNull ServerLevel level, @NotNull RandomSource random, @NotNull BlockPos pos, @NotNull BlockState state, net.minecraft.world.level.block.BonemealSource source) {
         int nextAge = Math.min(this.getMaxAge(), this.getAge(state) + this.getBonemealAgeIncrease(level));
         level.setBlock(pos, state.setValue(AGE, nextAge), 2);
     }
@@ -85,6 +85,9 @@ public class StrawberryCropBlock extends CropBlock {
         BlockState soil = level.getBlockState(pos.below());
         if (state.getValue(WILD)) {
             return soil.is(BlockTags.DIRT)
+                    || soil.is(BlockTags.GRASS_BLOCKS)
+                    || soil.is(Blocks.PODZOL)
+                    || soil.is(Blocks.MYCELIUM)
                     || soil.is(Blocks.FARMLAND)
                     || soil.is(Blocks.MOSS_BLOCK)
                     || soil.is(Blocks.ROOTED_DIRT);

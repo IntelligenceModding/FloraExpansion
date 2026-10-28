@@ -23,7 +23,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "floraexpansion:blueberry_jam"
+        "recipes": "floraexpansion:blueberry_jam"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

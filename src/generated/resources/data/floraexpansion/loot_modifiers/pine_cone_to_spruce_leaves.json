@@ -1,14 +1,17 @@
 {
   "type": "floraexpansion:add_item",
-  "conditions": [
-    {
-      "block": "minecraft:spruce_leaves",
-      "condition": "minecraft:block_state_property"
-    },
-    {
-      "chance": 0.2,
-      "condition": "minecraft:random_chance"
-    }
-  ],
+  "condition": {
+    "type": "minecraft:all_of",
+    "terms": [
+      {
+        "type": "minecraft:match_block",
+        "blocks": "minecraft:spruce_leaves"
+      },
+      {
+        "type": "minecraft:random_chance",
+        "chance": 0.2
+      }
+    ]
+  },
   "item": "floraexpansion:pine_cone"
 }

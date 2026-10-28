@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "floraexpansion:basket"
+        "recipes": "floraexpansion:basket"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

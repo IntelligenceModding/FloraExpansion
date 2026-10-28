@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "floraexpansion:painting_from_linen_block"
+        "recipes": "floraexpansion:painting_from_linen_block"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

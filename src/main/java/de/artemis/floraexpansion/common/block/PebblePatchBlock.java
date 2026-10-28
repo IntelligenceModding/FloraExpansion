@@ -1,6 +1,5 @@
 package de.artemis.floraexpansion.common.block;
 
-import com.mojang.serialization.MapCodec;
 import de.artemis.floraexpansion.common.registry.ModItems;
 import de.artemis.floraexpansion.common.registry.ModBlockStateProperties;
 import net.minecraft.core.BlockPos;
@@ -33,7 +32,6 @@ import org.jetbrains.annotations.NotNull;
 
 @SuppressWarnings("deprecation")
 public class PebblePatchBlock extends BushBlock {
-    public static final MapCodec<BushBlock> CODEC = simpleCodec(PebblePatchBlock::new);
 
     public static final EnumProperty<@NotNull Direction> FACING = BlockStateProperties.HORIZONTAL_FACING;
     public static final IntegerProperty AMOUNT = ModBlockStateProperties.PEBBLE_AMOUNT;
@@ -47,10 +45,6 @@ public class PebblePatchBlock extends BushBlock {
                 .setValue(AMOUNT, 1));
     }
 
-    @Override
-    public @NotNull MapCodec<BushBlock> codec() {
-        return CODEC;
-    }
 
     @Override
     public @NotNull BlockState rotate(@NotNull BlockState state, @NotNull Rotation rotation) {

@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "floraexpansion:cactus_pressure_plate"
+        "recipes": "floraexpansion:cactus_pressure_plate"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

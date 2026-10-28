@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "floraexpansion:cactus_planks_from_giant_cactus_base"
+        "recipes": "floraexpansion:cactus_planks_from_giant_cactus_base"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

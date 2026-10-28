@@ -1,6 +1,5 @@
 package de.artemis.floraexpansion.common.block;
 
-import com.mojang.serialization.MapCodec;
 import de.artemis.floraexpansion.common.block.entity.CactusSignBlockEntity;
 import de.artemis.floraexpansion.common.registry.ModWoodTypes;
 import net.minecraft.core.BlockPos;
@@ -12,17 +11,11 @@ import org.jetbrains.annotations.NotNull;
 
 @SuppressWarnings("unchecked")
 public class CactusWallSignBlock extends WallSignBlock {
-    public static final MapCodec<WallSignBlock> CODEC =
-            (MapCodec<WallSignBlock>) (MapCodec<?>) simpleCodec(CactusWallSignBlock::new);
 
     public CactusWallSignBlock(BlockBehaviour.Properties properties) {
         super(ModWoodTypes.CACTUS_WOOD_TYPE, properties);
     }
 
-    @Override
-    public @NotNull MapCodec<WallSignBlock> codec() {
-        return CODEC;
-    }
 
     @Override
     public @NotNull BlockEntity newBlockEntity(@NotNull BlockPos pos, @NotNull BlockState state) {

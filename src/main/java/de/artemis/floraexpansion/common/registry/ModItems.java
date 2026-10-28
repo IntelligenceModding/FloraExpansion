@@ -117,9 +117,10 @@ public class ModItems {
             properties -> new BottledJuiceItem(properties.food(ModFoods.APPLE_JUICE).stacksTo(16)));
 
     public static final DeferredItem<Item> CACTUS_SIGN = ITEMS.registerItem("cactus_sign",
-            properties -> new net.minecraft.world.item.SignItem(
+            properties -> new net.minecraft.world.item.StandingAndWallBlockItem(
                     ModBlocks.CACTUS_SIGN.get(),
                     ModBlocks.CACTUS_WALL_SIGN.get(),
+                    net.minecraft.core.Direction.DOWN,
                     properties.stacksTo(16)));
 
     public static final DeferredItem<Item> CACTUS_HANGING_SIGN = ITEMS.registerItem("cactus_hanging_sign",

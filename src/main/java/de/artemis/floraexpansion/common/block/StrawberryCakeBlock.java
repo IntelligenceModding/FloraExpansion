@@ -1,6 +1,5 @@
 package de.artemis.floraexpansion.common.block;
 
-import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -22,16 +21,11 @@ import net.minecraft.world.phys.BlockHitResult;
 import org.jetbrains.annotations.NotNull;
 
 public class StrawberryCakeBlock extends CakeBlock {
-    public static final MapCodec<CakeBlock> CODEC = simpleCodec(StrawberryCakeBlock::new);
 
     public StrawberryCakeBlock(BlockBehaviour.Properties properties) {
         super(properties);
     }
 
-    @Override
-    public @NotNull MapCodec<CakeBlock> codec() {
-        return CODEC;
-    }
 
     @Override
     protected @NotNull InteractionResult useItemOn(

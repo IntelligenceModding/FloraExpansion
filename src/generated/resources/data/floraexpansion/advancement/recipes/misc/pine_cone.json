@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "floraexpansion:pine_cone"
+        "recipes": "floraexpansion:pine_cone"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

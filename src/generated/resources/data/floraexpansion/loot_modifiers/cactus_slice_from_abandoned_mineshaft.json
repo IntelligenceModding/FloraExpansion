@@ -1,15 +1,18 @@
 {
   "type": "floraexpansion:add_item",
-  "conditions": [
-    {
-      "condition": "neoforge:loot_table_id",
-      "loot_table_id": "minecraft:chests/abandoned_mineshaft"
-    },
-    {
-      "chance": 0.12,
-      "condition": "minecraft:random_chance"
-    }
-  ],
+  "condition": {
+    "type": "minecraft:all_of",
+    "terms": [
+      {
+        "type": "neoforge:loot_table_id",
+        "loot_table_id": "minecraft:chests/abandoned_mineshaft"
+      },
+      {
+        "type": "minecraft:random_chance",
+        "chance": 0.12
+      }
+    ]
+  },
   "item": "floraexpansion:cactus_slice",
   "max_count": 2
 }

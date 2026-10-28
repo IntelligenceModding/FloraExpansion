@@ -1,6 +1,5 @@
 package de.artemis.floraexpansion.common.block;
 
-import com.mojang.serialization.MapCodec;
 import de.artemis.floraexpansion.common.worldgen.feature.GiantCactusGenerator;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -30,7 +29,6 @@ import de.artemis.floraexpansion.common.registry.ModBlocks;
 
 public class GiantCactusBlossomBlock extends BushBlock implements BonemealableBlock {
     public static final int VARIANT_COUNT = 3;
-    public static final MapCodec<BushBlock> CODEC = simpleCodec(GiantCactusBlossomBlock::new);
     public static final IntegerProperty VARIANT = IntegerProperty.create("variant", 0, VARIANT_COUNT - 1);
     private static final VoxelShape SHAPE = Block.column(14.0D, 0.0D, 12.0D);
     private static final float BONEMEAL_GROW_CHANCE = 0.45F;
@@ -40,10 +38,6 @@ public class GiantCactusBlossomBlock extends BushBlock implements BonemealableBl
         this.registerDefaultState(this.stateDefinition.any().setValue(VARIANT, 0));
     }
 
-    @Override
-    public @NotNull MapCodec<BushBlock> codec() {
-        return CODEC;
-    }
 
     @Override
     protected boolean mayPlaceOn(@NotNull BlockState state, @NotNull BlockGetter level, @NotNull BlockPos pos) {
@@ -75,12 +69,12 @@ public class GiantCactusBlossomBlock extends BushBlock implements BonemealableBl
     }
 
     @Override
-    public boolean isValidBonemealTarget(@NotNull LevelReader level, @NotNull BlockPos pos, @NotNull BlockState state) {
+    public boolean isValidBonemealTarget(@NotNull LevelReader level, @NotNull BlockPos pos, @NotNull BlockState state, net.minecraft.world.level.block.BonemealSource source) {
         return true;
     }
 
     @Override
-    public boolean isBonemealSuccess(@NotNull Level level, @NotNull RandomSource random, @NotNull BlockPos pos, @NotNull BlockState state) {
+    public boolean isBonemealSuccess(@NotNull Level level, @NotNull RandomSource random, @NotNull BlockPos pos, @NotNull BlockState state, net.minecraft.world.level.block.BonemealSource source) {
         BlockState below = level.getBlockState(pos.below());
 
         if (!isValidGiantCactusGrowthGround(below)) {
@@ -91,7 +85,7 @@ public class GiantCactusBlossomBlock extends BushBlock implements BonemealableBl
     }
 
     @Override
-    public void performBonemeal(@NotNull ServerLevel level, @NotNull RandomSource random, @NotNull BlockPos pos, @NotNull BlockState state) {
+    public void performBonemeal(@NotNull ServerLevel level, @NotNull RandomSource random, @NotNull BlockPos pos, @NotNull BlockState state, net.minecraft.world.level.block.BonemealSource source) {
         BlockState below = level.getBlockState(pos.below());
 
         if (!isValidGiantCactusGrowthGround(below)) {

@@ -10,8 +10,6 @@ import de.artemis.floraexpansion.common.registry.ModParticles;
 import de.artemis.floraexpansion.common.registry.ModFeatures;
 import de.artemis.floraexpansion.common.registry.ModTreeDecorators;
 import de.artemis.floraexpansion.common.network.ModPayloads;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.FlowerPotBlock;
 import org.slf4j.Logger;
 import de.artemis.floraexpansion.common.registry.ModCreativeModeTabs;
 
@@ -23,7 +21,6 @@ import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.ModContainer;
-import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
 import net.neoforged.neoforge.event.server.ServerStartingEvent;
@@ -39,7 +36,6 @@ public class FloraExpansion {
     public static final DeferredRegister.Items ITEMS = DeferredRegister.createItems(MODID);
 
     public FloraExpansion(IEventBus modEventBus, ModContainer modContainer) {
-        modEventBus.addListener(this::commonSetup);
         modEventBus.addListener(this::addCreative);
         modEventBus.addListener(ModPayloads::register);
 
@@ -59,14 +55,6 @@ public class FloraExpansion {
         ModBlockEntities.register(modEventBus);
         ModEntityTypes.register(modEventBus);
         ModMenuTypes.register(modEventBus);
-    }
-
-    private void commonSetup(FMLCommonSetupEvent event) {
-        event.enqueueWork(() -> {
-            ((FlowerPotBlock) Blocks.FLOWER_POT).addPlant(ModBlocks.CHERRY_PIT.getId(), ModBlocks.POTTED_CHERRY_PIT);
-            ((FlowerPotBlock) Blocks.FLOWER_POT).addPlant(ModBlocks.APPLE_CORE.getId(), ModBlocks.POTTED_APPLE_CORE);
-            ((FlowerPotBlock) Blocks.FLOWER_POT).addPlant(ModBlocks.GIANT_CACTUS_STEM.getId(), ModBlocks.POTTED_GIANT_CACTUS_STEM);
-        });
     }
 
     private void addCreative(BuildCreativeModeTabContentsEvent event) {

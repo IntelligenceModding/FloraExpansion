@@ -1,14 +1,17 @@
 {
   "type": "floraexpansion:add_item",
-  "conditions": [
-    {
-      "condition": "neoforge:loot_table_id",
-      "loot_table_id": "minecraft:archaeology/desert_pyramid"
-    },
-    {
-      "chance": 0.025,
-      "condition": "minecraft:random_chance"
-    }
-  ],
+  "condition": {
+    "type": "minecraft:all_of",
+    "terms": [
+      {
+        "type": "neoforge:loot_table_id",
+        "loot_table_id": "minecraft:archaeology/desert_pyramid"
+      },
+      {
+        "type": "minecraft:random_chance",
+        "chance": 0.025
+      }
+    ]
+  },
   "item": "floraexpansion:cactus_slice"
 }

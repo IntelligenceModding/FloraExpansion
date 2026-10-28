@@ -19,10 +19,12 @@ import net.minecraft.world.level.storage.loot.functions.SetItemCountFunction;
 import net.minecraft.world.level.storage.loot.predicates.BonusLevelTableCondition;
 import net.minecraft.world.level.storage.loot.predicates.ExplosionCondition;
 import net.minecraft.world.level.storage.loot.predicates.InvertedLootItemCondition;
-import net.minecraft.world.level.storage.loot.predicates.LootItemBlockStatePropertyCondition;
+import net.minecraft.world.level.storage.loot.predicates.MatchBlock;
 import net.minecraft.world.level.storage.loot.predicates.MatchTool;
-import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
-import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
+import net.minecraft.core.Holder;
+import net.minecraft.world.level.storage.loot.providers.number.ints.ContextIntProvider;
+import net.minecraft.world.level.storage.loot.providers.number.ints.ConstantValue;
+import net.minecraft.world.level.storage.loot.providers.number.ints.UniformGenerator;
 import org.jetbrains.annotations.NotNull;
 import de.artemis.floraexpansion.common.registry.ModBlocks;
 
@@ -31,13 +33,32 @@ import java.util.Set;
 
 public class ModBlockLootTableProvider extends BlockLootSubProvider {
 
-    protected ModBlockLootTableProvider(HolderLookup.Provider registries) {
+    protected ModBlockLootTableProvider(net.minecraft.data.loot.LootTableSubProvider.Context registries) {
         super(Set.of(), FeatureFlags.REGISTRY.allFlags(), registries);
+    }
+
+    private static Holder<ContextIntProvider> constant(float value) {
+        return Holder.direct(new ConstantValue((int) value));
+    }
+
+    private static Holder<ContextIntProvider> uniform(float min, float max) {
+        return Holder.direct(new UniformGenerator(constant(min), constant(max)));
     }
 
     @Override
     protected void generate() {
-        add(ModBlocks.BLUEBERRY_BUSH.get(), createBlueberryBushDrops(ModBlocks.BLUEBERRY_BUSH.get(), UniformGenerator.between(2.0F, 3.0F)));
+        dropSelf(ModBlocks.APPLE_CORE.get());
+        dropSelf(ModBlocks.CHERRY_PIT.get());
+        dropSelf(ModBlocks.FLAX_BALE.get());
+        dropSelf(ModBlocks.LINEN_BLOCK.get());
+        dropSelf(ModBlocks.LINEN_CARPET.get());
+        dropSelf(ModBlocks.PEBBLE_BLOCK.get());
+        dropSelf(ModBlocks.TWIG_LADDER.get());
+        dropPottedContents(ModBlocks.POTTED_GIANT_CACTUS_STEM.get());
+        add(ModBlocks.PINE_LITTER.get(), layeredDrops(ModBlocks.PINE_LITTER.get(), PineLitterBlock.AMOUNT));
+        add(ModBlocks.PEBBLE_PATCH.get(), layeredDrops(ModBlocks.PEBBLE_PATCH.get(), PebblePatchBlock.AMOUNT));
+        add(ModBlocks.FLAX_CROP.get(), flaxDrops());
+        add(ModBlocks.BLUEBERRY_BUSH.get(), createBlueberryBushDrops(ModBlocks.BLUEBERRY_BUSH.get(), uniform(2.0F, 3.0F)));
         add(ModBlocks.LARGE_BLUEBERRY_BUSH.get(), createLargeBlueberryBushDrops());
         add(ModBlocks.STRAWBERRY_PLANT.get(), createStrawberryCropDrops());
         add(ModBlocks.STRAWBERRY_CAKE.get(), LootTable.lootTable());
@@ -73,27 +94,23 @@ public class ModBlockLootTableProvider extends BlockLootSubProvider {
 
         add(ModBlocks.GIANT_CACTUS_WOOD.get(), LootTable.lootTable()
                 .withPool(LootPool.lootPool()
-                        .setRolls(ConstantValue.exactly(1))
+                        .setRolls(constant(1))
                         .add(LootItem.lootTableItem(ModBlocks.GIANT_CACTUS_BASE.get())
-                                .when(LootItemBlockStatePropertyCondition.hasBlockStateProperties(ModBlocks.GIANT_CACTUS_WOOD.get())
-                                        .setProperties(StatePropertiesPredicate.Builder.properties()
+                                .when(MatchBlock.blockMatches(blocks, ModBlocks.GIANT_CACTUS_WOOD.get(), StatePropertiesPredicate.Builder.properties()
                                                 .hasProperty(GiantCactusWoodBlock.GENERATED, true))))
                         .add(LootItem.lootTableItem(ModBlocks.GIANT_CACTUS_WOOD.get())
-                                .when(LootItemBlockStatePropertyCondition.hasBlockStateProperties(ModBlocks.GIANT_CACTUS_WOOD.get())
-                                        .setProperties(StatePropertiesPredicate.Builder.properties()
+                                .when(MatchBlock.blockMatches(blocks, ModBlocks.GIANT_CACTUS_WOOD.get(), StatePropertiesPredicate.Builder.properties()
                                                 .hasProperty(GiantCactusWoodBlock.GENERATED, false))))
                         .when(ExplosionCondition.survivesExplosion())));
 
         add(ModBlocks.STRIPPED_GIANT_CACTUS_WOOD.get(), LootTable.lootTable()
                 .withPool(LootPool.lootPool()
-                        .setRolls(ConstantValue.exactly(1))
+                        .setRolls(constant(1))
                         .add(LootItem.lootTableItem(ModBlocks.STRIPPED_GIANT_CACTUS_BASE.get())
-                                .when(LootItemBlockStatePropertyCondition.hasBlockStateProperties(ModBlocks.STRIPPED_GIANT_CACTUS_WOOD.get())
-                                        .setProperties(StatePropertiesPredicate.Builder.properties()
+                                .when(MatchBlock.blockMatches(blocks, ModBlocks.STRIPPED_GIANT_CACTUS_WOOD.get(), StatePropertiesPredicate.Builder.properties()
                                                 .hasProperty(GiantCactusWoodBlock.GENERATED, true))))
                         .add(LootItem.lootTableItem(ModBlocks.STRIPPED_GIANT_CACTUS_WOOD.get())
-                                .when(LootItemBlockStatePropertyCondition.hasBlockStateProperties(ModBlocks.STRIPPED_GIANT_CACTUS_WOOD.get())
-                                        .setProperties(StatePropertiesPredicate.Builder.properties()
+                                .when(MatchBlock.blockMatches(blocks, ModBlocks.STRIPPED_GIANT_CACTUS_WOOD.get(), StatePropertiesPredicate.Builder.properties()
                                                 .hasProperty(GiantCactusWoodBlock.GENERATED, false))))
                         .when(ExplosionCondition.survivesExplosion())));
 
@@ -123,48 +140,84 @@ public class ModBlockLootTableProvider extends BlockLootSubProvider {
     private LootTable.Builder createOpuntiaCactusDrops() {
         return LootTable.lootTable()
                 .withPool(LootPool.lootPool()
-                        .setRolls(ConstantValue.exactly(1.0F))
+                        .setRolls(constant(1.0F))
                         .add(applyExplosionCondition(ModBlocks.OPUNTIA_CACTUS.get(),
                                 LootItem.lootTableItem(ModItems.PRICKLY_PEAR.get())
-                                        .when(LootItemBlockStatePropertyCondition.hasBlockStateProperties(ModBlocks.OPUNTIA_CACTUS.get())
-                                                .setProperties(StatePropertiesPredicate.Builder.properties()
+                                        .when(MatchBlock.blockMatches(blocks, ModBlocks.OPUNTIA_CACTUS.get(), StatePropertiesPredicate.Builder.properties()
                                                         .hasProperty(CactusFruitPlantBlock.AGE, 1)))
-                                        .apply(SetItemCountFunction.setCount(UniformGenerator.between(1.0F, 2.0F)))
+                                        .apply(SetItemCountFunction.setCount(uniform(1.0F, 2.0F)))
                                         .apply(ApplyExplosionDecay.explosionDecay()))));
     }
 
-    private LootTable.Builder createBlueberryBushDrops(Block block, UniformGenerator ripeCount) {
+    private LootTable.Builder layeredDrops(Block block, net.minecraft.world.level.block.state.properties.IntegerProperty amount) {
+        var table = LootTable.lootTable();
+        for (int count : amount.getPossibleValues()) {
+            table.withPool(LootPool.lootPool().setRolls(constant(1))
+                    .when(MatchBlock.blockMatches(blocks, block, StatePropertiesPredicate.Builder.properties().hasProperty(amount, count)))
+                    .add(LootItem.lootTableItem(block).apply(SetItemCountFunction.setCount(constant(count)))
+                            .apply(ApplyExplosionDecay.explosionDecay())));
+        }
+        return table;
+    }
+
+    private LootTable.Builder flaxDrops() {
+        var block = ModBlocks.FLAX_CROP.get();
+        var lower = MatchBlock.blockMatches(blocks, block, StatePropertiesPredicate.Builder.properties()
+                .hasProperty(FlaxCropBlock.HALF, net.minecraft.world.level.block.state.properties.DoubleBlockHalf.LOWER));
+        var mature = MatchBlock.blockMatches(blocks, block, StatePropertiesPredicate.Builder.properties()
+                .hasProperty(FlaxCropBlock.HALF, net.minecraft.world.level.block.state.properties.DoubleBlockHalf.LOWER)
+                .hasProperty(FlaxCropBlock.AGE, 4));
+        var table = LootTable.lootTable()
+                .withPool(LootPool.lootPool().setRolls(constant(1)).when(lower).when(ExplosionCondition.survivesExplosion())
+                        .add(LootItem.lootTableItem(ModItems.FLAX_SEED.get())))
+                .withPool(LootPool.lootPool().setRolls(constant(1)).when(mature).when(ExplosionCondition.survivesExplosion())
+                        .add(LootItem.lootTableItem(ModItems.FLAX_SEED.get()).apply(SetItemCountFunction.setCount(uniform(1, 2)))
+                                .apply(ApplyExplosionDecay.explosionDecay())))
+                .withPool(LootPool.lootPool().setRolls(constant(1)).when(mature)
+                        .add(LootItem.lootTableItem(ModItems.FLAX_FIBER.get()).apply(SetItemCountFunction.setCount(uniform(2, 4)))
+                                .apply(ApplyExplosionDecay.explosionDecay())))
+                .withPool(LootPool.lootPool().setRolls(constant(1)).when(mature)
+                        .add(LootItem.lootTableItem(ModItems.FLAX_FLOWER.get()).apply(SetItemCountFunction.setCount(uniform(1, 2)))
+                                .apply(ApplyExplosionDecay.explosionDecay())));
+        for (int age = 2; age <= 3; age++) {
+            table.withPool(LootPool.lootPool().setRolls(constant(1)).when(lower)
+                    .when(MatchBlock.blockMatches(blocks, block, StatePropertiesPredicate.Builder.properties().hasProperty(FlaxCropBlock.AGE, age)))
+                    .when(ExplosionCondition.survivesExplosion())
+                    .add(LootItem.lootTableItem(ModItems.FLAX_FIBER.get())
+                            .when(net.minecraft.world.level.storage.loot.predicates.LootItemRandomChanceCondition.randomChance(age == 2 ? 0.10F : 0.25F))
+                            .apply(ApplyExplosionDecay.explosionDecay())));
+        }
+        return table;
+    }
+
+    private LootTable.Builder createBlueberryBushDrops(Block block, Holder<ContextIntProvider> ripeCount) {
         return LootTable.lootTable()
                 .withPool(LootPool.lootPool()
-                        .setRolls(ConstantValue.exactly(1.0F))
+                        .setRolls(constant(1.0F))
                         .add(applyExplosionCondition(block,
                                 LootItem.lootTableItem(ModItems.BLUEBERRIES.get())
-                                        .when(LootItemBlockStatePropertyCondition.hasBlockStateProperties(block)
-                                                .setProperties(StatePropertiesPredicate.Builder.properties()
+                                        .when(MatchBlock.blockMatches(blocks, block, StatePropertiesPredicate.Builder.properties()
                                                         .hasProperty(SmallBlueberryBushBlock.AGE, 0)))
-                                        .apply(SetItemCountFunction.setCount(ConstantValue.exactly(1.0F))))))
+                                        .apply(SetItemCountFunction.setCount(constant(1.0F))))))
                 .withPool(LootPool.lootPool()
-                        .setRolls(ConstantValue.exactly(1.0F))
+                        .setRolls(constant(1.0F))
                         .add(applyExplosionCondition(block,
                                 LootItem.lootTableItem(ModItems.BLUEBERRIES.get())
-                                        .when(LootItemBlockStatePropertyCondition.hasBlockStateProperties(block)
-                                                .setProperties(StatePropertiesPredicate.Builder.properties()
+                                        .when(MatchBlock.blockMatches(blocks, block, StatePropertiesPredicate.Builder.properties()
                                                         .hasProperty(SmallBlueberryBushBlock.AGE, 1)))
-                                        .apply(SetItemCountFunction.setCount(ConstantValue.exactly(1.0F))))))
+                                        .apply(SetItemCountFunction.setCount(constant(1.0F))))))
                 .withPool(LootPool.lootPool()
-                        .setRolls(ConstantValue.exactly(1.0F))
+                        .setRolls(constant(1.0F))
                         .add(applyExplosionCondition(block,
                                 LootItem.lootTableItem(ModItems.BLUEBERRIES.get())
-                                        .when(LootItemBlockStatePropertyCondition.hasBlockStateProperties(block)
-                                                .setProperties(StatePropertiesPredicate.Builder.properties()
+                                        .when(MatchBlock.blockMatches(blocks, block, StatePropertiesPredicate.Builder.properties()
                                                         .hasProperty(SmallBlueberryBushBlock.AGE, 2)))
-                                        .apply(SetItemCountFunction.setCount(ConstantValue.exactly(1.0F))))))
+                                        .apply(SetItemCountFunction.setCount(constant(1.0F))))))
                 .withPool(LootPool.lootPool()
-                        .setRolls(ConstantValue.exactly(1.0F))
+                        .setRolls(constant(1.0F))
                         .add(applyExplosionCondition(block,
                                 LootItem.lootTableItem(ModItems.BLUEBERRIES.get())
-                                        .when(LootItemBlockStatePropertyCondition.hasBlockStateProperties(block)
-                                                .setProperties(StatePropertiesPredicate.Builder.properties()
+                                        .when(MatchBlock.blockMatches(blocks, block, StatePropertiesPredicate.Builder.properties()
                                                         .hasProperty(SmallBlueberryBushBlock.AGE, 3)))
                                         .apply(SetItemCountFunction.setCount(ripeCount))
                                         .apply(ApplyExplosionDecay.explosionDecay()))));
@@ -173,50 +226,45 @@ public class ModBlockLootTableProvider extends BlockLootSubProvider {
     private LootTable.Builder createStrawberryCropDrops() {
         return LootTable.lootTable()
                 .withPool(LootPool.lootPool()
-                        .setRolls(ConstantValue.exactly(1.0F))
+                        .setRolls(constant(1.0F))
                         .add(applyExplosionCondition(ModBlocks.STRAWBERRY_PLANT.get(),
                                 LootItem.lootTableItem(ModItems.STRAWBERRY.get())
-                                        .when(LootItemBlockStatePropertyCondition.hasBlockStateProperties(ModBlocks.STRAWBERRY_PLANT.get())
-                                                .setProperties(StatePropertiesPredicate.Builder.properties()
+                                        .when(MatchBlock.blockMatches(blocks, ModBlocks.STRAWBERRY_PLANT.get(), StatePropertiesPredicate.Builder.properties()
                                                         .hasProperty(StrawberryCropBlock.AGE, 3)))
-                                        .apply(SetItemCountFunction.setCount(UniformGenerator.between(2.0F, 4.0F)))
+                                        .apply(SetItemCountFunction.setCount(uniform(2.0F, 4.0F)))
                                         .apply(ApplyExplosionDecay.explosionDecay()))));
     }
 
     private LootTable.Builder createCactusClusterDrops() {
         return LootTable.lootTable()
                 .withPool(LootPool.lootPool()
-                        .setRolls(ConstantValue.exactly(1.0F))
+                        .setRolls(constant(1.0F))
                         .add(applyExplosionCondition(ModBlocks.CACTUS_CLUSTER.get(),
                                 LootItem.lootTableItem(ModBlocks.CACTUS_CLUSTER.get())
-                                        .when(LootItemBlockStatePropertyCondition.hasBlockStateProperties(ModBlocks.CACTUS_CLUSTER.get())
-                                                .setProperties(StatePropertiesPredicate.Builder.properties()
+                                        .when(MatchBlock.blockMatches(blocks, ModBlocks.CACTUS_CLUSTER.get(), StatePropertiesPredicate.Builder.properties()
                                                         .hasProperty(CactusClusterBlock.PICKLES, 1)))
-                                        .apply(SetItemCountFunction.setCount(ConstantValue.exactly(1.0F))))))
+                                        .apply(SetItemCountFunction.setCount(constant(1.0F))))))
                 .withPool(LootPool.lootPool()
-                        .setRolls(ConstantValue.exactly(1.0F))
+                        .setRolls(constant(1.0F))
                         .add(applyExplosionCondition(ModBlocks.CACTUS_CLUSTER.get(),
                                 LootItem.lootTableItem(ModBlocks.CACTUS_CLUSTER.get())
-                                        .when(LootItemBlockStatePropertyCondition.hasBlockStateProperties(ModBlocks.CACTUS_CLUSTER.get())
-                                                .setProperties(StatePropertiesPredicate.Builder.properties()
+                                        .when(MatchBlock.blockMatches(blocks, ModBlocks.CACTUS_CLUSTER.get(), StatePropertiesPredicate.Builder.properties()
                                                         .hasProperty(CactusClusterBlock.PICKLES, 2)))
-                                        .apply(SetItemCountFunction.setCount(ConstantValue.exactly(2.0F))))))
+                                        .apply(SetItemCountFunction.setCount(constant(2.0F))))))
                 .withPool(LootPool.lootPool()
-                        .setRolls(ConstantValue.exactly(1.0F))
+                        .setRolls(constant(1.0F))
                         .add(applyExplosionCondition(ModBlocks.CACTUS_CLUSTER.get(),
                                 LootItem.lootTableItem(ModBlocks.CACTUS_CLUSTER.get())
-                                        .when(LootItemBlockStatePropertyCondition.hasBlockStateProperties(ModBlocks.CACTUS_CLUSTER.get())
-                                                .setProperties(StatePropertiesPredicate.Builder.properties()
+                                        .when(MatchBlock.blockMatches(blocks, ModBlocks.CACTUS_CLUSTER.get(), StatePropertiesPredicate.Builder.properties()
                                                         .hasProperty(CactusClusterBlock.PICKLES, 3)))
-                                        .apply(SetItemCountFunction.setCount(ConstantValue.exactly(3.0F))))))
+                                        .apply(SetItemCountFunction.setCount(constant(3.0F))))))
                 .withPool(LootPool.lootPool()
-                        .setRolls(ConstantValue.exactly(1.0F))
+                        .setRolls(constant(1.0F))
                         .add(applyExplosionCondition(ModBlocks.CACTUS_CLUSTER.get(),
                                 LootItem.lootTableItem(ModBlocks.CACTUS_CLUSTER.get())
-                                        .when(LootItemBlockStatePropertyCondition.hasBlockStateProperties(ModBlocks.CACTUS_CLUSTER.get())
-                                                .setProperties(StatePropertiesPredicate.Builder.properties()
+                                        .when(MatchBlock.blockMatches(blocks, ModBlocks.CACTUS_CLUSTER.get(), StatePropertiesPredicate.Builder.properties()
                                                         .hasProperty(CactusClusterBlock.PICKLES, 4)))
-                                        .apply(SetItemCountFunction.setCount(ConstantValue.exactly(4.0F))))));
+                                        .apply(SetItemCountFunction.setCount(constant(4.0F))))));
     }
 
     private LootTable.Builder createShearsOnlyDrop(Block block) {
@@ -227,24 +275,24 @@ public class ModBlockLootTableProvider extends BlockLootSubProvider {
     }
 
     private LootTable.Builder createLargeBlueberryBushDrops() {
-        var itemLookup = registries.lookupOrThrow(Registries.ITEM);
+        var itemLookup = output.lookup(Registries.ITEM);
 
         return LootTable.lootTable()
                 .withPool(LootPool.lootPool()
-                        .setRolls(ConstantValue.exactly(1.0F))
+                        .setRolls(constant(1.0F))
                         .add(applyExplosionCondition(ModBlocks.LARGE_BLUEBERRY_BUSH.get(),
                                 LootItem.lootTableItem(ModBlocks.LARGE_BLUEBERRY_BUSH.get())
                                         .when(MatchTool.toolMatches(ItemPredicate.Builder.item().of(itemLookup, Items.SHEARS))))))
                 .withPool(LootPool.lootPool()
-                        .setRolls(ConstantValue.exactly(1.0F))
+                        .setRolls(constant(1.0F))
                         .when(InvertedLootItemCondition.invert(MatchTool.toolMatches(ItemPredicate.Builder.item().of(itemLookup, Items.SHEARS))))
                         .add(applyExplosionCondition(ModBlocks.LARGE_BLUEBERRY_BUSH.get(),
                                 LootItem.lootTableItem(ModItems.TWIG.get())
-                                        .apply(SetItemCountFunction.setCount(UniformGenerator.between(1.0F, 2.0F))))));
+                                        .apply(SetItemCountFunction.setCount(uniform(1.0F, 2.0F))))));
     }
 
     private LootTable.Builder createFruitingCherryLeavesDrops() {
-        var enchantmentLookup = registries.lookupOrThrow(Registries.ENCHANTMENT);
+        var enchantmentLookup = output.lookup(Registries.ENCHANTMENT);
         var fortune = enchantmentLookup.getOrThrow(Enchantments.FORTUNE);
 
         return createSilkTouchOrShearsDispatchTable(
@@ -261,33 +309,30 @@ public class ModBlockLootTableProvider extends BlockLootSubProvider {
                                 )))
         )
                 .withPool(LootPool.lootPool()
-                        .setRolls(ConstantValue.exactly(1.0F))
-                        .when(LootItemBlockStatePropertyCondition.hasBlockStateProperties(ModBlocks.FRUITING_CHERRY_LEAVES.get())
-                                .setProperties(StatePropertiesPredicate.Builder.properties()
+                        .setRolls(constant(1.0F))
+                        .when(MatchBlock.blockMatches(blocks, ModBlocks.FRUITING_CHERRY_LEAVES.get(), StatePropertiesPredicate.Builder.properties()
                                         .hasProperty(FruitingCherryLeavesBlock.AGE, 1)))
                         .add(LootItem.lootTableItem(ModItems.CHERRIES.get())
-                                .apply(SetItemCountFunction.setCount(ConstantValue.exactly(1.0F)))
+                                .apply(SetItemCountFunction.setCount(constant(1.0F)))
                                 .apply(ApplyExplosionDecay.explosionDecay())))
                 .withPool(LootPool.lootPool()
-                        .setRolls(ConstantValue.exactly(1.0F))
-                        .when(LootItemBlockStatePropertyCondition.hasBlockStateProperties(ModBlocks.FRUITING_CHERRY_LEAVES.get())
-                                .setProperties(StatePropertiesPredicate.Builder.properties()
+                        .setRolls(constant(1.0F))
+                        .when(MatchBlock.blockMatches(blocks, ModBlocks.FRUITING_CHERRY_LEAVES.get(), StatePropertiesPredicate.Builder.properties()
                                         .hasProperty(FruitingCherryLeavesBlock.AGE, 2)))
                         .add(LootItem.lootTableItem(ModItems.CHERRIES.get())
-                                .apply(SetItemCountFunction.setCount(UniformGenerator.between(1.0F, 2.0F)))
+                                .apply(SetItemCountFunction.setCount(uniform(1.0F, 2.0F)))
                                 .apply(ApplyExplosionDecay.explosionDecay())))
                 .withPool(LootPool.lootPool()
-                        .setRolls(ConstantValue.exactly(1.0F))
-                        .when(LootItemBlockStatePropertyCondition.hasBlockStateProperties(ModBlocks.FRUITING_CHERRY_LEAVES.get())
-                                .setProperties(StatePropertiesPredicate.Builder.properties()
+                        .setRolls(constant(1.0F))
+                        .when(MatchBlock.blockMatches(blocks, ModBlocks.FRUITING_CHERRY_LEAVES.get(), StatePropertiesPredicate.Builder.properties()
                                         .hasProperty(FruitingCherryLeavesBlock.AGE, 3)))
                         .add(LootItem.lootTableItem(ModItems.CHERRIES.get())
-                                .apply(SetItemCountFunction.setCount(ConstantValue.exactly(2.0F)))
+                                .apply(SetItemCountFunction.setCount(constant(2.0F)))
                                 .apply(ApplyExplosionDecay.explosionDecay())));
     }
 
     private LootTable.Builder createFruitingOakLeavesDrops() {
-        var enchantmentLookup = registries.lookupOrThrow(Registries.ENCHANTMENT);
+        var enchantmentLookup = output.lookup(Registries.ENCHANTMENT);
         var fortune = enchantmentLookup.getOrThrow(Enchantments.FORTUNE);
 
         return createSilkTouchOrShearsDispatchTable(
@@ -304,69 +349,17 @@ public class ModBlockLootTableProvider extends BlockLootSubProvider {
                                 )))
         )
                 .withPool(LootPool.lootPool()
-                        .setRolls(ConstantValue.exactly(1.0F))
-                        .when(LootItemBlockStatePropertyCondition.hasBlockStateProperties(ModBlocks.FRUITING_OAK_LEAVES.get())
-                                .setProperties(StatePropertiesPredicate.Builder.properties()
+                        .setRolls(constant(1.0F))
+                        .when(MatchBlock.blockMatches(blocks, ModBlocks.FRUITING_OAK_LEAVES.get(), StatePropertiesPredicate.Builder.properties()
                                         .hasProperty(FruitingOakLeavesBlock.AGE, 2)))
                         .add(LootItem.lootTableItem(Items.APPLE)
-                                .apply(SetItemCountFunction.setCount(ConstantValue.exactly(1.0F)))
+                                .apply(SetItemCountFunction.setCount(constant(1.0F)))
                                 .apply(ApplyExplosionDecay.explosionDecay())));
     }
 
     @Override
     protected @NotNull Iterable<Block> getKnownBlocks() {
-        return List.of(
-                ModBlocks.FRUITING_CHERRY_LEAVES.get(),
-                ModBlocks.FRUITING_OAK_LEAVES.get(),
-                ModBlocks.POTTED_CHERRY_PIT.get(),
-                ModBlocks.POTTED_APPLE_CORE.get(),
-                ModBlocks.GIANT_CACTUS_BASE.get(),
-                ModBlocks.STRIPPED_GIANT_CACTUS_BASE.get(),
-                ModBlocks.GIANT_CACTUS_STEM.get(),
-                ModBlocks.CACTUS_THORN.get(),
-                ModBlocks.GIANT_CACTUS_WOOD.get(),
-                ModBlocks.STRIPPED_GIANT_CACTUS_WOOD.get(),
-                ModBlocks.GIANT_CACTUS_BLOSSOM.get(),
-                ModBlocks.CACTUS_PLANKS.get(),
-                ModBlocks.CACTUS_STAIRS.get(),
-                ModBlocks.CACTUS_SLAB.get(),
-                ModBlocks.CACTUS_FENCE.get(),
-                ModBlocks.CACTUS_FENCE_GATE.get(),
-                ModBlocks.CACTUS_BUTTON.get(),
-                ModBlocks.CACTUS_PRESSURE_PLATE.get(),
-                ModBlocks.CACTUS_DOOR.get(),
-                ModBlocks.CACTUS_TRAPDOOR.get(),
-                ModBlocks.CACTUS_SIGN.get(),
-                ModBlocks.CACTUS_WALL_SIGN.get(),
-                ModBlocks.CACTUS_HANGING_SIGN.get(),
-                ModBlocks.CACTUS_WALL_HANGING_SIGN.get(),
-                ModBlocks.DESERT_MOSS.get(),
-                ModBlocks.CACTUS_MOSAIC.get(),
-                ModBlocks.CACTUS_CLUSTER.get(),
-                ModBlocks.OPUNTIA_CACTUS.get(),
-                ModBlocks.STRAWBERRY_PLANT.get(),
-                ModBlocks.STRAWBERRY_CAKE.get(),
-                ModBlocks.STRAWBERRY_CANDLE_CAKE.get(),
-                ModBlocks.WHITE_STRAWBERRY_CANDLE_CAKE.get(),
-                ModBlocks.ORANGE_STRAWBERRY_CANDLE_CAKE.get(),
-                ModBlocks.MAGENTA_STRAWBERRY_CANDLE_CAKE.get(),
-                ModBlocks.LIGHT_BLUE_STRAWBERRY_CANDLE_CAKE.get(),
-                ModBlocks.YELLOW_STRAWBERRY_CANDLE_CAKE.get(),
-                ModBlocks.LIME_STRAWBERRY_CANDLE_CAKE.get(),
-                ModBlocks.PINK_STRAWBERRY_CANDLE_CAKE.get(),
-                ModBlocks.GRAY_STRAWBERRY_CANDLE_CAKE.get(),
-                ModBlocks.LIGHT_GRAY_STRAWBERRY_CANDLE_CAKE.get(),
-                ModBlocks.CYAN_STRAWBERRY_CANDLE_CAKE.get(),
-                ModBlocks.PURPLE_STRAWBERRY_CANDLE_CAKE.get(),
-                ModBlocks.BLUE_STRAWBERRY_CANDLE_CAKE.get(),
-                ModBlocks.BROWN_STRAWBERRY_CANDLE_CAKE.get(),
-                ModBlocks.GREEN_STRAWBERRY_CANDLE_CAKE.get(),
-                ModBlocks.RED_STRAWBERRY_CANDLE_CAKE.get(),
-                ModBlocks.BLACK_STRAWBERRY_CANDLE_CAKE.get(),
-                ModBlocks.CRATE.get(),
-                ModBlocks.LARGE_BLUEBERRY_BUSH.get(),
-                ModBlocks.BLUEBERRY_BUSH.get()
-        );
+        return ModBlocks.BLOCKS.getEntries().stream().map(entry -> (Block) entry.get()).toList();
     }
 }
 

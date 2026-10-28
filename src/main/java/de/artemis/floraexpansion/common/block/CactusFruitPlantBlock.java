@@ -1,6 +1,5 @@
 package de.artemis.floraexpansion.common.block;
 
-import com.mojang.serialization.MapCodec;
 import de.artemis.floraexpansion.common.registry.ModItems;
 import de.artemis.floraexpansion.common.util.ModUtils;
 import net.minecraft.core.BlockPos;
@@ -29,7 +28,6 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.NotNull;
 
 public class CactusFruitPlantBlock extends BushBlock implements BonemealableBlock {
-    public static final MapCodec<BushBlock> CODEC = simpleCodec(CactusFruitPlantBlock::new);
     public static final IntegerProperty AGE = IntegerProperty.create("age", 0, 1);
     public static final int MAX_AGE = 1;
     private static final VoxelShape SHAPE = Block.box(1.0D, 0.0D, 1.0D, 15.0D, 15.0D, 15.0D);
@@ -39,10 +37,6 @@ public class CactusFruitPlantBlock extends BushBlock implements BonemealableBloc
         this.registerDefaultState(this.stateDefinition.any().setValue(AGE, 0));
     }
 
-    @Override
-    public @NotNull MapCodec<BushBlock> codec() {
-        return CODEC;
-    }
 
     @Override
     protected void createBlockStateDefinition(StateDefinition.@NotNull Builder<Block, @NotNull BlockState> builder) {
@@ -127,17 +121,17 @@ public class CactusFruitPlantBlock extends BushBlock implements BonemealableBloc
     }
 
     @Override
-    public boolean isValidBonemealTarget(@NotNull LevelReader level, @NotNull BlockPos pos, @NotNull BlockState state) {
+    public boolean isValidBonemealTarget(@NotNull LevelReader level, @NotNull BlockPos pos, @NotNull BlockState state, net.minecraft.world.level.block.BonemealSource source) {
         return state.getValue(AGE) < MAX_AGE;
     }
 
     @Override
-    public boolean isBonemealSuccess(@NotNull Level level, @NotNull RandomSource random, @NotNull BlockPos pos, @NotNull BlockState state) {
+    public boolean isBonemealSuccess(@NotNull Level level, @NotNull RandomSource random, @NotNull BlockPos pos, @NotNull BlockState state, net.minecraft.world.level.block.BonemealSource source) {
         return state.getValue(AGE) < MAX_AGE;
     }
 
     @Override
-    public void performBonemeal(@NotNull ServerLevel level, @NotNull RandomSource random, @NotNull BlockPos pos, @NotNull BlockState state) {
+    public void performBonemeal(@NotNull ServerLevel level, @NotNull RandomSource random, @NotNull BlockPos pos, @NotNull BlockState state, net.minecraft.world.level.block.BonemealSource source) {
         if (state.getValue(AGE) < MAX_AGE) {
             level.setBlock(pos, state.setValue(AGE, 1), 2);
         }

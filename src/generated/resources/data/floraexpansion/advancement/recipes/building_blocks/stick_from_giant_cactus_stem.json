@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "floraexpansion:stick_from_giant_cactus_stem"
+        "recipes": "floraexpansion:stick_from_giant_cactus_stem"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

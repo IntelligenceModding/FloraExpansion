@@ -1,5 +1,7 @@
 package de.artemis.floraexpansion.common.worldgen.feature;
 
+import com.mojang.serialization.MapCodec;
+
 import de.artemis.floraexpansion.common.block.CactusThornBlock;
 import de.artemis.floraexpansion.common.block.DesertMossBlock;
 import de.artemis.floraexpansion.common.block.GiantCactusBlossomBlock;
@@ -14,25 +16,22 @@ import net.minecraft.world.level.block.RotatedPillarBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.levelgen.feature.Feature;
-import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
-import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
+import net.minecraft.world.level.chunk.ChunkGenerator;
 import org.jetbrains.annotations.NotNull;
 
-public class FallenGiantCactusFeature extends Feature<@NotNull NoneFeatureConfiguration> {
+public class FallenGiantCactusFeature implements Feature {
     private static final Direction[] HORIZONTAL_DIRECTIONS = new Direction[]{
             Direction.NORTH, Direction.SOUTH, Direction.WEST, Direction.EAST
     };
 
-    public FallenGiantCactusFeature(com.mojang.serialization.Codec<NoneFeatureConfiguration> codec) {
-        super(codec);
-    }
+    public static final MapCodec<FallenGiantCactusFeature> CODEC = MapCodec.unit(FallenGiantCactusFeature::new);
 
     @Override
-    public boolean place(FeaturePlaceContext<@NotNull NoneFeatureConfiguration> context) {
-        WorldGenLevel level = context.level();
-        RandomSource random = context.random();
+    public MapCodec<FallenGiantCactusFeature> codec() { return CODEC; }
 
-        BlockPos origin = level.getHeightmapPos(Heightmap.Types.WORLD_SURFACE_WG, context.origin());
+    @Override
+    public boolean place(WorldGenLevel level, ChunkGenerator chunkGenerator, RandomSource random, BlockPos featureOrigin) {
+        BlockPos origin = level.getHeightmapPos(Heightmap.Types.WORLD_SURFACE_WG, featureOrigin);
 
         Direction direction = HORIZONTAL_DIRECTIONS[random.nextInt(HORIZONTAL_DIRECTIONS.length)];
         int length = 3 + random.nextInt(4);

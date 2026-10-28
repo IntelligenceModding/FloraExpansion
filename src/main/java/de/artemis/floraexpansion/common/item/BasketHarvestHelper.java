@@ -274,8 +274,7 @@ public final class BasketHarvestHelper {
             }
 
             depositOrDrop(context.getLevel(), context.getClickedPos(), basket, List.of(new ItemStack(ModItems.CHERRIES.get(), amount)));
-            context.getLevel().setBlock(context.getClickedPos(), state.setValue(FruitingCherryLeavesBlock.AGE, 0), 3);
-            context.getLevel().gameEvent(GameEvent.BLOCK_CHANGE, context.getClickedPos(), GameEvent.Context.of(context.getPlayer(), state.setValue(FruitingCherryLeavesBlock.AGE, 0)));
+            playBerryHarvestEffects(context, state.setValue(FruitingCherryLeavesBlock.AGE, 0));
             return true;
         }
 
@@ -285,8 +284,7 @@ public final class BasketHarvestHelper {
             }
 
             depositOrDrop(context.getLevel(), context.getClickedPos(), basket, List.of(new ItemStack(Items.APPLE)));
-            context.getLevel().setBlock(context.getClickedPos(), state.setValue(FruitingOakLeavesBlock.AGE, 0), 3);
-            context.getLevel().gameEvent(GameEvent.BLOCK_CHANGE, context.getClickedPos(), GameEvent.Context.of(context.getPlayer(), state.setValue(FruitingOakLeavesBlock.AGE, 0)));
+            playBerryHarvestEffects(context, state.setValue(FruitingOakLeavesBlock.AGE, 0));
             return true;
         }
 

@@ -1,6 +1,5 @@
 package de.artemis.floraexpansion.common.block;
 
-import com.mojang.serialization.MapCodec;
 import de.artemis.floraexpansion.common.block.entity.CrateBlockEntity;
 import de.artemis.floraexpansion.common.registry.ModItems;
 import net.minecraft.core.BlockPos;
@@ -46,7 +45,6 @@ import java.util.Collections;
 import java.util.List;
 
 public class CrateBlock extends BaseEntityBlock {
-    public static final MapCodec<CrateBlock> CODEC = simpleCodec(CrateBlock::new);
     public static final BooleanProperty POWERED = BlockStateProperties.POWERED;
     public static final BooleanProperty PACKED = BooleanProperty.create("packed");
     private static final String PACKED_ITEM_KEY = "Packed";
@@ -60,10 +58,6 @@ public class CrateBlock extends BaseEntityBlock {
         this.registerDefaultState(this.stateDefinition.any().setValue(POWERED, false).setValue(PACKED, false));
     }
 
-    @Override
-    protected @NotNull MapCodec<? extends BaseEntityBlock> codec() {
-        return CODEC;
-    }
 
     @Override
     protected @NotNull InteractionResult useItemOn(@NotNull ItemStack stack, @NotNull BlockState state, @NotNull Level level, @NotNull BlockPos pos, @NotNull Player player, @NotNull net.minecraft.world.InteractionHand hand, @NotNull BlockHitResult hitResult) {
@@ -394,7 +388,7 @@ public class CrateBlock extends BaseEntityBlock {
         }
 
         if (!player.getInventory().add(stack)) {
-            player.drop(stack, false);
+            player.drop(stack, false, net.minecraft.util.Prediction.SERVER_ONLY);
         }
     }
 

@@ -1,6 +1,7 @@
 package de.artemis.floraexpansion.common.worldgen.feature;
 
-import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
+
 import de.artemis.floraexpansion.common.registry.ModBlocks;
 import de.artemis.floraexpansion.common.block.PebblePatchBlock;
 import net.minecraft.core.BlockPos;
@@ -12,21 +13,19 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.levelgen.feature.Feature;
-import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
-import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
+import net.minecraft.world.level.chunk.ChunkGenerator;
 import org.jetbrains.annotations.NotNull;
 
-public class PebbleClusterFeature extends Feature<@NotNull NoneFeatureConfiguration> {
+public class PebbleClusterFeature implements Feature {
 
-    public PebbleClusterFeature(Codec<NoneFeatureConfiguration> codec) {
-        super(codec);
-    }
+    public static final MapCodec<PebbleClusterFeature> CODEC = MapCodec.unit(PebbleClusterFeature::new);
 
     @Override
-    public boolean place(FeaturePlaceContext<@NotNull NoneFeatureConfiguration> context) {
-        WorldGenLevel level = context.level();
-        BlockPos origin = context.origin();
-        RandomSource random = context.random();
+    public MapCodec<PebbleClusterFeature> codec() { return CODEC; }
+
+    @Override
+    public boolean place(WorldGenLevel level, ChunkGenerator chunkGenerator, RandomSource random, BlockPos featureOrigin) {
+        BlockPos origin = featureOrigin;
 
         boolean placedAny = false;
 

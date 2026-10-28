@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "floraexpansion:brown_dye_from_cherry_pit"
+        "recipes": "floraexpansion:brown_dye_from_cherry_pit"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

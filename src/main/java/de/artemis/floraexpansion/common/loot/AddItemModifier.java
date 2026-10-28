@@ -4,6 +4,10 @@ import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.Holder;
+import java.util.Optional;
+import java.util.Arrays;
+import net.minecraft.world.level.storage.loot.predicates.AllOfCondition;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -32,10 +36,12 @@ public class AddItemModifier extends LootModifier {
     }
 
     public AddItemModifier(LootItemCondition[] conditionsIn, Item item, int minCount, int maxCount) {
-        this(conditionsIn, DEFAULT_PRIORITY, item, minCount, maxCount);
+        this(Optional.of(Holder.direct(AllOfCondition.allOf(net.minecraft.core.HolderSet.direct(
+                Arrays.stream(conditionsIn).<Holder<LootItemCondition>>map(Holder::direct).toList())))),
+                DEFAULT_PRIORITY, item, minCount, maxCount);
     }
 
-    public AddItemModifier(LootItemCondition[] conditionsIn, int priority, Item item, int minCount, int maxCount) {
+    public AddItemModifier(Optional<Holder<LootItemCondition>> conditionsIn, int priority, Item item, int minCount, int maxCount) {
         super(conditionsIn, priority);
         this.item = item;
         this.minCount = minCount;
@@ -44,12 +50,6 @@ public class AddItemModifier extends LootModifier {
 
     @Override
     protected @NotNull ObjectArrayList<ItemStack> doApply(@NotNull ObjectArrayList<ItemStack> generatedLoot, @NotNull LootContext lootContext) {
-        for (LootItemCondition condition : this.conditions) {
-            if (!condition.test(lootContext)) {
-                return generatedLoot;
-            }
-        }
-
         RandomSource random = lootContext.getRandom();
         int count = this.minCount >= this.maxCount
                 ? this.minCount

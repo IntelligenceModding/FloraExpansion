@@ -1,6 +1,5 @@
 package de.artemis.floraexpansion.common.block;
 
-import com.mojang.serialization.MapCodec;
 import de.artemis.floraexpansion.common.registry.ModBlocks;
 import de.artemis.floraexpansion.common.registry.ModItems;
 import net.minecraft.core.BlockPos;
@@ -30,7 +29,6 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.NotNull;
 
 public class LargeBlueberryBushBlock extends BushBlock implements BonemealableBlock {
-    public static final MapCodec<LargeBlueberryBushBlock> CODEC = simpleCodec(LargeBlueberryBushBlock::new);
     public static final IntegerProperty AGE = SmallBlueberryBushBlock.AGE;
     public static final int MAX_AGE = 3;
     private static final int HARVESTABLE_AGE = 2;
@@ -47,11 +45,6 @@ public class LargeBlueberryBushBlock extends BushBlock implements BonemealableBl
         this.registerDefaultState(this.stateDefinition.any().setValue(AGE, 0));
     }
 
-    @Override
-    @SuppressWarnings("unchecked")
-    public @NotNull MapCodec<BushBlock> codec() {
-        return (MapCodec<BushBlock>) (MapCodec<?>) CODEC;
-    }
 
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
@@ -72,6 +65,9 @@ public class LargeBlueberryBushBlock extends BushBlock implements BonemealableBl
     @Override
     protected boolean mayPlaceOn(@NotNull BlockState state, @NotNull BlockGetter level, @NotNull BlockPos pos) {
         return state.is(BlockTags.DIRT)
+                || state.is(BlockTags.GRASS_BLOCKS)
+                || state.is(Blocks.PODZOL)
+                || state.is(Blocks.MYCELIUM)
                 || state.is(Blocks.FARMLAND)
                 || state.is(Blocks.MOSS_BLOCK)
                 || state.is(Blocks.ROOTED_DIRT);
@@ -93,17 +89,17 @@ public class LargeBlueberryBushBlock extends BushBlock implements BonemealableBl
     }
 
     @Override
-    public boolean isValidBonemealTarget(@NotNull LevelReader level, @NotNull BlockPos pos, @NotNull BlockState state) {
+    public boolean isValidBonemealTarget(@NotNull LevelReader level, @NotNull BlockPos pos, @NotNull BlockState state, net.minecraft.world.level.block.BonemealSource source) {
         return state.getValue(AGE) < MAX_AGE;
     }
 
     @Override
-    public boolean isBonemealSuccess(@NotNull Level level, @NotNull RandomSource random, @NotNull BlockPos pos, @NotNull BlockState state) {
+    public boolean isBonemealSuccess(@NotNull Level level, @NotNull RandomSource random, @NotNull BlockPos pos, @NotNull BlockState state, net.minecraft.world.level.block.BonemealSource source) {
         return state.getValue(AGE) < MAX_AGE;
     }
 
     @Override
-    public void performBonemeal(@NotNull ServerLevel level, @NotNull RandomSource random, @NotNull BlockPos pos, @NotNull BlockState state) {
+    public void performBonemeal(@NotNull ServerLevel level, @NotNull RandomSource random, @NotNull BlockPos pos, @NotNull BlockState state, net.minecraft.world.level.block.BonemealSource source) {
         int nextAge = Math.min(MAX_AGE, state.getValue(AGE) + 1);
         BlockState grownState = state.setValue(AGE, nextAge);
         level.setBlock(pos, grownState, 2);

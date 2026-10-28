@@ -277,7 +277,7 @@ public class FlaxCropBlock extends CropBlock {
     }
 
     @Override
-    public boolean isValidBonemealTarget(@NotNull LevelReader level, @NotNull BlockPos blockPos, @NotNull BlockState blockState) {
+    public boolean isValidBonemealTarget(@NotNull LevelReader level, @NotNull BlockPos blockPos, @NotNull BlockState blockState, net.minecraft.world.level.block.BonemealSource source) {
         if (isUpper(blockState)) {
             blockPos = blockPos.below();
             blockState = level.getBlockState(blockPos);
@@ -310,7 +310,7 @@ public class FlaxCropBlock extends CropBlock {
     }
 
     @Override
-    public void performBonemeal(@NotNull ServerLevel level, @NotNull RandomSource random, @NotNull BlockPos blockPos, @NotNull BlockState blockState) {
+    public void performBonemeal(@NotNull ServerLevel level, @NotNull RandomSource random, @NotNull BlockPos blockPos, @NotNull BlockState blockState, net.minecraft.world.level.block.BonemealSource source) {
         if (isUpper(blockState)) {
             blockPos = blockPos.below();
             blockState = level.getBlockState(blockPos);

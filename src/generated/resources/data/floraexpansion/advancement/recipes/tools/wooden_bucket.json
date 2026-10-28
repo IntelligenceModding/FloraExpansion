@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "floraexpansion:wooden_bucket"
+        "recipes": "floraexpansion:wooden_bucket"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

@@ -20,24 +20,9 @@ import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
 public class ModRecipeProvider extends RecipeProvider {
-    public ModRecipeProvider(HolderLookup.Provider provider, RecipeOutput recipeOutput) {
-        super(provider, recipeOutput);
-    }
-
-    public static class Runner extends RecipeProvider.Runner {
-        public Runner(PackOutput packOutput, CompletableFuture<HolderLookup.Provider> provider) {
-            super(packOutput, provider);
-        }
-
-        @Override
-        protected @NotNull RecipeProvider createRecipeProvider(HolderLookup.@NotNull Provider provider, @NotNull RecipeOutput recipeOutput) {
-            return new ModRecipeProvider(provider, recipeOutput);
-        }
-
-        @Override
-        public @NotNull String getName() {
-            return "Flora Expansion Recipes";
-        }
+    public ModRecipeProvider(net.minecraft.data.worldgen.BootstrapContext<Recipe<?>> recipes,
+                             net.minecraft.data.worldgen.BootstrapContext<net.minecraft.advancements.Advancement> advancements) {
+        super(recipes, advancements, FloraExpansion.MODID);
     }
 
     @Override

@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "floraexpansion:cactus_trapdoor"
+        "recipes": "floraexpansion:cactus_trapdoor"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

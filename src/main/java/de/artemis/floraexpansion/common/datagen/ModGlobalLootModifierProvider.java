@@ -8,7 +8,7 @@ import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.storage.loot.predicates.LootItemBlockStatePropertyCondition;
+import net.minecraft.world.level.storage.loot.predicates.MatchBlock;
 import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
 import net.minecraft.world.level.storage.loot.predicates.LootItemRandomChanceCondition;
 import net.neoforged.neoforge.common.data.GlobalLootModifierProvider;
@@ -25,13 +25,13 @@ public class ModGlobalLootModifierProvider extends GlobalLootModifierProvider {
     protected void start() {
         this.add("pine_cone_to_spruce_leaves",
                 new AddItemModifier(new LootItemCondition[]{
-                        LootItemBlockStatePropertyCondition.hasBlockStateProperties(Blocks.SPRUCE_LEAVES).build(),
+                        MatchBlock.blockMatches(registries.lookupOrThrow(net.minecraft.core.registries.Registries.BLOCK), Blocks.SPRUCE_LEAVES).build(),
                         LootItemRandomChanceCondition.randomChance(0.2f).build()
                 }, ModItems.PINE_CONE.get()));
 
         this.add("pine_litter_to_spruce_leaves",
                 new AddItemModifier(new LootItemCondition[]{
-                        LootItemBlockStatePropertyCondition.hasBlockStateProperties(Blocks.SPRUCE_LEAVES).build(),
+                        MatchBlock.blockMatches(registries.lookupOrThrow(net.minecraft.core.registries.Registries.BLOCK), Blocks.SPRUCE_LEAVES).build(),
                         LootItemRandomChanceCondition.randomChance(0.1f).build()
                 }, ModBlocks.PINE_LITTER.get().asItem()));
 

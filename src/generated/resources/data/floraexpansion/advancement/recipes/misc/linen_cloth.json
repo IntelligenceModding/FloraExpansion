@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "floraexpansion:linen_cloth"
+        "recipes": "floraexpansion:linen_cloth"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

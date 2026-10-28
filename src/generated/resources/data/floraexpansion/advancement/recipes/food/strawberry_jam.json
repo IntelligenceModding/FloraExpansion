@@ -23,7 +23,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "floraexpansion:strawberry_jam"
+        "recipes": "floraexpansion:strawberry_jam"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

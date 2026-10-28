@@ -89,7 +89,7 @@ You can view the available branches [here][branches].
 
 When contributing, always work against the branch matching the Minecraft version and loader your change targets.
 
-For example, a change developed for Minecraft 26.2 with NeoForge should target the corresponding 26.2 NeoForge branch.
+For example, a change developed for Minecraft 26.3 with NeoForge should target the corresponding 26.3 NeoForge branch.
 
 Do **not** target the `assets` branch for code changes. The `assets` branch is used for project images and other repository assets.
 
@@ -117,7 +117,7 @@ Check the following line in the branch's `build.gradle` file if you are unsure:
 java.toolchain.languageVersion = JavaLanguageVersion.of(...)
 ```
 
-For example, the Minecraft 26.2 NeoForge branch uses Java 25.
+For example, the Minecraft 26.3 NeoForge branch uses Java 25.
 
 Java builds such as Eclipse Temurin can be downloaded from [Adoptium][adoptium].
 
@@ -149,7 +149,7 @@ Before beginning work, switch to the branch matching the Minecraft version you w
 For example:
 
 ```bash
-git switch 26.2-neoforge
+git switch 26.3-neoforge
 ```
 
 It is recommended to create your own development branch from there.
@@ -231,6 +231,26 @@ Running the development client is strongly recommended for changes that affect g
 ### Testing
 
 Changes should be tested before being submitted.
+
+The 26.3 branch includes an opt-in gameplay regression suite:
+
+```bat
+gradlew.bat runGameTestServer -PportTests
+```
+
+It checks block states, crop growth and harvests, loot conditions and counts, storage, wooden buckets, fuels and composting, signs, pots, cactus stripping, entities, creative tabs, and feature placement. CI runs this suite with Java 25.
+
+To test client resource loading, all block and item models, a fresh world join, and optional integrations, run:
+
+```bat
+gradlew.bat runClient -PportTests -PclientSmokeTest
+```
+
+This creates a test world under `build/port-client` and closes the client after the checks pass. The test sources in `src/gametest/java` are excluded from normal builds. Regenerate resources with `gradlew.bat runClientData`, then build the release with `gradlew.bat build` without test properties. On Linux or macOS, use `./gradlew` instead of `gradlew.bat`.
+
+Release jars follow `floraexpansion-<mod_version>-neoforge-mc26.3.jar`, matching Laboratoryblocks' naming convention.
+
+Add `-PwithoutOptionalMods` to either test command to verify operation without JEI and AppleSkin.
 
 There is currently no expectation that every contribution includes automated tests. For most Flora Expansion changes, practical in-game testing is more useful.
 

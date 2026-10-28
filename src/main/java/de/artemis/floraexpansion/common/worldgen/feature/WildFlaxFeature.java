@@ -1,6 +1,7 @@
 package de.artemis.floraexpansion.common.worldgen.feature;
 
-import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
+
 import de.artemis.floraexpansion.common.block.FlaxCropBlock;
 import de.artemis.floraexpansion.common.registry.ModBlocks;
 import net.minecraft.core.BlockPos;
@@ -9,21 +10,19 @@ import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
 import net.minecraft.world.level.levelgen.feature.Feature;
-import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
-import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
+import net.minecraft.world.level.chunk.ChunkGenerator;
 import org.jetbrains.annotations.NotNull;
 
-public class WildFlaxFeature extends Feature<@NotNull NoneFeatureConfiguration> {
+public class WildFlaxFeature implements Feature {
 
-    public WildFlaxFeature(Codec<NoneFeatureConfiguration> codec) {
-        super(codec);
-    }
+    public static final MapCodec<WildFlaxFeature> CODEC = MapCodec.unit(WildFlaxFeature::new);
 
     @Override
-    public boolean place(FeaturePlaceContext<@NotNull NoneFeatureConfiguration> context) {
-        WorldGenLevel level = context.level();
-        BlockPos pos = context.origin();
-        RandomSource random = context.random();
+    public MapCodec<WildFlaxFeature> codec() { return CODEC; }
+
+    @Override
+    public boolean place(WorldGenLevel level, ChunkGenerator chunkGenerator, RandomSource random, BlockPos featureOrigin) {
+        BlockPos pos = featureOrigin;
 
         if (!level.isEmptyBlock(pos)) {
             return false;

@@ -1,6 +1,5 @@
 package de.artemis.floraexpansion.common.block;
 
-import com.mojang.serialization.MapCodec;
 import de.artemis.floraexpansion.common.registry.ModItems;
 import de.artemis.floraexpansion.common.registry.ModParticles;
 import de.artemis.floraexpansion.common.registry.ModBlockStateProperties;
@@ -39,17 +38,12 @@ import java.util.List;
 import java.util.function.BiFunction;
 
 public class PineLitterBlock extends BushBlock implements BonemealableBlock {
-    public static final MapCodec<PineLitterBlock> CODEC = simpleCodec(PineLitterBlock::new);
     public static final int MIN_SEGMENTS = 1;
     public static final int MAX_SEGMENTS = 4;
     public static final EnumProperty<Direction> FACING;
     public static final IntegerProperty AMOUNT;
     private static final BiFunction<Direction, Integer, VoxelShape> SHAPE_BY_PROPERTIES;
 
-    @SuppressWarnings("unchecked")
-    public @NotNull MapCodec<BushBlock> codec() {
-        return (MapCodec<BushBlock>) (MapCodec<?>) CODEC;
-    }
 
     public PineLitterBlock(Properties properties) {
         super(properties);
@@ -82,15 +76,15 @@ public class PineLitterBlock extends BushBlock implements BonemealableBlock {
         blockBlockStateBuilder.add(new Property[]{FACING, AMOUNT});
     }
 
-    public boolean isValidBonemealTarget(@NotNull LevelReader levelReader, @NotNull BlockPos blockPos, @NotNull BlockState blockState) {
+    public boolean isValidBonemealTarget(@NotNull LevelReader levelReader, @NotNull BlockPos blockPos, @NotNull BlockState blockState, net.minecraft.world.level.block.BonemealSource source) {
         return true;
     }
 
-    public boolean isBonemealSuccess(@NotNull Level level, @NotNull RandomSource randomSource, @NotNull BlockPos blockPos, @NotNull BlockState blockState) {
+    public boolean isBonemealSuccess(@NotNull Level level, @NotNull RandomSource randomSource, @NotNull BlockPos blockPos, @NotNull BlockState blockState, net.minecraft.world.level.block.BonemealSource source) {
         return true;
     }
 
-    public void performBonemeal(@NotNull ServerLevel serverLevel, @NotNull RandomSource randomSource, @NotNull BlockPos blockPos, BlockState blockState) {
+    public void performBonemeal(@NotNull ServerLevel serverLevel, @NotNull RandomSource randomSource, @NotNull BlockPos blockPos, BlockState blockState, net.minecraft.world.level.block.BonemealSource source) {
         int i = (Integer) blockState.getValue(AMOUNT);
         if (i < 4) {
             serverLevel.setBlock(blockPos, (BlockState) blockState.setValue(AMOUNT, i + 1), 2);

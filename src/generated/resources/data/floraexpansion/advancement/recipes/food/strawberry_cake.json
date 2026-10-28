@@ -23,7 +23,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "floraexpansion:strawberry_cake"
+        "recipes": "floraexpansion:strawberry_cake"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

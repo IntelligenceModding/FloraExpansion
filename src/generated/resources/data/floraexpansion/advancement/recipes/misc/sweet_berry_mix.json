@@ -33,7 +33,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "floraexpansion:sweet_berry_mix"
+        "recipes": "floraexpansion:sweet_berry_mix"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

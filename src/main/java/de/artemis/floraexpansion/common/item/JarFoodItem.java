@@ -33,7 +33,7 @@ public class JarFoodItem extends Item {
 
         if (entity instanceof Player player) {
             if (!player.getInventory().add(emptyJar)) {
-                player.drop(emptyJar, false);
+                player.drop(emptyJar, false, net.minecraft.util.Prediction.SERVER_ONLY);
             }
         } else if (level instanceof ServerLevel serverLevel) {
             entity.spawnAtLocation(serverLevel, emptyJar);

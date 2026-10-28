@@ -1,6 +1,5 @@
 package de.artemis.floraexpansion.common.block;
 
-import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
@@ -23,7 +22,6 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.NotNull;
 
 public class CactusThornBlock extends FaceAttachedHorizontalDirectionalBlock {
-    public static final MapCodec<CactusThornBlock> CODEC = simpleCodec(CactusThornBlock::new);
 
     private static final VoxelShape FLOOR_SHAPE = Block.box(2.0D, 0.0D, 2.0D, 14.0D, 3.0D, 14.0D);
     private static final VoxelShape CEILING_SHAPE = Block.box(2.0D, 13.0D, 2.0D, 14.0D, 16.0D, 14.0D);
@@ -39,10 +37,6 @@ public class CactusThornBlock extends FaceAttachedHorizontalDirectionalBlock {
                 .setValue(FACING, Direction.NORTH));
     }
 
-    @Override
-    protected @NotNull MapCodec<? extends FaceAttachedHorizontalDirectionalBlock> codec() {
-        return CODEC;
-    }
 
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, @NotNull BlockState> builder) {

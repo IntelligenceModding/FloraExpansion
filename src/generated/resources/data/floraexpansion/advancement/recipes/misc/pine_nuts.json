@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "floraexpansion:pine_nuts"
+        "recipes": "floraexpansion:pine_nuts"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

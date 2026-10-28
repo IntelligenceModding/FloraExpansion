@@ -33,7 +33,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "floraexpansion:forest_snack"
+        "recipes": "floraexpansion:forest_snack"
       },
       "trigger": "minecraft:recipe_unlocked"
     },

@@ -23,7 +23,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "floraexpansion:blueberry_juice"
+        "recipes": "floraexpansion:blueberry_juice"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

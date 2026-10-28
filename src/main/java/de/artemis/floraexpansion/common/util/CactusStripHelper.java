@@ -24,12 +24,17 @@ public final class CactusStripHelper {
     private CactusStripHelper() {
     }
 
+    public static boolean canStrip(ItemStack stack) {
+        var transformer = stack.get(net.minecraft.core.component.DataComponents.BLOCK_TRANSFORMER);
+        return transformer != null && transformer.is(net.minecraft.world.item.component.BlockTransformers.AXE);
+    }
+
     public static InteractionResult stripAndDropThorn(Level level, BlockPos pos, Player player,
                                                           InteractionHand hand, ItemStack tool,
                                                           BlockState strippedState) {
         if (!level.isClientSide()) {
             level.setBlock(pos, strippedState, Block.UPDATE_ALL_IMMEDIATE);
-            level.playSound(null, pos, SoundEvents.AXE_STRIP, SoundSource.BLOCKS, 1.0F, 1.0F);
+            level.playSound(null, pos, SoundEvents.AXE_STRIP.value(), SoundSource.BLOCKS, 1.0F, 1.0F);
 
             Holder<Enchantment> fortune =
                     level.registryAccess().lookupOrThrow(Registries.ENCHANTMENT).getOrThrow(Enchantments.FORTUNE);

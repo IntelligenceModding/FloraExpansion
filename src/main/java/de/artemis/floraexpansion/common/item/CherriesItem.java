@@ -29,7 +29,7 @@ public class CherriesItem extends Item {
 
                 if (livingEntity instanceof Player player) {
                     if (!player.getInventory().add(cherryPit)) {
-                        player.drop(cherryPit, false);
+                        player.drop(cherryPit, false, net.minecraft.util.Prediction.SERVER_ONLY);
                     }
 
                     player.awardStat(Stats.ITEM_USED.get(this));

@@ -23,7 +23,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "floraexpansion:apple_juice"
+        "recipes": "floraexpansion:apple_juice"
       },
       "trigger": "minecraft:recipe_unlocked"
     }

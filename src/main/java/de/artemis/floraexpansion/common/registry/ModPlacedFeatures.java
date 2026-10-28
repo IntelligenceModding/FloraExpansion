@@ -8,7 +8,7 @@ import net.minecraft.data.worldgen.placement.PlacementUtils;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
+import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.placement.*;
 
 import java.util.List;
@@ -32,7 +32,7 @@ public class ModPlacedFeatures {
     public static final ResourceKey<PlacedFeature> OPUNTIA_CACTUS_PLACED_KEY = registerKey("opuntia_cactus_placed");
 
     public static void bootstrap(BootstrapContext<PlacedFeature> context) {
-        var configuredFeatures = context.lookup(Registries.CONFIGURED_FEATURE);
+        var configuredFeatures = context.lookup(Registries.FEATURE);
 
         register(context, OPUNTIA_CACTUS_PLACED_KEY, configuredFeatures.getOrThrow(ModConfiguredFeatures.OPUNTIA_CACTUS_KEY),
                 List.of(
@@ -177,7 +177,7 @@ public class ModPlacedFeatures {
 
     private static void register(BootstrapContext<PlacedFeature> context,
                                  ResourceKey<PlacedFeature> key,
-                                 Holder<ConfiguredFeature<?, ?>> configuration,
+                                 Holder<Feature> configuration,
                                  List<PlacementModifier> modifiers) {
         context.register(key, new PlacedFeature(configuration, List.copyOf(modifiers)));
     }

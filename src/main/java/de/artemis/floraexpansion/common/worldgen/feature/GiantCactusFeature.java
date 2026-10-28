@@ -1,20 +1,23 @@
 package de.artemis.floraexpansion.common.worldgen.feature;
 
+import com.mojang.serialization.MapCodec;
+
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.levelgen.feature.Feature;
-import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
-import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
+import net.minecraft.core.BlockPos;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.level.chunk.ChunkGenerator;
 import org.jetbrains.annotations.NotNull;
 
-public class GiantCactusFeature extends Feature<@NotNull NoneFeatureConfiguration> {
+public class GiantCactusFeature implements Feature {
 
-    public GiantCactusFeature(com.mojang.serialization.Codec<NoneFeatureConfiguration> codec) {
-        super(codec);
-    }
+    public static final MapCodec<GiantCactusFeature> CODEC = MapCodec.unit(GiantCactusFeature::new);
 
     @Override
-    public boolean place(FeaturePlaceContext<@NotNull NoneFeatureConfiguration> context) {
-        WorldGenLevel level = context.level();
-        return GiantCactusGenerator.generate(level, context.origin(), context.random(), true);
+    public MapCodec<GiantCactusFeature> codec() { return CODEC; }
+
+    @Override
+    public boolean place(WorldGenLevel level, ChunkGenerator chunkGenerator, RandomSource random, BlockPos origin) {
+        return GiantCactusGenerator.generate(level, origin, random, true);
     }
 }

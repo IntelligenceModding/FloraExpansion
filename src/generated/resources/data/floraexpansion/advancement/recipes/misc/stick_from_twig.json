@@ -3,7 +3,7 @@
   "criteria": {
     "has_the_recipe": {
       "conditions": {
-        "recipe": "floraexpansion:stick_from_twig"
+        "recipes": "floraexpansion:stick_from_twig"
       },
       "trigger": "minecraft:recipe_unlocked"
     },

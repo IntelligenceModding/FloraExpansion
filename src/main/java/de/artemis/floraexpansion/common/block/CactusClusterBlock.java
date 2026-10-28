@@ -1,6 +1,5 @@
 package de.artemis.floraexpansion.common.block;
 
-import com.mojang.serialization.MapCodec;
 import de.artemis.floraexpansion.common.registry.ModItems;
 import net.minecraft.core.BlockPos;
 import net.minecraft.sounds.SoundEvents;
@@ -27,7 +26,6 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.NotNull;
 
 public class CactusClusterBlock extends BushBlock {
-    public static final MapCodec<BushBlock> CODEC = simpleCodec(CactusClusterBlock::new);
     public static final IntegerProperty PICKLES = BlockStateProperties.PICKLES;
 
     private static final VoxelShape SHAPE_ONE = Block.column(4.0D, 0.0D, 6.0D);
@@ -40,10 +38,6 @@ public class CactusClusterBlock extends BushBlock {
         this.registerDefaultState(this.stateDefinition.any().setValue(PICKLES, 1));
     }
 
-    @Override
-    public @NotNull MapCodec<BushBlock> codec() {
-        return CODEC;
-    }
 
     @Override
     protected boolean mayPlaceOn(@NotNull BlockState state, @NotNull BlockGetter level, @NotNull BlockPos pos) {
@@ -99,10 +93,10 @@ public class CactusClusterBlock extends BushBlock {
                 if (stack.isEmpty()) {
                     player.setItemInHand(hand, juiceStack);
                 } else if (!player.getInventory().add(juiceStack)) {
-                    player.drop(juiceStack, false);
+                    player.drop(juiceStack, false, net.minecraft.util.Prediction.SERVER_ONLY);
                 }
             } else if (!player.getInventory().add(juiceStack)) {
-                player.drop(juiceStack, false);
+                player.drop(juiceStack, false, net.minecraft.util.Prediction.SERVER_ONLY);
             }
 
             int count = state.getValue(PICKLES);

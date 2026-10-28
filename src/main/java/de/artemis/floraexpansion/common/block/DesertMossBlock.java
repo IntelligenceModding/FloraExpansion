@@ -1,6 +1,5 @@
 package de.artemis.floraexpansion.common.block;
 
-import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.Mth;
 import net.minecraft.world.item.context.BlockPlaceContext;
@@ -17,7 +16,6 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.NotNull;
 
 public class DesertMossBlock extends BushBlock {
-    public static final MapCodec<BushBlock> CODEC = simpleCodec(DesertMossBlock::new);
 
     public static final IntegerProperty VARIANT = IntegerProperty.create("variant", 0, 3);
 
@@ -28,10 +26,6 @@ public class DesertMossBlock extends BushBlock {
         this.registerDefaultState(this.stateDefinition.any().setValue(VARIANT, 0));
     }
 
-    @Override
-    public @NotNull MapCodec<BushBlock> codec() {
-        return CODEC;
-    }
 
     @SuppressWarnings("deprecation")
     @Override

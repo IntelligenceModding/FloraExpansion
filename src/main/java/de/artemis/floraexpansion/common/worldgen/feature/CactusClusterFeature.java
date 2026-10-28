@@ -1,5 +1,7 @@
 package de.artemis.floraexpansion.common.worldgen.feature;
 
+import com.mojang.serialization.MapCodec;
+
 import de.artemis.floraexpansion.common.block.CactusClusterBlock;
 import de.artemis.floraexpansion.common.block.DesertMossBlock;
 import de.artemis.floraexpansion.common.registry.ModBlocks;
@@ -10,20 +12,18 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.levelgen.feature.Feature;
-import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
-import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
+import net.minecraft.world.level.chunk.ChunkGenerator;
 import org.jetbrains.annotations.NotNull;
 
-public class CactusClusterFeature extends Feature<@NotNull NoneFeatureConfiguration> {
-    public CactusClusterFeature(com.mojang.serialization.Codec<NoneFeatureConfiguration> codec) {
-        super(codec);
-    }
+public class CactusClusterFeature implements Feature {
+    public static final MapCodec<CactusClusterFeature> CODEC = MapCodec.unit(CactusClusterFeature::new);
 
     @Override
-    public boolean place(FeaturePlaceContext<@NotNull NoneFeatureConfiguration> context) {
-        WorldGenLevel level = context.level();
-        RandomSource random = context.random();
-        BlockPos origin = level.getHeightmapPos(Heightmap.Types.WORLD_SURFACE_WG, context.origin());
+    public MapCodec<CactusClusterFeature> codec() { return CODEC; }
+
+    @Override
+    public boolean place(WorldGenLevel level, ChunkGenerator chunkGenerator, RandomSource random, BlockPos featureOrigin) {
+        BlockPos origin = level.getHeightmapPos(Heightmap.Types.WORLD_SURFACE_WG, featureOrigin);
 
         int placed = 0;
         int attempts = 14 + random.nextInt(9);

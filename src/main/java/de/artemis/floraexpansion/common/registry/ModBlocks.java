@@ -26,10 +26,10 @@ public class ModBlocks {
     public static final DeferredRegister.Blocks BLOCKS = DeferredRegister.createBlocks(FloraExpansion.MODID);
 
     public static final DeferredBlock<Block> PINE_LITTER = registerBlock("pine_litter",
-            () -> new PineLitterBlock(blockProperties("pine_litter", BlockBehaviour.Properties.of().mapColor(MapColor.PLANT).noCollision().sound(SoundType.PINK_PETALS).pushReaction(PushReaction.DESTROY))));
+            () -> new PineLitterBlock(blockProperties("pine_litter", BlockBehaviour.Properties.of().mapColor(MapColor.PLANT).noCollision().sound(SoundType.PINK_PETALS).pushReaction(PushReaction.POPPED))));
 
     public static final DeferredBlock<Block> TWIG_LADDER = registerBlock("twig_ladder",
-            () -> new LadderBlock(blockProperties("twig_ladder", BlockBehaviour.Properties.of().forceSolidOff().strength(0.4F).sound(SoundType.CHERRY_WOOD).noOcclusion().pushReaction(PushReaction.DESTROY))));
+            () -> new LadderBlock(blockProperties("twig_ladder", BlockBehaviour.Properties.of().forceSolidOff().strength(0.4F).sound(SoundType.CHERRY_WOOD).noOcclusion().pushReaction(PushReaction.POPPED))));
 
     public static final DeferredBlock<CrateBlock> CRATE = registerBlock("crate",
             () -> new CrateBlock(blockProperties("crate", BlockBehaviour.Properties.ofFullCopy(Blocks.COMPOSTER))));
@@ -79,10 +79,10 @@ public class ModBlocks {
             () -> new LargeBlueberryBushBlock(blockProperties("large_blueberry_bush", BlockBehaviour.Properties.ofFullCopy(Blocks.FERN).randomTicks())));
 
     public static final DeferredBlock<StrawberryCropBlock> STRAWBERRY_PLANT =
-            BLOCKS.register("strawberry_plant", () -> new StrawberryCropBlock(blockProperties("strawberry_plant", BlockBehaviour.Properties.of().noCollision().randomTicks().instabreak().sound(SoundType.CROP).pushReaction(PushReaction.DESTROY))));
+            BLOCKS.register("strawberry_plant", () -> new StrawberryCropBlock(blockProperties("strawberry_plant", BlockBehaviour.Properties.of().noCollision().randomTicks().instabreak().sound(SoundType.CROP).pushReaction(PushReaction.POPPED))));
 
     public static final DeferredBlock<FlaxCropBlock> FLAX_CROP =
-            BLOCKS.register("flax_crop", () -> new FlaxCropBlock(blockProperties("flax_crop", BlockBehaviour.Properties.of().noCollision().randomTicks().instabreak().sound(SoundType.CROP).pushReaction(PushReaction.DESTROY))));
+            BLOCKS.register("flax_crop", () -> new FlaxCropBlock(blockProperties("flax_crop", BlockBehaviour.Properties.of().noCollision().randomTicks().instabreak().sound(SoundType.CROP).pushReaction(PushReaction.POPPED))));
 
     public static final DeferredBlock<CarpetBlock> LINEN_CARPET = registerBlock("linen_carpet",
             () -> new CarpetBlock(blockProperties("linen_carpet", BlockBehaviour.Properties.of().strength(0.1F).mapColor(MapColor.COLOR_BROWN).sound(SoundType.CAVE_VINES).ignitedByLava())));
@@ -91,7 +91,7 @@ public class ModBlocks {
             () -> new Block(blockProperties("linen_block", BlockBehaviour.Properties.of().strength(0.8F).mapColor(MapColor.COLOR_BROWN).sound(SoundType.CAVE_VINES).ignitedByLava())));
 
     public static final DeferredBlock<Block> PEBBLE_PATCH = registerBlock("pebble_patch",
-            () -> new PebblePatchBlock(blockProperties("pebble_patch", BlockBehaviour.Properties.of().mapColor(MapColor.STONE).noCollision().strength(0.1F).sound(SoundType.POINTED_DRIPSTONE).pushReaction(PushReaction.DESTROY))));
+            () -> new PebblePatchBlock(blockProperties("pebble_patch", BlockBehaviour.Properties.of().mapColor(MapColor.STONE).noCollision().strength(0.1F).sound(SoundType.POINTED_DRIPSTONE).pushReaction(PushReaction.POPPED))));
 
     public static final DeferredBlock<Block> PEBBLE_BLOCK = registerBlock("pebble_block",
             () -> new Block(blockProperties("pebble_block", BlockBehaviour.Properties.of().mapColor(MapColor.STONE).strength(0.6F, 0.8F).sound(SoundType.DRIPSTONE_BLOCK))));
@@ -157,7 +157,7 @@ public class ModBlocks {
                     .noCollision()
                     .sound(SoundType.GRASS)
                     .offsetType(BlockBehaviour.OffsetType.XZ)
-                    .pushReaction(PushReaction.DESTROY)
+                    .pushReaction(PushReaction.POPPED)
                     .randomTicks())));
 
     public static final DeferredBlock<Block> GIANT_CACTUS_WOOD = registerBlock("giant_cactus_wood",
@@ -189,7 +189,7 @@ public class ModBlocks {
                     .noCollision()
                     .instabreak()
                     .sound(SoundType.MOSS)
-                    .pushReaction(PushReaction.DESTROY))));
+                    .pushReaction(PushReaction.POPPED))));
 
     public static final DeferredBlock<Block> OPUNTIA_CACTUS = BLOCKS.register("opuntia_cactus",
             () -> new CactusFruitPlantBlock(blockProperties("opuntia_cactus", BlockBehaviour.Properties.of()
@@ -197,7 +197,7 @@ public class ModBlocks {
                     .noCollision()
                     .instabreak()
                     .sound(SoundType.MOSS)
-                    .pushReaction(PushReaction.DESTROY)
+                    .pushReaction(PushReaction.POPPED)
                     .offsetType(BlockBehaviour.OffsetType.XZ)
                     .randomTicks())));
 

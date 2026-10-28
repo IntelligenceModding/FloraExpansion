@@ -1,6 +1,5 @@
 package de.artemis.floraexpansion.common.block;
 
-import com.mojang.serialization.MapCodec;
 import de.artemis.floraexpansion.common.registry.ModBlocks;
 import de.artemis.floraexpansion.common.registry.ModItems;
 import net.minecraft.core.BlockPos;
@@ -25,17 +24,12 @@ import net.minecraft.world.entity.InsideBlockEffectApplier;
 import org.jetbrains.annotations.NotNull;
 
 public class SmallBlueberryBushBlock extends SweetBerryBushBlock {
-    public static final MapCodec<SweetBerryBushBlock> CODEC = simpleCodec(SmallBlueberryBushBlock::new);
     protected static final int ROOTED_BUSH_GROWTH_CHANCE = 33;
 
     public SmallBlueberryBushBlock(Properties properties) {
         super(properties);
     }
 
-    @Override
-    public @NotNull MapCodec<SweetBerryBushBlock> codec() {
-        return CODEC;
-    }
 
     @Override
     protected void entityInside(@NotNull BlockState state, @NotNull Level level, @NotNull BlockPos pos, @NotNull net.minecraft.world.entity.Entity entity, @NotNull InsideBlockEffectApplier effectApplier, boolean inside) {
@@ -49,6 +43,9 @@ public class SmallBlueberryBushBlock extends SweetBerryBushBlock {
     @Override
     protected boolean mayPlaceOn(@NotNull BlockState state, @NotNull BlockGetter level, @NotNull BlockPos pos) {
         return state.is(BlockTags.DIRT)
+                || state.is(BlockTags.GRASS_BLOCKS)
+                || state.is(Blocks.PODZOL)
+                || state.is(Blocks.MYCELIUM)
                 || state.is(Blocks.FARMLAND)
                 || state.is(Blocks.MOSS_BLOCK)
                 || state.is(Blocks.ROOTED_DIRT);
@@ -65,7 +62,7 @@ public class SmallBlueberryBushBlock extends SweetBerryBushBlock {
     }
 
     @Override
-    public void performBonemeal(@NotNull ServerLevel level, @NotNull RandomSource random, @NotNull BlockPos pos, @NotNull BlockState state) {
+    public void performBonemeal(@NotNull ServerLevel level, @NotNull RandomSource random, @NotNull BlockPos pos, @NotNull BlockState state, net.minecraft.world.level.block.BonemealSource source) {
         int nextAge = Math.min(3, state.getValue(AGE) + 1);
         BlockState grownState = getGrowthState(level, pos, state, random, nextAge);
         level.setBlock(pos, grownState, 2);
