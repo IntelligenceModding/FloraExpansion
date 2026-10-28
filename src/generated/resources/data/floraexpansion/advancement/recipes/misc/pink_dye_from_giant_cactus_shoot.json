@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_giant_cactus_shoot": {
+      "conditions": {
+        "items": [
+          {
+            "items": "floraexpansion:giant_cactus_shoot"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipes": "floraexpansion:pink_dye_from_giant_cactus_shoot"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_giant_cactus_shoot"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "floraexpansion:pink_dye_from_giant_cactus_shoot"
+    ]
+  }
+}

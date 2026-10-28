@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    "minecraft:sweet_berries",
+    "minecraft:glow_berries",
+    "floraexpansion:cherries"
+  ],
+  "result": {
+    "count": 3,
+    "id": "floraexpansion:mixed_berries"
+  }
+}

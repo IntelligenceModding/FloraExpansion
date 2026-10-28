@@ -1,5 +1,6 @@
 package de.artemis.floraexpansion.common.network;
 
+import de.artemis.floraexpansion.common.util.InventoryUtils;
 import de.artemis.floraexpansion.common.block.CrateBlock;
 import de.artemis.floraexpansion.common.block.entity.CrateBlockEntity;
 import de.artemis.floraexpansion.common.network.payload.CrateExtractPayload;
@@ -53,7 +54,7 @@ public final class ModPayloads {
             }
 
             giveExtractedItem(player, extracted);
-            syncPlayerInventory(player);
+            InventoryUtils.syncPlayerInventory(player);
             level.playSound(null, pos, SoundEvents.ITEM_FRAME_REMOVE_ITEM, SoundSource.BLOCKS, 0.6F, payload.fullStack() ? 0.95F + level.getRandom().nextFloat() * 0.2F : 1.05F + level.getRandom().nextFloat() * 0.2F);
         });
     }
@@ -70,14 +71,7 @@ public final class ModPayloads {
             return;
         }
 
-        if (!player.getInventory().add(stack)) {
-            player.drop(stack, false, net.minecraft.util.Prediction.SERVER_ONLY);
-        }
+        InventoryUtils.giveOrDrop(player, stack);
     }
 
-    private static void syncPlayerInventory(Player player) {
-        player.getInventory().setChanged();
-        player.inventoryMenu.broadcastChanges();
-        player.containerMenu.broadcastChanges();
-    }
 }

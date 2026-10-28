@@ -15,10 +15,12 @@ public class WoodenPowderSnowBucketItem extends SolidBucketItem {
 
     @Override
     public InteractionResult useOn(UseOnContext context) {
+        // SolidBucketItem replaces the held stack with a vanilla bucket after placement.
+        ItemStack source = context.getItemInHand().copy();
         InteractionResult result = super.useOn(context);
         Player player = context.getPlayer();
         if (result.consumesAction() && player != null) {
-            ItemStack emptiedResult = WoodenBucketUtil.damageInto(context.getItemInHand(), player, ModItems.WOODEN_BUCKET.get());
+            ItemStack emptiedResult = WoodenBucketUtil.damageInto(source, player, ModItems.WOODEN_BUCKET.get());
             player.setItemInHand(context.getHand(), emptiedResult);
         }
 

@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_cactus_spine": {
+      "conditions": {
+        "items": [
+          {
+            "items": "floraexpansion:cactus_spine"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipes": "floraexpansion:spiked_leather_chestplate"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_cactus_spine"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "floraexpansion:spiked_leather_chestplate"
+    ]
+  }
+}

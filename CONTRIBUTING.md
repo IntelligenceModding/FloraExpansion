@@ -265,7 +265,7 @@ At minimum:
 
 For visual changes, check the result in-game rather than relying only on models or textures viewed outside Minecraft.
 
-For changes affecting plants, crops, fruiting leaves, litter, pebbles, crates, baskets, wooden buckets, foods, cactus content, or other blocks and items, make sure placement, growth, harvesting, interactions, storage, crafting, and other supported behavior continue to work correctly where applicable.
+For changes affecting plants, crops, fruit leaves, litter, pebbles, crates, baskets, wooden buckets, foods, cactus content, or other blocks and items, make sure placement, growth, harvesting, interactions, storage, crafting, and other supported behavior continue to work correctly where applicable.
 
 For changes affecting naturally generated plants, trees, cactus features, or other world-generation content, test the result in newly generated chunks and in the relevant biomes.
 

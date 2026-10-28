@@ -1,8 +1,8 @@
 package de.artemis.floraexpansion.common.registry;
 
 import de.artemis.floraexpansion.FloraExpansion;
-import de.artemis.floraexpansion.common.worldgen.treedecorator.FruitingCherryLeavesDecorator;
-import de.artemis.floraexpansion.common.worldgen.treedecorator.FruitingOakLeavesDecorator;
+import de.artemis.floraexpansion.common.worldgen.treedecorator.OrchardCherryLeavesDecorator;
+import de.artemis.floraexpansion.common.worldgen.treedecorator.AppleLeavesDecorator;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.worldgen.BootstrapContext;
 import net.minecraft.resources.Identifier;
@@ -27,26 +27,26 @@ import java.util.List;
 
 public class ModTreeConfiguredFeatures {
 
-    public static final ResourceKey<Feature> FRUITING_CHERRY_TREE_KEY =
+    public static final ResourceKey<Feature> ORCHARD_CHERRY_TREE_KEY =
             ResourceKey.create(
                     Registries.FEATURE,
-                    Identifier.fromNamespaceAndPath(FloraExpansion.MODID, "fruiting_cherry_tree")
+                    Identifier.fromNamespaceAndPath(FloraExpansion.MODID, "orchard_cherry_tree")
             );
 
-    public static final ResourceKey<Feature> FRUITING_OAK_TREE_KEY =
+    public static final ResourceKey<Feature> APPLE_TREE_KEY =
             ResourceKey.create(
                     Registries.FEATURE,
-                    Identifier.fromNamespaceAndPath(FloraExpansion.MODID, "fruiting_oak_tree")
+                    Identifier.fromNamespaceAndPath(FloraExpansion.MODID, "apple_tree")
             );
 
-    public static final ResourceKey<Feature> FANCY_FRUITING_OAK_TREE_KEY =
+    public static final ResourceKey<Feature> FANCY_APPLE_TREE_KEY =
             ResourceKey.create(
                     Registries.FEATURE,
-                    Identifier.fromNamespaceAndPath(FloraExpansion.MODID, "fancy_fruiting_oak_tree")
+                    Identifier.fromNamespaceAndPath(FloraExpansion.MODID, "fancy_apple_tree")
             );
 
     public static void bootstrap(BootstrapContext<Feature> context) {
-        TreeFeature fruitingCherryConfig = new TreeFeature.Builder(
+        TreeFeature orchardCherryConfig = new TreeFeature.Builder(
                 new SimpleStateProvider(Blocks.CHERRY_LOG.defaultBlockState()),
                 new CherryTrunkPlacer(
                         7,
@@ -70,13 +70,13 @@ public class ModTreeConfiguredFeatures {
                 new TwoLayersFeatureSize(1, 0, 2),
                 Holder.direct(new SimpleStateProvider(Blocks.DIRT.defaultBlockState()))
         )
-                .decorators(List.of(FruitingCherryLeavesDecorator.INSTANCE))
+                .decorators(List.of(OrchardCherryLeavesDecorator.INSTANCE))
                 .ignoreVines()
                 .build();
 
-        context.register(FRUITING_CHERRY_TREE_KEY, fruitingCherryConfig);
+        context.register(ORCHARD_CHERRY_TREE_KEY, orchardCherryConfig);
 
-        TreeFeature fruitingOakConfig = new TreeFeature.Builder(
+        TreeFeature appleConfig = new TreeFeature.Builder(
                 new SimpleStateProvider(Blocks.OAK_LOG.defaultBlockState()),
                 new StraightTrunkPlacer(4, 2, 0),
                 new SimpleStateProvider(Blocks.OAK_LEAVES.defaultBlockState()),
@@ -84,13 +84,13 @@ public class ModTreeConfiguredFeatures {
                 new TwoLayersFeatureSize(1, 0, 1),
                 Holder.direct(new SimpleStateProvider(Blocks.DIRT.defaultBlockState()))
         )
-                .decorators(List.of(FruitingOakLeavesDecorator.INSTANCE))
+                .decorators(List.of(AppleLeavesDecorator.INSTANCE))
                 .ignoreVines()
                 .build();
 
-        context.register(FRUITING_OAK_TREE_KEY, fruitingOakConfig);
+        context.register(APPLE_TREE_KEY, appleConfig);
 
-        TreeFeature fancyFruitingOakConfig = new TreeFeature.Builder(
+        TreeFeature fancyAppleConfig = new TreeFeature.Builder(
                 new SimpleStateProvider(Blocks.OAK_LOG.defaultBlockState()),
                 new FancyTrunkPlacer(3, 11, 0),
                 new SimpleStateProvider(Blocks.OAK_LEAVES.defaultBlockState()),
@@ -98,10 +98,10 @@ public class ModTreeConfiguredFeatures {
                 new TwoLayersFeatureSize(0, 0, 0),
                 Holder.direct(new SimpleStateProvider(Blocks.DIRT.defaultBlockState()))
         )
-                .decorators(List.of(FruitingOakLeavesDecorator.INSTANCE))
+                .decorators(List.of(AppleLeavesDecorator.INSTANCE))
                 .ignoreVines()
                 .build();
 
-        context.register(FANCY_FRUITING_OAK_TREE_KEY, fancyFruitingOakConfig);
+        context.register(FANCY_APPLE_TREE_KEY, fancyAppleConfig);
     }
 }

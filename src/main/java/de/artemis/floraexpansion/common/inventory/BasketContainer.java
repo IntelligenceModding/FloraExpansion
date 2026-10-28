@@ -1,5 +1,6 @@
 package de.artemis.floraexpansion.common.inventory;
 
+import de.artemis.floraexpansion.common.util.InventoryUtils;
 import de.artemis.floraexpansion.common.item.BasketItem;
 import de.artemis.floraexpansion.common.registry.ModItems;
 import net.minecraft.core.NonNullList;
@@ -81,7 +82,7 @@ public class BasketContainer implements Container {
         if (sourceStack.is(ModItems.BASKET.get())) {
             BasketItem.saveContents(sourceStack, this.items);
             if (!this.player.level().isClientSide()) {
-                BasketItem.syncPlayerInventory(this.player);
+                InventoryUtils.syncPlayerInventory(this.player);
             }
         }
     }

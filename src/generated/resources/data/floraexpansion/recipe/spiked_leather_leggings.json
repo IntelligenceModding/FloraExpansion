@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "D": "minecraft:green_dye",
+    "L": "minecraft:leather_leggings",
+    "T": "floraexpansion:cactus_spine"
+  },
+  "pattern": [
+    "TDT",
+    "TLT",
+    "T T"
+  ],
+  "result": {
+    "id": "floraexpansion:spiked_leather_leggings"
+  }
+}

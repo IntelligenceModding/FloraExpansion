@@ -19,7 +19,7 @@ public class ModTags {
     }
 
     public static class Items {
-        public static final TagKey<Item> CACTUS_ARMOR_REPAIRABLE = createTag("cactus_armor_repairable");
+        public static final TagKey<Item> SPIKED_LEATHER_ARMOR_REPAIRABLE = createTag("spiked_leather_armor_repairable");
 
         private static TagKey<Item> createTag(String name) {
             return ItemTags.create(Identifier.fromNamespaceAndPath(FloraExpansion.MODID, name));

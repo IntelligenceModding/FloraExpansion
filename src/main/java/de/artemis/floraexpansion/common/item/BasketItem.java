@@ -1,11 +1,9 @@
 package de.artemis.floraexpansion.common.item;
 
+import de.artemis.floraexpansion.common.util.InventoryUtils;
 import de.artemis.floraexpansion.common.inventory.BasketMenu;
-import de.artemis.floraexpansion.common.block.FlaxCropBlock;
-import de.artemis.floraexpansion.common.block.FruitingCherryLeavesBlock;
-import de.artemis.floraexpansion.common.block.FruitingOakLeavesBlock;
-import de.artemis.floraexpansion.common.block.LargeBlueberryBushBlock;
-import de.artemis.floraexpansion.common.block.SmallBlueberryBushBlock;
+import de.artemis.floraexpansion.common.block.FlaxBlock;
+import de.artemis.floraexpansion.common.block.HarvestableBlock;
 import de.artemis.floraexpansion.common.registry.ModItems;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
@@ -173,12 +171,6 @@ public class BasketItem extends Item {
         return inserted;
     }
 
-    public static void syncPlayerInventory(Player player) {
-        player.getInventory().setChanged();
-        player.inventoryMenu.broadcastChanges();
-        player.containerMenu.broadcastChanges();
-    }
-
     public static int getSourceSlot(Player player, InteractionHand hand) {
         return hand == InteractionHand.OFF_HAND ? 40 : player.getInventory().getSelectedSlot();
     }
@@ -227,7 +219,7 @@ public class BasketItem extends Item {
 
         saveContents(basket, contents);
         container.setChanged();
-        syncPlayerInventory(player);
+        InventoryUtils.syncPlayerInventory(player);
         return true;
     }
 
@@ -269,8 +261,8 @@ public class BasketItem extends Item {
     }
 
     private boolean canPredictHandled(Level level, BlockPos pos, BlockState state, Player player) {
-        if (state.getBlock() instanceof FlaxCropBlock) {
-            return state.getValue(FlaxCropBlock.AGE) >= 2;
+        if (state.getBlock() instanceof FlaxBlock) {
+            return state.getValue(FlaxBlock.AGE) >= 2;
         }
 
         if (state.getBlock() instanceof CropBlock cropBlock) {
@@ -285,12 +277,8 @@ public class BasketItem extends Item {
             return state.getValue(CocoaBlock.AGE) >= 2;
         }
 
-        if (state.getBlock() instanceof SmallBlueberryBushBlock) {
-            return state.getValue(SmallBlueberryBushBlock.AGE) >= 3;
-        }
-
-        if (state.getBlock() instanceof LargeBlueberryBushBlock) {
-            return state.getValue(LargeBlueberryBushBlock.AGE) >= 2;
+        if (state.getBlock() instanceof HarvestableBlock plant) {
+            return plant.canHarvest(state);
         }
 
         if (state.getBlock() instanceof SweetBerryBushBlock) {
@@ -299,14 +287,6 @@ public class BasketItem extends Item {
 
         if (state.hasProperty(BlockStateProperties.BERRIES) && Boolean.TRUE.equals(state.getValue(BlockStateProperties.BERRIES))) {
             return true;
-        }
-
-        if (state.getBlock() instanceof FruitingCherryLeavesBlock) {
-            return state.getValue(FruitingCherryLeavesBlock.AGE) > 0;
-        }
-
-        if (state.getBlock() instanceof FruitingOakLeavesBlock) {
-            return state.getValue(FruitingOakLeavesBlock.AGE) >= FruitingOakLeavesBlock.MAX_AGE;
         }
 
         if (findTargetContainer(level, pos, player) != null) {

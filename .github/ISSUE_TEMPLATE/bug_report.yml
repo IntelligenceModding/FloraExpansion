@@ -45,7 +45,7 @@ body:
       label: Affected Feature
       description: Which part of Flora Expansion is affected?
       options:
-        - Leaf / Pine Litter
+        - Leaf / Needle Litter
         - Pebbles
         - Flax / Linen
         - Blueberries / Strawberries

@@ -13,7 +13,7 @@ public class ModColorHandlers {
 
     @SubscribeEvent
     public static void registerBlockColors(RegisterColorHandlersEvent.BlockTintSources event) {
-        event.register(java.util.List.of(BlockTintSources.foliage()), ModBlocks.FRUITING_OAK_LEAVES.get());
+        event.register(java.util.List.of(BlockTintSources.foliage()), ModBlocks.APPLE_LEAVES.get());
     }
 
 }

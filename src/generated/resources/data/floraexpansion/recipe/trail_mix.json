@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    "floraexpansion:toasted_spruce_nuts",
+    "minecraft:pumpkin_seeds",
+    "minecraft:sweet_berries",
+    "minecraft:honey_bottle"
+  ],
+  "result": {
+    "count": 3,
+    "id": "floraexpansion:trail_mix"
+  }
+}

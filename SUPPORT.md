@@ -16,7 +16,7 @@ Examples include:
 
 - crashes;
 - plant, crop, or fruit growth problems;
-- leaf litter or pine litter behavior problems;
+- leaf litter or needle litter behavior problems;
 - pebble placement or interaction problems;
 - basket harvesting or inventory problems;
 - crate storage, locking, tying, or item-transfer problems;
@@ -55,7 +55,7 @@ Feature requests may include:
 
 - new plants or natural blocks;
 - new foods or forageable items;
-- new crops or fruiting plants;
+- new crops or fruit plants;
 - litter or pebble improvements;
 - basket or crate improvements;
 - flax or linen improvements;

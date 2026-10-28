@@ -1,12 +1,10 @@
 package de.artemis.floraexpansion.common.block;
 
+import de.artemis.floraexpansion.common.util.PlantSoils;
 import de.artemis.floraexpansion.common.registry.ModBlocks;
 import de.artemis.floraexpansion.common.registry.ModItems;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.sounds.SoundEvents;
-import net.minecraft.sounds.SoundSource;
-import net.minecraft.tags.BlockTags;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
@@ -23,13 +21,12 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.entity.InsideBlockEffectApplier;
 import org.jetbrains.annotations.NotNull;
 
-public class SmallBlueberryBushBlock extends SweetBerryBushBlock {
+public class SmallBlueberryBushBlock extends SweetBerryBushBlock implements HarvestableBlock {
     protected static final int ROOTED_BUSH_GROWTH_CHANCE = 33;
 
     public SmallBlueberryBushBlock(Properties properties) {
         super(properties);
     }
-
 
     @Override
     protected void entityInside(@NotNull BlockState state, @NotNull Level level, @NotNull BlockPos pos, @NotNull net.minecraft.world.entity.Entity entity, @NotNull InsideBlockEffectApplier effectApplier, boolean inside) {
@@ -42,13 +39,7 @@ public class SmallBlueberryBushBlock extends SweetBerryBushBlock {
 
     @Override
     protected boolean mayPlaceOn(@NotNull BlockState state, @NotNull BlockGetter level, @NotNull BlockPos pos) {
-        return state.is(BlockTags.DIRT)
-                || state.is(BlockTags.GRASS_BLOCKS)
-                || state.is(Blocks.PODZOL)
-                || state.is(Blocks.MYCELIUM)
-                || state.is(Blocks.FARMLAND)
-                || state.is(Blocks.MOSS_BLOCK)
-                || state.is(Blocks.ROOTED_DIRT);
+        return PlantSoils.supportsBlueberry(state);
     }
 
     @Override
@@ -92,6 +83,21 @@ public class SmallBlueberryBushBlock extends SweetBerryBushBlock {
     }
 
     @Override
+    public boolean canHarvest(BlockState state) {
+        return state.getValue(AGE) >= 3;
+    }
+
+    @Override
+    public ItemStack getHarvest(BlockState state, RandomSource random) {
+        return new ItemStack(ModItems.BLUEBERRIES.get(), getHarvestAmount(random));
+    }
+
+    @Override
+    public BlockState getHarvestedState(BlockState state) {
+        return state.setValue(AGE, 2);
+    }
+
+    @Override
     protected @NotNull InteractionResult useItemOn(@NotNull ItemStack stack, @NotNull BlockState state, @NotNull Level level, @NotNull BlockPos pos, @NotNull Player player, @NotNull net.minecraft.world.InteractionHand hand, @NotNull BlockHitResult hitResult) {
         int age = state.getValue(AGE);
         if (age < 3 && stack.is(Items.BONE_MEAL)) {
@@ -102,23 +108,8 @@ public class SmallBlueberryBushBlock extends SweetBerryBushBlock {
     }
 
     @Override
-    protected @NotNull InteractionResult useWithoutItem(@NotNull BlockState state, @NotNull Level level, @NotNull BlockPos pos, @NotNull Player player, @NotNull BlockHitResult hitResult) {
-        int age = state.getValue(AGE);
-        if (age < 3) {
-            return InteractionResult.PASS;
-        }
-
-        int amount = getHarvestAmount(level.getRandom());
-        if (!level.isClientSide()) {
-            popResource(level, pos, new ItemStack(ModItems.BLUEBERRIES.get(), amount));
-            level.playSound(null, pos, SoundEvents.SWEET_BERRY_BUSH_PICK_BERRIES, SoundSource.BLOCKS, 1.0F,
-                    0.8F + level.getRandom().nextFloat() * 0.4F);
-
-            BlockState resetState = state.setValue(AGE, 2);
-            level.setBlock(pos, resetState, 2);
-            level.gameEvent(GameEvent.BLOCK_CHANGE, pos, GameEvent.Context.of(player, resetState));
-        }
-
-        return ((level.isClientSide() ? InteractionResult.SUCCESS : InteractionResult.SUCCESS_SERVER));
+    protected @NotNull InteractionResult useWithoutItem(@NotNull BlockState state, @NotNull Level level, @NotNull BlockPos pos,
+                                                        @NotNull Player player, @NotNull BlockHitResult hitResult) {
+        return harvest(state, level, pos, player);
     }
 }

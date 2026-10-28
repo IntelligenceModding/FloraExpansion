@@ -3,7 +3,7 @@ package de.artemis.floraexpansion.common.worldgen.feature;
 import com.mojang.serialization.MapCodec;
 
 import de.artemis.floraexpansion.common.registry.ModBlocks;
-import de.artemis.floraexpansion.common.block.PebblePatchBlock;
+import de.artemis.floraexpansion.common.block.ScatteredPebblesBlock;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.util.RandomSource;
@@ -14,7 +14,6 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.chunk.ChunkGenerator;
-import org.jetbrains.annotations.NotNull;
 
 public class PebbleClusterFeature implements Feature {
 
@@ -88,9 +87,9 @@ public class PebbleClusterFeature implements Feature {
                     int amount = getPatchAmount(random, normalizedDist);
                     Direction facing = Direction.Plane.HORIZONTAL.getRandomDirection(random);
 
-                    BlockState patchState = ModBlocks.PEBBLE_PATCH.get().defaultBlockState()
-                            .setValue(PebblePatchBlock.FACING, facing)
-                            .setValue(PebblePatchBlock.AMOUNT, amount);
+                    BlockState patchState = ModBlocks.SCATTERED_PEBBLES.get().defaultBlockState()
+                            .setValue(ScatteredPebblesBlock.FACING, facing)
+                            .setValue(ScatteredPebblesBlock.AMOUNT, amount);
 
                     if (replacedGround || patchState.canSurvive(level, decorationPos)) {
                         level.setBlock(decorationPos, patchState, 2);
@@ -117,17 +116,17 @@ public class PebbleClusterFeature implements Feature {
         int roll = random.nextInt(100);
 
         if (normalizedDist <= 0.33D) {
-            if (roll < 68) return ModBlocks.PEBBLE_BLOCK.get().defaultBlockState();
+            if (roll < 68) return ModBlocks.PACKED_PEBBLES.get().defaultBlockState();
             if (roll < 88) return Blocks.GRAVEL.defaultBlockState();
             if (roll < 96) return Blocks.COARSE_DIRT.defaultBlockState();
             return Blocks.ANDESITE.defaultBlockState();
         } else if (normalizedDist <= 0.66D) {
-            if (roll < 42) return ModBlocks.PEBBLE_BLOCK.get().defaultBlockState();
+            if (roll < 42) return ModBlocks.PACKED_PEBBLES.get().defaultBlockState();
             if (roll < 72) return Blocks.GRAVEL.defaultBlockState();
             if (roll < 90) return Blocks.COARSE_DIRT.defaultBlockState();
             return Blocks.STONE.defaultBlockState();
         } else {
-            if (roll < 18) return ModBlocks.PEBBLE_BLOCK.get().defaultBlockState();
+            if (roll < 18) return ModBlocks.PACKED_PEBBLES.get().defaultBlockState();
             if (roll < 52) return Blocks.GRAVEL.defaultBlockState();
             if (roll < 82) return Blocks.COARSE_DIRT.defaultBlockState();
             return Blocks.STONE.defaultBlockState();

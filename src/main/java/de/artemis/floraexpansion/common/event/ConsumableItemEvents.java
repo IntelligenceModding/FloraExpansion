@@ -2,15 +2,13 @@ package de.artemis.floraexpansion.common.event;
 
 import de.artemis.floraexpansion.FloraExpansion;
 import de.artemis.floraexpansion.common.registry.ModBlocks;
-import net.minecraft.server.level.ServerLevel;
+import de.artemis.floraexpansion.common.util.InventoryUtils;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.entity.living.LivingEntityUseItemEvent;
-import org.jetbrains.annotations.NotNull;
 
 @EventBusSubscriber(modid = FloraExpansion.MODID)
 public class ConsumableItemEvents {
@@ -38,20 +36,6 @@ public class ConsumableItemEvents {
             return;
         }
 
-        giveOrDrop(entity, new ItemStack(ModBlocks.APPLE_CORE.get()));
-    }
-
-    private static void giveOrDrop(@NotNull LivingEntity entity, @NotNull ItemStack stack) {
-        if (stack.isEmpty()) {
-            return;
-        }
-
-        if (entity instanceof Player player) {
-            if (!player.getInventory().add(stack)) {
-                player.drop(stack, false, net.minecraft.util.Prediction.SERVER_ONLY);
-            }
-        } else if (entity.level() instanceof ServerLevel serverLevel) {
-            entity.spawnAtLocation(serverLevel, stack);
-        }
+        InventoryUtils.giveOrDrop(entity, new ItemStack(ModBlocks.APPLE_CORE.get()));
     }
 }

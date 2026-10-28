@@ -21,88 +21,72 @@ public class ModBlockTagProvider extends BlockTagsProvider {
                 .add(ModBlocks.TWIG_LADDER.key());
 
         tag(BlockTags.MINEABLE_WITH_PICKAXE)
-                .add(ModBlocks.PEBBLE_BLOCK.key());
+                .add(ModBlocks.PACKED_PEBBLES.key());
 
         tag(BlockTags.MINEABLE_WITH_AXE)
                 .add(ModBlocks.CRATE.key())
-                .add(ModBlocks.GIANT_CACTUS_BASE.key())
-                .add(ModBlocks.STRIPPED_GIANT_CACTUS_BASE.key())
-                .add(ModBlocks.GIANT_CACTUS_WOOD.key())
-                .add(ModBlocks.STRIPPED_GIANT_CACTUS_WOOD.key())
+                .add(ModBlocks.CACTUS_LOG.key())
+                .add(ModBlocks.STRIPPED_CACTUS_LOG.key())
+                .add(ModBlocks.CACTUS_WOOD.key())
+                .add(ModBlocks.STRIPPED_CACTUS_WOOD.key())
                 .add(ModBlocks.GIANT_CACTUS_STEM.key())
                 .add(ModBlocks.TWIG_LADDER.key())
                 .add(ModBlocks.CACTUS_MOSAIC.key());
 
         tag(BlockTags.MINEABLE_WITH_SHOVEL)
-                .add(ModBlocks.PEBBLE_BLOCK.key());
+                .add(ModBlocks.PACKED_PEBBLES.key());
 
         tag(BlockTags.MINEABLE_WITH_HOE)
-                .add(ModBlocks.LINEN_BLOCK.key())
+                .add(ModBlocks.LINEN_BALE.key())
                 .add(ModBlocks.FLAX_BALE.key())
-                .add(ModBlocks.FRUITING_OAK_LEAVES.key())
+                .add(ModBlocks.APPLE_LEAVES.key())
                 .add(ModBlocks.LINEN_CARPET.key())
-                .add(ModBlocks.FRUITING_CHERRY_LEAVES.key())
+                .add(ModBlocks.ORCHARD_CHERRY_LEAVES.key())
                 .add(ModBlocks.LARGE_BLUEBERRY_BUSH.key())
                 .add(ModBlocks.BLUEBERRY_BUSH.key());
 
         tag(BlockTags.MAINTAINS_FARMLAND)
-                .add(ModBlocks.FLAX_CROP.key())
+                .add(ModBlocks.FLAX.key())
                 .add(ModBlocks.STRAWBERRY_PLANT.key());
 
         tag(BlockTags.CROPS)
-                .add(ModBlocks.FLAX_CROP.key())
+                .add(ModBlocks.FLAX.key())
                 .add(ModBlocks.STRAWBERRY_PLANT.key());
 
-        tag(BlockTags.CANDLE_CAKES)
-                .add(ModBlocks.STRAWBERRY_CANDLE_CAKE.key())
-                .add(ModBlocks.WHITE_STRAWBERRY_CANDLE_CAKE.key())
-                .add(ModBlocks.ORANGE_STRAWBERRY_CANDLE_CAKE.key())
-                .add(ModBlocks.MAGENTA_STRAWBERRY_CANDLE_CAKE.key())
-                .add(ModBlocks.LIGHT_BLUE_STRAWBERRY_CANDLE_CAKE.key())
-                .add(ModBlocks.YELLOW_STRAWBERRY_CANDLE_CAKE.key())
-                .add(ModBlocks.LIME_STRAWBERRY_CANDLE_CAKE.key())
-                .add(ModBlocks.PINK_STRAWBERRY_CANDLE_CAKE.key())
-                .add(ModBlocks.GRAY_STRAWBERRY_CANDLE_CAKE.key())
-                .add(ModBlocks.LIGHT_GRAY_STRAWBERRY_CANDLE_CAKE.key())
-                .add(ModBlocks.CYAN_STRAWBERRY_CANDLE_CAKE.key())
-                .add(ModBlocks.PURPLE_STRAWBERRY_CANDLE_CAKE.key())
-                .add(ModBlocks.BLUE_STRAWBERRY_CANDLE_CAKE.key())
-                .add(ModBlocks.BROWN_STRAWBERRY_CANDLE_CAKE.key())
-                .add(ModBlocks.GREEN_STRAWBERRY_CANDLE_CAKE.key())
-                .add(ModBlocks.RED_STRAWBERRY_CANDLE_CAKE.key())
-                .add(ModBlocks.BLACK_STRAWBERRY_CANDLE_CAKE.key());
+        var candleCakes = tag(BlockTags.CANDLE_CAKES);
+        ModBlocks.STRAWBERRY_CANDLE_CAKES.forEach(cake -> candleCakes.add(cake.key()));
 
         tag(BlockTags.SWORD_EFFICIENT)
-                .add(ModBlocks.FLAX_CROP.key())
+                .add(ModBlocks.FLAX.key())
                 .add(ModBlocks.STRAWBERRY_PLANT.key())
                 .add(ModBlocks.LARGE_BLUEBERRY_BUSH.key())
                 .add(ModBlocks.BLUEBERRY_BUSH.key());
 
         tag(BlockTags.BEE_GROWABLES)
-                .add(ModBlocks.FLAX_CROP.key())
+                .add(ModBlocks.FLAX.key())
                 .add(ModBlocks.STRAWBERRY_PLANT.key())
-                .add(ModBlocks.FRUITING_OAK_LEAVES.key())
-                .add(ModBlocks.FRUITING_CHERRY_LEAVES.key())
+                .add(ModBlocks.APPLE_LEAVES.key())
+                .add(ModBlocks.ORCHARD_CHERRY_LEAVES.key())
                 .add(ModBlocks.LARGE_BLUEBERRY_BUSH.key())
                 .add(ModBlocks.BLUEBERRY_BUSH.key());
 
         tag(BlockTags.LEAVES)
-                .add(ModBlocks.FRUITING_OAK_LEAVES.key())
-                .add(ModBlocks.FRUITING_CHERRY_LEAVES.key());
+                .add(ModBlocks.APPLE_LEAVES.key())
+                .add(ModBlocks.ORCHARD_CHERRY_LEAVES.key());
 
         tag(BlockTags.FLOWERS)
-                .add(ModBlocks.FRUITING_OAK_LEAVES.key())
-                .add(ModBlocks.GIANT_CACTUS_BLOSSOM.key())
-                .add(ModBlocks.FRUITING_CHERRY_LEAVES.key());
+                .add(ModBlocks.APPLE_LEAVES.key())
+                .add(ModBlocks.GIANT_CACTUS_SHOOT.key())
+                .add(ModBlocks.ORCHARD_CHERRY_LEAVES.key());
 
         tag(BlockTags.SMALL_FLOWERS)
-                .add(ModBlocks.GIANT_CACTUS_BLOSSOM.key());
+                .add(ModBlocks.GIANT_CACTUS_SHOOT.key());
 
         tag(BlockTags.LOGS)
-                .add(ModBlocks.STRIPPED_GIANT_CACTUS_BASE.key())
-                .add(ModBlocks.GIANT_CACTUS_BASE.key())
-                .add(ModBlocks.GIANT_CACTUS_WOOD.key())
-                .add(ModBlocks.STRIPPED_GIANT_CACTUS_WOOD.key());
+                .add(ModBlocks.STRIPPED_CACTUS_LOG.key())
+                .add(ModBlocks.CACTUS_LOG.key())
+                .add(ModBlocks.CACTUS_WOOD.key())
+                .add(ModBlocks.STRIPPED_CACTUS_WOOD.key());
 
         tag(BlockTags.PLANKS)
                 .add(ModBlocks.CACTUS_PLANKS.key());
@@ -144,4 +128,3 @@ public class ModBlockTagProvider extends BlockTagsProvider {
                 .add(ModBlocks.CACTUS_WALL_HANGING_SIGN.key());
     }
 }
-

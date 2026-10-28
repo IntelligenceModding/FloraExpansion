@@ -27,7 +27,7 @@
 </p>
 
 <p align="center">
-  Install JEI alongside Flora Expansion if you want additional in-game information for special mechanics such as litter gathering, crates, baskets, crops, fruiting plants, and other interactive content. Flora Expansion works normally without JEI.
+  Install JEI alongside Flora Expansion if you want additional in-game information for special mechanics such as litter gathering, crates, baskets, crops, fruit plants, and other interactive content. Flora Expansion works normally without JEI.
 </p>
 
 <br>
@@ -41,18 +41,18 @@
 </p>
 
 <p align="center">
-  &bull; <strong>Leaf Litter</strong> and <strong>Pine Litter</strong> with layered placement and gatherable natural resources<br>
-  &bull; <strong>Pine Cones</strong>, <strong>Pine Nuts</strong>, <strong>Twigs</strong>, and other forageable forest materials<br>
-  &bull; Throwable pine cones and pebbles with their own interactions<br>
-  &bull; <strong>Pebble Patches</strong> and <strong>Pebble Blocks</strong> for natural terrain decoration<br>
-  &bull; A complete <strong>Flax</strong> progression with seeds, fibers, flowers, linen thread, linen cloth, linen blocks, carpet, and flax bales<br>
+  &bull; <strong>Leaf Litter</strong> and <strong>Needle Litter</strong> with layered placement and gatherable natural resources<br>
+  &bull; <strong>Spruce Cones</strong>, <strong>Spruce Nuts</strong>, <strong>Twigs</strong>, and other forageable forest materials<br>
+  &bull; Throwable spruce cones and pebbles with their own interactions<br>
+  &bull; <strong>Scattered Pebbles</strong> and <strong>Packed Pebbles</strong> for natural terrain decoration<br>
+  &bull; A complete <strong>Flax</strong> progression with seeds, fibers, flowers, linen thread, linen fabric, linen bales, carpet, and flax bales<br>
   &bull; <strong>Blueberries</strong> and <strong>Strawberries</strong> with harvestable plants, foods, jams, juice, pies, cookies, and other recipes<br>
-  &bull; Fruiting cherry and oak trees with harvestable <strong>Cherries</strong> and <strong>Apples</strong>, plantable pits and cores, and fruiting leaves<br>
+  &bull; Orchard cherry and apple trees with harvestable <strong>Cherries</strong> and <strong>Apples</strong>, plantable pits and cores, <strong>Orchard Cherry Leaves</strong>, and <strong>Apple Leaves</strong><br>
   &bull; A reusable <strong>Basket</strong> for harvesting crops and carrying gathered items<br>
   &bull; High-capacity <strong>Crates</strong> for storing large quantities of a single item, including movable tied crates<br>
   &bull; <strong>Wooden Buckets</strong> for water, milk, powder snow, fish, axolotls, tadpoles, and even temporary lava transport<br>
-  &bull; <strong>Giant Cactus</strong> content with cactus wood, thorns, flowers, fruit, decorative blocks, equipment, and other desert additions<br>
-  &bull; Foods such as <strong>Forest Snack</strong>, berry mixes, jams, juices, pies, and other nature-themed recipes<br>
+  &bull; <strong>Giant Cactus</strong> content with cactus wood, spines, flowers, fruit, decorative blocks, equipment, and other desert additions<br>
+  &bull; Foods such as <strong>Trail Mix</strong>, berry mixes, jams, juices, pies, and other nature-themed recipes<br>
   &bull; Rustic utility and decoration such as the <strong>Twig Ladder</strong> and other natural building materials<br>
   &bull; Natural world-generation additions that integrate Flora Expansion's content into suitable environments
 </p>

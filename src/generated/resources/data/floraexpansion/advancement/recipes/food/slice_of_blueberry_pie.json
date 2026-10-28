@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_blueberry_pie": {
+      "conditions": {
+        "items": [
+          {
+            "items": "floraexpansion:blueberry_pie"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipes": "floraexpansion:slice_of_blueberry_pie"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_blueberry_pie"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "floraexpansion:slice_of_blueberry_pie"
+    ]
+  }
+}

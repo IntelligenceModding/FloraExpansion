@@ -1,7 +1,7 @@
 package de.artemis.floraexpansion.compat.jei;
 
 import de.artemis.floraexpansion.FloraExpansion;
-import de.artemis.floraexpansion.common.item.CactusArmorItem;
+import de.artemis.floraexpansion.common.item.SpikedLeatherArmorItem;
 import de.artemis.floraexpansion.common.registry.ModBlocks;
 import de.artemis.floraexpansion.common.registry.ModItems;
 import mezz.jei.api.IModPlugin;
@@ -23,13 +23,7 @@ import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.item.enchantment.ItemEnchantments;
 import org.jetbrains.annotations.NotNull;
 
-import java.lang.reflect.Array;
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
-import java.util.Optional;
 
 @SuppressWarnings("unused")
 @JeiPlugin
@@ -45,41 +39,41 @@ public final class FloraExpansionJeiPlugin implements IModPlugin {
     @Override
     public void registerRecipes(IRecipeRegistration registration) {
         registration.addIngredientInfo(
-                ModBlocks.PINE_LITTER.get(),
+                ModBlocks.NEEDLE_LITTER.get(),
                 translatedLines(
-                        "jei.floraexpansion.pine_litter.info.1",
-                        "jei.floraexpansion.pine_litter.info.2",
-                        "jei.floraexpansion.pine_litter.info.3",
-                        "jei.floraexpansion.pine_litter.info.4"
+                        "jei.floraexpansion.needle_litter.info.1",
+                        "jei.floraexpansion.needle_litter.info.2",
+                        "jei.floraexpansion.needle_litter.info.3",
+                        "jei.floraexpansion.needle_litter.info.4"
                 )
         );
 
         registration.addIngredientInfo(
-                ModItems.PINE_CONE.get(),
+                ModItems.SPRUCE_CONE.get(),
                 translatedLines(
-                        "jei.floraexpansion.pine_cone.info.1",
-                        "jei.floraexpansion.pine_cone.info.2",
-                        "jei.floraexpansion.pine_cone.info.3",
-                        "jei.floraexpansion.pine_cone.info.4"
+                        "jei.floraexpansion.spruce_cone.info.1",
+                        "jei.floraexpansion.spruce_cone.info.2",
+                        "jei.floraexpansion.spruce_cone.info.3",
+                        "jei.floraexpansion.spruce_cone.info.4"
                 )
         );
 
         registration.addIngredientInfo(
-                ModItems.FLAX_SEED.get(),
+                ModItems.FLAX_SEEDS.get(),
                 translatedLines(
-                        "jei.floraexpansion.flax_seed.info.1",
-                        "jei.floraexpansion.flax_seed.info.2",
-                        "jei.floraexpansion.flax_seed.info.3",
-                        "jei.floraexpansion.flax_seed.info.4"
+                        "jei.floraexpansion.flax_seeds.info.1",
+                        "jei.floraexpansion.flax_seeds.info.2",
+                        "jei.floraexpansion.flax_seeds.info.3",
+                        "jei.floraexpansion.flax_seeds.info.4"
                 )
         );
 
         registration.addIngredientInfo(
-                ModBlocks.PEBBLE_PATCH.get(),
+                ModBlocks.SCATTERED_PEBBLES.get(),
                 translatedLines(
-                        "jei.floraexpansion.pebble_patch.info.1",
-                        "jei.floraexpansion.pebble_patch.info.2",
-                        "jei.floraexpansion.pebble_patch.info.3"
+                        "jei.floraexpansion.scattered_pebbles.info.1",
+                        "jei.floraexpansion.scattered_pebbles.info.2",
+                        "jei.floraexpansion.scattered_pebbles.info.3"
                 )
         );
 
@@ -120,12 +114,12 @@ public final class FloraExpansionJeiPlugin implements IModPlugin {
         );
 
         registration.addIngredientInfo(
-                ModBlocks.FRUITING_CHERRY_LEAVES.get(),
+                ModBlocks.ORCHARD_CHERRY_LEAVES.get(),
                 translatedLines(
-                        "jei.floraexpansion.fruiting_cherry_leaves.info.1",
-                        "jei.floraexpansion.fruiting_cherry_leaves.info.2",
-                        "jei.floraexpansion.fruiting_cherry_leaves.info.3",
-                        "jei.floraexpansion.fruiting_cherry_leaves.info.4"
+                        "jei.floraexpansion.orchard_cherry_leaves.info.1",
+                        "jei.floraexpansion.orchard_cherry_leaves.info.2",
+                        "jei.floraexpansion.orchard_cherry_leaves.info.3",
+                        "jei.floraexpansion.orchard_cherry_leaves.info.4"
                 )
         );
 
@@ -154,11 +148,11 @@ public final class FloraExpansionJeiPlugin implements IModPlugin {
         );
 
         registration.addIngredientInfo(
-                ModBlocks.FRUITING_OAK_LEAVES.get(),
+                ModBlocks.APPLE_LEAVES.get(),
                 translatedLines(
-                        "jei.floraexpansion.fruiting_oak_leaves.info.1",
-                        "jei.floraexpansion.fruiting_oak_leaves.info.2",
-                        "jei.floraexpansion.fruiting_oak_leaves.info.3"
+                        "jei.floraexpansion.apple_leaves.info.1",
+                        "jei.floraexpansion.apple_leaves.info.2",
+                        "jei.floraexpansion.apple_leaves.info.3"
                 )
         );
 
@@ -179,18 +173,18 @@ public final class FloraExpansionJeiPlugin implements IModPlugin {
         );
 
         registration.addIngredientInfo(
-                ModBlocks.GIANT_CACTUS_BASE.get(),
+                ModBlocks.CACTUS_LOG.get(),
                 translatedLines(
-                        "jei.floraexpansion.giant_cactus_base.info.1",
-                        "jei.floraexpansion.giant_cactus_base.info.2"
+                        "jei.floraexpansion.cactus_log.info.1",
+                        "jei.floraexpansion.cactus_log.info.2"
                 )
         );
 
         registration.addIngredientInfo(
-                ModBlocks.GIANT_CACTUS_WOOD.get(),
+                ModBlocks.CACTUS_WOOD.get(),
                 translatedLines(
-                        "jei.floraexpansion.giant_cactus_wood.info.1",
-                        "jei.floraexpansion.giant_cactus_wood.info.2"
+                        "jei.floraexpansion.cactus_wood.info.1",
+                        "jei.floraexpansion.cactus_wood.info.2"
                 )
         );
 
@@ -204,64 +198,64 @@ public final class FloraExpansionJeiPlugin implements IModPlugin {
         );
 
         registration.addIngredientInfo(
-                ModBlocks.CACTUS_THORN.get(),
+                ModBlocks.CACTUS_SPINE.get(),
                 translatedLines(
-                        "jei.floraexpansion.cactus_thorn.info.1",
-                        "jei.floraexpansion.cactus_thorn.info.2"
+                        "jei.floraexpansion.cactus_spine.info.1",
+                        "jei.floraexpansion.cactus_spine.info.2"
                 )
         );
 
         registration.addIngredientInfo(
-                ModBlocks.GIANT_CACTUS_BLOSSOM.get(),
+                ModBlocks.GIANT_CACTUS_SHOOT.get(),
                 translatedLines(
-                        "jei.floraexpansion.giant_cactus_blossom.info.1",
-                        "jei.floraexpansion.giant_cactus_blossom.info.2",
-                        "jei.floraexpansion.giant_cactus_blossom.info.3"
+                        "jei.floraexpansion.giant_cactus_shoot.info.1",
+                        "jei.floraexpansion.giant_cactus_shoot.info.2",
+                        "jei.floraexpansion.giant_cactus_shoot.info.3"
                 )
         );
 
         registration.addIngredientInfo(
-                ModItems.CACTUS_HELMET.get(),
+                ModItems.SPIKED_LEATHER_HELMET.get(),
                 translatedLines(
-                        "jei.floraexpansion.cactus_armor.info.1",
-                        "jei.floraexpansion.cactus_armor.info.2",
-                        "jei.floraexpansion.cactus_armor.info.3"
+                        "jei.floraexpansion.spiked_leather_armor.info.1",
+                        "jei.floraexpansion.spiked_leather_armor.info.2",
+                        "jei.floraexpansion.spiked_leather_armor.info.3"
                 )
         );
 
         registration.addIngredientInfo(
-                ModItems.CACTUS_CHESTPLATE.get(),
+                ModItems.SPIKED_LEATHER_CHESTPLATE.get(),
                 translatedLines(
-                        "jei.floraexpansion.cactus_armor.info.1",
-                        "jei.floraexpansion.cactus_armor.info.2",
-                        "jei.floraexpansion.cactus_armor.info.3"
+                        "jei.floraexpansion.spiked_leather_armor.info.1",
+                        "jei.floraexpansion.spiked_leather_armor.info.2",
+                        "jei.floraexpansion.spiked_leather_armor.info.3"
                 )
         );
 
         registration.addIngredientInfo(
-                ModItems.CACTUS_LEGGINGS.get(),
+                ModItems.SPIKED_LEATHER_LEGGINGS.get(),
                 translatedLines(
-                        "jei.floraexpansion.cactus_armor.info.1",
-                        "jei.floraexpansion.cactus_armor.info.2",
-                        "jei.floraexpansion.cactus_armor.info.3"
+                        "jei.floraexpansion.spiked_leather_armor.info.1",
+                        "jei.floraexpansion.spiked_leather_armor.info.2",
+                        "jei.floraexpansion.spiked_leather_armor.info.3"
                 )
         );
 
         registration.addIngredientInfo(
-                ModItems.CACTUS_BOOTS.get(),
+                ModItems.SPIKED_LEATHER_BOOTS.get(),
                 translatedLines(
-                        "jei.floraexpansion.cactus_armor.info.1",
-                        "jei.floraexpansion.cactus_armor.info.2",
-                        "jei.floraexpansion.cactus_armor.info.3"
+                        "jei.floraexpansion.spiked_leather_armor.info.1",
+                        "jei.floraexpansion.spiked_leather_armor.info.2",
+                        "jei.floraexpansion.spiked_leather_armor.info.3"
                 )
         );
 
         registration.addIngredientInfo(
-                ModBlocks.CACTUS_CLUSTER.get(),
+                ModBlocks.SMALL_CACTUS.get(),
                 translatedLines(
-                        "jei.floraexpansion.cactus_cluster.info.1",
-                        "jei.floraexpansion.cactus_cluster.info.2",
-                        "jei.floraexpansion.cactus_cluster.info.3"
+                        "jei.floraexpansion.small_cactus.info.1",
+                        "jei.floraexpansion.small_cactus.info.2",
+                        "jei.floraexpansion.small_cactus.info.3"
                 )
         );
 
@@ -274,11 +268,11 @@ public final class FloraExpansionJeiPlugin implements IModPlugin {
         );
 
         registration.addIngredientInfo(
-                ModBlocks.OPUNTIA_CACTUS.get(),
+                ModBlocks.PRICKLY_PEAR_CACTUS.get(),
                 translatedLines(
-                        "jei.floraexpansion.opuntia_cactus.info.1",
-                        "jei.floraexpansion.opuntia_cactus.info.2",
-                        "jei.floraexpansion.opuntia_cactus.info.3"
+                        "jei.floraexpansion.prickly_pear_cactus.info.1",
+                        "jei.floraexpansion.prickly_pear_cactus.info.2",
+                        "jei.floraexpansion.prickly_pear_cactus.info.3"
                 )
         );
 
@@ -351,10 +345,10 @@ public final class FloraExpansionJeiPlugin implements IModPlugin {
         );
 
         registration.addIngredientInfo(
-                ModItems.EMPTY_JAR.get(),
+                ModItems.GLASS_JAR.get(),
                 translatedLines(
-                        "jei.floraexpansion.empty_jar.info.1",
-                        "jei.floraexpansion.empty_jar.info.2"
+                        "jei.floraexpansion.glass_jar.info.1",
+                        "jei.floraexpansion.glass_jar.info.2"
                 )
         );
 
@@ -379,46 +373,13 @@ public final class FloraExpansionJeiPlugin implements IModPlugin {
 
         if (!toHide.isEmpty()) {
             recipeManager.hideRecipes(RecipeTypes.ANVIL, toHide);
-            FloraExpansion.LOGGER.info("JEI: hid {} cactus armor + thorns anvil recipe(s).", toHide.size());
+            FloraExpansion.LOGGER.info("JEI: hid {} spiked leather armor + thorns anvil recipe(s).", toHide.size());
         }
     }
 
-    private static boolean shouldHideAnvilRecipe(Object recipe) {
-        List<ItemStack> leftStacks = new ArrayList<>();
-        List<ItemStack> rightStacks = new ArrayList<>();
-
-        extractInto(leftStacks, invokeNoArg(recipe, "getLeftInputs"));
-        extractInto(leftStacks, invokeNoArg(recipe, "getLeftInput"));
-        extractInto(leftStacks, invokeNoArg(recipe, "getBaseInputs"));
-        extractInto(leftStacks, invokeNoArg(recipe, "getBaseInput"));
-
-        extractInto(rightStacks, invokeNoArg(recipe, "getRightInputs"));
-        extractInto(rightStacks, invokeNoArg(recipe, "getRightInput"));
-        extractInto(rightStacks, invokeNoArg(recipe, "getExtraInputs"));
-        extractInto(rightStacks, invokeNoArg(recipe, "getAdditionInputs"));
-        extractInto(rightStacks, invokeNoArg(recipe, "getAdditionInput"));
-
-        extractInto(leftStacks, readField(recipe, "leftInputs"));
-        extractInto(leftStacks, readField(recipe, "leftInput"));
-        extractInto(leftStacks, readField(recipe, "baseInputs"));
-        extractInto(leftStacks, readField(recipe, "baseInput"));
-
-        extractInto(rightStacks, readField(recipe, "rightInputs"));
-        extractInto(rightStacks, readField(recipe, "rightInput"));
-        extractInto(rightStacks, readField(recipe, "extraInputs"));
-        extractInto(rightStacks, readField(recipe, "additionInputs"));
-        extractInto(rightStacks, readField(recipe, "additionInput"));
-
-        if (leftStacks.isEmpty() || rightStacks.isEmpty()) {
-            return false;
-        }
-
-        boolean leftHasCactusArmor = leftStacks.stream().anyMatch(CactusArmorItem::isCactusArmor);
-        if (!leftHasCactusArmor) {
-            return false;
-        }
-
-        return rightStacks.stream().anyMatch(FloraExpansionJeiPlugin::hasThorns);
+    private static boolean shouldHideAnvilRecipe(IJeiAnvilRecipe recipe) {
+        return recipe.getLeftInputs().stream().anyMatch(SpikedLeatherArmorItem::isSpikedLeatherArmor)
+                && recipe.getRightInputs().stream().anyMatch(FloraExpansionJeiPlugin::hasThorns);
     }
 
     private static boolean hasThorns(ItemStack stack) {
@@ -449,54 +410,6 @@ public final class FloraExpansionJeiPlugin implements IModPlugin {
         HolderLookup.RegistryLookup<Enchantment> lookup =
                 minecraft.level.registryAccess().lookupOrThrow(Registries.ENCHANTMENT);
         return lookup.getOrThrow(Enchantments.THORNS);
-    }
-
-    private static Object invokeNoArg(Object target, String methodName) {
-        try {
-            Method method = target.getClass().getMethod(methodName);
-            method.setAccessible(true);
-            return method.invoke(target);
-        } catch (ReflectiveOperationException ignored) {
-            return null;
-        }
-    }
-
-    private static Object readField(Object target, String fieldName) {
-        try {
-            Field field = target.getClass().getDeclaredField(fieldName);
-            field.setAccessible(true);
-            return field.get(target);
-        } catch (ReflectiveOperationException ignored) {
-            return null;
-        }
-    }
-
-    private static void extractInto(List<ItemStack> out, Object value) {
-        if (value == null) {
-            return;
-        }
-
-        switch (value) {
-            case ItemStack stack -> {
-                if (!stack.isEmpty()) {
-                    out.add(stack);
-                }
-            }
-            case Optional<?> optional -> optional.ifPresent(v -> extractInto(out, v));
-            case Collection<?> collection -> {
-                for (Object element : collection) {
-                    extractInto(out, element);
-                }
-            }
-            default -> {
-                if (value.getClass().isArray()) {
-                    int len = Array.getLength(value);
-                    for (int i = 0; i < len; i++) {
-                        extractInto(out, Array.get(value, i));
-                    }
-                }
-            }
-        }
     }
 
     private static Component[] translatedLines(String... keys) {

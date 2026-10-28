@@ -1,12 +1,10 @@
 package de.artemis.floraexpansion.common.block;
 
+import de.artemis.floraexpansion.common.util.PlantSoils;
 import de.artemis.floraexpansion.common.registry.ModBlocks;
 import de.artemis.floraexpansion.common.registry.ModItems;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.sounds.SoundEvents;
-import net.minecraft.sounds.SoundSource;
-import net.minecraft.tags.BlockTags;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
@@ -16,7 +14,6 @@ import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.BonemealableBlock;
 import net.minecraft.world.level.block.BushBlock;
 import net.minecraft.world.level.block.state.BlockState;
@@ -28,7 +25,7 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.NotNull;
 
-public class LargeBlueberryBushBlock extends BushBlock implements BonemealableBlock {
+public class LargeBlueberryBushBlock extends BushBlock implements BonemealableBlock, HarvestableBlock {
     public static final IntegerProperty AGE = SmallBlueberryBushBlock.AGE;
     public static final int MAX_AGE = 3;
     private static final int HARVESTABLE_AGE = 2;
@@ -44,7 +41,6 @@ public class LargeBlueberryBushBlock extends BushBlock implements BonemealableBl
         super(properties);
         this.registerDefaultState(this.stateDefinition.any().setValue(AGE, 0));
     }
-
 
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
@@ -64,13 +60,7 @@ public class LargeBlueberryBushBlock extends BushBlock implements BonemealableBl
 
     @Override
     protected boolean mayPlaceOn(@NotNull BlockState state, @NotNull BlockGetter level, @NotNull BlockPos pos) {
-        return state.is(BlockTags.DIRT)
-                || state.is(BlockTags.GRASS_BLOCKS)
-                || state.is(Blocks.PODZOL)
-                || state.is(Blocks.MYCELIUM)
-                || state.is(Blocks.FARMLAND)
-                || state.is(Blocks.MOSS_BLOCK)
-                || state.is(Blocks.ROOTED_DIRT);
+        return PlantSoils.supportsBlueberry(state);
     }
 
     @Override
@@ -107,6 +97,22 @@ public class LargeBlueberryBushBlock extends BushBlock implements BonemealableBl
     }
 
     @Override
+    public boolean canHarvest(BlockState state) {
+        return state.getValue(AGE) >= HARVESTABLE_AGE;
+    }
+
+    @Override
+    public ItemStack getHarvest(BlockState state, RandomSource random) {
+        int amount = 1 + random.nextInt(2);
+        return new ItemStack(ModItems.BLUEBERRIES.get(), state.getValue(AGE) == MAX_AGE ? amount * 2 : amount);
+    }
+
+    @Override
+    public BlockState getHarvestedState(BlockState state) {
+        return state.setValue(AGE, RESET_AGE);
+    }
+
+    @Override
     protected @NotNull InteractionResult useItemOn(@NotNull ItemStack stack, @NotNull BlockState state, @NotNull Level level, @NotNull BlockPos pos, @NotNull Player player, @NotNull net.minecraft.world.InteractionHand hand, @NotNull BlockHitResult hitResult) {
         if (state.getValue(AGE) < MAX_AGE && stack.is(Items.BONE_MEAL)) {
             return InteractionResult.PASS;
@@ -116,27 +122,8 @@ public class LargeBlueberryBushBlock extends BushBlock implements BonemealableBl
     }
 
     @Override
-    protected @NotNull InteractionResult useWithoutItem(@NotNull BlockState state, @NotNull Level level, @NotNull BlockPos pos, @NotNull Player player, @NotNull BlockHitResult hitResult) {
-        int age = state.getValue(AGE);
-        if (age < HARVESTABLE_AGE) {
-            return InteractionResult.PASS;
-        }
-
-        int amount = 1 + level.getRandom().nextInt(2);
-        if (age == MAX_AGE) {
-            amount *= 2;
-        }
-
-        if (!level.isClientSide()) {
-            popResource(level, pos, new ItemStack(ModItems.BLUEBERRIES.get(), amount));
-            level.playSound(null, pos, SoundEvents.SWEET_BERRY_BUSH_PICK_BERRIES, SoundSource.BLOCKS, 1.0F,
-                    0.8F + level.getRandom().nextFloat() * 0.4F);
-
-            BlockState resetState = state.setValue(AGE, RESET_AGE);
-            level.setBlock(pos, resetState, 2);
-            level.gameEvent(GameEvent.BLOCK_CHANGE, pos, GameEvent.Context.of(player, resetState));
-        }
-
-        return ((level.isClientSide() ? InteractionResult.SUCCESS : InteractionResult.SUCCESS_SERVER));
+    protected @NotNull InteractionResult useWithoutItem(@NotNull BlockState state, @NotNull Level level, @NotNull BlockPos pos,
+                                                        @NotNull Player player, @NotNull BlockHitResult hitResult) {
+        return harvest(state, level, pos, player);
     }
 }

@@ -1,11 +1,11 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_linen_block": {
+    "has_linen_bale": {
       "conditions": {
         "items": [
           {
-            "items": "floraexpansion:linen_block"
+            "items": "floraexpansion:linen_bale"
           }
         ]
       },
@@ -21,7 +21,7 @@
   "requirements": [
     [
       "has_the_recipe",
-      "has_linen_block"
+      "has_linen_bale"
     ]
   ],
   "rewards": {

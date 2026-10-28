@@ -86,6 +86,7 @@ sourceSets.main.resources {
 // Opt-in server regression suite; excluded from normal release builds.
 if (providers.gradleProperty('portTests').isPresent()) {
     sourceSets.main.java.srcDir 'src/gametest/java'
+    sourceSets.main.resources.srcDir 'src/gametest/resources'
 }
 
 configurations {
@@ -147,8 +148,10 @@ idea {
     }
 }
 
+def mainCompileClasspath = sourceSets.main.compileClasspath
 tasks.register('printCompileClasspath') {
+    inputs.files(mainCompileClasspath)
     doLast {
-        project.sourceSets.main.compileClasspath.files.each { println it.absolutePath }
+        mainCompileClasspath.files.each { println it.absolutePath }
     }
 }

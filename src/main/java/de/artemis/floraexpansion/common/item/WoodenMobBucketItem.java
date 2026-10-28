@@ -1,11 +1,7 @@
 package de.artemis.floraexpansion.common.item;
 
-import de.artemis.floraexpansion.common.registry.ModItems;
-import net.minecraft.advancements.triggers.CriteriaTriggers;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.stats.Stats;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.EntityType;
@@ -30,7 +26,7 @@ public class WoodenMobBucketItem extends MobBucketItem {
         ItemStack itemStack = player.getItemInHand(hand);
         BlockHitResult hitResult = getPlayerPOVHitResult(level, player, ClipContext.Fluid.NONE);
 
-        if (hitResult.getType() == HitResult.Type.MISS || hitResult.getType() != HitResult.Type.BLOCK) {
+        if (hitResult.getType() != HitResult.Type.BLOCK) {
             return InteractionResult.PASS;
         }
 
@@ -43,17 +39,6 @@ public class WoodenMobBucketItem extends MobBucketItem {
 
         BlockState blockState = level.getBlockState(blockPos);
         BlockPos placePos = canBlockContainFluid(player, level, blockPos, blockState) ? blockPos : relativePos;
-        if (!this.emptyContents(player, level, placePos, hitResult, itemStack)) {
-            return InteractionResult.FAIL;
-        }
-
-        this.checkExtraContent(player, level, itemStack, placePos);
-        if (!level.isClientSide() && player instanceof ServerPlayer serverPlayer) {
-            CriteriaTriggers.PLACED_BLOCK.trigger(serverPlayer, placePos, itemStack);
-        }
-
-        player.awardStat(Stats.ITEM_USED.get(this));
-        ItemStack emptiedResult = WoodenBucketUtil.damageInto(itemStack, player, ModItems.WOODEN_BUCKET.get());
-        return InteractionResult.SUCCESS.heldItemTransformedTo(emptiedResult);
+        return WoodenBucketUtil.emptyContents(this, level, player, itemStack, placePos, hitResult);
     }
 }

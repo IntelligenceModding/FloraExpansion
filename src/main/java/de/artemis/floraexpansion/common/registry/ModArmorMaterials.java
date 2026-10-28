@@ -16,10 +16,10 @@ public final class ModArmorMaterials {
     static ResourceKey<? extends Registry<EquipmentAsset>> ROOT_ID =
             ResourceKey.createRegistryKey(Identifier.withDefaultNamespace("equipment_asset"));
 
-    public static final ResourceKey<EquipmentAsset> CACTUS =
-            ResourceKey.create(ROOT_ID, Identifier.fromNamespaceAndPath(FloraExpansion.MODID, "cactus"));
+    public static final ResourceKey<EquipmentAsset> SPIKED_LEATHER =
+            ResourceKey.create(ROOT_ID, Identifier.fromNamespaceAndPath(FloraExpansion.MODID, "spiked_leather"));
 
-    public static final ArmorMaterial CACTUS_ARMOR_MATERIAL = new ArmorMaterial(
+    public static final ArmorMaterial SPIKED_LEATHER_ARMOR_MATERIAL = new ArmorMaterial(
             7,
             Util.make(new EnumMap<>(ArmorType.class), map -> {
                 map.put(ArmorType.BOOTS, 1);
@@ -32,8 +32,8 @@ public final class ModArmorMaterials {
             SoundEvents.ARMOR_EQUIP_LEATHER,
             0.0F,
             0.0F,
-            ModTags.Items.CACTUS_ARMOR_REPAIRABLE,
-            CACTUS
+            ModTags.Items.SPIKED_LEATHER_ARMOR_REPAIRABLE,
+            SPIKED_LEATHER
     );
 
     private ModArmorMaterials() {

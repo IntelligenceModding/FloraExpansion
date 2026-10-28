@@ -1,0 +1,36 @@
+{
+  "multipart": [
+    {
+      "apply": {
+        "model": "floraexpansion:block/small_cactus_1"
+      },
+      "when": {
+        "pickles": "1"
+      }
+    },
+    {
+      "apply": {
+        "model": "floraexpansion:block/small_cactus_2"
+      },
+      "when": {
+        "pickles": "2"
+      }
+    },
+    {
+      "apply": {
+        "model": "floraexpansion:block/small_cactus_3"
+      },
+      "when": {
+        "pickles": "3"
+      }
+    },
+    {
+      "apply": {
+        "model": "floraexpansion:block/small_cactus_4"
+      },
+      "when": {
+        "pickles": "4"
+      }
+    }
+  ]
+}

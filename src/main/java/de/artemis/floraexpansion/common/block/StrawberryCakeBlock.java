@@ -11,6 +11,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.CakeBlock;
 import net.minecraft.world.level.block.CandleBlock;
@@ -26,6 +27,9 @@ public class StrawberryCakeBlock extends CakeBlock {
         super(properties);
     }
 
+    static InteractionResult eatSlice(LevelAccessor level, BlockPos pos, BlockState state, Player player) {
+        return eat(level, pos, state, player);
+    }
 
     @Override
     protected @NotNull InteractionResult useItemOn(
@@ -35,7 +39,7 @@ public class StrawberryCakeBlock extends CakeBlock {
         if (stack.is(ItemTags.CANDLES) && state.getValue(BITES) == 0 && Block.byItem(item) instanceof CandleBlock candleBlock) {
             stack.consume(1, player);
             level.playSound(null, pos, SoundEvents.CAKE_ADD_CANDLE, SoundSource.BLOCKS, 1.0F, 1.0F);
-            level.setBlockAndUpdate(pos, StrawberryCandleCakeBlock.byCandle(candleBlock));
+            level.setBlockAndUpdate(pos, StrawberryCakeWithCandleBlock.byCandle(candleBlock));
             level.gameEvent(player, GameEvent.BLOCK_CHANGE, pos);
             player.awardStat(Stats.ITEM_USED.get(item));
             return InteractionResult.SUCCESS;

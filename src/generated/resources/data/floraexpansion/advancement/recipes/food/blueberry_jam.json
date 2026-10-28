@@ -11,11 +11,11 @@
       },
       "trigger": "minecraft:inventory_changed"
     },
-    "has_empty_jar": {
+    "has_glass_jar": {
       "conditions": {
         "items": [
           {
-            "items": "floraexpansion:empty_jar"
+            "items": "floraexpansion:glass_jar"
           }
         ]
       },
@@ -32,7 +32,7 @@
     [
       "has_the_recipe",
       "has_blueberries",
-      "has_empty_jar"
+      "has_glass_jar"
     ]
   ],
   "rewards": {

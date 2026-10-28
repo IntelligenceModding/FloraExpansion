@@ -99,7 +99,7 @@ public class FallingFruitParticle extends SingleQuadParticle {
         return SingleQuadParticle.Layer.TRANSLUCENT;
     }
 
-    public static void spawnFromFruitingLeaves(Level level, BlockPos pos, SimpleParticleType particleType) {
+    public static void spawnFromFruitLeaves(Level level, BlockPos pos, SimpleParticleType particleType) {
         RandomSource random = level.getRandom();
 
         if (level.isEmptyBlock(pos.below())) {

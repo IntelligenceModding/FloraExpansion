@@ -1,5 +1,6 @@
 package de.artemis.floraexpansion;
 
+import de.artemis.floraexpansion.common.migration.LegacyContentAliases;
 import de.artemis.floraexpansion.common.registry.ModBlocks;
 import de.artemis.floraexpansion.common.registry.ModBlockEntities;
 import de.artemis.floraexpansion.common.registry.ModEntityTypes;
@@ -15,35 +16,17 @@ import de.artemis.floraexpansion.common.registry.ModCreativeModeTabs;
 
 import com.mojang.logging.LogUtils;
 
-import net.minecraft.core.registries.Registries;
-import net.minecraft.world.item.CreativeModeTab;
 import net.neoforged.bus.api.IEventBus;
-import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.Mod;
-import net.neoforged.fml.ModContainer;
-import net.neoforged.neoforge.common.NeoForge;
-import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
-import net.neoforged.neoforge.event.server.ServerStartingEvent;
-import net.neoforged.neoforge.registries.DeferredRegister;
 
 @Mod(FloraExpansion.MODID)
 public class FloraExpansion {
     public static final String MODID = "floraexpansion";
     public static final Logger LOGGER = LogUtils.getLogger();
 
-    public static final DeferredRegister<CreativeModeTab> CREATIVE_MODE_TABS = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, MODID);
-    public static final DeferredRegister.Blocks BLOCKS = DeferredRegister.createBlocks(MODID);
-    public static final DeferredRegister.Items ITEMS = DeferredRegister.createItems(MODID);
-
-    public FloraExpansion(IEventBus modEventBus, ModContainer modContainer) {
-        modEventBus.addListener(this::addCreative);
+    public FloraExpansion(IEventBus modEventBus) {
+        LegacyContentAliases.register();
         modEventBus.addListener(ModPayloads::register);
-
-        NeoForge.EVENT_BUS.register(this);
-
-        CREATIVE_MODE_TABS.register(modEventBus);
-        BLOCKS.register(modEventBus);
-        ITEMS.register(modEventBus);
 
         ModItems.register(modEventBus);
         ModBlocks.register(modEventBus);
@@ -57,12 +40,4 @@ public class FloraExpansion {
         ModMenuTypes.register(modEventBus);
     }
 
-    private void addCreative(BuildCreativeModeTabContentsEvent event) {
-    }
-
-    @SubscribeEvent
-    public void onServerStarting(ServerStartingEvent event) {
-    }
 }
-
-

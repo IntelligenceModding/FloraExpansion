@@ -8,20 +8,20 @@ import net.minecraft.util.random.WeightedList;
 public class ModTreeGrowers {
     public static final TreeGrower CHERRY_PIT = new TreeGrower(
             "floraexpansion:cherry_pit",
-            WeightedList.of(ModTreeConfiguredFeatures.FRUITING_CHERRY_TREE_KEY),
+            WeightedList.of(ModTreeConfiguredFeatures.ORCHARD_CHERRY_TREE_KEY),
             WeightedList.of(),
-            WeightedList.of(ModTreeConfiguredFeatures.FRUITING_CHERRY_TREE_KEY),
-            ModTreeConfiguredFeatures.FRUITING_CHERRY_TREE_KEY
+            WeightedList.of(ModTreeConfiguredFeatures.ORCHARD_CHERRY_TREE_KEY),
+            ModTreeConfiguredFeatures.ORCHARD_CHERRY_TREE_KEY
     );
 
     public static final TreeGrower APPLE_CORE = new TreeGrower(
             "floraexpansion:apple_core",
-            WeightedList.of(new Weighted<>(ModTreeConfiguredFeatures.FRUITING_OAK_TREE_KEY, 85),
-                    new Weighted<>(ModTreeConfiguredFeatures.FANCY_FRUITING_OAK_TREE_KEY, 15)),
+            WeightedList.of(new Weighted<>(ModTreeConfiguredFeatures.APPLE_TREE_KEY, 85),
+                    new Weighted<>(ModTreeConfiguredFeatures.FANCY_APPLE_TREE_KEY, 15)),
             WeightedList.of(),
-            WeightedList.of(new Weighted<>(ModTreeConfiguredFeatures.FRUITING_OAK_TREE_KEY, 85),
-                    new Weighted<>(ModTreeConfiguredFeatures.FANCY_FRUITING_OAK_TREE_KEY, 15)),
-            ModTreeConfiguredFeatures.FRUITING_OAK_TREE_KEY
+            WeightedList.of(new Weighted<>(ModTreeConfiguredFeatures.APPLE_TREE_KEY, 85),
+                    new Weighted<>(ModTreeConfiguredFeatures.FANCY_APPLE_TREE_KEY, 15)),
+            ModTreeConfiguredFeatures.APPLE_TREE_KEY
     );
 
     private ModTreeGrowers() {

@@ -1,0 +1,118 @@
+{
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "condition": {
+            "type": "minecraft:all_of",
+            "terms": [
+              {
+                "type": "minecraft:match_block",
+                "blocks": "floraexpansion:small_cactus",
+                "state": {
+                  "pickles": "1"
+                }
+              },
+              {
+                "type": "minecraft:survives_explosion"
+              }
+            ]
+          },
+          "modifier": {
+            "type": "minecraft:set_count",
+            "count": 1
+          },
+          "name": "floraexpansion:small_cactus"
+        }
+      ],
+      "rolls": 1
+    },
+    {
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "condition": {
+            "type": "minecraft:all_of",
+            "terms": [
+              {
+                "type": "minecraft:match_block",
+                "blocks": "floraexpansion:small_cactus",
+                "state": {
+                  "pickles": "2"
+                }
+              },
+              {
+                "type": "minecraft:survives_explosion"
+              }
+            ]
+          },
+          "modifier": {
+            "type": "minecraft:set_count",
+            "count": 2
+          },
+          "name": "floraexpansion:small_cactus"
+        }
+      ],
+      "rolls": 1
+    },
+    {
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "condition": {
+            "type": "minecraft:all_of",
+            "terms": [
+              {
+                "type": "minecraft:match_block",
+                "blocks": "floraexpansion:small_cactus",
+                "state": {
+                  "pickles": "3"
+                }
+              },
+              {
+                "type": "minecraft:survives_explosion"
+              }
+            ]
+          },
+          "modifier": {
+            "type": "minecraft:set_count",
+            "count": 3
+          },
+          "name": "floraexpansion:small_cactus"
+        }
+      ],
+      "rolls": 1
+    },
+    {
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "condition": {
+            "type": "minecraft:all_of",
+            "terms": [
+              {
+                "type": "minecraft:match_block",
+                "blocks": "floraexpansion:small_cactus",
+                "state": {
+                  "pickles": "4"
+                }
+              },
+              {
+                "type": "minecraft:survives_explosion"
+              }
+            ]
+          },
+          "modifier": {
+            "type": "minecraft:set_count",
+            "count": 4
+          },
+          "name": "floraexpansion:small_cactus"
+        }
+      ],
+      "rolls": 1
+    }
+  ],
+  "random_sequence": "floraexpansion:blocks/small_cactus"
+}

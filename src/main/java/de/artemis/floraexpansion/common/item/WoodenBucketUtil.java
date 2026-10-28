@@ -1,6 +1,15 @@
 package de.artemis.floraexpansion.common.item;
 
+import de.artemis.floraexpansion.common.registry.ModItems;
+import net.minecraft.advancements.triggers.CriteriaTriggers;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.component.DataComponents;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.stats.Stats;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.item.BucketItem;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.player.Player;
@@ -15,6 +24,19 @@ public final class WoodenBucketUtil {
     private static final String LAVA_EXPIRE_TIME_KEY = "LavaExpireTime";
 
     private WoodenBucketUtil() {
+    }
+
+    public static InteractionResult emptyContents(BucketItem bucket, Level level, Player player, ItemStack stack,
+                                                   BlockPos placePos, BlockHitResult hitResult) {
+        if (!bucket.emptyContents(player, level, placePos, hitResult, stack)) {
+            return InteractionResult.FAIL;
+        }
+        bucket.checkExtraContent(player, level, stack, placePos);
+        if (!level.isClientSide() && player instanceof ServerPlayer serverPlayer) {
+            CriteriaTriggers.PLACED_BLOCK.trigger(serverPlayer, placePos, stack);
+        }
+        player.awardStat(Stats.ITEM_USED.get(bucket));
+        return InteractionResult.SUCCESS.heldItemTransformedTo(damageInto(stack, player, ModItems.WOODEN_BUCKET.get()));
     }
 
     public static ItemStack damageInto(ItemStack sourceStack, Player player, Item targetItem) {

@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    "floraexpansion:pebbles"
+  ],
+  "result": {
+    "id": "floraexpansion:scattered_pebbles"
+  }
+}

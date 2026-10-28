@@ -1,5 +1,6 @@
 package de.artemis.floraexpansion.common.block;
 
+import de.artemis.floraexpansion.common.util.InventoryUtils;
 import de.artemis.floraexpansion.common.block.entity.CrateBlockEntity;
 import de.artemis.floraexpansion.common.registry.ModItems;
 import net.minecraft.core.BlockPos;
@@ -58,7 +59,6 @@ public class CrateBlock extends BaseEntityBlock {
         this.registerDefaultState(this.stateDefinition.any().setValue(POWERED, false).setValue(PACKED, false));
     }
 
-
     @Override
     protected @NotNull InteractionResult useItemOn(@NotNull ItemStack stack, @NotNull BlockState state, @NotNull Level level, @NotNull BlockPos pos, @NotNull Player player, @NotNull net.minecraft.world.InteractionHand hand, @NotNull BlockHitResult hitResult) {
         if (state.getValue(POWERED)) {
@@ -112,7 +112,7 @@ public class CrateBlock extends BaseEntityBlock {
             }
 
             crate.recordInsertClick(player, referenceStack, level.getGameTime());
-            this.syncPlayerInventory(player);
+            InventoryUtils.syncPlayerInventory(player);
             level.playSound(null, pos, SoundEvents.ITEM_FRAME_ADD_ITEM, SoundSource.BLOCKS, 0.6F, 0.9F + level.getRandom().nextFloat() * 0.2F);
         }
 
@@ -167,7 +167,7 @@ public class CrateBlock extends BaseEntityBlock {
         int inserted = this.insertMatchingInventory(player, crate, referenceStack);
         if (inserted > 0) {
             crate.recordInsertClick(player, referenceStack, level.getGameTime());
-            this.syncPlayerInventory(player);
+            InventoryUtils.syncPlayerInventory(player);
             level.playSound(null, pos, SoundEvents.ITEM_FRAME_ADD_ITEM, SoundSource.BLOCKS, 0.6F, 0.9F + level.getRandom().nextFloat() * 0.2F);
         }
 
@@ -334,7 +334,7 @@ public class CrateBlock extends BaseEntityBlock {
             stack.shrink(1);
         }
 
-        this.syncPlayerInventory(player);
+        InventoryUtils.syncPlayerInventory(player);
         level.playSound(null, pos, SoundEvents.WOOL_PLACE, SoundSource.BLOCKS, 0.65F, 0.9F);
         return InteractionResult.CONSUME;
     }
@@ -343,7 +343,7 @@ public class CrateBlock extends BaseEntityBlock {
         level.setBlock(pos, state.setValue(PACKED, false), 3);
         if (!player.hasInfiniteMaterials()) {
             this.giveItemToPlayer(player, new ItemStack(ModItems.LINEN_THREAD.get()), preferredHand);
-            this.syncPlayerInventory(player);
+            InventoryUtils.syncPlayerInventory(player);
         }
 
         level.playSound(null, pos, SoundEvents.WOOL_BREAK, SoundSource.BLOCKS, 0.65F, 0.95F);
@@ -358,12 +358,6 @@ public class CrateBlock extends BaseEntityBlock {
                 0.5F,
                 locking ? 0.9F : 0.95F
         );
-    }
-
-    private void syncPlayerInventory(Player player) {
-        player.getInventory().setChanged();
-        player.inventoryMenu.broadcastChanges();
-        player.containerMenu.broadcastChanges();
     }
 
     private ItemStack createPackedCrateStack(@Nullable CrateBlockEntity crate, Level level) {
@@ -387,9 +381,7 @@ public class CrateBlock extends BaseEntityBlock {
             return;
         }
 
-        if (!player.getInventory().add(stack)) {
-            player.drop(stack, false, net.minecraft.util.Prediction.SERVER_ONLY);
-        }
+        InventoryUtils.giveOrDrop(player, stack);
     }
 
     public static boolean isPackedItem(ItemStack stack) {

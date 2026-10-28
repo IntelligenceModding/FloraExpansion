@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_needle_litter": {
+      "conditions": {
+        "items": [
+          {
+            "items": "floraexpansion:needle_litter"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipes": "floraexpansion:spruce_cone"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_needle_litter"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "floraexpansion:spruce_cone"
+    ]
+  }
+}

@@ -9,10 +9,11 @@ import de.artemis.floraexpansion.common.registry.ModEntityTypes;
 import de.artemis.floraexpansion.common.registry.ModMenuTypes;
 import de.artemis.floraexpansion.common.particle.FallingFruitParticle;
 import de.artemis.floraexpansion.common.particle.FlaxFlowerParticles;
-import de.artemis.floraexpansion.common.particle.PineLeafFluffParticles;
-import de.artemis.floraexpansion.common.particle.PineParticles;
+import de.artemis.floraexpansion.common.particle.NeedleFluffParticles;
+import de.artemis.floraexpansion.common.particle.NeedleParticles;
 import de.artemis.floraexpansion.common.registry.ModParticles;
 import net.minecraft.client.model.object.boat.BoatModel;
+import net.minecraft.client.renderer.entity.ThrownItemRenderer;
 import net.minecraft.client.renderer.blockentity.HangingSignRenderer;
 import net.minecraft.client.renderer.blockentity.StandingSignRenderer;
 import net.neoforged.api.distmarker.Dist;
@@ -32,8 +33,8 @@ public class FloraExpansionClient {
 
     @SubscribeEvent
     public static void registerParticleFactories(RegisterParticleProvidersEvent event) {
-        event.registerSpriteSet(ModParticles.PINE_LEAF_FLUFF_PARTICLES.get(), PineLeafFluffParticles.Provider::new);
-        event.registerSpriteSet(ModParticles.PINE_PARTICLES.get(), PineParticles.Provider::new);
+        event.registerSpriteSet(ModParticles.NEEDLE_FLUFF_PARTICLES.get(), NeedleFluffParticles.Provider::new);
+        event.registerSpriteSet(ModParticles.NEEDLE_PARTICLES.get(), NeedleParticles.Provider::new);
         event.registerSpriteSet(ModParticles.FLAX_FLOWER.get(), FlaxFlowerParticles.Provider::new);
         event.registerSpriteSet(ModParticles.FALLING_CHERRY.get(), FallingFruitParticle.Provider::new);
         event.registerSpriteSet(ModParticles.FALLING_APPLE.get(), FallingFruitParticle.Provider::new);
@@ -47,6 +48,8 @@ public class FloraExpansionClient {
 
     @SubscribeEvent
     public static void registerEntityRenderers(EntityRenderersEvent.RegisterRenderers event) {
+        event.registerEntityRenderer(ModEntityTypes.SPRUCE_CONE.get(), ThrownItemRenderer::new);
+        event.registerEntityRenderer(ModEntityTypes.PEBBLES.get(), ThrownItemRenderer::new);
         event.registerEntityRenderer(ModEntityTypes.CACTUS_BOAT.get(),
                 context -> new CactusBoatRenderer(context, false));
 
@@ -68,5 +71,3 @@ public class FloraExpansionClient {
         event.registerBlockEntityRenderer(ModBlockEntities.CRATE.get(), CrateBlockEntityRenderer::new);
     }
 }
-
-

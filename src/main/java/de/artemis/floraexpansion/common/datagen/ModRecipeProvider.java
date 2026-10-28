@@ -3,9 +3,7 @@ package de.artemis.floraexpansion.common.datagen;
 import de.artemis.floraexpansion.FloraExpansion;
 import de.artemis.floraexpansion.common.registry.ModBlocks;
 import de.artemis.floraexpansion.common.registry.ModItems;
-import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.data.PackOutput;
 import net.minecraft.data.recipes.*;
 import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
@@ -17,7 +15,6 @@ import net.minecraft.world.level.block.Blocks;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
-import java.util.concurrent.CompletableFuture;
 
 public class ModRecipeProvider extends RecipeProvider {
     public ModRecipeProvider(net.minecraft.data.worldgen.BootstrapContext<Recipe<?>> recipes,
@@ -28,7 +25,6 @@ public class ModRecipeProvider extends RecipeProvider {
     @Override
     protected void buildRecipes() {
         RecipeOutput recipeOutput = output;
-
 
         stairBuilder(ModBlocks.CACTUS_STAIRS.get(), Ingredient.of(ModBlocks.CACTUS_PLANKS.get()))
                 .unlockedBy(getHasName(ModBlocks.CACTUS_PLANKS.get()), has(ModBlocks.CACTUS_PLANKS.get()))
@@ -62,8 +58,8 @@ public class ModRecipeProvider extends RecipeProvider {
                 .unlockedBy(getHasName(ModBlocks.CACTUS_PLANKS.get()), has(ModBlocks.CACTUS_PLANKS.get()))
                 .save(recipeOutput);
 
-        hangingSignBuilder(ModItems.CACTUS_HANGING_SIGN.get(), Ingredient.of(ModBlocks.STRIPPED_GIANT_CACTUS_BASE.get()))
-                .unlockedBy(getHasName(ModBlocks.STRIPPED_GIANT_CACTUS_BASE.get()), has(ModBlocks.STRIPPED_GIANT_CACTUS_BASE.get()))
+        hangingSignBuilder(ModItems.CACTUS_HANGING_SIGN.get(), Ingredient.of(ModBlocks.STRIPPED_CACTUS_LOG.get()))
+                .unlockedBy(getHasName(ModBlocks.STRIPPED_CACTUS_LOG.get()), has(ModBlocks.STRIPPED_CACTUS_LOG.get()))
                 .save(recipeOutput);
 
         shapeless(RecipeCategory.TRANSPORTATION, ModItems.CACTUS_CHEST_BOAT.get())
@@ -72,18 +68,18 @@ public class ModRecipeProvider extends RecipeProvider {
                 .unlockedBy(getHasName(ModItems.CACTUS_BOAT.get()), has(ModItems.CACTUS_BOAT.get()))
                 .save(recipeOutput);
 
-        shaped(RecipeCategory.BUILDING_BLOCKS, ModBlocks.GIANT_CACTUS_WOOD.get(), 3)
+        shaped(RecipeCategory.BUILDING_BLOCKS, ModBlocks.CACTUS_WOOD.get(), 3)
                 .pattern("##")
                 .pattern("##")
-                .define('#', ModBlocks.GIANT_CACTUS_BASE.get())
-                .unlockedBy(getHasName(ModBlocks.GIANT_CACTUS_BASE.get()), has(ModBlocks.GIANT_CACTUS_BASE.get()))
+                .define('#', ModBlocks.CACTUS_LOG.get())
+                .unlockedBy(getHasName(ModBlocks.CACTUS_LOG.get()), has(ModBlocks.CACTUS_LOG.get()))
                 .save(recipeOutput);
 
-        shaped(RecipeCategory.BUILDING_BLOCKS, ModBlocks.STRIPPED_GIANT_CACTUS_WOOD.get(), 3)
+        shaped(RecipeCategory.BUILDING_BLOCKS, ModBlocks.STRIPPED_CACTUS_WOOD.get(), 3)
                 .pattern("##")
                 .pattern("##")
-                .define('#', ModBlocks.STRIPPED_GIANT_CACTUS_BASE.get())
-                .unlockedBy(getHasName(ModBlocks.STRIPPED_GIANT_CACTUS_BASE.get()), has(ModBlocks.STRIPPED_GIANT_CACTUS_BASE.get()))
+                .define('#', ModBlocks.STRIPPED_CACTUS_LOG.get())
+                .unlockedBy(getHasName(ModBlocks.STRIPPED_CACTUS_LOG.get()), has(ModBlocks.STRIPPED_CACTUS_LOG.get()))
                 .save(recipeOutput);
 
         shaped(RecipeCategory.TRANSPORTATION, ModItems.CACTUS_BOAT.get())
@@ -94,28 +90,28 @@ public class ModRecipeProvider extends RecipeProvider {
                 .save(recipeOutput);
 
         shapeless(RecipeCategory.BUILDING_BLOCKS, ModBlocks.CACTUS_PLANKS.get(), 4)
-                .requires(ModBlocks.GIANT_CACTUS_BASE.get())
-                .unlockedBy(getHasName(ModBlocks.GIANT_CACTUS_BASE.get()),
-                        has(ModBlocks.GIANT_CACTUS_BASE.get()))
-                .save(recipeOutput, modLoc("cactus_planks_from_giant_cactus_base"));
+                .requires(ModBlocks.CACTUS_LOG.get())
+                .unlockedBy(getHasName(ModBlocks.CACTUS_LOG.get()),
+                        has(ModBlocks.CACTUS_LOG.get()))
+                .save(recipeOutput, modLoc("cactus_planks_from_cactus_log"));
 
         shapeless(RecipeCategory.BUILDING_BLOCKS, ModBlocks.CACTUS_PLANKS.get(), 4)
-                .requires(ModBlocks.STRIPPED_GIANT_CACTUS_BASE.get())
-                .unlockedBy(getHasName(ModBlocks.STRIPPED_GIANT_CACTUS_BASE.get()),
-                        has(ModBlocks.STRIPPED_GIANT_CACTUS_BASE.get()))
-                .save(recipeOutput, modLoc("cactus_planks_from_stripped_giant_cactus_base"));
+                .requires(ModBlocks.STRIPPED_CACTUS_LOG.get())
+                .unlockedBy(getHasName(ModBlocks.STRIPPED_CACTUS_LOG.get()),
+                        has(ModBlocks.STRIPPED_CACTUS_LOG.get()))
+                .save(recipeOutput, modLoc("cactus_planks_from_stripped_cactus_log"));
 
         shapeless(RecipeCategory.BUILDING_BLOCKS, ModBlocks.CACTUS_PLANKS.get(), 4)
-                .requires(ModBlocks.GIANT_CACTUS_WOOD.get())
-                .unlockedBy(getHasName(ModBlocks.GIANT_CACTUS_WOOD.get()),
-                        has(ModBlocks.GIANT_CACTUS_WOOD.get()))
-                .save(recipeOutput, modLoc("cactus_planks_from_giant_cactus_wood"));
+                .requires(ModBlocks.CACTUS_WOOD.get())
+                .unlockedBy(getHasName(ModBlocks.CACTUS_WOOD.get()),
+                        has(ModBlocks.CACTUS_WOOD.get()))
+                .save(recipeOutput, modLoc("cactus_planks_from_cactus_wood"));
 
         shapeless(RecipeCategory.BUILDING_BLOCKS, ModBlocks.CACTUS_PLANKS.get(), 4)
-                .requires(ModBlocks.STRIPPED_GIANT_CACTUS_WOOD.get())
-                .unlockedBy(getHasName(ModBlocks.STRIPPED_GIANT_CACTUS_WOOD.get()),
-                        has(ModBlocks.STRIPPED_GIANT_CACTUS_WOOD.get()))
-                .save(recipeOutput, modLoc("cactus_planks_from_stripped_giant_cactus_wood"));
+                .requires(ModBlocks.STRIPPED_CACTUS_WOOD.get())
+                .unlockedBy(getHasName(ModBlocks.STRIPPED_CACTUS_WOOD.get()),
+                        has(ModBlocks.STRIPPED_CACTUS_WOOD.get()))
+                .save(recipeOutput, modLoc("cactus_planks_from_stripped_cactus_wood"));
 
         shapeless(RecipeCategory.BUILDING_BLOCKS, ModBlocks.CACTUS_PLANKS.get(), 4)
                 .requires(ModBlocks.GIANT_CACTUS_STEM.get(), 4)
@@ -136,44 +132,44 @@ public class ModRecipeProvider extends RecipeProvider {
                 .unlockedBy(getHasName(Items.STICK), has(Items.STICK))
                 .save(recipeOutput, modLoc("stick_from_giant_cactus_stem"));
 
-        shaped(RecipeCategory.COMBAT, ModItems.CACTUS_HELMET.get())
+        shaped(RecipeCategory.COMBAT, ModItems.SPIKED_LEATHER_HELMET.get())
                 .pattern("TDT")
                 .pattern(" H ")
                 .pattern("T T")
-                .define('T', ModBlocks.CACTUS_THORN.get())
+                .define('T', ModBlocks.CACTUS_SPINE.get())
                 .define('H', Items.LEATHER_HELMET)
                 .define('D', Items.DYE.green())
-                .unlockedBy(getHasName(ModBlocks.CACTUS_THORN.get()), has(ModBlocks.CACTUS_THORN.get()))
+                .unlockedBy(getHasName(ModBlocks.CACTUS_SPINE.get()), has(ModBlocks.CACTUS_SPINE.get()))
                 .save(recipeOutput);
 
-        shaped(RecipeCategory.COMBAT, ModItems.CACTUS_CHESTPLATE.get())
+        shaped(RecipeCategory.COMBAT, ModItems.SPIKED_LEATHER_CHESTPLATE.get())
                 .pattern("TDT")
                 .pattern("TCT")
                 .pattern("TTT")
-                .define('T', ModBlocks.CACTUS_THORN.get())
+                .define('T', ModBlocks.CACTUS_SPINE.get())
                 .define('C', Items.LEATHER_CHESTPLATE)
                 .define('D', Items.DYE.green())
-                .unlockedBy(getHasName(ModBlocks.CACTUS_THORN.get()), has(ModBlocks.CACTUS_THORN.get()))
+                .unlockedBy(getHasName(ModBlocks.CACTUS_SPINE.get()), has(ModBlocks.CACTUS_SPINE.get()))
                 .save(recipeOutput);
 
-        shaped(RecipeCategory.COMBAT, ModItems.CACTUS_LEGGINGS.get())
+        shaped(RecipeCategory.COMBAT, ModItems.SPIKED_LEATHER_LEGGINGS.get())
                 .pattern("TDT")
                 .pattern("TLT")
                 .pattern("T T")
-                .define('T', ModBlocks.CACTUS_THORN.get())
+                .define('T', ModBlocks.CACTUS_SPINE.get())
                 .define('L', Items.LEATHER_LEGGINGS)
                 .define('D', Items.DYE.green())
-                .unlockedBy(getHasName(ModBlocks.CACTUS_THORN.get()), has(ModBlocks.CACTUS_THORN.get()))
+                .unlockedBy(getHasName(ModBlocks.CACTUS_SPINE.get()), has(ModBlocks.CACTUS_SPINE.get()))
                 .save(recipeOutput);
 
-        shaped(RecipeCategory.COMBAT, ModItems.CACTUS_BOOTS.get())
+        shaped(RecipeCategory.COMBAT, ModItems.SPIKED_LEATHER_BOOTS.get())
                 .pattern("TDT")
                 .pattern(" B ")
                 .pattern("T T")
-                .define('T', ModBlocks.CACTUS_THORN.get())
+                .define('T', ModBlocks.CACTUS_SPINE.get())
                 .define('B', Items.LEATHER_BOOTS)
                 .define('D', Items.DYE.green())
-                .unlockedBy(getHasName(ModBlocks.CACTUS_THORN.get()), has(ModBlocks.CACTUS_THORN.get()))
+                .unlockedBy(getHasName(ModBlocks.CACTUS_SPINE.get()), has(ModBlocks.CACTUS_SPINE.get()))
                 .save(recipeOutput);
 
         shaped(RecipeCategory.BUILDING_BLOCKS, ModBlocks.CACTUS_MOSAIC.get(), 1)
@@ -218,8 +214,8 @@ public class ModRecipeProvider extends RecipeProvider {
 
         shaped(RecipeCategory.DECORATIONS, ModBlocks.LINEN_CARPET, 3)
                 .pattern("CC")
-                .define('C', ModBlocks.LINEN_BLOCK.get())
-                .unlockedBy("has_linen_block", has(ModBlocks.LINEN_BLOCK.get()))
+                .define('C', ModBlocks.LINEN_BALE.get())
+                .unlockedBy("has_linen_bale", has(ModBlocks.LINEN_BALE.get()))
                 .save(recipeOutput);
 
         shaped(RecipeCategory.DECORATIONS, Items.PAINTING)
@@ -227,33 +223,33 @@ public class ModRecipeProvider extends RecipeProvider {
                 .pattern("SLS")
                 .pattern("SSS")
                 .define('S', Items.STICK)
-                .define('L', ModBlocks.LINEN_BLOCK.get())
-                .unlockedBy("has_linen_block", has(ModBlocks.LINEN_BLOCK.get()))
-                .save(recipeOutput, modLoc("painting_from_linen_block"));
+                .define('L', ModBlocks.LINEN_BALE.get())
+                .unlockedBy("has_linen_bale", has(ModBlocks.LINEN_BALE.get()))
+                .save(recipeOutput, modLoc("painting_from_linen_bale"));
 
         shaped(RecipeCategory.DECORATIONS, Items.BANNER.white())
                 .pattern("LLL")
                 .pattern("LLL")
                 .pattern(" S ")
-                .define('L', ModBlocks.LINEN_BLOCK.get())
+                .define('L', ModBlocks.LINEN_BALE.get())
                 .define('S', Items.STICK)
-                .unlockedBy("has_linen_block", has(ModBlocks.LINEN_BLOCK.get()))
-                .save(recipeOutput, modLoc("white_banner_from_linen_block"));
+                .unlockedBy("has_linen_bale", has(ModBlocks.LINEN_BALE.get()))
+                .save(recipeOutput, modLoc("white_banner_from_linen_bale"));
 
         shaped(RecipeCategory.DECORATIONS, Items.BED.white())
                 .pattern("LLL")
                 .pattern("PPP")
-                .define('L', ModBlocks.LINEN_BLOCK.get())
+                .define('L', ModBlocks.LINEN_BALE.get())
                 .define('P', ItemTags.PLANKS)
-                .unlockedBy("has_linen_block", has(ModBlocks.LINEN_BLOCK.get()))
-                .save(recipeOutput, modLoc("white_bed_from_linen_block"));
+                .unlockedBy("has_linen_bale", has(ModBlocks.LINEN_BALE.get()))
+                .save(recipeOutput, modLoc("white_bed_from_linen_bale"));
 
-        shapeless(RecipeCategory.MISC, ModItems.PINE_CONE, 1)
-                .requires(ModBlocks.PINE_LITTER)
-                .unlockedBy("has_pine_litter", has(ModBlocks.PINE_LITTER))
+        shapeless(RecipeCategory.MISC, ModItems.SPRUCE_CONE, 1)
+                .requires(ModBlocks.NEEDLE_LITTER)
+                .unlockedBy("has_needle_litter", has(ModBlocks.NEEDLE_LITTER))
                 .save(recipeOutput);
 
-        shapeless(RecipeCategory.MISC, ModBlocks.PEBBLE_PATCH, 1)
+        shapeless(RecipeCategory.MISC, ModBlocks.SCATTERED_PEBBLES, 1)
                 .requires(ModItems.PEBBLES)
                 .unlockedBy("has_pebbles", has(ModItems.PEBBLES))
                 .save(recipeOutput);
@@ -263,9 +259,9 @@ public class ModRecipeProvider extends RecipeProvider {
                 .unlockedBy("has_flax_flower", has(ModItems.FLAX_FLOWER))
                 .save(recipeOutput, modLoc("light_blue_dye_from_flax_flower"));
 
-        shapeless(RecipeCategory.MISC, ModItems.PINE_NUTS, 2)
-                .requires(ModItems.PINE_CONE)
-                .unlockedBy("has_pine_cone", has(ModItems.PINE_CONE))
+        shapeless(RecipeCategory.MISC, ModItems.SPRUCE_NUTS, 2)
+                .requires(ModItems.SPRUCE_CONE)
+                .unlockedBy("has_spruce_cone", has(ModItems.SPRUCE_CONE))
                 .save(recipeOutput);
 
         shapeless(RecipeCategory.MISC, Items.STICK, 2)
@@ -273,18 +269,18 @@ public class ModRecipeProvider extends RecipeProvider {
                 .unlockedBy("has_twig", has(ModItems.TWIG))
                 .save(recipeOutput, modLoc("stick_from_twig"));
 
-        shapeless(RecipeCategory.MISC, ModItems.FOREST_SNACK, 3)
-                .requires(ModItems.TOASTED_PINE_NUTS)
+        shapeless(RecipeCategory.MISC, ModItems.TRAIL_MIX, 3)
+                .requires(ModItems.TOASTED_SPRUCE_NUTS)
                 .requires(Items.PUMPKIN_SEEDS)
                 .requires(Items.SWEET_BERRIES)
                 .requires(Items.HONEY_BOTTLE)
-                .unlockedBy("has_toasted_pine_nuts", has(ModItems.TOASTED_PINE_NUTS))
+                .unlockedBy("has_toasted_spruce_nuts", has(ModItems.TOASTED_SPRUCE_NUTS))
                 .unlockedBy("has_pumpkin_seeds", has(Items.PUMPKIN_SEEDS))
                 .unlockedBy("has_sweet_berries", has(Items.SWEET_BERRIES))
                 .unlockedBy("has_honey_bottle", has(Items.HONEY_BOTTLE))
                 .save(recipeOutput);
 
-        shapeless(RecipeCategory.MISC, ModItems.SWEET_BERRY_MIX, 3)
+        shapeless(RecipeCategory.MISC, ModItems.MIXED_BERRIES, 3)
                 .requires(Items.SWEET_BERRIES)
                 .requires(Items.GLOW_BERRIES)
                 .requires(ModItems.CHERRIES)
@@ -311,7 +307,7 @@ public class ModRecipeProvider extends RecipeProvider {
                 .unlockedBy("has_blueberries", has(ModItems.BLUEBERRIES.get()))
                 .save(recipeOutput);
 
-        shapeless(RecipeCategory.FOOD, ModItems.BLUEBERRY_PIE_SLICE.get(), 4)
+        shapeless(RecipeCategory.FOOD, ModItems.SLICE_OF_BLUEBERRY_PIE.get(), 4)
                 .requires(ModItems.BLUEBERRY_PIE.get())
                 .unlockedBy("has_blueberry_pie", has(ModItems.BLUEBERRY_PIE.get()))
                 .save(recipeOutput);
@@ -321,22 +317,22 @@ public class ModRecipeProvider extends RecipeProvider {
                 .unlockedBy("has_flax_fiber", has(ModItems.FLAX_FIBER))
                 .save(recipeOutput);
 
-        shapeless(RecipeCategory.MISC, ModItems.LINEN_CLOTH, 2)
+        shapeless(RecipeCategory.MISC, ModItems.LINEN_FABRIC, 2)
                 .requires(ModItems.LINEN_THREAD, 4)
                 .unlockedBy("has_linen_thread", has(ModItems.LINEN_THREAD))
                 .save(recipeOutput);
 
-        shapeless(RecipeCategory.MISC, ModBlocks.LINEN_BLOCK, 1)
-                .requires(ModItems.LINEN_CLOTH, 4)
-                .unlockedBy("has_linen_cloth", has(ModItems.LINEN_CLOTH))
+        shapeless(RecipeCategory.MISC, ModBlocks.LINEN_BALE, 1)
+                .requires(ModItems.LINEN_FABRIC, 4)
+                .unlockedBy("has_linen_fabric", has(ModItems.LINEN_FABRIC))
                 .save(recipeOutput);
 
         shapeless(RecipeCategory.MISC, ModItems.PEBBLES, 9)
-                .requires(ModBlocks.PEBBLE_BLOCK, 1)
-                .unlockedBy("has_pebble_block", has(ModBlocks.PEBBLE_BLOCK))
+                .requires(ModBlocks.PACKED_PEBBLES, 1)
+                .unlockedBy("has_packed_pebbles", has(ModBlocks.PACKED_PEBBLES))
                 .save(recipeOutput);
 
-        shapeless(RecipeCategory.MISC, ModBlocks.PEBBLE_BLOCK, 1)
+        shapeless(RecipeCategory.MISC, ModBlocks.PACKED_PEBBLES, 1)
                 .requires(ModItems.PEBBLES, 9)
                 .unlockedBy("has_pebbles", has(ModItems.PEBBLES))
                 .save(recipeOutput);
@@ -385,17 +381,17 @@ public class ModRecipeProvider extends RecipeProvider {
         shapeless(RecipeCategory.FOOD, ModItems.BLUEBERRY_JAM, 1)
                 .requires(ModItems.BLUEBERRIES.get(), 4)
                 .requires(Items.SUGAR)
-                .requires(ModItems.EMPTY_JAR.get())
+                .requires(ModItems.GLASS_JAR.get())
                 .unlockedBy("has_blueberries", has(ModItems.BLUEBERRIES.get()))
-                .unlockedBy("has_empty_jar", has(ModItems.EMPTY_JAR.get()))
+                .unlockedBy("has_glass_jar", has(ModItems.GLASS_JAR.get()))
                 .save(recipeOutput);
 
         shapeless(RecipeCategory.FOOD, ModItems.STRAWBERRY_JAM, 1)
                 .requires(ModItems.STRAWBERRY.get(), 4)
                 .requires(Items.SUGAR)
-                .requires(ModItems.EMPTY_JAR.get())
+                .requires(ModItems.GLASS_JAR.get())
                 .unlockedBy("has_strawberry", has(ModItems.STRAWBERRY.get()))
-                .unlockedBy("has_empty_jar", has(ModItems.EMPTY_JAR.get()))
+                .unlockedBy("has_glass_jar", has(ModItems.GLASS_JAR.get()))
                 .save(recipeOutput);
 
         shapeless(RecipeCategory.FOOD, ModBlocks.STRAWBERRY_CAKE.get())
@@ -405,7 +401,7 @@ public class ModRecipeProvider extends RecipeProvider {
                 .unlockedBy("has_strawberry", has(ModItems.STRAWBERRY.get()))
                 .save(recipeOutput);
 
-        shaped(RecipeCategory.MISC, ModItems.EMPTY_JAR.get(), 3)
+        shaped(RecipeCategory.MISC, ModItems.GLASS_JAR.get(), 3)
                 .pattern("G G")
                 .pattern("G G")
                 .pattern(" G ")
@@ -421,26 +417,26 @@ public class ModRecipeProvider extends RecipeProvider {
                 .save(recipeOutput);
 
         shapeless(RecipeCategory.MISC, Items.DYE.pink(), 1)
-                .requires(ModBlocks.GIANT_CACTUS_BLOSSOM.get())
-                .unlockedBy("has_giant_cactus_blossom", has(ModBlocks.GIANT_CACTUS_BLOSSOM.get()))
-                .save(recipeOutput, modLoc("pink_dye_from_giant_cactus_blossom"));
+                .requires(ModBlocks.GIANT_CACTUS_SHOOT.get())
+                .unlockedBy("has_giant_cactus_shoot", has(ModBlocks.GIANT_CACTUS_SHOOT.get()))
+                .save(recipeOutput, modLoc("pink_dye_from_giant_cactus_shoot"));
 
-        foodSmelting(recipeOutput, ModItems.PINE_NUTS.get(), ModItems.TOASTED_PINE_NUTS.get(), 0.1f, 100);
+        foodSmelting(recipeOutput, ModItems.SPRUCE_NUTS.get(), ModItems.TOASTED_SPRUCE_NUTS.get(), 0.1f, 100);
 
         SimpleCookingRecipeBuilder.smelting(
-                        Ingredient.of(ModBlocks.CACTUS_CLUSTER.get()),
+                        Ingredient.of(ModBlocks.SMALL_CACTUS.get()),
                         RecipeCategory.MISC,
                         CookingBookCategory.MISC,
                         Items.DYE.green(),
                         0.2f,
                         200
                 )
-                .unlockedBy("has_cactus_cluster", has(ModBlocks.CACTUS_CLUSTER.get()))
-                .save(recipeOutput, modLoc("green_dye_from_smelting_cactus_cluster"));
+                .unlockedBy("has_small_cactus", has(ModBlocks.SMALL_CACTUS.get()))
+                .save(recipeOutput, modLoc("green_dye_from_smelting_small_cactus"));
 
-        foodSmoking(recipeOutput, ModItems.PINE_NUTS.get(), ModItems.TOASTED_PINE_NUTS.get(), 0.1f, 50);
+        foodSmoking(recipeOutput, ModItems.SPRUCE_NUTS.get(), ModItems.TOASTED_SPRUCE_NUTS.get(), 0.1f, 50);
 
-        foodCampfireCooking(recipeOutput, ModItems.PINE_NUTS.get(), ModItems.TOASTED_PINE_NUTS.get(), 0.1f, 150);
+        foodCampfireCooking(recipeOutput, ModItems.SPRUCE_NUTS.get(), ModItems.TOASTED_SPRUCE_NUTS.get(), 0.1f, 150);
     }
 
     protected void oreSmelting(@NotNull RecipeOutput recipeOutput, List<ItemLike> ingredients, @NotNull RecipeCategory category, @NotNull ItemLike result, float experience, int cookingTime, @NotNull String group) {
@@ -482,4 +478,3 @@ public class ModRecipeProvider extends RecipeProvider {
         return ResourceKey.create(Registries.RECIPE, Identifier.fromNamespaceAndPath(FloraExpansion.MODID, path));
     }
 }
-

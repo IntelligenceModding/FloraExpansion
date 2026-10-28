@@ -14,45 +14,45 @@ import net.neoforged.neoforge.common.world.BiomeModifiers;
 import net.neoforged.neoforge.registries.NeoForgeRegistries;
 
 public class ModBiomeModifiers {
-    public static final ResourceKey<BiomeModifier> ADD_PINE_LITTER = registerKey("add_pine_litter");
+    public static final ResourceKey<BiomeModifier> ADD_NEEDLE_LITTER = registerKey("add_needle_litter");
     public static final ResourceKey<BiomeModifier> ADD_BLUEBERRY_BUSHES = registerKey("add_blueberry_bushes");
     public static final ResourceKey<BiomeModifier> ADD_WILD_FLAX = registerKey("add_wild_flax");
     public static final ResourceKey<BiomeModifier> ADD_WILD_STRAWBERRIES = registerKey("add_wild_strawberries");
     public static final ResourceKey<BiomeModifier> ADD_PEBBLE_CLUSTERS = registerKey("add_pebble_clusters");
-    public static final ResourceKey<BiomeModifier> ADD_FRUITING_CHERRY_TREES = registerKey("add_fruiting_cherry_trees");
-    public static final ResourceKey<BiomeModifier> ADD_FRUITING_OAK_TREES_SPARSE = registerKey("add_fruiting_oak_trees_sparse");
-    public static final ResourceKey<BiomeModifier> ADD_FRUITING_OAK_TREES_FOREST = registerKey("add_fruiting_oak_trees_forest");
-    public static final ResourceKey<BiomeModifier> ADD_FANCY_FRUITING_OAK_TREES_RARE = registerKey("add_fancy_fruiting_oak_trees_rare");
-    public static final ResourceKey<BiomeModifier> ADD_FANCY_FRUITING_OAK_TREES_JUNGLE = registerKey("add_fancy_fruiting_oak_trees_jungle");
-    public static final ResourceKey<BiomeModifier> ADD_FRUITING_OAK_TREES_DARK_FOREST = registerKey("add_fruiting_oak_trees_dark_forest");
+    public static final ResourceKey<BiomeModifier> ADD_ORCHARD_CHERRY_TREES = registerKey("add_orchard_cherry_trees");
+    public static final ResourceKey<BiomeModifier> ADD_APPLE_TREES_SPARSE = registerKey("add_apple_trees_sparse");
+    public static final ResourceKey<BiomeModifier> ADD_APPLE_TREES_FOREST = registerKey("add_apple_trees_forest");
+    public static final ResourceKey<BiomeModifier> ADD_FANCY_APPLE_TREES_RARE = registerKey("add_fancy_apple_trees_rare");
+    public static final ResourceKey<BiomeModifier> ADD_FANCY_APPLE_TREES_JUNGLE = registerKey("add_fancy_apple_trees_jungle");
+    public static final ResourceKey<BiomeModifier> ADD_APPLE_TREES_DARK_FOREST = registerKey("add_apple_trees_dark_forest");
     public static final ResourceKey<BiomeModifier> ADD_GIANT_CACTUS = registerKey("add_giant_cactus");
     public static final ResourceKey<BiomeModifier> ADD_FALLEN_GIANT_CACTUS = registerKey("add_fallen_giant_cactus");
-    public static final ResourceKey<BiomeModifier> ADD_CACTUS_CLUSTER = registerKey("add_cactus_cluster");
-    public static final ResourceKey<BiomeModifier> ADD_OPUNTIA_CACTUS = registerKey("add_opuntia_cactus");
+    public static final ResourceKey<BiomeModifier> ADD_SMALL_CACTUS = registerKey("add_small_cactus");
+    public static final ResourceKey<BiomeModifier> ADD_PRICKLY_PEAR_CACTUS = registerKey("add_prickly_pear_cactus");
 
     public static void bootstrap(BootstrapContext<BiomeModifier> context) {
         var placedFeatures = context.lookup(Registries.PLACED_FEATURE);
         var biomes = context.lookup(Registries.BIOME);
 
-        context.register(ADD_OPUNTIA_CACTUS, new BiomeModifiers.AddFeaturesBiomeModifier(
+        context.register(ADD_PRICKLY_PEAR_CACTUS, new BiomeModifiers.AddFeaturesBiomeModifier(
                 HolderSet.direct(
                         biomes.getOrThrow(Biomes.DESERT),
                         biomes.getOrThrow(Biomes.BADLANDS),
                         biomes.getOrThrow(Biomes.ERODED_BADLANDS),
                         biomes.getOrThrow(Biomes.WOODED_BADLANDS)
                 ),
-                HolderSet.direct(placedFeatures.getOrThrow(ModPlacedFeatures.OPUNTIA_CACTUS_PLACED_KEY)),
+                HolderSet.direct(placedFeatures.getOrThrow(ModPlacedFeatures.PRICKLY_PEAR_CACTUS_PLACED_KEY)),
                 GenerationStep.Decoration.VEGETAL_DECORATION
         ));
 
-        context.register(ADD_CACTUS_CLUSTER, new BiomeModifiers.AddFeaturesBiomeModifier(
+        context.register(ADD_SMALL_CACTUS, new BiomeModifiers.AddFeaturesBiomeModifier(
                 HolderSet.direct(
                         biomes.getOrThrow(Biomes.DESERT),
                         biomes.getOrThrow(Biomes.BADLANDS),
                         biomes.getOrThrow(Biomes.ERODED_BADLANDS),
                         biomes.getOrThrow(Biomes.WOODED_BADLANDS)
                 ),
-                HolderSet.direct(placedFeatures.getOrThrow(ModPlacedFeatures.CACTUS_CLUSTER_PLACED_KEY)),
+                HolderSet.direct(placedFeatures.getOrThrow(ModPlacedFeatures.SMALL_CACTUS_PLACED_KEY)),
                 GenerationStep.Decoration.VEGETAL_DECORATION
         ));
 
@@ -75,9 +75,9 @@ public class ModBiomeModifiers {
                 HolderSet.direct(placedFeatures.getOrThrow(ModPlacedFeatures.PEBBLE_CLUSTER_PLACED_KEY)),
                 GenerationStep.Decoration.LOCAL_MODIFICATIONS));
 
-        context.register(ADD_PINE_LITTER, new BiomeModifiers.AddFeaturesBiomeModifier(
+        context.register(ADD_NEEDLE_LITTER, new BiomeModifiers.AddFeaturesBiomeModifier(
                 biomes.getOrThrow(BiomeTags.IS_TAIGA),
-                HolderSet.direct(placedFeatures.getOrThrow(ModPlacedFeatures.PINE_LITTER_PLACED_KEY)),
+                HolderSet.direct(placedFeatures.getOrThrow(ModPlacedFeatures.NEEDLE_LITTER_PLACED_KEY)),
                 GenerationStep.Decoration.VEGETAL_DECORATION));
 
         context.register(ADD_BLUEBERRY_BUSHES, new BiomeModifiers.AddFeaturesBiomeModifier(
@@ -114,15 +114,15 @@ public class ModBiomeModifiers {
                 HolderSet.direct(placedFeatures.getOrThrow(ModPlacedFeatures.WILD_STRAWBERRY_PLACED_KEY)),
                 GenerationStep.Decoration.VEGETAL_DECORATION));
 
-        context.register(ADD_FRUITING_CHERRY_TREES, new BiomeModifiers.AddFeaturesBiomeModifier(
+        context.register(ADD_ORCHARD_CHERRY_TREES, new BiomeModifiers.AddFeaturesBiomeModifier(
                 HolderSet.direct(
                         biomes.getOrThrow(Biomes.CHERRY_GROVE)
                 ),
-                HolderSet.direct(placedFeatures.getOrThrow(ModPlacedFeatures.FRUITING_CHERRY_TREE_PLACED_KEY)),
+                HolderSet.direct(placedFeatures.getOrThrow(ModPlacedFeatures.ORCHARD_CHERRY_TREE_PLACED_KEY)),
                 GenerationStep.Decoration.VEGETAL_DECORATION
         ));
 
-        context.register(ADD_FRUITING_OAK_TREES_SPARSE, new BiomeModifiers.AddFeaturesBiomeModifier(
+        context.register(ADD_APPLE_TREES_SPARSE, new BiomeModifiers.AddFeaturesBiomeModifier(
                 HolderSet.direct(
                         biomes.getOrThrow(Biomes.PLAINS),
                         biomes.getOrThrow(Biomes.MEADOW),
@@ -130,21 +130,21 @@ public class ModBiomeModifiers {
                         biomes.getOrThrow(Biomes.SAVANNA),
                         biomes.getOrThrow(Biomes.WOODED_BADLANDS)
                 ),
-                HolderSet.direct(placedFeatures.getOrThrow(ModPlacedFeatures.FRUITING_OAK_SPARSE_PLACED_KEY)),
+                HolderSet.direct(placedFeatures.getOrThrow(ModPlacedFeatures.APPLE_SPARSE_PLACED_KEY)),
                 GenerationStep.Decoration.VEGETAL_DECORATION
         ));
 
-        context.register(ADD_FRUITING_OAK_TREES_FOREST, new BiomeModifiers.AddFeaturesBiomeModifier(
+        context.register(ADD_APPLE_TREES_FOREST, new BiomeModifiers.AddFeaturesBiomeModifier(
                 HolderSet.direct(
                         biomes.getOrThrow(Biomes.FOREST),
                         biomes.getOrThrow(Biomes.FLOWER_FOREST),
                         biomes.getOrThrow(Biomes.WINDSWEPT_FOREST)
                 ),
-                HolderSet.direct(placedFeatures.getOrThrow(ModPlacedFeatures.FRUITING_OAK_FOREST_PLACED_KEY)),
+                HolderSet.direct(placedFeatures.getOrThrow(ModPlacedFeatures.APPLE_FOREST_PLACED_KEY)),
                 GenerationStep.Decoration.VEGETAL_DECORATION
         ));
 
-        context.register(ADD_FANCY_FRUITING_OAK_TREES_RARE, new BiomeModifiers.AddFeaturesBiomeModifier(
+        context.register(ADD_FANCY_APPLE_TREES_RARE, new BiomeModifiers.AddFeaturesBiomeModifier(
                 HolderSet.direct(
                         biomes.getOrThrow(Biomes.PLAINS),
                         biomes.getOrThrow(Biomes.MEADOW),
@@ -154,25 +154,25 @@ public class ModBiomeModifiers {
                         biomes.getOrThrow(Biomes.SAVANNA),
                         biomes.getOrThrow(Biomes.WINDSWEPT_FOREST)
                 ),
-                HolderSet.direct(placedFeatures.getOrThrow(ModPlacedFeatures.FANCY_FRUITING_OAK_RARE_PLACED_KEY)),
+                HolderSet.direct(placedFeatures.getOrThrow(ModPlacedFeatures.FANCY_APPLE_RARE_PLACED_KEY)),
                 GenerationStep.Decoration.VEGETAL_DECORATION
         ));
 
-        context.register(ADD_FANCY_FRUITING_OAK_TREES_JUNGLE, new BiomeModifiers.AddFeaturesBiomeModifier(
+        context.register(ADD_FANCY_APPLE_TREES_JUNGLE, new BiomeModifiers.AddFeaturesBiomeModifier(
                 HolderSet.direct(
                         biomes.getOrThrow(Biomes.JUNGLE),
                         biomes.getOrThrow(Biomes.SPARSE_JUNGLE),
                         biomes.getOrThrow(Biomes.BAMBOO_JUNGLE)
                 ),
-                HolderSet.direct(placedFeatures.getOrThrow(ModPlacedFeatures.FANCY_FRUITING_OAK_JUNGLE_PLACED_KEY)),
+                HolderSet.direct(placedFeatures.getOrThrow(ModPlacedFeatures.FANCY_APPLE_JUNGLE_PLACED_KEY)),
                 GenerationStep.Decoration.VEGETAL_DECORATION
         ));
 
-        context.register(ADD_FRUITING_OAK_TREES_DARK_FOREST, new BiomeModifiers.AddFeaturesBiomeModifier(
+        context.register(ADD_APPLE_TREES_DARK_FOREST, new BiomeModifiers.AddFeaturesBiomeModifier(
                 HolderSet.direct(
                         biomes.getOrThrow(Biomes.DARK_FOREST)
                 ),
-                HolderSet.direct(placedFeatures.getOrThrow(ModPlacedFeatures.FRUITING_OAK_DARK_FOREST_PLACED_KEY)),
+                HolderSet.direct(placedFeatures.getOrThrow(ModPlacedFeatures.APPLE_DARK_FOREST_PLACED_KEY)),
                 GenerationStep.Decoration.VEGETAL_DECORATION
         ));
 

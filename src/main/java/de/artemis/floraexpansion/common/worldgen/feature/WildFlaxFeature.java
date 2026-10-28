@@ -2,7 +2,7 @@ package de.artemis.floraexpansion.common.worldgen.feature;
 
 import com.mojang.serialization.MapCodec;
 
-import de.artemis.floraexpansion.common.block.FlaxCropBlock;
+import de.artemis.floraexpansion.common.block.FlaxBlock;
 import de.artemis.floraexpansion.common.registry.ModBlocks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.RandomSource;
@@ -11,7 +11,6 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.chunk.ChunkGenerator;
-import org.jetbrains.annotations.NotNull;
 
 public class WildFlaxFeature implements Feature {
 
@@ -36,10 +35,10 @@ public class WildFlaxFeature implements Feature {
         else if (roll <= 7) age = 3;
         else age = 4;
 
-        BlockState lower = ModBlocks.FLAX_CROP.get().defaultBlockState()
-                .setValue(FlaxCropBlock.WILD, true)
-                .setValue(FlaxCropBlock.HALF, DoubleBlockHalf.LOWER)
-                .setValue(FlaxCropBlock.AGE, age);
+        BlockState lower = ModBlocks.FLAX.get().defaultBlockState()
+                .setValue(FlaxBlock.WILD, true)
+                .setValue(FlaxBlock.HALF, DoubleBlockHalf.LOWER)
+                .setValue(FlaxBlock.AGE, age);
 
         if (!lower.canSurvive(level, pos)) {
             return false;
@@ -52,10 +51,10 @@ public class WildFlaxFeature implements Feature {
                 return false;
             }
 
-            BlockState upper = ModBlocks.FLAX_CROP.get().defaultBlockState()
-                    .setValue(FlaxCropBlock.WILD, true)
-                    .setValue(FlaxCropBlock.HALF, DoubleBlockHalf.UPPER)
-                    .setValue(FlaxCropBlock.AGE, age);
+            BlockState upper = ModBlocks.FLAX.get().defaultBlockState()
+                    .setValue(FlaxBlock.WILD, true)
+                    .setValue(FlaxBlock.HALF, DoubleBlockHalf.UPPER)
+                    .setValue(FlaxBlock.AGE, age);
 
             level.setBlock(pos, lower, 2);
             level.setBlock(above, upper, 2);

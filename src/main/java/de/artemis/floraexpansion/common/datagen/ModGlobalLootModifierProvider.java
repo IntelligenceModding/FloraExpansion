@@ -8,6 +8,9 @@ import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.ItemLike;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.world.level.storage.loot.predicates.MatchBlock;
 import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
 import net.minecraft.world.level.storage.loot.predicates.LootItemRandomChanceCondition;
@@ -23,239 +26,102 @@ public class ModGlobalLootModifierProvider extends GlobalLootModifierProvider {
 
     @Override
     protected void start() {
-        this.add("pine_cone_to_spruce_leaves",
-                new AddItemModifier(new LootItemCondition[]{
-                        MatchBlock.blockMatches(registries.lookupOrThrow(net.minecraft.core.registries.Registries.BLOCK), Blocks.SPRUCE_LEAVES).build(),
-                        LootItemRandomChanceCondition.randomChance(0.2f).build()
-                }, ModItems.PINE_CONE.get()));
+        addFromBlock("spruce_cone_to_spruce_leaves", Blocks.SPRUCE_LEAVES, 0.2f, ModItems.SPRUCE_CONE.get());
 
-        this.add("pine_litter_to_spruce_leaves",
-                new AddItemModifier(new LootItemCondition[]{
-                        MatchBlock.blockMatches(registries.lookupOrThrow(net.minecraft.core.registries.Registries.BLOCK), Blocks.SPRUCE_LEAVES).build(),
-                        LootItemRandomChanceCondition.randomChance(0.1f).build()
-                }, ModBlocks.PINE_LITTER.get().asItem()));
+        addFromBlock("needle_litter_to_spruce_leaves", Blocks.SPRUCE_LEAVES, 0.1f, ModBlocks.NEEDLE_LITTER.get().asItem());
 
-        this.add("flax_seed_from_abandoned_mineshaft",
-                new AddItemModifier(new LootItemCondition[]{
-                        LootTableIdCondition.builder(Identifier.fromNamespaceAndPath("minecraft", "chests/abandoned_mineshaft")).build(),
-                        LootItemRandomChanceCondition.randomChance(0.27314936f).build()
-                }, ModItems.FLAX_SEED.get(), 2, 4));
+        addFromLootTable("flax_seeds_from_abandoned_mineshaft", "chests/abandoned_mineshaft", 0.27314936f, ModItems.FLAX_SEEDS.get(), 2, 4);
 
-        this.add("flax_seed_from_simple_dungeon",
-                new AddItemModifier(new LootItemCondition[]{
-                        LootTableIdCondition.builder(Identifier.fromNamespaceAndPath("minecraft", "chests/simple_dungeon")).build(),
-                        LootItemRandomChanceCondition.randomChance(0.18462976f).build()
-                }, ModItems.FLAX_SEED.get(), 2, 4));
+        addFromLootTable("flax_seeds_from_simple_dungeon", "chests/simple_dungeon", 0.18462976f, ModItems.FLAX_SEEDS.get(), 2, 4);
 
-        this.add("flax_seed_from_village_taiga_house",
-                new AddItemModifier(new LootItemCondition[]{
-                        LootTableIdCondition.builder(Identifier.fromNamespaceAndPath("minecraft", "chests/village/village_taiga_house")).build(),
-                        LootItemRandomChanceCondition.randomChance(0.406f).build()
-                }, ModItems.FLAX_SEED.get(), 1, 5));
+        addFromLootTable("flax_seeds_from_village_taiga_house", "chests/village/village_taiga_house", 0.406f, ModItems.FLAX_SEEDS.get(), 1, 5);
 
-        this.add("flax_seed_from_village_plains_house",
-                new AddItemModifier(new LootItemCondition[]{
-                        LootTableIdCondition.builder(Identifier.fromNamespaceAndPath("minecraft", "chests/village/village_plains_house")).build(),
-                        LootItemRandomChanceCondition.randomChance(0.575f).build()
-                }, ModItems.FLAX_SEED.get(), 1, 3));
+        addFromLootTable("flax_seeds_from_village_plains_house", "chests/village/village_plains_house", 0.575f, ModItems.FLAX_SEEDS.get(), 1, 3);
 
-        this.add("flax_seed_from_woodland_mansion",
-                new AddItemModifier(new LootItemCondition[]{
-                        LootTableIdCondition.builder(Identifier.fromNamespaceAndPath("minecraft", "chests/woodland_mansion")).build(),
-                        LootItemRandomChanceCondition.randomChance(0.12f).build()
-                }, ModItems.FLAX_SEED.get(), 2, 4));
+        addFromLootTable("flax_seeds_from_woodland_mansion", "chests/woodland_mansion", 0.12f, ModItems.FLAX_SEEDS.get(), 2, 4);
 
-        this.add("prickly_pear_from_desert_pyramid",
-                new AddItemModifier(new LootItemCondition[]{
-                        LootTableIdCondition.builder(Identifier.fromNamespaceAndPath("minecraft", "chests/desert_pyramid")).build(),
-                        LootItemRandomChanceCondition.randomChance(0.18f).build()
-                }, ModItems.PRICKLY_PEAR.get(), 2, 4));
+        addFromLootTable("prickly_pear_from_desert_pyramid", "chests/desert_pyramid", 0.18f, ModItems.PRICKLY_PEAR.get(), 2, 4);
 
-        this.add("cactus_thorn_from_desert_pyramid",
-                new AddItemModifier(new LootItemCondition[]{
-                        LootTableIdCondition.builder(Identifier.fromNamespaceAndPath("minecraft", "chests/desert_pyramid")).build(),
-                        LootItemRandomChanceCondition.randomChance(0.14f).build()
-                }, ModBlocks.CACTUS_THORN.get().asItem(), 1, 2));
+        addFromLootTable("cactus_spine_from_desert_pyramid", "chests/desert_pyramid", 0.14f, ModBlocks.CACTUS_SPINE.get().asItem(), 1, 2);
 
-        this.add("cactus_slice_from_desert_pyramid",
-                new AddItemModifier(new LootItemCondition[]{
-                        LootTableIdCondition.builder(Identifier.fromNamespaceAndPath("minecraft", "chests/desert_pyramid")).build(),
-                        LootItemRandomChanceCondition.randomChance(0.12f).build()
-                }, ModItems.CACTUS_SLICE.get(), 1, 2));
+        addFromLootTable("cactus_slice_from_desert_pyramid", "chests/desert_pyramid", 0.12f, ModItems.CACTUS_SLICE.get(), 1, 2);
 
-        this.add("cactus_juice_from_desert_pyramid",
-                new AddItemModifier(new LootItemCondition[]{
-                        LootTableIdCondition.builder(Identifier.fromNamespaceAndPath("minecraft", "chests/desert_pyramid")).build(),
-                        LootItemRandomChanceCondition.randomChance(0.07f).build()
-                }, ModItems.CACTUS_JUICE.get()));
+        addFromLootTable("cactus_juice_from_desert_pyramid", "chests/desert_pyramid", 0.07f, ModItems.CACTUS_JUICE.get());
 
-        this.add("cactus_mosaic_from_desert_pyramid",
-                new AddItemModifier(new LootItemCondition[]{
-                        LootTableIdCondition.builder(Identifier.fromNamespaceAndPath("minecraft", "chests/desert_pyramid")).build(),
-                        LootItemRandomChanceCondition.randomChance(0.05f).build()
-                }, ModBlocks.CACTUS_MOSAIC.get().asItem()));
+        addFromLootTable("cactus_mosaic_from_desert_pyramid", "chests/desert_pyramid", 0.05f, ModBlocks.CACTUS_MOSAIC.get().asItem());
 
-        this.add("cactus_helmet_from_desert_pyramid",
-                new AddItemModifier(new LootItemCondition[]{
-                        LootTableIdCondition.builder(Identifier.fromNamespaceAndPath("minecraft", "chests/desert_pyramid")).build(),
-                        LootItemRandomChanceCondition.randomChance(0.025f).build()
-                }, ModItems.CACTUS_HELMET.get()));
+        addFromLootTable("spiked_leather_helmet_from_desert_pyramid", "chests/desert_pyramid", 0.025f, ModItems.SPIKED_LEATHER_HELMET.get());
 
-        this.add("cactus_boots_from_desert_pyramid",
-                new AddItemModifier(new LootItemCondition[]{
-                        LootTableIdCondition.builder(Identifier.fromNamespaceAndPath("minecraft", "chests/desert_pyramid")).build(),
-                        LootItemRandomChanceCondition.randomChance(0.025f).build()
-                }, ModItems.CACTUS_BOOTS.get()));
+        addFromLootTable("spiked_leather_boots_from_desert_pyramid", "chests/desert_pyramid", 0.025f, ModItems.SPIKED_LEATHER_BOOTS.get());
 
-        this.add("cactus_thorn_from_desert_pyramid_archaeology",
-                new AddItemModifier(new LootItemCondition[]{
-                        LootTableIdCondition.builder(Identifier.fromNamespaceAndPath("minecraft", "archaeology/desert_pyramid")).build(),
-                        LootItemRandomChanceCondition.randomChance(0.05f).build()
-                }, ModBlocks.CACTUS_THORN.get().asItem()));
+        addFromLootTable("cactus_spine_from_desert_pyramid_archaeology", "archaeology/desert_pyramid", 0.05f, ModBlocks.CACTUS_SPINE.get().asItem());
 
-        this.add("giant_cactus_blossom_from_desert_pyramid_archaeology",
-                new AddItemModifier(new LootItemCondition[]{
-                        LootTableIdCondition.builder(Identifier.fromNamespaceAndPath("minecraft", "archaeology/desert_pyramid")).build(),
-                        LootItemRandomChanceCondition.randomChance(0.05f).build()
-                }, ModBlocks.GIANT_CACTUS_BLOSSOM.get().asItem()));
+        addFromLootTable("giant_cactus_shoot_from_desert_pyramid_archaeology", "archaeology/desert_pyramid", 0.05f, ModBlocks.GIANT_CACTUS_SHOOT.get().asItem());
 
-        this.add("prickly_pear_from_desert_pyramid_archaeology",
-                new AddItemModifier(new LootItemCondition[]{
-                        LootTableIdCondition.builder(Identifier.fromNamespaceAndPath("minecraft", "archaeology/desert_pyramid")).build(),
-                        LootItemRandomChanceCondition.randomChance(0.04f).build()
-                }, ModItems.PRICKLY_PEAR.get()));
+        addFromLootTable("prickly_pear_from_desert_pyramid_archaeology", "archaeology/desert_pyramid", 0.04f, ModItems.PRICKLY_PEAR.get());
 
-        this.add("cactus_slice_from_desert_pyramid_archaeology",
-                new AddItemModifier(new LootItemCondition[]{
-                        LootTableIdCondition.builder(Identifier.fromNamespaceAndPath("minecraft", "archaeology/desert_pyramid")).build(),
-                        LootItemRandomChanceCondition.randomChance(0.025f).build()
-                }, ModItems.CACTUS_SLICE.get()));
+        addFromLootTable("cactus_slice_from_desert_pyramid_archaeology", "archaeology/desert_pyramid", 0.025f, ModItems.CACTUS_SLICE.get());
 
-        this.add("cactus_mosaic_from_desert_pyramid_archaeology",
-                new AddItemModifier(new LootItemCondition[]{
-                        LootTableIdCondition.builder(Identifier.fromNamespaceAndPath("minecraft", "archaeology/desert_pyramid")).build(),
-                        LootItemRandomChanceCondition.randomChance(0.02f).build()
-                }, ModBlocks.CACTUS_MOSAIC.get().asItem()));
+        addFromLootTable("cactus_mosaic_from_desert_pyramid_archaeology", "archaeology/desert_pyramid", 0.02f, ModBlocks.CACTUS_MOSAIC.get().asItem());
 
-        this.add("prickly_pear_from_desert_well_archaeology",
-                new AddItemModifier(new LootItemCondition[]{
-                        LootTableIdCondition.builder(Identifier.fromNamespaceAndPath("minecraft", "archaeology/desert_well")).build(),
-                        LootItemRandomChanceCondition.randomChance(0.06f).build()
-                }, ModItems.PRICKLY_PEAR.get()));
+        addFromLootTable("prickly_pear_from_desert_well_archaeology", "archaeology/desert_well", 0.06f, ModItems.PRICKLY_PEAR.get());
 
-        this.add("giant_cactus_blossom_from_desert_well_archaeology",
-                new AddItemModifier(new LootItemCondition[]{
-                        LootTableIdCondition.builder(Identifier.fromNamespaceAndPath("minecraft", "archaeology/desert_well")).build(),
-                        LootItemRandomChanceCondition.randomChance(0.05f).build()
-                }, ModBlocks.GIANT_CACTUS_BLOSSOM.get().asItem()));
+        addFromLootTable("giant_cactus_shoot_from_desert_well_archaeology", "archaeology/desert_well", 0.05f, ModBlocks.GIANT_CACTUS_SHOOT.get().asItem());
 
-        this.add("cactus_thorn_from_desert_well_archaeology",
-                new AddItemModifier(new LootItemCondition[]{
-                        LootTableIdCondition.builder(Identifier.fromNamespaceAndPath("minecraft", "archaeology/desert_well")).build(),
-                        LootItemRandomChanceCondition.randomChance(0.02f).build()
-                }, ModBlocks.CACTUS_THORN.get().asItem()));
+        addFromLootTable("cactus_spine_from_desert_well_archaeology", "archaeology/desert_well", 0.02f, ModBlocks.CACTUS_SPINE.get().asItem());
 
-        this.add("prickly_pear_from_village_desert_house",
-                new AddItemModifier(new LootItemCondition[]{
-                        LootTableIdCondition.builder(Identifier.fromNamespaceAndPath("minecraft", "chests/village/village_desert_house")).build(),
-                        LootItemRandomChanceCondition.randomChance(0.25f).build()
-                }, ModItems.PRICKLY_PEAR.get(), 1, 3));
+        addFromLootTable("prickly_pear_from_village_desert_house", "chests/village/village_desert_house", 0.25f, ModItems.PRICKLY_PEAR.get(), 1, 3);
 
-        this.add("cactus_slice_from_village_desert_house",
-                new AddItemModifier(new LootItemCondition[]{
-                        LootTableIdCondition.builder(Identifier.fromNamespaceAndPath("minecraft", "chests/village/village_desert_house")).build(),
-                        LootItemRandomChanceCondition.randomChance(0.18f).build()
-                }, ModItems.CACTUS_SLICE.get(), 1, 2));
+        addFromLootTable("cactus_slice_from_village_desert_house", "chests/village/village_desert_house", 0.18f, ModItems.CACTUS_SLICE.get(), 1, 2);
 
-        this.add("cactus_juice_from_village_desert_house",
-                new AddItemModifier(new LootItemCondition[]{
-                        LootTableIdCondition.builder(Identifier.fromNamespaceAndPath("minecraft", "chests/village/village_desert_house")).build(),
-                        LootItemRandomChanceCondition.randomChance(0.08f).build()
-                }, ModItems.CACTUS_JUICE.get()));
+        addFromLootTable("cactus_juice_from_village_desert_house", "chests/village/village_desert_house", 0.08f, ModItems.CACTUS_JUICE.get());
 
-        this.add("giant_cactus_blossom_from_village_desert_house",
-                new AddItemModifier(new LootItemCondition[]{
-                        LootTableIdCondition.builder(Identifier.fromNamespaceAndPath("minecraft", "chests/village/village_desert_house")).build(),
-                        LootItemRandomChanceCondition.randomChance(0.06f).build()
-                }, ModBlocks.GIANT_CACTUS_BLOSSOM.get().asItem()));
+        addFromLootTable("giant_cactus_shoot_from_village_desert_house", "chests/village/village_desert_house", 0.06f, ModBlocks.GIANT_CACTUS_SHOOT.get().asItem());
 
-        this.add("cactus_mosaic_from_village_desert_house",
-                new AddItemModifier(new LootItemCondition[]{
-                        LootTableIdCondition.builder(Identifier.fromNamespaceAndPath("minecraft", "chests/village/village_desert_house")).build(),
-                        LootItemRandomChanceCondition.randomChance(0.03f).build()
-                }, ModBlocks.CACTUS_MOSAIC.get().asItem()));
+        addFromLootTable("cactus_mosaic_from_village_desert_house", "chests/village/village_desert_house", 0.03f, ModBlocks.CACTUS_MOSAIC.get().asItem());
 
-        this.add("cactus_thorn_from_village_toolsmith",
-                new AddItemModifier(new LootItemCondition[]{
-                        LootTableIdCondition.builder(Identifier.fromNamespaceAndPath("minecraft", "chests/village/village_toolsmith")).build(),
-                        LootItemRandomChanceCondition.randomChance(0.16f).build()
-                }, ModBlocks.CACTUS_THORN.get().asItem(), 1, 3));
+        addFromLootTable("cactus_spine_from_village_toolsmith", "chests/village/village_toolsmith", 0.16f, ModBlocks.CACTUS_SPINE.get().asItem(), 1, 3);
 
-        this.add("cactus_mosaic_from_village_toolsmith",
-                new AddItemModifier(new LootItemCondition[]{
-                        LootTableIdCondition.builder(Identifier.fromNamespaceAndPath("minecraft", "chests/village/village_toolsmith")).build(),
-                        LootItemRandomChanceCondition.randomChance(0.05f).build()
-                }, ModBlocks.CACTUS_MOSAIC.get().asItem()));
+        addFromLootTable("cactus_mosaic_from_village_toolsmith", "chests/village/village_toolsmith", 0.05f, ModBlocks.CACTUS_MOSAIC.get().asItem());
 
-        this.add("cactus_helmet_from_village_toolsmith",
-                new AddItemModifier(new LootItemCondition[]{
-                        LootTableIdCondition.builder(Identifier.fromNamespaceAndPath("minecraft", "chests/village/village_toolsmith")).build(),
-                        LootItemRandomChanceCondition.randomChance(0.02f).build()
-                }, ModItems.CACTUS_HELMET.get()));
+        addFromLootTable("spiked_leather_helmet_from_village_toolsmith", "chests/village/village_toolsmith", 0.02f, ModItems.SPIKED_LEATHER_HELMET.get());
 
-        this.add("cactus_boots_from_village_toolsmith",
-                new AddItemModifier(new LootItemCondition[]{
-                        LootTableIdCondition.builder(Identifier.fromNamespaceAndPath("minecraft", "chests/village/village_toolsmith")).build(),
-                        LootItemRandomChanceCondition.randomChance(0.02f).build()
-                }, ModItems.CACTUS_BOOTS.get()));
+        addFromLootTable("spiked_leather_boots_from_village_toolsmith", "chests/village/village_toolsmith", 0.02f, ModItems.SPIKED_LEATHER_BOOTS.get());
 
-        this.add("cactus_thorn_from_village_weaponsmith",
-                new AddItemModifier(new LootItemCondition[]{
-                        LootTableIdCondition.builder(Identifier.fromNamespaceAndPath("minecraft", "chests/village/village_weaponsmith")).build(),
-                        LootItemRandomChanceCondition.randomChance(0.18f).build()
-                }, ModBlocks.CACTUS_THORN.get().asItem(), 1, 3));
+        addFromLootTable("cactus_spine_from_village_weaponsmith", "chests/village/village_weaponsmith", 0.18f, ModBlocks.CACTUS_SPINE.get().asItem(), 1, 3);
 
-        this.add("cactus_mosaic_from_village_weaponsmith",
-                new AddItemModifier(new LootItemCondition[]{
-                        LootTableIdCondition.builder(Identifier.fromNamespaceAndPath("minecraft", "chests/village/village_weaponsmith")).build(),
-                        LootItemRandomChanceCondition.randomChance(0.03f).build()
-                }, ModBlocks.CACTUS_MOSAIC.get().asItem()));
+        addFromLootTable("cactus_mosaic_from_village_weaponsmith", "chests/village/village_weaponsmith", 0.03f, ModBlocks.CACTUS_MOSAIC.get().asItem());
 
-        this.add("cactus_helmet_from_village_weaponsmith",
-                new AddItemModifier(new LootItemCondition[]{
-                        LootTableIdCondition.builder(Identifier.fromNamespaceAndPath("minecraft", "chests/village/village_weaponsmith")).build(),
-                        LootItemRandomChanceCondition.randomChance(0.015f).build()
-                }, ModItems.CACTUS_HELMET.get()));
+        addFromLootTable("spiked_leather_helmet_from_village_weaponsmith", "chests/village/village_weaponsmith", 0.015f, ModItems.SPIKED_LEATHER_HELMET.get());
 
-        this.add("cactus_boots_from_village_weaponsmith",
-                new AddItemModifier(new LootItemCondition[]{
-                        LootTableIdCondition.builder(Identifier.fromNamespaceAndPath("minecraft", "chests/village/village_weaponsmith")).build(),
-                        LootItemRandomChanceCondition.randomChance(0.02f).build()
-                }, ModItems.CACTUS_BOOTS.get()));
+        addFromLootTable("spiked_leather_boots_from_village_weaponsmith", "chests/village/village_weaponsmith", 0.02f, ModItems.SPIKED_LEATHER_BOOTS.get());
 
-        this.add("prickly_pear_from_abandoned_mineshaft",
-                new AddItemModifier(new LootItemCondition[]{
-                        LootTableIdCondition.builder(Identifier.fromNamespaceAndPath("minecraft", "chests/abandoned_mineshaft")).build(),
-                        LootItemRandomChanceCondition.randomChance(0.14f).build()
-                }, ModItems.PRICKLY_PEAR.get(), 1, 3));
+        addFromLootTable("prickly_pear_from_abandoned_mineshaft", "chests/abandoned_mineshaft", 0.14f, ModItems.PRICKLY_PEAR.get(), 1, 3);
 
-        this.add("cactus_slice_from_abandoned_mineshaft",
-                new AddItemModifier(new LootItemCondition[]{
-                        LootTableIdCondition.builder(Identifier.fromNamespaceAndPath("minecraft", "chests/abandoned_mineshaft")).build(),
-                        LootItemRandomChanceCondition.randomChance(0.12f).build()
-                }, ModItems.CACTUS_SLICE.get(), 1, 2));
+        addFromLootTable("cactus_slice_from_abandoned_mineshaft", "chests/abandoned_mineshaft", 0.12f, ModItems.CACTUS_SLICE.get(), 1, 2);
 
-        this.add("cactus_juice_from_abandoned_mineshaft",
-                new AddItemModifier(new LootItemCondition[]{
-                        LootTableIdCondition.builder(Identifier.fromNamespaceAndPath("minecraft", "chests/abandoned_mineshaft")).build(),
-                        LootItemRandomChanceCondition.randomChance(0.05f).build()
-                }, ModItems.CACTUS_JUICE.get()));
+        addFromLootTable("cactus_juice_from_abandoned_mineshaft", "chests/abandoned_mineshaft", 0.05f, ModItems.CACTUS_JUICE.get());
 
-        this.add("cactus_thorn_from_abandoned_mineshaft",
-                new AddItemModifier(new LootItemCondition[]{
-                        LootTableIdCondition.builder(Identifier.fromNamespaceAndPath("minecraft", "chests/abandoned_mineshaft")).build(),
-                        LootItemRandomChanceCondition.randomChance(0.11f).build()
-                }, ModBlocks.CACTUS_THORN.get().asItem(), 1, 2));
+        addFromLootTable("cactus_spine_from_abandoned_mineshaft", "chests/abandoned_mineshaft", 0.11f, ModBlocks.CACTUS_SPINE.get().asItem(), 1, 2);
+    }
+
+    private void addFromLootTable(String name, String lootTable, float chance, ItemLike item) {
+        addFromLootTable(name, lootTable, chance, item, 1, 1);
+    }
+
+    private void addFromLootTable(String name, String lootTable, float chance, ItemLike item, int minCount, int maxCount) {
+        addWithChance(name, LootTableIdCondition.builder(Identifier.withDefaultNamespace(lootTable)).build(),
+                chance, item, minCount, maxCount);
+    }
+
+    private void addFromBlock(String name, Block block, float chance, ItemLike item) {
+        addWithChance(name, MatchBlock.blockMatches(registries.lookupOrThrow(Registries.BLOCK), block).build(),
+                chance, item, 1, 1);
+    }
+
+    private void addWithChance(String name, LootItemCondition source, float chance, ItemLike item, int minCount, int maxCount) {
+        add(name, new AddItemModifier(new LootItemCondition[]{
+                source, LootItemRandomChanceCondition.randomChance(chance).build()
+        }, item.asItem(), minCount, maxCount));
     }
 }
-

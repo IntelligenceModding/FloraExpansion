@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "floraexpansion:item/spiked_leather_leggings",
+    "layer1": "floraexpansion:item/spiked_leather_leggings_overlay"
+  }
+}

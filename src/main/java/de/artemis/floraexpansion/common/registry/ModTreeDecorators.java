@@ -6,8 +6,8 @@ import net.minecraft.world.level.levelgen.feature.treedecorators.TreeDecoratorTy
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import net.neoforged.neoforge.registries.DeferredHolder;
-import de.artemis.floraexpansion.common.worldgen.treedecorator.FruitingCherryLeavesDecorator;
-import de.artemis.floraexpansion.common.worldgen.treedecorator.FruitingOakLeavesDecorator;
+import de.artemis.floraexpansion.common.worldgen.treedecorator.OrchardCherryLeavesDecorator;
+import de.artemis.floraexpansion.common.worldgen.treedecorator.AppleLeavesDecorator;
 
 public class ModTreeDecorators {
 
@@ -15,13 +15,13 @@ public class ModTreeDecorators {
             DeferredRegister.create(Registries.TREE_DECORATOR_TYPE, FloraExpansion.MODID);
 
     @SuppressWarnings("Notnull")
-    public static final DeferredHolder<TreeDecoratorType<?>, @org.jetbrains.annotations.NotNull TreeDecoratorType<@org.jetbrains.annotations.NotNull FruitingCherryLeavesDecorator>> FRUITING_CHERRY_LEAVES_DECORATOR =
-            TREE_DECORATORS.register("fruiting_cherry_leaves_decorator",
-                    () -> new TreeDecoratorType<>(FruitingCherryLeavesDecorator.CODEC));
+    public static final DeferredHolder<TreeDecoratorType<?>, @org.jetbrains.annotations.NotNull TreeDecoratorType<@org.jetbrains.annotations.NotNull OrchardCherryLeavesDecorator>> ORCHARD_CHERRY_LEAVES_DECORATOR =
+            TREE_DECORATORS.register("orchard_cherry_leaves_decorator",
+                    () -> new TreeDecoratorType<>(OrchardCherryLeavesDecorator.CODEC));
 
-    public static final DeferredHolder<TreeDecoratorType<?>, @org.jetbrains.annotations.NotNull TreeDecoratorType<@org.jetbrains.annotations.NotNull FruitingOakLeavesDecorator>> FRUITING_OAK_LEAVES_DECORATOR =
-            TREE_DECORATORS.register("fruiting_oak_leaves_decorator",
-                    () -> new TreeDecoratorType<>(FruitingOakLeavesDecorator.CODEC));
+    public static final DeferredHolder<TreeDecoratorType<?>, @org.jetbrains.annotations.NotNull TreeDecoratorType<@org.jetbrains.annotations.NotNull AppleLeavesDecorator>> APPLE_LEAVES_DECORATOR =
+            TREE_DECORATORS.register("apple_leaves_decorator",
+                    () -> new TreeDecoratorType<>(AppleLeavesDecorator.CODEC));
 
     public static void register(IEventBus eventBus) {
         TREE_DECORATORS.register(eventBus);

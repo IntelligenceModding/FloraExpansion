@@ -1,8 +1,8 @@
 {
   "replace": false,
   "values": [
-    "floraexpansion:shepherd/2/linen_cloth_emerald",
-    "floraexpansion:shepherd/2/emerald_linen_block",
+    "floraexpansion:shepherd/2/linen_fabric_emerald",
+    "floraexpansion:shepherd/2/emerald_linen_bale",
     "floraexpansion:shepherd/2/emerald_linen_carpet"
   ]
 }

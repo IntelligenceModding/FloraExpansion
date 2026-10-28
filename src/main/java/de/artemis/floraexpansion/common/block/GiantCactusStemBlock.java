@@ -92,7 +92,7 @@ public class GiantCactusStemBlock extends Block {
 
         BlockPos flowerPos = top.above();
 
-        if (level.getBlockState(flowerPos).is(ModBlocks.GIANT_CACTUS_BLOSSOM.get())) {
+        if (level.getBlockState(flowerPos).is(ModBlocks.GIANT_CACTUS_SHOOT.get())) {
             return;
         }
 
@@ -104,7 +104,7 @@ public class GiantCactusStemBlock extends Block {
         BlockPos cursor = top;
         while (true) {
             BlockState check = level.getBlockState(cursor);
-            if (check.is(ModBlocks.GIANT_CACTUS_STEM.get()) || check.is(ModBlocks.GIANT_CACTUS_BASE.get())) {
+            if (check.is(ModBlocks.GIANT_CACTUS_STEM.get()) || check.is(ModBlocks.CACTUS_LOG.get())) {
                 totalHeight++;
                 cursor = cursor.below();
             } else {
@@ -123,7 +123,7 @@ public class GiantCactusStemBlock extends Block {
         if (random.nextFloat() < flowerChance) {
             level.setBlock(
                     flowerPos,
-                    GiantCactusBlossomBlock.withRandomVariant(ModBlocks.GIANT_CACTUS_BLOSSOM.get().defaultBlockState(), random),
+                    GiantCactusShootBlock.withRandomVariant(ModBlocks.GIANT_CACTUS_SHOOT.get().defaultBlockState(), random),
                     Block.UPDATE_ALL
             );
             return;
@@ -137,10 +137,10 @@ public class GiantCactusStemBlock extends Block {
     @Override
     protected boolean canSurvive(@NotNull BlockState state, @NotNull LevelReader level, @NotNull BlockPos pos) {
         BlockState below = level.getBlockState(pos.below());
-        return below.is(ModBlocks.GIANT_CACTUS_BASE.get())
-                || below.is(ModBlocks.STRIPPED_GIANT_CACTUS_BASE.get())
-                || below.is(ModBlocks.GIANT_CACTUS_WOOD.get())
-                || below.is(ModBlocks.STRIPPED_GIANT_CACTUS_WOOD.get())
+        return below.is(ModBlocks.CACTUS_LOG.get())
+                || below.is(ModBlocks.STRIPPED_CACTUS_LOG.get())
+                || below.is(ModBlocks.CACTUS_WOOD.get())
+                || below.is(ModBlocks.STRIPPED_CACTUS_WOOD.get())
                 || below.is(ModBlocks.GIANT_CACTUS_STEM.get());
     }
 
@@ -188,7 +188,7 @@ public class GiantCactusStemBlock extends Block {
         }
 
         BlockPos flowerPos = top.above();
-        if (level.getBlockState(flowerPos).is(ModBlocks.GIANT_CACTUS_BLOSSOM.get())) {
+        if (level.getBlockState(flowerPos).is(ModBlocks.GIANT_CACTUS_SHOOT.get())) {
             level.destroyBlock(flowerPos, true);
         }
 

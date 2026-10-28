@@ -7,10 +7,10 @@ import com.mojang.serialization.MapCodec;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import de.artemis.floraexpansion.common.worldgen.feature.BlueberryBushPatchFeature;
-import de.artemis.floraexpansion.common.worldgen.feature.CactusClusterFeature;
+import de.artemis.floraexpansion.common.worldgen.feature.SmallCactusFeature;
 import de.artemis.floraexpansion.common.worldgen.feature.FallenGiantCactusFeature;
 import de.artemis.floraexpansion.common.worldgen.feature.GiantCactusFeature;
-import de.artemis.floraexpansion.common.worldgen.feature.OpuntiaCactusFeature;
+import de.artemis.floraexpansion.common.worldgen.feature.PricklyPearCactusFeature;
 import de.artemis.floraexpansion.common.worldgen.feature.PebbleClusterFeature;
 import de.artemis.floraexpansion.common.worldgen.feature.WildFlaxFeature;
 import de.artemis.floraexpansion.common.worldgen.feature.WildStrawberryFeature;
@@ -45,13 +45,13 @@ public class ModFeatures {
             FEATURES.register("fallen_giant_cactus_feature",
                     () -> FallenGiantCactusFeature.CODEC);
 
-    public static final Supplier<MapCodec<CactusClusterFeature>> CACTUS_CLUSTER_FEATURE =
-            FEATURES.register("cactus_cluster_feature",
-                    () -> CactusClusterFeature.CODEC);
+    public static final Supplier<MapCodec<SmallCactusFeature>> SMALL_CACTUS_FEATURE =
+            FEATURES.register("small_cactus_feature",
+                    () -> SmallCactusFeature.CODEC);
 
-    public static final Supplier<MapCodec<OpuntiaCactusFeature>> OPUNTIA_CACTUS_FEATURE =
-            FEATURES.register("opuntia_cactus_feature",
-                    () -> OpuntiaCactusFeature.CODEC);
+    public static final Supplier<MapCodec<PricklyPearCactusFeature>> PRICKLY_PEAR_CACTUS_FEATURE =
+            FEATURES.register("prickly_pear_cactus_feature",
+                    () -> PricklyPearCactusFeature.CODEC);
 
     public static void register(IEventBus eventBus) {
         FEATURES.register(eventBus);

@@ -1,0 +1,18 @@
+{
+  "type": "floraexpansion:add_item",
+  "condition": {
+    "type": "minecraft:all_of",
+    "terms": [
+      {
+        "type": "neoforge:loot_table_id",
+        "loot_table_id": "minecraft:chests/village/village_plains_house"
+      },
+      {
+        "type": "minecraft:random_chance",
+        "chance": 0.575
+      }
+    ]
+  },
+  "item": "floraexpansion:flax_seeds",
+  "max_count": 3
+}

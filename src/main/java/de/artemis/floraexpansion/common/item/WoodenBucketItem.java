@@ -36,7 +36,7 @@ public class WoodenBucketItem extends BucketItem {
                 this.content == Fluids.EMPTY ? ClipContext.Fluid.SOURCE_ONLY : ClipContext.Fluid.NONE
         );
 
-        if (hitResult.getType() == HitResult.Type.MISS || hitResult.getType() != HitResult.Type.BLOCK) {
+        if (hitResult.getType() != HitResult.Type.BLOCK) {
             return InteractionResult.PASS;
         }
 
@@ -70,18 +70,7 @@ public class WoodenBucketItem extends BucketItem {
 
         BlockState blockState = level.getBlockState(blockPos);
         BlockPos placePos = canBlockContainFluid(player, level, blockPos, blockState) ? blockPos : relativePos;
-        if (!this.emptyContents(player, level, placePos, hitResult, itemStack)) {
-            return InteractionResult.FAIL;
-        }
-
-        this.checkExtraContent(player, level, itemStack, placePos);
-        if (!level.isClientSide() && player instanceof ServerPlayer serverPlayer) {
-            CriteriaTriggers.PLACED_BLOCK.trigger(serverPlayer, placePos, itemStack);
-        }
-
-        player.awardStat(Stats.ITEM_USED.get(this));
-        ItemStack emptiedResult = WoodenBucketUtil.damageInto(itemStack, player, ModItems.WOODEN_BUCKET.get());
-        return InteractionResult.SUCCESS.heldItemTransformedTo(emptiedResult);
+        return WoodenBucketUtil.emptyContents(this, level, player, itemStack, placePos, hitResult);
     }
 
     private ItemStack getFilledPickupResult(ItemStack sourceStack, Player player, Level level, ItemStack pickedUpStack) {

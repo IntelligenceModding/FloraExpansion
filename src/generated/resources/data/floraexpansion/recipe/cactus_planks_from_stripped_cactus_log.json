@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "building",
+  "ingredients": [
+    "floraexpansion:stripped_cactus_log"
+  ],
+  "result": {
+    "count": 4,
+    "id": "floraexpansion:cactus_planks"
+  }
+}

@@ -25,23 +25,23 @@ public class ModItemTagProvider extends ItemTagsProvider {
     @Override
     protected void addTags(HolderLookup.@NotNull Provider provider) {
         tag(ItemTags.CHICKEN_FOOD)
-                .add(ModItems.PINE_NUTS.key())
-                .add(ModItems.FLAX_SEED.key());
+                .add(ModItems.SPRUCE_NUTS.key())
+                .add(ModItems.FLAX_SEEDS.key());
 
         tag(ItemTags.PARROT_FOOD)
-                .add(ModItems.PINE_NUTS.key())
-                .add(ModItems.FLAX_SEED.key());
+                .add(ModItems.SPRUCE_NUTS.key())
+                .add(ModItems.FLAX_SEEDS.key());
 
         tag(ItemTags.PARROT_POISONOUS_FOOD)
-                .add(ModItems.TOASTED_PINE_NUTS.key());
+                .add(ModItems.TOASTED_SPRUCE_NUTS.key());
 
         tag(ItemTags.DAMPENS_VIBRATIONS)
-                .add(blockItemKey(ModBlocks.PINE_LITTER))
-                .add(blockItemKey(ModBlocks.LINEN_BLOCK))
+                .add(blockItemKey(ModBlocks.NEEDLE_LITTER))
+                .add(blockItemKey(ModBlocks.LINEN_BALE))
                 .add(blockItemKey(ModBlocks.LINEN_CARPET));
 
         tag(ItemTags.VILLAGER_PLANTABLE_SEEDS)
-                .add(ModItems.FLAX_SEED.key())
+                .add(ModItems.FLAX_SEEDS.key())
                 .add(ModItems.STRAWBERRY.key());
 
         tag(ItemTags.SAPLINGS)
@@ -49,10 +49,10 @@ public class ModItemTagProvider extends ItemTagsProvider {
                 .add(blockItemKey(ModBlocks.CHERRY_PIT));
 
         tag(ItemTags.LOGS_THAT_BURN)
-                .add(blockItemKey(ModBlocks.STRIPPED_GIANT_CACTUS_BASE))
-                .add(blockItemKey(ModBlocks.GIANT_CACTUS_BASE))
-                .add(blockItemKey(ModBlocks.STRIPPED_GIANT_CACTUS_WOOD))
-                .add(blockItemKey(ModBlocks.GIANT_CACTUS_WOOD));
+                .add(blockItemKey(ModBlocks.STRIPPED_CACTUS_LOG))
+                .add(blockItemKey(ModBlocks.CACTUS_LOG))
+                .add(blockItemKey(ModBlocks.STRIPPED_CACTUS_WOOD))
+                .add(blockItemKey(ModBlocks.CACTUS_WOOD));
 
         tag(ItemTags.PLANKS)
                 .add(blockItemKey(ModBlocks.CACTUS_PLANKS));
@@ -70,40 +70,40 @@ public class ModItemTagProvider extends ItemTagsProvider {
                 .add(ModItems.CACTUS_HANGING_SIGN.key());
 
         tag(ItemTags.ARMOR_ENCHANTABLE)
-                .add(ModItems.CACTUS_HELMET.key())
-                .add(ModItems.CACTUS_CHESTPLATE.key())
-                .add(ModItems.CACTUS_LEGGINGS.key())
-                .add(ModItems.CACTUS_BOOTS.key());
+                .add(ModItems.SPIKED_LEATHER_HELMET.key())
+                .add(ModItems.SPIKED_LEATHER_CHESTPLATE.key())
+                .add(ModItems.SPIKED_LEATHER_LEGGINGS.key())
+                .add(ModItems.SPIKED_LEATHER_BOOTS.key());
 
         tag(ItemTags.FIRE_ASPECT_ENCHANTABLE)
-                .add(ModItems.CACTUS_HELMET.key())
-                .add(ModItems.CACTUS_CHESTPLATE.key())
-                .add(ModItems.CACTUS_LEGGINGS.key())
-                .add(ModItems.CACTUS_BOOTS.key());
+                .add(ModItems.SPIKED_LEATHER_HELMET.key())
+                .add(ModItems.SPIKED_LEATHER_CHESTPLATE.key())
+                .add(ModItems.SPIKED_LEATHER_LEGGINGS.key())
+                .add(ModItems.SPIKED_LEATHER_BOOTS.key());
 
         tag(ItemTags.HEAD_ARMOR_ENCHANTABLE)
-                .add(ModItems.CACTUS_HELMET.key());
+                .add(ModItems.SPIKED_LEATHER_HELMET.key());
 
         tag(ItemTags.CHEST_ARMOR_ENCHANTABLE)
-                .add(ModItems.CACTUS_CHESTPLATE.key());
+                .add(ModItems.SPIKED_LEATHER_CHESTPLATE.key());
 
         tag(ItemTags.LEG_ARMOR_ENCHANTABLE)
-                .add(ModItems.CACTUS_LEGGINGS.key());
+                .add(ModItems.SPIKED_LEATHER_LEGGINGS.key());
 
         tag(ItemTags.FOOT_ARMOR_ENCHANTABLE)
-                .add(ModItems.CACTUS_BOOTS.key());
+                .add(ModItems.SPIKED_LEATHER_BOOTS.key());
 
         tag(ItemTags.HEAD_ARMOR)
-                .add(ModItems.CACTUS_HELMET.key());
+                .add(ModItems.SPIKED_LEATHER_HELMET.key());
 
         tag(ItemTags.CHEST_ARMOR)
-                .add(ModItems.CACTUS_CHESTPLATE.key());
+                .add(ModItems.SPIKED_LEATHER_CHESTPLATE.key());
 
         tag(ItemTags.LEG_ARMOR)
-                .add(ModItems.CACTUS_LEGGINGS.key());
+                .add(ModItems.SPIKED_LEATHER_LEGGINGS.key());
 
         tag(ItemTags.FOOT_ARMOR)
-                .add(ModItems.CACTUS_BOOTS.key());
+                .add(ModItems.SPIKED_LEATHER_BOOTS.key());
 
         tag(ItemTags.FOX_FOOD)
                 .add(ModItems.PRICKLY_PEAR.key())
@@ -114,26 +114,26 @@ public class ModItemTagProvider extends ItemTagsProvider {
                 .add(ModItems.BLUEBERRIES.key())
                 .add(ModItems.BLUEBERRY_COOKIE.key())
                 .add(ModItems.BLUEBERRY_PIE.key())
-                .add(ModItems.BLUEBERRY_PIE_SLICE.key())
+                .add(ModItems.SLICE_OF_BLUEBERRY_PIE.key())
                 .add(ModItems.BLUEBERRY_JUICE.key())
                 .add(ModItems.STRAWBERRY.key())
                 .add(ModItems.STRAWBERRY_JAM.key())
-                .add(ModItems.PINE_NUTS.key())
-                .add(ModItems.TOASTED_PINE_NUTS.key())
+                .add(ModItems.SPRUCE_NUTS.key())
+                .add(ModItems.TOASTED_SPRUCE_NUTS.key())
                 .add(ModItems.CHERRIES.key())
-                .add(ModItems.SWEET_BERRY_MIX.key())
+                .add(ModItems.MIXED_BERRIES.key())
                 .add(ModItems.CHERRY_JUICE.key())
                 .add(ModItems.CACTUS_SLICE.key())
                 .add(ModItems.APPLE_JUICE.key())
                 .add(ModItems.CACTUS_JUICE.key())
-                .add(ModItems.FOREST_SNACK.key())
+                .add(ModItems.TRAIL_MIX.key())
                 .add(ModItems.PRICKLY_PEAR.key());
 
         tag(Tags.Items.STRINGS)
                 .add(ModItems.LINEN_THREAD.key());
 
         tag(Tags.Items.SEEDS)
-                .add(ModItems.FLAX_SEED.key())
+                .add(ModItems.FLAX_SEEDS.key())
                 .add(ModItems.STRAWBERRY.key());
 
         tag(Tags.Items.FOODS_BERRY)

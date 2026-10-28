@@ -1,8 +1,0 @@
-{
-  "parent": "minecraft:block/cross",
-  "render_type": "cutout",
-  "textures": {
-    "cross": "floraexpansion:block/cactus_thorn",
-    "particle": "floraexpansion:block/cactus_thorn"
-  }
-}

@@ -1,7 +1,7 @@
 package de.artemis.floraexpansion.common.item;
 
 import de.artemis.floraexpansion.common.registry.ModBlocks;
-import net.minecraft.server.level.ServerLevel;
+import de.artemis.floraexpansion.common.util.InventoryUtils;
 import net.minecraft.stats.Stats;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.LivingEntity;
@@ -27,14 +27,9 @@ public class CherriesItem extends Item {
             if (random.nextFloat() < 0.5f) {
                 ItemStack cherryPit = new ItemStack(ModBlocks.CHERRY_PIT.get());
 
+                InventoryUtils.giveOrDrop(livingEntity, cherryPit);
                 if (livingEntity instanceof Player player) {
-                    if (!player.getInventory().add(cherryPit)) {
-                        player.drop(cherryPit, false, net.minecraft.util.Prediction.SERVER_ONLY);
-                    }
-
                     player.awardStat(Stats.ITEM_USED.get(this));
-                } else if (level instanceof ServerLevel serverLevel) {
-                    livingEntity.spawnAtLocation(serverLevel, cherryPit);
                 }
             }
         }

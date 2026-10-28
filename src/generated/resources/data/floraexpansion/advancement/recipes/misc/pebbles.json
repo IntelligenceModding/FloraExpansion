@@ -1,11 +1,11 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_pebble_block": {
+    "has_packed_pebbles": {
       "conditions": {
         "items": [
           {
-            "items": "floraexpansion:pebble_block"
+            "items": "floraexpansion:packed_pebbles"
           }
         ]
       },
@@ -21,7 +21,7 @@
   "requirements": [
     [
       "has_the_recipe",
-      "has_pebble_block"
+      "has_packed_pebbles"
     ]
   ],
   "rewards": {

@@ -1,20 +1,12 @@
 {
   "layers": {
     "humanoid": [
-      {
-        "texture": "floraexpansion:cactus"
-      },
-      {
-        "texture": "floraexpansion:cactus_overlay"
-      }
+      { "texture": "floraexpansion:spiked_leather" },
+      { "texture": "floraexpansion:spiked_leather_overlay" }
     ],
     "humanoid_leggings": [
-      {
-        "texture": "floraexpansion:cactus"
-      },
-      {
-        "texture": "floraexpansion:cactus_overlay"
-      }
+      { "texture": "floraexpansion:spiked_leather" },
+      { "texture": "floraexpansion:spiked_leather_overlay" }
     ]
   }
 }

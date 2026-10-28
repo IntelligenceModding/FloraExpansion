@@ -1,0 +1,18 @@
+{
+  "type": "floraexpansion:add_item",
+  "condition": {
+    "type": "minecraft:all_of",
+    "terms": [
+      {
+        "type": "neoforge:loot_table_id",
+        "loot_table_id": "minecraft:chests/village/village_toolsmith"
+      },
+      {
+        "type": "minecraft:random_chance",
+        "chance": 0.16
+      }
+    ]
+  },
+  "item": "floraexpansion:cactus_spine",
+  "max_count": 3
+}

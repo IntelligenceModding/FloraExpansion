@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "D": "minecraft:green_dye",
+    "H": "minecraft:leather_helmet",
+    "T": "floraexpansion:cactus_spine"
+  },
+  "pattern": [
+    "TDT",
+    " H ",
+    "T T"
+  ],
+  "result": {
+    "id": "floraexpansion:spiked_leather_helmet"
+  }
+}

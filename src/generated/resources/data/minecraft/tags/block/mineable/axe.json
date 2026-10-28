@@ -1,10 +1,10 @@
 {
   "values": [
     "floraexpansion:crate",
-    "floraexpansion:giant_cactus_base",
-    "floraexpansion:stripped_giant_cactus_base",
-    "floraexpansion:giant_cactus_wood",
-    "floraexpansion:stripped_giant_cactus_wood",
+    "floraexpansion:cactus_log",
+    "floraexpansion:stripped_cactus_log",
+    "floraexpansion:cactus_wood",
+    "floraexpansion:stripped_cactus_wood",
     "floraexpansion:giant_cactus_stem",
     "floraexpansion:twig_ladder",
     "floraexpansion:cactus_mosaic"

@@ -7,7 +7,6 @@ import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.chunk.ChunkGenerator;
-import org.jetbrains.annotations.NotNull;
 
 public class GiantCactusFeature implements Feature {
 

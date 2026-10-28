@@ -1,66 +1,42 @@
 package de.artemis.floraexpansion.common.projectile;
 
 import de.artemis.floraexpansion.common.registry.ModItems;
-import net.minecraft.core.particles.ItemParticleOption;
+import de.artemis.floraexpansion.common.registry.ModEntityTypes;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.EntityTypes;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.projectile.throwableitemprojectile.ThrowableItemProjectile;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.ItemStackTemplate;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 import org.jetbrains.annotations.NotNull;
 
-public class PebblesProjectile extends ThrowableItemProjectile {
+public class PebblesProjectile extends ResourceProjectile {
 
     public PebblesProjectile(EntityType<? extends ThrowableItemProjectile> entityType, Level level) {
         super(entityType, level);
     }
 
     public PebblesProjectile(Level level, LivingEntity shooter, ItemStack stack) {
-        super(EntityTypes.SNOWBALL, shooter, level, stack);
+        super(ModEntityTypes.PEBBLES.get(), level, shooter, stack);
     }
 
     public PebblesProjectile(Level level, double x, double y, double z, ItemStack stack) {
-        super(EntityTypes.SNOWBALL, x, y, z, level, stack);
+        super(ModEntityTypes.PEBBLES.get(), level, x, y, z, stack);
+    }
+
+    @Override
+    protected ParticleOptions getDefaultImpactParticle() {
+        return ParticleTypes.CRIT;
     }
 
     @Override
     protected @NotNull Item getDefaultItem() {
         return ModItems.PEBBLES.get();
-    }
-
-    private ParticleOptions getParticle() {
-        ItemStack itemstack = this.getItem();
-        return !itemstack.isEmpty() && !itemstack.is(this.getDefaultItem())
-                ? new ItemParticleOption(ParticleTypes.ITEM, ItemStackTemplate.fromNonEmptyStack(itemstack))
-                : ParticleTypes.CRIT;
-    }
-
-    @Override
-    public void handleEntityEvent(byte id) {
-        if (id == 3) {
-            ParticleOptions particleoptions = this.getParticle();
-
-            for (int i = 0; i < 8; ++i) {
-                this.level().addParticle(
-                        particleoptions,
-                        this.getX(),
-                        this.getY(),
-                        this.getZ(),
-                        0.0D,
-                        0.0D,
-                        0.0D
-                );
-            }
-        }
     }
 
     @Override
@@ -78,23 +54,8 @@ public class PebblesProjectile extends ThrowableItemProjectile {
         if (!this.level().isClientSide()) {
             this.level().broadcastEntityEvent(this, (byte) 3);
 
-            ItemEntity itemEntity = new ItemEntity(
-                    this.level(),
-                    this.getX(),
-                    this.getY(),
-                    this.getZ(),
-                    new ItemStack(ModItems.PEBBLES.get())
-            );
-
-            itemEntity.setDeltaMovement(
-                    (this.random.nextDouble() - 0.5D) * 0.1D,
-                    0.1D,
-                    (this.random.nextDouble() - 0.5D) * 0.1D
-            );
-
-            this.level().addFreshEntity(itemEntity);
+            spawnDrop(new ItemStack(ModItems.PEBBLES.get()), getX(), getY(), getZ(), 0.1D, 0.1D);
             this.discard();
         }
     }
 }
-

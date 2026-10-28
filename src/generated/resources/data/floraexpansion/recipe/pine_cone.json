@@ -1,9 +1,0 @@
-{
-  "type": "minecraft:crafting_shapeless",
-  "ingredients": [
-    "floraexpansion:pine_litter"
-  ],
-  "result": {
-    "id": "floraexpansion:pine_cone"
-  }
-}

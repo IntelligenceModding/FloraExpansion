@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    "floraexpansion:pebbles",
+    "floraexpansion:pebbles",
+    "floraexpansion:pebbles",
+    "floraexpansion:pebbles",
+    "floraexpansion:pebbles",
+    "floraexpansion:pebbles",
+    "floraexpansion:pebbles",
+    "floraexpansion:pebbles",
+    "floraexpansion:pebbles"
+  ],
+  "result": {
+    "id": "floraexpansion:packed_pebbles"
+  }
+}

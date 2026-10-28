@@ -1,20 +1,20 @@
 package de.artemis.floraexpansion.common.datagen;
 
-import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import de.artemis.floraexpansion.FloraExpansion;
+
+import static de.artemis.floraexpansion.common.datagen.ModelJsonTemplates.*;import de.artemis.floraexpansion.FloraExpansion;
 import de.artemis.floraexpansion.common.block.CrateBlock;
 import de.artemis.floraexpansion.common.block.DesertMossBlock;
-import de.artemis.floraexpansion.common.block.FruitingCherryLeavesBlock;
-import de.artemis.floraexpansion.common.block.FruitingOakLeavesBlock;
-import de.artemis.floraexpansion.common.block.FlaxCropBlock;
-import de.artemis.floraexpansion.common.block.GiantCactusBlossomBlock;
-import de.artemis.floraexpansion.common.block.GiantCactusWoodBlock;
+import de.artemis.floraexpansion.common.block.OrchardCherryLeavesBlock;
+import de.artemis.floraexpansion.common.block.AppleLeavesBlock;
+import de.artemis.floraexpansion.common.block.FlaxBlock;
+import de.artemis.floraexpansion.common.block.GiantCactusShootBlock;
+import de.artemis.floraexpansion.common.block.CactusWoodBlock;
 import de.artemis.floraexpansion.common.block.LargeBlueberryBushBlock;
 import de.artemis.floraexpansion.common.registry.ModBlocks;
-import de.artemis.floraexpansion.common.block.CactusFruitPlantBlock;
-import de.artemis.floraexpansion.common.block.PebblePatchBlock;
-import de.artemis.floraexpansion.common.block.PineLitterBlock;
+import de.artemis.floraexpansion.common.block.PricklyPearCactusBlock;
+import de.artemis.floraexpansion.common.block.ScatteredPebblesBlock;
+import de.artemis.floraexpansion.common.block.NeedleLitterBlock;
 import de.artemis.floraexpansion.common.block.SmallBlueberryBushBlock;
 import de.artemis.floraexpansion.common.block.StrawberryCropBlock;
 import de.artemis.floraexpansion.common.registry.ModItems;
@@ -39,7 +39,6 @@ import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.FoliageColor;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
 import net.minecraft.world.level.block.RotatedPillarBlock;
 import net.minecraft.world.level.block.state.properties.AttachFace;
@@ -66,23 +65,23 @@ public class ModModelProvider extends ModelProvider {
         registerCrateItemModel(blockModels);
 
         itemModels.generateFlatItem(ModBlocks.APPLE_CORE.get().asItem(), ModelTemplates.FLAT_ITEM);
-        itemModels.generateFlatItem(ModBlocks.CACTUS_CLUSTER.get().asItem(), ModelTemplates.FLAT_ITEM);
-        itemModels.generateFlatItem(ModBlocks.CACTUS_THORN.get().asItem(), ModelTemplates.FLAT_ITEM);
+        itemModels.generateFlatItem(ModBlocks.SMALL_CACTUS.get().asItem(), ModelTemplates.FLAT_ITEM);
+        itemModels.generateFlatItem(ModBlocks.CACTUS_SPINE.get().asItem(), ModelTemplates.FLAT_ITEM);
         itemModels.generateFlatItem(ModBlocks.CHERRY_PIT.get().asItem(), ModelTemplates.FLAT_ITEM);
-        itemModels.generateFlatItem(ModBlocks.PINE_LITTER.get().asItem(), ModelTemplates.FLAT_ITEM);
-        itemModels.generateFlatItem(ModBlocks.PEBBLE_PATCH.get().asItem(), ModelTemplates.FLAT_ITEM);
+        itemModels.generateFlatItem(ModBlocks.NEEDLE_LITTER.get().asItem(), ModelTemplates.FLAT_ITEM);
+        itemModels.generateFlatItem(ModBlocks.SCATTERED_PEBBLES.get().asItem(), ModelTemplates.FLAT_ITEM);
         itemModels.generateFlatItem(ModBlocks.STRAWBERRY_CAKE.get().asItem(), ModelTemplates.FLAT_ITEM);
         blockModels.registerSimpleFlatItemModel(ModBlocks.TWIG_LADDER.get());
-        blockModels.registerSimpleItemModel(ModBlocks.FRUITING_CHERRY_LEAVES.get(), modModel("fruiting_cherry_leaves_stage3"));
-        blockModels.itemModelOutput.accept(ModBlocks.FRUITING_OAK_LEAVES.get().asItem(),
-                ItemModelUtils.tintedModel(modItemModel("fruiting_oak_leaves"),
+        blockModels.registerSimpleItemModel(ModBlocks.ORCHARD_CHERRY_LEAVES.get(), modModel("orchard_cherry_leaves_stage3"));
+        blockModels.itemModelOutput.accept(ModBlocks.APPLE_LEAVES.get().asItem(),
+                ItemModelUtils.tintedModel(modItemModel("apple_leaves"),
                         ItemModelUtils.constantTint(FoliageColor.FOLIAGE_DEFAULT)));
         registerGeneratedItemWithTexture(blockModels, itemModels, ModBlocks.LARGE_BLUEBERRY_BUSH.get().asItem(), "floraexpansion:block/large_blueberry_bush_stage3");
         registerGeneratedItemWithTexture(blockModels, itemModels, ModBlocks.DESERT_MOSS.get().asItem(), "floraexpansion:block/desert_moss_2");
 
         getFlatItems().forEach(item -> itemModels.generateFlatItem(item, ModelTemplates.FLAT_ITEM));
         registerExistingItemModel(blockModels, ModItems.BLUEBERRY_JAM.get(), "blueberry_jam");
-        registerExistingItemModel(blockModels, ModItems.EMPTY_JAR.get(), "empty_jar");
+        registerExistingItemModel(blockModels, ModItems.GLASS_JAR.get(), "glass_jar");
         registerGeneratedItemWithTexture(blockModels, itemModels, ModItems.BASKET.get(), "minecraft:item/bundle");
         registerGeneratedItemWithTexture(blockModels, itemModels, ModItems.WOODEN_WATER_BUCKET.get(), "floraexpansion:item/water_wooden_bucket");
         registerGeneratedItemWithTexture(blockModels, itemModels, ModItems.WOODEN_LAVA_BUCKET.get(), "floraexpansion:item/lava_wooden_bucket");
@@ -98,36 +97,36 @@ public class ModModelProvider extends ModelProvider {
         createCrateModels(blockModels);
         createDesertMossModels(blockModels);
         createFlaxBaleModels(blockModels);
-        createFruitingCherryLeavesModels(blockModels);
-        createFruitingOakLeavesModels(blockModels);
-        createGiantCactusBaseModels(blockModels);
-        createGiantCactusBlossomModels(blockModels);
+        createOrchardCherryLeavesModels(blockModels);
+        createAppleLeavesModels(blockModels);
+        createCactusLogModels(blockModels);
+        createGiantCactusShootModels(blockModels);
         createGiantCactusStemModels(blockModels);
-        createGiantCactusWoodModels(blockModels);
-        createOpuntiaCactusModels(blockModels);
-        createPebbleBlockModels(blockModels);
+        createCactusWoodModels(blockModels);
+        createPricklyPearCactusModels(blockModels);
+        createPackedPebblesModels(blockModels);
         createStrawberryCakeModels(blockModels);
         createStrawberryCropModels(blockModels);
-        blockModels.createFullAndCarpetBlocks(ModBlocks.LINEN_BLOCK.get(), ModBlocks.LINEN_CARPET.get());
+        blockModels.createFullAndCarpetBlocks(ModBlocks.LINEN_BALE.get(), ModBlocks.LINEN_CARPET.get());
         createTwigLadderBlockModel(blockModels);
         blockModels.createNonTemplateHorizontalBlock(ModBlocks.TWIG_LADDER.get());
     }
 
     private void registerSpecialBlockModels(BlockModelGenerators blockModels) {
         createBlueberryBushBlockState(blockModels);
-        createCactusClusterBlockState(blockModels);
-        createCactusThornModels(blockModels);
+        createSmallCactusBlockState(blockModels);
+        createCactusSpineModels(blockModels);
         createCrateBlockState(blockModels);
         createDesertMossBlockState(blockModels);
-        createFlaxCropBlockState(blockModels);
-        createFruitingCherryLeavesBlockState(blockModels);
-        createFruitingOakLeavesBlockState(blockModels);
-        createGiantCactusBlossomBlockState(blockModels);
-        createGiantCactusWoodBlockState(blockModels, ModBlocks.GIANT_CACTUS_WOOD.get(), "giant_cactus_wood");
-        createGiantCactusWoodBlockState(blockModels, ModBlocks.STRIPPED_GIANT_CACTUS_WOOD.get(), "stripped_giant_cactus_wood");
-        createOpuntiaCactusBlockState(blockModels);
-        createPebblePatchBlockState(blockModels);
-        createPineLitterBlockState(blockModels);
+        createFlaxBlockState(blockModels);
+        createOrchardCherryLeavesBlockState(blockModels);
+        createAppleLeavesBlockState(blockModels);
+        createGiantCactusShootBlockState(blockModels);
+        createCactusWoodBlockState(blockModels, ModBlocks.CACTUS_WOOD.get(), "cactus_wood");
+        createCactusWoodBlockState(blockModels, ModBlocks.STRIPPED_CACTUS_WOOD.get(), "stripped_cactus_wood");
+        createPricklyPearCactusBlockState(blockModels);
+        createScatteredPebblesBlockState(blockModels);
+        createNeedleLitterBlockState(blockModels);
         createStrawberryCakeBlockState(blockModels);
         createStrawberryCropBlockState(blockModels);
     }
@@ -180,13 +179,13 @@ public class ModModelProvider extends ModelProvider {
         );
     }
 
-    private void createCactusClusterBlockState(BlockModelGenerators blockModels) {
-        MultiPartGenerator generator = MultiPartGenerator.multiPart(ModBlocks.CACTUS_CLUSTER.get());
+    private void createSmallCactusBlockState(BlockModelGenerators blockModels) {
+        MultiPartGenerator generator = MultiPartGenerator.multiPart(ModBlocks.SMALL_CACTUS.get());
 
         for (int pickles = 1; pickles <= 4; pickles++) {
             generator.with(
-                    BlockModelGenerators.condition().term(de.artemis.floraexpansion.common.block.CactusClusterBlock.PICKLES, pickles),
-                    BlockModelGenerators.plainVariant(modModel("cactus_cluster_" + pickles))
+                    BlockModelGenerators.condition().term(de.artemis.floraexpansion.common.block.SmallCactusBlock.PICKLES, pickles),
+                    BlockModelGenerators.plainVariant(modModel("small_cactus_" + pickles))
             );
         }
 
@@ -206,39 +205,39 @@ public class ModModelProvider extends ModelProvider {
         blockModels.blockStateOutput.accept(generator);
     }
 
-    private void createFlaxCropBlockState(BlockModelGenerators blockModels) {
-        MultiPartGenerator generator = MultiPartGenerator.multiPart(ModBlocks.FLAX_CROP.get());
+    private void createFlaxBlockState(BlockModelGenerators blockModels) {
+        MultiPartGenerator generator = MultiPartGenerator.multiPart(ModBlocks.FLAX.get());
 
-        for (int age = 0; age <= FlaxCropBlock.AGE.getPossibleValues().stream().mapToInt(Integer::intValue).max().orElse(4); age++) {
+        for (int age = 0; age <= FlaxBlock.AGE.getPossibleValues().stream().mapToInt(Integer::intValue).max().orElse(4); age++) {
             generator.with(
                     BlockModelGenerators.condition()
-                            .term(FlaxCropBlock.AGE, age)
-                            .term(FlaxCropBlock.HALF, DoubleBlockHalf.LOWER),
-                    BlockModelGenerators.plainVariant(modModel(getFlaxCropLowerModel(age)))
+                            .term(FlaxBlock.AGE, age)
+                            .term(FlaxBlock.HALF, DoubleBlockHalf.LOWER),
+                    BlockModelGenerators.plainVariant(modModel(getFlaxLowerModel(age)))
             );
             generator.with(
                     BlockModelGenerators.condition()
-                            .term(FlaxCropBlock.AGE, age)
-                            .term(FlaxCropBlock.HALF, DoubleBlockHalf.UPPER),
-                    BlockModelGenerators.plainVariant(modModel(getFlaxCropUpperModel(age)))
+                            .term(FlaxBlock.AGE, age)
+                            .term(FlaxBlock.HALF, DoubleBlockHalf.UPPER),
+                    BlockModelGenerators.plainVariant(modModel(getFlaxUpperModel(age)))
             );
         }
 
         blockModels.blockStateOutput.accept(generator);
     }
 
-    private void createCactusThornModels(BlockModelGenerators blockModels) {
-        Identifier model = modModel("cactus_thorn");
+    private void createCactusSpineModels(BlockModelGenerators blockModels) {
+        Identifier model = modModel("cactus_spine");
 
-        blockModels.modelOutput.accept(model, () -> createCutoutCrossModelJson("floraexpansion:block/cactus_thorn"));
+        blockModels.modelOutput.accept(model, () -> createCutoutCrossModelJson("floraexpansion:block/cactus_spine"));
 
         blockModels.blockStateOutput.accept(
-                MultiVariantGenerator.dispatch(ModBlocks.CACTUS_THORN.get(), BlockModelGenerators.plainVariant(model))
-                        .with(PropertyDispatch.modify(de.artemis.floraexpansion.common.block.CactusThornBlock.FACE)
+                MultiVariantGenerator.dispatch(ModBlocks.CACTUS_SPINE.get(), BlockModelGenerators.plainVariant(model))
+                        .with(PropertyDispatch.modify(de.artemis.floraexpansion.common.block.CactusSpineBlock.FACE)
                                 .select(AttachFace.FLOOR, BlockModelGenerators.NOP)
                                 .select(AttachFace.CEILING, BlockModelGenerators.X_ROT_180)
                                 .select(AttachFace.WALL, BlockModelGenerators.X_ROT_90))
-                        .with(PropertyDispatch.modify(de.artemis.floraexpansion.common.block.CactusThornBlock.FACING)
+                        .with(PropertyDispatch.modify(de.artemis.floraexpansion.common.block.CactusSpineBlock.FACING)
                                 .select(Direction.NORTH, BlockModelGenerators.NOP)
                                 .select(Direction.EAST, BlockModelGenerators.Y_ROT_90)
                                 .select(Direction.SOUTH, BlockModelGenerators.Y_ROT_180)
@@ -246,17 +245,17 @@ public class ModModelProvider extends ModelProvider {
         );
     }
 
-    private void createPineLitterBlockState(BlockModelGenerators blockModels) {
-        MultiPartGenerator generator = MultiPartGenerator.multiPart(ModBlocks.PINE_LITTER.get());
+    private void createNeedleLitterBlockState(BlockModelGenerators blockModels) {
+        MultiPartGenerator generator = MultiPartGenerator.multiPart(ModBlocks.NEEDLE_LITTER.get());
 
         for (Direction facing : Direction.Plane.HORIZONTAL) {
-            for (int segment = PineLitterBlock.MIN_SEGMENTS; segment <= PineLitterBlock.MAX_SEGMENTS; segment++) {
-                for (int amount = segment; amount <= PineLitterBlock.MAX_SEGMENTS; amount++) {
+            for (int segment = NeedleLitterBlock.MIN_SEGMENTS; segment <= NeedleLitterBlock.MAX_SEGMENTS; segment++) {
+                for (int amount = segment; amount <= NeedleLitterBlock.MAX_SEGMENTS; amount++) {
                     generator.with(
                             BlockModelGenerators.condition()
-                                    .term(PineLitterBlock.FACING, facing)
-                                    .term(PineLitterBlock.AMOUNT, amount),
-                            createPineLitterVariant(segment, facing)
+                                    .term(NeedleLitterBlock.FACING, facing)
+                                    .term(NeedleLitterBlock.AMOUNT, amount),
+                            createNeedleLitterVariant(segment, facing)
                     );
                 }
             }
@@ -265,8 +264,8 @@ public class ModModelProvider extends ModelProvider {
         blockModels.blockStateOutput.accept(generator);
     }
 
-    private MultiVariant createPineLitterVariant(int segment, Direction facing) {
-        MultiVariant variant = BlockModelGenerators.plainVariant(modModel("pine_litter_" + segment));
+    private MultiVariant createNeedleLitterVariant(int segment, Direction facing) {
+        MultiVariant variant = BlockModelGenerators.plainVariant(modModel("needle_litter_" + segment));
 
         return switch (facing) {
             case NORTH -> variant;
@@ -277,37 +276,37 @@ public class ModModelProvider extends ModelProvider {
         };
     }
 
-    private static String getFlaxCropLowerModel(int age) {
+    private static String getFlaxLowerModel(int age) {
         return switch (age) {
             case 0 -> "flax_stage0";
             case 1 -> "flax_stage1_bottom";
             case 2 -> "flax_stage2_bottom";
             case 3 -> "flax_stage3_bottom";
             case 4 -> "flax_stage4_bottom";
-            default -> throw new IllegalStateException("Unexpected flax crop age: " + age);
+            default -> throw new IllegalStateException("Unexpected flax age: " + age);
         };
     }
 
-    private static String getFlaxCropUpperModel(int age) {
+    private static String getFlaxUpperModel(int age) {
         return switch (age) {
             case 0, 1 -> "flax_stage1_top";
             case 2 -> "flax_stage2_top";
             case 3 -> "flax_stage3_top";
             case 4 -> "flax_stage4_top";
-            default -> throw new IllegalStateException("Unexpected flax crop age: " + age);
+            default -> throw new IllegalStateException("Unexpected flax age: " + age);
         };
     }
 
-    private void createPebblePatchBlockState(BlockModelGenerators blockModels) {
-        MultiPartGenerator generator = MultiPartGenerator.multiPart(ModBlocks.PEBBLE_PATCH.get());
+    private void createScatteredPebblesBlockState(BlockModelGenerators blockModels) {
+        MultiPartGenerator generator = MultiPartGenerator.multiPart(ModBlocks.SCATTERED_PEBBLES.get());
 
         for (Direction facing : Direction.Plane.HORIZONTAL) {
             for (int amount = 1; amount <= 5; amount++) {
                 generator.with(
                         BlockModelGenerators.condition()
-                                .term(PebblePatchBlock.FACING, facing)
-                                .term(PebblePatchBlock.AMOUNT, amount),
-                        createPebblePatchVariant(amount, facing)
+                                .term(ScatteredPebblesBlock.FACING, facing)
+                                .term(ScatteredPebblesBlock.AMOUNT, amount),
+                        createScatteredPebblesVariant(amount, facing)
                 );
             }
         }
@@ -315,73 +314,73 @@ public class ModModelProvider extends ModelProvider {
         blockModels.blockStateOutput.accept(generator);
     }
 
-    private void createFruitingCherryLeavesBlockState(BlockModelGenerators blockModels) {
-        MultiPartGenerator generator = MultiPartGenerator.multiPart(ModBlocks.FRUITING_CHERRY_LEAVES.get());
+    private void createOrchardCherryLeavesBlockState(BlockModelGenerators blockModels) {
+        MultiPartGenerator generator = MultiPartGenerator.multiPart(ModBlocks.ORCHARD_CHERRY_LEAVES.get());
 
-        for (int age = 0; age <= FruitingCherryLeavesBlock.MAX_AGE; age++) {
+        for (int age = 0; age <= OrchardCherryLeavesBlock.MAX_AGE; age++) {
             generator.with(
-                    BlockModelGenerators.condition().term(FruitingCherryLeavesBlock.AGE, age),
-                    BlockModelGenerators.plainVariant(modModel("fruiting_cherry_leaves_stage" + age))
+                    BlockModelGenerators.condition().term(OrchardCherryLeavesBlock.AGE, age),
+                    BlockModelGenerators.plainVariant(modModel("orchard_cherry_leaves_stage" + age))
             );
         }
 
         blockModels.blockStateOutput.accept(generator);
     }
 
-    private void createFruitingOakLeavesBlockState(BlockModelGenerators blockModels) {
-        MultiPartGenerator generator = MultiPartGenerator.multiPart(ModBlocks.FRUITING_OAK_LEAVES.get());
+    private void createAppleLeavesBlockState(BlockModelGenerators blockModels) {
+        MultiPartGenerator generator = MultiPartGenerator.multiPart(ModBlocks.APPLE_LEAVES.get());
 
-        for (int age = 0; age <= FruitingOakLeavesBlock.MAX_AGE; age++) {
+        for (int age = 0; age <= AppleLeavesBlock.MAX_AGE; age++) {
             generator.with(
-                    BlockModelGenerators.condition().term(FruitingOakLeavesBlock.AGE, age),
-                    BlockModelGenerators.plainVariant(modModel("fruiting_oak_leaves_stage" + age))
+                    BlockModelGenerators.condition().term(AppleLeavesBlock.AGE, age),
+                    BlockModelGenerators.plainVariant(modModel("apple_leaves_stage" + age))
             );
         }
 
         blockModels.blockStateOutput.accept(generator);
     }
 
-    private void createOpuntiaCactusBlockState(BlockModelGenerators blockModels) {
-        MultiPartGenerator generator = MultiPartGenerator.multiPart(ModBlocks.OPUNTIA_CACTUS.get());
+    private void createPricklyPearCactusBlockState(BlockModelGenerators blockModels) {
+        MultiPartGenerator generator = MultiPartGenerator.multiPart(ModBlocks.PRICKLY_PEAR_CACTUS.get());
 
-        for (int age = 0; age <= CactusFruitPlantBlock.MAX_AGE; age++) {
+        for (int age = 0; age <= PricklyPearCactusBlock.MAX_AGE; age++) {
             generator.with(
-                    BlockModelGenerators.condition().term(CactusFruitPlantBlock.AGE, age),
-                    BlockModelGenerators.plainVariant(modModel("opuntia_cactus_stage" + age))
+                    BlockModelGenerators.condition().term(PricklyPearCactusBlock.AGE, age),
+                    BlockModelGenerators.plainVariant(modModel("prickly_pear_cactus_stage" + age))
             );
         }
 
         blockModels.blockStateOutput.accept(generator);
     }
 
-    private void createGiantCactusBlossomBlockState(BlockModelGenerators blockModels) {
-        MultiPartGenerator generator = MultiPartGenerator.multiPart(ModBlocks.GIANT_CACTUS_BLOSSOM.get());
-        String[] textures = {"giant_cactus_blossom_0", "giant_cactus_blossom_1", "giant_cactus_blossom_3"};
+    private void createGiantCactusShootBlockState(BlockModelGenerators blockModels) {
+        MultiPartGenerator generator = MultiPartGenerator.multiPart(ModBlocks.GIANT_CACTUS_SHOOT.get());
+        String[] textures = {"giant_cactus_shoot_0", "giant_cactus_shoot_1", "giant_cactus_shoot_3"};
 
         for (int variant = 0; variant < textures.length; variant++) {
             generator.with(
-                    BlockModelGenerators.condition().term(GiantCactusBlossomBlock.VARIANT, variant),
-                    BlockModelGenerators.plainVariant(modModel("giant_cactus_blossom_variant_" + variant))
+                    BlockModelGenerators.condition().term(GiantCactusShootBlock.VARIANT, variant),
+                    BlockModelGenerators.plainVariant(modModel("giant_cactus_shoot_variant_" + variant))
             );
         }
 
         blockModels.blockStateOutput.accept(generator);
     }
 
-    private void createGiantCactusWoodBlockState(BlockModelGenerators blockModels, Block block, String modelName) {
+    private void createCactusWoodBlockState(BlockModelGenerators blockModels, Block block, String modelName) {
         MultiPartGenerator generator = MultiPartGenerator.multiPart(block);
 
         for (boolean generated : new boolean[]{false, true}) {
             generator.with(
                     BlockModelGenerators.condition()
                             .term(RotatedPillarBlock.AXIS, Direction.Axis.Y)
-                            .term(GiantCactusWoodBlock.GENERATED, generated),
+                            .term(CactusWoodBlock.GENERATED, generated),
                     BlockModelGenerators.plainVariant(modModel(modelName))
             );
             generator.with(
                     BlockModelGenerators.condition()
                             .term(RotatedPillarBlock.AXIS, Direction.Axis.X)
-                            .term(GiantCactusWoodBlock.GENERATED, generated),
+                            .term(CactusWoodBlock.GENERATED, generated),
                     BlockModelGenerators.plainVariant(modModel(modelName + "_horizontal"))
                             .with(BlockModelGenerators.X_ROT_90)
                             .with(BlockModelGenerators.Y_ROT_90)
@@ -389,7 +388,7 @@ public class ModModelProvider extends ModelProvider {
             generator.with(
                     BlockModelGenerators.condition()
                             .term(RotatedPillarBlock.AXIS, Direction.Axis.Z)
-                            .term(GiantCactusWoodBlock.GENERATED, generated),
+                            .term(CactusWoodBlock.GENERATED, generated),
                     BlockModelGenerators.plainVariant(modModel(modelName + "_horizontal"))
                             .with(BlockModelGenerators.X_ROT_90)
             );
@@ -398,8 +397,8 @@ public class ModModelProvider extends ModelProvider {
         blockModels.blockStateOutput.accept(generator);
     }
 
-    private MultiVariant createPebblePatchVariant(int amount, Direction facing) {
-        MultiVariant variant = BlockModelGenerators.plainVariant(modModel("pebble_patch_" + (amount - 1)));
+    private MultiVariant createScatteredPebblesVariant(int amount, Direction facing) {
+        MultiVariant variant = BlockModelGenerators.plainVariant(modModel("scattered_pebbles_" + (amount - 1)));
 
         return switch (facing) {
             case NORTH -> variant;
@@ -496,7 +495,7 @@ public class ModModelProvider extends ModelProvider {
         );
         Identifier cactusHangingSignModel = ModelTemplates.PARTICLE_ONLY.create(
                 modModel("cactus_hanging_sign"),
-                new TextureMapping().put(TextureSlot.PARTICLE, modBlockMaterial("stripped_giant_cactus_base_side")),
+                new TextureMapping().put(TextureSlot.PARTICLE, modBlockMaterial("stripped_cactus_log_side")),
                 blockModels.modelOutput
         );
 
@@ -537,41 +536,41 @@ public class ModModelProvider extends ModelProvider {
         }
     }
 
-    private void createFruitingCherryLeavesModels(BlockModelGenerators blockModels) {
-        blockModels.modelOutput.accept(modModel("fruiting_cherry_leaves_stage0"), () ->
-                createLeavesModelJson("floraexpansion:block/fruiting_cherry_leaves_stage0"));
-        for (int age = 1; age <= FruitingCherryLeavesBlock.MAX_AGE; age++) {
-            String stageTexture = "floraexpansion:block/fruiting_cherry_leaves_stage" + age;
-            blockModels.modelOutput.accept(modModel("fruiting_cherry_leaves_stage" + age), () ->
+    private void createOrchardCherryLeavesModels(BlockModelGenerators blockModels) {
+        blockModels.modelOutput.accept(modModel("orchard_cherry_leaves_stage0"), () ->
+                createLeavesModelJson("floraexpansion:block/orchard_cherry_leaves_stage0"));
+        for (int age = 1; age <= OrchardCherryLeavesBlock.MAX_AGE; age++) {
+            String stageTexture = "floraexpansion:block/orchard_cherry_leaves_stage" + age;
+            blockModels.modelOutput.accept(modModel("orchard_cherry_leaves_stage" + age), () ->
                     createLeavesModelJson(stageTexture));
         }
     }
 
-    private void createFruitingOakLeavesModels(BlockModelGenerators blockModels) {
-        blockModels.modelOutput.accept(modModel("fruiting_oak_leaves_stage0"), () ->
+    private void createAppleLeavesModels(BlockModelGenerators blockModels) {
+        blockModels.modelOutput.accept(modModel("apple_leaves_stage0"), () ->
                 createOakLeavesModelJson());
-        blockModels.modelOutput.accept(modModel("fruiting_oak_leaves_stage1"), () ->
-                createOakLeavesWithSideOverlayModelJson("floraexpansion:block/fruiting_oak_leaves_stage1_overlay"));
-        blockModels.modelOutput.accept(modModel("fruiting_oak_leaves_stage2"), () ->
-                createOakLeavesWithSideOverlayModelJson("floraexpansion:block/fruiting_oak_leaves_stage2_overlay"));
+        blockModels.modelOutput.accept(modModel("apple_leaves_stage1"), () ->
+                createOakLeavesWithSideOverlayModelJson("floraexpansion:block/apple_leaves_stage1_overlay"));
+        blockModels.modelOutput.accept(modModel("apple_leaves_stage2"), () ->
+                createOakLeavesWithSideOverlayModelJson("floraexpansion:block/apple_leaves_stage2_overlay"));
     }
 
-    private void createGiantCactusBaseModels(BlockModelGenerators blockModels) {
+    private void createCactusLogModels(BlockModelGenerators blockModels) {
         createRotatedPillarModels(
                 blockModels,
-                ModBlocks.GIANT_CACTUS_BASE.get(),
-                "giant_cactus_base",
-                "giant_cactus_base_horizontal",
-                "floraexpansion:block/giant_cactus_base_top",
-                "floraexpansion:block/giant_cactus_base_side"
+                ModBlocks.CACTUS_LOG.get(),
+                "cactus_log",
+                "cactus_log_horizontal",
+                "floraexpansion:block/cactus_log_top",
+                "floraexpansion:block/cactus_log_side"
         );
         createRotatedPillarModels(
                 blockModels,
-                ModBlocks.STRIPPED_GIANT_CACTUS_BASE.get(),
-                "stripped_giant_cactus_base",
-                "stripped_giant_cactus_base_horizontal",
-                "floraexpansion:block/stripped_giant_cactus_base_top",
-                "floraexpansion:block/stripped_giant_cactus_base_side"
+                ModBlocks.STRIPPED_CACTUS_LOG.get(),
+                "stripped_cactus_log",
+                "stripped_cactus_log_horizontal",
+                "floraexpansion:block/stripped_cactus_log_top",
+                "floraexpansion:block/stripped_cactus_log_side"
         );
     }
 
@@ -598,43 +597,43 @@ public class ModModelProvider extends ModelProvider {
         blockModels.registerSimpleItemModel(ModBlocks.GIANT_CACTUS_STEM.get(), giantCactusStemModel);
     }
 
-    private void createGiantCactusBlossomModels(BlockModelGenerators blockModels) {
-        Identifier giantCactusBlossomItemModel = modModel("giant_cactus_blossom_item");
-        String[] textures = {"giant_cactus_blossom_0", "giant_cactus_blossom_1", "giant_cactus_blossom_3"};
+    private void createGiantCactusShootModels(BlockModelGenerators blockModels) {
+        Identifier giantCactusShootItemModel = modModel("giant_cactus_shoot_item");
+        String[] textures = {"giant_cactus_shoot_0", "giant_cactus_shoot_1", "giant_cactus_shoot_3"};
 
         for (int variant = 0; variant < textures.length; variant++) {
-            String modelName = "giant_cactus_blossom_variant_" + variant;
+            String modelName = "giant_cactus_shoot_variant_" + variant;
             String texture = "floraexpansion:block/" + textures[variant];
             blockModels.modelOutput.accept(
                     modModel(modelName),
                     () -> createCutoutCrossModelJson(texture)
             );
         }
-        blockModels.modelOutput.accept(giantCactusBlossomItemModel, () ->
-                createGeneratedItemModelJson("floraexpansion:block/giant_cactus_blossom_0"));
-        blockModels.registerSimpleItemModel(ModBlocks.GIANT_CACTUS_BLOSSOM.get(), giantCactusBlossomItemModel);
+        blockModels.modelOutput.accept(giantCactusShootItemModel, () ->
+                createGeneratedItemModelJson("floraexpansion:block/giant_cactus_shoot_0"));
+        blockModels.registerSimpleItemModel(ModBlocks.GIANT_CACTUS_SHOOT.get(), giantCactusShootItemModel);
     }
 
-    private void createGiantCactusWoodModels(BlockModelGenerators blockModels) {
+    private void createCactusWoodModels(BlockModelGenerators blockModels) {
         createWoodPillarModels(
                 blockModels,
-                ModBlocks.GIANT_CACTUS_WOOD.get(),
-                "giant_cactus_wood",
-                "giant_cactus_wood_horizontal",
-                "floraexpansion:block/giant_cactus_base_side"
+                ModBlocks.CACTUS_WOOD.get(),
+                "cactus_wood",
+                "cactus_wood_horizontal",
+                "floraexpansion:block/cactus_log_side"
         );
         createWoodPillarModels(
                 blockModels,
-                ModBlocks.STRIPPED_GIANT_CACTUS_WOOD.get(),
-                "stripped_giant_cactus_wood",
-                "stripped_giant_cactus_wood_horizontal",
-                "floraexpansion:block/stripped_giant_cactus_base_side"
+                ModBlocks.STRIPPED_CACTUS_WOOD.get(),
+                "stripped_cactus_wood",
+                "stripped_cactus_wood_horizontal",
+                "floraexpansion:block/stripped_cactus_log_side"
         );
     }
 
-    private void createOpuntiaCactusModels(BlockModelGenerators blockModels) {
-        for (int age = 0; age <= CactusFruitPlantBlock.MAX_AGE; age++) {
-            String texture = "opuntia_cactus_stage" + age;
+    private void createPricklyPearCactusModels(BlockModelGenerators blockModels) {
+        for (int age = 0; age <= PricklyPearCactusBlock.MAX_AGE; age++) {
+            String texture = "prickly_pear_cactus_stage" + age;
             blockModels.modelOutput.accept(modModel(texture), () ->
                     createCutoutCrossModelJson("floraexpansion:block/" + texture));
         }
@@ -646,27 +645,13 @@ public class ModModelProvider extends ModelProvider {
             int slice = bites;
             blockModels.modelOutput.accept(modModel("strawberry_cake_slice" + bites), () -> createCakeModelJson("minecraft:block/cake_slice" + slice));
         }
+        for (var cake : ModBlocks.STRAWBERRY_CANDLE_CAKES) {
+            createStrawberryCakeWithCandleModels(blockModels, cake.get().getCandle(), cake.get());
+        }
 
-        createStrawberryCandleCakeModels(blockModels, Blocks.CANDLE, ModBlocks.STRAWBERRY_CANDLE_CAKE.get());
-        createStrawberryCandleCakeModels(blockModels, Blocks.DYED_CANDLE.white(), ModBlocks.WHITE_STRAWBERRY_CANDLE_CAKE.get());
-        createStrawberryCandleCakeModels(blockModels, Blocks.DYED_CANDLE.orange(), ModBlocks.ORANGE_STRAWBERRY_CANDLE_CAKE.get());
-        createStrawberryCandleCakeModels(blockModels, Blocks.DYED_CANDLE.magenta(), ModBlocks.MAGENTA_STRAWBERRY_CANDLE_CAKE.get());
-        createStrawberryCandleCakeModels(blockModels, Blocks.DYED_CANDLE.lightBlue(), ModBlocks.LIGHT_BLUE_STRAWBERRY_CANDLE_CAKE.get());
-        createStrawberryCandleCakeModels(blockModels, Blocks.DYED_CANDLE.yellow(), ModBlocks.YELLOW_STRAWBERRY_CANDLE_CAKE.get());
-        createStrawberryCandleCakeModels(blockModels, Blocks.DYED_CANDLE.lime(), ModBlocks.LIME_STRAWBERRY_CANDLE_CAKE.get());
-        createStrawberryCandleCakeModels(blockModels, Blocks.DYED_CANDLE.pink(), ModBlocks.PINK_STRAWBERRY_CANDLE_CAKE.get());
-        createStrawberryCandleCakeModels(blockModels, Blocks.DYED_CANDLE.gray(), ModBlocks.GRAY_STRAWBERRY_CANDLE_CAKE.get());
-        createStrawberryCandleCakeModels(blockModels, Blocks.DYED_CANDLE.lightGray(), ModBlocks.LIGHT_GRAY_STRAWBERRY_CANDLE_CAKE.get());
-        createStrawberryCandleCakeModels(blockModels, Blocks.DYED_CANDLE.cyan(), ModBlocks.CYAN_STRAWBERRY_CANDLE_CAKE.get());
-        createStrawberryCandleCakeModels(blockModels, Blocks.DYED_CANDLE.purple(), ModBlocks.PURPLE_STRAWBERRY_CANDLE_CAKE.get());
-        createStrawberryCandleCakeModels(blockModels, Blocks.DYED_CANDLE.blue(), ModBlocks.BLUE_STRAWBERRY_CANDLE_CAKE.get());
-        createStrawberryCandleCakeModels(blockModels, Blocks.DYED_CANDLE.brown(), ModBlocks.BROWN_STRAWBERRY_CANDLE_CAKE.get());
-        createStrawberryCandleCakeModels(blockModels, Blocks.DYED_CANDLE.green(), ModBlocks.GREEN_STRAWBERRY_CANDLE_CAKE.get());
-        createStrawberryCandleCakeModels(blockModels, Blocks.DYED_CANDLE.red(), ModBlocks.RED_STRAWBERRY_CANDLE_CAKE.get());
-        createStrawberryCandleCakeModels(blockModels, Blocks.DYED_CANDLE.black(), ModBlocks.BLACK_STRAWBERRY_CANDLE_CAKE.get());
     }
 
-    private void createStrawberryCandleCakeModels(BlockModelGenerators blockModels, Block candle, Block candleCake) {
+    private void createStrawberryCakeWithCandleModels(BlockModelGenerators blockModels, Block candle, Block candleCake) {
         String modelName = candleCake.builtInRegistryHolder().key().identifier().getPath();
         String candleName = candle.builtInRegistryHolder().key().identifier().getPath();
 
@@ -695,26 +680,10 @@ public class ModModelProvider extends ModelProvider {
                                 .select(6, BlockModelGenerators.plainVariant(modModel("strawberry_cake_slice6"))))
         );
 
-        createStrawberryCandleCakeBlockState(blockModels, ModBlocks.STRAWBERRY_CANDLE_CAKE.get());
-        createStrawberryCandleCakeBlockState(blockModels, ModBlocks.WHITE_STRAWBERRY_CANDLE_CAKE.get());
-        createStrawberryCandleCakeBlockState(blockModels, ModBlocks.ORANGE_STRAWBERRY_CANDLE_CAKE.get());
-        createStrawberryCandleCakeBlockState(blockModels, ModBlocks.MAGENTA_STRAWBERRY_CANDLE_CAKE.get());
-        createStrawberryCandleCakeBlockState(blockModels, ModBlocks.LIGHT_BLUE_STRAWBERRY_CANDLE_CAKE.get());
-        createStrawberryCandleCakeBlockState(blockModels, ModBlocks.YELLOW_STRAWBERRY_CANDLE_CAKE.get());
-        createStrawberryCandleCakeBlockState(blockModels, ModBlocks.LIME_STRAWBERRY_CANDLE_CAKE.get());
-        createStrawberryCandleCakeBlockState(blockModels, ModBlocks.PINK_STRAWBERRY_CANDLE_CAKE.get());
-        createStrawberryCandleCakeBlockState(blockModels, ModBlocks.GRAY_STRAWBERRY_CANDLE_CAKE.get());
-        createStrawberryCandleCakeBlockState(blockModels, ModBlocks.LIGHT_GRAY_STRAWBERRY_CANDLE_CAKE.get());
-        createStrawberryCandleCakeBlockState(blockModels, ModBlocks.CYAN_STRAWBERRY_CANDLE_CAKE.get());
-        createStrawberryCandleCakeBlockState(blockModels, ModBlocks.PURPLE_STRAWBERRY_CANDLE_CAKE.get());
-        createStrawberryCandleCakeBlockState(blockModels, ModBlocks.BLUE_STRAWBERRY_CANDLE_CAKE.get());
-        createStrawberryCandleCakeBlockState(blockModels, ModBlocks.BROWN_STRAWBERRY_CANDLE_CAKE.get());
-        createStrawberryCandleCakeBlockState(blockModels, ModBlocks.GREEN_STRAWBERRY_CANDLE_CAKE.get());
-        createStrawberryCandleCakeBlockState(blockModels, ModBlocks.RED_STRAWBERRY_CANDLE_CAKE.get());
-        createStrawberryCandleCakeBlockState(blockModels, ModBlocks.BLACK_STRAWBERRY_CANDLE_CAKE.get());
+        ModBlocks.STRAWBERRY_CANDLE_CAKES.forEach(cake -> createStrawberryCakeWithCandleBlockState(blockModels, cake.get()));
     }
 
-    private void createStrawberryCandleCakeBlockState(BlockModelGenerators blockModels, Block candleCake) {
+    private void createStrawberryCakeWithCandleBlockState(BlockModelGenerators blockModels, Block candleCake) {
         String modelName = candleCake.builtInRegistryHolder().key().identifier().getPath();
         blockModels.blockStateOutput.accept(
                 MultiVariantGenerator.dispatch(candleCake)
@@ -804,38 +773,15 @@ public class ModModelProvider extends ModelProvider {
         blockModels.registerSimpleItemModel(block, verticalModel);
     }
 
-    private void createPebbleBlockModels(BlockModelGenerators blockModels) {
+    private void createPackedPebblesModels(BlockModelGenerators blockModels) {
         Identifier model = ModelTemplates.CUBE_ALL.create(
-                ModBlocks.PEBBLE_BLOCK.get(),
-                new TextureMapping().put(TextureSlot.ALL, modBlockMaterial("pebble_block")),
+                ModBlocks.PACKED_PEBBLES.get(),
+                new TextureMapping().put(TextureSlot.ALL, modBlockMaterial("packed_pebbles")),
                 blockModels.modelOutput
         );
 
-        blockModels.blockStateOutput.accept(BlockModelGenerators.createSimpleBlock(ModBlocks.PEBBLE_BLOCK.get(), BlockModelGenerators.plainVariant(model)));
-        blockModels.registerSimpleItemModel(ModBlocks.PEBBLE_BLOCK.get(), model);
-    }
-
-    private static JsonObject createCutoutCrossModelJson(String texture) {
-        JsonObject model = new JsonObject();
-        JsonObject textures = new JsonObject();
-
-        model.addProperty("parent", "minecraft:block/cross");
-        model.addProperty("render_type", "cutout");
-        textures.addProperty("cross", texture);
-        textures.addProperty("particle", texture);
-        model.add("textures", textures);
-        return model;
-    }
-
-    private static JsonObject createCutoutPottedPlantModelJson(String plantTexture) {
-        JsonObject model = new JsonObject();
-        JsonObject textures = new JsonObject();
-
-        model.addProperty("parent", "minecraft:block/flower_pot_cross");
-        model.addProperty("render_type", "cutout");
-        textures.addProperty("plant", plantTexture);
-        model.add("textures", textures);
-        return model;
+        blockModels.blockStateOutput.accept(BlockModelGenerators.createSimpleBlock(ModBlocks.PACKED_PEBBLES.get(), BlockModelGenerators.plainVariant(model)));
+        blockModels.registerSimpleItemModel(ModBlocks.PACKED_PEBBLES.get(), model);
     }
 
     private void createCactusDoorModels(BlockModelGenerators blockModels) {
@@ -888,415 +834,6 @@ public class ModModelProvider extends ModelProvider {
         return model;
     }
 
-    private static JsonObject createDoorModelJson(String parent, String bottomTexture, String topTexture) {
-        JsonObject model = new JsonObject();
-        JsonObject textures = new JsonObject();
-
-        model.addProperty("parent", parent);
-        model.addProperty("render_type", "cutout");
-        textures.addProperty("bottom", bottomTexture);
-        textures.addProperty("top", topTexture);
-        model.add("textures", textures);
-        return model;
-    }
-
-    private static JsonObject createTrapdoorModelJson(String parent) {
-        JsonObject model = new JsonObject();
-        JsonObject textures = new JsonObject();
-
-        model.addProperty("parent", parent);
-        model.addProperty("render_type", "cutout");
-        textures.addProperty("texture", "floraexpansion:block/cactus_trapdoor");
-        model.add("textures", textures);
-        return model;
-    }
-
-    private static JsonObject createGeneratedItemModelJson(String texture) {
-        JsonObject model = new JsonObject();
-        JsonObject textures = new JsonObject();
-
-        model.addProperty("parent", "minecraft:item/generated");
-        textures.addProperty("layer0", texture);
-        model.add("textures", textures);
-        return model;
-    }
-
-    private static JsonObject createCubeBottomTopModelJson(String bottomTexture, String topTexture, String sideTexture) {
-        JsonObject model = new JsonObject();
-        JsonObject textures = new JsonObject();
-
-        model.addProperty("parent", "minecraft:block/cube_bottom_top");
-        textures.addProperty("particle", sideTexture);
-        textures.addProperty("bottom", bottomTexture);
-        textures.addProperty("top", topTexture);
-        textures.addProperty("side", sideTexture);
-        model.add("textures", textures);
-        return model;
-    }
-
-    private static JsonObject createComposterCrateModelJson(String bottomTexture, String topTexture, String sideTexture) {
-        JsonObject model = new JsonObject();
-        JsonObject textures = new JsonObject();
-
-        model.addProperty("parent", "minecraft:block/composter");
-        textures.addProperty("particle", sideTexture);
-        textures.addProperty("bottom", bottomTexture);
-        textures.addProperty("top", topTexture);
-        textures.addProperty("side", sideTexture);
-        textures.addProperty("inside", bottomTexture);
-        model.add("textures", textures);
-        return model;
-    }
-
-    private static JsonObject createCakeModelJson(String parent) {
-        JsonObject model = new JsonObject();
-        JsonObject textures = new JsonObject();
-
-        model.addProperty("parent", parent);
-        textures.addProperty("particle", "floraexpansion:block/strawberry_cake_side");
-        textures.addProperty("bottom", "floraexpansion:block/strawberry_cake_bottom");
-        textures.addProperty("top", "floraexpansion:block/strawberry_cake_top");
-        textures.addProperty("side", "floraexpansion:block/strawberry_cake_side");
-        textures.addProperty("inside", "floraexpansion:block/strawberry_cake_inner");
-        model.add("textures", textures);
-        return model;
-    }
-
-    private static JsonObject createCandleCakeModelJson(String candleTexture) {
-        JsonObject model = new JsonObject();
-        JsonObject textures = new JsonObject();
-
-        model.addProperty("parent", "minecraft:block/template_cake_with_candle");
-        textures.addProperty("particle", "floraexpansion:block/strawberry_cake_side");
-        textures.addProperty("bottom", "floraexpansion:block/strawberry_cake_bottom");
-        textures.addProperty("top", "floraexpansion:block/strawberry_cake_top");
-        textures.addProperty("side", "floraexpansion:block/strawberry_cake_side");
-        textures.addProperty("candle", candleTexture);
-        model.add("textures", textures);
-        return model;
-    }
-
-    private static JsonObject createLeavesModelJson(String texture) {
-        JsonObject model = new JsonObject();
-        JsonObject textures = new JsonObject();
-
-        model.addProperty("parent", "minecraft:block/leaves");
-        textures.addProperty("all", texture);
-        model.add("textures", textures);
-        return model;
-    }
-
-    private static JsonObject createOakLeavesModelJson() {
-        JsonObject model = new JsonObject();
-        JsonObject textures = new JsonObject();
-        JsonArray elements = new JsonArray();
-
-        model.addProperty("render_type", "minecraft:cutout_mipped");
-        textures.addProperty("leaves", "minecraft:block/oak_leaves");
-        textures.addProperty("particle", "minecraft:block/oak_leaves");
-        model.add("textures", textures);
-        elements.add(createOakLeavesBaseElement());
-        model.add("elements", elements);
-        return model;
-    }
-
-    private static JsonObject createOakLeavesWithSideOverlayModelJson(String overlayTexture) {
-        JsonObject model = createOakLeavesModelJson();
-        JsonObject textures = model.getAsJsonObject("textures");
-
-        textures.addProperty("overlay", overlayTexture);
-        model.getAsJsonArray("elements").add(createOakLeavesSideOverlayElement());
-        return model;
-    }
-
-    private static JsonObject createOakLeavesBaseElement() {
-        JsonObject element = new JsonObject();
-        JsonObject faces = new JsonObject();
-
-        element.add("from", createNumberArray(0, 0, 0));
-        element.add("to", createNumberArray(16, 16, 16));
-        faces.add("down", createTextureFace("#leaves", true));
-        faces.add("east", createTextureFace("#leaves", true));
-        faces.add("north", createTextureFace("#leaves", true));
-        faces.add("south", createTextureFace("#leaves", true));
-        faces.add("up", createTextureFace("#leaves", true));
-        faces.add("west", createTextureFace("#leaves", true));
-        element.add("faces", faces);
-        return element;
-    }
-
-    private static JsonObject createOakLeavesSideOverlayElement() {
-        JsonObject element = new JsonObject();
-        JsonObject faces = new JsonObject();
-
-        element.add("from", createNumberArray(-0.01F, -0.01F, -0.01F));
-        element.add("to", createNumberArray(16.01F, 16.01F, 16.01F));
-        faces.add("east", createTextureFace("#overlay", false, true));
-        faces.add("north", createTextureFace("#overlay", false, true));
-        faces.add("south", createTextureFace("#overlay", false, true));
-        faces.add("west", createTextureFace("#overlay", false, true));
-        element.add("faces", faces);
-        return element;
-    }
-
-    private static JsonObject createTextureFace(String texture, boolean tint) {
-        return createTextureFace(texture, tint, false);
-    }
-
-    private static JsonObject createTextureFace(String texture, boolean tint, boolean uv) {
-        JsonObject face = new JsonObject();
-
-        face.addProperty("texture", texture);
-        if (uv) {
-            face.add("uv", createNumberArray(0.0F, 0.0F, 16.0F, 16.0F));
-        }
-        if (tint) {
-            face.addProperty("tintindex", 0);
-        }
-        return face;
-    }
-
-    private static JsonArray createNumberArray(Number... values) {
-        JsonArray array = new JsonArray();
-
-        for (Number value : values) {
-            array.add(value);
-        }
-        return array;
-    }
-
-    private static JsonObject createLayeredCubeModelJson(String baseTexture, boolean tintBase, String overlayTexture) {
-        JsonObject model = createCubeModelJson(baseTexture, tintBase);
-        model.getAsJsonArray("elements").add(createCubeElement("#overlay", false));
-
-        JsonObject textures = model.getAsJsonObject("textures");
-        textures.addProperty("overlay", overlayTexture);
-        return model;
-    }
-
-    private static JsonObject createGroundPlaneModelJson(String texture) {
-        JsonObject model = new JsonObject();
-        JsonObject textures = new JsonObject();
-        JsonArray elements = new JsonArray();
-        JsonObject element = new JsonObject();
-        JsonArray from = new JsonArray();
-        JsonArray to = new JsonArray();
-        JsonObject faces = new JsonObject();
-
-        model.addProperty("parent", "minecraft:block/block");
-        model.addProperty("render_type", "cutout");
-
-        textures.addProperty("particle", texture);
-        textures.addProperty("texture", texture);
-        model.add("textures", textures);
-
-        from.add(0);
-        from.add(0);
-        from.add(0);
-        element.add("from", from);
-
-        to.add(16);
-        to.add(0.1);
-        to.add(16);
-        element.add("to", to);
-
-        faces.add("up", createFace("#texture", false, null));
-        element.add("faces", faces);
-        elements.add(element);
-        model.add("elements", elements);
-        return model;
-    }
-
-    private static JsonObject createInsetCactusModelJson(String bottomTexture, String topTexture, String sideTexture) {
-        JsonObject model = new JsonObject();
-        JsonObject textures = new JsonObject();
-        JsonArray elements = new JsonArray();
-
-        model.addProperty("parent", "minecraft:block/block");
-        model.addProperty("render_type", "cutout");
-        textures.addProperty("particle", sideTexture);
-        textures.addProperty("bottom", bottomTexture);
-        textures.addProperty("top", topTexture);
-        textures.addProperty("side", sideTexture);
-        model.add("textures", textures);
-
-        elements.add(createCactusCoreElement());
-        elements.add(createCactusNorthSouthElement());
-        elements.add(createCactusWestEastElement());
-        model.add("elements", elements);
-        return model;
-    }
-
-    private static JsonObject createCactusCoreElement() {
-        JsonObject element = new JsonObject();
-        JsonArray from = new JsonArray();
-        JsonArray to = new JsonArray();
-        JsonObject faces = new JsonObject();
-
-        from.add(1);
-        from.add(0);
-        from.add(1);
-        element.add("from", from);
-
-        to.add(15);
-        to.add(16);
-        to.add(15);
-        element.add("to", to);
-
-        faces.add("down", createFace("#bottom", 1, 1, 15, 15, false, "down"));
-        faces.add("up", createFace("#top", 1, 1, 15, 15, false, "up"));
-        element.add("faces", faces);
-        return element;
-    }
-
-    private static JsonObject createCactusNorthSouthElement() {
-        JsonObject element = new JsonObject();
-        JsonArray from = new JsonArray();
-        JsonArray to = new JsonArray();
-        JsonObject faces = new JsonObject();
-
-        from.add(0);
-        from.add(0);
-        from.add(1);
-        element.add("from", from);
-
-        to.add(16);
-        to.add(16);
-        to.add(15);
-        element.add("to", to);
-
-        faces.add("north", createFace("#side", 0, 0, 16, 16, false, null));
-        faces.add("south", createFace("#side", 0, 0, 16, 16, false, null));
-        element.add("faces", faces);
-        return element;
-    }
-
-    private static JsonObject createCactusWestEastElement() {
-        JsonObject element = new JsonObject();
-        JsonArray from = new JsonArray();
-        JsonArray to = new JsonArray();
-        JsonObject faces = new JsonObject();
-
-        from.add(1);
-        from.add(0);
-        from.add(0);
-        element.add("from", from);
-
-        to.add(15);
-        to.add(16);
-        to.add(16);
-        element.add("to", to);
-
-        faces.add("west", createFace("#side", 0, 0, 16, 16, false, null));
-        faces.add("east", createFace("#side", 0, 0, 16, 16, false, null));
-        element.add("faces", faces);
-        return element;
-    }
-
-    private static JsonObject createPottedCactusModelJson(String sideTexture, String topTexture) {
-        JsonObject model = new JsonObject();
-        JsonObject textures = new JsonObject();
-
-        model.addProperty("parent", "minecraft:block/potted_cactus");
-        model.addProperty("render_type", "cutout");
-        textures.addProperty("cactus", sideTexture);
-        textures.addProperty("cactus_top", topTexture);
-        textures.addProperty("flowerpot", "minecraft:block/flower_pot");
-        model.add("textures", textures);
-        return model;
-    }
-
-    private static JsonObject createCubeModelJson(String texture, boolean tint) {
-        JsonObject model = new JsonObject();
-        JsonObject textures = new JsonObject();
-        JsonArray elements = new JsonArray();
-
-        model.addProperty("parent", "minecraft:block/block");
-        model.addProperty("render_type", "cutout");
-        textures.addProperty("particle", texture);
-        textures.addProperty("all", texture);
-        model.add("textures", textures);
-        elements.add(createCubeElement("#all", tint));
-        model.add("elements", elements);
-        return model;
-    }
-
-    private static JsonObject createCubeElement(String textureSlot, boolean tint) {
-        JsonObject element = new JsonObject();
-        JsonArray from = new JsonArray();
-        JsonArray to = new JsonArray();
-        JsonObject faces = new JsonObject();
-
-        from.add(0);
-        from.add(0);
-        from.add(0);
-        element.add("from", from);
-
-        to.add(16);
-        to.add(16);
-        to.add(16);
-        element.add("to", to);
-
-        faces.add("down", createFace(textureSlot, tint, "down"));
-        faces.add("up", createFace(textureSlot, tint, "up"));
-        faces.add("north", createFace(textureSlot, tint, "north"));
-        faces.add("south", createFace(textureSlot, tint, "south"));
-        faces.add("west", createFace(textureSlot, tint, "west"));
-        faces.add("east", createFace(textureSlot, tint, "east"));
-        element.add("faces", faces);
-        return element;
-    }
-
-    private static JsonObject createFace(String textureSlot, boolean tint, String cullface) {
-        JsonObject face = new JsonObject();
-        JsonArray uv = new JsonArray();
-
-        uv.add(0);
-        uv.add(0);
-        uv.add(16);
-        uv.add(16);
-        face.add("uv", uv);
-        face.addProperty("texture", textureSlot);
-
-        if (cullface != null) {
-            face.addProperty("cullface", cullface);
-        }
-
-        if (tint) {
-            face.addProperty("tintindex", 0);
-        }
-
-        return face;
-    }
-
-    private static JsonObject createFace(String textureSlot,
-                                         int u1,
-                                         int v1,
-                                         int u2,
-                                         int v2,
-                                         boolean tint,
-                                         String cullface) {
-        JsonObject face = new JsonObject();
-        JsonArray uv = new JsonArray();
-
-        uv.add(u1);
-        uv.add(v1);
-        uv.add(u2);
-        uv.add(v2);
-        face.add("uv", uv);
-        face.addProperty("texture", textureSlot);
-
-        if (cullface != null) {
-            face.addProperty("cullface", cullface);
-        }
-
-        if (tint) {
-            face.addProperty("tintindex", 0);
-        }
-
-        return face;
-    }
-
     private static Identifier modBlock(String path) {
         return Identifier.fromNamespaceAndPath(FloraExpansion.MODID, "block/" + path);
     }
@@ -1325,25 +862,25 @@ public class ModModelProvider extends ModelProvider {
     @Override
     protected @NonNull Stream<? extends Holder<Item>> getKnownItems() {
         return ModItems.ITEMS.getEntries().stream()
-                .filter(item -> !item.is(ModItems.CACTUS_HELMET)
-                        && !item.is(ModItems.CACTUS_CHESTPLATE)
-                        && !item.is(ModItems.CACTUS_LEGGINGS)
-                        && !item.is(ModItems.CACTUS_BOOTS));
+                .filter(item -> !item.is(ModItems.SPIKED_LEATHER_HELMET)
+                        && !item.is(ModItems.SPIKED_LEATHER_CHESTPLATE)
+                        && !item.is(ModItems.SPIKED_LEATHER_LEGGINGS)
+                        && !item.is(ModItems.SPIKED_LEATHER_BOOTS));
     }
 
     private static Stream<Item> getFlatItems() {
         return Stream.of(
-                ModItems.PINE_CONE.get(),
+                ModItems.SPRUCE_CONE.get(),
                 ModItems.PEBBLES.get(),
-                ModItems.PINE_NUTS.get(),
-                ModItems.TOASTED_PINE_NUTS.get(),
+                ModItems.SPRUCE_NUTS.get(),
+                ModItems.TOASTED_SPRUCE_NUTS.get(),
                 ModItems.TWIG.get(),
-                ModItems.FOREST_SNACK.get(),
-                ModItems.SWEET_BERRY_MIX.get(),
+                ModItems.TRAIL_MIX.get(),
+                ModItems.MIXED_BERRIES.get(),
                 ModItems.BLUEBERRIES.get(),
                 ModItems.BLUEBERRY_COOKIE.get(),
                 ModItems.BLUEBERRY_PIE.get(),
-                ModItems.BLUEBERRY_PIE_SLICE.get(),
+                ModItems.SLICE_OF_BLUEBERRY_PIE.get(),
                 ModItems.BLUEBERRY_JUICE.get(),
                 ModItems.STRAWBERRY.get(),
                 ModItems.STRAWBERRY_JAM.get(),
@@ -1354,11 +891,11 @@ public class ModModelProvider extends ModelProvider {
                 ModItems.TROPICAL_FISH_WOODEN_BUCKET.get(),
                 ModItems.AXOLOTL_WOODEN_BUCKET.get(),
                 ModItems.TADPOLE_WOODEN_BUCKET.get(),
-                ModItems.FLAX_SEED.get(),
+                ModItems.FLAX_SEEDS.get(),
                 ModItems.FLAX_FIBER.get(),
                 ModItems.FLAX_FLOWER.get(),
                 ModItems.LINEN_THREAD.get(),
-                ModItems.LINEN_CLOTH.get(),
+                ModItems.LINEN_FABRIC.get(),
                 ModItems.CHERRIES.get(),
                 ModItems.CHERRY_JUICE.get(),
                 ModItems.APPLE_JUICE.get(),

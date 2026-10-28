@@ -1,7 +1,7 @@
 package de.artemis.floraexpansion.common.registry;
 
 import de.artemis.floraexpansion.FloraExpansion;
-import de.artemis.floraexpansion.common.block.PineLitterBlock;
+import de.artemis.floraexpansion.common.block.NeedleLitterBlock;
 import net.minecraft.core.Direction;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.worldgen.BootstrapContext;
@@ -19,7 +19,7 @@ import net.minecraft.world.level.levelgen.feature.stateproviders.SimpleStateProv
 import net.minecraft.world.level.levelgen.feature.stateproviders.WeightedStateProvider;
 
 public class ModConfiguredFeatures {
-    public static final ResourceKey<Feature> PINE_LITTER_KEY = registerKey("pine_litter");
+    public static final ResourceKey<Feature> NEEDLE_LITTER_KEY = registerKey("needle_litter");
     public static final ResourceKey<Feature> BLUEBERRY_BUSH_KEY = registerKey("blueberry_bush");
     public static final ResourceKey<Feature> WILD_FLAX_KEY = registerKey("wild_flax");
     public static final ResourceKey<Feature> WILD_STRAWBERRY_KEY = registerKey("wild_strawberry");
@@ -27,31 +27,31 @@ public class ModConfiguredFeatures {
     public static final ResourceKey<Feature> PEBBLE_CLUSTER_KEY = registerKey("pebble_cluster");
     public static final ResourceKey<Feature> GIANT_CACTUS_KEY = registerKey("giant_cactus");
     public static final ResourceKey<Feature> FALLEN_GIANT_CACTUS_KEY = registerKey("fallen_giant_cactus");
-    public static final ResourceKey<Feature> CACTUS_CLUSTER_KEY = registerKey("cactus_cluster");
-    public static final ResourceKey<Feature> OPUNTIA_CACTUS_KEY = registerKey("opuntia_cactus");
+    public static final ResourceKey<Feature> SMALL_CACTUS_KEY = registerKey("small_cactus");
+    public static final ResourceKey<Feature> PRICKLY_PEAR_CACTUS_KEY = registerKey("prickly_pear_cactus");
 
     public static void bootstrap(BootstrapContext<Feature> context) {
 
-        WeightedList.Builder<BlockState> pineLitterRandomStates = WeightedList.builder();
+        WeightedList.Builder<BlockState> needleLitterRandomStates = WeightedList.builder();
         for (Direction dir : Direction.Plane.HORIZONTAL) {
             for (int amount = 1; amount <= 4; amount++) {
-                pineLitterRandomStates.add(
-                        ModBlocks.PINE_LITTER.get().defaultBlockState()
-                                .setValue(PineLitterBlock.FACING, dir)
-                                .setValue(PineLitterBlock.AMOUNT, amount),
+                needleLitterRandomStates.add(
+                        ModBlocks.NEEDLE_LITTER.get().defaultBlockState()
+                                .setValue(NeedleLitterBlock.FACING, dir)
+                                .setValue(NeedleLitterBlock.AMOUNT, amount),
                         1
                 );
             }
         }
 
-        register(context, OPUNTIA_CACTUS_KEY, new OpuntiaCactusFeature());
+        register(context, PRICKLY_PEAR_CACTUS_KEY, new PricklyPearCactusFeature());
 
-        register(context, CACTUS_CLUSTER_KEY, new CactusClusterFeature());
+        register(context, SMALL_CACTUS_KEY, new SmallCactusFeature());
 
         register(context, PEBBLE_CLUSTER_KEY, new PebbleClusterFeature());
 
-        register(context, PINE_LITTER_KEY,
-                new SimpleBlockFeature(new WeightedStateProvider(pineLitterRandomStates.build())));
+        register(context, NEEDLE_LITTER_KEY,
+                new SimpleBlockFeature(new WeightedStateProvider(needleLitterRandomStates.build())));
 
         register(context, BLUEBERRY_BUSH_KEY, new BlueberryBushPatchFeature());
 

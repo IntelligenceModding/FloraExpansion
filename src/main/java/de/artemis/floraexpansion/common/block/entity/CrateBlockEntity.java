@@ -6,6 +6,8 @@ import de.artemis.floraexpansion.common.registry.ModBlockEntities;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.NonNullList;
+import net.minecraft.core.component.DataComponentGetter;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.network.chat.Component;
@@ -15,6 +17,7 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.component.ItemContainerContents;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.RandomizableContainerBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
@@ -270,7 +273,23 @@ public class CrateBlockEntity extends RandomizableContainerBlockEntity {
     public void saveToItem(@NotNull ItemStack stack, @NotNull HolderLookup.Provider registries) {
         TagValueOutput output = TagValueOutput.createWithContext(ProblemReporter.DISCARDING, registries);
         this.saveAdditional(output);
+        this.removeComponentsFromTag(output);
         BlockItem.setBlockEntityData(stack, ModBlockEntities.CRATE.get(), output);
+        stack.applyComponents(this.collectComponents());
+    }
+
+    @Override
+    protected void applyImplicitComponents(@NotNull DataComponentGetter components) {
+        // Pre-0.4.2 packed crates stored Items inside BLOCK_ENTITY_DATA. Placement
+        // loads that tag first; the vanilla container base would then erase it
+        // when no modern CONTAINER component is present. An explicit component,
+        // including an explicitly empty one, must still take precedence.
+        var legacyContents = components.get(DataComponents.CONTAINER) == null
+                ? ItemContainerContents.fromItems(this.items) : null;
+        super.applyImplicitComponents(components);
+        if (legacyContents != null) {
+            legacyContents.copyInto(this.items);
+        }
     }
 
     @Override

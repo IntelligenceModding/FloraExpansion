@@ -18,7 +18,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 
 public final class CactusStripHelper {
-    private static final float BASE_THORN_DROP_CHANCE_ON_STRIP = 0.20F;
+    private static final float BASE_SPINE_DROP_CHANCE_ON_STRIP = 0.20F;
     private static final float FORTUNE_BONUS_PER_LEVEL = 0.10F;
 
     private CactusStripHelper() {
@@ -29,7 +29,7 @@ public final class CactusStripHelper {
         return transformer != null && transformer.is(net.minecraft.world.item.component.BlockTransformers.AXE);
     }
 
-    public static InteractionResult stripAndDropThorn(Level level, BlockPos pos, Player player,
+    public static InteractionResult stripAndDropSpine(Level level, BlockPos pos, Player player,
                                                           InteractionHand hand, ItemStack tool,
                                                           BlockState strippedState) {
         if (!level.isClientSide()) {
@@ -39,10 +39,10 @@ public final class CactusStripHelper {
             Holder<Enchantment> fortune =
                     level.registryAccess().lookupOrThrow(Registries.ENCHANTMENT).getOrThrow(Enchantments.FORTUNE);
             int fortuneLevel = tool.getEnchantmentLevel(fortune);
-            float thornDropChance = BASE_THORN_DROP_CHANCE_ON_STRIP + (fortuneLevel * FORTUNE_BONUS_PER_LEVEL);
+            float spineDropChance = BASE_SPINE_DROP_CHANCE_ON_STRIP + (fortuneLevel * FORTUNE_BONUS_PER_LEVEL);
 
-            if (level.getRandom().nextFloat() < thornDropChance) {
-                Block.popResource(level, pos, new ItemStack(ModBlocks.CACTUS_THORN.get()));
+            if (level.getRandom().nextFloat() < spineDropChance) {
+                Block.popResource(level, pos, new ItemStack(ModBlocks.CACTUS_SPINE.get()));
             }
 
             tool.hurtAndBreak(1, player,
