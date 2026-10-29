@@ -75,6 +75,7 @@ public class ModBlockTagProvider extends BlockTagsProvider {
                 .add(ModBlocks.ORCHARD_CHERRY_LEAVES.key());
 
         tag(BlockTags.FLOWERS)
+                .add(ModBlocks.FLOWERING_DESERT_MOSS.key())
                 .add(ModBlocks.APPLE_LEAVES.key())
                 .add(ModBlocks.GIANT_CACTUS_SHOOT.key())
                 .add(ModBlocks.ORCHARD_CHERRY_LEAVES.key());
@@ -92,10 +93,12 @@ public class ModBlockTagProvider extends BlockTagsProvider {
                 .add(ModBlocks.CACTUS_PLANKS.key());
 
         tag(BlockTags.WOODEN_STAIRS)
-                .add(ModBlocks.CACTUS_STAIRS.key());
+                .add(ModBlocks.CACTUS_STAIRS.key())
+                .add(ModBlocks.CACTUS_MOSAIC_STAIRS.key());
 
         tag(BlockTags.WOODEN_SLABS)
-                .add(ModBlocks.CACTUS_SLAB.key());
+                .add(ModBlocks.CACTUS_SLAB.key())
+                .add(ModBlocks.CACTUS_MOSAIC_SLAB.key());
 
         tag(BlockTags.WOODEN_FENCES)
                 .add(ModBlocks.CACTUS_FENCE.key());

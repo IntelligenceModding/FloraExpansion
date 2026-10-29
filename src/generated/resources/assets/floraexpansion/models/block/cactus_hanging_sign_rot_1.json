@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/template_hanging_sign_rot_1",
+  "textures": {
+    "all": "floraexpansion:block/cactus_hanging_sign",
+    "particle": "floraexpansion:block/stripped_cactus_log_side"
+  }
+}

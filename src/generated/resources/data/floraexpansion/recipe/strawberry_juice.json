@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    "floraexpansion:strawberry",
+    "floraexpansion:strawberry",
+    "floraexpansion:strawberry",
+    "minecraft:glass_bottle"
+  ],
+  "result": {
+    "id": "floraexpansion:strawberry_juice"
+  }
+}

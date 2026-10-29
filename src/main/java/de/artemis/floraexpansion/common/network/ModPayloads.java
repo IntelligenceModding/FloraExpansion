@@ -17,6 +17,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
+import de.artemis.floraexpansion.common.config.ServerConfig;
 
 public final class ModPayloads {
     private ModPayloads() {
@@ -28,13 +29,13 @@ public final class ModPayloads {
 
     private static void handleCrateExtract(CrateExtractPayload payload, IPayloadContext context) {
         context.enqueueWork(() -> {
-            if (!(context.player() instanceof ServerPlayer player)) {
+            if (!(context.player() instanceof ServerPlayer player) || player.isSpectator() || !ServerConfig.crateExtraction.get()) {
                 return;
             }
 
             Level level = player.level();
             BlockPos pos = payload.pos();
-            if (!level.isLoaded(pos) || player.distanceToSqr(Vec3.atCenterOf(pos)) > 36.0D) {
+            if (!level.isLoaded(pos) || !level.mayInteract(player, pos) || player.distanceToSqr(Vec3.atCenterOf(pos)) > 36.0D) {
                 return;
             }
 

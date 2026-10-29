@@ -1,0 +1,9 @@
+{
+  "sources": [
+    {"type": "floraexpansion:jam_portions", "resource": "floraexpansion:item/blueberry_jam"},
+    {"type": "floraexpansion:jam_portions", "resource": "floraexpansion:item/strawberry_jam"},
+    {"type": "floraexpansion:jam_portions", "resource": "floraexpansion:item/cherry_jam"},
+    {"type": "floraexpansion:jam_portions", "resource": "floraexpansion:item/apple_jam"},
+    {"type": "floraexpansion:flowering_moss"}
+  ]
+}

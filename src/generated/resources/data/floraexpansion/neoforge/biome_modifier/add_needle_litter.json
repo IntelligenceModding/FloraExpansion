@@ -1,6 +1,6 @@
 {
   "type": "neoforge:add_features",
-  "biomes": "#minecraft:is_taiga",
+  "biomes": "#floraexpansion:has_needle_litter",
   "features": "floraexpansion:needle_litter_placed",
   "step": "vegetal_decoration"
 }

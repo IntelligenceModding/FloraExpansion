@@ -1,6 +1,7 @@
 package de.artemis.floraexpansion.common.block;
 
 import de.artemis.floraexpansion.common.registry.ModItems;
+import de.artemis.floraexpansion.common.util.PlantGrowth;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
@@ -25,6 +26,9 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.NotNull;
 import de.artemis.floraexpansion.common.registry.ModBlocks;
+import de.artemis.floraexpansion.common.config.ServerConfig;
+import de.artemis.floraexpansion.common.registry.ModTags;
+import de.artemis.floraexpansion.common.loot.HarvestLoot;
 
 public class GiantCactusStemBlock extends Block {
     protected static final VoxelShape SHAPE = Block.box(1.0D, 0.0D, 1.0D, 15.0D, 16.0D, 15.0D);
@@ -85,6 +89,7 @@ public class GiantCactusStemBlock extends Block {
     @Override
     protected void randomTick(@NotNull BlockState state, @NotNull ServerLevel level, @NotNull BlockPos pos,
                               @NotNull RandomSource random) {
+        double multiplier = ServerConfig.cactusGrowth.get();
         BlockPos top = pos;
         while (level.getBlockState(top.above()).is(ModBlocks.GIANT_CACTUS_STEM.get())) {
             top = top.above();
@@ -100,6 +105,7 @@ public class GiantCactusStemBlock extends Block {
             return;
         }
 
+        if (!PlantGrowth.canGrow(level, pos, state, random, 1, multiplier)) return;
         int totalHeight = 0;
         BlockPos cursor = top;
         while (true) {
@@ -120,28 +126,26 @@ public class GiantCactusStemBlock extends Block {
 
         float flowerChance = totalHeight >= 3 ? 0.25F : 0.10F;
 
-        if (random.nextFloat() < flowerChance) {
+        if (random.nextFloat() < Math.min(1, flowerChance * Math.max(1, multiplier))) {
             level.setBlock(
                     flowerPos,
                     GiantCactusShootBlock.withRandomVariant(ModBlocks.GIANT_CACTUS_SHOOT.get().defaultBlockState(), random),
                     Block.UPDATE_ALL
             );
+            PlantGrowth.grown(level, pos, state);
             return;
         }
 
         if (totalHeight < 6) {
             level.setBlock(flowerPos, ModBlocks.GIANT_CACTUS_STEM.get().defaultBlockState(), Block.UPDATE_ALL);
+            PlantGrowth.grown(level, pos, state);
         }
     }
 
     @Override
     protected boolean canSurvive(@NotNull BlockState state, @NotNull LevelReader level, @NotNull BlockPos pos) {
         BlockState below = level.getBlockState(pos.below());
-        return below.is(ModBlocks.CACTUS_LOG.get())
-                || below.is(ModBlocks.STRIPPED_CACTUS_LOG.get())
-                || below.is(ModBlocks.CACTUS_WOOD.get())
-                || below.is(ModBlocks.STRIPPED_CACTUS_WOOD.get())
-                || below.is(ModBlocks.GIANT_CACTUS_STEM.get());
+        return below.is(ModTags.Blocks.CACTUS_STEM_SUPPORTS);
     }
 
     @Override
@@ -160,12 +164,10 @@ public class GiantCactusStemBlock extends Block {
             int harvestedStemCount = harvestStemColumn(level, pos);
 
             if (harvestedStemCount > 0) {
-                int sliceCount = 0;
                 for (int i = 0; i < harvestedStemCount; i++) {
-                    sliceCount += 1 + level.getRandom().nextInt(2);
+                    for (var drop : HarvestLoot.drops((ServerLevel) level, pos, state, player, stack))
+                        Block.popResource(level, pos, drop);
                 }
-
-                Block.popResource(level, pos, new ItemStack(ModItems.CACTUS_SLICE.get(), sliceCount));
                 level.playSound(null, pos, SoundEvents.AXE_STRIP.value(), SoundSource.BLOCKS, 1.0F, 1.0F);
 
                 stack.hurtAndBreak(

@@ -1,0 +1,43 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_cherries": {
+      "conditions": {
+        "items": [
+          {
+            "items": "floraexpansion:cherries"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_glass_jar": {
+      "conditions": {
+        "items": [
+          {
+            "items": "floraexpansion:glass_jar"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipes": "floraexpansion:cherry_jam"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_cherries",
+      "has_glass_jar"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "floraexpansion:cherry_jam"
+    ]
+  }
+}

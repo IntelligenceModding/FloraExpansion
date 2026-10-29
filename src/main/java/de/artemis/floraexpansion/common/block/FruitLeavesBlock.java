@@ -23,6 +23,9 @@ import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.minecraft.world.phys.BlockHitResult;
 import de.artemis.floraexpansion.common.particle.FallingFruitParticle;
 import org.jetbrains.annotations.NotNull;
+import de.artemis.floraexpansion.common.config.ServerConfig;
+import de.artemis.floraexpansion.common.config.ClientConfig;
+import de.artemis.floraexpansion.common.util.PlantGrowth;
 
 /** Leaves that retain vanilla decay behavior while growing a harvestable fruit. */
 public abstract class FruitLeavesBlock extends FallingParticlesLeavesBlock implements BonemealableBlock, HarvestableBlock {
@@ -52,15 +55,17 @@ public abstract class FruitLeavesBlock extends FallingParticlesLeavesBlock imple
     @Override
     protected void randomTick(@NotNull BlockState state, @NotNull ServerLevel level, @NotNull BlockPos pos, @NotNull RandomSource random) {
         super.randomTick(state, level, pos, random);
-        if (canGrowFruit(state) && random.nextInt(getGrowthChance()) == 0) {
+        if (canGrowFruit(state) && PlantGrowth.canGrow(level, pos, state, random, getGrowthChance(), ServerConfig.fruitGrowth.get())) {
             level.setBlock(pos, state.cycle(getAgeProperty()), 2);
+            PlantGrowth.grown(level, pos, state);
         }
     }
 
     @Override
     public void animateTick(@NotNull BlockState state, @NotNull Level level, @NotNull BlockPos pos, @NotNull RandomSource random) {
         super.animateTick(state, level, pos, random);
-        if (shouldSpawnFruitParticle(state.getValue(getAgeProperty())) && random.nextInt(100) == 0) {
+        if (shouldSpawnFruitParticle(state.getValue(getAgeProperty())) && random.nextInt(100) == 0
+                && ClientConfig.fruitParticles.get() > 0 && (ClientConfig.fruitParticles.get() == 1 || random.nextDouble() < ClientConfig.fruitParticles.get())) {
             FallingFruitParticle.spawnFromFruitLeaves(level, pos, getFruitParticle());
         }
     }
@@ -81,8 +86,8 @@ public abstract class FruitLeavesBlock extends FallingParticlesLeavesBlock imple
             return InteractionResult.PASS;
         }
         if (!level.isClientSide()) {
-            ItemStack harvest = getHarvest(state, level.getRandom());
-            ModUtils.spawnItemAtClickedSide(level, pos, hitResult, harvest);
+            for (ItemStack harvest : getHarvestDrops(state, (ServerLevel) level, pos, player))
+                ModUtils.spawnItemAtClickedSide(level, pos, hitResult, harvest);
             level.setBlock(pos, getHarvestedState(state), 2);
             level.playSound(null, pos, SoundEvents.SWEET_BERRY_BUSH_PICK_BERRIES, SoundSource.BLOCKS,
                     1.0F, 0.8F + level.getRandom().nextFloat() * 0.4F);

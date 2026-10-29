@@ -44,13 +44,16 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.function.Consumer;
+import de.artemis.floraexpansion.common.config.ServerConfig;
+import de.artemis.floraexpansion.common.config.ClientConfig;
 
 public class BasketItem extends Item {
     public static final int SLOT_COUNT = 9;
     private static final int TOOLTIP_ENTRY_COUNT = 4;
 
     public BasketItem(Properties properties) {
-        super(properties);
+        super(properties.component(DataComponents.TOOLTIP_DISPLAY,
+                TooltipDisplay.DEFAULT.withHidden(DataComponents.CONTAINER, true)));
     }
 
     @Override
@@ -95,18 +98,19 @@ public class BasketItem extends Item {
         super.appendHoverText(stack, context, tooltipDisplay, tooltipComponents, tooltipFlag);
 
         List<PreviewEntry> entries = this.getPreviewEntries(stack);
+        if (ClientConfig.hints()) tooltipComponents.accept(Component.translatable("tooltip.floraexpansion.basket_controls").withStyle(ChatFormatting.GRAY));
         if (entries.isEmpty()) {
             return;
         }
-
-        int displayed = Math.min(TOOLTIP_ENTRY_COUNT, entries.size());
+        int previewLimit = ClientConfig.expanded(tooltipFlag) ? SLOT_COUNT : TOOLTIP_ENTRY_COUNT;
+        int displayed = Math.min(previewLimit, entries.size());
         for (int i = 0; i < displayed; i++) {
             PreviewEntry entry = entries.get(i);
             tooltipComponents.accept(Component.literal(entry.count() + " ").withStyle(ChatFormatting.GRAY)
                     .append(getStyledItemName(entry.displayStack())));
         }
 
-        if (entries.size() > TOOLTIP_ENTRY_COUNT) {
+        if (entries.size() > previewLimit) {
             tooltipComponents.accept(Component.literal("...").withStyle(ChatFormatting.DARK_GRAY));
         }
     }
@@ -190,6 +194,7 @@ public class BasketItem extends Item {
     }
 
     public static boolean tryDepositIntoContainer(Level level, BlockPos pos, Player player, ItemStack basket) {
+        if (!ServerConfig.basketDeposits.get()) return false;
         Container container = findTargetContainer(level, pos, player);
         if (container == null) {
             return false;
@@ -261,6 +266,10 @@ public class BasketItem extends Item {
     }
 
     private boolean canPredictHandled(Level level, BlockPos pos, BlockState state, Player player) {
+        if (!ServerConfig.basketCrops.get()) {
+            return ServerConfig.basketGathering.get() && BasketHarvestHelper.canGather(state)
+                    || ServerConfig.basketDeposits.get() && findTargetContainer(level, pos, player) != null;
+        }
         if (state.getBlock() instanceof FlaxBlock) {
             return state.getValue(FlaxBlock.AGE) >= 2;
         }
@@ -289,11 +298,12 @@ public class BasketItem extends Item {
             return true;
         }
 
-        if (findTargetContainer(level, pos, player) != null) {
+        if (ServerConfig.basketDeposits.get() && findTargetContainer(level, pos, player) != null) {
             return true;
         }
 
-        return state.getBlock() instanceof BushBlock
+        return ServerConfig.basketGathering.get() && BasketHarvestHelper.canGather(state)
+                || state.getBlock() instanceof BushBlock
                 || state.getBlock() instanceof GrowingPlantHeadBlock
                 || state.getBlock() instanceof GrowingPlantBodyBlock
                 || state.getBlock() instanceof CaveVinesBlock

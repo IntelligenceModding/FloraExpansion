@@ -1,0 +1,22 @@
+{
+  "replace": false,
+  "values": [
+    "#minecraft:flowers",
+    "#minecraft:saplings",
+    { "id": "#c:mushrooms", "required": false },
+    "minecraft:brown_mushroom",
+    "minecraft:red_mushroom",
+    "minecraft:crimson_fungus",
+    "minecraft:warped_fungus",
+    "minecraft:crimson_roots",
+    "minecraft:warped_roots",
+    "minecraft:nether_sprouts",
+    "minecraft:fern",
+    "minecraft:large_fern",
+    "minecraft:short_grass",
+    "minecraft:tall_grass",
+    "minecraft:dead_bush",
+    "minecraft:melon",
+    "minecraft:pumpkin"
+  ]
+}

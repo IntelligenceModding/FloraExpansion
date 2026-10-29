@@ -46,19 +46,26 @@
   &bull; Throwable spruce cones and pebbles with their own interactions<br>
   &bull; <strong>Scattered Pebbles</strong> and <strong>Packed Pebbles</strong> for natural terrain decoration<br>
   &bull; A complete <strong>Flax</strong> progression with seeds, fibers, flowers, linen thread, linen fabric, linen bales, carpet, and flax bales<br>
-  &bull; <strong>Blueberries</strong> and <strong>Strawberries</strong> with harvestable plants, foods, jams, juice, pies, cookies, and other recipes<br>
+  &bull; <strong>Blueberries</strong> and <strong>Strawberries</strong> with harvestable plants, matching jams and bottled juices, pies, cookies, and other recipes<br>
   &bull; Orchard cherry and apple trees with harvestable <strong>Cherries</strong> and <strong>Apples</strong>, plantable pits and cores, <strong>Orchard Cherry Leaves</strong>, and <strong>Apple Leaves</strong><br>
-  &bull; A reusable <strong>Basket</strong> for harvesting crops and carrying gathered items<br>
-  &bull; High-capacity <strong>Crates</strong> for storing large quantities of a single item, including movable tied crates<br>
+  &bull; A reusable <strong>Basket</strong> for harvesting crops, gathering mushrooms and other plants, and carrying gathered items<br>
+  &bull; High-capacity <strong>Crates</strong> for storing large quantities of one farming supply at a time, with a configurable item tag and movable tied crates<br>
   &bull; <strong>Wooden Buckets</strong> for water, milk, powder snow, fish, axolotls, tadpoles, and even temporary lava transport<br>
-  &bull; <strong>Giant Cactus</strong> content with cactus wood, spines, flowers, fruit, decorative blocks, equipment, and other desert additions<br>
-  &bull; Foods such as <strong>Trail Mix</strong>, berry mixes, jams, juices, pies, and other nature-themed recipes<br>
+  &bull; <strong>Giant Cactus</strong> content with cactus wood, mosaic blocks, mosaic stairs and slabs, spines, flowers, fruit, equipment, and other desert additions<br>
+  &bull; Foods such as <strong>Trail Mix</strong>, berry mixes, blueberry, strawberry, cherry and apple jams, juices, pies, and other nature-themed recipes<br>
+  &bull; Placeable <strong>Glass Jars</strong> and jam jars with four edible portions, translucent fill levels, matching-fruit refills by hand or hopper, and contents preserved when picked up<br>
   &bull; Rustic utility and decoration such as the <strong>Twig Ladder</strong> and other natural building materials<br>
   &bull; Natural world-generation additions that integrate Flora Expansion's content into suitable environments
 </p>
 
 <p align="center">
   Flora Expansion is designed to add more detail and interaction to Minecraft's natural environments without replacing the vanilla survival experience.
+</p>
+
+<p align="center">
+  <a href="DATAPACKS.md"><img src="https://img.shields.io/badge/Datapacks-Reference-2D6CDF?style=for-the-badge&logo=databricks&logoColor=white" alt="Flora Expansion datapack reference"></a>
+  &nbsp;&nbsp;&nbsp;
+  <a href="CONFIG.md"><img src="https://img.shields.io/badge/Config-Reference-2D6CDF?style=for-the-badge&logo=readthedocs&logoColor=white" alt="Flora Expansion config reference"></a>
 </p>
 
 <br>

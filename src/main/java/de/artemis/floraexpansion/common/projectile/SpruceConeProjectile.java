@@ -2,8 +2,6 @@ package de.artemis.floraexpansion.common.projectile;
 
 import de.artemis.floraexpansion.common.registry.ModItems;
 import de.artemis.floraexpansion.common.registry.ModEntityTypes;
-import net.minecraft.core.particles.ParticleOptions;
-import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
@@ -15,6 +13,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 import org.jetbrains.annotations.NotNull;
+import de.artemis.floraexpansion.common.config.ServerConfig;
 
 public class SpruceConeProjectile extends ResourceProjectile {
 
@@ -28,11 +27,6 @@ public class SpruceConeProjectile extends ResourceProjectile {
 
     public SpruceConeProjectile(Level level, double x, double y, double z, ItemStack stack) {
         super(ModEntityTypes.SPRUCE_CONE.get(), level, x, y, z, stack);
-    }
-
-    @Override
-    protected ParticleOptions getDefaultImpactParticle() {
-        return ParticleTypes.ITEM_SNOWBALL;
     }
 
     @Override
@@ -59,10 +53,10 @@ public class SpruceConeProjectile extends ResourceProjectile {
         super.onHitEntity(result);
 
         Entity entity = result.getEntity();
-        entity.hurt(this.damageSources().thrown(this, this.getOwner()), 1.0F);
+        entity.hurt(this.damageSources().thrown(this, this.getOwner()), (float) ServerConfig.coneDamage.get().doubleValue());
 
-        if (entity instanceof LivingEntity livingEntity) {
-            livingEntity.addEffect(new MobEffectInstance(MobEffects.SLOWNESS, 60, 0));
+        if (entity instanceof LivingEntity livingEntity && ServerConfig.coneSlownessTicks.get() > 0) {
+            livingEntity.addEffect(new MobEffectInstance(MobEffects.SLOWNESS, ServerConfig.coneSlownessTicks.get(), 0));
         }
 
         boolean toasted = this.isOnFire() || entity.isOnFire();

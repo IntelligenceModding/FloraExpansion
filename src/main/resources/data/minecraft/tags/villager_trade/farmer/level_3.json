@@ -2,6 +2,9 @@
   "replace": false,
   "values": [
     "floraexpansion:farmer/3/emerald_slice_of_blueberry_pie",
-    "floraexpansion:farmer/3/emerald_strawberry_jam"
+    "floraexpansion:farmer/3/emerald_strawberry_jam",
+    "floraexpansion:farmer/3/emerald_blueberry_jam",
+    "floraexpansion:farmer/3/emerald_cherry_jam",
+    "floraexpansion:farmer/3/emerald_apple_jam"
   ]
 }

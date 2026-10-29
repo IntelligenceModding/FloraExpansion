@@ -21,6 +21,7 @@ import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
+import de.artemis.floraexpansion.common.config.ServerConfig;
 
 public class WoodenBucketItem extends BucketItem {
     public WoodenBucketItem(Fluid content, Properties properties) {
@@ -49,6 +50,7 @@ public class WoodenBucketItem extends BucketItem {
 
         if (this.content == Fluids.EMPTY) {
             BlockState blockState = level.getBlockState(blockPos);
+            if (blockState.getFluidState().is(net.minecraft.tags.FluidTags.LAVA) && !ServerConfig.lavaEnabled.get()) return InteractionResult.FAIL;
             if (blockState.getBlock() instanceof BucketPickup bucketPickup) {
                 ItemStack pickedUpStack = bucketPickup.pickupBlock(player, level, blockPos, blockState);
                 if (!pickedUpStack.isEmpty() && WoodenBucketUtil.isSupportedFluidBucket(pickedUpStack)) {

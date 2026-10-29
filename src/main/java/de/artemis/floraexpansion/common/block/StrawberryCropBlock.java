@@ -21,6 +21,9 @@ import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.NotNull;
+import de.artemis.floraexpansion.common.config.ServerConfig;
+import de.artemis.floraexpansion.common.util.PlantGrowth;
+import de.artemis.floraexpansion.common.registry.ModTags;
 
 public class StrawberryCropBlock extends CropBlock {
     public static final IntegerProperty AGE = BlockStateProperties.AGE_3;
@@ -69,8 +72,9 @@ public class StrawberryCropBlock extends CropBlock {
         }
 
         float growthSpeed = getGrowthSpeed(state, level, pos);
-        if (random.nextInt((int) (25.0F / growthSpeed) + 1) == 0) {
+        if (PlantGrowth.canGrow(level, pos, state, random, (int) (25.0F / growthSpeed) + 1, ServerConfig.cropGrowth.get())) {
             level.setBlock(pos, state.setValue(AGE, age + 1), 2);
+            PlantGrowth.grown(level, pos, state);
         }
     }
 
@@ -84,16 +88,10 @@ public class StrawberryCropBlock extends CropBlock {
     public boolean canSurvive(@NotNull BlockState state, @NotNull LevelReader level, @NotNull BlockPos pos) {
         BlockState soil = level.getBlockState(pos.below());
         if (state.getValue(WILD)) {
-            return soil.is(BlockTags.DIRT)
-                    || soil.is(BlockTags.GRASS_BLOCKS)
-                    || soil.is(Blocks.PODZOL)
-                    || soil.is(Blocks.MYCELIUM)
-                    || soil.is(Blocks.FARMLAND)
-                    || soil.is(Blocks.MOSS_BLOCK)
-                    || soil.is(Blocks.ROOTED_DIRT);
+            return soil.is(ModTags.Blocks.WILD_STRAWBERRY_SOILS);
         }
 
-        return mayPlaceOn(soil, level, pos.below());
+        return soil.is(ModTags.Blocks.CROP_SOILS);
     }
 
     @Override

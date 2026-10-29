@@ -9,10 +9,22 @@ import org.jetbrains.annotations.NotNull;
 
 public class AppleLeavesDecorator extends FruitLeavesDecorator {
     public static final AppleLeavesDecorator INSTANCE = new AppleLeavesDecorator();
-    public static final MapCodec<AppleLeavesDecorator> CODEC = MapCodec.unit(INSTANCE);
+    public static final MapCodec<AppleLeavesDecorator> CODEC = com.mojang.serialization.codecs.RecordCodecBuilder.<AppleLeavesDecorator>mapCodec(instance -> instance.group(
+            com.mojang.serialization.Codec.intRange(1, 256).optionalFieldOf("replacement_divisor", 10).forGetter(AppleLeavesDecorator::replacementDivisor),
+            com.mojang.serialization.Codec.intRange(0, Integer.MAX_VALUE).optionalFieldOf("max_replacements", 8).forGetter(AppleLeavesDecorator::maxReplacements),
+            com.mojang.serialization.Codec.BOOL.optionalFieldOf("exposed_only", true).forGetter(AppleLeavesDecorator::exposedOnly)
+    ).apply(instance, AppleLeavesDecorator::new));
 
     private AppleLeavesDecorator() {
-        super(Blocks.OAK_LEAVES, () -> ModBlocks.APPLE_LEAVES.get(), 10, 8);
+        this(10, 8);
+    }
+
+    public AppleLeavesDecorator(int divisor, int maximum) {
+        this(divisor, maximum, true);
+    }
+
+    public AppleLeavesDecorator(int divisor, int maximum, boolean exposedOnly) {
+        super(Blocks.OAK_LEAVES, () -> ModBlocks.APPLE_LEAVES.get(), divisor, maximum, exposedOnly);
     }
 
     @Override

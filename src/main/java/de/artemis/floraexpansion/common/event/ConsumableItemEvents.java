@@ -9,11 +9,11 @@ import net.minecraft.world.item.Items;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.entity.living.LivingEntityUseItemEvent;
+import de.artemis.floraexpansion.common.config.ServerConfig;
 
 @EventBusSubscriber(modid = FloraExpansion.MODID)
 public class ConsumableItemEvents {
 
-    private static final float APPLE_CORE_CHANCE = 0.5F;
 
     @SubscribeEvent
     public static void onItemFinished(LivingEntityUseItemEvent.Finish event) {
@@ -32,7 +32,7 @@ public class ConsumableItemEvents {
             return;
         }
 
-        if (entity.getRandom().nextFloat() >= APPLE_CORE_CHANCE) {
+        if (entity.getRandom().nextFloat() >= ServerConfig.appleCoreChance.get()) {
             return;
         }
 

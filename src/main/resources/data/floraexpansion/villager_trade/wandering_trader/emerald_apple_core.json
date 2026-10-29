@@ -1,0 +1,7 @@
+{
+  "gives": {"id": "floraexpansion:apple_core", "count": 1},
+  "max_uses": 8,
+  "reputation_discount": 0.05,
+  "wants": {"id": "minecraft:emerald", "count": 5},
+  "xp": 1
+}

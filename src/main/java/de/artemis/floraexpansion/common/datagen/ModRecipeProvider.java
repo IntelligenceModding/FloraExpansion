@@ -8,6 +8,8 @@ import net.minecraft.data.recipes.*;
 import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.tags.ItemTags;
+import de.artemis.floraexpansion.common.registry.ModTags;
+import net.neoforged.neoforge.common.Tags;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.level.ItemLike;
@@ -31,6 +33,9 @@ public class ModRecipeProvider extends RecipeProvider {
                 .save(recipeOutput);
 
         slab(RecipeCategory.BUILDING_BLOCKS, ModBlocks.CACTUS_SLAB.get(), ModBlocks.CACTUS_PLANKS.get());
+        stairBuilder(ModBlocks.CACTUS_MOSAIC_STAIRS.get(), Ingredient.of(ModBlocks.CACTUS_MOSAIC.get()))
+                .unlockedBy(getHasName(ModBlocks.CACTUS_MOSAIC.get()), has(ModBlocks.CACTUS_MOSAIC.get())).save(recipeOutput);
+        slab(RecipeCategory.BUILDING_BLOCKS, ModBlocks.CACTUS_MOSAIC_SLAB.get(), ModBlocks.CACTUS_MOSAIC.get());
 
         fenceBuilder(ModBlocks.CACTUS_FENCE.get(), Ingredient.of(ModBlocks.CACTUS_PLANKS.get()))
                 .unlockedBy(getHasName(ModBlocks.CACTUS_PLANKS.get()), has(ModBlocks.CACTUS_PLANKS.get()))
@@ -183,9 +188,9 @@ public class ModRecipeProvider extends RecipeProvider {
                 .pattern("A A")
                 .pattern("BBB")
                 .pattern("A A")
-                .define('A', ModItems.LINEN_THREAD)
+                .define('A', ModTags.Items.LINEN_THREADS)
                 .define('B', ModItems.TWIG)
-                .unlockedBy("has_linen_thread", has(ModItems.LINEN_THREAD))
+                .unlockedBy("has_linen_thread", has(ModTags.Items.LINEN_THREADS))
                 .unlockedBy("has_twig", has(ModItems.TWIG))
                 .save(recipeOutput);
 
@@ -201,8 +206,8 @@ public class ModRecipeProvider extends RecipeProvider {
         shaped(RecipeCategory.TOOLS, ModItems.BASKET.get())
                 .pattern("T T")
                 .pattern("TTT")
-                .define('T', ModItems.LINEN_THREAD.get())
-                .unlockedBy("has_linen_thread", has(ModItems.LINEN_THREAD.get()))
+                .define('T', ModTags.Items.LINEN_THREADS)
+                .unlockedBy("has_linen_thread", has(ModTags.Items.LINEN_THREADS))
                 .save(recipeOutput);
 
         shaped(RecipeCategory.TOOLS, ModItems.WOODEN_BUCKET.get())
@@ -280,13 +285,13 @@ public class ModRecipeProvider extends RecipeProvider {
                 .unlockedBy("has_honey_bottle", has(Items.HONEY_BOTTLE))
                 .save(recipeOutput);
 
-        shapeless(RecipeCategory.MISC, ModItems.MIXED_BERRIES, 3)
-                .requires(Items.SWEET_BERRIES)
-                .requires(Items.GLOW_BERRIES)
-                .requires(ModItems.CHERRIES)
-                .unlockedBy("has_cherries", has(ModItems.CHERRIES))
-                .unlockedBy("has_glow_berries", has(Items.GLOW_BERRIES))
-                .unlockedBy("has_sweet_berries", has(Items.SWEET_BERRIES))
+        shapeless(RecipeCategory.FOOD, ModItems.MIXED_BERRIES, 3)
+                .requires(ModItems.BLUEBERRIES)
+                .requires(ModItems.STRAWBERRY)
+                .requires(tag(Tags.Items.FOODS_BERRY))
+                .unlockedBy("has_blueberries", has(ModItems.BLUEBERRIES))
+                .unlockedBy("has_strawberry", has(ModItems.STRAWBERRY))
+                .unlockedBy("has_berries", has(Tags.Items.FOODS_BERRY))
                 .save(recipeOutput);
 
         shaped(RecipeCategory.FOOD, ModItems.BLUEBERRY_COOKIE.get(), 8)
@@ -313,13 +318,13 @@ public class ModRecipeProvider extends RecipeProvider {
                 .save(recipeOutput);
 
         shapeless(RecipeCategory.MISC, ModItems.LINEN_THREAD, 2)
-                .requires(ModItems.FLAX_FIBER, 4)
-                .unlockedBy("has_flax_fiber", has(ModItems.FLAX_FIBER))
+                .requires(tag(ModTags.Items.LINEN_FIBERS), 4)
+                .unlockedBy("has_flax_fiber", has(ModTags.Items.LINEN_FIBERS))
                 .save(recipeOutput);
 
         shapeless(RecipeCategory.MISC, ModItems.LINEN_FABRIC, 2)
-                .requires(ModItems.LINEN_THREAD, 4)
-                .unlockedBy("has_linen_thread", has(ModItems.LINEN_THREAD))
+                .requires(tag(ModTags.Items.LINEN_THREADS), 4)
+                .unlockedBy("has_linen_thread", has(ModTags.Items.LINEN_THREADS))
                 .save(recipeOutput);
 
         shapeless(RecipeCategory.MISC, ModBlocks.LINEN_BALE, 1)
@@ -338,8 +343,8 @@ public class ModRecipeProvider extends RecipeProvider {
                 .save(recipeOutput);
 
         shapeless(RecipeCategory.MISC, ModBlocks.FLAX_BALE, 1)
-                .requires(ModItems.FLAX_FIBER, 9)
-                .unlockedBy("has_flax_fiber", has(ModItems.FLAX_FIBER))
+                .requires(tag(ModTags.Items.LINEN_FIBERS), 9)
+                .unlockedBy("has_flax_fiber", has(ModTags.Items.LINEN_FIBERS))
                 .save(recipeOutput);
 
         shapeless(RecipeCategory.MISC, ModItems.FLAX_FIBER, 9)
@@ -378,21 +383,14 @@ public class ModRecipeProvider extends RecipeProvider {
                 .unlockedBy("has_glass_bottle", has(Items.GLASS_BOTTLE))
                 .save(recipeOutput);
 
-        shapeless(RecipeCategory.FOOD, ModItems.BLUEBERRY_JAM, 1)
-                .requires(ModItems.BLUEBERRIES.get(), 4)
-                .requires(Items.SUGAR)
-                .requires(ModItems.GLASS_JAR.get())
-                .unlockedBy("has_blueberries", has(ModItems.BLUEBERRIES.get()))
-                .unlockedBy("has_glass_jar", has(ModItems.GLASS_JAR.get()))
-                .save(recipeOutput);
-
-        shapeless(RecipeCategory.FOOD, ModItems.STRAWBERRY_JAM, 1)
-                .requires(ModItems.STRAWBERRY.get(), 4)
-                .requires(Items.SUGAR)
-                .requires(ModItems.GLASS_JAR.get())
-                .unlockedBy("has_strawberry", has(ModItems.STRAWBERRY.get()))
-                .unlockedBy("has_glass_jar", has(ModItems.GLASS_JAR.get()))
-                .save(recipeOutput);
+        jam(ModItems.BLUEBERRY_JAM, ModItems.BLUEBERRIES);
+        jam(ModItems.STRAWBERRY_JAM, ModItems.STRAWBERRY);
+        shapeless(RecipeCategory.FOOD, ModItems.STRAWBERRY_JUICE, 1)
+                .requires(ModItems.STRAWBERRY.get(), 3).requires(Items.GLASS_BOTTLE)
+                .unlockedBy("has_strawberry", has(ModItems.STRAWBERRY))
+                .unlockedBy("has_glass_bottle", has(Items.GLASS_BOTTLE)).save(recipeOutput);
+        jam(ModItems.CHERRY_JAM, ModItems.CHERRIES);
+        jam(ModItems.APPLE_JAM, Items.APPLE);
 
         shapeless(RecipeCategory.FOOD, ModBlocks.STRAWBERRY_CAKE.get())
                 .requires(Items.CAKE)
@@ -420,6 +418,11 @@ public class ModRecipeProvider extends RecipeProvider {
                 .requires(ModBlocks.GIANT_CACTUS_SHOOT.get())
                 .unlockedBy("has_giant_cactus_shoot", has(ModBlocks.GIANT_CACTUS_SHOOT.get()))
                 .save(recipeOutput, modLoc("pink_dye_from_giant_cactus_shoot"));
+
+        shapeless(RecipeCategory.MISC, Items.DYE.pink(), 1)
+                .requires(ModItems.PRICKLY_PEAR.get())
+                .unlockedBy("has_prickly_pear", has(ModItems.PRICKLY_PEAR.get()))
+                .save(recipeOutput, modLoc("pink_dye_from_prickly_pear"));
 
         foodSmelting(recipeOutput, ModItems.SPRUCE_NUTS.get(), ModItems.TOASTED_SPRUCE_NUTS.get(), 0.1f, 100);
 
@@ -472,6 +475,13 @@ public class ModRecipeProvider extends RecipeProvider {
             SimpleCookingRecipeBuilder.generic(Ingredient.of(itemlike), category, CookingBookCategory.BLOCKS, result, experience, cookingTime, factory).group(group).unlockedBy(getHasName(itemlike), has(itemlike))
                     .save(recipeOutput, FloraExpansion.MODID + ":" + getItemName(result) + recipeName + "_" + getItemName(itemlike));
         }
+    }
+
+    private void jam(ItemLike result, ItemLike fruit) {
+        shapeless(RecipeCategory.FOOD, result, 1).requires(fruit, 4)
+                .requires(Items.SUGAR).requires(ModItems.GLASS_JAR.get())
+                .unlockedBy(getHasName(fruit), has(fruit))
+                .unlockedBy("has_glass_jar", has(ModItems.GLASS_JAR.get())).save(output);
     }
 
     private static @NotNull ResourceKey<Recipe<?>> modLoc(String path) {

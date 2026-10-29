@@ -9,6 +9,7 @@ import net.neoforged.neoforge.registries.DeferredRegister;
 import de.artemis.floraexpansion.common.block.entity.CactusHangingSignBlockEntity;
 import de.artemis.floraexpansion.common.block.entity.CactusSignBlockEntity;
 import de.artemis.floraexpansion.common.block.entity.CrateBlockEntity;
+import de.artemis.floraexpansion.common.block.entity.StrawberryCakeBlockEntity;
 
 public class ModBlockEntities {
     public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITIES =
@@ -40,6 +41,11 @@ public class ModBlockEntities {
     public static void register(IEventBus eventBus) {
         BLOCK_ENTITIES.register(eventBus);
     }
+
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<StrawberryCakeBlockEntity>> STRAWBERRY_CAKE =
+            BLOCK_ENTITIES.register("strawberry_cake", () -> new BlockEntityType<>(StrawberryCakeBlockEntity::new,
+                    ModBlocks.STRAWBERRY_CANDLE_CAKES.stream().map(entry -> (net.minecraft.world.level.block.Block) entry.get())
+                            .toArray(net.minecraft.world.level.block.Block[]::new)));
 }
 
 

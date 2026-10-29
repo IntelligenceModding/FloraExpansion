@@ -52,6 +52,11 @@ public class ModBlockLootTableProvider extends BlockLootSubProvider {
         dropSelf(ModBlocks.LINEN_CARPET.get());
         dropSelf(ModBlocks.PACKED_PEBBLES.get());
         dropSelf(ModBlocks.TWIG_LADDER.get());
+        dropSelf(ModBlocks.GLASS_JAR.get());
+        dropSelf(ModBlocks.BLUEBERRY_JAM.get());
+        dropSelf(ModBlocks.STRAWBERRY_JAM.get());
+        dropSelf(ModBlocks.CHERRY_JAM.get());
+        dropSelf(ModBlocks.APPLE_JAM.get());
         dropPottedContents(ModBlocks.POTTED_GIANT_CACTUS_STEM.get());
         add(ModBlocks.NEEDLE_LITTER.get(), layeredDrops(ModBlocks.NEEDLE_LITTER.get(), NeedleLitterBlock.AMOUNT));
         add(ModBlocks.SCATTERED_PEBBLES.get(), layeredDrops(ModBlocks.SCATTERED_PEBBLES.get(), ScatteredPebblesBlock.AMOUNT));
@@ -60,7 +65,7 @@ public class ModBlockLootTableProvider extends BlockLootSubProvider {
         add(ModBlocks.LARGE_BLUEBERRY_BUSH.get(), createLargeBlueberryBushDrops());
         add(ModBlocks.STRAWBERRY_PLANT.get(), createStrawberryCropDrops());
         add(ModBlocks.STRAWBERRY_CAKE.get(), LootTable.lootTable());
-        ModBlocks.STRAWBERRY_CANDLE_CAKES.forEach(cake -> add(cake.get(), createSingleItemTable(cake.get().getCandle())));
+        ModBlocks.STRAWBERRY_CANDLE_CAKES.forEach(cake -> add(cake.get(), candleCakeDrops()));
         add(ModBlocks.ORCHARD_CHERRY_LEAVES.get(), createOrchardCherryLeavesDrops());
         add(ModBlocks.APPLE_LEAVES.get(), createAppleLeavesDrops());
         dropSelf(ModBlocks.CRATE.get());
@@ -98,6 +103,8 @@ public class ModBlockLootTableProvider extends BlockLootSubProvider {
 
         dropSelf(ModBlocks.CACTUS_PLANKS.get());
         dropSelf(ModBlocks.CACTUS_MOSAIC.get());
+        dropSelf(ModBlocks.CACTUS_MOSAIC_STAIRS.get());
+        add(ModBlocks.CACTUS_MOSAIC_SLAB.get(), createSlabItemTable(ModBlocks.CACTUS_MOSAIC_SLAB.get()));
         dropSelf(ModBlocks.CACTUS_STAIRS.get());
         add(ModBlocks.CACTUS_SLAB.get(), createSlabItemTable(ModBlocks.CACTUS_SLAB.get()));
         dropSelf(ModBlocks.CACTUS_FENCE.get());
@@ -107,6 +114,7 @@ public class ModBlockLootTableProvider extends BlockLootSubProvider {
         add(ModBlocks.CACTUS_DOOR.get(), createDoorTable(ModBlocks.CACTUS_DOOR.get()));
         dropSelf(ModBlocks.CACTUS_TRAPDOOR.get());
         dropSelf(ModBlocks.DESERT_MOSS.get());
+        dropSelf(ModBlocks.FLOWERING_DESERT_MOSS.get());
 
         add(ModBlocks.CACTUS_SIGN.get(), createSingleItemTable(ModItems.CACTUS_SIGN.get()));
         add(ModBlocks.CACTUS_WALL_SIGN.get(), createSingleItemTable(ModItems.CACTUS_SIGN.get()));
@@ -335,5 +343,11 @@ public class ModBlockLootTableProvider extends BlockLootSubProvider {
     @Override
     protected @NotNull Iterable<Block> getKnownBlocks() {
         return ModBlocks.BLOCKS.getEntries().stream().map(entry -> (Block) entry.get()).toList();
+    }
+
+    private LootTable.Builder candleCakeDrops() {
+        return LootTable.lootTable().withPool(LootPool.lootPool().setRolls(constant(1))
+                .when(ExplosionCondition.survivesExplosion())
+                .add(net.minecraft.world.level.storage.loot.entries.DynamicLoot.dynamicEntry(StrawberryCakeWithCandleBlock.CANDLE_DROPS)));
     }
 }

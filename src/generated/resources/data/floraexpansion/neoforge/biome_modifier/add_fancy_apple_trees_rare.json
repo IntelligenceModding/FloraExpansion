@@ -1,14 +1,6 @@
 {
   "type": "neoforge:add_features",
-  "biomes": [
-    "minecraft:plains",
-    "minecraft:meadow",
-    "minecraft:forest",
-    "minecraft:flower_forest",
-    "minecraft:river",
-    "minecraft:savanna",
-    "minecraft:windswept_forest"
-  ],
+  "biomes": "#floraexpansion:has_fancy_apple_trees_rare",
   "features": "floraexpansion:fancy_apple_rare_placed",
   "step": "vegetal_decoration"
 }

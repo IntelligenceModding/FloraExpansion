@@ -47,14 +47,4 @@ public class OrchardCherryLeavesBlock extends FruitLeavesBlock {
         return state.getValue(AGE) > 0;
     }
 
-    @Override
-    public ItemStack getHarvest(BlockState state, RandomSource random) {
-        int amount = switch (state.getValue(AGE)) {
-            case 1 -> 1;
-            case 2 -> 2 + random.nextInt(2);
-            case 3 -> 3 + random.nextInt(2);
-            default -> 0;
-        };
-        return new ItemStack(ModItems.CHERRIES.get(), amount);
-    }
 }

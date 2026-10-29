@@ -17,6 +17,7 @@ out
 build
 .gradle
 src/generated/resources/.cache/
+src/gametest/
 
 # other
 eclipse

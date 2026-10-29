@@ -2,8 +2,6 @@ package de.artemis.floraexpansion.common.projectile;
 
 import de.artemis.floraexpansion.common.registry.ModItems;
 import de.artemis.floraexpansion.common.registry.ModEntityTypes;
-import net.minecraft.core.particles.ParticleOptions;
-import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -14,6 +12,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 import org.jetbrains.annotations.NotNull;
+import de.artemis.floraexpansion.common.config.ServerConfig;
 
 public class PebblesProjectile extends ResourceProjectile {
 
@@ -30,11 +29,6 @@ public class PebblesProjectile extends ResourceProjectile {
     }
 
     @Override
-    protected ParticleOptions getDefaultImpactParticle() {
-        return ParticleTypes.CRIT;
-    }
-
-    @Override
     protected @NotNull Item getDefaultItem() {
         return ModItems.PEBBLES.get();
     }
@@ -44,7 +38,7 @@ public class PebblesProjectile extends ResourceProjectile {
         super.onHitEntity(result);
 
         Entity entity = result.getEntity();
-        entity.hurt(this.damageSources().thrown(this, this.getOwner()), 2.0F);
+        entity.hurt(this.damageSources().thrown(this, this.getOwner()), (float) ServerConfig.pebbleDamage.get().doubleValue());
     }
 
     @Override

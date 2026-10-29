@@ -17,6 +17,8 @@ import de.artemis.floraexpansion.common.block.ScatteredPebblesBlock;
 import de.artemis.floraexpansion.common.block.NeedleLitterBlock;
 import de.artemis.floraexpansion.common.block.SmallBlueberryBushBlock;
 import de.artemis.floraexpansion.common.block.StrawberryCropBlock;
+import de.artemis.floraexpansion.common.block.StrawberryCakeBlock;
+import de.artemis.floraexpansion.common.block.JamJarBlock;
 import de.artemis.floraexpansion.common.registry.ModItems;
 import net.minecraft.client.data.models.BlockModelGenerators;
 import net.minecraft.client.data.models.ItemModelGenerators;
@@ -30,6 +32,8 @@ import net.minecraft.client.data.models.model.ModelTemplates;
 import net.minecraft.client.data.models.model.TextureMapping;
 import net.minecraft.client.data.models.model.TextureSlot;
 import net.minecraft.client.renderer.item.properties.numeric.CustomModelDataProperty;
+import net.minecraft.client.renderer.item.properties.select.ItemBlockState;
+import net.minecraft.client.renderer.item.SelectItemModel;
 import net.minecraft.client.resources.model.sprite.Material;
 import net.minecraft.core.Holder;
 import net.minecraft.core.Direction;
@@ -78,9 +82,10 @@ public class ModModelProvider extends ModelProvider {
                         ItemModelUtils.constantTint(FoliageColor.FOLIAGE_DEFAULT)));
         registerGeneratedItemWithTexture(blockModels, itemModels, ModBlocks.LARGE_BLUEBERRY_BUSH.get().asItem(), "floraexpansion:block/large_blueberry_bush_stage3");
         registerGeneratedItemWithTexture(blockModels, itemModels, ModBlocks.DESERT_MOSS.get().asItem(), "floraexpansion:block/desert_moss_2");
+        registerGeneratedItemWithTexture(blockModels, itemModels, ModBlocks.FLOWERING_DESERT_MOSS.get().asItem(), "floraexpansion:item/flowering_desert_moss");
 
         getFlatItems().forEach(item -> itemModels.generateFlatItem(item, ModelTemplates.FLAT_ITEM));
-        registerExistingItemModel(blockModels, ModItems.BLUEBERRY_JAM.get(), "blueberry_jam");
+        registerJamItemModels(blockModels, itemModels);
         registerExistingItemModel(blockModels, ModItems.GLASS_JAR.get(), "glass_jar");
         registerGeneratedItemWithTexture(blockModels, itemModels, ModItems.BASKET.get(), "minecraft:item/bundle");
         registerGeneratedItemWithTexture(blockModels, itemModels, ModItems.WOODEN_WATER_BUCKET.get(), "floraexpansion:item/water_wooden_bucket");
@@ -90,6 +95,7 @@ public class ModModelProvider extends ModelProvider {
     }
 
     private void registerSimpleBlockModels(BlockModelGenerators blockModels) {
+        createJarModels(blockModels);
         createAppleCoreModels(blockModels);
         createBlueberryBushModels(blockModels);
         createCactusWoodFamilyModels(blockModels);
@@ -131,6 +137,27 @@ public class ModModelProvider extends ModelProvider {
         createStrawberryCropBlockState(blockModels);
     }
 
+    private void createJarModels(BlockModelGenerators blockModels) {
+        for (Block jar : new Block[]{ModBlocks.GLASS_JAR.get(), ModBlocks.BLUEBERRY_JAM.get(),
+                ModBlocks.STRAWBERRY_JAM.get(), ModBlocks.CHERRY_JAM.get(), ModBlocks.APPLE_JAM.get()}) {
+            String name = jar.builtInRegistryHolder().key().identifier().getPath();
+            if (jar instanceof JamJarBlock) {
+                var variants = PropertyDispatch.initial(JamJarBlock.PORTIONS);
+                for (int portions = 1; portions <= JamJarBlock.MAX_PORTIONS; portions++) {
+                    int amount = portions;
+                    Identifier model = modModel(name + (portions == JamJarBlock.MAX_PORTIONS ? "" : "_" + portions));
+                    blockModels.modelOutput.accept(model, () -> createJarModelJson(name, amount));
+                    variants.select(portions, BlockModelGenerators.plainVariant(model));
+                }
+                blockModels.blockStateOutput.accept(MultiVariantGenerator.dispatch(jar).with(variants));
+            } else {
+                Identifier model = modModel(name);
+                blockModels.modelOutput.accept(model, () -> createJarModelJson(null, 0));
+                blockModels.blockStateOutput.accept(MultiVariantGenerator.dispatch(jar, BlockModelGenerators.plainVariant(model)));
+            }
+        }
+    }
+
     private void registerCrateItemModel(BlockModelGenerators blockModels) {
         blockModels.itemModelOutput.accept(ModBlocks.CRATE.get().asItem(),
                 ItemModelUtils.rangeSelect(
@@ -138,6 +165,26 @@ public class ModModelProvider extends ModelProvider {
                         ItemModelUtils.plainModel(modItemModel("crate")),
                         ItemModelUtils.override(ItemModelUtils.plainModel(modItemModel("crate_packed")), 1.0F)
                 ));
+    }
+
+    private void registerJamItemModels(BlockModelGenerators blockModels, ItemModelGenerators itemModels) {
+        for (Item jam : new Item[]{ModItems.BLUEBERRY_JAM.get(), ModItems.STRAWBERRY_JAM.get(),
+                ModItems.CHERRY_JAM.get(), ModItems.APPLE_JAM.get()}) {
+            String name = jam.builtInRegistryHolder().key().identifier().getPath();
+            Identifier full = modItemModel(name);
+            if (jam != ModItems.BLUEBERRY_JAM.get()) {
+                itemModels.modelOutput.accept(full, () -> createGeneratedItemModelJson("floraexpansion:item/" + name));
+            }
+            var cases = new java.util.ArrayList<SelectItemModel.SwitchCase<String>>();
+            for (int portions = 1; portions < JamJarBlock.MAX_PORTIONS; portions++) {
+                String variant = name + "_portion_" + portions;
+                Identifier model = modItemModel(variant);
+                itemModels.modelOutput.accept(model, () -> createGeneratedItemModelJson("floraexpansion:item/" + variant));
+                cases.add(ItemModelUtils.when(Integer.toString(portions), ItemModelUtils.plainModel(model)));
+            }
+            blockModels.itemModelOutput.accept(jam, ItemModelUtils.select(new ItemBlockState(JamJarBlock.PORTIONS.getName()),
+                    ItemModelUtils.plainModel(full), cases));
+        }
     }
 
     private void registerExistingItemModel(BlockModelGenerators blockModels, Item item, String modelName) {
@@ -193,16 +240,17 @@ public class ModModelProvider extends ModelProvider {
     }
 
     private void createDesertMossBlockState(BlockModelGenerators blockModels) {
-        MultiPartGenerator generator = MultiPartGenerator.multiPart(ModBlocks.DESERT_MOSS.get());
-
-        for (int variant = 0; variant <= 3; variant++) {
-            generator.with(
-                    BlockModelGenerators.condition().term(DesertMossBlock.VARIANT, variant),
-                    BlockModelGenerators.plainVariant(modModel("desert_moss_" + variant))
-            );
+        for (Block moss : java.util.List.of(ModBlocks.DESERT_MOSS.get(), ModBlocks.FLOWERING_DESERT_MOSS.get())) {
+            MultiPartGenerator generator = MultiPartGenerator.multiPart(moss);
+            String name = moss.builtInRegistryHolder().key().identifier().getPath();
+            for (int variant = 0; variant <= 3; variant++) {
+                generator.with(
+                        BlockModelGenerators.condition().term(DesertMossBlock.VARIANT, variant),
+                        BlockModelGenerators.plainVariant(modModel(name + "_" + variant))
+                );
+            }
+            blockModels.blockStateOutput.accept(generator);
         }
-
-        blockModels.blockStateOutput.accept(generator);
     }
 
     private void createFlaxBlockState(BlockModelGenerators blockModels) {
@@ -485,32 +533,48 @@ public class ModModelProvider extends ModelProvider {
                 .pressurePlate(ModBlocks.CACTUS_PRESSURE_PLATE.get())
                 .getFamily();
         blockModels.familyWithExistingFullBlock(ModBlocks.CACTUS_PLANKS.get()).generateFor(family);
+        BlockFamily mosaicFamily = new BlockFamily.Builder(ModBlocks.CACTUS_MOSAIC.get())
+                .stairs(ModBlocks.CACTUS_MOSAIC_STAIRS.get()).slab(ModBlocks.CACTUS_MOSAIC_SLAB.get()).getFamily();
+        blockModels.familyWithExistingFullBlock(ModBlocks.CACTUS_MOSAIC.get()).generateFor(mosaicFamily);
         createCactusDoorModels(blockModels);
         createCactusTrapdoorModels(blockModels);
 
-        Identifier cactusSignModel = ModelTemplates.PARTICLE_ONLY.create(
-                modModel("cactus_sign"),
-                new TextureMapping().put(TextureSlot.PARTICLE, modBlockMaterial("cactus_planks")),
-                blockModels.modelOutput
-        );
-        Identifier cactusHangingSignModel = ModelTemplates.PARTICLE_ONLY.create(
-                modModel("cactus_hanging_sign"),
-                new TextureMapping().put(TextureSlot.PARTICLE, modBlockMaterial("stripped_cactus_log_side")),
-                blockModels.modelOutput
-        );
+        createCactusSignModels(blockModels);
+    }
 
-        blockModels.blockStateOutput.accept(
-                BlockModelGenerators.createSimpleBlock(ModBlocks.CACTUS_SIGN.get(), BlockModelGenerators.plainVariant(cactusSignModel))
-        );
-        blockModels.blockStateOutput.accept(
-                BlockModelGenerators.createSimpleBlock(ModBlocks.CACTUS_WALL_SIGN.get(), BlockModelGenerators.plainVariant(cactusSignModel))
-        );
-        blockModels.blockStateOutput.accept(
-                BlockModelGenerators.createSimpleBlock(ModBlocks.CACTUS_HANGING_SIGN.get(), BlockModelGenerators.plainVariant(cactusHangingSignModel))
-        );
-        blockModels.blockStateOutput.accept(
-                BlockModelGenerators.createSimpleBlock(ModBlocks.CACTUS_WALL_HANGING_SIGN.get(), BlockModelGenerators.plainVariant(cactusHangingSignModel))
-        );
+    private void createCactusSignModels(BlockModelGenerators blockModels) {
+        TextureMapping standing = new TextureMapping().put(TextureSlot.ALL, modBlockMaterial("cactus_sign"))
+                .put(TextureSlot.PARTICLE, modBlockMaterial("cactus_planks"));
+        TextureMapping hanging = new TextureMapping().put(TextureSlot.ALL, modBlockMaterial("cactus_hanging_sign"))
+                .put(TextureSlot.PARTICLE, modBlockMaterial("stripped_cactus_log_side"));
+        var standingTemplates = java.util.List.of(ModelTemplates.SIGN_ROT_0, ModelTemplates.SIGN_ROT_1,
+                ModelTemplates.SIGN_ROT_2, ModelTemplates.SIGN_ROT_3);
+        var hangingTemplates = java.util.List.of(ModelTemplates.HANGING_SIGN_ROT_0, ModelTemplates.HANGING_SIGN_ROT_1,
+                ModelTemplates.HANGING_SIGN_ROT_2, ModelTemplates.HANGING_SIGN_ROT_3);
+        var attachedTemplates = java.util.List.of(ModelTemplates.ATTACHED_HANGING_SIGN_ROT_0, ModelTemplates.ATTACHED_HANGING_SIGN_ROT_1,
+                ModelTemplates.ATTACHED_HANGING_SIGN_ROT_2, ModelTemplates.ATTACHED_HANGING_SIGN_ROT_3);
+        MultiVariant[] signs = new MultiVariant[4], hangingSigns = new MultiVariant[4], attachedSigns = new MultiVariant[4];
+        for (int rotation = 0; rotation < 4; rotation++) {
+            signs[rotation] = BlockModelGenerators.plainVariant(standingTemplates.get(rotation)
+                    .create(modModel("cactus_sign_rot_" + rotation), standing, blockModels.modelOutput));
+            hangingSigns[rotation] = BlockModelGenerators.plainVariant(hangingTemplates.get(rotation)
+                    .create(modModel("cactus_hanging_sign_rot_" + rotation), hanging, blockModels.modelOutput));
+            attachedSigns[rotation] = BlockModelGenerators.plainVariant(attachedTemplates.get(rotation)
+                    .create(modModel("cactus_hanging_sign_attached_rot_" + rotation), hanging, blockModels.modelOutput));
+        }
+        blockModels.blockStateOutput.accept(BlockModelGenerators.createSign(ModBlocks.CACTUS_SIGN.get(),
+                signs[0], signs[1], signs[2], signs[3]));
+        blockModels.blockStateOutput.accept(BlockModelGenerators.createHangingSign(ModBlocks.CACTUS_HANGING_SIGN.get(),
+                hangingSigns[0], hangingSigns[1], hangingSigns[2], hangingSigns[3],
+                attachedSigns[0], attachedSigns[1], attachedSigns[2], attachedSigns[3]));
+        var wallSign = BlockModelGenerators.plainVariant(ModelTemplates.WALL_SIGN.create(
+                modModel("cactus_wall_sign"), standing, blockModels.modelOutput));
+        var wallHangingSign = BlockModelGenerators.plainVariant(ModelTemplates.WALL_HANGING_SIGN.create(
+                modModel("cactus_wall_hanging_sign"), hanging, blockModels.modelOutput));
+        blockModels.blockStateOutput.accept(MultiVariantGenerator.dispatch(ModBlocks.CACTUS_WALL_SIGN.get(), wallSign)
+                .with(BlockModelGenerators.ROTATION_HORIZONTAL_FACING_ALT));
+        blockModels.blockStateOutput.accept(MultiVariantGenerator.dispatch(ModBlocks.CACTUS_WALL_HANGING_SIGN.get(), wallHangingSign)
+                .with(BlockModelGenerators.ROTATION_HORIZONTAL_FACING_ALT));
     }
 
     private void createAppleCoreModels(BlockModelGenerators blockModels) {
@@ -533,6 +597,9 @@ public class ModModelProvider extends ModelProvider {
             String modelName = "desert_moss_" + variant;
             String texture = "floraexpansion:block/desert_moss_" + variant;
             blockModels.modelOutput.accept(modModel(modelName), () -> createGroundPlaneModelJson(texture));
+            int flowerVariant = variant;
+            blockModels.modelOutput.accept(modModel("flowering_" + modelName),
+                    () -> createFloweringDesertMossModelJson(texture, flowerVariant));
         }
     }
 
@@ -645,18 +712,11 @@ public class ModModelProvider extends ModelProvider {
             int slice = bites;
             blockModels.modelOutput.accept(modModel("strawberry_cake_slice" + bites), () -> createCakeModelJson("minecraft:block/cake_slice" + slice));
         }
-        for (var cake : ModBlocks.STRAWBERRY_CANDLE_CAKES) {
-            createStrawberryCakeWithCandleModels(blockModels, cake.get().getCandle(), cake.get());
+        for (int bites = 0; bites <= 6; bites++) {
+            int slice = bites;
+            blockModels.modelOutput.accept(modModel("strawberry_cake_slice" + bites + "_half"),
+                    () -> createHalfSliceCakeModelJson(slice));
         }
-
-    }
-
-    private void createStrawberryCakeWithCandleModels(BlockModelGenerators blockModels, Block candle, Block candleCake) {
-        String modelName = candleCake.builtInRegistryHolder().key().identifier().getPath();
-        String candleName = candle.builtInRegistryHolder().key().identifier().getPath();
-
-        blockModels.modelOutput.accept(modModel(modelName), () -> createCandleCakeModelJson("minecraft:block/" + candleName));
-        blockModels.modelOutput.accept(modModel(modelName + "_lit"), () -> createCandleCakeModelJson("minecraft:block/" + candleName + "_lit"));
     }
 
     private void createStrawberryCropModels(BlockModelGenerators blockModels) {
@@ -668,29 +728,20 @@ public class ModModelProvider extends ModelProvider {
     }
 
     private void createStrawberryCakeBlockState(BlockModelGenerators blockModels) {
-        blockModels.blockStateOutput.accept(
-                MultiVariantGenerator.dispatch(ModBlocks.STRAWBERRY_CAKE.get())
-                        .with(PropertyDispatch.initial(BlockStateProperties.BITES)
-                                .select(0, BlockModelGenerators.plainVariant(modModel("strawberry_cake")))
-                                .select(1, BlockModelGenerators.plainVariant(modModel("strawberry_cake_slice1")))
-                                .select(2, BlockModelGenerators.plainVariant(modModel("strawberry_cake_slice2")))
-                                .select(3, BlockModelGenerators.plainVariant(modModel("strawberry_cake_slice3")))
-                                .select(4, BlockModelGenerators.plainVariant(modModel("strawberry_cake_slice4")))
-                                .select(5, BlockModelGenerators.plainVariant(modModel("strawberry_cake_slice5")))
-                                .select(6, BlockModelGenerators.plainVariant(modModel("strawberry_cake_slice6"))))
-        );
+        var variants = PropertyDispatch.initial(BlockStateProperties.BITES, StrawberryCakeBlock.HALF_SLICE);
+        for (int bites = 0; bites <= 6; bites++) {
+            String whole = bites == 0 ? "strawberry_cake" : "strawberry_cake_slice" + bites;
+            variants.select(bites, false, BlockModelGenerators.plainVariant(modModel(whole)));
+            variants.select(bites, true, BlockModelGenerators.plainVariant(modModel("strawberry_cake_slice" + bites + "_half")));
+        }
+        blockModels.blockStateOutput.accept(MultiVariantGenerator.dispatch(ModBlocks.STRAWBERRY_CAKE.get()).with(variants));
 
         ModBlocks.STRAWBERRY_CANDLE_CAKES.forEach(cake -> createStrawberryCakeWithCandleBlockState(blockModels, cake.get()));
     }
 
     private void createStrawberryCakeWithCandleBlockState(BlockModelGenerators blockModels, Block candleCake) {
-        String modelName = candleCake.builtInRegistryHolder().key().identifier().getPath();
-        blockModels.blockStateOutput.accept(
-                MultiVariantGenerator.dispatch(candleCake)
-                        .with(PropertyDispatch.initial(BlockStateProperties.LIT)
-                                .select(false, BlockModelGenerators.plainVariant(modModel(modelName)))
-                                .select(true, BlockModelGenerators.plainVariant(modModel(modelName + "_lit"))))
-        );
+        blockModels.blockStateOutput.accept(MultiVariantGenerator.dispatch(candleCake,
+                BlockModelGenerators.plainVariant(modModel("strawberry_cake"))));
     }
 
     private void createStrawberryCropBlockState(BlockModelGenerators blockModels) {
@@ -883,7 +934,7 @@ public class ModModelProvider extends ModelProvider {
                 ModItems.SLICE_OF_BLUEBERRY_PIE.get(),
                 ModItems.BLUEBERRY_JUICE.get(),
                 ModItems.STRAWBERRY.get(),
-                ModItems.STRAWBERRY_JAM.get(),
+                ModItems.STRAWBERRY_JUICE.get(),
                 ModItems.WOODEN_BUCKET.get(),
                 ModItems.COD_WOODEN_BUCKET.get(),
                 ModItems.SALMON_WOODEN_BUCKET.get(),

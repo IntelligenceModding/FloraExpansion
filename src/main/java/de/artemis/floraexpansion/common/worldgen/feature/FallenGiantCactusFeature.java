@@ -168,8 +168,7 @@ public class FallenGiantCactusFeature implements Feature {
             return;
         }
 
-        BlockState moss = ModBlocks.DESERT_MOSS.get().defaultBlockState()
-                .setValue(DesertMossBlock.VARIANT, random.nextInt(4));
+        BlockState moss = DesertMossBlock.naturalState(random);
 
         if (moss.canSurvive(level, pos)) {
             level.setBlock(pos, moss, 2);

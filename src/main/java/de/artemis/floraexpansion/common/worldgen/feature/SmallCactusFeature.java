@@ -111,11 +111,7 @@ public class SmallCactusFeature implements Feature {
     }
 
     private static boolean tryPlaceDesertMoss(WorldGenLevel level, BlockPos pos, RandomSource random) {
-        BlockState moss = ModBlocks.DESERT_MOSS.get().defaultBlockState();
-
-        if (moss.hasProperty(DesertMossBlock.VARIANT)) {
-            moss = moss.setValue(DesertMossBlock.VARIANT, random.nextInt(4));
-        }
+        BlockState moss = DesertMossBlock.naturalState(random);
 
         if (!moss.canSurvive(level, pos)) {
             return false;

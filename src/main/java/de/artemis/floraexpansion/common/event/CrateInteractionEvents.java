@@ -13,6 +13,8 @@ import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.ClientTickEvent;
 import net.neoforged.neoforge.client.network.ClientPacketDistributor;
+import de.artemis.floraexpansion.common.config.ServerConfig;
+import de.artemis.floraexpansion.common.config.ClientConfig;
 
 @EventBusSubscriber(modid = FloraExpansion.MODID, value = Dist.CLIENT)
 public final class CrateInteractionEvents {
@@ -30,7 +32,8 @@ public final class CrateInteractionEvents {
         }
 
         boolean attackDown = minecraft.options.keyAttack.isDown();
-        if (!attackDown || wasAttackDown || minecraft.player.isCreative() || !(minecraft.hitResult instanceof BlockHitResult blockHitResult)) {
+        if (!ClientConfig.quickExtraction.get() || !ServerConfig.crateExtraction.get()
+                || !attackDown || wasAttackDown || minecraft.player.isCreative() || !(minecraft.hitResult instanceof BlockHitResult blockHitResult)) {
             wasAttackDown = attackDown;
             return;
         }

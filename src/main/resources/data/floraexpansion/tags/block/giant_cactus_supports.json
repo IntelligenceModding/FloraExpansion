@@ -1,0 +1,8 @@
+{
+  "replace": false,
+  "values": [
+    "#floraexpansion:giant_cactus_growth_soils",
+    "#floraexpansion:cactus_stem_supports",
+    "minecraft:cactus"
+  ]
+}

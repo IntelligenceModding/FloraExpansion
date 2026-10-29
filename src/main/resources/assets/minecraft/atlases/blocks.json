@@ -1,0 +1,24 @@
+{
+  "sources": [
+    {
+      "type": "minecraft:single",
+      "resource": "floraexpansion:item/blueberry_jam",
+      "sprite": "floraexpansion:block/blueberry_jam_fill"
+    },
+    {
+      "type": "minecraft:single",
+      "resource": "floraexpansion:item/strawberry_jam",
+      "sprite": "floraexpansion:block/strawberry_jam_fill"
+    },
+    {
+      "type": "minecraft:single",
+      "resource": "floraexpansion:item/cherry_jam",
+      "sprite": "floraexpansion:block/cherry_jam_fill"
+    },
+    {
+      "type": "minecraft:single",
+      "resource": "floraexpansion:item/apple_jam",
+      "sprite": "floraexpansion:block/apple_jam_fill"
+    }
+  ]
+}

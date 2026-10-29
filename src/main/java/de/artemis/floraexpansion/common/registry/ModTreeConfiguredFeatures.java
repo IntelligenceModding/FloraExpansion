@@ -45,8 +45,15 @@ public class ModTreeConfiguredFeatures {
                     Identifier.fromNamespaceAndPath(FloraExpansion.MODID, "fancy_apple_tree")
             );
 
+    public static final ResourceKey<Feature> PLANTED_APPLE_TREE_KEY = ResourceKey.create(
+            Registries.FEATURE, Identifier.fromNamespaceAndPath(FloraExpansion.MODID, "planted_apple_tree"));
+    public static final ResourceKey<Feature> PLANTED_FANCY_APPLE_TREE_KEY = ResourceKey.create(
+            Registries.FEATURE, Identifier.fromNamespaceAndPath(FloraExpansion.MODID, "planted_fancy_apple_tree"));
+    public static final ResourceKey<Feature> PLANTED_ORCHARD_CHERRY_TREE_KEY = ResourceKey.create(
+            Registries.FEATURE, Identifier.fromNamespaceAndPath(FloraExpansion.MODID, "planted_orchard_cherry_tree"));
+
     public static void bootstrap(BootstrapContext<Feature> context) {
-        TreeFeature orchardCherryConfig = new TreeFeature.Builder(
+        var orchardCherryBuilder = new TreeFeature.Builder(
                 new SimpleStateProvider(Blocks.CHERRY_LOG.defaultBlockState()),
                 new CherryTrunkPlacer(
                         7,
@@ -71,12 +78,13 @@ public class ModTreeConfiguredFeatures {
                 Holder.direct(new SimpleStateProvider(Blocks.DIRT.defaultBlockState()))
         )
                 .decorators(List.of(OrchardCherryLeavesDecorator.INSTANCE))
-                .ignoreVines()
-                .build();
+                .ignoreVines();
 
-        context.register(ORCHARD_CHERRY_TREE_KEY, orchardCherryConfig);
+        context.register(ORCHARD_CHERRY_TREE_KEY, orchardCherryBuilder.build());
+        context.register(PLANTED_ORCHARD_CHERRY_TREE_KEY, orchardCherryBuilder
+                .decorators(List.of(new OrchardCherryLeavesDecorator(2, Integer.MAX_VALUE, false))).build());
 
-        TreeFeature appleConfig = new TreeFeature.Builder(
+        var appleBuilder = new TreeFeature.Builder(
                 new SimpleStateProvider(Blocks.OAK_LOG.defaultBlockState()),
                 new StraightTrunkPlacer(4, 2, 0),
                 new SimpleStateProvider(Blocks.OAK_LEAVES.defaultBlockState()),
@@ -85,12 +93,13 @@ public class ModTreeConfiguredFeatures {
                 Holder.direct(new SimpleStateProvider(Blocks.DIRT.defaultBlockState()))
         )
                 .decorators(List.of(AppleLeavesDecorator.INSTANCE))
-                .ignoreVines()
-                .build();
+                .ignoreVines();
 
-        context.register(APPLE_TREE_KEY, appleConfig);
+        context.register(APPLE_TREE_KEY, appleBuilder.build());
+        context.register(PLANTED_APPLE_TREE_KEY, appleBuilder
+                .decorators(List.of(new AppleLeavesDecorator(2, Integer.MAX_VALUE, false))).build());
 
-        TreeFeature fancyAppleConfig = new TreeFeature.Builder(
+        var fancyAppleBuilder = new TreeFeature.Builder(
                 new SimpleStateProvider(Blocks.OAK_LOG.defaultBlockState()),
                 new FancyTrunkPlacer(3, 11, 0),
                 new SimpleStateProvider(Blocks.OAK_LEAVES.defaultBlockState()),
@@ -99,9 +108,10 @@ public class ModTreeConfiguredFeatures {
                 Holder.direct(new SimpleStateProvider(Blocks.DIRT.defaultBlockState()))
         )
                 .decorators(List.of(AppleLeavesDecorator.INSTANCE))
-                .ignoreVines()
-                .build();
+                .ignoreVines();
 
-        context.register(FANCY_APPLE_TREE_KEY, fancyAppleConfig);
+        context.register(FANCY_APPLE_TREE_KEY, fancyAppleBuilder.build());
+        context.register(PLANTED_FANCY_APPLE_TREE_KEY, fancyAppleBuilder
+                .decorators(List.of(new AppleLeavesDecorator(2, Integer.MAX_VALUE, false))).build());
     }
 }

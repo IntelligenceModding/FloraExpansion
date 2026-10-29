@@ -9,10 +9,22 @@ import org.jetbrains.annotations.NotNull;
 
 public class OrchardCherryLeavesDecorator extends FruitLeavesDecorator {
     public static final OrchardCherryLeavesDecorator INSTANCE = new OrchardCherryLeavesDecorator();
-    public static final MapCodec<OrchardCherryLeavesDecorator> CODEC = MapCodec.unit(INSTANCE);
+    public static final MapCodec<OrchardCherryLeavesDecorator> CODEC = com.mojang.serialization.codecs.RecordCodecBuilder.<OrchardCherryLeavesDecorator>mapCodec(instance -> instance.group(
+            com.mojang.serialization.Codec.intRange(1, 256).optionalFieldOf("replacement_divisor", 2).forGetter(OrchardCherryLeavesDecorator::replacementDivisor),
+            com.mojang.serialization.Codec.intRange(0, Integer.MAX_VALUE).optionalFieldOf("max_replacements", 30).forGetter(OrchardCherryLeavesDecorator::maxReplacements),
+            com.mojang.serialization.Codec.BOOL.optionalFieldOf("exposed_only", true).forGetter(OrchardCherryLeavesDecorator::exposedOnly)
+    ).apply(instance, OrchardCherryLeavesDecorator::new));
 
     private OrchardCherryLeavesDecorator() {
-        super(Blocks.CHERRY_LEAVES, () -> ModBlocks.ORCHARD_CHERRY_LEAVES.get(), 2, 30);
+        this(2, 30);
+    }
+
+    public OrchardCherryLeavesDecorator(int divisor, int maximum) {
+        this(divisor, maximum, true);
+    }
+
+    public OrchardCherryLeavesDecorator(int divisor, int maximum, boolean exposedOnly) {
+        super(Blocks.CHERRY_LEAVES, () -> ModBlocks.ORCHARD_CHERRY_LEAVES.get(), divisor, maximum, exposedOnly);
     }
 
     @Override

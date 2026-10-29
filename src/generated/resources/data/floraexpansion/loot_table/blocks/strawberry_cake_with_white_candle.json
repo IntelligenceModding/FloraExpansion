@@ -7,8 +7,8 @@
       },
       "entries": [
         {
-          "type": "minecraft:item",
-          "name": "minecraft:white_candle"
+          "type": "minecraft:dynamic",
+          "name": "floraexpansion:cake_candles"
         }
       ],
       "rolls": 1

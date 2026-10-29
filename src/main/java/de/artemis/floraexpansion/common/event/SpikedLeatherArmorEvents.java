@@ -21,12 +21,10 @@ import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.AnvilUpdateEvent;
 import net.neoforged.neoforge.event.entity.living.LivingDamageEvent;
+import de.artemis.floraexpansion.common.config.ServerConfig;
 
 @EventBusSubscriber(modid = FloraExpansion.MODID)
 public final class SpikedLeatherArmorEvents {
-    private static final float RETALIATE_CHANCE_PER_PIECE = 0.15F;
-    private static final float BASE_RETALIATE_DAMAGE = 1.0F;
-    private static final float THREE_PLUS_BONUS_DAMAGE = 1.0F;
 
     private SpikedLeatherArmorEvents() {
     }
@@ -89,14 +87,14 @@ public final class SpikedLeatherArmorEvents {
             return;
         }
 
-        float procChance = pieceCount * RETALIATE_CHANCE_PER_PIECE;
+        float procChance = (float) Math.min(1.0, pieceCount * ServerConfig.armorChance.get());
         if (serverLevel.getRandom().nextFloat() >= procChance) {
             return;
         }
 
-        float retaliateDamage = BASE_RETALIATE_DAMAGE;
+        float retaliateDamage = (float) ServerConfig.armorDamage.get().doubleValue();
         if (pieceCount >= 3) {
-            retaliateDamage += THREE_PLUS_BONUS_DAMAGE;
+            retaliateDamage += (float) ServerConfig.armorBonus.get().doubleValue();
         }
 
         boolean hitLanded = attacker.hurtServer(serverLevel, victim.damageSources().thorns(victim), retaliateDamage);

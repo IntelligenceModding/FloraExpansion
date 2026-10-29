@@ -1,10 +1,7 @@
 {
   "variants": {
-    "lit=false": {
-      "model": "floraexpansion:block/strawberry_cake_with_cyan_candle"
-    },
-    "lit=true": {
-      "model": "floraexpansion:block/strawberry_cake_with_cyan_candle_lit"
+    "": {
+      "model": "floraexpansion:block/strawberry_cake"
     }
   }
 }

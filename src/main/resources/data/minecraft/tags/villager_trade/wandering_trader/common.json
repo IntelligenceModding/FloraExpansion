@@ -2,6 +2,13 @@
   "replace": false,
   "values": [
     "floraexpansion:wandering_trader/emerald_blueberries",
-    "floraexpansion:wandering_trader/emerald_strawberry"
+    "floraexpansion:wandering_trader/emerald_strawberry",
+    "floraexpansion:wandering_trader/emerald_flax_seeds",
+    "floraexpansion:wandering_trader/emerald_cherry_pit",
+    "floraexpansion:wandering_trader/emerald_apple_core",
+    "floraexpansion:wandering_trader/emerald_giant_cactus_shoot",
+    "floraexpansion:wandering_trader/emerald_prickly_pear",
+    "floraexpansion:wandering_trader/emerald_small_cactus",
+    "floraexpansion:wandering_trader/emerald_desert_moss"
   ]
 }

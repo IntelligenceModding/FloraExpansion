@@ -1,7 +1,19 @@
 {
   "variants": {
-    "": {
-      "model": "floraexpansion:block/cactus_sign"
+    "facing=east": {
+      "model": "floraexpansion:block/cactus_wall_sign",
+      "y": 270
+    },
+    "facing=north": {
+      "model": "floraexpansion:block/cactus_wall_sign",
+      "y": 180
+    },
+    "facing=south": {
+      "model": "floraexpansion:block/cactus_wall_sign"
+    },
+    "facing=west": {
+      "model": "floraexpansion:block/cactus_wall_sign",
+      "y": 90
     }
   }
 }

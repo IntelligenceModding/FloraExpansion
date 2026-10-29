@@ -8,6 +8,86 @@ final class ModelJsonTemplates {
     private ModelJsonTemplates() {
     }
 
+    static JsonObject createJarModelJson(String jam, int portions) {
+        JsonObject model = new JsonObject();
+        model.addProperty("parent", "minecraft:block/block");
+        JsonObject textures = new JsonObject();
+        textures.addProperty("particle", "minecraft:block/glass");
+        textures.add("glass", translucentMaterial("minecraft:block/glass"));
+        textures.add("body", translucentMaterial("floraexpansion:block/glass_jar"));
+        textures.addProperty("cork", "minecraft:block/stripped_oak_log_top");
+        if (jam != null) textures.add("jam", translucentMaterial("floraexpansion:block/" + jam + "_fill"));
+        model.add("textures", textures);
+        JsonArray elements = new JsonArray();
+        elements.add(jarElement(4, 0, 4, 12, 8, 12, "body", false));
+        addJarGlass(elements, 5, 8, 5, 11, 10, 11, true);
+        elements.add(jarElement(4, 10, 4, 12, 12, 12, "cork", false));
+        if (jam != null) elements.add(jarElement(5, 1, 5, 11, 1 + (6 * portions + 3) / 4, 11, "jam", false));
+        model.add("elements", elements);
+        return model;
+    }
+
+    private static JsonObject translucentMaterial(String sprite) {
+        JsonObject material = new JsonObject();
+        material.addProperty("sprite", sprite);
+        material.addProperty("force_translucent", true);
+        return material;
+    }
+
+    private static void addJarGlass(JsonArray elements, int x1, int y1, int z1, int x2, int y2, int z2, boolean sidesOnly) {
+        for (String direction : new String[]{"down", "up", "north", "south", "east", "west"}) {
+            boolean horizontal = direction.equals("down") || direction.equals("up");
+            if (horizontal && sidesOnly) continue;
+            int halfWidth = (direction.equals("east") || direction.equals("west") ? z2 - z1 : x2 - x1) / 2;
+            int halfHeight = (horizontal ? z2 - z1 : y2 - y1) / 2;
+            for (int row = 0; row < 2; row++) for (int column = 0; column < 2; column++) {
+                int u1 = column * halfWidth, u2 = u1 + halfWidth;
+                int v1 = row * halfHeight, v2 = v1 + halfHeight;
+                int[] bounds = switch (direction) {
+                    case "north" -> new int[]{x2-u2, y2-v2, z1, x2-u1, y2-v1, z1};
+                    case "south" -> new int[]{x1+u1, y2-v2, z2, x1+u2, y2-v1, z2};
+                    case "west" -> new int[]{x1, y2-v2, z1+u1, x1, y2-v1, z1+u2};
+                    case "east" -> new int[]{x2, y2-v2, z2-u2, x2, y2-v1, z2-u1};
+                    case "up" -> new int[]{x1+u1, y2, z1+v1, x1+u2, y2, z1+v2};
+                    case "down" -> new int[]{x1+u1, y1, z2-v2, x1+u2, y1, z2-v1};
+                    default -> throw new IllegalArgumentException(direction);
+                };
+                JsonObject element = new JsonObject();
+                element.add("from", createNumberArray(bounds[0], bounds[1], bounds[2]));
+                element.add("to", createNumberArray(bounds[3], bounds[4], bounds[5]));
+                int textureU = column == 0 ? 0 : 16 - halfWidth;
+                int textureV = row == 0 ? 0 : 16 - halfHeight;
+                JsonObject faces = new JsonObject();
+                faces.add(direction, createFace("#glass", textureU, textureV,
+                        textureU + halfWidth, textureV + halfHeight, false, null));
+                element.add("faces", faces);
+                elements.add(element);
+            }
+        }
+    }
+
+    private static JsonObject jarElement(int x1, int y1, int z1, int x2, int y2, int z2, String material, boolean sidesOnly) {
+        JsonObject element = new JsonObject();
+        element.add("from", createNumberArray(x1, y1, z1));
+        element.add("to", createNumberArray(x2, y2, z2));
+        JsonObject faces = new JsonObject();
+        for (String direction : new String[]{"down", "up", "north", "south", "east", "west"}) {
+            boolean horizontal = direction.equals("down") || direction.equals("up");
+            if (horizontal && sidesOnly) continue;
+            int width = direction.equals("east") || direction.equals("west") ? z2 - z1 : x2 - x1;
+            int height = horizontal ? z2 - z1 : y2 - y1;
+            JsonObject face = material.equals("jam")
+                    ? createFace("#jam", 5, horizontal ? 6 : 12 - height, 11, 12, false, null)
+                    : material.equals("cork") && horizontal
+                    ? createFace("#cork", x1, z1, x2, z2, false, null)
+                    : createFace("#" + material, 0, 16 - height, width, 16, false, null);
+            if (material.equals("jam")) face.addProperty("tintindex", 0);
+            faces.add(direction, face);
+        }
+        element.add("faces", faces);
+        return element;
+    }
+
     static JsonObject createCutoutCrossModelJson(String texture) {
         JsonObject model = new JsonObject();
         JsonObject textures = new JsonObject();
@@ -92,18 +172,38 @@ final class ModelJsonTemplates {
         return model;
     }
 
-    static JsonObject createCandleCakeModelJson(String candleTexture) {
-        JsonObject model = new JsonObject();
-        JsonObject textures = new JsonObject();
-
-        model.addProperty("parent", "minecraft:block/template_cake_with_candle");
-        textures.addProperty("particle", "floraexpansion:block/strawberry_cake_side");
-        textures.addProperty("bottom", "floraexpansion:block/strawberry_cake_bottom");
-        textures.addProperty("top", "floraexpansion:block/strawberry_cake_top");
-        textures.addProperty("side", "floraexpansion:block/strawberry_cake_side");
-        textures.addProperty("candle", candleTexture);
-        model.add("textures", textures);
+    static JsonObject createHalfSliceCakeModelJson(int completedSlices) {
+        JsonObject model = createCakeModelJson("minecraft:block/block");
+        JsonArray elements = new JsonArray();
+        int x = 1 + completedSlices * 2;
+        if (x + 2 < 15) {
+            elements.add(createCakePiece(x + 2, 1, 15, 15, true, false));
+        }
+        elements.add(createCakePiece(x, 8, x + 2, 15, completedSlices > 0, true));
+        model.add("elements", elements);
         return model;
+    }
+
+    private static JsonObject createCakePiece(int x1, int z1, int x2, int z2, boolean cutWest, boolean cutNorth) {
+        JsonObject element = new JsonObject();
+        element.add("from", createNumberArray(x1, 0, z1));
+        element.add("to", createNumberArray(x2, 8, z2));
+        JsonObject faces = new JsonObject();
+        for (String direction : new String[]{"down", "up", "north", "south", "west", "east"}) {
+            JsonObject face = new JsonObject();
+            String texture = switch (direction) {
+                case "down" -> "bottom";
+                case "up" -> "top";
+                case "west" -> cutWest ? "inside" : "side";
+                case "north" -> cutNorth ? "inside" : "side";
+                default -> "side";
+            };
+            face.addProperty("texture", "#" + texture);
+            if (direction.equals("down")) face.addProperty("cullface", "down");
+            faces.add(direction, face);
+        }
+        element.add("faces", faces);
+        return element;
     }
 
     static JsonObject createLeavesModelJson(String texture) {
@@ -217,6 +317,27 @@ final class ModelJsonTemplates {
         element.add("faces", faces);
         elements.add(element);
         model.add("elements", elements);
+        return model;
+    }
+
+    static JsonObject createFloweringDesertMossModelJson(String texture, int variant) {
+        JsonObject model = createGroundPlaneModelJson(texture);
+        model.getAsJsonObject("textures").addProperty("flowers", "minecraft:block/pink_petals");
+        int[][] flowers = switch (variant) {
+            case 0 -> new int[][]{{3, 3}, {10, 3}, {9, 10}};
+            case 1 -> new int[][]{{11, 1}, {4, 5}, {8, 8}};
+            case 2 -> new int[][]{{3, 2}, {11, 5}, {5, 10}};
+            default -> new int[][]{{3, 3}, {11, 4}, {3, 11}};
+        };
+        for (int[] flower : flowers) {
+            JsonObject element = new JsonObject();
+            element.add("from", createNumberArray(flower[0], 0.2, flower[1]));
+            element.add("to", createNumberArray(flower[0] + 3, 0.2, flower[1] + 3));
+            JsonObject faces = new JsonObject();
+            faces.add("up", createFace("#flowers", 3, 0, 6, 3, false, null));
+            element.add("faces", faces);
+            model.getAsJsonArray("elements").add(element);
+        }
         return model;
     }
 

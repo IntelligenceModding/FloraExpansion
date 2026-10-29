@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
+import de.artemis.floraexpansion.common.registry.ModTags;
 
 public final class GiantCactusGenerator {
 
@@ -27,18 +28,7 @@ public final class GiantCactusGenerator {
     }
 
     public static boolean canGrowFromBelow(BlockState below) {
-        return below.is(BlockTags.SAND)
-                || below.is(Blocks.RED_SAND)
-                || below.is(Blocks.TERRACOTTA)
-                || below.is(Blocks.DYED_TERRACOTTA.white())
-                || below.is(Blocks.DYED_TERRACOTTA.orange())
-                || below.is(Blocks.DYED_TERRACOTTA.yellow())
-                || below.is(Blocks.CACTUS)
-                || below.is(ModBlocks.CACTUS_LOG.get())
-                || below.is(ModBlocks.STRIPPED_CACTUS_LOG.get())
-                || below.is(ModBlocks.CACTUS_WOOD.get())
-                || below.is(ModBlocks.STRIPPED_CACTUS_WOOD.get())
-                || below.is(ModBlocks.GIANT_CACTUS_STEM.get());
+        return below.is(ModTags.Blocks.GIANT_CACTUS_SUPPORTS);
     }
 
     public static boolean canReplace(LevelAccessor level, BlockPos pos) {
@@ -114,11 +104,7 @@ public final class GiantCactusGenerator {
             return;
         }
 
-        BlockState state = ModBlocks.DESERT_MOSS.get().defaultBlockState();
-
-        if (state.hasProperty(DesertMossBlock.VARIANT)) {
-            state = state.setValue(DesertMossBlock.VARIANT, random.nextInt(4));
-        }
+        BlockState state = DesertMossBlock.naturalState(random);
 
         if (state.canSurvive(level, pos)) {
             level.setBlock(pos, state, 2);
@@ -126,7 +112,11 @@ public final class GiantCactusGenerator {
     }
 
     public static boolean generate(LevelAccessor level, BlockPos origin, RandomSource random, boolean worldgenPlaced) {
-        GenerationPlan plan = createPlan(level, origin, random);
+        return generate(level, origin, random, worldgenPlaced, 4, 7);
+    }
+
+    public static boolean generate(LevelAccessor level, BlockPos origin, RandomSource random, boolean worldgenPlaced, int minHeight, int maxHeight) {
+        GenerationPlan plan = createPlan(level, origin, random, minHeight, maxHeight);
         if (plan == null) {
             return false;
         }
@@ -191,6 +181,10 @@ public final class GiantCactusGenerator {
     }
 
     private static GenerationPlan createPlan(LevelAccessor level, BlockPos origin, RandomSource random) {
+        return createPlan(level, origin, random, 4, 7);
+    }
+
+    private static GenerationPlan createPlan(LevelAccessor level, BlockPos origin, RandomSource random, int minHeight, int maxHeight) {
         BlockPos groundPos = origin.below();
         BlockState ground = level.getBlockState(groundPos);
 
@@ -198,7 +192,7 @@ public final class GiantCactusGenerator {
             return null;
         }
 
-        int trunkHeight = 4 + random.nextInt(4);
+        int trunkHeight = minHeight + random.nextInt(maxHeight - minHeight + 1);
 
         int armCount = 1 + random.nextInt(2);
         if (trunkHeight >= 6 && random.nextFloat() < 0.35F) {

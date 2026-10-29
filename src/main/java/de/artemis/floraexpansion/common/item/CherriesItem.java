@@ -10,6 +10,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
+import de.artemis.floraexpansion.common.config.ServerConfig;
 
 public class CherriesItem extends Item {
 
@@ -24,7 +25,7 @@ public class CherriesItem extends Item {
         if (!level.isClientSide()) {
             RandomSource random = level.getRandom();
 
-            if (random.nextFloat() < 0.5f) {
+            if (random.nextFloat() < ServerConfig.cherryPitChance.get()) {
                 ItemStack cherryPit = new ItemStack(ModBlocks.CHERRY_PIT.get());
 
                 InventoryUtils.giveOrDrop(livingEntity, cherryPit);

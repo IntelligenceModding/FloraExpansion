@@ -26,6 +26,9 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.NotNull;
+import de.artemis.floraexpansion.common.config.ServerConfig;
+import de.artemis.floraexpansion.common.util.PlantGrowth;
+import de.artemis.floraexpansion.common.loot.HarvestLoot;
 
 public class PricklyPearCactusBlock extends BushBlock implements BonemealableBlock {
     public static final IntegerProperty AGE = IntegerProperty.create("age", 0, 1);
@@ -64,8 +67,9 @@ public class PricklyPearCactusBlock extends BushBlock implements BonemealableBlo
     @Override
     protected void randomTick(@NotNull BlockState state, @NotNull ServerLevel level, @NotNull BlockPos pos, @NotNull RandomSource random) {
         int age = state.getValue(AGE);
-        if (age < MAX_AGE && random.nextInt(8) == 0) {
+        if (age < MAX_AGE && PlantGrowth.canGrow(level, pos, state, random, 8, ServerConfig.cactusGrowth.get())) {
             level.setBlock(pos, state.setValue(AGE, age + 1), 2);
+            PlantGrowth.grown(level, pos, state);
         }
     }
 
@@ -75,7 +79,7 @@ public class PricklyPearCactusBlock extends BushBlock implements BonemealableBlo
                                                         @NotNull BlockPos pos,
                                                         @NotNull Player player,
                                                         @NotNull BlockHitResult hitResult) {
-        return harvest(state, level, pos, hitResult);
+        return harvest(state, level, pos, player, hitResult);
     }
 
     @Override
@@ -90,21 +94,22 @@ public class PricklyPearCactusBlock extends BushBlock implements BonemealableBlo
             return InteractionResult.TRY_WITH_EMPTY_HAND;
         }
 
-        InteractionResult result = harvest(state, level, pos, hitResult);
+        InteractionResult result = harvest(state, level, pos, player, hitResult);
         return result.consumesAction() ? InteractionResult.SUCCESS : InteractionResult.TRY_WITH_EMPTY_HAND;
     }
 
     private @NotNull InteractionResult harvest(@NotNull BlockState state,
                                                @NotNull Level level,
                                                @NotNull BlockPos pos,
+                                               @NotNull Player player,
                                                @NotNull BlockHitResult hitResult) {
         if (state.getValue(AGE) <= 0) {
             return InteractionResult.PASS;
         }
 
         if (!level.isClientSide()) {
-            int amount = 1 + level.getRandom().nextInt(2);
-            ModUtils.spawnItemAtClickedSide(level, pos, hitResult, new ItemStack(ModItems.PRICKLY_PEAR.get(), amount));
+            for (var drop : HarvestLoot.drops((ServerLevel) level, pos, state, player, ItemStack.EMPTY))
+                ModUtils.spawnItemAtClickedSide(level, pos, hitResult, drop);
 
             level.setBlock(pos, state.setValue(AGE, 0), 2);
             level.playSound(null, pos, SoundEvents.SWEET_BERRY_BUSH_PICK_BERRIES, SoundSource.BLOCKS,

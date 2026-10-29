@@ -1,0 +1,103 @@
+{
+  "parent": "minecraft:block/block",
+  "elements": [
+    {
+      "faces": {
+        "up": {
+          "texture": "#texture",
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ]
+        }
+      },
+      "from": [
+        0,
+        0,
+        0
+      ],
+      "to": [
+        16,
+        0.1,
+        16
+      ]
+    },
+    {
+      "faces": {
+        "up": {
+          "texture": "#flowers",
+          "uv": [
+            3,
+            0,
+            6,
+            3
+          ]
+        }
+      },
+      "from": [
+        3,
+        0.2,
+        2
+      ],
+      "to": [
+        6,
+        0.2,
+        5
+      ]
+    },
+    {
+      "faces": {
+        "up": {
+          "texture": "#flowers",
+          "uv": [
+            3,
+            0,
+            6,
+            3
+          ]
+        }
+      },
+      "from": [
+        11,
+        0.2,
+        5
+      ],
+      "to": [
+        14,
+        0.2,
+        8
+      ]
+    },
+    {
+      "faces": {
+        "up": {
+          "texture": "#flowers",
+          "uv": [
+            3,
+            0,
+            6,
+            3
+          ]
+        }
+      },
+      "from": [
+        5,
+        0.2,
+        10
+      ],
+      "to": [
+        8,
+        0.2,
+        13
+      ]
+    }
+  ],
+  "render_type": "cutout",
+  "textures": {
+    "flowers": "minecraft:block/pink_petals",
+    "particle": "floraexpansion:block/desert_moss_2",
+    "texture": "floraexpansion:block/desert_moss_2"
+  }
+}

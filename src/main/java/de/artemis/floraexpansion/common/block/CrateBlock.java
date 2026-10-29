@@ -3,6 +3,7 @@ package de.artemis.floraexpansion.common.block;
 import de.artemis.floraexpansion.common.util.InventoryUtils;
 import de.artemis.floraexpansion.common.block.entity.CrateBlockEntity;
 import de.artemis.floraexpansion.common.registry.ModItems;
+import de.artemis.floraexpansion.common.registry.ModTags;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.component.DataComponents;
@@ -94,6 +95,10 @@ public class CrateBlock extends BaseEntityBlock {
             return InteractionResult.CONSUME;
         }
 
+        if (!stack.isEmpty() && !stack.is(ModTags.Items.CRATE_STORABLE)) {
+            return InteractionResult.FAIL;
+        }
+
         ItemStack referenceStack = this.getBulkInsertReference(crate, stack);
         boolean bulkInsert = crate.shouldBulkInsert(player, referenceStack, level.getGameTime());
         int inserted = bulkInsert ? this.insertMatchingInventory(player, crate, referenceStack) : crate.insertItem(stack);
@@ -103,7 +108,7 @@ public class CrateBlock extends BaseEntityBlock {
                 return InteractionResult.CONSUME;
             }
 
-            return InteractionResult.TRY_WITH_EMPTY_HAND;
+            return InteractionResult.CONSUME;
         }
 
         if (!level.isClientSide()) {

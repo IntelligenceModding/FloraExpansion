@@ -18,13 +18,15 @@ import com.mojang.logging.LogUtils;
 
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.common.Mod;
+import de.artemis.floraexpansion.common.config.ServerConfig;
 
 @Mod(FloraExpansion.MODID)
 public class FloraExpansion {
     public static final String MODID = "floraexpansion";
     public static final Logger LOGGER = LogUtils.getLogger();
 
-    public FloraExpansion(IEventBus modEventBus) {
+    public FloraExpansion(net.neoforged.fml.ModContainer container, IEventBus modEventBus) {
+        container.registerConfig(net.neoforged.fml.config.ModConfig.Type.SYNCED, ServerConfig.SPEC);
         LegacyContentAliases.register();
         modEventBus.addListener(ModPayloads::register);
 

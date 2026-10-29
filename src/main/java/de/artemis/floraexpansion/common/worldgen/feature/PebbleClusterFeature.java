@@ -17,7 +17,14 @@ import net.minecraft.world.level.chunk.ChunkGenerator;
 
 public class PebbleClusterFeature implements Feature {
 
-    public static final MapCodec<PebbleClusterFeature> CODEC = MapCodec.unit(PebbleClusterFeature::new);
+    private final int minRadius;
+    private final int maxRadius;
+    public PebbleClusterFeature() { this(1, 3); }
+    public PebbleClusterFeature(int minRadius, int maxRadius) { this.minRadius = minRadius; this.maxRadius = maxRadius; }
+    public static final MapCodec<PebbleClusterFeature> CODEC = com.mojang.serialization.codecs.RecordCodecBuilder.<PebbleClusterFeature>mapCodec(instance -> instance.group(
+            com.mojang.serialization.Codec.intRange(1, 8).optionalFieldOf("min_radius", 1).forGetter(f -> f.minRadius),
+            com.mojang.serialization.Codec.intRange(1, 8).optionalFieldOf("max_radius", 3).forGetter(f -> f.maxRadius)
+    ).apply(instance, PebbleClusterFeature::new)).validate(f -> f.maxRadius >= f.minRadius ? com.mojang.serialization.DataResult.success(f) : com.mojang.serialization.DataResult.error(() -> "max_radius must be at least min_radius"));
 
     @Override
     public MapCodec<PebbleClusterFeature> codec() { return CODEC; }
@@ -28,7 +35,7 @@ public class PebbleClusterFeature implements Feature {
 
         boolean placedAny = false;
 
-        int radius = 1 + random.nextInt(3);
+        int radius = minRadius + random.nextInt(maxRadius - minRadius + 1);
 
         for (int dx = -radius; dx <= radius; dx++) {
             for (int dz = -radius; dz <= radius; dz++) {

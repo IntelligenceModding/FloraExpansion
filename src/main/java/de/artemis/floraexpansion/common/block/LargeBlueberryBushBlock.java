@@ -24,6 +24,8 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.NotNull;
+import de.artemis.floraexpansion.common.config.ServerConfig;
+import de.artemis.floraexpansion.common.util.PlantGrowth;
 
 public class LargeBlueberryBushBlock extends BushBlock implements BonemealableBlock, HarvestableBlock {
     public static final IntegerProperty AGE = SmallBlueberryBushBlock.AGE;
@@ -71,9 +73,10 @@ public class LargeBlueberryBushBlock extends BushBlock implements BonemealableBl
     @Override
     protected void randomTick(@NotNull BlockState state, @NotNull ServerLevel level, @NotNull BlockPos pos, @NotNull RandomSource random) {
         int age = state.getValue(AGE);
-        if (age < MAX_AGE && random.nextInt(5) == 0 && level.getRawBrightness(pos.above(), 0) >= 9) {
+        if (age < MAX_AGE && PlantGrowth.canGrow(level, pos, state, random, 5, ServerConfig.berryGrowth.get()) && level.getRawBrightness(pos.above(), 0) >= 9) {
             BlockState grownState = state.setValue(AGE, age + 1);
             level.setBlock(pos, grownState, 2);
+            PlantGrowth.grown(level, pos, state);
             level.gameEvent(GameEvent.BLOCK_CHANGE, pos, GameEvent.Context.of(grownState));
         }
     }
@@ -101,11 +104,6 @@ public class LargeBlueberryBushBlock extends BushBlock implements BonemealableBl
         return state.getValue(AGE) >= HARVESTABLE_AGE;
     }
 
-    @Override
-    public ItemStack getHarvest(BlockState state, RandomSource random) {
-        int amount = 1 + random.nextInt(2);
-        return new ItemStack(ModItems.BLUEBERRIES.get(), state.getValue(AGE) == MAX_AGE ? amount * 2 : amount);
-    }
 
     @Override
     public BlockState getHarvestedState(BlockState state) {

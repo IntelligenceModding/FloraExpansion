@@ -24,6 +24,9 @@ public class ModItemTagProvider extends ItemTagsProvider {
 
     @Override
     protected void addTags(HolderLookup.@NotNull Provider provider) {
+        tag(ItemTags.BEE_FOOD).add(blockItemKey(ModBlocks.FLOWERING_DESERT_MOSS));
+        tag(ItemTags.WOODEN_STAIRS).add(blockItemKey(ModBlocks.CACTUS_STAIRS)).add(blockItemKey(ModBlocks.CACTUS_MOSAIC_STAIRS));
+        tag(ItemTags.WOODEN_SLABS).add(blockItemKey(ModBlocks.CACTUS_SLAB)).add(blockItemKey(ModBlocks.CACTUS_MOSAIC_SLAB));
         tag(ItemTags.CHICKEN_FOOD)
                 .add(ModItems.SPRUCE_NUTS.key())
                 .add(ModItems.FLAX_SEEDS.key());
@@ -116,8 +119,12 @@ public class ModItemTagProvider extends ItemTagsProvider {
                 .add(ModItems.BLUEBERRY_PIE.key())
                 .add(ModItems.SLICE_OF_BLUEBERRY_PIE.key())
                 .add(ModItems.BLUEBERRY_JUICE.key())
+                .add(ModItems.STRAWBERRY_JUICE.key())
                 .add(ModItems.STRAWBERRY.key())
                 .add(ModItems.STRAWBERRY_JAM.key())
+                .add(ModItems.BLUEBERRY_JAM.key())
+                .add(ModItems.CHERRY_JAM.key())
+                .add(ModItems.APPLE_JAM.key())
                 .add(ModItems.SPRUCE_NUTS.key())
                 .add(ModItems.TOASTED_SPRUCE_NUTS.key())
                 .add(ModItems.CHERRIES.key())
@@ -140,6 +147,9 @@ public class ModItemTagProvider extends ItemTagsProvider {
                 .add(ModItems.PRICKLY_PEAR.key())
                 .add(ModItems.BLUEBERRIES.key())
                 .add(ModItems.STRAWBERRY.key());
+
+        tag(Tags.Items.CROPS).add(ModItems.FLAX_FIBER.key()).add(ModItems.FLAX_FLOWER.key());
+        tag(Tags.Items.FOODS_FRUIT).add(ModItems.CHERRIES.key()).add(ModItems.PRICKLY_PEAR.key());
 
         tag(Tags.Items.ANIMAL_FOODS)
                 .add(ModItems.PRICKLY_PEAR.key());

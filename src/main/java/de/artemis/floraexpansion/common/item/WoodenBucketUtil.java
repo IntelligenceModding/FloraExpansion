@@ -19,6 +19,7 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.component.CustomData;
 
 import java.util.function.Consumer;
+import de.artemis.floraexpansion.common.config.ServerConfig;
 
 public final class WoodenBucketUtil {
     private static final String LAVA_EXPIRE_TIME_KEY = "LavaExpireTime";
@@ -84,7 +85,7 @@ public final class WoodenBucketUtil {
 
     public static void initializeLavaTimeout(ItemStack stack, long gameTime, RandomSource random) {
         CustomData.update(DataComponents.CUSTOM_DATA, stack, tag ->
-                tag.putLong(LAVA_EXPIRE_TIME_KEY, gameTime + 100L + random.nextInt(101)));
+                tag.putLong(LAVA_EXPIRE_TIME_KEY, gameTime + ServerConfig.lavaMinTicks.get() + random.nextInt(Math.max(0, ServerConfig.lavaMaxTicks.get() - ServerConfig.lavaMinTicks.get()) + 1)));
     }
 
     public static boolean hasExpiredLavaTimeout(ItemStack stack, long gameTime) {

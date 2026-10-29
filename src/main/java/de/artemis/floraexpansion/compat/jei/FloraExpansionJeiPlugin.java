@@ -268,6 +268,10 @@ public final class FloraExpansionJeiPlugin implements IModPlugin {
         );
 
         registration.addIngredientInfo(
+                ModBlocks.DESERT_MOSS.get(), translatedLines("jei.floraexpansion.desert_moss.info.1"));
+        registration.addIngredientInfo(ModBlocks.FLOWERING_DESERT_MOSS.get(), translatedLines(
+                "jei.floraexpansion.flowering_desert_moss.info.1", "jei.floraexpansion.flowering_desert_moss.info.2"));
+        registration.addIngredientInfo(
                 ModBlocks.PRICKLY_PEAR_CACTUS.get(),
                 translatedLines(
                         "jei.floraexpansion.prickly_pear_cactus.info.1",
@@ -312,13 +316,19 @@ public final class FloraExpansionJeiPlugin implements IModPlugin {
                 )
         );
 
-        registration.addIngredientInfo(
-                ModItems.BLUEBERRY_JUICE.get(),
-                translatedLines(
-                        "jei.floraexpansion.bottled_juice.info.1",
-                        "jei.floraexpansion.bottled_juice.info.2"
-                )
-        );
+        for (var juice : java.util.List.of(ModItems.BLUEBERRY_JUICE.get(), ModItems.STRAWBERRY_JUICE.get(),
+                ModItems.CHERRY_JUICE.get(), ModItems.APPLE_JUICE.get(), ModItems.CACTUS_JUICE.get())) {
+            registration.addIngredientInfo(juice, translatedLines("jei.floraexpansion.bottled_juice.info.1",
+                    "jei.floraexpansion.bottled_juice.info.2"));
+        }
+        registration.addIngredientInfo(ModItems.STRAWBERRY_JUICE.get(), translatedLines("jei.floraexpansion.strawberry_juice.info"));
+        registration.addIngredientInfo(ModItems.MIXED_BERRIES.get(), translatedLines("jei.floraexpansion.mixed_berries.info"));
+        registration.addIngredientInfo(ModBlocks.STRAWBERRY_CAKE.get().asItem(), translatedLines(
+                "jei.floraexpansion.strawberry_cake.info.1", "jei.floraexpansion.strawberry_cake.info.2",
+                "jei.floraexpansion.strawberry_cake.info.3"));
+        for (var mosaic : java.util.List.of(ModBlocks.CACTUS_MOSAIC.get(), ModBlocks.CACTUS_MOSAIC_STAIRS.get(), ModBlocks.CACTUS_MOSAIC_SLAB.get())) {
+            registration.addIngredientInfo(mosaic.asItem(), translatedLines("jei.floraexpansion.cactus_mosaic.info"));
+        }
 
         registration.addIngredientInfo(
                 ModItems.BLUEBERRY_JAM.get(),
@@ -343,6 +353,22 @@ public final class FloraExpansionJeiPlugin implements IModPlugin {
                         "jei.floraexpansion.strawberry_jam.info.2"
                 )
         );
+
+        registration.addIngredientInfo(ModItems.CHERRY_JAM.get(), translatedLines(
+                "jei.floraexpansion.cherry_jam.info.1", "jei.floraexpansion.glass_jar.info.2"));
+        registration.addIngredientInfo(ModItems.APPLE_JAM.get(), translatedLines(
+                "jei.floraexpansion.apple_jam.info.1", "jei.floraexpansion.glass_jar.info.2"));
+        for (var jar : java.util.List.of(ModItems.GLASS_JAR.get(), ModItems.BLUEBERRY_JAM.get(),
+                ModItems.STRAWBERRY_JAM.get(), ModItems.CHERRY_JAM.get(), ModItems.APPLE_JAM.get())) {
+            registration.addIngredientInfo(jar, translatedLines("jei.floraexpansion.placeable_jar.info.1"));
+        }
+        for (var jam : java.util.List.of(ModItems.BLUEBERRY_JAM.get(), ModItems.STRAWBERRY_JAM.get(),
+                ModItems.CHERRY_JAM.get(), ModItems.APPLE_JAM.get())) {
+            registration.addIngredientInfo(jam, translatedLines("jei.floraexpansion.placeable_jar.info.2"));
+            registration.addIngredientInfo(jam, translatedLines("jei.floraexpansion.jam_portions.info.1",
+                    "jei.floraexpansion.jam_portions.info.2", "jei.floraexpansion.jam_portions.info.3",
+                    "jei.floraexpansion.jam_trades.info"));
+        }
 
         registration.addIngredientInfo(
                 ModItems.GLASS_JAR.get(),

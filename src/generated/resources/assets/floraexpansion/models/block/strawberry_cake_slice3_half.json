@@ -1,0 +1,78 @@
+{
+  "parent": "minecraft:block/block",
+  "elements": [
+    {
+      "faces": {
+        "down": {
+          "cullface": "down",
+          "texture": "#bottom"
+        },
+        "east": {
+          "texture": "#side"
+        },
+        "north": {
+          "texture": "#side"
+        },
+        "south": {
+          "texture": "#side"
+        },
+        "up": {
+          "texture": "#top"
+        },
+        "west": {
+          "texture": "#inside"
+        }
+      },
+      "from": [
+        9,
+        0,
+        1
+      ],
+      "to": [
+        15,
+        8,
+        15
+      ]
+    },
+    {
+      "faces": {
+        "down": {
+          "cullface": "down",
+          "texture": "#bottom"
+        },
+        "east": {
+          "texture": "#side"
+        },
+        "north": {
+          "texture": "#inside"
+        },
+        "south": {
+          "texture": "#side"
+        },
+        "up": {
+          "texture": "#top"
+        },
+        "west": {
+          "texture": "#inside"
+        }
+      },
+      "from": [
+        7,
+        0,
+        8
+      ],
+      "to": [
+        9,
+        8,
+        15
+      ]
+    }
+  ],
+  "textures": {
+    "bottom": "floraexpansion:block/strawberry_cake_bottom",
+    "inside": "floraexpansion:block/strawberry_cake_inner",
+    "particle": "floraexpansion:block/strawberry_cake_side",
+    "side": "floraexpansion:block/strawberry_cake_side",
+    "top": "floraexpansion:block/strawberry_cake_top"
+  }
+}

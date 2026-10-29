@@ -8,25 +8,30 @@ import java.util.Collections;
 import java.util.List;
 import java.util.function.Supplier;
 
-/** Replaces a limited fraction of exposed vanilla leaves without changing tree shape. */
 public abstract class FruitLeavesDecorator extends TreeDecorator {
     private final Block originalLeaves;
     private final Supplier<? extends Block> fruitLeaves;
     private final int replacementDivisor;
     private final int maxReplacements;
+    private final boolean exposedOnly;
 
-    protected FruitLeavesDecorator(Block originalLeaves, Supplier<? extends Block> fruitLeaves, int replacementDivisor, int maxReplacements) {
+    protected FruitLeavesDecorator(Block originalLeaves, Supplier<? extends Block> fruitLeaves, int replacementDivisor, int maxReplacements, boolean exposedOnly) {
         this.originalLeaves = originalLeaves;
         this.fruitLeaves = fruitLeaves;
         this.replacementDivisor = replacementDivisor;
         this.maxReplacements = maxReplacements;
+        this.exposedOnly = exposedOnly;
     }
+
+    public int replacementDivisor() { return replacementDivisor; }
+    public int maxReplacements() { return maxReplacements; }
+    public boolean exposedOnly() { return exposedOnly; }
 
     @Override
     public void place(Context context) {
         List<BlockPos> validLeaves = new ArrayList<>();
         for (BlockPos pos : context.leaves()) {
-            if (context.level().isStateAtPosition(pos, state -> state.is(originalLeaves)) && isExposed(context, pos)) {
+            if (context.level().isStateAtPosition(pos, state -> state.is(originalLeaves)) && (!exposedOnly || isExposed(context, pos))) {
                 validLeaves.add(pos.immutable());
             }
         }

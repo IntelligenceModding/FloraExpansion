@@ -47,8 +47,4 @@ public class AppleLeavesBlock extends FruitLeavesBlock {
         return state.getValue(AGE) >= MAX_AGE;
     }
 
-    @Override
-    public ItemStack getHarvest(BlockState state, RandomSource random) {
-        return new ItemStack(Items.APPLE);
-    }
 }

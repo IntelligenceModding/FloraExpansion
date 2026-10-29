@@ -1,9 +1,9 @@
 {
   "type": "minecraft:crafting_shapeless",
   "ingredients": [
-    "minecraft:sweet_berries",
-    "minecraft:glow_berries",
-    "floraexpansion:cherries"
+    "floraexpansion:blueberries",
+    "floraexpansion:strawberry",
+    "#c:foods/berry"
   ],
   "result": {
     "count": 3,

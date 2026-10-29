@@ -26,6 +26,9 @@ import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.NotNull;
 import de.artemis.floraexpansion.common.registry.ModBlocks;
+import de.artemis.floraexpansion.common.config.ServerConfig;
+import de.artemis.floraexpansion.common.util.PlantGrowth;
+import de.artemis.floraexpansion.common.registry.ModTags;
 
 public class GiantCactusShootBlock extends BushBlock implements BonemealableBlock {
     public static final int VARIANT_COUNT = 3;
@@ -41,7 +44,8 @@ public class GiantCactusShootBlock extends BushBlock implements BonemealableBloc
 
     @Override
     protected boolean mayPlaceOn(@NotNull BlockState state, @NotNull BlockGetter level, @NotNull BlockPos pos) {
-        return state.getBlock() instanceof CactusBlock
+        return state.is(ModTags.Blocks.GIANT_CACTUS_GROWTH_SOILS)
+                || state.getBlock() instanceof CactusBlock
                 || state.getBlock() instanceof FarmlandBlock
                 || state.is(ModBlocks.GIANT_CACTUS_STEM.get())
                 || state.isFaceSturdy(level, pos, Direction.UP, SupportType.CENTER);
@@ -102,16 +106,12 @@ public class GiantCactusShootBlock extends BushBlock implements BonemealableBloc
         level.removeBlock(pos, false);
 
         RandomSource generationRandom = RandomSource.create(seed);
-        GiantCactusGenerator.generate(level, pos, generationRandom, false);
+        if (GiantCactusGenerator.generate(level, pos, generationRandom, false))
+            PlantGrowth.grown(level, pos, state);
     }
 
     private boolean isValidGiantCactusGrowthGround(BlockState below) {
-        return below.is(BlockTags.SAND)
-                || below.is(Blocks.RED_SAND)
-                || below.is(Blocks.TERRACOTTA)
-                || below.is(Blocks.DYED_TERRACOTTA.white())
-                || below.is(Blocks.DYED_TERRACOTTA.orange())
-                || below.is(Blocks.DYED_TERRACOTTA.yellow());
+        return below.is(ModTags.Blocks.GIANT_CACTUS_GROWTH_SOILS);
     }
 
     @Override
@@ -127,7 +127,7 @@ public class GiantCactusShootBlock extends BushBlock implements BonemealableBloc
             return;
         }
 
-        if (random.nextFloat() >= 0.08F) {
+        if (!PlantGrowth.canGrow(level, pos, state, random, 1, 0.08 * ServerConfig.cactusGrowth.get())) {
             return;
         }
 

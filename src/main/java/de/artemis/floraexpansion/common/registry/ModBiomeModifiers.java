@@ -35,154 +35,86 @@ public class ModBiomeModifiers {
         var biomes = context.lookup(Registries.BIOME);
 
         context.register(ADD_PRICKLY_PEAR_CACTUS, new BiomeModifiers.AddFeaturesBiomeModifier(
-                HolderSet.direct(
-                        biomes.getOrThrow(Biomes.DESERT),
-                        biomes.getOrThrow(Biomes.BADLANDS),
-                        biomes.getOrThrow(Biomes.ERODED_BADLANDS),
-                        biomes.getOrThrow(Biomes.WOODED_BADLANDS)
-                ),
+                biomes.getOrThrow(ModTags.Biomes.HAS_PRICKLY_PEAR_CACTUS),
                 HolderSet.direct(placedFeatures.getOrThrow(ModPlacedFeatures.PRICKLY_PEAR_CACTUS_PLACED_KEY)),
                 GenerationStep.Decoration.VEGETAL_DECORATION
         ));
 
         context.register(ADD_SMALL_CACTUS, new BiomeModifiers.AddFeaturesBiomeModifier(
-                HolderSet.direct(
-                        biomes.getOrThrow(Biomes.DESERT),
-                        biomes.getOrThrow(Biomes.BADLANDS),
-                        biomes.getOrThrow(Biomes.ERODED_BADLANDS),
-                        biomes.getOrThrow(Biomes.WOODED_BADLANDS)
-                ),
+                biomes.getOrThrow(ModTags.Biomes.HAS_SMALL_CACTUS),
                 HolderSet.direct(placedFeatures.getOrThrow(ModPlacedFeatures.SMALL_CACTUS_PLACED_KEY)),
                 GenerationStep.Decoration.VEGETAL_DECORATION
         ));
 
         context.register(ADD_FALLEN_GIANT_CACTUS, new BiomeModifiers.AddFeaturesBiomeModifier(
-                HolderSet.direct(
-                        biomes.getOrThrow(Biomes.DESERT),
-                        biomes.getOrThrow(Biomes.BADLANDS)
-                ),
+                biomes.getOrThrow(ModTags.Biomes.HAS_FALLEN_GIANT_CACTUS),
                 HolderSet.direct(placedFeatures.getOrThrow(ModPlacedFeatures.FALLEN_GIANT_CACTUS_PLACED_KEY)),
                 GenerationStep.Decoration.VEGETAL_DECORATION
         ));
 
         context.register(ADD_PEBBLE_CLUSTERS, new BiomeModifiers.AddFeaturesBiomeModifier(
-                HolderSet.direct(
-                        biomes.getOrThrow(Biomes.WINDSWEPT_HILLS),
-                        biomes.getOrThrow(Biomes.WINDSWEPT_GRAVELLY_HILLS),
-                        biomes.getOrThrow(Biomes.WINDSWEPT_FOREST),
-                        biomes.getOrThrow(Biomes.STONY_PEAKS)
-                ),
+                biomes.getOrThrow(ModTags.Biomes.HAS_PEBBLE_CLUSTERS),
                 HolderSet.direct(placedFeatures.getOrThrow(ModPlacedFeatures.PEBBLE_CLUSTER_PLACED_KEY)),
                 GenerationStep.Decoration.LOCAL_MODIFICATIONS));
 
         context.register(ADD_NEEDLE_LITTER, new BiomeModifiers.AddFeaturesBiomeModifier(
-                biomes.getOrThrow(BiomeTags.IS_TAIGA),
+                biomes.getOrThrow(ModTags.Biomes.HAS_NEEDLE_LITTER),
                 HolderSet.direct(placedFeatures.getOrThrow(ModPlacedFeatures.NEEDLE_LITTER_PLACED_KEY)),
                 GenerationStep.Decoration.VEGETAL_DECORATION));
 
         context.register(ADD_BLUEBERRY_BUSHES, new BiomeModifiers.AddFeaturesBiomeModifier(
-                HolderSet.direct(
-                        biomes.getOrThrow(Biomes.BIRCH_FOREST),
-                        biomes.getOrThrow(Biomes.FOREST),
-                        biomes.getOrThrow(Biomes.FLOWER_FOREST),
-                        biomes.getOrThrow(Biomes.GROVE),
-                        biomes.getOrThrow(Biomes.MEADOW),
-                        biomes.getOrThrow(Biomes.OLD_GROWTH_BIRCH_FOREST),
-                        biomes.getOrThrow(Biomes.TAIGA),
-                        biomes.getOrThrow(Biomes.OLD_GROWTH_PINE_TAIGA),
-                        biomes.getOrThrow(Biomes.OLD_GROWTH_SPRUCE_TAIGA),
-                        biomes.getOrThrow(Biomes.SNOWY_TAIGA)
-                ),
+                biomes.getOrThrow(ModTags.Biomes.HAS_BLUEBERRY_BUSHES),
                 HolderSet.direct(placedFeatures.getOrThrow(ModPlacedFeatures.BLUEBERRY_BUSH_PLACED_KEY)),
                 GenerationStep.Decoration.VEGETAL_DECORATION));
 
         context.register(ADD_WILD_FLAX, new BiomeModifiers.AddFeaturesBiomeModifier(
-                HolderSet.direct(
-                        biomes.getOrThrow(Biomes.PLAINS),
-                        biomes.getOrThrow(Biomes.MEADOW),
-                        biomes.getOrThrow(Biomes.SUNFLOWER_PLAINS)
-                ),
+                biomes.getOrThrow(ModTags.Biomes.HAS_WILD_FLAX),
                 HolderSet.direct(placedFeatures.getOrThrow(ModPlacedFeatures.WILD_FLAX_PLACED_KEY)),
                 GenerationStep.Decoration.VEGETAL_DECORATION));
 
         context.register(ADD_WILD_STRAWBERRIES, new BiomeModifiers.AddFeaturesBiomeModifier(
-                HolderSet.direct(
-                        biomes.getOrThrow(Biomes.PLAINS),
-                        biomes.getOrThrow(Biomes.MEADOW),
-                        biomes.getOrThrow(Biomes.SUNFLOWER_PLAINS)
-                ),
+                biomes.getOrThrow(ModTags.Biomes.HAS_WILD_STRAWBERRIES),
                 HolderSet.direct(placedFeatures.getOrThrow(ModPlacedFeatures.WILD_STRAWBERRY_PLACED_KEY)),
                 GenerationStep.Decoration.VEGETAL_DECORATION));
 
         context.register(ADD_ORCHARD_CHERRY_TREES, new BiomeModifiers.AddFeaturesBiomeModifier(
-                HolderSet.direct(
-                        biomes.getOrThrow(Biomes.CHERRY_GROVE)
-                ),
+                biomes.getOrThrow(ModTags.Biomes.HAS_ORCHARD_CHERRY_TREES),
                 HolderSet.direct(placedFeatures.getOrThrow(ModPlacedFeatures.ORCHARD_CHERRY_TREE_PLACED_KEY)),
                 GenerationStep.Decoration.VEGETAL_DECORATION
         ));
 
         context.register(ADD_APPLE_TREES_SPARSE, new BiomeModifiers.AddFeaturesBiomeModifier(
-                HolderSet.direct(
-                        biomes.getOrThrow(Biomes.PLAINS),
-                        biomes.getOrThrow(Biomes.MEADOW),
-                        biomes.getOrThrow(Biomes.RIVER),
-                        biomes.getOrThrow(Biomes.SAVANNA),
-                        biomes.getOrThrow(Biomes.WOODED_BADLANDS)
-                ),
+                biomes.getOrThrow(ModTags.Biomes.HAS_APPLE_TREES_SPARSE),
                 HolderSet.direct(placedFeatures.getOrThrow(ModPlacedFeatures.APPLE_SPARSE_PLACED_KEY)),
                 GenerationStep.Decoration.VEGETAL_DECORATION
         ));
 
         context.register(ADD_APPLE_TREES_FOREST, new BiomeModifiers.AddFeaturesBiomeModifier(
-                HolderSet.direct(
-                        biomes.getOrThrow(Biomes.FOREST),
-                        biomes.getOrThrow(Biomes.FLOWER_FOREST),
-                        biomes.getOrThrow(Biomes.WINDSWEPT_FOREST)
-                ),
+                biomes.getOrThrow(ModTags.Biomes.HAS_APPLE_TREES_FOREST),
                 HolderSet.direct(placedFeatures.getOrThrow(ModPlacedFeatures.APPLE_FOREST_PLACED_KEY)),
                 GenerationStep.Decoration.VEGETAL_DECORATION
         ));
 
         context.register(ADD_FANCY_APPLE_TREES_RARE, new BiomeModifiers.AddFeaturesBiomeModifier(
-                HolderSet.direct(
-                        biomes.getOrThrow(Biomes.PLAINS),
-                        biomes.getOrThrow(Biomes.MEADOW),
-                        biomes.getOrThrow(Biomes.FOREST),
-                        biomes.getOrThrow(Biomes.FLOWER_FOREST),
-                        biomes.getOrThrow(Biomes.RIVER),
-                        biomes.getOrThrow(Biomes.SAVANNA),
-                        biomes.getOrThrow(Biomes.WINDSWEPT_FOREST)
-                ),
+                biomes.getOrThrow(ModTags.Biomes.HAS_FANCY_APPLE_TREES_RARE),
                 HolderSet.direct(placedFeatures.getOrThrow(ModPlacedFeatures.FANCY_APPLE_RARE_PLACED_KEY)),
                 GenerationStep.Decoration.VEGETAL_DECORATION
         ));
 
         context.register(ADD_FANCY_APPLE_TREES_JUNGLE, new BiomeModifiers.AddFeaturesBiomeModifier(
-                HolderSet.direct(
-                        biomes.getOrThrow(Biomes.JUNGLE),
-                        biomes.getOrThrow(Biomes.SPARSE_JUNGLE),
-                        biomes.getOrThrow(Biomes.BAMBOO_JUNGLE)
-                ),
+                biomes.getOrThrow(ModTags.Biomes.HAS_FANCY_APPLE_TREES_JUNGLE),
                 HolderSet.direct(placedFeatures.getOrThrow(ModPlacedFeatures.FANCY_APPLE_JUNGLE_PLACED_KEY)),
                 GenerationStep.Decoration.VEGETAL_DECORATION
         ));
 
         context.register(ADD_APPLE_TREES_DARK_FOREST, new BiomeModifiers.AddFeaturesBiomeModifier(
-                HolderSet.direct(
-                        biomes.getOrThrow(Biomes.DARK_FOREST)
-                ),
+                biomes.getOrThrow(ModTags.Biomes.HAS_APPLE_TREES_DARK_FOREST),
                 HolderSet.direct(placedFeatures.getOrThrow(ModPlacedFeatures.APPLE_DARK_FOREST_PLACED_KEY)),
                 GenerationStep.Decoration.VEGETAL_DECORATION
         ));
 
         context.register(ADD_GIANT_CACTUS, new BiomeModifiers.AddFeaturesBiomeModifier(
-                HolderSet.direct(
-                        biomes.getOrThrow(Biomes.DESERT),
-                        biomes.getOrThrow(Biomes.BADLANDS),
-                        biomes.getOrThrow(Biomes.ERODED_BADLANDS),
-                        biomes.getOrThrow(Biomes.WOODED_BADLANDS)
-                ),
+                biomes.getOrThrow(ModTags.Biomes.HAS_GIANT_CACTUS),
                 HolderSet.direct(placedFeatures.getOrThrow(ModPlacedFeatures.GIANT_CACTUS_PLACED_KEY)),
                 GenerationStep.Decoration.VEGETAL_DECORATION
         ));

@@ -37,6 +37,12 @@ public class ModBlocks {
             () -> new CrateBlock(blockProperties("crate", BlockBehaviour.Properties.ofFullCopy(Blocks.COMPOSTER))),
             new Item.Properties(), CrateBlockItem::new);
 
+    public static final DeferredBlock<JarBlock> GLASS_JAR = registerJar("glass_jar");
+    public static final DeferredBlock<JamJarBlock> BLUEBERRY_JAM = registerJamJar("blueberry_jam");
+    public static final DeferredBlock<JamJarBlock> STRAWBERRY_JAM = registerJamJar("strawberry_jam");
+    public static final DeferredBlock<JamJarBlock> CHERRY_JAM = registerJamJar("cherry_jam");
+    public static final DeferredBlock<JamJarBlock> APPLE_JAM = registerJamJar("apple_jam");
+
     public static final DeferredBlock<StrawberryCakeBlock> STRAWBERRY_CAKE = registerBlock("strawberry_cake",
             () -> new StrawberryCakeBlock(blockProperties("strawberry_cake", BlockBehaviour.Properties.ofFullCopy(Blocks.CAKE))), new Item.Properties().stacksTo(1));
 
@@ -189,6 +195,10 @@ public class ModBlocks {
                     .replaceable()
             )));
 
+    public static final DeferredBlock<Block> FLOWERING_DESERT_MOSS = registerBlock("flowering_desert_moss",
+            () -> new DesertMossBlock(blockProperties("flowering_desert_moss",
+                    BlockBehaviour.Properties.ofFullCopy(DESERT_MOSS.get())), true));
+
     public static final DeferredBlock<Block> SMALL_CACTUS = registerBlock("small_cactus",
             () -> new SmallCactusBlock(blockProperties("small_cactus", BlockBehaviour.Properties.of()
                     .mapColor(MapColor.COLOR_GREEN)
@@ -212,6 +222,13 @@ public class ModBlocks {
 
     public static final DeferredBlock<Block> CACTUS_MOSAIC = registerBlock("cactus_mosaic",
             () -> new Block(blockProperties("cactus_mosaic", BlockBehaviour.Properties.ofFullCopy(ModBlocks.CACTUS_PLANKS.get()))));
+
+    public static final DeferredBlock<Block> CACTUS_MOSAIC_STAIRS = registerBlock("cactus_mosaic_stairs",
+            () -> new StairBlock(ModBlocks.CACTUS_MOSAIC.get().defaultBlockState(),
+                    blockProperties("cactus_mosaic_stairs", BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_STAIRS))));
+
+    public static final DeferredBlock<Block> CACTUS_MOSAIC_SLAB = registerBlock("cactus_mosaic_slab",
+            () -> new SlabBlock(blockProperties("cactus_mosaic_slab", BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_SLAB))));
 
     public static final DeferredBlock<Block> CACTUS_STAIRS = registerBlock("cactus_stairs",
             () -> new StairBlock(ModBlocks.CACTUS_PLANKS.get().defaultBlockState(),
@@ -256,7 +273,9 @@ public class ModBlocks {
             () -> new CactusWallHangingSignBlock(blockProperties("cactus_wall_hanging_sign", BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_WALL_HANGING_SIGN).noCollision().strength(1.0F))));
     private static DeferredBlock<StrawberryCakeWithCandleBlock> registerCandleCake(String name, Block candle) {
         return registerBlockWithoutItem(name, () -> new StrawberryCakeWithCandleBlock(candle,
-                blockProperties(name, BlockBehaviour.Properties.ofFullCopy(Blocks.CANDLE_CAKE))));
+                blockProperties(name, BlockBehaviour.Properties.ofFullCopy(Blocks.CANDLE_CAKE)
+                        .lightLevel(state -> state.getValue(StrawberryCakeWithCandleBlock.LIT)
+                                ? 3 * state.getValue(StrawberryCakeWithCandleBlock.CANDLES) : 0))));
     }
 
     private static <T extends Block> DeferredBlock<T> registerBlock(String name, Supplier<T> block) {
@@ -276,6 +295,18 @@ public class ModBlocks {
 
     private static <T extends Block> DeferredBlock<T> registerBlockWithoutItem(String name, Supplier<T> block) {
         return BLOCKS.register(name, block);
+    }
+
+    private static DeferredBlock<JarBlock> registerJar(String name) {
+        return registerBlockWithoutItem(name, () -> new JarBlock(blockProperties(name,
+                BlockBehaviour.Properties.of().mapColor(MapColor.NONE).strength(0.3F)
+                        .sound(SoundType.GLASS).noOcclusion().forceSolidOff().pushReaction(PushReaction.POPPED))));
+    }
+
+    private static DeferredBlock<JamJarBlock> registerJamJar(String name) {
+        return registerBlockWithoutItem(name, () -> new JamJarBlock(blockProperties(name,
+                BlockBehaviour.Properties.of().mapColor(MapColor.NONE).strength(0.3F)
+                        .sound(SoundType.GLASS).noOcclusion().forceSolidOff().pushReaction(PushReaction.POPPED))));
     }
 
     private static BlockBehaviour.Properties blockProperties(String name, BlockBehaviour.Properties properties) {

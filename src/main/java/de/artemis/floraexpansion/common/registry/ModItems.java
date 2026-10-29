@@ -16,6 +16,8 @@ import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import de.artemis.floraexpansion.common.item.*;
+import net.minecraft.world.level.block.Block;
+import java.util.function.Supplier;
 
 public class ModItems {
     public static final DeferredRegister.Items ITEMS = DeferredRegister.createItems(FloraExpansion.MODID);
@@ -59,17 +61,19 @@ public class ModItems {
     public static final DeferredItem<Item> BASKET = ITEMS.registerItem("basket",
             properties -> new BasketItem(properties.stacksTo(1)));
 
-    public static final DeferredItem<Item> GLASS_JAR = ITEMS.registerSimpleItem("glass_jar",
-            properties -> properties.stacksTo(16));
+    public static final DeferredItem<Item> GLASS_JAR = ITEMS.registerItem("glass_jar",
+            properties -> new BlockItem(ModBlocks.GLASS_JAR.get(), properties.stacksTo(16)));
 
-    public static final DeferredItem<Item> BLUEBERRY_JAM = ITEMS.registerItem("blueberry_jam",
-            properties -> new ContainerFoodItem(properties.food(ModFoods.BLUEBERRY_JAM, ModConsumables.JAM).stacksTo(16), GLASS_JAR::get));
+    public static final DeferredItem<Item> BLUEBERRY_JAM = registerJam("blueberry_jam", () -> ModBlocks.BLUEBERRY_JAM.get());
 
     public static final DeferredItem<Item> STRAWBERRY = ITEMS.registerItem("strawberry",
             properties -> new BlockItem(ModBlocks.STRAWBERRY_PLANT.get(), properties.food(ModFoods.STRAWBERRY)));
 
-    public static final DeferredItem<Item> STRAWBERRY_JAM = ITEMS.registerItem("strawberry_jam",
-            properties -> new ContainerFoodItem(properties.food(ModFoods.STRAWBERRY_JAM, ModConsumables.JAM).stacksTo(16), GLASS_JAR::get));
+    public static final DeferredItem<Item> STRAWBERRY_JUICE = registerJuice("strawberry_juice", ModFoods.STRAWBERRY_JUICE);
+
+    public static final DeferredItem<Item> STRAWBERRY_JAM = registerJam("strawberry_jam", () -> ModBlocks.STRAWBERRY_JAM.get());
+    public static final DeferredItem<Item> CHERRY_JAM = registerJam("cherry_jam", () -> ModBlocks.CHERRY_JAM.get());
+    public static final DeferredItem<Item> APPLE_JAM = registerJam("apple_jam", () -> ModBlocks.APPLE_JAM.get());
 
     public static final DeferredItem<Item> WOODEN_BUCKET = ITEMS.registerItem("wooden_bucket",
             properties -> new WoodenBucketItem(Fluids.EMPTY, properties.stacksTo(1).durability(10)));
@@ -176,6 +180,12 @@ public class ModItems {
     private static DeferredItem<Item> registerJuice(String name, FoodProperties food) {
         return ITEMS.registerItem(name, properties -> new ContainerFoodItem(
                 properties.food(food, Consumables.DEFAULT_DRINK).stacksTo(16), () -> Items.GLASS_BOTTLE));
+    }
+
+    private static DeferredItem<Item> registerJam(String name, Supplier<? extends Block> block) {
+        return ITEMS.registerItem(name, properties -> new ContainerFoodBlockItem(
+                block.get(),
+                properties.food(ModFoods.JAM, ModConsumables.JAM).stacksTo(16), GLASS_JAR::get));
     }
 
     public static void register(IEventBus eventBus) {

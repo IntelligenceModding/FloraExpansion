@@ -1,0 +1,10 @@
+{
+  "replace": false,
+  "values": [
+    "floraexpansion:cactus_log",
+    "floraexpansion:stripped_cactus_log",
+    "floraexpansion:cactus_wood",
+    "floraexpansion:stripped_cactus_wood",
+    "floraexpansion:giant_cactus_stem"
+  ]
+}

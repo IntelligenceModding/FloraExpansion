@@ -3,6 +3,7 @@ package de.artemis.floraexpansion.common.block.entity;
 import de.artemis.floraexpansion.common.block.CrateBlock;
 import de.artemis.floraexpansion.common.inventory.CrateMenu;
 import de.artemis.floraexpansion.common.registry.ModBlockEntities;
+import de.artemis.floraexpansion.common.registry.ModTags;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.NonNullList;
@@ -28,9 +29,9 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.UUID;
+import de.artemis.floraexpansion.common.config.ServerConfig;
 
 public class CrateBlockEntity extends RandomizableContainerBlockEntity {
-    private static final long BULK_INSERT_WINDOW_TICKS = 8L;
     public static final int CONTAINER_SIZE = CrateMenu.CONTAINER_SLOT_COUNT;
 
     private NonNullList<ItemStack> items = NonNullList.withSize(CONTAINER_SIZE, ItemStack.EMPTY);
@@ -61,12 +62,7 @@ public class CrateBlockEntity extends RandomizableContainerBlockEntity {
     }
 
     public int insertItem(@NotNull ItemStack stack) {
-        if (stack.isEmpty() || this.isStorageLocked()) {
-            return 0;
-        }
-
-        ItemStack storedType = this.getStoredType();
-        if (!storedType.isEmpty() && !ItemStack.isSameItemSameComponents(storedType, stack)) {
+        if (!this.canPlaceItem(0, stack)) {
             return 0;
         }
 
@@ -185,7 +181,7 @@ public class CrateBlockEntity extends RandomizableContainerBlockEntity {
             return false;
         }
 
-        if (gameTime - this.lastInsertGameTime > BULK_INSERT_WINDOW_TICKS) {
+        if (!ServerConfig.crateBulk.get() || gameTime - this.lastInsertGameTime > ServerConfig.crateDoubleClickTicks.get()) {
             return false;
         }
 
@@ -214,7 +210,7 @@ public class CrateBlockEntity extends RandomizableContainerBlockEntity {
 
     @Override
     public boolean canPlaceItem(int slot, @NotNull ItemStack stack) {
-        if (stack.isEmpty() || this.isStorageLocked()) {
+        if (!stack.is(ModTags.Items.CRATE_STORABLE) || this.isStorageLocked()) {
             return false;
         }
 
@@ -239,11 +235,20 @@ public class CrateBlockEntity extends RandomizableContainerBlockEntity {
 
     @Override
     public void setItem(int slot, @NotNull ItemStack stack) {
+        this.setItem(slot, stack, false);
+    }
+
+    @Override
+    public void setItem(int slot, @NotNull ItemStack stack, boolean insideTransaction) {
         if (!stack.isEmpty() && !this.canPlaceItem(slot, stack)) {
-            return;
+            ItemStack previous = this.items.get(slot);
+            if (this.isStorageLocked() || !ItemStack.isSameItemSameComponents(previous, stack)
+                    || stack.getCount() > previous.getCount()) {
+                return;
+            }
         }
 
-        super.setItem(slot, stack);
+        super.setItem(slot, stack, insideTransaction);
     }
 
     @Override

@@ -1,0 +1,43 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_glass_bottle": {
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:glass_bottle"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_strawberry": {
+      "conditions": {
+        "items": [
+          {
+            "items": "floraexpansion:strawberry"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipes": "floraexpansion:strawberry_juice"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_strawberry",
+      "has_glass_bottle"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "floraexpansion:strawberry_juice"
+    ]
+  }
+}

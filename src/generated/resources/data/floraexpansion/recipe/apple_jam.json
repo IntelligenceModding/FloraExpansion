@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    "minecraft:apple",
+    "minecraft:apple",
+    "minecraft:apple",
+    "minecraft:apple",
+    "minecraft:sugar",
+    "floraexpansion:glass_jar"
+  ],
+  "result": {
+    "id": "floraexpansion:apple_jam"
+  }
+}

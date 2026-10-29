@@ -35,6 +35,10 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.NotNull;
+import de.artemis.floraexpansion.common.config.ServerConfig;
+import de.artemis.floraexpansion.common.config.ClientConfig;
+import de.artemis.floraexpansion.common.util.PlantGrowth;
+import de.artemis.floraexpansion.common.registry.ModTags;
 
 public class FlaxBlock extends CropBlock {
     public static final IntegerProperty AGE = BlockStateProperties.AGE_4;
@@ -116,8 +120,9 @@ public class FlaxBlock extends CropBlock {
         if (!ensureSpaceForTop(serverLevel, blockPos, age + 1)) return;
 
         float speed = getGrowthSpeed(blockState, serverLevel, blockPos);
-        if (random.nextInt((int) (25.0F / speed) + 1) == 0) {
+        if (PlantGrowth.canGrow(serverLevel, blockPos, blockState, random, (int) (25.0F / speed) + 1, ServerConfig.cropGrowth.get())) {
             growCropBy(serverLevel, blockPos, blockState, 1);
+            PlantGrowth.grown(serverLevel, blockPos, blockState);
         }
     }
 
@@ -151,15 +156,10 @@ public class FlaxBlock extends CropBlock {
             BlockState soil = level.getBlockState(pos.below());
 
             if (state.getValue(WILD)) {
-                return soil.is(Blocks.GRASS_BLOCK)
-                        || soil.is(Blocks.DIRT)
-                        || soil.is(Blocks.COARSE_DIRT)
-                        || soil.is(Blocks.PODZOL)
-                        || soil.is(Blocks.MOSS_BLOCK)
-                        || soil.is(Blocks.ROOTED_DIRT);
+                return soil.is(ModTags.Blocks.WILD_FLAX_SOILS);
             }
 
-            return mayPlaceOn(soil, level, pos.below());
+            return soil.is(ModTags.Blocks.CROP_SOILS);
         }
     }
 
@@ -295,7 +295,7 @@ public class FlaxBlock extends CropBlock {
         if (!isLower(blockState)) return;
         if (getAge(blockState) < MAX_AGE) return;
 
-        if (random.nextFloat() < 0.05f) {
+        if (random.nextFloat() < 0.05f * ClientConfig.flaxParticles.get()) {
             BlockPos topPos = blockPos.above();
             double x = topPos.getX() + 0.25 + random.nextDouble() * 0.5;
             double z = topPos.getZ() + 0.25 + random.nextDouble() * 0.5;

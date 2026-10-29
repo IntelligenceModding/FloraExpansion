@@ -25,6 +25,7 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.NotNull;
+import de.artemis.floraexpansion.common.loot.HarvestLoot;
 
 public class SmallCactusBlock extends BushBlock {
     public static final IntegerProperty PICKLES = BlockStateProperties.PICKLES;
@@ -80,7 +81,9 @@ public class SmallCactusBlock extends BushBlock {
         }
 
         if (!level.isClientSide()) {
-            ItemStack juiceStack = new ItemStack(ModItems.CACTUS_JUICE.get());
+            var loot = HarvestLoot.drops((net.minecraft.server.level.ServerLevel) level, pos, state, player, stack);
+            ItemStack juiceStack = loot.isEmpty() ? ItemStack.EMPTY : loot.getFirst();
+            for (int i = 1; i < loot.size(); i++) InventoryUtils.giveOrDrop(player, loot.get(i));
 
             if (!player.getAbilities().instabuild) {
                 stack.shrink(1);

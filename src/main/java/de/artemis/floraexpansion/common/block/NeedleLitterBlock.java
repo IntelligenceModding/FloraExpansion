@@ -35,6 +35,8 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 import java.util.function.BiFunction;
+import de.artemis.floraexpansion.common.config.ClientConfig;
+import de.artemis.floraexpansion.common.loot.HarvestLoot;
 
 public class NeedleLitterBlock extends BushBlock implements BonemealableBlock {
     public static final int MIN_SEGMENTS = 1;
@@ -127,19 +129,15 @@ public class NeedleLitterBlock extends BushBlock implements BonemealableBlock {
                 double speedSq = dx * dx + dz * dz;
 
                 if (speedSq > 0.0003 && random.nextFloat() < 0.65F) {
-                    spawnFootstepParticles(level, pos, random);
-                    spawnExtraFootstepParticles(level, pos, random);
+                    double intensity = ClientConfig.needleParticles.get();
+                    if (intensity == 1 || random.nextDouble() < intensity) {
+                        spawnFootstepParticles(level, pos, random);
+                        spawnExtraFootstepParticles(level, pos, random);
+                    }
                     playFootstepSound(level, pos, random);
                 }
             }
         }
-    }
-
-    protected List<ItemStack> getHarvestDrops(Level level, BlockState state) {
-        return List.of(
-                new ItemStack(ModItems.SPRUCE_CONE.get(), state.getValue(AMOUNT)),
-                new ItemStack(ModItems.TWIG.get(), level.getRandom().nextInt(2 * state.getValue(AMOUNT)))
-        );
     }
 
     protected void harvestLitter(Level level, BlockPos pos, Player player, BlockState state) {
@@ -147,7 +145,7 @@ public class NeedleLitterBlock extends BushBlock implements BonemealableBlock {
             return;
         }
 
-        for (ItemStack drop : getHarvestDrops(level, state)) {
+        for (ItemStack drop : HarvestLoot.drops((ServerLevel) level, pos, state, player, ItemStack.EMPTY)) {
             ModUtils.spawnCenteredItem(level, pos, drop);
         }
 

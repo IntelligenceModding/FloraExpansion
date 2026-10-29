@@ -65,6 +65,9 @@ neoForge {
         }
 
         configureEach {
+            if (project.providers.gradleProperty('customizationOverrides').isPresent()) {
+                systemProperty 'floraexpansion.customizationOverrides', 'true'
+            }
             systemProperty 'forge.logging.markers', 'REGISTRIES'
             systemProperty 'terminal.jline', 'false'
             logLevel = org.slf4j.event.Level.DEBUG

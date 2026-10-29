@@ -2,6 +2,7 @@ package de.artemis.floraexpansion;
 
 import de.artemis.floraexpansion.client.renderer.CactusBoatRenderer;
 import de.artemis.floraexpansion.client.renderer.CrateBlockEntityRenderer;
+import de.artemis.floraexpansion.client.renderer.StrawberryCakeBlockEntityRenderer;
 import de.artemis.floraexpansion.client.screen.BasketScreen;
 import de.artemis.floraexpansion.client.screen.CrateScreen;
 import de.artemis.floraexpansion.common.registry.ModBlockEntities;
@@ -24,11 +25,18 @@ import net.neoforged.fml.common.Mod;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
 import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
 import net.neoforged.neoforge.client.event.RegisterParticleProvidersEvent;
+import de.artemis.floraexpansion.common.config.ClientConfig;
+import de.artemis.floraexpansion.client.texture.JamPortionSpriteSource;
+import de.artemis.floraexpansion.client.texture.FloweringMossSpriteSource;
+import net.neoforged.neoforge.client.event.RegisterSpriteSourcesEvent;
+import net.minecraft.resources.Identifier;
 
 @Mod(value = FloraExpansion.MODID, dist = Dist.CLIENT)
 @EventBusSubscriber(modid = FloraExpansion.MODID, value = Dist.CLIENT)
 public class FloraExpansionClient {
     public FloraExpansionClient(ModContainer container) {
+        container.registerConfig(net.neoforged.fml.config.ModConfig.Type.CLIENT, ClientConfig.SPEC);
+        container.registerExtensionPoint(net.neoforged.neoforge.client.gui.IConfigScreenFactory.class, net.neoforged.neoforge.client.gui.ConfigurationScreen::new);
     }
 
     @SubscribeEvent
@@ -38,6 +46,12 @@ public class FloraExpansionClient {
         event.registerSpriteSet(ModParticles.FLAX_FLOWER.get(), FlaxFlowerParticles.Provider::new);
         event.registerSpriteSet(ModParticles.FALLING_CHERRY.get(), FallingFruitParticle.Provider::new);
         event.registerSpriteSet(ModParticles.FALLING_APPLE.get(), FallingFruitParticle.Provider::new);
+    }
+
+    @SubscribeEvent
+    public static void registerSpriteSources(RegisterSpriteSourcesEvent event) {
+        event.register(Identifier.fromNamespaceAndPath(FloraExpansion.MODID, "jam_portions"), JamPortionSpriteSource.MAP_CODEC);
+        event.register(Identifier.fromNamespaceAndPath(FloraExpansion.MODID, "flowering_moss"), FloweringMossSpriteSource.MAP_CODEC);
     }
 
     @SubscribeEvent
@@ -69,5 +83,6 @@ public class FloraExpansionClient {
         event.registerBlockEntityRenderer(ModBlockEntities.CACTUS_SIGN.get(), StandingSignRenderer::new);
         event.registerBlockEntityRenderer(ModBlockEntities.CACTUS_HANGING_SIGN.get(), HangingSignRenderer::new);
         event.registerBlockEntityRenderer(ModBlockEntities.CRATE.get(), CrateBlockEntityRenderer::new);
+        event.registerBlockEntityRenderer(ModBlockEntities.STRAWBERRY_CAKE.get(), StrawberryCakeBlockEntityRenderer::new);
     }
 }

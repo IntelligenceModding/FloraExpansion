@@ -11,12 +11,15 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
+import de.artemis.floraexpansion.common.loot.HarvestLoot;
 
 /** Harvest rules shared by a plant's hand interaction and the harvesting basket. */
 public interface HarvestableBlock {
     boolean canHarvest(BlockState state);
 
-    ItemStack getHarvest(BlockState state, RandomSource random);
+    default java.util.List<ItemStack> getHarvestDrops(BlockState state, net.minecraft.server.level.ServerLevel level, BlockPos pos, Player player) {
+        return HarvestLoot.drops(level, pos, state, player, ItemStack.EMPTY);
+    }
 
     BlockState getHarvestedState(BlockState state);
 
@@ -25,9 +28,8 @@ public interface HarvestableBlock {
         if (!canHarvest(state)) {
             return InteractionResult.PASS;
         }
-        ItemStack harvest = getHarvest(state, level.getRandom());
         if (!level.isClientSide()) {
-            Block.popResource(level, pos, harvest);
+            for (ItemStack harvest : getHarvestDrops(state, (net.minecraft.server.level.ServerLevel) level, pos, player)) Block.popResource(level, pos, harvest);
             level.playSound(null, pos, SoundEvents.SWEET_BERRY_BUSH_PICK_BERRIES, SoundSource.BLOCKS,
                     1.0F, 0.8F + level.getRandom().nextFloat() * 0.4F);
             BlockState resetState = getHarvestedState(state);

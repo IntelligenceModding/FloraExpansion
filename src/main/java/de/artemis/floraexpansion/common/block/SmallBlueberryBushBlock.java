@@ -20,6 +20,8 @@ import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.entity.InsideBlockEffectApplier;
 import org.jetbrains.annotations.NotNull;
+import de.artemis.floraexpansion.common.config.ServerConfig;
+import de.artemis.floraexpansion.common.util.PlantGrowth;
 
 public class SmallBlueberryBushBlock extends SweetBerryBushBlock implements HarvestableBlock {
     protected static final int ROOTED_BUSH_GROWTH_CHANCE = 33;
@@ -45,9 +47,10 @@ public class SmallBlueberryBushBlock extends SweetBerryBushBlock implements Harv
     @Override
     public void randomTick(@NotNull BlockState state, @NotNull ServerLevel level, @NotNull BlockPos pos, @NotNull RandomSource random) {
         int age = state.getValue(AGE);
-        if (age < 3 && random.nextInt(5) == 0 && level.getRawBrightness(pos.above(), 0) >= 9) {
+        if (age < 3 && PlantGrowth.canGrow(level, pos, state, random, 5, ServerConfig.berryGrowth.get()) && level.getRawBrightness(pos.above(), 0) >= 9) {
             BlockState grownState = getGrowthState(level, pos, state, random, age + 1);
             level.setBlock(pos, grownState, 2);
+            PlantGrowth.grown(level, pos, state);
             level.gameEvent(GameEvent.BLOCK_CHANGE, pos, GameEvent.Context.of(grownState));
         }
     }
@@ -78,19 +81,11 @@ public class SmallBlueberryBushBlock extends SweetBerryBushBlock implements Harv
                 && random.nextInt(ROOTED_BUSH_GROWTH_CHANCE) == 0;
     }
 
-    protected int getHarvestAmount(@NotNull RandomSource random) {
-        return 1 + random.nextInt(2);
-    }
-
     @Override
     public boolean canHarvest(BlockState state) {
         return state.getValue(AGE) >= 3;
     }
 
-    @Override
-    public ItemStack getHarvest(BlockState state, RandomSource random) {
-        return new ItemStack(ModItems.BLUEBERRIES.get(), getHarvestAmount(random));
-    }
 
     @Override
     public BlockState getHarvestedState(BlockState state) {

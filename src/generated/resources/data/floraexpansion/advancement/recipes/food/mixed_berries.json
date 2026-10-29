@@ -1,0 +1,54 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_berries": {
+      "conditions": {
+        "items": [
+          {
+            "items": "#c:foods/berry"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_blueberries": {
+      "conditions": {
+        "items": [
+          {
+            "items": "floraexpansion:blueberries"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_strawberry": {
+      "conditions": {
+        "items": [
+          {
+            "items": "floraexpansion:strawberry"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipes": "floraexpansion:mixed_berries"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_blueberries",
+      "has_strawberry",
+      "has_berries"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "floraexpansion:mixed_berries"
+    ]
+  }
+}

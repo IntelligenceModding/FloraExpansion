@@ -1,10 +1,10 @@
 {
   "type": "minecraft:crafting_shapeless",
   "ingredients": [
-    "floraexpansion:linen_thread",
-    "floraexpansion:linen_thread",
-    "floraexpansion:linen_thread",
-    "floraexpansion:linen_thread"
+    "#floraexpansion:linen_threads",
+    "#floraexpansion:linen_threads",
+    "#floraexpansion:linen_threads",
+    "#floraexpansion:linen_threads"
   ],
   "result": {
     "count": 2,
