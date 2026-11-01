@@ -1,7 +1,7 @@
 {
   "type": "minecraft:crafting_shapeless",
   "ingredients": [
-    "floraexpansion:toasted_spruce_nuts",
+    "#floraexpansion:toasted_spruce_nuts",
     "minecraft:pumpkin_seeds",
     "minecraft:sweet_berries",
     "minecraft:honey_bottle"

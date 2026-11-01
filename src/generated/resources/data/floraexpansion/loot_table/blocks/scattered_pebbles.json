@@ -21,7 +21,7 @@
               "type": "minecraft:explosion_decay"
             }
           ],
-          "name": "floraexpansion:scattered_pebbles"
+          "name": "floraexpansion:pebbles"
         }
       ],
       "rolls": 1
@@ -46,7 +46,7 @@
               "type": "minecraft:explosion_decay"
             }
           ],
-          "name": "floraexpansion:scattered_pebbles"
+          "name": "floraexpansion:pebbles"
         }
       ],
       "rolls": 1
@@ -71,7 +71,7 @@
               "type": "minecraft:explosion_decay"
             }
           ],
-          "name": "floraexpansion:scattered_pebbles"
+          "name": "floraexpansion:pebbles"
         }
       ],
       "rolls": 1
@@ -96,7 +96,7 @@
               "type": "minecraft:explosion_decay"
             }
           ],
-          "name": "floraexpansion:scattered_pebbles"
+          "name": "floraexpansion:pebbles"
         }
       ],
       "rolls": 1
@@ -121,7 +121,7 @@
               "type": "minecraft:explosion_decay"
             }
           ],
-          "name": "floraexpansion:scattered_pebbles"
+          "name": "floraexpansion:pebbles"
         }
       ],
       "rolls": 1

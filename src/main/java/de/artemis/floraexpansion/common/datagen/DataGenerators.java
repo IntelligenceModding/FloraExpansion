@@ -25,6 +25,9 @@ public class DataGenerators {
     public static void gatherRegistries(GatherDataRegistryEntriesEvent event) {
         event.lootTable(new LootTableProvider.SubProviderEntry(ModBlockLootTableProvider::new, LootContextParamSets.BLOCK))
                 .recipe(ModRecipeProvider::new)
+                .add(Registries.ADVANCEMENT, ModAdvancementProvider::bootstrap)
+                .add(Registries.JUKEBOX_SONG, de.artemis.floraexpansion.common.registry.ModJukeboxSongs::bootstrap)
+                .add(Registries.BIOME, de.artemis.floraexpansion.common.registry.ModBiomes::bootstrap)
                 .add(Registries.FEATURE, context -> {
                     ModConfiguredFeatures.bootstrap(context);
                     ModTreeConfiguredFeatures.bootstrap(context);

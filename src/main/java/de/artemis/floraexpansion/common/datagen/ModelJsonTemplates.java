@@ -88,6 +88,67 @@ final class ModelJsonTemplates {
         return element;
     }
 
+    static JsonObject createHandMillModelJson() {
+        JsonObject model = new JsonObject();
+        model.addProperty("parent", "minecraft:block/block");
+        model.addProperty("ambientocclusion", false);
+        JsonObject textures = new JsonObject();
+        textures.addProperty("particle", "minecraft:block/polished_andesite");
+        textures.addProperty("body", "minecraft:block/spruce_planks");
+        textures.addProperty("stone", "minecraft:block/polished_deepslate");
+        textures.addProperty("runner", "minecraft:block/deepslate_tiles");
+        textures.addProperty("millstone", "minecraft:block/polished_andesite");
+        textures.addProperty("wood", "minecraft:block/stripped_spruce_log");
+        model.add("textures", textures);
+        JsonArray elements = new JsonArray();
+        // Stationary base and bed; the renderer supplies the runner and drive shaft.
+        elements.add(jarElement(0, 0, 0, 16, 3, 16, "body", false));
+        elements.add(jarElement(0, 3, 0, 16, 4, 16, "stone", false));
+        // Stationary square bed; the square upper stone is rendered independently.
+        elements.add(jarElement(2, 4, 2, 14, 6, 14, "runner", false));
+
+
+        model.add("elements", elements);
+        return model;
+    }
+    static JsonObject createHandMillItemModelJson() {
+        JsonObject model = createHandMillModelJson();
+        JsonArray elements = model.getAsJsonArray("elements");
+        elements.add(jarElement(7, 6, 7, 9, 16, 9, "wood", false));
+        elements.add(jarElement(3, 7, 3, 13, 11, 13, "millstone", false));
+        return model;
+    }
+    static JsonObject createHandCrankBlockModelJson() {
+        JsonObject model = new JsonObject();
+        model.addProperty("parent", "minecraft:block/block");
+        JsonObject textures = new JsonObject();
+        textures.addProperty("particle", "minecraft:block/stripped_spruce_log");
+        model.add("textures", textures);
+        // The crank's renderer supplies its moving geometry.
+        model.add("elements", new JsonArray());
+        return model;
+    }
+    static JsonObject createHandCrankModelJson(int turn) {
+        JsonObject model = new JsonObject();
+        model.addProperty("parent", "minecraft:block/block");
+        JsonObject textures = new JsonObject();
+        textures.addProperty("particle", "minecraft:block/stripped_spruce_log");
+        textures.addProperty("wood", "minecraft:block/stripped_spruce_log");
+        model.add("textures", textures);
+        JsonArray elements = new JsonArray();
+        elements.add(jarElement(7, 0, 7, 9, 7, 9, "wood", false));
+        elements.add(crankElement(9, 5, 7, 14, 7, 9, "wood", turn));
+        elements.add(crankElement(12, 7, 7, 14, 11, 9, "wood", turn));
+        model.add("elements", elements);
+        return model;
+    }
+    private static JsonObject crankElement(int x1, int y1, int z1, int x2, int y2, int z2, String material, int turn) {
+        for (int i = 0; i < turn; i++) {
+            int nextX1 = 16 - z2, nextX2 = 16 - z1;
+            z1 = x1; z2 = x2; x1 = nextX1; x2 = nextX2;
+        }
+        return jarElement(x1, y1, z1, x2, y2, z2, material, false);
+    }
     static JsonObject createCutoutCrossModelJson(String texture) {
         JsonObject model = new JsonObject();
         JsonObject textures = new JsonObject();

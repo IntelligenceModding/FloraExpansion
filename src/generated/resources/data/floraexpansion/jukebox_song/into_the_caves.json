@@ -1,0 +1,8 @@
+{
+  "comparator_output": 13,
+  "description": {
+    "translate": "jukebox_song.floraexpansion.into_the_caves"
+  },
+  "length_in_seconds": 100.3102,
+  "sound_event": "floraexpansion:music_disc.into_the_caves"
+}

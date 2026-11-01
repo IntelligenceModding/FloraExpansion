@@ -76,6 +76,9 @@ public class WoodenBucketItem extends BucketItem {
     }
 
     private ItemStack getFilledPickupResult(ItemStack sourceStack, Player player, Level level, ItemStack pickedUpStack) {
+        if (pickedUpStack.is(ModItems.SALT_WATER_BUCKET.get())) {
+            return WoodenBucketUtil.transformInto(sourceStack, player, ModItems.WOODEN_SALT_WATER_BUCKET.get());
+        }
         if (pickedUpStack.is(Items.WATER_BUCKET)) {
             return WoodenBucketUtil.transformInto(sourceStack, player, ModItems.WOODEN_WATER_BUCKET.get());
         }

@@ -38,6 +38,26 @@ neoForge {
     runs {
         client {
             client()
+            if (project.providers.gradleProperty('brineSpringSmokeTest').isPresent()) {
+                gameDirectory = file('build/brine-spring-client')
+                systemProperty 'floraexpansion.brineSpringSmokeTest', 'true'
+            }
+            if (project.providers.gradleProperty('saltCaveSmokeTest').isPresent()) {
+                gameDirectory = file('build/salt-cave-client')
+                systemProperty 'floraexpansion.saltCaveSmokeTest', 'true'
+            }
+            if (project.providers.gradleProperty('saltWaterSmokeTest').isPresent()) {
+                gameDirectory = file('build/salt-water-client')
+                systemProperty 'floraexpansion.saltWaterSmokeTest', 'true'
+            }
+            if (project.providers.gradleProperty('saltSpikeSmokeTest').isPresent()) {
+                gameDirectory = file('build/salt-spike-client')
+                systemProperty 'floraexpansion.saltSpikeSmokeTest', 'true'
+            }
+            if (project.providers.gradleProperty('saltingTubSmokeTest').isPresent()) {
+                gameDirectory = file('build/salting-tub-client')
+                systemProperty 'floraexpansion.saltingTubSmokeTest', 'true'
+            }
             systemProperty 'neoforge.enabledGameTestNamespaces', project.mod_id
             if (providers.gradleProperty('clientSmokeTest').isPresent()) {
                 gameDirectory = file('build/port-client')
@@ -138,6 +158,10 @@ publishing {
             url = "file://${project.projectDir}/repo"
         }
     }
+}
+
+tasks.named('jar', Jar).configure {
+    from('LICENSE')
 }
 
 tasks.withType(JavaCompile).configureEach {

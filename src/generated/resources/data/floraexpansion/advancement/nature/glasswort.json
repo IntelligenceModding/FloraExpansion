@@ -1,0 +1,32 @@
+{
+  "parent": "floraexpansion:nature/brine",
+  "criteria": {
+    "obtained": {
+      "conditions": {
+        "items": [
+          {
+            "items": "floraexpansion:glasswort"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.floraexpansion.glasswort.description"
+    },
+    "icon": {
+      "id": "floraexpansion:glasswort"
+    },
+    "title": {
+      "translate": "advancements.floraexpansion.glasswort.title"
+    }
+  },
+  "requirements": [
+    [
+      "obtained"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

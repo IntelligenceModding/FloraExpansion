@@ -66,6 +66,24 @@ public class ModModelProvider extends ModelProvider {
     }
 
     private void registerItemModels(BlockModelGenerators blockModels, ItemModelGenerators itemModels) {
+        registerGeneratedItemWithTexture(blockModels, itemModels, ModItems.MUSIC_DISC_INTO_THE_CAVES.get(), "floraexpansion:item/music_disc_into_the_caves");
+        registerGeneratedItemWithTexture(blockModels, itemModels, ModItems.SALT_WATER_BUCKET.get(), "floraexpansion:item/salt_water_bucket");
+        registerGeneratedItemWithTexture(blockModels, itemModels, ModItems.WOODEN_SALT_WATER_BUCKET.get(), "floraexpansion:item/wooden_salt_water_bucket");
+        for (Item item : java.util.List.of(ModItems.SALTED_GLASSWORT.get(), ModItems.SALTED_SPRUCE_NUTS.get(),
+                ModItems.SALTED_TOASTED_SPRUCE_NUTS.get(), ModItems.SALTED_RAW_MEAT.get(), ModItems.SALTED_RAW_FISH.get(),
+                ModItems.CURED_MEAT.get(), ModItems.CURED_FISH.get())) {
+            registerGeneratedItemWithTexture(blockModels, itemModels, item,
+                    "floraexpansion:item/" + item.builtInRegistryHolder().key().identifier().getPath());
+        }
+        registerGeneratedItemWithTexture(blockModels, itemModels, ModItems.SALT.get(), "floraexpansion:item/salt");
+        registerGeneratedItemWithTexture(blockModels, itemModels, ModItems.RAW_SALT.get(), "floraexpansion:item/raw_salt");
+        blockModels.registerSimpleItemModel(ModBlocks.CRYSTALLINE_SALT.get(), modModel("crystalline_salt"));
+        blockModels.registerSimpleItemModel(ModBlocks.SMOOTH_SALT.get(), modModel("smooth_salt"));
+        blockModels.registerSimpleItemModel(ModBlocks.CUT_SALT.get(), modModel("cut_salt"));
+        blockModels.registerSimpleItemModel(ModBlocks.CHISELED_SALT.get(), modModel("chiseled_salt"));
+        blockModels.registerSimpleItemModel(ModBlocks.SALTING_TUB.get(), modModel("salting_tub"));
+        blockModels.registerSimpleItemModel(ModBlocks.HAND_MILL.get(), modModel("hand_mill_item"));
+        blockModels.registerSimpleItemModel(ModBlocks.HAND_CRANK.get(), modModel("hand_crank_item"));
         registerCrateItemModel(blockModels);
 
         itemModels.generateFlatItem(ModBlocks.APPLE_CORE.get().asItem(), ModelTemplates.FLAT_ITEM);
@@ -110,7 +128,6 @@ public class ModModelProvider extends ModelProvider {
         createGiantCactusStemModels(blockModels);
         createCactusWoodModels(blockModels);
         createPricklyPearCactusModels(blockModels);
-        createPackedPebblesModels(blockModels);
         createStrawberryCakeModels(blockModels);
         createStrawberryCropModels(blockModels);
         blockModels.createFullAndCarpetBlocks(ModBlocks.LINEN_BALE.get(), ModBlocks.LINEN_CARPET.get());
@@ -119,6 +136,60 @@ public class ModModelProvider extends ModelProvider {
     }
 
     private void registerSpecialBlockModels(BlockModelGenerators blockModels) {
+        createSaltWaterModels(blockModels);
+        blockModels.modelOutput.accept(modModel("salting_tub"), SaltingTubModel::create);
+        blockModels.blockStateOutput.accept(BlockModelGenerators.createSimpleBlock(ModBlocks.SALTING_TUB.get(),
+                BlockModelGenerators.plainVariant(modModel("salting_tub"))));
+        blockModels.modelOutput.accept(modModel("hand_mill"), ModelJsonTemplates::createHandMillModelJson);
+        blockModels.modelOutput.accept(modModel("hand_mill_item"), ModelJsonTemplates::createHandMillItemModelJson);
+        blockModels.blockStateOutput.accept(BlockModelGenerators.createSimpleBlock(ModBlocks.HAND_MILL.get(),
+                BlockModelGenerators.plainVariant(modModel("hand_mill"))));
+        blockModels.modelOutput.accept(modModel("hand_crank"), ModelJsonTemplates::createHandCrankBlockModelJson);
+        blockModels.modelOutput.accept(modModel("hand_crank_item"), () -> createHandCrankModelJson(0));
+        blockModels.blockStateOutput.accept(BlockModelGenerators.createSimpleBlock(ModBlocks.HAND_CRANK.get(),
+                BlockModelGenerators.plainVariant(modModel("hand_crank"))));
+        blockModels.new BlockFamilyProvider(TextureMapping.cube(modBlockMaterial("smooth_salt")))
+                .fullBlock(ModBlocks.SMOOTH_SALT.get(), ModelTemplates.CUBE_ALL);
+        blockModels.modelOutput.accept(modModel("cut_salt"), () -> {
+            var json = new com.google.gson.JsonObject();
+            json.addProperty("parent", "minecraft:block/cube_column");
+            var textures = new com.google.gson.JsonObject();
+            textures.addProperty("side", "floraexpansion:block/cut_salt");
+            textures.addProperty("end", "floraexpansion:block/smooth_salt");
+            json.add("textures", textures);
+            return json;
+        });
+        blockModels.blockStateOutput.accept(BlockModelGenerators.createSimpleBlock(ModBlocks.CUT_SALT.get(),
+                BlockModelGenerators.plainVariant(modModel("cut_salt"))));
+        blockModels.modelOutput.accept(modModel("chiseled_salt"), () -> {
+            var json = new com.google.gson.JsonObject();
+            json.addProperty("parent", "minecraft:block/cube_column");
+            var textures = new com.google.gson.JsonObject();
+            textures.addProperty("side", "floraexpansion:block/chiseled_salt");
+            textures.addProperty("end", "floraexpansion:block/smooth_salt");
+            json.add("textures", textures);
+            return json;
+        });
+        blockModels.blockStateOutput.accept(BlockModelGenerators.createSimpleBlock(ModBlocks.CHISELED_SALT.get(),
+                BlockModelGenerators.plainVariant(modModel("chiseled_salt"))));
+        blockModels.new BlockFamilyProvider(TextureMapping.cube(modBlockMaterial("crystalline_salt")))
+                .fullBlock(ModBlocks.CRYSTALLINE_SALT.get(), ModelTemplates.CUBE_ALL)
+                .stairs(ModBlocks.CRYSTALLINE_SALT_STAIRS.get()).slab(ModBlocks.CRYSTALLINE_SALT_SLAB.get()).wall(ModBlocks.CRYSTALLINE_SALT_WALL.get());
+        var rawStates = PropertyDispatch.initial(de.artemis.floraexpansion.common.block.SaltDepositBlock.LAYERS);
+        for (int layers = 1; layers <= 4; layers++) {
+            int height = layers * 4;
+            var model = modModel("salt_deposit_" + layers);
+            blockModels.modelOutput.accept(model, () -> {
+                var json = com.google.gson.JsonParser.parseString("{\"parent\":\"minecraft:block/block\",\"textures\":{\"particle\":\"floraexpansion:block/salt_deposit\",\"all\":\"floraexpansion:block/salt_deposit\"},\"elements\":[{\"from\":[0,0,0],\"to\":[16," + height + ",16],\"faces\":{}}]}").getAsJsonObject();
+                var faces = json.getAsJsonArray("elements").get(0).getAsJsonObject().getAsJsonObject("faces");
+                for (String face : java.util.List.of("up", "down", "north", "south", "east", "west")) {
+                    var data = new com.google.gson.JsonObject(); data.addProperty("texture", "#all"); faces.add(face, data);
+                }
+                return json;
+            });
+            rawStates.select(layers, BlockModelGenerators.plainVariant(model));
+        }
+        blockModels.blockStateOutput.accept(MultiVariantGenerator.dispatch(ModBlocks.SALT_DEPOSIT.get()).with(rawStates));
         createBlueberryBushBlockState(blockModels);
         createSmallCactusBlockState(blockModels);
         createCactusSpineModels(blockModels);
@@ -135,6 +206,27 @@ public class ModModelProvider extends ModelProvider {
         createNeedleLitterBlockState(blockModels);
         createStrawberryCakeBlockState(blockModels);
         createStrawberryCropBlockState(blockModels);
+    }
+
+    private void createSaltWaterModels(BlockModelGenerators blockModels) {
+        blockModels.modelOutput.accept(modModel("salt_water"), () -> {
+            var model = new JsonObject();
+            var textures = new JsonObject();
+            textures.addProperty("particle", "minecraft:block/water_still");
+            model.add("textures", textures);
+            return model;
+        });
+        blockModels.blockStateOutput.accept(BlockModelGenerators.createSimpleBlock(ModBlocks.SALT_WATER.get(),
+                BlockModelGenerators.plainVariant(modModel("salt_water"))));
+        var states = PropertyDispatch.initial(net.minecraft.world.level.block.LayeredCauldronBlock.LEVEL);
+        var templates = new net.minecraft.client.data.models.model.ModelTemplate[]{ModelTemplates.CAULDRON_LEVEL1,
+                ModelTemplates.CAULDRON_LEVEL2, ModelTemplates.CAULDRON_FULL};
+        for (int fill=1; fill<=3; fill++) {
+            var model = templates[fill-1].createWithSuffix(ModBlocks.SALT_WATER_CAULDRON.get(), "_level" + fill,
+                    TextureMapping.cauldron(new Material(Identifier.withDefaultNamespace("block/water_still"), true)), blockModels.modelOutput);
+            states.select(fill, BlockModelGenerators.plainVariant(model));
+        }
+        blockModels.blockStateOutput.accept(MultiVariantGenerator.dispatch(ModBlocks.SALT_WATER_CAULDRON.get()).with(states));
     }
 
     private void createJarModels(BlockModelGenerators blockModels) {
@@ -824,16 +916,6 @@ public class ModModelProvider extends ModelProvider {
         blockModels.registerSimpleItemModel(block, verticalModel);
     }
 
-    private void createPackedPebblesModels(BlockModelGenerators blockModels) {
-        Identifier model = ModelTemplates.CUBE_ALL.create(
-                ModBlocks.PACKED_PEBBLES.get(),
-                new TextureMapping().put(TextureSlot.ALL, modBlockMaterial("packed_pebbles")),
-                blockModels.modelOutput
-        );
-
-        blockModels.blockStateOutput.accept(BlockModelGenerators.createSimpleBlock(ModBlocks.PACKED_PEBBLES.get(), BlockModelGenerators.plainVariant(model)));
-        blockModels.registerSimpleItemModel(ModBlocks.PACKED_PEBBLES.get(), model);
-    }
 
     private void createCactusDoorModels(BlockModelGenerators blockModels) {
         MultiVariant bottomLeft = createCactusDoorModel(blockModels, "bottom_left");
@@ -907,13 +989,17 @@ public class ModModelProvider extends ModelProvider {
 
     @Override
     protected @NonNull Stream<? extends Holder<Block>> getKnownBlocks() {
-        return ModBlocks.BLOCKS.getEntries().stream();
+        return ModBlocks.BLOCKS.getEntries().stream().filter(block -> !block.is(ModBlocks.SALT_SPIKE) && !block.is(ModBlocks.GLASSWORT) && !block.is(ModBlocks.POTTED_GLASSWORT))
+                .filter(block -> ModBlocks.CALCITE_ORES.stream().noneMatch(ore -> block.is(ore)));
     }
 
     @Override
     protected @NonNull Stream<? extends Holder<Item>> getKnownItems() {
         return ModItems.ITEMS.getEntries().stream()
-                .filter(item -> !item.is(ModItems.SPIKED_LEATHER_HELMET)
+                .filter(item -> ModBlocks.CALCITE_ORES.stream().noneMatch(ore -> item.value() == ore.get().asItem()))
+                .filter(item -> item.value() != ModBlocks.SALT_SPIKE.get().asItem()
+                        && item.value() != ModBlocks.GLASSWORT.get().asItem()
+                        && !item.is(ModItems.SPIKED_LEATHER_HELMET)
                         && !item.is(ModItems.SPIKED_LEATHER_CHESTPLATE)
                         && !item.is(ModItems.SPIKED_LEATHER_LEGGINGS)
                         && !item.is(ModItems.SPIKED_LEATHER_BOOTS));
@@ -960,3 +1046,6 @@ public class ModModelProvider extends ModelProvider {
         );
     }
 }
+
+
+

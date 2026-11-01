@@ -1,0 +1,29 @@
+{
+  "parent": "floraexpansion:nature/salting_tub",
+  "criteria": {
+    "performed": {
+      "conditions": {
+        "action": "salt_food"
+      },
+      "trigger": "floraexpansion:action"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.floraexpansion.salt_food.description"
+    },
+    "frame": "goal",
+    "icon": {
+      "id": "floraexpansion:salted_raw_fish"
+    },
+    "title": {
+      "translate": "advancements.floraexpansion.salt_food.title"
+    }
+  },
+  "requirements": [
+    [
+      "performed"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

@@ -8,6 +8,7 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.tags.ItemTags;
+import net.minecraft.tags.BlockItemTags;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.neoforged.neoforge.common.Tags;
@@ -24,6 +25,27 @@ public class ModItemTagProvider extends ItemTagsProvider {
 
     @Override
     protected void addTags(HolderLookup.@NotNull Provider provider) {
+        tag(Tags.Items.HIDDEN_FROM_RECIPE_VIEWERS).add(blockItemKey(ModBlocks.SCATTERED_PEBBLES));
+        tag(Tags.Items.FOODS).add(blockItemKey(ModBlocks.GLASSWORT), ModItems.SALTED_GLASSWORT.key());
+        tag(ItemTags.CREEPER_DROP_MUSIC_DISCS).add(ModItems.MUSIC_DISC_INTO_THE_CAVES.key());
+        tag(Tags.Items.MUSIC_DISCS).add(ModItems.MUSIC_DISC_INTO_THE_CAVES.key());
+        tag(Tags.BlockItems.ORE_RATES_DENSE.item()).add(blockItemKey(ModBlocks.CALCITE_COPPER_ORE),
+                blockItemKey(ModBlocks.CALCITE_LAPIS_ORE), blockItemKey(ModBlocks.CALCITE_REDSTONE_ORE));
+        tag(Tags.BlockItems.ORE_RATES_SINGULAR.item()).add(blockItemKey(ModBlocks.CALCITE_COAL_ORE), blockItemKey(ModBlocks.CALCITE_IRON_ORE),
+                blockItemKey(ModBlocks.CALCITE_GOLD_ORE), blockItemKey(ModBlocks.CALCITE_EMERALD_ORE), blockItemKey(ModBlocks.CALCITE_DIAMOND_ORE));
+        tag(BlockItemTags.COAL_ORES.item()).add(blockItemKey(ModBlocks.CALCITE_COAL_ORE));
+        tag(BlockItemTags.IRON_ORES.item()).add(blockItemKey(ModBlocks.CALCITE_IRON_ORE));
+        tag(BlockItemTags.COPPER_ORES.item()).add(blockItemKey(ModBlocks.CALCITE_COPPER_ORE));
+        tag(BlockItemTags.GOLD_ORES.item()).add(blockItemKey(ModBlocks.CALCITE_GOLD_ORE));
+        tag(BlockItemTags.REDSTONE_ORES.item()).add(blockItemKey(ModBlocks.CALCITE_REDSTONE_ORE));
+        tag(BlockItemTags.EMERALD_ORES.item()).add(blockItemKey(ModBlocks.CALCITE_EMERALD_ORE));
+        tag(BlockItemTags.LAPIS_ORES.item()).add(blockItemKey(ModBlocks.CALCITE_LAPIS_ORE));
+        tag(BlockItemTags.DIAMOND_ORES.item()).add(blockItemKey(ModBlocks.CALCITE_DIAMOND_ORE));
+        tag(BlockItemTags.STAIRS.item()).add(blockItemKey(ModBlocks.CRYSTALLINE_SALT_STAIRS));
+        tag(BlockItemTags.SLABS.item()).add(blockItemKey(ModBlocks.CRYSTALLINE_SALT_SLAB));
+        tag(ItemTags.WALLS).add(blockItemKey(ModBlocks.CRYSTALLINE_SALT_WALL));
+        tag(Tags.Items.FOODS).add(ModItems.SALTED_SPRUCE_NUTS.key(), ModItems.SALTED_TOASTED_SPRUCE_NUTS.key(),
+                ModItems.CURED_MEAT.key(), ModItems.CURED_FISH.key());
         tag(ItemTags.BEE_FOOD).add(blockItemKey(ModBlocks.FLOWERING_DESERT_MOSS));
         tag(ItemTags.WOODEN_STAIRS).add(blockItemKey(ModBlocks.CACTUS_STAIRS)).add(blockItemKey(ModBlocks.CACTUS_MOSAIC_STAIRS));
         tag(ItemTags.WOODEN_SLABS).add(blockItemKey(ModBlocks.CACTUS_SLAB)).add(blockItemKey(ModBlocks.CACTUS_MOSAIC_SLAB));

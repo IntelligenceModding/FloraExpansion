@@ -12,7 +12,7 @@ import net.neoforged.neoforge.registries.DeferredRegister;
 import java.util.Map;
 
 /**
- * Permanent read aliases for IDs renamed in 0.4.2.
+ * Permanent read aliases for renamed registry IDs.
  *
  * Register before registry events, on both sides. Aliases return the current object/holder,
  * so vanilla codecs retain state properties and components and save the canonical ID.
@@ -21,11 +21,14 @@ import java.util.Map;
  */
 public final class LegacyContentAliases {
     public static final Map<String, String> BLOCKS = Map.ofEntries(
+            Map.entry("salt_block", "crystalline_salt"),
+            Map.entry("salt_stairs", "crystalline_salt_stairs"),
+            Map.entry("salt_slab", "crystalline_salt_slab"),
+            Map.entry("salt_wall", "crystalline_salt_wall"),
             Map.entry("pine_litter", "needle_litter"),
             Map.entry("flax_crop", "flax"),
             Map.entry("linen_block", "linen_bale"),
             Map.entry("pebble_patch", "scattered_pebbles"),
-            Map.entry("pebble_block", "packed_pebbles"),
             Map.entry("fruiting_cherry_leaves", "orchard_cherry_leaves"),
             Map.entry("fruiting_oak_leaves", "apple_leaves"),
             Map.entry("giant_cactus_base", "cactus_log"),
@@ -56,10 +59,13 @@ public final class LegacyContentAliases {
     );
 
     public static final Map<String, String> ITEMS = Map.ofEntries(
+            Map.entry("salt_block", "crystalline_salt"),
+            Map.entry("salt_stairs", "crystalline_salt_stairs"),
+            Map.entry("salt_slab", "crystalline_salt_slab"),
+            Map.entry("salt_wall", "crystalline_salt_wall"),
             Map.entry("pine_litter", "needle_litter"),
             Map.entry("linen_block", "linen_bale"),
             Map.entry("pebble_patch", "scattered_pebbles"),
-            Map.entry("pebble_block", "packed_pebbles"),
             Map.entry("fruiting_cherry_leaves", "orchard_cherry_leaves"),
             Map.entry("fruiting_oak_leaves", "apple_leaves"),
             Map.entry("giant_cactus_base", "cactus_log"),
@@ -103,6 +109,11 @@ public final class LegacyContentAliases {
     }
 
     public static void register() {
+        // Removed packed-pebble content resolves to ordinary gravel in existing saves.
+        for (String old : java.util.List.of("pebble_block", "packed_pebbles", "packed_pebbles_stairs", "packed_pebbles_slab", "packed_pebbles_wall")) {
+            ModBlocks.BLOCKS.addAlias(id(old), Identifier.withDefaultNamespace("gravel"));
+            ModItems.ITEMS.addAlias(id(old), Identifier.withDefaultNamespace("gravel"));
+        }
         addAliases(ModBlocks.BLOCKS, BLOCKS);
         addAliases(ModItems.ITEMS, ITEMS);
         addAliases(ModFeatures.FEATURES, FEATURE_TYPES);

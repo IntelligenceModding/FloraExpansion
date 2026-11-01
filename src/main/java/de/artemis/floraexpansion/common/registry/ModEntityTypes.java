@@ -45,7 +45,7 @@ public class ModEntityTypes {
     private static <T extends ResourceProjectile> DeferredHolder<EntityType<?>, EntityType<T>> registerProjectile(
             String name, EntityType.EntityFactory<T> factory) {
         return ENTITY_TYPES.register(name, () -> EntityType.Builder.of(factory, MobCategory.MISC)
-                .sized(0.25F, 0.25F).clientTrackingRange(4).updateInterval(10).build(key(name)));
+                .sized(0.25F, 0.25F).clientTrackingRange(4).updateInterval(name.equals("pebbles") ? 1 : 10).build(key(name)));
     }
 
     private static ResourceKey<EntityType<?>> key(String name) {

@@ -1,0 +1,10 @@
+{
+  "type": "floraexpansion:grinding",
+  "ingredient": "minecraft:blaze_rod",
+  "result": {
+    "count": 4,
+    "id": "minecraft:blaze_powder"
+  },
+  "show_notification": false,
+  "turns": 8
+}

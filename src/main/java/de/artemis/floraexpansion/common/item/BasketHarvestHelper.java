@@ -66,6 +66,7 @@ public final class BasketHarvestHelper {
                 || tryHarvestInteractivePlant(context, state, basket))
                 || ServerConfig.basketGathering.get() && tryGatherPlant(context, state, basket);
         if (harvested) {
+            de.artemis.floraexpansion.common.advancement.FloraActionTrigger.fire(player, "basket_harvest");
             InventoryUtils.syncPlayerInventory(player);
         }
         return harvested;

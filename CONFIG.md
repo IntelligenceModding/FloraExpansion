@@ -1,117 +1,87 @@
-# Flora Expansion Config
+# Configuration
 
-Flora Expansion has a server-owned gameplay config and a client config for local presentation.
+Open **Mods > Flora Expansion > Config**, or edit the TOML files below. Restart after editing files directly.
 
-The gameplay config uses NeoForge's `SYNCED` type on Minecraft 26.3. Its default location is:
-
-```text
-config/floraexpansion-synced.toml
-```
-
-For a specific world, place the same filename in:
-
-```text
-<world>/syncedconfig/floraexpansion-synced.toml
-```
-
-The local client config is:
-
-```text
-config/floraexpansion-client.toml
-```
-
-## In-game Config Screens
-
-Open **Mods → Flora Expansion → Config**. Client Settings controls local presentation. Gameplay Settings becomes available after a world loads. NeoForge disables gameplay editing when connected to a remote server, or while a singleplayer world is published to LAN.
-
-The screens use NeoForge's normal configuration UI and validation. Use its editing, reset, and save controls. Gameplay values are read from the current loaded config rather than cached copies; NeoForge handles synchronization and unloading when leaving a server.
-
-## Server Config Sections
-
-| Section | What it controls |
+| File | When to use it |
 | --- | --- |
-| `growth` | Natural crop, berry, fruit, and cactus growth probabilities. |
-| `remainders` | Apple-core and cherry-pit rewards after eating fruit. |
-| `combat` | Throwable damage, cone slowness, and spiked armor retaliation. |
-| `woodenBuckets` | New wooden lava-bucket filling and lifetime. |
-| `basket` | Harvesting, wild gathering, and container deposits. |
-| `crate` | Bulk deposits, quick extraction, and double-click timing. |
+| `config/floraexpansion-client.toml` | Change your display and controls. |
+| `config/floraexpansion-synced.toml` | Set gameplay defaults on the server or in singleplayer. |
+| `<world>/syncedconfig/floraexpansion-synced.toml` | Override one world; copy the default file here first. |
 
-## Server Defaults and Ranges
+Gameplay settings load when the server/world starts and are sent to connected players. On a remote server, the server owner controls them.
 
-| Key | Default | Range | Meaning |
-| --- | --- | --- | --- |
-| `growth.crops` | `1` | `0–16` | Natural flax and strawberry growth multiplier; 0 disables natural growth. |
-| `growth.berries` | `1` | `0–16` | Natural blueberry growth multiplier. |
-| `growth.fruit` | `1` | `0–16` | Natural apple and cherry ripening multiplier. |
-| `growth.cactus` | `1` | `0–16` | Natural cactus fruit and flowering growth multiplier. |
-| `remainders.appleCoreChance` | `0.5` | `0–1` | Chance to receive an apple core after eating an apple. |
-| `remainders.cherryPitChance` | `0.5` | `0–1` | Chance to receive a cherry pit after eating cherries. |
-| `combat.coneDamage` | `1` | `0–100` | Damage dealt by a thrown spruce cone. |
-| `combat.pebbleDamage` | `2` | `0–100` | Damage dealt by a thrown pebble. |
-| `combat.coneSlownessTicks` | `60` | `0–12000` | Slowness duration in ticks; 0 disables the effect. |
-| `combat.armorChancePerPiece` | `0.15` | `0–1` | Retaliation chance per spiked leather piece; total chance is capped at 1. |
-| `combat.armorDamage` | `1` | `0–100` | Base spiked leather retaliation damage. |
-| `combat.armorBonusDamage` | `1` | `0–100` | Additional retaliation damage with at least three pieces. |
-| `woodenBuckets.allowLava` | `true` | Boolean | Allow newly filled wooden buckets to carry lava. |
-| `woodenBuckets.lavaMinTicks` | `100` | `1–72000` | Minimum lifetime of newly filled lava buckets, in ticks. |
-| `woodenBuckets.lavaMaxTicks` | `200` | `1–72000` | Maximum lifetime in ticks; values below the minimum are treated as the minimum. |
-| `basket.harvestCrops` | `true` | Boolean | Allow basket harvesting of mature crops and fruit plants. |
-| `basket.gatherPlants` | `true` | Boolean | Allow gathering plants in the basket_gatherable block tag. |
-| `basket.depositIntoContainers` | `true` | Boolean | Allow depositing basket contents into containers. |
-| `crate.bulkDeposits` | `true` | Boolean | Allow double-click deposits of matching inventory items. |
-| `crate.quickExtraction` | `true` | Boolean | Allow the left-click crate extraction shortcut. |
-| `crate.doubleClickTicks` | `8` | `1–40` | Maximum ticks between clicks for a bulk deposit. |
+## Change growth and seed returns
 
-Growth values multiply the existing natural-growth probability, capped at one growth action per eligible random tick. `1` keeps normal behavior; `0` stops natural growth for that family. Existing maturity, light, soil, space, and world random-tick rules still apply. Bone meal is unchanged. Growth attempts participate in NeoForge crop-growth events.
+For twice the natural flax/strawberry growth chance and a 25% apple-core chance:
 
-Damage is measured in health points, and durations use ticks (normally 20 ticks per second). A cone slowness duration of `0` disables its effect. Armor retaliation chance is capped at 100% after combining equipped pieces.
+```toml
+[growth]
+crops = 2.0
 
-If the maximum lava lifetime is below the minimum, the effective maximum is clamped to the minimum. Changing either setting affects newly filled buckets. Previously filled buckets retain their saved expiration times. Disabling lava filling prevents new lava pickup without deleting existing filled buckets.
-
-Disabling basket or crate shortcuts does not delete stored items or disable access to their storage menus. Disallowed actions are checked on the server, including direct crate-extraction requests from clients.
-
-## Client Defaults and Ranges
-
-| Key | Default | Range | Meaning |
-| --- | --- | --- | --- |
-| `particles.needles` | `1` | `0–1` | Needle litter decorative particle intensity. |
-| `particles.flax` | `1` | `0–1` | Decorative flax flower particle intensity. |
-| `particles.fruit` | `1` | `0–1` | Decorative falling fruit particle intensity; does not change harvests. |
-| `particles.impactCount` | `8` | `0–8` | Number of item fragments shown when a throwable hits something. |
-| `rendering.crateFill` | `true` | Boolean | Show the contents of open crates. |
-| `rendering.crateFillDistance` | `64` | `8–128` | Maximum distance at which crate contents are shown. |
-| `interface.scrollSensitivity` | `1` | `0.1–10` | Crate mouse-wheel scrolling sensitivity. |
-| `interface.interactionHints` | `false` | Boolean | Show basket and crate control hints. |
-| `interface.quickExtraction` | `true` | Boolean | Use the crate left-click shortcut when permitted by the server. |
-| `interface.tooltipDetail` | `COMPACT` | `COMPACT`, `EXPANDED`, `ON_SHIFT` | Compact previews, full previews, or full previews while Shift is held. |
-
-Particle intensities are fractions from `0` to `1`. These preferences only change visuals; they do not change item drops, growth, or damage. Needle particle intensity does not disable footstep sounds.
-
-Crate-fill settings affect rendering only. The fill keeps its block-pixel scale regardless of distance. Scroll sensitivity does not change storage capacity or transfer amounts. Local quick extraction can be turned off independently; turning it on cannot enable extraction prohibited by the server.
-
-## Server Authority
-
-The server's gameplay config and datapacks decide world generation, growth, rewards, inventory transfers, and combat. A joining player's local gameplay file is not an override for the server.
-
-Client messages request an interaction, such as extracting from a crate. The server checks its own settings, the loaded target, access, distance, lock state, and actual stored contents. Clients do not supply reward counts, damage values, or replacement config values.
-
-`LOCAL` and `STARTUP` configs are not used for these gameplay rules. All blocks and items remain registered regardless of settings.
-
-## Datapacks
-
-World generation frequency, biome membership, soils, harvest rewards, recipes, trades, crate eligibility, basket gathering, fuel, and composting are configured through datapacks. Their locations and examples are in [DATAPACKS.md](DATAPACKS.md). These controls are separate from the gameplay TOML settings.
-
-Tags, recipes, harvest tables, and reloadable provider data use the normal server datapack reload process. Restart the world/server after changing world-generation registries. Existing generated chunks are not regenerated.
-
-## Verification
-
-The opt-in regression suite is run with Java 25:
-
-```text
-gradlew runGameTestServer -PportTests
-gradlew runGameTestServer -PportTests -PcustomizationOverrides
-gradlew runClient -PportTests -PclientSmokeTest
+[remainders]
+appleCoreChance = 0.25
 ```
 
-The second command enables a real test datapack that replaces storage/gathering tags, soils, biome selection, a textile ingredient, composting, and harvest rewards. That test pack and all test classes are excluded from release builds.
+Edit existing sections rather than adding duplicates. `growth.crops` means `crops` under `[growth]`.
+
+| Keys | Default | Values |
+| --- | --- | --- |
+| `growth.crops`, `growth.berries`, `growth.fruit`, `growth.cactus` | `1.0` each | `0–16`: flax/strawberries, blueberries, apple/cherry ripening, cactus fruit/flowers, respectively. |
+| `remainders.appleCoreChance`, `remainders.cherryPitChance` | `0.5` each | `0–1`: chance after eating the corresponding fruit. |
+
+Growth `0` stops natural growth; `1` is normal. Soil, light and space checks still apply. Bone meal is unchanged.
+
+## Balance combat
+
+Edit `[combat]`. Damage uses health points (`2` = one heart); `20` ticks normally equals one second.
+
+| Key | Default | Values / effect |
+| --- | --- | --- |
+| `coneDamage` | `1.0` | `0–100` damage per cone hit. |
+| `pebbleDamage` | `2.0` | `0–100` damage per pebble hit. |
+| `coneSlownessTicks` | `60` | `0–12000`; `0` disables slowness. |
+| `armorChancePerPiece` | `0.15` | `0–1`; total retaliation chance is capped at 100%. |
+| `armorDamage` | `1.0` | `0–100` base retaliation damage. |
+| `armorBonusDamage` | `1.0` | `0–100` extra damage with at least three spiked leather pieces. |
+
+## Restrict wooden lava buckets
+
+Disable new lava fills with:
+
+```toml
+[woodenBuckets]
+allowLava = false
+```
+
+To change the lifetime instead, edit `lavaMinTicks` and `lavaMaxTicks` in the same section. Defaults are `100` and `200` (5–10 seconds); each accepts `1–72000`. A maximum below the minimum uses the minimum. Existing filled buckets retain their saved expiry.
+
+## Change basket and crate controls
+
+Set these gameplay switches to `false` to disable an interaction. All default to `true`.
+
+| Key | Interaction |
+| --- | --- |
+| `basket.harvestCrops` | Harvest mature crops and fruit plants. |
+| `basket.gatherPlants` | Collect blocks in the basket gathering tag. |
+| `basket.depositIntoContainers` | Empty baskets into containers. |
+| `crate.bulkDeposits` | Double-click to deposit matching inventory items. |
+| `crate.quickExtraction` | Left-click to extract items. |
+
+Set `crate.doubleClickTicks` to change the double-click window: default `8`, range `1–40` ticks. Change accepted items/plants through [datapack tags](DATAPACKS.md#change-accepted-items-plants-and-soils).
+
+## Reduce effects or change local controls
+
+Edit `floraexpansion-client.toml`. These settings affect only your client.
+
+| Key | Default | How to change it |
+| --- | --- | --- |
+| `particles.needles`, `particles.flax`, `particles.fruit` | `1.0` each | Choose `0–1`; `0` hides the corresponding decorative particles. |
+| `particles.impactCount` | `8` | Choose `0–8` throwable-impact fragments. |
+| `rendering.crateFill` | `true` | Set `false` to hide crate contents. |
+| `rendering.crateFillDistance` | `64.0` | Choose `8–128` blocks to limit content rendering distance. |
+| `interface.scrollSensitivity` | `1.0` | Choose `0.1–10` for crate mouse-wheel sensitivity. |
+| `interface.interactionHints` | `false` | Set `true` to show basket/crate control hints. |
+| `interface.quickExtraction` | `true` | Set `false` to disable your crate shortcut; the server must also permit it. |
+| `interface.tooltipDetail` | `"COMPACT"` | Use `"EXPANDED"` for full details or `"ON_SHIFT"` for full details while holding Shift. |
+
+For recipes, world generation, loot, trades, fuel and composting, use [DATAPACKS.md](DATAPACKS.md).

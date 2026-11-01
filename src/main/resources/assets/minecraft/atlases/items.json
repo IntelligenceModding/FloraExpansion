@@ -1,9 +1,77 @@
 {
-  "sources": [
-    {"type": "floraexpansion:jam_portions", "resource": "floraexpansion:item/blueberry_jam"},
-    {"type": "floraexpansion:jam_portions", "resource": "floraexpansion:item/strawberry_jam"},
-    {"type": "floraexpansion:jam_portions", "resource": "floraexpansion:item/cherry_jam"},
-    {"type": "floraexpansion:jam_portions", "resource": "floraexpansion:item/apple_jam"},
-    {"type": "floraexpansion:flowering_moss"}
-  ]
+    "sources":  [
+                    {
+                        "type": "floraexpansion:salt_item",
+                        "resource": "floraexpansion:block/glasswort",
+                        "sprite": "floraexpansion:item/salted_glasswort",
+                        "effect": "salted"
+                    },
+                    {
+                        "type":  "floraexpansion:jam_portions",
+                        "resource":  "floraexpansion:item/blueberry_jam"
+                    },
+                    {
+                        "type":  "floraexpansion:jam_portions",
+                        "resource":  "floraexpansion:item/strawberry_jam"
+                    },
+                    {
+                        "type":  "floraexpansion:jam_portions",
+                        "resource":  "floraexpansion:item/cherry_jam"
+                    },
+                    {
+                        "type":  "floraexpansion:jam_portions",
+                        "resource":  "floraexpansion:item/apple_jam"
+                    },
+                    {
+                        "type":  "floraexpansion:flowering_moss"
+                    },
+                    {
+                        "type":  "floraexpansion:salt_item",
+                        "resource":  "floraexpansion:item/spruce_nuts",
+                        "sprite":  "floraexpansion:item/salted_spruce_nuts",
+                        "effect":  "salted"
+                    },
+                    {
+                        "type":  "floraexpansion:salt_item",
+                        "resource":  "floraexpansion:item/toasted_spruce_nuts",
+                        "sprite":  "floraexpansion:item/salted_toasted_spruce_nuts",
+                        "effect":  "salted"
+                    },
+                    {
+                        "type":  "floraexpansion:salt_item",
+                        "resource":  "minecraft:item/beef",
+                        "sprite":  "floraexpansion:item/salted_raw_meat",
+                        "effect":  "salted"
+                    },
+                    {
+                        "type":  "floraexpansion:salt_item",
+                        "resource":  "minecraft:item/cod",
+                        "sprite":  "floraexpansion:item/salted_raw_fish",
+                        "effect":  "salted"
+                    },
+                    {
+                        "type":  "floraexpansion:salt_item",
+                        "resource":  "minecraft:item/cooked_beef",
+                        "sprite":  "floraexpansion:item/cured_meat",
+                        "effect":  "cured"
+                    },
+                    {
+                        "type":  "floraexpansion:salt_item",
+                        "resource":  "minecraft:item/cooked_salmon",
+                        "sprite":  "floraexpansion:item/cured_fish",
+                        "effect":  "cured"
+                    },
+                    {
+                        "type":  "floraexpansion:salt_item",
+                        "resource":  "minecraft:item/water_bucket",
+                        "sprite":  "floraexpansion:item/salt_water_bucket",
+                        "effect":  "salt_water"
+                    },
+                    {
+                        "type":  "floraexpansion:salt_item",
+                        "resource":  "floraexpansion:item/water_wooden_bucket",
+                        "sprite":  "floraexpansion:item/wooden_salt_water_bucket",
+                        "effect":  "salt_water"
+                    }
+                ]
 }

@@ -27,6 +27,19 @@ public class ModBlocks {
 
     public static final DeferredRegister.Blocks BLOCKS = DeferredRegister.createBlocks(FloraExpansion.MODID);
 
+    public static final DeferredBlock<DropExperienceBlock> CALCITE_COAL_ORE = registerCalciteOre("coal", Blocks.COAL_ORE, 0, 2);
+    public static final DeferredBlock<DropExperienceBlock> CALCITE_IRON_ORE = registerCalciteOre("iron", Blocks.IRON_ORE, 0, 0);
+    public static final DeferredBlock<DropExperienceBlock> CALCITE_COPPER_ORE = registerCalciteOre("copper", Blocks.COPPER_ORE, 0, 0);
+    public static final DeferredBlock<DropExperienceBlock> CALCITE_GOLD_ORE = registerCalciteOre("gold", Blocks.GOLD_ORE, 0, 0);
+    public static final DeferredBlock<RedStoneOreBlock> CALCITE_REDSTONE_ORE = registerBlock("calcite_redstone_ore",
+            () -> new RedStoneOreBlock(blockProperties("calcite_redstone_ore", BlockBehaviour.Properties.ofFullCopy(Blocks.REDSTONE_ORE)
+                    .mapColor(MapColor.TERRACOTTA_WHITE).sound(SoundType.CALCITE))), new Item.Properties().useBlockDescriptionPrefix());
+    public static final DeferredBlock<DropExperienceBlock> CALCITE_EMERALD_ORE = registerCalciteOre("emerald", Blocks.EMERALD_ORE, 3, 7);
+    public static final DeferredBlock<DropExperienceBlock> CALCITE_LAPIS_ORE = registerCalciteOre("lapis", Blocks.LAPIS_ORE, 2, 5);
+    public static final DeferredBlock<DropExperienceBlock> CALCITE_DIAMOND_ORE = registerCalciteOre("diamond", Blocks.DIAMOND_ORE, 3, 7);
+    public static final List<DeferredBlock<? extends Block>> CALCITE_ORES = List.of(CALCITE_COAL_ORE, CALCITE_IRON_ORE,
+            CALCITE_COPPER_ORE, CALCITE_GOLD_ORE, CALCITE_REDSTONE_ORE, CALCITE_EMERALD_ORE, CALCITE_LAPIS_ORE, CALCITE_DIAMOND_ORE);
+
     public static final DeferredBlock<Block> NEEDLE_LITTER = registerBlock("needle_litter",
             () -> new NeedleLitterBlock(blockProperties("needle_litter", BlockBehaviour.Properties.of().mapColor(MapColor.PLANT).noCollision().sound(SoundType.PINK_PETALS).pushReaction(PushReaction.POPPED))));
 
@@ -38,6 +51,49 @@ public class ModBlocks {
             new Item.Properties(), CrateBlockItem::new);
 
     public static final DeferredBlock<JarBlock> GLASS_JAR = registerJar("glass_jar");
+    public static final DeferredBlock<LiquidBlock> SALT_WATER = registerBlockWithoutItem("salt_water",
+            () -> new SaltWaterBlock(blockProperties("salt_water", BlockBehaviour.Properties.ofFullCopy(Blocks.WATER).randomTicks())));
+    public static final DeferredBlock<SaltWaterCauldronBlock> SALT_WATER_CAULDRON = registerBlockWithoutItem("salt_water_cauldron",
+            () -> new SaltWaterCauldronBlock(blockProperties("salt_water_cauldron", BlockBehaviour.Properties.ofFullCopy(Blocks.WATER_CAULDRON))));
+    public static final DeferredBlock<GlasswortBlock> GLASSWORT = registerBlock("glasswort",
+            () -> new GlasswortBlock(blockProperties("glasswort", BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.PLANT).noCollision().instabreak().sound(SoundType.GRASS)
+                    .pushReaction(PushReaction.POPPED).noOcclusion())), new Item.Properties().useBlockDescriptionPrefix()
+                    .food(ModFoods.GLASSWORT, net.minecraft.world.item.component.Consumables.DRIED_KELP));
+    public static final DeferredBlock<FlowerPotBlock> POTTED_GLASSWORT = registerBlockWithoutItem("potted_glasswort",
+            () -> new FlowerPotBlock(() -> (FlowerPotBlock) Blocks.FLOWER_POT, GLASSWORT,
+                    blockProperties("potted_glasswort", BlockBehaviour.Properties.ofFullCopy(Blocks.POTTED_FERN))));
+    public static final DeferredBlock<SaltingTubBlock> SALTING_TUB = registerBlock("salting_tub",
+            () -> new SaltingTubBlock(blockProperties("salting_tub", BlockBehaviour.Properties.ofFullCopy(Blocks.COMPOSTER)
+                    .noOcclusion())));
+    public static final DeferredBlock<Block> SALT_DEPOSIT = registerBlockWithoutItem("salt_deposit",
+            () -> new SaltDepositBlock(blockProperties("salt_deposit", BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.SNOW).strength(0.5F).noOcclusion().sound(SoundType.SAND))));
+    public static final DeferredBlock<HandCrankBlock> HAND_CRANK = registerBlock("hand_crank",
+            () -> new HandCrankBlock(blockProperties("hand_crank", BlockBehaviour.Properties.of()
+                    .strength(0.5F).sound(SoundType.WOOD).noOcclusion().dynamicShape().pushReaction(PushReaction.POPPED))));
+    public static final DeferredBlock<HandMillBlock> HAND_MILL = registerBlock("hand_mill",
+            () -> new HandMillBlock(blockProperties("hand_mill", BlockBehaviour.Properties.ofFullCopy(Blocks.STONE)
+                    .strength(2.0F).noOcclusion().dynamicShape())));
+    public static final DeferredBlock<Block> CRYSTALLINE_SALT = registerBlock("crystalline_salt",
+            () -> new Block(blockProperties("crystalline_salt", BlockBehaviour.Properties.ofFullCopy(Blocks.CALCITE)
+                    .requiresCorrectToolForDrops())));
+    public static final DeferredBlock<SaltSpikeBlock> SALT_SPIKE = registerBlock("salt_spike",
+            () -> new SaltSpikeBlock(blockProperties("salt_spike", BlockBehaviour.Properties.ofFullCopy(Blocks.POINTED_DRIPSTONE)
+                    .mapColor(MapColor.SNOW))));
+    public static final DeferredBlock<Block> SMOOTH_SALT = registerBlock("smooth_salt",
+            () -> new Block(blockProperties("smooth_salt", BlockBehaviour.Properties.ofFullCopy(CRYSTALLINE_SALT.get()))));
+    public static final DeferredBlock<Block> CUT_SALT = registerBlock("cut_salt",
+            () -> new Block(blockProperties("cut_salt", BlockBehaviour.Properties.ofFullCopy(CRYSTALLINE_SALT.get()))));
+    public static final DeferredBlock<Block> CHISELED_SALT = registerBlock("chiseled_salt",
+            () -> new Block(blockProperties("chiseled_salt", BlockBehaviour.Properties.ofFullCopy(CRYSTALLINE_SALT.get()))));
+    public static final DeferredBlock<StairBlock> CRYSTALLINE_SALT_STAIRS = registerBlock("crystalline_salt_stairs",
+            () -> new StairBlock(CRYSTALLINE_SALT.get().defaultBlockState(),
+                    blockProperties("crystalline_salt_stairs", BlockBehaviour.Properties.ofFullCopy(CRYSTALLINE_SALT.get()))));
+    public static final DeferredBlock<SlabBlock> CRYSTALLINE_SALT_SLAB = registerBlock("crystalline_salt_slab",
+            () -> new SlabBlock(blockProperties("crystalline_salt_slab", BlockBehaviour.Properties.ofFullCopy(CRYSTALLINE_SALT.get()))));
+    public static final DeferredBlock<WallBlock> CRYSTALLINE_SALT_WALL = registerBlock("crystalline_salt_wall",
+            () -> new WallBlock(blockProperties("crystalline_salt_wall", BlockBehaviour.Properties.ofFullCopy(CRYSTALLINE_SALT.get()))));
     public static final DeferredBlock<JamJarBlock> BLUEBERRY_JAM = registerJamJar("blueberry_jam");
     public static final DeferredBlock<JamJarBlock> STRAWBERRY_JAM = registerJamJar("strawberry_jam");
     public static final DeferredBlock<JamJarBlock> CHERRY_JAM = registerJamJar("cherry_jam");
@@ -105,8 +161,6 @@ public class ModBlocks {
     public static final DeferredBlock<Block> SCATTERED_PEBBLES = registerBlock("scattered_pebbles",
             () -> new ScatteredPebblesBlock(blockProperties("scattered_pebbles", BlockBehaviour.Properties.of().mapColor(MapColor.STONE).noCollision().strength(0.1F).sound(SoundType.POINTED_DRIPSTONE).pushReaction(PushReaction.POPPED))));
 
-    public static final DeferredBlock<Block> PACKED_PEBBLES = registerBlock("packed_pebbles",
-            () -> new Block(blockProperties("packed_pebbles", BlockBehaviour.Properties.of().mapColor(MapColor.STONE).strength(0.6F, 0.8F).sound(SoundType.DRIPSTONE_BLOCK))));
 
     public static final DeferredBlock<HayBlock> FLAX_BALE = registerBlock("flax_bale",
             () -> new HayBlock(blockProperties("flax_bale", BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_LIGHT_GREEN).instrument(NoteBlockInstrument.BANJO).strength(0.5F).sound(SoundType.MOSS))));
@@ -271,6 +325,13 @@ public class ModBlocks {
 
     public static final DeferredBlock<Block> CACTUS_WALL_HANGING_SIGN = BLOCKS.register("cactus_wall_hanging_sign",
             () -> new CactusWallHangingSignBlock(blockProperties("cactus_wall_hanging_sign", BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_WALL_HANGING_SIGN).noCollision().strength(1.0F))));
+    private static DeferredBlock<DropExperienceBlock> registerCalciteOre(String mineral, Block original, int minXp, int maxXp) {
+        String name = "calcite_" + mineral + "_ore";
+        return registerBlock(name, () -> new DropExperienceBlock(net.minecraft.util.valueproviders.UniformInt.of(minXp, maxXp),
+                blockProperties(name, BlockBehaviour.Properties.ofFullCopy(original)
+                        .mapColor(MapColor.TERRACOTTA_WHITE).sound(SoundType.CALCITE))), new Item.Properties().useBlockDescriptionPrefix());
+    }
+
     private static DeferredBlock<StrawberryCakeWithCandleBlock> registerCandleCake(String name, Block candle) {
         return registerBlockWithoutItem(name, () -> new StrawberryCakeWithCandleBlock(candle,
                 blockProperties(name, BlockBehaviour.Properties.ofFullCopy(Blocks.CANDLE_CAKE)
@@ -324,3 +385,6 @@ public class ModBlocks {
         BLOCKS.register(eventBus);
     }
 }
+
+
+

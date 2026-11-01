@@ -25,7 +25,7 @@ public final class ItemComponentEvents {
                 ModItems.FLAX_FIBER.get(), ModItems.FLAX_SEEDS.get(), ModItems.SPRUCE_CONE.get(),
                 ModBlocks.NEEDLE_LITTER.get(), ModItems.SPRUCE_NUTS.get(), ModItems.TOASTED_SPRUCE_NUTS.get());
         compost(event, ContextIntProviders.COMPOSTABLE_LOW_MEDIUM,
-                ModBlocks.SMALL_CACTUS.get(), ModItems.CACTUS_SLICE.get(),
+                ModBlocks.SMALL_CACTUS.get(), ModBlocks.GLASSWORT.get(), ModItems.CACTUS_SLICE.get(),
                 ModBlocks.ORCHARD_CHERRY_LEAVES.get(), ModBlocks.APPLE_LEAVES.get(),
                 ModItems.PRICKLY_PEAR.get());
         compost(event, ContextIntProviders.COMPOSTABLE_MEDIUM,
@@ -72,3 +72,4 @@ public final class ItemComponentEvents {
         }
     }
 }
+

@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_hand_mill": {
+      "conditions": {
+        "items": [
+          {
+            "items": "floraexpansion:hand_mill"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipes": "floraexpansion:hand_crank"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_hand_mill"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "floraexpansion:hand_crank"
+    ]
+  }
+}

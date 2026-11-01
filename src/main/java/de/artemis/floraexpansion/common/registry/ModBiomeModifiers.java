@@ -14,6 +14,9 @@ import net.neoforged.neoforge.common.world.BiomeModifiers;
 import net.neoforged.neoforge.registries.NeoForgeRegistries;
 
 public class ModBiomeModifiers {
+    public static final ResourceKey<BiomeModifier> ADD_SALT_CAVE = registerKey("add_salt_cave");
+    public static final ResourceKey<BiomeModifier> ADD_SALT_FORMATION = registerKey("add_salt_formation");
+    public static final ResourceKey<BiomeModifier> ADD_SALT_DEPOSIT = registerKey("add_salt_deposit");
     public static final ResourceKey<BiomeModifier> ADD_NEEDLE_LITTER = registerKey("add_needle_litter");
     public static final ResourceKey<BiomeModifier> ADD_BLUEBERRY_BUSHES = registerKey("add_blueberry_bushes");
     public static final ResourceKey<BiomeModifier> ADD_WILD_FLAX = registerKey("add_wild_flax");
@@ -33,6 +36,18 @@ public class ModBiomeModifiers {
     public static void bootstrap(BootstrapContext<BiomeModifier> context) {
         var placedFeatures = context.lookup(Registries.PLACED_FEATURE);
         var biomes = context.lookup(Registries.BIOME);
+        context.register(ADD_SALT_CAVE, new BiomeModifiers.AddFeaturesBiomeModifier(
+                biomes.getOrThrow(ModTags.Biomes.HAS_SALT_CAVE),
+                HolderSet.direct(placedFeatures.getOrThrow(ModPlacedFeatures.SALT_CAVE_SURFACE_PLACED_KEY)),
+                GenerationStep.Decoration.UNDERGROUND_DECORATION));
+        context.register(ADD_SALT_FORMATION, new BiomeModifiers.AddFeaturesBiomeModifier(
+                biomes.getOrThrow(ModTags.Biomes.HAS_SALT_FORMATION),
+                HolderSet.direct(placedFeatures.getOrThrow(ModPlacedFeatures.SALT_FORMATION_PLACED_KEY)),
+                GenerationStep.Decoration.UNDERGROUND_ORES));
+        context.register(ADD_SALT_DEPOSIT, new BiomeModifiers.AddFeaturesBiomeModifier(
+                biomes.getOrThrow(ModTags.Biomes.HAS_SALT_DEPOSIT),
+                HolderSet.direct(placedFeatures.getOrThrow(ModPlacedFeatures.SALT_DEPOSIT_PLACED_KEY)),
+                GenerationStep.Decoration.VEGETAL_DECORATION));
 
         context.register(ADD_PRICKLY_PEAR_CACTUS, new BiomeModifiers.AddFeaturesBiomeModifier(
                 biomes.getOrThrow(ModTags.Biomes.HAS_PRICKLY_PEAR_CACTUS),
@@ -127,3 +142,4 @@ public class ModBiomeModifiers {
         );
     }
 }
+

@@ -20,6 +20,15 @@ import java.util.function.Supplier;
 public class ModFeatures {
     public static final DeferredRegister<MapCodec<? extends Feature>> FEATURES =
             DeferredRegister.create(BuiltInRegistries.FEATURE_TYPE, FloraExpansion.MODID);
+    public static final Supplier<MapCodec<de.artemis.floraexpansion.common.worldgen.feature.BrineSpringFeature>> BRINE_SPRING_FEATURE =
+            FEATURES.register("brine_spring_feature", () -> de.artemis.floraexpansion.common.worldgen.feature.BrineSpringFeature.CODEC);
+    public static final Supplier<MapCodec<de.artemis.floraexpansion.common.worldgen.feature.SaltCaveSurfaceFeature>> SALT_CAVE_SURFACE_FEATURE =
+            FEATURES.register("salt_cave_surface_feature", () -> de.artemis.floraexpansion.common.worldgen.feature.SaltCaveSurfaceFeature.CODEC);
+    public static final Supplier<MapCodec<de.artemis.floraexpansion.common.worldgen.feature.SaltDepositFeature>> SALT_DEPOSIT_FEATURE =
+            FEATURES.register("salt_deposit_feature", () -> de.artemis.floraexpansion.common.worldgen.feature.SaltDepositFeature.CODEC);
+
+    public static final Supplier<MapCodec<de.artemis.floraexpansion.common.worldgen.feature.SaltFormationFeature>> SALT_FORMATION_FEATURE =
+            FEATURES.register("salt_formation_feature", () -> de.artemis.floraexpansion.common.worldgen.feature.SaltFormationFeature.CODEC);
 
     public static final Supplier<MapCodec<WildFlaxFeature>> WILD_FLAX_FEATURE =
             FEATURES.register("wild_flax_feature",
@@ -57,4 +66,5 @@ public class ModFeatures {
         FEATURES.register(eventBus);
     }
 }
+
 

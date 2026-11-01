@@ -27,6 +27,61 @@ public class ModRecipeProvider extends RecipeProvider {
     @Override
     protected void buildRecipes() {
         RecipeOutput recipeOutput = output;
+        calciteOreCooking(recipeOutput, ModBlocks.CALCITE_COAL_ORE.get(), Items.COAL, .1F);
+        calciteOreCooking(recipeOutput, ModBlocks.CALCITE_IRON_ORE.get(), Items.IRON_INGOT, .7F);
+        calciteOreCooking(recipeOutput, ModBlocks.CALCITE_COPPER_ORE.get(), Items.COPPER_INGOT, .7F);
+        calciteOreCooking(recipeOutput, ModBlocks.CALCITE_GOLD_ORE.get(), Items.GOLD_INGOT, 1F);
+        calciteOreCooking(recipeOutput, ModBlocks.CALCITE_REDSTONE_ORE.get(), Items.REDSTONE, .7F);
+        calciteOreCooking(recipeOutput, ModBlocks.CALCITE_EMERALD_ORE.get(), Items.EMERALD, 1F);
+        calciteOreCooking(recipeOutput, ModBlocks.CALCITE_LAPIS_ORE.get(), Items.LAPIS_LAZULI, .2F);
+        calciteOreCooking(recipeOutput, ModBlocks.CALCITE_DIAMOND_ORE.get(), Items.DIAMOND, 1F);
+        ModGrindingRecipes.register(recipeOutput);
+        ModSaltingRecipes.register(recipeOutput, this::tag);
+        stonecutterResultFromBase(RecipeCategory.BUILDING_BLOCKS, ModBlocks.SALT_SPIKE.get(), ModBlocks.CRYSTALLINE_SALT.get(), 4);
+        shaped(RecipeCategory.BUILDING_BLOCKS, ModBlocks.CRYSTALLINE_SALT.get())
+                .pattern("SS").pattern("SS").define('S', ModBlocks.SALT_SPIKE.get())
+                .unlockedBy("has_salt_spike", has(ModBlocks.SALT_SPIKE.get()))
+                .save(recipeOutput, modLoc("crystalline_salt_from_salt_spikes"));
+        shaped(RecipeCategory.DECORATIONS, ModBlocks.SALTING_TUB.get())
+                .pattern("SIS").pattern("S S").pattern("SSS")
+                .define('S', tag(ItemTags.WOODEN_SLABS)).define('I', Items.IRON_NUGGET)
+                .unlockedBy("has_salt", has(ModItems.SALT.get())).save(recipeOutput);
+        shaped(RecipeCategory.BUILDING_BLOCKS, ModBlocks.CRYSTALLINE_SALT.get())
+                .pattern("SS").pattern("SS").define('S', ModItems.RAW_SALT.get())
+                .unlockedBy("has_raw_salt", has(ModItems.RAW_SALT.get())).save(recipeOutput);
+        shaped(RecipeCategory.BUILDING_BLOCKS, ModBlocks.CHISELED_SALT.get())
+                .pattern("S").pattern("S").define('S', ModBlocks.CRYSTALLINE_SALT_SLAB.get())
+                .unlockedBy("has_crystalline_salt_slab", has(ModBlocks.CRYSTALLINE_SALT_SLAB.get())).save(recipeOutput);
+        stonecutterResultFromBase(RecipeCategory.BUILDING_BLOCKS, ModBlocks.CHISELED_SALT.get(), ModBlocks.CRYSTALLINE_SALT.get());
+        shaped(RecipeCategory.BUILDING_BLOCKS, ModBlocks.CUT_SALT.get(), 4)
+                .pattern("SS").pattern("SS").define('S', ModBlocks.CRYSTALLINE_SALT.get())
+                .unlockedBy("has_crystalline_salt", has(ModBlocks.CRYSTALLINE_SALT.get())).save(recipeOutput);
+        stonecutterResultFromBase(RecipeCategory.BUILDING_BLOCKS, ModBlocks.CUT_SALT.get(), ModBlocks.CRYSTALLINE_SALT.get());
+        SimpleCookingRecipeBuilder.smelting(Ingredient.of(ModBlocks.CRYSTALLINE_SALT.get()),
+                        RecipeCategory.BUILDING_BLOCKS, CookingBookCategory.BLOCKS,
+                        ModBlocks.SMOOTH_SALT.get(), 0.1F, 200)
+                .unlockedBy("has_crystalline_salt", has(ModBlocks.CRYSTALLINE_SALT.get()))
+                .save(recipeOutput, modLoc("smooth_salt_from_smelting"));
+        stairBuilder(ModBlocks.CRYSTALLINE_SALT_STAIRS.get(), Ingredient.of(ModBlocks.CRYSTALLINE_SALT.get()))
+                .unlockedBy(getHasName(ModBlocks.CRYSTALLINE_SALT.get()), has(ModBlocks.CRYSTALLINE_SALT.get())).save(recipeOutput);
+        slab(RecipeCategory.BUILDING_BLOCKS, ModBlocks.CRYSTALLINE_SALT_SLAB.get(), ModBlocks.CRYSTALLINE_SALT.get());
+        wall(RecipeCategory.BUILDING_BLOCKS, ModBlocks.CRYSTALLINE_SALT_WALL.get(), ModBlocks.CRYSTALLINE_SALT.get());
+        stonecutterResultFromBase(RecipeCategory.BUILDING_BLOCKS, ModBlocks.CRYSTALLINE_SALT_STAIRS.get(), ModBlocks.CRYSTALLINE_SALT.get());
+        stonecutterResultFromBase(RecipeCategory.BUILDING_BLOCKS, ModBlocks.CRYSTALLINE_SALT_SLAB.get(), ModBlocks.CRYSTALLINE_SALT.get(), 2);
+        stonecutterResultFromBase(RecipeCategory.BUILDING_BLOCKS, ModBlocks.CRYSTALLINE_SALT_WALL.get(), ModBlocks.CRYSTALLINE_SALT.get());
+        shaped(RecipeCategory.DECORATIONS, ModBlocks.HAND_CRANK.get())
+                .pattern(" SS").pattern(" I ").pattern(" S ")
+                .define('S', Items.STICK).define('I', Items.IRON_NUGGET)
+                .unlockedBy("has_hand_mill", has(ModBlocks.HAND_MILL.get())).save(recipeOutput);
+        shaped(RecipeCategory.DECORATIONS, ModBlocks.HAND_MILL.get())
+                .pattern("PPP").pattern("CCC")
+                .define('P', Items.STONE_SLAB).define('C', Items.COBBLESTONE)
+                .unlockedBy("has_raw_salt", has(ModItems.RAW_SALT.get())).save(recipeOutput);
+        foodCampfireCooking(recipeOutput, ModItems.SALTED_RAW_MEAT.get(), ModItems.CURED_MEAT.get(), 0.1F, 1200);
+        foodCampfireCooking(recipeOutput, ModItems.SALTED_RAW_FISH.get(), ModItems.CURED_FISH.get(), 0.1F, 1200);
+        foodSmelting(recipeOutput, ModItems.SALTED_SPRUCE_NUTS.get(), ModItems.SALTED_TOASTED_SPRUCE_NUTS.get(), 0.1F, 100);
+        foodSmoking(recipeOutput, ModItems.SALTED_SPRUCE_NUTS.get(), ModItems.SALTED_TOASTED_SPRUCE_NUTS.get(), 0.1F, 50);
+        foodCampfireCooking(recipeOutput, ModItems.SALTED_SPRUCE_NUTS.get(), ModItems.SALTED_TOASTED_SPRUCE_NUTS.get(), 0.1F, 150);
 
         stairBuilder(ModBlocks.CACTUS_STAIRS.get(), Ingredient.of(ModBlocks.CACTUS_PLANKS.get()))
                 .unlockedBy(getHasName(ModBlocks.CACTUS_PLANKS.get()), has(ModBlocks.CACTUS_PLANKS.get()))
@@ -254,10 +309,10 @@ public class ModRecipeProvider extends RecipeProvider {
                 .unlockedBy("has_needle_litter", has(ModBlocks.NEEDLE_LITTER))
                 .save(recipeOutput);
 
-        shapeless(RecipeCategory.MISC, ModBlocks.SCATTERED_PEBBLES, 1)
-                .requires(ModItems.PEBBLES)
-                .unlockedBy("has_pebbles", has(ModItems.PEBBLES))
-                .save(recipeOutput);
+        shapeless(RecipeCategory.MISC, ModItems.PEBBLES, 1)
+                .requires(ModBlocks.SCATTERED_PEBBLES)
+                .unlockedBy("has_scattered_pebbles", has(ModBlocks.SCATTERED_PEBBLES))
+                .save(recipeOutput, modLoc("pebbles_from_scattered_pebbles"));
 
         shapeless(RecipeCategory.MISC, Items.DYE.lightBlue(), 1)
                 .requires(ModItems.FLAX_FLOWER)
@@ -275,7 +330,7 @@ public class ModRecipeProvider extends RecipeProvider {
                 .save(recipeOutput, modLoc("stick_from_twig"));
 
         shapeless(RecipeCategory.MISC, ModItems.TRAIL_MIX, 3)
-                .requires(ModItems.TOASTED_SPRUCE_NUTS)
+                .requires(tag(ModTags.Items.TOASTED_SPRUCE_NUTS))
                 .requires(Items.PUMPKIN_SEEDS)
                 .requires(Items.SWEET_BERRIES)
                 .requires(Items.HONEY_BOTTLE)
@@ -332,15 +387,7 @@ public class ModRecipeProvider extends RecipeProvider {
                 .unlockedBy("has_linen_fabric", has(ModItems.LINEN_FABRIC))
                 .save(recipeOutput);
 
-        shapeless(RecipeCategory.MISC, ModItems.PEBBLES, 9)
-                .requires(ModBlocks.PACKED_PEBBLES, 1)
-                .unlockedBy("has_packed_pebbles", has(ModBlocks.PACKED_PEBBLES))
-                .save(recipeOutput);
 
-        shapeless(RecipeCategory.MISC, ModBlocks.PACKED_PEBBLES, 1)
-                .requires(ModItems.PEBBLES, 9)
-                .unlockedBy("has_pebbles", has(ModItems.PEBBLES))
-                .save(recipeOutput);
 
         shapeless(RecipeCategory.MISC, ModBlocks.FLAX_BALE, 1)
                 .requires(tag(ModTags.Items.LINEN_FIBERS), 9)
@@ -442,6 +489,11 @@ public class ModRecipeProvider extends RecipeProvider {
         foodCampfireCooking(recipeOutput, ModItems.SPRUCE_NUTS.get(), ModItems.TOASTED_SPRUCE_NUTS.get(), 0.1f, 150);
     }
 
+    private void calciteOreCooking(RecipeOutput output, ItemLike ore, ItemLike result, float experience) {
+        oreSmelting(output, List.of(ore), RecipeCategory.MISC, result, experience, 200, getItemName(result));
+        oreBlasting(output, List.of(ore), RecipeCategory.MISC, result, experience, 100, getItemName(result));
+    }
+
     protected void oreSmelting(@NotNull RecipeOutput recipeOutput, List<ItemLike> ingredients, @NotNull RecipeCategory category, @NotNull ItemLike result, float experience, int cookingTime, @NotNull String group) {
         oreCooking(recipeOutput, SmeltingRecipe::new, ingredients, category, result,
                 experience, cookingTime, group, "_from_smelting");
@@ -488,3 +540,4 @@ public class ModRecipeProvider extends RecipeProvider {
         return ResourceKey.create(Registries.RECIPE, Identifier.fromNamespaceAndPath(FloraExpansion.MODID, path));
     }
 }
+

@@ -1,6 +1,7 @@
 {
   "replace": false,
   "values": [
+    "floraexpansion:glasswort",
     "#minecraft:flowers",
     "#minecraft:saplings",
     { "id": "#c:mushrooms", "required": false },
@@ -20,3 +21,4 @@
     "minecraft:pumpkin"
   ]
 }
+

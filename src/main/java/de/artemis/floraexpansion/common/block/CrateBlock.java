@@ -335,6 +335,8 @@ public class CrateBlock extends BaseEntityBlock {
         }
 
         level.setBlock(pos, state.setValue(PACKED, true), 3);
+        if (level.getBlockEntity(pos) instanceof CrateBlockEntity crate && !crate.isEmpty())
+            de.artemis.floraexpansion.common.advancement.FloraActionTrigger.fire(player, "tie_crate");
         if (!player.hasInfiniteMaterials()) {
             stack.shrink(1);
         }

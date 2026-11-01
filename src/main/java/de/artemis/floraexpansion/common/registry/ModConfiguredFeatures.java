@@ -19,6 +19,11 @@ import net.minecraft.world.level.levelgen.feature.stateproviders.SimpleStateProv
 import net.minecraft.world.level.levelgen.feature.stateproviders.WeightedStateProvider;
 
 public class ModConfiguredFeatures {
+    public static final ResourceKey<Feature> BRINE_SPRING_KEY = registerKey("brine_spring");
+    public static final ResourceKey<Feature> ROOTED_BRINE_SPRING_KEY = registerKey("rooted_brine_spring");
+    public static final ResourceKey<Feature> SALT_CAVE_SURFACE_KEY = registerKey("salt_cave_surface");
+    public static final ResourceKey<Feature> SALT_FORMATION_KEY = registerKey("salt_formation");
+    public static final ResourceKey<Feature> SALT_DEPOSIT_KEY = registerKey("salt_deposit");
     public static final ResourceKey<Feature> NEEDLE_LITTER_KEY = registerKey("needle_litter");
     public static final ResourceKey<Feature> BLUEBERRY_BUSH_KEY = registerKey("blueberry_bush");
     public static final ResourceKey<Feature> WILD_FLAX_KEY = registerKey("wild_flax");
@@ -31,6 +36,24 @@ public class ModConfiguredFeatures {
     public static final ResourceKey<Feature> PRICKLY_PEAR_CACTUS_KEY = registerKey("prickly_pear_cactus");
 
     public static void bootstrap(BootstrapContext<Feature> context) {
+        register(context, BRINE_SPRING_KEY, new BrineSpringFeature());
+        register(context, ROOTED_BRINE_SPRING_KEY, new net.minecraft.world.level.levelgen.feature.RootSystemFeature(
+                net.minecraft.data.worldgen.placement.PlacementUtils.inlinePlaced(context.lookup(Registries.FEATURE).getOrThrow(BRINE_SPRING_KEY)),
+                // The pool validates its own basin. A second, eight-block flatness
+                // test rejects almost every site in the inland cave terrain.
+                3, 0, 2, 3, context.lookup(Registries.BLOCK).getOrThrow(ModTags.Blocks.BRINE_SPRING_ROOT_REPLACEABLE),
+                net.minecraft.world.level.levelgen.feature.stateproviders.BlockStateProvider.holderOf(ModBlocks.CRYSTALLINE_SALT.get()),
+                20, 384, 1, 1,
+                net.minecraft.world.level.levelgen.feature.stateproviders.BlockStateProvider.holderOf(ModBlocks.SALT_SPIKE.get().defaultBlockState()
+                        .setValue(net.minecraft.world.level.block.SpeleothemBlock.TIP_DIRECTION, Direction.DOWN)),
+                // Without solid support in the predicate, vanilla's search aborts
+                // on the second air block of an intermediate cave instead of continuing up.
+                1, 1, net.minecraft.world.level.levelgen.blockpredicates.BlockPredicate.allOf(
+                        net.minecraft.world.level.levelgen.blockpredicates.BlockPredicate.replaceable(),
+                        net.minecraft.world.level.levelgen.blockpredicates.BlockPredicate.solid(Direction.DOWN))));
+        register(context, SALT_CAVE_SURFACE_KEY, new SaltCaveSurfaceFeature());
+        register(context, SALT_DEPOSIT_KEY, new SaltDepositFeature());
+        register(context, SALT_FORMATION_KEY, new SaltFormationFeature());
 
         WeightedList.Builder<BlockState> needleLitterRandomStates = WeightedList.builder();
         for (Direction dir : Direction.Plane.HORIZONTAL) {
@@ -82,4 +105,5 @@ public class ModConfiguredFeatures {
         context.register(key, feature);
     }
 }
+
 

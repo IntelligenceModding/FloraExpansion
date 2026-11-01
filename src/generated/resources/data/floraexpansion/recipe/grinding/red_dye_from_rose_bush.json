@@ -1,0 +1,9 @@
+{
+  "type": "floraexpansion:grinding",
+  "ingredient": "minecraft:rose_bush",
+  "result": {
+    "count": 4,
+    "id": "minecraft:red_dye"
+  },
+  "show_notification": false
+}

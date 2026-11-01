@@ -1,0 +1,6 @@
+{
+    "textures":  {
+                     "all":  "floraexpansion:block/calcite_lapis_ore"
+                 },
+    "parent":  "minecraft:block/cube_all"
+}

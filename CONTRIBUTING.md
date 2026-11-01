@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://raw.githubusercontent.com/IntelligenceModding/FloraExpansion/refs/heads/assets/Version%200.4%20Berries%20%26%20Barrels.png" alt="Flora Expansion" width="900">
+  <img src="https://raw.githubusercontent.com/IntelligenceModding/FloraExpansion/refs/heads/assets/Salty%20Springs%20Title.png" alt="Flora Expansion — Salty Springs" width="900">
 </p>
 
 <h1 align="center">Contributing to Flora Expansion</h1>

@@ -12,6 +12,9 @@ import net.minecraft.world.level.block.Block;
 @SuppressWarnings("unused")
 public class ModTags {
     public static class Blocks {
+        public static final TagKey<Block> PEBBLE_GROUND = createTag("pebble_ground");
+        public static final TagKey<Block> GLASSWORT_PLANTABLE_ON = createTag("glasswort_plantable_on");
+        public static final TagKey<Block> BRINE_SPRING_ROOT_REPLACEABLE = createTag("brine_spring_root_replaceable");
         public static final TagKey<Block> GIANT_CACTUS_GROWTH_SOILS = createTag("giant_cactus_growth_soils");
         public static final TagKey<Block> CACTUS_STEM_SUPPORTS = createTag("cactus_stem_supports");
         public static final TagKey<Block> BLUEBERRY_SOILS = createTag("blueberry_soils");
@@ -27,7 +30,14 @@ public class ModTags {
         }
     }
 
+    public static class Fluids {
+        public static final TagKey<net.minecraft.world.level.material.Fluid> SALT_WATER = TagKey.create(
+                net.minecraft.core.registries.Registries.FLUID, Identifier.fromNamespaceAndPath(FloraExpansion.MODID,"salt_water"));
+    }
     public static class Biomes {
+        public static final TagKey<net.minecraft.world.level.biome.Biome> HAS_SALT_CAVE = createTag("has_salt_cave");
+        public static final TagKey<net.minecraft.world.level.biome.Biome> HAS_SALT_FORMATION = createTag("has_salt_formation");
+        public static final TagKey<net.minecraft.world.level.biome.Biome> HAS_SALT_DEPOSIT = createTag("has_salt_deposit");
         public static final TagKey<net.minecraft.world.level.biome.Biome> HAS_PRICKLY_PEAR_CACTUS = createTag("has_prickly_pear_cactus");
         public static final TagKey<net.minecraft.world.level.biome.Biome> HAS_SMALL_CACTUS = createTag("has_small_cactus");
         public static final TagKey<net.minecraft.world.level.biome.Biome> HAS_FALLEN_GIANT_CACTUS = createTag("has_fallen_giant_cactus");
@@ -49,6 +59,9 @@ public class ModTags {
     }
 
     public static class Items {
+        public static final TagKey<Item> CURABLE_MEAT = createTag("curable_meat");
+        public static final TagKey<Item> CURABLE_FISH = createTag("curable_fish");
+        public static final TagKey<Item> TOASTED_SPRUCE_NUTS = createTag("toasted_spruce_nuts");
         public static final TagKey<Item> LINEN_FIBERS = createTag("linen_fibers");
         public static final TagKey<Item> LINEN_THREADS = createTag("linen_threads");
         public static final TagKey<Item> CRATE_STORABLE = createTag("crate_storable");
@@ -59,3 +72,5 @@ public class ModTags {
         }
     }
 }
+
+

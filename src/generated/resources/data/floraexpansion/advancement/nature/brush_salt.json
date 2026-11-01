@@ -1,0 +1,28 @@
+{
+  "parent": "floraexpansion:nature/salt_caves",
+  "criteria": {
+    "performed": {
+      "conditions": {
+        "action": "brush_salt"
+      },
+      "trigger": "floraexpansion:action"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.floraexpansion.brush_salt.description"
+    },
+    "icon": {
+      "id": "minecraft:brush"
+    },
+    "title": {
+      "translate": "advancements.floraexpansion.brush_salt.title"
+    }
+  },
+  "requirements": [
+    [
+      "performed"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

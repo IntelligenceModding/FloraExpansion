@@ -26,7 +26,7 @@ body:
     attributes:
       label: Flora Expansion Version
       description: Which version of Flora Expansion are you using?
-      placeholder: "Example: 0.4.1r"
+      placeholder: "Example: 0.5"
     validations:
       required: true
 

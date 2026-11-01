@@ -1,0 +1,10 @@
+{
+  "type": "floraexpansion:salting",
+  "ingredient": "floraexpansion:glasswort",
+  "result": {
+    "count": 4,
+    "id": "floraexpansion:salted_glasswort"
+  },
+  "salt": "floraexpansion:salt",
+  "show_notification": false
+}

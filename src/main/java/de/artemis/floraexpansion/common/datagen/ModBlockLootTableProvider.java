@@ -45,12 +45,35 @@ public class ModBlockLootTableProvider extends BlockLootSubProvider {
 
     @Override
     protected void generate() {
+        add(ModBlocks.CALCITE_COAL_ORE.get(), block -> createOreDrop(block, Items.COAL));
+        add(ModBlocks.CALCITE_IRON_ORE.get(), block -> createOreDrop(block, Items.RAW_IRON));
+        add(ModBlocks.CALCITE_COPPER_ORE.get(), this::createCopperOreDrops);
+        add(ModBlocks.CALCITE_GOLD_ORE.get(), block -> createOreDrop(block, Items.RAW_GOLD));
+        add(ModBlocks.CALCITE_REDSTONE_ORE.get(), this::createRedstoneOreDrops);
+        add(ModBlocks.CALCITE_EMERALD_ORE.get(), block -> createOreDrop(block, Items.EMERALD));
+        add(ModBlocks.CALCITE_LAPIS_ORE.get(), this::createLapisOreDrops);
+        add(ModBlocks.CALCITE_DIAMOND_ORE.get(), block -> createOreDrop(block, Items.DIAMOND));
+        add(ModBlocks.SALT_WATER.get(), noDrop());
+        dropOther(ModBlocks.SALT_WATER_CAULDRON.get(), Items.CAULDRON);
+        dropSelf(ModBlocks.CRYSTALLINE_SALT.get());
+        dropSelf(ModBlocks.SALT_SPIKE.get());
+        dropSelf(ModBlocks.GLASSWORT.get());
+        dropPottedContents(ModBlocks.POTTED_GLASSWORT.get());
+        add(ModBlocks.SALT_DEPOSIT.get(), layeredDrops(ModBlocks.SALT_DEPOSIT.get(), SaltDepositBlock.LAYERS));
+        dropSelf(ModBlocks.CRYSTALLINE_SALT_STAIRS.get());
+        dropSelf(ModBlocks.SMOOTH_SALT.get());
+        dropSelf(ModBlocks.CUT_SALT.get());
+        dropSelf(ModBlocks.CHISELED_SALT.get());
+        add(ModBlocks.CRYSTALLINE_SALT_SLAB.get(), createSlabItemTable(ModBlocks.CRYSTALLINE_SALT_SLAB.get()));
+        dropSelf(ModBlocks.CRYSTALLINE_SALT_WALL.get());
+        dropSelf(ModBlocks.HAND_MILL.get());
+        dropSelf(ModBlocks.SALTING_TUB.get());
+        dropSelf(ModBlocks.HAND_CRANK.get());
         dropSelf(ModBlocks.APPLE_CORE.get());
         dropSelf(ModBlocks.CHERRY_PIT.get());
         dropSelf(ModBlocks.FLAX_BALE.get());
         dropSelf(ModBlocks.LINEN_BALE.get());
         dropSelf(ModBlocks.LINEN_CARPET.get());
-        dropSelf(ModBlocks.PACKED_PEBBLES.get());
         dropSelf(ModBlocks.TWIG_LADDER.get());
         dropSelf(ModBlocks.GLASS_JAR.get());
         dropSelf(ModBlocks.BLUEBERRY_JAM.get());
@@ -59,7 +82,7 @@ public class ModBlockLootTableProvider extends BlockLootSubProvider {
         dropSelf(ModBlocks.APPLE_JAM.get());
         dropPottedContents(ModBlocks.POTTED_GIANT_CACTUS_STEM.get());
         add(ModBlocks.NEEDLE_LITTER.get(), layeredDrops(ModBlocks.NEEDLE_LITTER.get(), NeedleLitterBlock.AMOUNT));
-        add(ModBlocks.SCATTERED_PEBBLES.get(), layeredDrops(ModBlocks.SCATTERED_PEBBLES.get(), ScatteredPebblesBlock.AMOUNT));
+        add(ModBlocks.SCATTERED_PEBBLES.get(), layeredDrops(ModBlocks.SCATTERED_PEBBLES.get(), ScatteredPebblesBlock.AMOUNT, ModItems.PEBBLES.get()));
         add(ModBlocks.FLAX.get(), flaxDrops());
         add(ModBlocks.BLUEBERRY_BUSH.get(), createBlueberryBushDrops(ModBlocks.BLUEBERRY_BUSH.get(), uniform(2.0F, 3.0F)));
         add(ModBlocks.LARGE_BLUEBERRY_BUSH.get(), createLargeBlueberryBushDrops());
@@ -140,11 +163,14 @@ public class ModBlockLootTableProvider extends BlockLootSubProvider {
     }
 
     private LootTable.Builder layeredDrops(Block block, net.minecraft.world.level.block.state.properties.IntegerProperty amount) {
+        return layeredDrops(block, amount, block);
+    }
+    private LootTable.Builder layeredDrops(Block block, net.minecraft.world.level.block.state.properties.IntegerProperty amount, net.minecraft.world.level.ItemLike drop) {
         var table = LootTable.lootTable();
         for (int count : amount.getPossibleValues()) {
             table.withPool(LootPool.lootPool().setRolls(constant(1))
                     .when(MatchBlock.blockMatches(blocks, block, StatePropertiesPredicate.Builder.properties().hasProperty(amount, count)))
-                    .add(LootItem.lootTableItem(block).apply(SetItemCountFunction.setCount(constant(count)))
+                    .add(LootItem.lootTableItem(drop).apply(SetItemCountFunction.setCount(constant(count)))
                             .apply(ApplyExplosionDecay.explosionDecay())));
         }
         return table;
@@ -351,3 +377,5 @@ public class ModBlockLootTableProvider extends BlockLootSubProvider {
                 .add(net.minecraft.world.level.storage.loot.entries.DynamicLoot.dynamicEntry(StrawberryCakeWithCandleBlock.CANDLE_DROPS)));
     }
 }
+
+

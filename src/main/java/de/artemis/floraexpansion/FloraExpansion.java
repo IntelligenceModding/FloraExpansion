@@ -29,17 +29,24 @@ public class FloraExpansion {
         container.registerConfig(net.neoforged.fml.config.ModConfig.Type.SYNCED, ServerConfig.SPEC);
         LegacyContentAliases.register();
         modEventBus.addListener(ModPayloads::register);
+        modEventBus.addListener((net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent event) -> event.enqueueWork(() ->
+                net.minecraft.world.level.block.DispenserBlock.registerProjectileBehavior(ModItems.PEBBLES.get())));
 
         ModItems.register(modEventBus);
+        de.artemis.floraexpansion.common.advancement.FloraActionTrigger.register(modEventBus);
+        de.artemis.floraexpansion.common.registry.ModFluids.register(modEventBus);
         ModBlocks.register(modEventBus);
         ModCreativeModeTabs.register(modEventBus);
         ModLootModifiers.register(modEventBus);
         ModParticles.register(modEventBus);
+        de.artemis.floraexpansion.common.registry.ModSounds.register(modEventBus);
         ModFeatures.register(modEventBus);
         ModTreeDecorators.register(modEventBus);
         ModBlockEntities.register(modEventBus);
         ModEntityTypes.register(modEventBus);
         ModMenuTypes.register(modEventBus);
+        de.artemis.floraexpansion.common.registry.ModRecipes.register(modEventBus);
     }
 
 }
+

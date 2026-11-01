@@ -21,14 +21,34 @@ import java.util.function.Supplier;
 
 public class ModItems {
     public static final DeferredRegister.Items ITEMS = DeferredRegister.createItems(FloraExpansion.MODID);
+    public static final DeferredItem<Item> MUSIC_DISC_INTO_THE_CAVES = ITEMS.registerSimpleItem("music_disc_into_the_caves",
+            properties -> properties.stacksTo(1).rarity(net.minecraft.world.item.Rarity.UNCOMMON)
+                    .jukeboxPlayable(ModJukeboxSongs.INTO_THE_CAVES));
+    public static final DeferredItem<BlockItem> RAW_SALT = ITEMS.registerItem("raw_salt",
+            properties -> new BlockItem(ModBlocks.SALT_DEPOSIT.get(), properties));
+    public static final DeferredItem<Item> SALT = ITEMS.registerSimpleItem("salt");
+    public static final DeferredItem<Item> SALTED_GLASSWORT = ITEMS.registerItem("salted_glasswort",
+            properties -> new Item(properties.food(ModFoods.SALTED_GLASSWORT, Consumables.DRIED_KELP)));
+    public static final DeferredItem<net.minecraft.world.item.BucketItem> SALT_WATER_BUCKET = ITEMS.registerItem("salt_water_bucket",
+            properties -> new net.minecraft.world.item.BucketItem(ModFluids.SALT_WATER.get(), properties.stacksTo(1).craftRemainder(Items.BUCKET)));
+    public static final DeferredItem<Item> WOODEN_SALT_WATER_BUCKET = ITEMS.registerItem("wooden_salt_water_bucket",
+            properties -> new WoodenBucketItem(ModFluids.SALT_WATER.get(), properties.stacksTo(1).durability(10)));
+    public static final DeferredItem<Item> SALTED_SPRUCE_NUTS = ITEMS.registerItem("salted_spruce_nuts",
+            properties -> new Item(properties.food(ModFoods.SALTED_SPRUCE_NUTS)));
+    public static final DeferredItem<Item> SALTED_TOASTED_SPRUCE_NUTS = ITEMS.registerItem("salted_toasted_spruce_nuts",
+            properties -> new Item(properties.food(ModFoods.SALTED_TOASTED_SPRUCE_NUTS)));
+    public static final DeferredItem<Item> SALTED_RAW_MEAT = ITEMS.registerSimpleItem("salted_raw_meat");
+    public static final DeferredItem<Item> SALTED_RAW_FISH = ITEMS.registerSimpleItem("salted_raw_fish");
+    public static final DeferredItem<Item> CURED_MEAT = ITEMS.registerItem("cured_meat",
+            properties -> new Item(properties.food(ModFoods.CURED_MEAT)));
+    public static final DeferredItem<Item> CURED_FISH = ITEMS.registerItem("cured_fish",
+            properties -> new Item(properties.food(ModFoods.CURED_FISH)));
 
     public static final DeferredItem<ThrowableResourceItem> SPRUCE_CONE = ITEMS.registerItem("spruce_cone",
             properties -> new ThrowableResourceItem(properties, SoundEvents.SCAFFOLDING_BREAK,
                     SpruceConeProjectile::new, SpruceConeProjectile::new));
 
-    public static final DeferredItem<ThrowableResourceItem> PEBBLES = ITEMS.registerItem("pebbles",
-            properties -> new ThrowableResourceItem(properties, SoundEvents.POINTED_DRIPSTONE_BREAK,
-                    PebblesProjectile::new, PebblesProjectile::new));
+    public static final DeferredItem<PebbleItem> PEBBLES = ITEMS.registerItem("pebbles", PebbleItem::new);
 
     public static final DeferredItem<Item> SPRUCE_NUTS = ITEMS.registerItem("spruce_nuts",
             properties -> new Item(properties.food(ModFoods.SPRUCE_NUTS)));

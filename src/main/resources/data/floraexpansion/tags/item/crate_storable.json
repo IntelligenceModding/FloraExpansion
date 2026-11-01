@@ -1,6 +1,17 @@
 {
   "replace": false,
   "values": [
+    "floraexpansion:glasswort",
+    "floraexpansion:salted_glasswort",
+    "floraexpansion:salt",
+    "floraexpansion:raw_salt",
+    "floraexpansion:crystalline_salt",
+    "floraexpansion:salted_spruce_nuts",
+    "floraexpansion:salted_toasted_spruce_nuts",
+    "floraexpansion:salted_raw_meat",
+    "floraexpansion:salted_raw_fish",
+    "floraexpansion:cured_meat",
+    "floraexpansion:cured_fish",
     "#c:seeds",
     "#c:crops",
     "#c:fertilizers",
@@ -81,3 +92,4 @@
     "floraexpansion:wooden_milk_bucket"
   ]
 }
+

@@ -80,7 +80,8 @@ public final class WoodenBucketUtil {
     }
 
     public static boolean isSupportedFluidBucket(ItemStack stack) {
-        return stack.is(Items.WATER_BUCKET) || stack.is(Items.LAVA_BUCKET) || stack.is(Items.POWDER_SNOW_BUCKET);
+        return stack.is(Items.WATER_BUCKET) || stack.is(Items.LAVA_BUCKET) || stack.is(Items.POWDER_SNOW_BUCKET)
+                || stack.is(ModItems.SALT_WATER_BUCKET.get());
     }
 
     public static void initializeLavaTimeout(ItemStack stack, long gameTime, RandomSource random) {

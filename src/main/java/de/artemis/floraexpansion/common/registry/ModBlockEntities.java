@@ -14,7 +14,6 @@ import de.artemis.floraexpansion.common.block.entity.StrawberryCakeBlockEntity;
 public class ModBlockEntities {
     public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITIES =
             DeferredRegister.create(BuiltInRegistries.BLOCK_ENTITY_TYPE, FloraExpansion.MODID);
-
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<CactusSignBlockEntity>> CACTUS_SIGN =
             BLOCK_ENTITIES.register("cactus_sign",
                     () -> new BlockEntityType<>(
@@ -31,12 +30,24 @@ public class ModBlockEntities {
                             ModBlocks.CACTUS_WALL_HANGING_SIGN.get()
                     ));
 
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<de.artemis.floraexpansion.common.block.entity.HandMillBlockEntity>> HAND_MILL =
+            BLOCK_ENTITIES.register("hand_mill", () -> new BlockEntityType<>(
+                    de.artemis.floraexpansion.common.block.entity.HandMillBlockEntity::new, ModBlocks.HAND_MILL.get()));
+
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<de.artemis.floraexpansion.common.block.entity.HandCrankBlockEntity>> HAND_CRANK =
+            BLOCK_ENTITIES.register("hand_crank", () -> new BlockEntityType<>(
+                    de.artemis.floraexpansion.common.block.entity.HandCrankBlockEntity::new, ModBlocks.HAND_CRANK.get()));
+
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<CrateBlockEntity>> CRATE =
             BLOCK_ENTITIES.register("crate",
                     () -> new BlockEntityType<>(
                             CrateBlockEntity::new,
                             ModBlocks.CRATE.get()
                     ));
+
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<de.artemis.floraexpansion.common.block.entity.SaltingTubBlockEntity>> SALTING_TUB =
+            BLOCK_ENTITIES.register("salting_tub", () -> new BlockEntityType<>(
+                    de.artemis.floraexpansion.common.block.entity.SaltingTubBlockEntity::new, ModBlocks.SALTING_TUB.get()));
 
     public static void register(IEventBus eventBus) {
         BLOCK_ENTITIES.register(eventBus);

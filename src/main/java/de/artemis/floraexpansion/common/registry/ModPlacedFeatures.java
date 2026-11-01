@@ -14,6 +14,10 @@ import net.minecraft.world.level.levelgen.placement.*;
 import java.util.List;
 
 public class ModPlacedFeatures {
+    public static final ResourceKey<PlacedFeature> ROOTED_BRINE_SPRING_PLACED_KEY = registerKey("rooted_brine_spring_placed");
+    public static final ResourceKey<PlacedFeature> SALT_CAVE_SURFACE_PLACED_KEY = registerKey("salt_cave_surface_placed");
+    public static final ResourceKey<PlacedFeature> SALT_FORMATION_PLACED_KEY = registerKey("salt_formation_placed");
+    public static final ResourceKey<PlacedFeature> SALT_DEPOSIT_PLACED_KEY = registerKey("salt_deposit_placed");
     public static final ResourceKey<PlacedFeature> NEEDLE_LITTER_PLACED_KEY = registerKey("needle_litter_placed");
     public static final ResourceKey<PlacedFeature> BLUEBERRY_BUSH_PLACED_KEY = registerKey("blueberry_bush_placed");
     public static final ResourceKey<PlacedFeature> WILD_FLAX_PLACED_KEY = registerKey("wild_flax_placed");
@@ -33,6 +37,21 @@ public class ModPlacedFeatures {
 
     public static void bootstrap(BootstrapContext<PlacedFeature> context) {
         var configuredFeatures = context.lookup(Registries.FEATURE);
+        // Use vanilla cave-to-surface placement, with enough attempts to find a basin.
+        register(context, ROOTED_BRINE_SPRING_PLACED_KEY, configuredFeatures.getOrThrow(ModConfiguredFeatures.ROOTED_BRINE_SPRING_KEY),
+                List.of(CountPlacement.of(net.minecraft.util.valueproviders.UniformInt.of(4, 8)), InSquarePlacement.spread(),
+                        PlacementUtils.RANGE_BOTTOM_TO_MAX_TERRAIN_HEIGHT,
+                        EnvironmentScanPlacement.scanningFor(net.minecraft.core.Direction.UP,
+                                net.minecraft.world.level.levelgen.blockpredicates.BlockPredicate.solid(),
+                                net.minecraft.world.level.levelgen.blockpredicates.BlockPredicate.ONLY_IN_AIR_PREDICATE, 12),
+                        OffsetPlacement.vertical(net.minecraft.util.valueproviders.ConstantInt.of(-1)), BiomeFilter.biome()));
+        register(context, SALT_CAVE_SURFACE_PLACED_KEY, configuredFeatures.getOrThrow(ModConfiguredFeatures.SALT_CAVE_SURFACE_KEY), List.of());
+        register(context, SALT_FORMATION_PLACED_KEY, configuredFeatures.getOrThrow(ModConfiguredFeatures.SALT_FORMATION_KEY),
+                List.of(RarityFilter.onAverageOnceEvery(24), InSquarePlacement.spread(),
+                        HeightRangePlacement.uniform(net.minecraft.world.level.levelgen.VerticalAnchor.absolute(-24),
+                                net.minecraft.world.level.levelgen.VerticalAnchor.absolute(48)), BiomeFilter.biome()));
+        register(context, SALT_DEPOSIT_PLACED_KEY, configuredFeatures.getOrThrow(ModConfiguredFeatures.SALT_DEPOSIT_KEY),
+                surfacePatch(8, PlacementUtils.HEIGHTMAP_WORLD_SURFACE));
 
         register(context, PRICKLY_PEAR_CACTUS_PLACED_KEY, configuredFeatures.getOrThrow(ModConfiguredFeatures.PRICKLY_PEAR_CACTUS_KEY),
                 surfacePatch(5, PlacementUtils.HEIGHTMAP_WORLD_SURFACE));
@@ -117,3 +136,4 @@ public class ModPlacedFeatures {
                 BiomeFilter.biome());
     }
 }
+

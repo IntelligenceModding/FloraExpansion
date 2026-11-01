@@ -15,6 +15,46 @@ import org.jetbrains.annotations.NotNull;
 import de.artemis.floraexpansion.common.config.ServerConfig;
 
 public class PebblesProjectile extends ResourceProjectile {
+    private int skips;
+    private boolean resolved;
+
+    @Override public void tick() {
+        double oldY = getY();
+        var incoming = getDeltaMovement();
+        super.tick();
+        if (level().isClientSide() || !isAlive() || resolved) return;
+        var pos = blockPosition();
+        var water = level().getFluidState(pos);
+        if (water.is(net.minecraft.tags.FluidTags.WATER)
+                || water.is(de.artemis.floraexpansion.common.registry.ModTags.Fluids.SALT_WATER)) {
+            double surface = pos.getY() + water.getHeight(level(), pos);
+            double speed = incoming.horizontalDistance();
+            double impactSlope = -incoming.y / Math.max(speed, .001);
+            // Steep impacts sink. Glancing impacts keep more horizontal energy;
+            // shrinking hops and drag eventually end a skim without a fixed skip count.
+            if (incoming.y < 0 && impactSlope < .5 && speed > .35
+                    && oldY >= surface - .02 && getY() <= surface) {
+                skips++;
+                if (skips == 3 && getOwner() instanceof net.minecraft.world.entity.player.Player player)
+                    de.artemis.floraexpansion.common.advancement.FloraActionTrigger.fire(player, "skipping_stones");
+                setPos(getX(), surface + .04, getZ());
+                double retainedSpeed = .98 - impactSlope * .9;
+                setDeltaMovement(incoming.x * retainedSpeed, Math.min(.2, speed * .12), incoming.z * retainedSpeed);
+                ((net.minecraft.server.level.ServerLevel)level()).sendParticles(net.minecraft.core.particles.ParticleTypes.SPLASH,
+                        getX(), surface, getZ(), 5, .08, .01, .08, .02);
+                level().playSound(null, getX(), surface, getZ(), net.minecraft.sounds.SoundEvents.FISHING_BOBBER_SPLASH,
+                        net.minecraft.sounds.SoundSource.NEUTRAL, .2F, 1.5F);
+            }
+        }
+        if (tickCount >= 200) finish();
+    }
+
+    @Override protected void addAdditionalSaveData(net.minecraft.world.level.storage.ValueOutput output) {
+        super.addAdditionalSaveData(output); output.putInt("PebbleSkips", skips);
+    }
+    @Override protected void readAdditionalSaveData(net.minecraft.world.level.storage.ValueInput input) {
+        super.readAdditionalSaveData(input); skips = Math.clamp(input.getIntOr("PebbleSkips", 0), 0, 200);
+    }
 
     public PebblesProjectile(EntityType<? extends ThrowableItemProjectile> entityType, Level level) {
         super(entityType, level);
@@ -43,13 +83,22 @@ public class PebblesProjectile extends ResourceProjectile {
 
     @Override
     protected void onHit(@NotNull HitResult result) {
+        if (resolved) return;
         super.onHit(result);
 
         if (!this.level().isClientSide()) {
-            this.level().broadcastEntityEvent(this, (byte) 3);
-
-            spawnDrop(new ItemStack(ModItems.PEBBLES.get()), getX(), getY(), getZ(), 0.1D, 0.1D);
-            this.discard();
+            level().playSound(null, getX(), getY(), getZ(), net.minecraft.sounds.SoundEvents.STONE_HIT,
+                    net.minecraft.sounds.SoundSource.NEUTRAL, .4F, 1.1F);
+            finish();
         }
+    }
+
+    private void finish() {
+        if (resolved || level().isClientSide()) return;
+        resolved = true;
+        level().broadcastEntityEvent(this, (byte)3);
+        if (!(getOwner() instanceof net.minecraft.world.entity.player.Player player && player.hasInfiniteMaterials()))
+            spawnDrop(getItem().copyWithCount(1), getX(), getY(), getZ(), .1, .1);
+        discard();
     }
 }
