@@ -1,0 +1,47 @@
+{
+  "parent": "floraexpansion:nature/salt_caves",
+  "criteria": {
+    "play": {
+      "conditions": {
+        "location": [
+          {
+            "condition": "minecraft:location_check",
+            "predicate": {
+              "block": {
+                "blocks": "minecraft:jukebox",
+                "state": {
+                  "has_record": "true"
+                }
+              }
+            }
+          },
+          {
+            "condition": "minecraft:match_tool",
+            "predicate": {
+              "items": "floraexpansion:music_disc_into_the_caves"
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:item_used_on_block"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.floraexpansion.cave_music.description"
+    },
+    "frame": "goal",
+    "icon": {
+      "id": "floraexpansion:music_disc_into_the_caves"
+    },
+    "title": {
+      "translate": "advancements.floraexpansion.cave_music.title"
+    }
+  },
+  "requirements": [
+    [
+      "play"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

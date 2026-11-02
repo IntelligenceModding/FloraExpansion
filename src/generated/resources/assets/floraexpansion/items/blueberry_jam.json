@@ -1,6 +1,34 @@
 {
   "model": {
-    "type": "minecraft:model",
-    "model": "floraexpansion:item/blueberry_jam"
+    "type": "minecraft:select",
+    "block_state_property": "portions",
+    "cases": [
+      {
+        "model": {
+          "type": "minecraft:model",
+          "model": "floraexpansion:item/blueberry_jam_portion_1"
+        },
+        "when": "1"
+      },
+      {
+        "model": {
+          "type": "minecraft:model",
+          "model": "floraexpansion:item/blueberry_jam_portion_2"
+        },
+        "when": "2"
+      },
+      {
+        "model": {
+          "type": "minecraft:model",
+          "model": "floraexpansion:item/blueberry_jam_portion_3"
+        },
+        "when": "3"
+      }
+    ],
+    "fallback": {
+      "type": "minecraft:model",
+      "model": "floraexpansion:item/blueberry_jam"
+    },
+    "property": "minecraft:block_state"
   }
 }

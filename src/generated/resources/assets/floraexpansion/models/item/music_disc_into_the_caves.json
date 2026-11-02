@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "floraexpansion:item/music_disc_into_the_caves"
+  }
+}

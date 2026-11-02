@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://raw.githubusercontent.com/IntelligenceModding/FloraExpansion/refs/heads/assets/Version%200.4%20Berries%20%26%20Barrels.png" alt="Flora Expansion" width="900">
+  <img src="https://raw.githubusercontent.com/IntelligenceModding/FloraExpansion/refs/heads/assets/Salty%20Springs%20Title.png" alt="Flora Expansion — Salty Springs" width="900">
 </p>
 
 <h1 align="center">Support</h1>
@@ -16,7 +16,7 @@ Examples include:
 
 - crashes;
 - plant, crop, or fruit growth problems;
-- leaf litter or pine litter behavior problems;
+- leaf litter or needle litter behavior problems;
 - pebble placement or interaction problems;
 - basket harvesting or inventory problems;
 - crate storage, locking, tying, or item-transfer problems;
@@ -55,7 +55,7 @@ Feature requests may include:
 
 - new plants or natural blocks;
 - new foods or forageable items;
-- new crops or fruiting plants;
+- new crops or fruit plants;
 - litter or pebble improvements;
 - basket or crate improvements;
 - flax or linen improvements;

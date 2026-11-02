@@ -1,0 +1,9 @@
+{
+  "type": "floraexpansion:grinding",
+  "ingredient": "minecraft:gravel",
+  "result": {
+    "id": "minecraft:sand"
+  },
+  "show_notification": false,
+  "turns": 8
+}

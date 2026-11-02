@@ -1,0 +1,9 @@
+{
+  "type": "floraexpansion:grinding",
+  "ingredient": "floraexpansion:spruce_cone",
+  "result": {
+    "count": 4,
+    "id": "floraexpansion:spruce_nuts"
+  },
+  "show_notification": false
+}

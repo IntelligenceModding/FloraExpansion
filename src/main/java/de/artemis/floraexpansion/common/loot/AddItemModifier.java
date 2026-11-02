@@ -4,6 +4,7 @@ import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import net.minecraft.core.registries.BuiltInRegistries;
+
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -14,6 +15,7 @@ import net.neoforged.neoforge.common.loot.LootModifier;
 import org.jetbrains.annotations.NotNull;
 
 public class AddItemModifier extends LootModifier {
+
     public static final MapCodec<AddItemModifier> CODEC = RecordCodecBuilder.mapCodec(inst ->
             LootModifier.codecStart(inst).and(inst.group(
                     BuiltInRegistries.ITEM.byNameCodec().fieldOf("item").forGetter(m -> m.item),
@@ -38,12 +40,6 @@ public class AddItemModifier extends LootModifier {
 
     @Override
     protected @NotNull ObjectArrayList<ItemStack> doApply(@NotNull ObjectArrayList<ItemStack> generatedLoot, @NotNull LootContext lootContext) {
-        for (LootItemCondition condition : this.conditions) {
-            if (!condition.test(lootContext)) {
-                return generatedLoot;
-            }
-        }
-
         RandomSource random = lootContext.getRandom();
         int count = this.minCount >= this.maxCount
                 ? this.minCount

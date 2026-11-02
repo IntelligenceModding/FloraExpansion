@@ -1,0 +1,32 @@
+{
+  "parent": "floraexpansion:nature/thread",
+  "criteria": {
+    "obtained": {
+      "conditions": {
+        "items": [
+          {
+            "items": "floraexpansion:linen_fabric"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.floraexpansion.fabric.description"
+    },
+    "icon": {
+      "id": "floraexpansion:linen_fabric"
+    },
+    "title": {
+      "translate": "advancements.floraexpansion.fabric.title"
+    }
+  },
+  "requirements": [
+    [
+      "obtained"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

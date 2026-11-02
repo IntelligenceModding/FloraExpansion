@@ -1,0 +1,30 @@
+{
+  "parent": "floraexpansion:nature/foraging",
+  "criteria": {
+    "toasted_spruce_nuts": {
+      "conditions": {
+        "item": {
+          "items": "floraexpansion:toasted_spruce_nuts"
+        }
+      },
+      "trigger": "minecraft:consume_item"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.floraexpansion.toasted_nuts.description"
+    },
+    "icon": {
+      "id": "floraexpansion:toasted_spruce_nuts"
+    },
+    "title": {
+      "translate": "advancements.floraexpansion.toasted_nuts.title"
+    }
+  },
+  "requirements": [
+    [
+      "toasted_spruce_nuts"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

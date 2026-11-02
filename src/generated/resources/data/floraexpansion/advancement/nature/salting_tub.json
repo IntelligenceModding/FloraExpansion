@@ -1,0 +1,32 @@
+{
+  "parent": "floraexpansion:nature/grind_salt",
+  "criteria": {
+    "obtained": {
+      "conditions": {
+        "items": [
+          {
+            "items": "floraexpansion:salting_tub"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.floraexpansion.salting_tub.description"
+    },
+    "icon": {
+      "id": "floraexpansion:salting_tub"
+    },
+    "title": {
+      "translate": "advancements.floraexpansion.salting_tub.title"
+    }
+  },
+  "requirements": [
+    [
+      "obtained"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

@@ -9,6 +9,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Inventory;
+import de.artemis.floraexpansion.common.config.ClientConfig;
 
 public class CrateScreen extends AbstractContainerScreen<CrateMenu> {
     private static final Identifier CONTAINER_BACKGROUND = Identifier.fromNamespaceAndPath("floraexpansion", "textures/gui/container/crate.png");
@@ -75,7 +76,7 @@ public class CrateScreen extends AbstractContainerScreen<CrateMenu> {
             return false;
         }
 
-        this.scrollOffs = this.menu.subtractInputFromScroll(this.scrollOffs, scrollY);
+        this.scrollOffs = this.menu.subtractInputFromScroll(this.scrollOffs, scrollY * ClientConfig.scrollSensitivity.get());
         this.applyScroll();
         return true;
     }
