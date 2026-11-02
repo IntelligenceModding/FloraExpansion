@@ -1,0 +1,9 @@
+{
+  "type": "floraexpansion:grinding",
+  "ingredient": "minecraft:sunflower",
+  "result": {
+    "count": 4,
+    "id": "minecraft:yellow_dye"
+  },
+  "show_notification": false
+}

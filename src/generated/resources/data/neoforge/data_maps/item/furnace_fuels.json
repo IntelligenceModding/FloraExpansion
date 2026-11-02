@@ -15,11 +15,11 @@
     "floraexpansion:cactus_fence": {
       "burn_time": 300
     },
-    "floraexpansion:cactus_fence_gate": {
-      "burn_time": 300
-    },
     "floraexpansion:cactus_hanging_sign": {
       "burn_time": 800
+    },
+    "floraexpansion:cactus_log": {
+      "burn_time": 300
     },
     "floraexpansion:cactus_mosaic": {
       "burn_time": 300
@@ -42,37 +42,34 @@
     "floraexpansion:cactus_trapdoor": {
       "burn_time": 300
     },
-    "floraexpansion:crate": {
+    "floraexpansion:cactus_wood": {
       "burn_time": 300
     },
-    "floraexpansion:giant_cactus_base": {
+    "floraexpansion:crate": {
       "burn_time": 300
     },
     "floraexpansion:giant_cactus_stem": {
       "burn_time": 300
     },
-    "floraexpansion:giant_cactus_wood": {
-      "burn_time": 300
-    },
     "floraexpansion:large_blueberry_bush": {
       "burn_time": 100
     },
-    "floraexpansion:linen_block": {
+    "floraexpansion:linen_bale": {
       "burn_time": 100
     },
     "floraexpansion:linen_carpet": {
       "burn_time": 67
     },
-    "floraexpansion:pine_cone": {
+    "floraexpansion:needle_litter": {
       "burn_time": 100
     },
-    "floraexpansion:pine_litter": {
+    "floraexpansion:spruce_cone": {
       "burn_time": 100
     },
-    "floraexpansion:stripped_giant_cactus_base": {
+    "floraexpansion:stripped_cactus_log": {
       "burn_time": 300
     },
-    "floraexpansion:stripped_giant_cactus_wood": {
+    "floraexpansion:stripped_cactus_wood": {
       "burn_time": 300
     },
     "floraexpansion:twig": {

@@ -1,7 +1,13 @@
 package de.artemis.floraexpansion.common.block;
 
-import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
+import de.artemis.floraexpansion.common.registry.ModBlocks;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.BonemealableBlock;
+import java.util.ArrayList;
+import java.util.List;
 import net.minecraft.util.Mth;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
@@ -16,29 +22,74 @@ import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.NotNull;
 
-public class DesertMossBlock extends BushBlock {
-    public static final MapCodec<BushBlock> CODEC = simpleCodec(DesertMossBlock::new);
+public class DesertMossBlock extends BushBlock implements BonemealableBlock {
+    private final boolean flowering;
 
     public static final IntegerProperty VARIANT = IntegerProperty.create("variant", 0, 3);
 
     protected static final VoxelShape SHAPE = box(0.0D, 0.0D, 0.0D, 16.0D, 1.0D, 16.0D);
 
     public DesertMossBlock(Properties properties) {
+        this(properties, false);
+    }
+
+    public DesertMossBlock(Properties properties, boolean flowering) {
         super(properties);
+        this.flowering = flowering;
         this.registerDefaultState(this.stateDefinition.any().setValue(VARIANT, 0));
     }
 
-    @Override
-    public @NotNull MapCodec<BushBlock> codec() {
-        return CODEC;
-    }
 
     @SuppressWarnings("deprecation")
     @Override
     public @NotNull BlockState getStateForPlacement(@NotNull BlockPlaceContext context) {
-        BlockPos pos = context.getClickedPos();
+        return stateForPosition(context.getClickedPos());
+    }
+
+    public BlockState stateForPosition(BlockPos pos) {
         int variant = Math.floorMod((int) Mth.getSeed(pos), 4);
         return this.defaultBlockState().setValue(VARIANT, variant);
+    }
+
+    public static BlockState naturalState(RandomSource random) {
+        int appearance = random.nextInt(8);
+        Block moss = (appearance & 1) == 0 ? ModBlocks.DESERT_MOSS.get() : ModBlocks.FLOWERING_DESERT_MOSS.get();
+        return moss.defaultBlockState().setValue(VARIANT, appearance >>> 1);
+    }
+
+    @Override
+    public boolean isValidBonemealTarget(LevelReader level, BlockPos pos, BlockState state) {
+        return !flowering || !spreadPositions(level, pos).isEmpty();
+    }
+
+    @Override
+    public boolean isBonemealSuccess(Level level, RandomSource random, BlockPos pos, BlockState state) {
+        return true;
+    }
+
+    @Override
+    public void performBonemeal(ServerLevel level, RandomSource random, BlockPos pos, BlockState state) {
+        var flowers = (DesertMossBlock) ModBlocks.FLOWERING_DESERT_MOSS.get();
+        if (!flowering) {
+            level.setBlock(pos, flowers.defaultBlockState().setValue(VARIANT, state.getValue(VARIANT)), 3);
+            return;
+        }
+        var positions = spreadPositions(level, pos);
+        for (int i = 0, count = Math.min(4, positions.size()); i < count; i++) {
+            BlockPos target = positions.remove(random.nextInt(positions.size()));
+            level.setBlock(target, flowers.stateForPosition(target), 3);
+        }
+    }
+
+    private List<BlockPos> spreadPositions(LevelReader level, BlockPos pos) {
+        var positions = new ArrayList<BlockPos>();
+        for (BlockPos target : BlockPos.betweenClosed(pos.offset(-2, -1, -2), pos.offset(2, 1, 2))) {
+            var state = level.getBlockState(target);
+            if ((state.isAir() || state.is(ModBlocks.DESERT_MOSS.get())) && defaultBlockState().canSurvive(level, target)) {
+                positions.add(target.immutable());
+            }
+        }
+        return positions;
     }
 
     @Override

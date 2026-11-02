@@ -1,0 +1,169 @@
+{
+  "criteria": {
+    "cave": {
+      "conditions": {
+        "player": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "location": {
+                "biomes": "floraexpansion:salt_caves"
+              }
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:location"
+    },
+    "discovery": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "floraexpansion:music_disc_into_the_caves",
+              "floraexpansion:raw_salt",
+              "floraexpansion:salt",
+              "floraexpansion:salted_glasswort",
+              "floraexpansion:salt_water_bucket",
+              "floraexpansion:wooden_salt_water_bucket",
+              "floraexpansion:salted_spruce_nuts",
+              "floraexpansion:salted_toasted_spruce_nuts",
+              "floraexpansion:salted_raw_meat",
+              "floraexpansion:salted_raw_fish",
+              "floraexpansion:cured_meat",
+              "floraexpansion:cured_fish",
+              "floraexpansion:spruce_cone",
+              "floraexpansion:pebbles",
+              "floraexpansion:spruce_nuts",
+              "floraexpansion:toasted_spruce_nuts",
+              "floraexpansion:twig",
+              "floraexpansion:trail_mix",
+              "floraexpansion:mixed_berries",
+              "floraexpansion:blueberries",
+              "floraexpansion:blueberry_cookie",
+              "floraexpansion:blueberry_pie",
+              "floraexpansion:slice_of_blueberry_pie",
+              "floraexpansion:blueberry_juice",
+              "floraexpansion:basket",
+              "floraexpansion:glass_jar",
+              "floraexpansion:blueberry_jam",
+              "floraexpansion:strawberry",
+              "floraexpansion:strawberry_juice",
+              "floraexpansion:strawberry_jam",
+              "floraexpansion:cherry_jam",
+              "floraexpansion:apple_jam",
+              "floraexpansion:wooden_bucket",
+              "floraexpansion:wooden_water_bucket",
+              "floraexpansion:wooden_lava_bucket",
+              "floraexpansion:wooden_powder_snow_bucket",
+              "floraexpansion:wooden_milk_bucket",
+              "floraexpansion:cod_wooden_bucket",
+              "floraexpansion:salmon_wooden_bucket",
+              "floraexpansion:pufferfish_wooden_bucket",
+              "floraexpansion:tropical_fish_wooden_bucket",
+              "floraexpansion:axolotl_wooden_bucket",
+              "floraexpansion:tadpole_wooden_bucket",
+              "floraexpansion:flax_seeds",
+              "floraexpansion:flax_fiber",
+              "floraexpansion:flax_flower",
+              "floraexpansion:linen_thread",
+              "floraexpansion:linen_fabric",
+              "floraexpansion:cherries",
+              "floraexpansion:cherry_juice",
+              "floraexpansion:apple_juice",
+              "floraexpansion:cactus_sign",
+              "floraexpansion:cactus_hanging_sign",
+              "floraexpansion:cactus_boat",
+              "floraexpansion:cactus_chest_boat",
+              "floraexpansion:spiked_leather_helmet",
+              "floraexpansion:prickly_pear",
+              "floraexpansion:cactus_slice",
+              "floraexpansion:cactus_juice",
+              "floraexpansion:spiked_leather_chestplate",
+              "floraexpansion:spiked_leather_leggings",
+              "floraexpansion:spiked_leather_boots",
+              "floraexpansion:calcite_coal_ore",
+              "floraexpansion:calcite_iron_ore",
+              "floraexpansion:calcite_copper_ore",
+              "floraexpansion:calcite_gold_ore",
+              "floraexpansion:calcite_redstone_ore",
+              "floraexpansion:calcite_emerald_ore",
+              "floraexpansion:calcite_lapis_ore",
+              "floraexpansion:calcite_diamond_ore",
+              "floraexpansion:needle_litter",
+              "floraexpansion:twig_ladder",
+              "floraexpansion:crate",
+              "floraexpansion:glasswort",
+              "floraexpansion:salting_tub",
+              "floraexpansion:hand_crank",
+              "floraexpansion:hand_mill",
+              "floraexpansion:crystalline_salt",
+              "floraexpansion:salt_spike",
+              "floraexpansion:smooth_salt",
+              "floraexpansion:cut_salt",
+              "floraexpansion:chiseled_salt",
+              "floraexpansion:crystalline_salt_stairs",
+              "floraexpansion:crystalline_salt_slab",
+              "floraexpansion:crystalline_salt_wall",
+              "floraexpansion:strawberry_cake",
+              "floraexpansion:large_blueberry_bush",
+              "floraexpansion:linen_carpet",
+              "floraexpansion:linen_bale",
+              "floraexpansion:scattered_pebbles",
+              "floraexpansion:flax_bale",
+              "floraexpansion:cherry_pit",
+              "floraexpansion:orchard_cherry_leaves",
+              "floraexpansion:apple_core",
+              "floraexpansion:apple_leaves",
+              "floraexpansion:cactus_log",
+              "floraexpansion:stripped_cactus_log",
+              "floraexpansion:giant_cactus_stem",
+              "floraexpansion:cactus_spine",
+              "floraexpansion:giant_cactus_shoot",
+              "floraexpansion:cactus_wood",
+              "floraexpansion:stripped_cactus_wood",
+              "floraexpansion:desert_moss",
+              "floraexpansion:flowering_desert_moss",
+              "floraexpansion:small_cactus",
+              "floraexpansion:cactus_planks",
+              "floraexpansion:cactus_mosaic",
+              "floraexpansion:cactus_mosaic_stairs",
+              "floraexpansion:cactus_mosaic_slab",
+              "floraexpansion:cactus_stairs",
+              "floraexpansion:cactus_slab",
+              "floraexpansion:cactus_fence",
+              "floraexpansion:cactus_fence_gate",
+              "floraexpansion:cactus_button",
+              "floraexpansion:cactus_pressure_plate",
+              "floraexpansion:cactus_door",
+              "floraexpansion:cactus_trapdoor"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "announce_to_chat": false,
+    "background": "minecraft:gui/advancements/backgrounds/husbandry",
+    "description": {
+      "translate": "advancements.floraexpansion.root.description"
+    },
+    "icon": {
+      "id": "floraexpansion:flax_flower"
+    },
+    "show_toast": false,
+    "title": {
+      "translate": "advancements.floraexpansion.root.title"
+    }
+  },
+  "requirements": [
+    [
+      "discovery",
+      "cave"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

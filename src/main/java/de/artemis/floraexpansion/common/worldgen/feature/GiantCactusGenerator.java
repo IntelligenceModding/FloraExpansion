@@ -1,9 +1,9 @@
 package de.artemis.floraexpansion.common.worldgen.feature;
 
-import de.artemis.floraexpansion.common.block.CactusThornBlock;
+import de.artemis.floraexpansion.common.block.CactusSpineBlock;
 import de.artemis.floraexpansion.common.block.DesertMossBlock;
-import de.artemis.floraexpansion.common.block.GiantCactusBlossomBlock;
-import de.artemis.floraexpansion.common.block.GiantCactusWoodBlock;
+import de.artemis.floraexpansion.common.block.GiantCactusShootBlock;
+import de.artemis.floraexpansion.common.block.CactusWoodBlock;
 import de.artemis.floraexpansion.common.registry.ModBlocks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
+import de.artemis.floraexpansion.common.registry.ModTags;
 
 public final class GiantCactusGenerator {
 
@@ -27,18 +28,7 @@ public final class GiantCactusGenerator {
     }
 
     public static boolean canGrowFromBelow(BlockState below) {
-        return below.is(BlockTags.SAND)
-                || below.is(Blocks.RED_SAND)
-                || below.is(Blocks.TERRACOTTA)
-                || below.is(Blocks.WHITE_TERRACOTTA)
-                || below.is(Blocks.ORANGE_TERRACOTTA)
-                || below.is(Blocks.YELLOW_TERRACOTTA)
-                || below.is(Blocks.CACTUS)
-                || below.is(ModBlocks.GIANT_CACTUS_BASE.get())
-                || below.is(ModBlocks.STRIPPED_GIANT_CACTUS_BASE.get())
-                || below.is(ModBlocks.GIANT_CACTUS_WOOD.get())
-                || below.is(ModBlocks.STRIPPED_GIANT_CACTUS_WOOD.get())
-                || below.is(ModBlocks.GIANT_CACTUS_STEM.get());
+        return below.is(ModTags.Blocks.GIANT_CACTUS_SUPPORTS);
     }
 
     public static boolean canReplace(LevelAccessor level, BlockPos pos) {
@@ -96,7 +86,7 @@ public final class GiantCactusGenerator {
             }
 
             BlockPos samplePos = new BlockPos(origin.getX() + dx, origin.getY(), origin.getZ() + dz);
-            BlockPos surfacePos = worldGenLevel.getHeightmapPos(Heightmap.Types.WORLD_SURFACE_WG, samplePos);
+            BlockPos surfacePos = worldGenLevel.getHeightmapPos((worldGenLevel instanceof net.minecraft.server.level.WorldGenRegion ? Heightmap.Types.WORLD_SURFACE_WG : Heightmap.Types.WORLD_SURFACE), samplePos);
 
             tryPlaceDesertMoss(level, surfacePos, random);
         }
@@ -114,11 +104,7 @@ public final class GiantCactusGenerator {
             return;
         }
 
-        BlockState state = ModBlocks.DESERT_MOSS.get().defaultBlockState();
-
-        if (state.hasProperty(DesertMossBlock.VARIANT)) {
-            state = state.setValue(DesertMossBlock.VARIANT, random.nextInt(4));
-        }
+        BlockState state = DesertMossBlock.naturalState(random);
 
         if (state.canSurvive(level, pos)) {
             level.setBlock(pos, state, 2);
@@ -126,7 +112,11 @@ public final class GiantCactusGenerator {
     }
 
     public static boolean generate(LevelAccessor level, BlockPos origin, RandomSource random, boolean worldgenPlaced) {
-        GenerationPlan plan = createPlan(level, origin, random);
+        return generate(level, origin, random, worldgenPlaced, 4, 7);
+    }
+
+    public static boolean generate(LevelAccessor level, BlockPos origin, RandomSource random, boolean worldgenPlaced, int minHeight, int maxHeight) {
+        GenerationPlan plan = createPlan(level, origin, random, minHeight, maxHeight);
         if (plan == null) {
             return false;
         }
@@ -137,12 +127,12 @@ public final class GiantCactusGenerator {
             }
         }
 
-        BlockState verticalBase = ModBlocks.GIANT_CACTUS_BASE.get().defaultBlockState()
+        BlockState verticalBase = ModBlocks.CACTUS_LOG.get().defaultBlockState()
                 .setValue(RotatedPillarBlock.AXIS, Direction.Axis.Y);
 
-        BlockState verticalWood = ModBlocks.GIANT_CACTUS_WOOD.get().defaultBlockState()
+        BlockState verticalWood = ModBlocks.CACTUS_WOOD.get().defaultBlockState()
                 .setValue(RotatedPillarBlock.AXIS, Direction.Axis.Y)
-                .setValue(GiantCactusWoodBlock.GENERATED, worldgenPlaced);
+                .setValue(CactusWoodBlock.GENERATED, worldgenPlaced);
 
         for (int y = 0; y < plan.trunkHeight; y++) {
             BlockPos trunkPos = origin.above(y);
@@ -158,12 +148,12 @@ public final class GiantCactusGenerator {
             BlockPos armStart = origin.above(arm.startY());
             BlockPos current = armStart;
 
-            BlockState horizontalBase = ModBlocks.GIANT_CACTUS_BASE.get().defaultBlockState()
+            BlockState horizontalBase = ModBlocks.CACTUS_LOG.get().defaultBlockState()
                     .setValue(RotatedPillarBlock.AXIS, arm.direction().getAxis());
 
-            BlockState horizontalWood = ModBlocks.GIANT_CACTUS_WOOD.get().defaultBlockState()
+            BlockState horizontalWood = ModBlocks.CACTUS_WOOD.get().defaultBlockState()
                     .setValue(RotatedPillarBlock.AXIS, arm.direction().getAxis())
-                    .setValue(GiantCactusWoodBlock.GENERATED, worldgenPlaced);
+                    .setValue(CactusWoodBlock.GENERATED, worldgenPlaced);
 
             for (int i = 1; i <= arm.horizontalLength(); i++) {
                 current = armStart.relative(arm.direction(), i);
@@ -180,7 +170,7 @@ public final class GiantCactusGenerator {
             }
         }
 
-        placeThorns(level, random, origin, plan.trunkHeight, plan.arms);
+        placeSpines(level, random, origin, plan.trunkHeight, plan.arms);
         placeFlowers(level, random, plan.flowerCandidates);
 
         if (worldgenPlaced) {
@@ -191,6 +181,10 @@ public final class GiantCactusGenerator {
     }
 
     private static GenerationPlan createPlan(LevelAccessor level, BlockPos origin, RandomSource random) {
+        return createPlan(level, origin, random, 4, 7);
+    }
+
+    private static GenerationPlan createPlan(LevelAccessor level, BlockPos origin, RandomSource random, int minHeight, int maxHeight) {
         BlockPos groundPos = origin.below();
         BlockState ground = level.getBlockState(groundPos);
 
@@ -198,7 +192,7 @@ public final class GiantCactusGenerator {
             return null;
         }
 
-        int trunkHeight = 4 + random.nextInt(4);
+        int trunkHeight = minHeight + random.nextInt(maxHeight - minHeight + 1);
 
         int armCount = 1 + random.nextInt(2);
         if (trunkHeight >= 6 && random.nextFloat() < 0.35F) {
@@ -275,20 +269,20 @@ public final class GiantCactusGenerator {
 
             level.setBlock(
                     candidate.flowerPos(),
-                    GiantCactusBlossomBlock.withRandomVariant(ModBlocks.GIANT_CACTUS_BLOSSOM.get().defaultBlockState(), random),
+                    GiantCactusShootBlock.withRandomVariant(ModBlocks.GIANT_CACTUS_SHOOT.get().defaultBlockState(), random),
                     2
             );
         }
     }
 
-    private static void placeThorns(LevelAccessor level, RandomSource random, BlockPos origin, int trunkHeight, List<ArmData> arms) {
+    private static void placeSpines(LevelAccessor level, RandomSource random, BlockPos origin, int trunkHeight, List<ArmData> arms) {
         for (int y = 0; y < trunkHeight; y++) {
             BlockPos cactusPos = origin.above(y);
 
             for (Direction side : Direction.Plane.HORIZONTAL) {
                 float chance = y >= trunkHeight - 2 ? 0.12F : 0.24F;
                 if (random.nextFloat() < chance) {
-                    tryPlaceThorn(level, cactusPos, side);
+                    tryPlaceSpine(level, cactusPos, side);
                 }
             }
         }
@@ -306,7 +300,7 @@ public final class GiantCactusGenerator {
                     }
 
                     if (random.nextFloat() < 0.20F) {
-                        tryPlaceThorn(level, current, side);
+                        tryPlaceSpine(level, current, side);
                     }
                 }
             }
@@ -316,25 +310,25 @@ public final class GiantCactusGenerator {
 
                 for (Direction side : Direction.Plane.HORIZONTAL) {
                     if (random.nextFloat() < 0.16F) {
-                        tryPlaceThorn(level, stemPos, side);
+                        tryPlaceSpine(level, stemPos, side);
                     }
                 }
             }
         }
     }
 
-    private static void tryPlaceThorn(LevelAccessor level, BlockPos cactusPos, Direction side) {
-        BlockPos thornPos = cactusPos.relative(side);
+    private static void tryPlaceSpine(LevelAccessor level, BlockPos cactusPos, Direction side) {
+        BlockPos spinePos = cactusPos.relative(side);
 
-        if (!level.isEmptyBlock(thornPos)) {
+        if (!level.isEmptyBlock(spinePos)) {
             return;
         }
 
-        BlockState thorn = ModBlocks.CACTUS_THORN.get().defaultBlockState()
-                .setValue(CactusThornBlock.FACING, side);
+        BlockState spine = ModBlocks.CACTUS_SPINE.get().defaultBlockState()
+                .setValue(CactusSpineBlock.FACING, side);
 
-        if (thorn.canSurvive(level, thornPos)) {
-            level.setBlock(thornPos, thorn, 2);
+        if (spine.canSurvive(level, spinePos)) {
+            level.setBlock(spinePos, spine, 2);
         }
     }
 
@@ -361,4 +355,3 @@ public final class GiantCactusGenerator {
     ) {
     }
 }
-

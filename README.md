@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://raw.githubusercontent.com/IntelligenceModding/FloraExpansion/refs/heads/assets/Version%200.4%20Berries%20%26%20Barrels.png" alt="Flora Expansion" width="900">
+  <img src="https://raw.githubusercontent.com/IntelligenceModding/FloraExpansion/refs/heads/assets/Salty%20Springs%20Title.png" alt="Flora Expansion — Salty Springs" width="900">
 </p>
 
 <p align="center">
@@ -17,7 +17,7 @@
 </p>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/Minecraft-26.1.1-3C8527?style=for-the-badge&logo=minecraft&logoColor=white" alt="Minecraft 26.1.1">
+  <img src="https://img.shields.io/badge/Minecraft-26.1.2-3C8527?style=for-the-badge&logo=minecraft&logoColor=white" alt="Minecraft 26.1.2">
   &nbsp;&nbsp;&nbsp;
   <img src="https://img.shields.io/badge/Loader-NeoForge-6C47FF?style=for-the-badge" alt="NeoForge">
 </p>
@@ -27,7 +27,7 @@
 </p>
 
 <p align="center">
-  Install JEI alongside Flora Expansion if you want additional in-game information for special mechanics such as litter gathering, crates, baskets, crops, fruiting plants, and other interactive content. Flora Expansion works normally without JEI.
+  Install JEI alongside Flora Expansion if you want additional in-game information for special mechanics such as litter gathering, crates, baskets, crops, fruit plants, and other interactive content. Flora Expansion works normally without JEI.
 </p>
 
 <br>
@@ -41,24 +41,41 @@
 </p>
 
 <p align="center">
-  &bull; <strong>Leaf Litter</strong> and <strong>Pine Litter</strong> with layered placement and gatherable natural resources<br>
-  &bull; <strong>Pine Cones</strong>, <strong>Pine Nuts</strong>, <strong>Twigs</strong>, and other forageable forest materials<br>
-  &bull; Throwable pine cones and pebbles with their own interactions<br>
-  &bull; <strong>Pebble Patches</strong> and <strong>Pebble Blocks</strong> for natural terrain decoration<br>
-  &bull; A complete <strong>Flax</strong> progression with seeds, fibers, flowers, linen thread, linen cloth, linen blocks, carpet, and flax bales<br>
-  &bull; <strong>Blueberries</strong> and <strong>Strawberries</strong> with harvestable plants, foods, jams, juice, pies, cookies, and other recipes<br>
-  &bull; Fruiting cherry and oak trees with harvestable <strong>Cherries</strong> and <strong>Apples</strong>, plantable pits and cores, and fruiting leaves<br>
-  &bull; A reusable <strong>Basket</strong> for harvesting crops and carrying gathered items<br>
-  &bull; High-capacity <strong>Crates</strong> for storing large quantities of a single item, including movable tied crates<br>
+  &bull; A connected <strong>Flora Expansion advancement tab</strong> with 39 milestones covering foraging, farming, flax, storage, desert survival, pebbles, and salt caves, with optional challenges for stone skipping, juices, and cured foods<br>
+  &bull; <strong>Leaf Litter</strong> and <strong>Needle Litter</strong> with layered placement and gatherable natural resources<br>
+  &bull; <strong>Spruce Cones</strong>, <strong>Spruce Nuts</strong>, <strong>Twigs</strong>, and other forageable forest materials<br>
+  &bull; Throwable spruce cones and pebbles with their own interactions<br>
+  &bull; <strong>Pebbles</strong>: collect or place up to five stones using the original ground-pebble textures, including underwater. Empty-hand use collects one; sneak-use collects the pile. Throw in the air or sneak-use a block to throw; shallow throws skip across water, with the number of bounces depending on speed and impact angle. Riverbanks, shores and rocky hills have irregular natural patches. Old Scattered Pebbles items remain usable and convert back to pebbles.<br>
+  &bull; A complete <strong>Flax</strong> progression with seeds, fibers, flowers, linen thread, linen fabric, linen bales, carpet, and flax bales<br>
+  &bull; <strong>Blueberries</strong> and <strong>Strawberries</strong> with harvestable plants, matching jams and bottled juices, pies, cookies, and other recipes<br>
+  &bull; Orchard cherry and apple trees with harvestable <strong>Cherries</strong> and <strong>Apples</strong>, plantable pits and cores, <strong>Orchard Cherry Leaves</strong>, and <strong>Apple Leaves</strong><br>
+  &bull; A reusable <strong>Basket</strong> for harvesting crops, gathering mushrooms and other plants, and carrying gathered items<br>
+  &bull; High-capacity <strong>Crates</strong> for storing large quantities of one farming supply at a time, with a configurable item tag and movable tied crates<br>
   &bull; <strong>Wooden Buckets</strong> for water, milk, powder snow, fish, axolotls, tadpoles, and even temporary lava transport<br>
-  &bull; <strong>Giant Cactus</strong> content with cactus wood, thorns, flowers, fruit, decorative blocks, equipment, and other desert additions<br>
-  &bull; Foods such as <strong>Forest Snack</strong>, berry mixes, jams, juices, pies, and other nature-themed recipes<br>
+  &bull; <strong>Giant Cactus</strong> content with cactus wood, mosaic blocks, mosaic stairs and slabs, spines, flowers, fruit, equipment, and other desert additions<br>
+  &bull; Foods such as <strong>Trail Mix</strong>, berry mixes, blueberry, strawberry, cherry and apple jams, juices, pies, and other nature-themed recipes<br>
+  &bull; Placeable <strong>Glass Jars</strong> and jam jars with four edible portions, translucent fill levels, matching-fruit refills by hand or hopper, and contents preserved when picked up<br>
+  &bull; <strong>Salt</strong> with layered underground salt beds beneath oceans, deserts, and badlands, underwater sediment deposits, snow-like raw salt piles, and a stone mill with an input/output inventory, grinding progress display, and separate hand crank that grinds raw salt into salt pouches for salted nuts and cured foods.<br>
+  &bull; <strong>Solar Salt</strong>: exposed salt-water sources slowly evaporate during clear daylight, leaving one raw-salt deposit layer per source. Salt settles at the basin floor and stacks into existing deposits; flowing salt water produces no extra salt. In the Nether, poured salt water immediately sizzles away and leaves one salt layer.<br>
+  &bull; <strong>Glasswort</strong>: a small jointed succulent growing on soil, sand, and salt stone beside brine springs and salt-cave pools. Harvest it for decoration or use bone meal to obtain another plant; it needs nearby salt water but no sunlight. It can be stored in crates, gathered with baskets, composted, or displayed in flower pots.<br>
+  &bull; <strong>Salting Tub</strong>: add four layers of fish, meat, or nuts, cover with one salt pouch, then wait five seconds for the ready sound and pale salt dust before collecting; food uses the crate fill display, and JEI shows each salting recipe. Automate with a food hopper above, a salt hopper on a side, and an output hopper below; blocked output pauses the next batch<br>
+  &bull; <strong>Cured Foods</strong>: campfire-dry salted raw meat or fish for one minute, keeping one finished serving per input. Cured meat restores 8 hunger and 14.4 saturation; cured fish restores 7 hunger and 11.2 saturation. Salted spruce nuts restore 2 hunger and 2 saturation, and salted toasted nuts restore 3 hunger and 3.6 saturation<br>
+  &bull; <strong>Salt Spikes</strong> with angular crystal-cluster silhouettes, ivory facets, lavender shadows and pink mineral inclusions, using vanilla pointed-dripstone mechanics: find them in salt caves or stonecut crystalline salt, place on floors or ceilings, and grow slowly beneath a Crystalline Salt block topped by a Salt Water source; regular water does not grow them<br>
+  &bull; <strong>Salt Caves</strong>: a real underground Overworld biome beneath inland regions, with comparable frequency and the same depth rules, carvers and mob spawns as Dripstone Caves. Natural cave networks have Crystalline Salt and Smooth Salt strata, calcite and diorite bands, salt crust, spike clusters, glow lichen and turquoise brine basins, and growing ceiling formations. Includes cave music, mineral dust and pale mist; find it using <code>/locate biome floraexpansion:salt_caves</code>. Generated in new chunks<br>
+  &bull; <strong>Brine Springs</strong>: shallow turquoise surface pools edged with crystalline salt and loose salt crust, marking Salt Caves beneath. Use the same vanilla root-system placement and upward search as sulfur springs, with a mineral trail down toward the cave<br>
+  &bull; <strong>Salt Water</strong> with source and flowing fluid, iron and wooden buckets and three-level cauldron support; collect it from natural salt-cave pools or surface brine springs. Salt can turn a water cauldron into brine without changing its level. Source-fed Salt Spikes refill cauldrons like lava drips. Adjacent fluid cannot form infinite source pools<br>
   &bull; Rustic utility and decoration such as the <strong>Twig Ladder</strong> and other natural building materials<br>
   &bull; Natural world-generation additions that integrate Flora Expansion's content into suitable environments
 </p>
 
 <p align="center">
   Flora Expansion is designed to add more detail and interaction to Minecraft's natural environments without replacing the vanilla survival experience.
+</p>
+
+<p align="center">
+  <a href="DATAPACKS.md"><img src="https://img.shields.io/badge/Datapacks-Reference-2D6CDF?style=for-the-badge&logo=databricks&logoColor=white" alt="Flora Expansion datapack reference"></a>
+  &nbsp;&nbsp;&nbsp;
+  <a href="CONFIG.md"><img src="https://img.shields.io/badge/Config-Reference-2D6CDF?style=for-the-badge&logo=readthedocs&logoColor=white" alt="Flora Expansion config reference"></a>
 </p>
 
 <br>

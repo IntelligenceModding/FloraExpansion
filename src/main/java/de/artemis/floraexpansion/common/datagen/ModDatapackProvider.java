@@ -17,6 +17,8 @@ import java.util.concurrent.CompletableFuture;
 
 public class ModDatapackProvider extends DatapackBuiltinEntriesProvider {
     public static final RegistrySetBuilder BUILDER = new RegistrySetBuilder()
+ .add(Registries.JUKEBOX_SONG, de.artemis.floraexpansion.common.registry.ModJukeboxSongs::bootstrap)
+ .add(Registries.BIOME, de.artemis.floraexpansion.common.registry.ModBiomes::bootstrap)
             .add(Registries.CONFIGURED_FEATURE, context -> {
                 ModConfiguredFeatures.bootstrap(context);
                 ModTreeConfiguredFeatures.bootstrap(context);

@@ -1,8 +1,9 @@
 package de.artemis.floraexpansion.common.block;
 
-import com.mojang.serialization.MapCodec;
+import de.artemis.floraexpansion.common.util.InventoryUtils;
 import de.artemis.floraexpansion.common.block.entity.CrateBlockEntity;
 import de.artemis.floraexpansion.common.registry.ModItems;
+import de.artemis.floraexpansion.common.registry.ModTags;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.component.DataComponents;
@@ -46,7 +47,7 @@ import java.util.Collections;
 import java.util.List;
 
 public class CrateBlock extends BaseEntityBlock {
-    public static final MapCodec<CrateBlock> CODEC = simpleCodec(CrateBlock::new);
+ @Override public com.mojang.serialization.MapCodec<CrateBlock> codec() { return simpleCodec(CrateBlock::new); }
     public static final BooleanProperty POWERED = BlockStateProperties.POWERED;
     public static final BooleanProperty PACKED = BooleanProperty.create("packed");
     private static final String PACKED_ITEM_KEY = "Packed";
@@ -58,11 +59,6 @@ public class CrateBlock extends BaseEntityBlock {
     public CrateBlock(BlockBehaviour.Properties properties) {
         super(properties);
         this.registerDefaultState(this.stateDefinition.any().setValue(POWERED, false).setValue(PACKED, false));
-    }
-
-    @Override
-    protected @NotNull MapCodec<? extends BaseEntityBlock> codec() {
-        return CODEC;
     }
 
     @Override
@@ -100,6 +96,10 @@ public class CrateBlock extends BaseEntityBlock {
             return InteractionResult.CONSUME;
         }
 
+        if (!stack.isEmpty() && !stack.is(ModTags.Items.CRATE_STORABLE)) {
+            return InteractionResult.FAIL;
+        }
+
         ItemStack referenceStack = this.getBulkInsertReference(crate, stack);
         boolean bulkInsert = crate.shouldBulkInsert(player, referenceStack, level.getGameTime());
         int inserted = bulkInsert ? this.insertMatchingInventory(player, crate, referenceStack) : crate.insertItem(stack);
@@ -109,7 +109,7 @@ public class CrateBlock extends BaseEntityBlock {
                 return InteractionResult.CONSUME;
             }
 
-            return InteractionResult.TRY_WITH_EMPTY_HAND;
+            return InteractionResult.CONSUME;
         }
 
         if (!level.isClientSide()) {
@@ -118,7 +118,7 @@ public class CrateBlock extends BaseEntityBlock {
             }
 
             crate.recordInsertClick(player, referenceStack, level.getGameTime());
-            this.syncPlayerInventory(player);
+            InventoryUtils.syncPlayerInventory(player);
             level.playSound(null, pos, SoundEvents.ITEM_FRAME_ADD_ITEM, SoundSource.BLOCKS, 0.6F, 0.9F + level.getRandom().nextFloat() * 0.2F);
         }
 
@@ -173,7 +173,7 @@ public class CrateBlock extends BaseEntityBlock {
         int inserted = this.insertMatchingInventory(player, crate, referenceStack);
         if (inserted > 0) {
             crate.recordInsertClick(player, referenceStack, level.getGameTime());
-            this.syncPlayerInventory(player);
+            InventoryUtils.syncPlayerInventory(player);
             level.playSound(null, pos, SoundEvents.ITEM_FRAME_ADD_ITEM, SoundSource.BLOCKS, 0.6F, 0.9F + level.getRandom().nextFloat() * 0.2F);
         }
 
@@ -336,11 +336,13 @@ public class CrateBlock extends BaseEntityBlock {
         }
 
         level.setBlock(pos, state.setValue(PACKED, true), 3);
+        if (level.getBlockEntity(pos) instanceof CrateBlockEntity crate && !crate.isEmpty())
+            de.artemis.floraexpansion.common.advancement.FloraActionTrigger.fire(player, "tie_crate");
         if (!player.hasInfiniteMaterials()) {
             stack.shrink(1);
         }
 
-        this.syncPlayerInventory(player);
+        InventoryUtils.syncPlayerInventory(player);
         level.playSound(null, pos, SoundEvents.WOOL_PLACE, SoundSource.BLOCKS, 0.65F, 0.9F);
         return InteractionResult.CONSUME;
     }
@@ -349,7 +351,7 @@ public class CrateBlock extends BaseEntityBlock {
         level.setBlock(pos, state.setValue(PACKED, false), 3);
         if (!player.hasInfiniteMaterials()) {
             this.giveItemToPlayer(player, new ItemStack(ModItems.LINEN_THREAD.get()), preferredHand);
-            this.syncPlayerInventory(player);
+            InventoryUtils.syncPlayerInventory(player);
         }
 
         level.playSound(null, pos, SoundEvents.WOOL_BREAK, SoundSource.BLOCKS, 0.65F, 0.95F);
@@ -364,12 +366,6 @@ public class CrateBlock extends BaseEntityBlock {
                 0.5F,
                 locking ? 0.9F : 0.95F
         );
-    }
-
-    private void syncPlayerInventory(Player player) {
-        player.getInventory().setChanged();
-        player.inventoryMenu.broadcastChanges();
-        player.containerMenu.broadcastChanges();
     }
 
     private ItemStack createPackedCrateStack(@Nullable CrateBlockEntity crate, Level level) {
@@ -393,9 +389,7 @@ public class CrateBlock extends BaseEntityBlock {
             return;
         }
 
-        if (!player.getInventory().add(stack)) {
-            player.drop(stack, false);
-        }
+        InventoryUtils.giveOrDrop(player, stack);
     }
 
     public static boolean isPackedItem(ItemStack stack) {

@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    "floraexpansion:blueberries",
+    "floraexpansion:strawberry",
+    "#c:foods/berry"
+  ],
+  "result": {
+    "count": 3,
+    "id": "floraexpansion:mixed_berries"
+  }
+}

@@ -1,44 +1,31 @@
 package de.artemis.floraexpansion.client.renderer;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
 import de.artemis.floraexpansion.client.renderer.state.CrateRenderState;
-import de.artemis.floraexpansion.FloraExpansion;
 import de.artemis.floraexpansion.common.block.CrateBlock;
 import de.artemis.floraexpansion.common.block.entity.CrateBlockEntity;
-import de.artemis.floraexpansion.common.registry.ModItems;
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.renderer.feature.ModelFeatureRenderer;
-import net.minecraft.client.renderer.rendertype.RenderTypes;
 import net.minecraft.client.renderer.state.level.CameraRenderState;
-import net.minecraft.client.renderer.texture.TextureAtlas;
-import net.minecraft.client.renderer.texture.OverlayTexture;
-import net.minecraft.client.renderer.texture.TextureAtlasSprite;
-import net.minecraft.client.resources.model.sprite.SpriteGetter;
-import net.minecraft.client.resources.model.sprite.SpriteId;
-import net.minecraft.resources.Identifier;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
 import org.jspecify.annotations.Nullable;
 
+import de.artemis.floraexpansion.common.config.ClientConfig;
+
 public class CrateBlockEntityRenderer implements BlockEntityRenderer<CrateBlockEntity, CrateRenderState> {
-    private static final float MIN = 2.0F / 16.0F;
-    private static final float MAX = 14.0F / 16.0F;
-    private static final float MIN_Y = 2.0F / 16.0F;
-    private static final float MAX_Y = 15.0F / 16.0F;
-    private static final int COLOR = 0xFFFFFFFF;
-    private static final SpriteId DEFAULT_CONTENTS =
-            contentsMaterial("default");
-    private static final SpriteId BLUEBERRIES_CONTENTS =
-            contentsMaterial("blueberries");
-    private final SpriteGetter sprites;
+    private static final int[] EMPTY = new int[0];
+    private final ContentsFillRenderer fill;
 
     public CrateBlockEntityRenderer(BlockEntityRendererProvider.Context context) {
-        this.sprites = context.sprites();
+        fill = new ContentsFillRenderer(context.itemModelResolver());
+    }
+
+    @Override
+    public int getViewDistance() {
+        return (int) Math.ceil(ClientConfig.crateFillDistance.get());
     }
 
     @Override
@@ -53,11 +40,15 @@ public class CrateBlockEntityRenderer implements BlockEntityRenderer<CrateBlockE
                                    @NotNull Vec3 cameraPosition,
                                    ModelFeatureRenderer.@Nullable CrumblingOverlay breakProgress) {
         BlockEntityRenderer.super.extractRenderState(blockEntity, renderState, partialTick, cameraPosition, breakProgress);
-        ItemStack storedType = blockEntity.getStoredTypeCopy();
-
         renderState.fillRatio = blockEntity.getFillRatio();
-        renderState.blockState = blockEntity.getBlockState();
-        renderState.contentsSprite = storedType.isEmpty() ? null : this.sprites.get(getContentsMaterial(storedType));
+        renderState.contentsPixels = EMPTY;
+        if (!ClientConfig.crateFill.get() || cameraPosition.distanceToSqr(Vec3.atCenterOf(blockEntity.getBlockPos())) > Math.pow(ClientConfig.crateFillDistance.get(), 2)
+                || renderState.fillRatio <= 0.0F || blockEntity.getBlockState().getValue(CrateBlock.PACKED)
+                || blockEntity.getBlockState().getValue(CrateBlock.POWERED)) {
+            return;
+        }
+
+        renderState.contentsPixels = fill.pattern(blockEntity.getStoredTypeCopy(), blockEntity.getLevel());
     }
 
     @Override
@@ -65,89 +56,6 @@ public class CrateBlockEntityRenderer implements BlockEntityRenderer<CrateBlockE
                        @NotNull PoseStack poseStack,
                        @NotNull SubmitNodeCollector collector,
                        @NotNull CameraRenderState cameraState) {
-        BlockState blockState = state.blockState;
-        if (blockState.hasProperty(CrateBlock.PACKED) && blockState.getValue(CrateBlock.PACKED)) {
-            return;
-        }
-
-        if (blockState.hasProperty(CrateBlock.POWERED) && blockState.getValue(CrateBlock.POWERED)) {
-            return;
-        }
-
-        if (state.contentsSprite == null || state.fillRatio <= 0.0F) {
-            return;
-        }
-
-        float visibleFillRatio = Math.max(0.12F, state.fillRatio);
-        float y = MIN_Y + (MAX_Y - MIN_Y) * visibleFillRatio;
-        TextureAtlasSprite sprite = state.contentsSprite;
-        int light = state.lightCoords;
-
-        poseStack.pushPose();
-        collector.submitCustomGeometry(poseStack, RenderTypes.entityCutout(TextureAtlas.LOCATION_BLOCKS), (pose, consumer) ->
-                renderContentsCuboid(pose, consumer, sprite, y, light));
-        poseStack.popPose();
-    }
-
-    private static SpriteId getContentsMaterial(ItemStack storedType) {
-        if (storedType.is(ModItems.BLUEBERRIES.get())) {
-            return BLUEBERRIES_CONTENTS;
-        }
-
-        return DEFAULT_CONTENTS;
-    }
-
-    private static SpriteId contentsMaterial(String path) {
-        return new SpriteId(
-                TextureAtlas.LOCATION_BLOCKS,
-                Identifier.fromNamespaceAndPath(FloraExpansion.MODID, "block/crate_contents/" + path)
-        );
-    }
-
-    private static void renderContentsCuboid(PoseStack.Pose pose,
-                                             VertexConsumer consumer,
-                                             TextureAtlasSprite sprite,
-                                             float y,
-                                             int light) {
-        float u0 = sprite.getU0();
-        float u1 = sprite.getU1();
-        float v0 = sprite.getV0();
-        float v1 = sprite.getV1();
-        float sideV0 = sprite.getV(1.0F - (y - MIN_Y) / (MAX_Y - MIN_Y));
-
-        quad(pose, consumer, MIN, y, MIN, MAX, y, MIN, MAX, y, MAX, MIN, y, MAX, u0, v0, u1, v1, light, 0.0F, 1.0F, 0.0F);
-        quad(pose, consumer, MIN, MIN_Y, MIN, MIN, y, MIN, MAX, y, MIN, MAX, MIN_Y, MIN, u0, v1, u1, sideV0, light, 0.0F, 0.0F, -1.0F);
-        quad(pose, consumer, MAX, MIN_Y, MAX, MAX, y, MAX, MIN, y, MAX, MIN, MIN_Y, MAX, u0, v1, u1, sideV0, light, 0.0F, 0.0F, 1.0F);
-        quad(pose, consumer, MIN, MIN_Y, MAX, MIN, y, MAX, MIN, y, MIN, MIN, MIN_Y, MIN, u0, v1, u1, sideV0, light, -1.0F, 0.0F, 0.0F);
-        quad(pose, consumer, MAX, MIN_Y, MIN, MAX, y, MIN, MAX, y, MAX, MAX, MIN_Y, MAX, u0, v1, u1, sideV0, light, 1.0F, 0.0F, 0.0F);
-    }
-
-    private static void quad(PoseStack.Pose pose,
-                             VertexConsumer consumer,
-                             float x1, float y1, float z1,
-                             float x2, float y2, float z2,
-                             float x3, float y3, float z3,
-                             float x4, float y4, float z4,
-                             float u0, float v0, float u1, float v1,
-                             int light,
-                             float normalX, float normalY, float normalZ) {
-        vertex(pose, consumer, x1, y1, z1, u0, v0, light, normalX, normalY, normalZ);
-        vertex(pose, consumer, x2, y2, z2, u0, v1, light, normalX, normalY, normalZ);
-        vertex(pose, consumer, x3, y3, z3, u1, v1, light, normalX, normalY, normalZ);
-        vertex(pose, consumer, x4, y4, z4, u1, v0, light, normalX, normalY, normalZ);
-    }
-
-    private static void vertex(PoseStack.Pose pose,
-                               VertexConsumer consumer,
-                               float x, float y, float z,
-                               float u, float v,
-                               int light,
-                               float normalX, float normalY, float normalZ) {
-        consumer.addVertex(pose, x, y, z)
-                .setColor(COLOR)
-                .setUv(u, v)
-                .setOverlay(OverlayTexture.NO_OVERLAY)
-                .setLight(light)
-                .setNormal(pose, normalX, normalY, normalZ);
+        fill.submit(poseStack, collector, state.contentsPixels, state.fillRatio, state.lightCoords);
     }
 }

@@ -1,0 +1,32 @@
+{
+  "parent": "floraexpansion:nature/root",
+  "criteria": {
+    "obtained": {
+      "conditions": {
+        "items": [
+          {
+            "items": "floraexpansion:raw_salt"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.floraexpansion.raw_salt.description"
+    },
+    "icon": {
+      "id": "floraexpansion:raw_salt"
+    },
+    "title": {
+      "translate": "advancements.floraexpansion.raw_salt.title"
+    }
+  },
+  "requirements": [
+    [
+      "obtained"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

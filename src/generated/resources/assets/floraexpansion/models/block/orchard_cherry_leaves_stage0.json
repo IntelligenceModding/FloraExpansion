@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/leaves",
+  "textures": {
+    "all": "floraexpansion:block/orchard_cherry_leaves_stage0"
+  }
+}

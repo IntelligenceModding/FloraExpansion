@@ -1,7 +1,0 @@
-{
-  "parent": "minecraft:item/generated",
-  "textures": {
-    "layer0": "floraexpansion:item/cactus_leggings",
-    "layer1": "floraexpansion:item/cactus_leggings_overlay"
-  }
-}

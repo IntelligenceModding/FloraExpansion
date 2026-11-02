@@ -13,12 +13,15 @@ public class ModParticles {
 
     public static final DeferredRegister<ParticleType<?>> PARTICLE_TYPES =
             DeferredRegister.create(BuiltInRegistries.PARTICLE_TYPE, FloraExpansion.MODID);
+    public static final Supplier<SimpleParticleType> DRIPPING_SALT_WATER = PARTICLE_TYPES.register("dripping_salt_water", () -> new SimpleParticleType(false));
+    public static final Supplier<SimpleParticleType> FALLING_SALT_WATER = PARTICLE_TYPES.register("falling_salt_water", () -> new SimpleParticleType(false));
+    public static final Supplier<SimpleParticleType> LANDING_SALT_WATER = PARTICLE_TYPES.register("landing_salt_water", () -> new SimpleParticleType(false));
 
-    public static final Supplier<SimpleParticleType> PINE_LEAF_FLUFF_PARTICLES =
-            PARTICLE_TYPES.register("pine_leaf_fluff_particles", () -> new SimpleParticleType(true));
+    public static final Supplier<SimpleParticleType> NEEDLE_FLUFF_PARTICLES =
+            PARTICLE_TYPES.register("needle_fluff_particles", () -> new SimpleParticleType(true));
 
-    public static final Supplier<SimpleParticleType> PINE_PARTICLES =
-            PARTICLE_TYPES.register("pine_particles", () -> new SimpleParticleType(true));
+    public static final Supplier<SimpleParticleType> NEEDLE_PARTICLES =
+            PARTICLE_TYPES.register("needle_particles", () -> new SimpleParticleType(true));
 
     public static final Supplier<SimpleParticleType> FLAX_FLOWER =
             PARTICLE_TYPES.register("flax_flower_particles", () -> new SimpleParticleType(true));
@@ -33,5 +36,3 @@ public class ModParticles {
         PARTICLE_TYPES.register(eventBus);
     }
 }
-
-

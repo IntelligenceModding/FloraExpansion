@@ -1,0 +1,32 @@
+{
+  "parent": "floraexpansion:nature/root",
+  "criteria": {
+    "obtained": {
+      "conditions": {
+        "items": [
+          {
+            "items": "floraexpansion:pebbles"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.floraexpansion.pebbles.description"
+    },
+    "icon": {
+      "id": "floraexpansion:pebbles"
+    },
+    "title": {
+      "translate": "advancements.floraexpansion.pebbles.title"
+    }
+  },
+  "requirements": [
+    [
+      "obtained"
+    ]
+  ],
+  "sends_telemetry_event": true
+}
