@@ -1,0 +1,45 @@
+{
+  "parent": "floraexpansion:nature/salt_food",
+  "criteria": {
+    "cured_fish": {
+      "conditions": {
+        "item": {
+          "items": "floraexpansion:cured_fish"
+        }
+      },
+      "trigger": "minecraft:consume_item"
+    },
+    "cured_meat": {
+      "conditions": {
+        "item": {
+          "items": "floraexpansion:cured_meat"
+        }
+      },
+      "trigger": "minecraft:consume_item"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.floraexpansion.cured_food.description"
+    },
+    "frame": "challenge",
+    "icon": {
+      "id": "floraexpansion:cured_meat"
+    },
+    "title": {
+      "translate": "advancements.floraexpansion.cured_food.title"
+    }
+  },
+  "requirements": [
+    [
+      "cured_meat"
+    ],
+    [
+      "cured_fish"
+    ]
+  ],
+  "rewards": {
+    "experience": 50
+  },
+  "sends_telemetry_event": true
+}

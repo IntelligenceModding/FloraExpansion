@@ -1,13 +1,10 @@
 package de.artemis.floraexpansion.common.block;
 
-import com.mojang.serialization.MapCodec;
+import de.artemis.floraexpansion.common.util.PlantSoils;
 import de.artemis.floraexpansion.common.registry.ModBlocks;
 import de.artemis.floraexpansion.common.registry.ModItems;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.sounds.SoundEvents;
-import net.minecraft.sounds.SoundSource;
-import net.minecraft.tags.BlockTags;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
@@ -23,18 +20,14 @@ import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.entity.InsideBlockEffectApplier;
 import org.jetbrains.annotations.NotNull;
+import de.artemis.floraexpansion.common.config.ServerConfig;
+import de.artemis.floraexpansion.common.util.PlantGrowth;
 
-public class SmallBlueberryBushBlock extends SweetBerryBushBlock {
-    public static final MapCodec<SweetBerryBushBlock> CODEC = simpleCodec(SmallBlueberryBushBlock::new);
+public class SmallBlueberryBushBlock extends SweetBerryBushBlock implements HarvestableBlock {
     protected static final int ROOTED_BUSH_GROWTH_CHANCE = 33;
 
     public SmallBlueberryBushBlock(Properties properties) {
         super(properties);
-    }
-
-    @Override
-    public @NotNull MapCodec<SweetBerryBushBlock> codec() {
-        return CODEC;
     }
 
     @Override
@@ -48,18 +41,16 @@ public class SmallBlueberryBushBlock extends SweetBerryBushBlock {
 
     @Override
     protected boolean mayPlaceOn(@NotNull BlockState state, @NotNull BlockGetter level, @NotNull BlockPos pos) {
-        return state.is(BlockTags.DIRT)
-                || state.is(Blocks.FARMLAND)
-                || state.is(Blocks.MOSS_BLOCK)
-                || state.is(Blocks.ROOTED_DIRT);
+        return PlantSoils.supportsBlueberry(state);
     }
 
     @Override
     public void randomTick(@NotNull BlockState state, @NotNull ServerLevel level, @NotNull BlockPos pos, @NotNull RandomSource random) {
         int age = state.getValue(AGE);
-        if (age < 3 && random.nextInt(5) == 0 && level.getRawBrightness(pos.above(), 0) >= 9) {
+        if (age < 3 && PlantGrowth.canGrow(level, pos, state, random, 5, ServerConfig.berryGrowth.get()) && level.getRawBrightness(pos.above(), 0) >= 9) {
             BlockState grownState = getGrowthState(level, pos, state, random, age + 1);
             level.setBlock(pos, grownState, 2);
+            PlantGrowth.grown(level, pos, state);
             level.gameEvent(GameEvent.BLOCK_CHANGE, pos, GameEvent.Context.of(grownState));
         }
     }
@@ -90,8 +81,15 @@ public class SmallBlueberryBushBlock extends SweetBerryBushBlock {
                 && random.nextInt(ROOTED_BUSH_GROWTH_CHANCE) == 0;
     }
 
-    protected int getHarvestAmount(@NotNull RandomSource random) {
-        return 1 + random.nextInt(2);
+    @Override
+    public boolean canHarvest(BlockState state) {
+        return state.getValue(AGE) >= 3;
+    }
+
+
+    @Override
+    public BlockState getHarvestedState(BlockState state) {
+        return state.setValue(AGE, 2);
     }
 
     @Override
@@ -105,23 +103,8 @@ public class SmallBlueberryBushBlock extends SweetBerryBushBlock {
     }
 
     @Override
-    protected @NotNull InteractionResult useWithoutItem(@NotNull BlockState state, @NotNull Level level, @NotNull BlockPos pos, @NotNull Player player, @NotNull BlockHitResult hitResult) {
-        int age = state.getValue(AGE);
-        if (age < 3) {
-            return InteractionResult.PASS;
-        }
-
-        int amount = getHarvestAmount(level.getRandom());
-        if (!level.isClientSide()) {
-            popResource(level, pos, new ItemStack(ModItems.BLUEBERRIES.get(), amount));
-            level.playSound(null, pos, SoundEvents.SWEET_BERRY_BUSH_PICK_BERRIES, SoundSource.BLOCKS, 1.0F,
-                    0.8F + level.getRandom().nextFloat() * 0.4F);
-
-            BlockState resetState = state.setValue(AGE, 2);
-            level.setBlock(pos, resetState, 2);
-            level.gameEvent(GameEvent.BLOCK_CHANGE, pos, GameEvent.Context.of(player, resetState));
-        }
-
-        return ((level.isClientSide() ? InteractionResult.SUCCESS : InteractionResult.SUCCESS_SERVER));
+    protected @NotNull InteractionResult useWithoutItem(@NotNull BlockState state, @NotNull Level level, @NotNull BlockPos pos,
+                                                        @NotNull Player player, @NotNull BlockHitResult hitResult) {
+        return harvest(state, level, pos, player);
     }
 }

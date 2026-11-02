@@ -19,4 +19,3 @@ public class CactusChestBoatEntity extends ChestBoat {
         this.zo = z;
     }
 }
-

@@ -1,0 +1,32 @@
+{
+  "parent": "floraexpansion:nature/root",
+  "criteria": {
+    "obtained": {
+      "conditions": {
+        "items": [
+          {
+            "items": "floraexpansion:wooden_bucket"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.floraexpansion.wooden_bucket.description"
+    },
+    "icon": {
+      "id": "floraexpansion:wooden_bucket"
+    },
+    "title": {
+      "translate": "advancements.floraexpansion.wooden_bucket.title"
+    }
+  },
+  "requirements": [
+    [
+      "obtained"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

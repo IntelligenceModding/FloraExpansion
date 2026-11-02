@@ -2,6 +2,8 @@
   "replace": false,
   "values": [
     "floraexpansion:wandering_trader/emerald_blueberry_jam",
-    "floraexpansion:wandering_trader/emerald_strawberry_jam"
+    "floraexpansion:wandering_trader/emerald_strawberry_jam",
+    "floraexpansion:wandering_trader/emerald_cherry_jam",
+    "floraexpansion:wandering_trader/emerald_apple_jam"
   ]
 }

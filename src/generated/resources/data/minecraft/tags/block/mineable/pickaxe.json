@@ -1,5 +1,22 @@
 {
   "values": [
-    "floraexpansion:pebble_block"
+    "floraexpansion:calcite_coal_ore",
+    "floraexpansion:calcite_iron_ore",
+    "floraexpansion:calcite_copper_ore",
+    "floraexpansion:calcite_gold_ore",
+    "floraexpansion:calcite_redstone_ore",
+    "floraexpansion:calcite_emerald_ore",
+    "floraexpansion:calcite_lapis_ore",
+    "floraexpansion:calcite_diamond_ore",
+    "floraexpansion:salt_water_cauldron",
+    "floraexpansion:crystalline_salt",
+    "floraexpansion:salt_spike",
+    "floraexpansion:smooth_salt",
+    "floraexpansion:cut_salt",
+    "floraexpansion:chiseled_salt",
+    "floraexpansion:crystalline_salt_stairs",
+    "floraexpansion:crystalline_salt_slab",
+    "floraexpansion:crystalline_salt_wall",
+    "floraexpansion:hand_mill"
   ]
 }

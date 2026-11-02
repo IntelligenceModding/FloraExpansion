@@ -1,0 +1,23 @@
+{
+  "music_disc.into_the_caves": {
+    "sounds": [
+      { "name": "floraexpansion:records/into_the_caves", "stream": true }
+    ]
+  },
+  "ambient.salt_caves.additions": {
+    "subtitle": "subtitles.floraexpansion.salt_caves.additions",
+    "sounds": [
+      { "name": "minecraft:block.pointed_dripstone.drip_water", "type": "event", "volume": 0.4, "pitch": 0.85, "weight": 4 },
+      { "name": "minecraft:block.amethyst_block.chime", "type": "event", "volume": 0.18, "pitch": 0.65, "weight": 1 },
+      { "name": "minecraft:block.amethyst_block.resonate", "type": "event", "volume": 0.12, "pitch": 0.75, "weight": 1 },
+      { "name": "minecraft:block.amethyst_block.step", "type": "event", "volume": 0.14, "pitch": 0.55, "weight": 1 }
+    ]
+  },
+  "ambient.salt_caves.mood": {
+    "subtitle": "subtitles.floraexpansion.salt_caves.mood",
+    "sounds": [
+      { "name": "minecraft:block.amethyst_block.resonate", "type": "event", "volume": 0.12, "pitch": 0.55 },
+      { "name": "minecraft:block.amethyst_cluster.step", "type": "event", "volume": 0.12, "pitch": 0.65 }
+    ]
+  }
+}

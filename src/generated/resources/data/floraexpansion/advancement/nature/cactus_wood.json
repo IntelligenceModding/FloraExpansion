@@ -1,0 +1,32 @@
+{
+  "parent": "floraexpansion:nature/desert",
+  "criteria": {
+    "obtained": {
+      "conditions": {
+        "items": [
+          {
+            "items": "floraexpansion:cactus_planks"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.floraexpansion.cactus_wood.description"
+    },
+    "icon": {
+      "id": "floraexpansion:cactus_planks"
+    },
+    "title": {
+      "translate": "advancements.floraexpansion.cactus_wood.title"
+    }
+  },
+  "requirements": [
+    [
+      "obtained"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

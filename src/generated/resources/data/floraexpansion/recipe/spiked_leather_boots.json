@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "B": "minecraft:leather_boots",
+    "D": "minecraft:green_dye",
+    "T": "floraexpansion:cactus_spine"
+  },
+  "pattern": [
+    "TDT",
+    " B ",
+    "T T"
+  ],
+  "result": {
+    "id": "floraexpansion:spiked_leather_boots"
+  }
+}

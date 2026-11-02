@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "L": "floraexpansion:linen_bale",
+    "P": "#minecraft:planks"
+  },
+  "pattern": [
+    "LLL",
+    "PPP"
+  ],
+  "result": {
+    "id": "minecraft:white_bed"
+  }
+}

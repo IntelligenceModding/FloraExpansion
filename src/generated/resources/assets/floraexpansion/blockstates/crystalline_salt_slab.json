@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "floraexpansion:block/crystalline_salt_slab"
+    },
+    "type=double": {
+      "model": "floraexpansion:block/crystalline_salt"
+    },
+    "type=top": {
+      "model": "floraexpansion:block/crystalline_salt_slab_top"
+    }
+  }
+}

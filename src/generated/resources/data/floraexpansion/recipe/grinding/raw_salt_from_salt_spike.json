@@ -1,0 +1,8 @@
+{
+  "type": "floraexpansion:grinding",
+  "ingredient": "floraexpansion:salt_spike",
+  "result": {
+    "id": "floraexpansion:raw_salt"
+  },
+  "show_notification": false
+}

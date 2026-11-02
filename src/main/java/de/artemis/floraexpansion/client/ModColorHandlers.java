@@ -13,7 +13,12 @@ public class ModColorHandlers {
 
     @SubscribeEvent
     public static void registerBlockColors(RegisterColorHandlersEvent.BlockTintSources event) {
-        event.register(java.util.List.of(BlockTintSources.foliage()), ModBlocks.FRUITING_OAK_LEAVES.get());
+        event.register(java.util.List.of(BlockTintSources.constant(de.artemis.floraexpansion.common.registry.ModFluids.SALT_WATER_COLOR)),
+                ModBlocks.SALT_WATER_CAULDRON.get());
+        event.register(java.util.List.of(BlockTintSources.foliage()), ModBlocks.APPLE_LEAVES.get());
+        event.register(java.util.List.of(BlockTintSources.constant(0xA0FFFFFF)),
+                ModBlocks.BLUEBERRY_JAM.get(), ModBlocks.STRAWBERRY_JAM.get(),
+                ModBlocks.CHERRY_JAM.get(), ModBlocks.APPLE_JAM.get());
     }
 
 }

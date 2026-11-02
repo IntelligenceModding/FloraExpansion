@@ -1,0 +1,12 @@
+{
+  "values": [
+    "#minecraft:base_stone_overworld",
+    "#minecraft:dirt",
+    "#minecraft:sand",
+    "minecraft:grass_block",
+    "minecraft:podzol",
+    "minecraft:gravel",
+    "minecraft:clay",
+    "minecraft:calcite"
+  ]
+}
