@@ -1,0 +1,33 @@
+{
+  "parent": "floraexpansion:nature/salt_caves",
+  "criteria": {
+    "obtained": {
+      "conditions": {
+        "items": [
+          {
+            "items": "floraexpansion:salt_spike"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.floraexpansion.salt_spike.description"
+    },
+    "icon": {
+      "count": 1,
+      "id": "floraexpansion:salt_spike"
+    },
+    "title": {
+      "translate": "advancements.floraexpansion.salt_spike.title"
+    }
+  },
+  "requirements": [
+    [
+      "obtained"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

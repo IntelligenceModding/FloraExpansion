@@ -26,7 +26,7 @@ body:
     attributes:
       label: Flora Expansion Version
       description: Which version of Flora Expansion are you using?
-      placeholder: "Example: 0.4.1r"
+      placeholder: "Example: 0.5"
     validations:
       required: true
 
@@ -45,7 +45,7 @@ body:
       label: Affected Feature
       description: Which part of Flora Expansion is affected?
       options:
-        - Leaf / Pine Litter
+        - Leaf / Needle Litter
         - Pebbles
         - Flax / Linen
         - Blueberries / Strawberries

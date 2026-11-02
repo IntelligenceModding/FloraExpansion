@@ -1,0 +1,13 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "de.artemis.floraexpansion.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "mixins": [
+    "OverworldBiomeParametersMixin",
+    "SaltSpikeCauldronMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

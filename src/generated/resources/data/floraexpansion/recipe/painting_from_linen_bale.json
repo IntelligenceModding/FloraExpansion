@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "L": "floraexpansion:linen_bale",
+    "S": "minecraft:stick"
+  },
+  "pattern": [
+    "SSS",
+    "SLS",
+    "SSS"
+  ],
+  "result": {
+    "count": 1,
+    "id": "minecraft:painting"
+  }
+}

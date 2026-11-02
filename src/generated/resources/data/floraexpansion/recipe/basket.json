@@ -2,7 +2,7 @@
   "type": "minecraft:crafting_shaped",
   "category": "equipment",
   "key": {
-    "T": "floraexpansion:linen_thread"
+    "T": "#floraexpansion:linen_threads"
   },
   "pattern": [
     "T T",

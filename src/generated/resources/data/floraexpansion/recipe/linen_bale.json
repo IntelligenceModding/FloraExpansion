@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    "floraexpansion:linen_fabric",
+    "floraexpansion:linen_fabric",
+    "floraexpansion:linen_fabric",
+    "floraexpansion:linen_fabric"
+  ],
+  "result": {
+    "count": 1,
+    "id": "floraexpansion:linen_bale"
+  }
+}

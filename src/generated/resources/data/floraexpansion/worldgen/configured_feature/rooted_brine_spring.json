@@ -1,0 +1,51 @@
+{
+  "type": "minecraft:root_system",
+  "config": {
+    "allowed_tree_position": {
+      "type": "minecraft:all_of",
+      "predicates": [
+        {
+          "type": "minecraft:replaceable"
+        },
+        {
+          "type": "minecraft:solid",
+          "offset": [
+            0,
+            -1,
+            0
+          ]
+        }
+      ]
+    },
+    "allowed_vertical_water_for_tree": 1,
+    "feature": {
+      "feature": "floraexpansion:brine_spring",
+      "placement": []
+    },
+    "hanging_root_placement_attempts": 1,
+    "hanging_root_radius": 1,
+    "hanging_root_state_provider": {
+      "type": "minecraft:simple_state_provider",
+      "state": {
+        "Name": "floraexpansion:salt_spike",
+        "Properties": {
+          "thickness": "tip",
+          "vertical_direction": "down",
+          "waterlogged": "false"
+        }
+      }
+    },
+    "hanging_roots_vertical_span": 1,
+    "required_vertical_space_for_tree": 3,
+    "root_column_max_height": 384,
+    "root_placement_attempts": 20,
+    "root_radius": 3,
+    "root_replaceable": "#floraexpansion:brine_spring_root_replaceable",
+    "root_state_provider": {
+      "type": "minecraft:simple_state_provider",
+      "state": {
+        "Name": "floraexpansion:crystalline_salt"
+      }
+    }
+  }
+}

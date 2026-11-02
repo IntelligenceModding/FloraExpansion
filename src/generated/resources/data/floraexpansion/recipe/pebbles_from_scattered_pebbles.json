@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    "floraexpansion:scattered_pebbles"
+  ],
+  "result": {
+    "count": 1,
+    "id": "floraexpansion:pebbles"
+  }
+}

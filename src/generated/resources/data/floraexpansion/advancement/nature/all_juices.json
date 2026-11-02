@@ -1,0 +1,79 @@
+{
+  "parent": "floraexpansion:nature/fruit",
+  "criteria": {
+    "apple_juice": {
+      "conditions": {
+        "item": {
+          "items": "floraexpansion:apple_juice"
+        }
+      },
+      "trigger": "minecraft:consume_item"
+    },
+    "blueberry_juice": {
+      "conditions": {
+        "item": {
+          "items": "floraexpansion:blueberry_juice"
+        }
+      },
+      "trigger": "minecraft:consume_item"
+    },
+    "cactus_juice": {
+      "conditions": {
+        "item": {
+          "items": "floraexpansion:cactus_juice"
+        }
+      },
+      "trigger": "minecraft:consume_item"
+    },
+    "cherry_juice": {
+      "conditions": {
+        "item": {
+          "items": "floraexpansion:cherry_juice"
+        }
+      },
+      "trigger": "minecraft:consume_item"
+    },
+    "strawberry_juice": {
+      "conditions": {
+        "item": {
+          "items": "floraexpansion:strawberry_juice"
+        }
+      },
+      "trigger": "minecraft:consume_item"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.floraexpansion.all_juices.description"
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "floraexpansion:cherry_juice"
+    },
+    "title": {
+      "translate": "advancements.floraexpansion.all_juices.title"
+    }
+  },
+  "requirements": [
+    [
+      "blueberry_juice"
+    ],
+    [
+      "strawberry_juice"
+    ],
+    [
+      "cherry_juice"
+    ],
+    [
+      "apple_juice"
+    ],
+    [
+      "cactus_juice"
+    ]
+  ],
+  "rewards": {
+    "experience": 50
+  },
+  "sends_telemetry_event": true
+}

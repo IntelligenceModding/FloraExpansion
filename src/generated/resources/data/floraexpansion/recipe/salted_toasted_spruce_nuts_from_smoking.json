@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:smoking",
+  "category": "food",
+  "cookingtime": 50,
+  "experience": 0.1,
+  "ingredient": "floraexpansion:salted_spruce_nuts",
+  "result": {
+    "count": 1,
+    "id": "floraexpansion:salted_toasted_spruce_nuts"
+  }
+}

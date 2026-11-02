@@ -1,0 +1,33 @@
+{
+  "parent": "floraexpansion:nature/root",
+  "criteria": {
+    "obtained": {
+      "conditions": {
+        "items": [
+          {
+            "items": "floraexpansion:flax_fiber"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.floraexpansion.flax.description"
+    },
+    "icon": {
+      "count": 1,
+      "id": "floraexpansion:flax_fiber"
+    },
+    "title": {
+      "translate": "advancements.floraexpansion.flax.title"
+    }
+  },
+  "requirements": [
+    [
+      "obtained"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

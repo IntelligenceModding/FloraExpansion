@@ -1,0 +1,36 @@
+{
+  "parent": "floraexpansion:nature/salt_caves",
+  "criteria": {
+    "obtained": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "floraexpansion:salt_water_bucket",
+              "floraexpansion:wooden_salt_water_bucket"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.floraexpansion.brine.description"
+    },
+    "icon": {
+      "count": 1,
+      "id": "floraexpansion:salt_water_bucket"
+    },
+    "title": {
+      "translate": "advancements.floraexpansion.brine.title"
+    }
+  },
+  "requirements": [
+    [
+      "obtained"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

@@ -1,0 +1,9 @@
+{
+  "type": "floraexpansion:grinding",
+  "ingredient": "minecraft:white_tulip",
+  "result": {
+    "count": 2,
+    "id": "minecraft:light_gray_dye"
+  },
+  "show_notification": false
+}

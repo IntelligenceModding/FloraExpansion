@@ -2,10 +2,10 @@
   "type": "minecraft:crafting_shapeless",
   "category": "misc",
   "ingredients": [
-    "floraexpansion:flax_fiber",
-    "floraexpansion:flax_fiber",
-    "floraexpansion:flax_fiber",
-    "floraexpansion:flax_fiber"
+    "#floraexpansion:linen_fibers",
+    "#floraexpansion:linen_fibers",
+    "#floraexpansion:linen_fibers",
+    "#floraexpansion:linen_fibers"
   ],
   "result": {
     "count": 2,

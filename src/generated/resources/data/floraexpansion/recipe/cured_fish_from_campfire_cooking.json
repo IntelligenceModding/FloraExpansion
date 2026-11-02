@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:campfire_cooking",
+  "category": "food",
+  "cookingtime": 1200,
+  "experience": 0.1,
+  "ingredient": "floraexpansion:salted_raw_fish",
+  "result": {
+    "count": 1,
+    "id": "floraexpansion:cured_fish"
+  }
+}

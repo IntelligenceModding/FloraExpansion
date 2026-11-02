@@ -14,6 +14,7 @@ import net.minecraft.world.item.component.TooltipDisplay;
 import net.minecraft.world.level.block.Block;
 
 import java.util.function.Consumer;
+import de.artemis.floraexpansion.common.config.ClientConfig;
 
 public class CrateBlockItem extends BlockItem {
     public CrateBlockItem(Block block, Item.Properties properties) {
@@ -24,6 +25,7 @@ public class CrateBlockItem extends BlockItem {
     public void appendHoverText(ItemStack stack, Item.TooltipContext context, TooltipDisplay tooltipDisplay, Consumer<Component> tooltipComponents, TooltipFlag tooltipFlag) {
         super.appendHoverText(stack, context, tooltipDisplay, tooltipComponents, tooltipFlag);
 
+        if (ClientConfig.hints()) tooltipComponents.accept(Component.translatable("tooltip.floraexpansion.crate_controls").withStyle(ChatFormatting.GRAY));
         if (!CrateBlock.isPackedItem(stack)) {
             return;
         }
@@ -32,7 +34,7 @@ public class CrateBlockItem extends BlockItem {
         ItemStack storedType = ItemStack.EMPTY;
         int totalCount = 0;
 
-        for (ItemStack contentStack : contents.nonEmptyItems()) {
+        for (ItemStack contentStack : contents.nonEmptyStream().toList()) {
             if (storedType.isEmpty()) {
                 storedType = contentStack.copyWithCount(1);
             }
@@ -41,6 +43,10 @@ public class CrateBlockItem extends BlockItem {
         }
 
         if (!storedType.isEmpty() && totalCount > 0) {
+            if (ClientConfig.expanded(tooltipFlag)) {
+                int capacity = de.artemis.floraexpansion.common.block.entity.CrateBlockEntity.CONTAINER_SIZE * storedType.getMaxStackSize();
+                tooltipComponents.accept(Component.translatable("tooltip.floraexpansion.crate_capacity", totalCount, capacity).withStyle(ChatFormatting.GRAY));
+            }
             MutableComponent storedName = Component.empty().append(storedType.getHoverName()).withStyle(storedType.getRarity().color());
             if (storedType.has(DataComponents.CUSTOM_NAME)) {
                 storedName.withStyle(ChatFormatting.ITALIC);

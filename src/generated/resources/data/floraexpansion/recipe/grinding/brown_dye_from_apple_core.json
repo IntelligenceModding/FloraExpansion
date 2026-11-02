@@ -1,0 +1,9 @@
+{
+  "type": "floraexpansion:grinding",
+  "ingredient": "floraexpansion:apple_core",
+  "result": {
+    "count": 2,
+    "id": "minecraft:brown_dye"
+  },
+  "show_notification": false
+}

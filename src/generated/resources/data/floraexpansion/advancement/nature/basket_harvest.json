@@ -1,0 +1,30 @@
+{
+  "parent": "floraexpansion:nature/basket",
+  "criteria": {
+    "performed": {
+      "conditions": {
+        "action": "basket_harvest"
+      },
+      "trigger": "floraexpansion:action"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.floraexpansion.basket_harvest.description"
+    },
+    "frame": "goal",
+    "icon": {
+      "count": 1,
+      "id": "floraexpansion:basket"
+    },
+    "title": {
+      "translate": "advancements.floraexpansion.basket_harvest.title"
+    }
+  },
+  "requirements": [
+    [
+      "performed"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

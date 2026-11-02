@@ -1,0 +1,33 @@
+{
+  "parent": "floraexpansion:nature/thread",
+  "criteria": {
+    "obtained": {
+      "conditions": {
+        "items": [
+          {
+            "items": "floraexpansion:crate"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.floraexpansion.crate.description"
+    },
+    "icon": {
+      "count": 1,
+      "id": "floraexpansion:crate"
+    },
+    "title": {
+      "translate": "advancements.floraexpansion.crate.title"
+    }
+  },
+  "requirements": [
+    [
+      "obtained"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

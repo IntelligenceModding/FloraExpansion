@@ -30,3 +30,7 @@ jobs:
 
       - name: Build with Gradle
         run: ./gradlew build
+
+      - name: Server gameplay regression tests
+        if: ${{ hashFiles('src/gametest/java/**/*.java') != '' }}
+        run: ./gradlew runGameTestServer -PportTests

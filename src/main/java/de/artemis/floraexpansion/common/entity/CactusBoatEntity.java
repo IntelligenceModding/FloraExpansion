@@ -19,4 +19,3 @@ public class CactusBoatEntity extends Boat {
         this.zo = z;
     }
 }
-

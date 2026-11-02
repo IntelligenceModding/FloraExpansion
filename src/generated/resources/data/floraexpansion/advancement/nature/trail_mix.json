@@ -1,0 +1,31 @@
+{
+  "parent": "floraexpansion:nature/toasted_nuts",
+  "criteria": {
+    "trail_mix": {
+      "conditions": {
+        "item": {
+          "items": "floraexpansion:trail_mix"
+        }
+      },
+      "trigger": "minecraft:consume_item"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.floraexpansion.trail_mix.description"
+    },
+    "icon": {
+      "count": 1,
+      "id": "floraexpansion:trail_mix"
+    },
+    "title": {
+      "translate": "advancements.floraexpansion.trail_mix.title"
+    }
+  },
+  "requirements": [
+    [
+      "trail_mix"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

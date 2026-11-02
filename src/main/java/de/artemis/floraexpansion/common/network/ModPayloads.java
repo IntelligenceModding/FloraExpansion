@@ -1,5 +1,6 @@
 package de.artemis.floraexpansion.common.network;
 
+import de.artemis.floraexpansion.common.util.InventoryUtils;
 import de.artemis.floraexpansion.common.block.CrateBlock;
 import de.artemis.floraexpansion.common.block.entity.CrateBlockEntity;
 import de.artemis.floraexpansion.common.network.payload.CrateExtractPayload;
@@ -13,8 +14,10 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
+import de.artemis.floraexpansion.common.config.ServerConfig;
 
 public final class ModPayloads {
     private ModPayloads() {
@@ -26,13 +29,13 @@ public final class ModPayloads {
 
     private static void handleCrateExtract(CrateExtractPayload payload, IPayloadContext context) {
         context.enqueueWork(() -> {
-            if (!(context.player() instanceof ServerPlayer player)) {
+            if (!(context.player() instanceof ServerPlayer player) || player.isSpectator() || !ServerConfig.crateExtraction.get()) {
                 return;
             }
 
             Level level = player.level();
             BlockPos pos = payload.pos();
-            if (!level.isLoaded(pos) || player.distanceToSqr(pos.getCenter()) > 36.0D) {
+            if (!level.isLoaded(pos) || !level.mayInteract(player, pos) || player.distanceToSqr(Vec3.atCenterOf(pos)) > 36.0D) {
                 return;
             }
 
@@ -52,8 +55,8 @@ public final class ModPayloads {
             }
 
             giveExtractedItem(player, extracted);
-            syncPlayerInventory(player);
-            level.playSound(null, pos, SoundEvents.ITEM_FRAME_REMOVE_ITEM, SoundSource.BLOCKS, 0.6F, payload.fullStack() ? 0.95F + level.random.nextFloat() * 0.2F : 1.05F + level.random.nextFloat() * 0.2F);
+            InventoryUtils.syncPlayerInventory(player);
+            level.playSound(null, pos, SoundEvents.ITEM_FRAME_REMOVE_ITEM, SoundSource.BLOCKS, 0.6F, payload.fullStack() ? 0.95F + level.getRandom().nextFloat() * 0.2F : 1.05F + level.getRandom().nextFloat() * 0.2F);
         });
     }
 
@@ -69,14 +72,7 @@ public final class ModPayloads {
             return;
         }
 
-        if (!player.getInventory().add(stack)) {
-            player.drop(stack, false);
-        }
+        InventoryUtils.giveOrDrop(player, stack);
     }
 
-    private static void syncPlayerInventory(Player player) {
-        player.getInventory().setChanged();
-        player.inventoryMenu.broadcastChanges();
-        player.containerMenu.broadcastChanges();
-    }
 }

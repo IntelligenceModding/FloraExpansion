@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": "floraexpansion:crystalline_salt",
+  "result": {
+    "count": 1,
+    "id": "floraexpansion:crystalline_salt_stairs"
+  }
+}

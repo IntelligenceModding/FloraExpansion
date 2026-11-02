@@ -1,0 +1,33 @@
+{
+  "parent": "floraexpansion:nature/flax",
+  "criteria": {
+    "obtained": {
+      "conditions": {
+        "items": [
+          {
+            "items": "floraexpansion:linen_thread"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.floraexpansion.thread.description"
+    },
+    "icon": {
+      "count": 1,
+      "id": "floraexpansion:linen_thread"
+    },
+    "title": {
+      "translate": "advancements.floraexpansion.thread.title"
+    }
+  },
+  "requirements": [
+    [
+      "obtained"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

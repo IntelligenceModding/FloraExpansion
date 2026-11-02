@@ -9,6 +9,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Inventory;
+import de.artemis.floraexpansion.common.config.ClientConfig;
 
 public class CrateScreen extends AbstractContainerScreen<CrateMenu> {
     private static final Identifier CONTAINER_BACKGROUND = Identifier.fromNamespaceAndPath("floraexpansion", "textures/gui/container/crate.png");
@@ -27,20 +28,19 @@ public class CrateScreen extends AbstractContainerScreen<CrateMenu> {
 
     public CrateScreen(CrateMenu menu, Inventory playerInventory, Component title) {
         super(menu, playerInventory, title);
-        this.imageWidth = 176;
-        this.imageHeight = 222;
+        imageWidth = 176; imageHeight = 222;
         this.inventoryLabelY = this.imageHeight - 94;
         this.scrollOffs = menu.getScrollForRowIndex(menu.getScrollRow());
     }
 
     @Override
-    public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
-        super.render(guiGraphics, mouseX, mouseY, partialTick);
-        this.renderTooltip(guiGraphics, mouseX, mouseY);
+    public void render(GuiGraphics graphics, int mouseX, int mouseY, float partialTick) {
+        super.render(graphics, mouseX, mouseY, partialTick);
+        renderTooltip(graphics, mouseX, mouseY);
     }
 
     @Override
-    protected void renderBg(GuiGraphics guiGraphics, float partialTick, int mouseX, int mouseY) {
+    public void renderBg(GuiGraphics guiGraphics, float partialTick, int mouseX, int mouseY) {
         int left = (this.width - this.imageWidth) / 2;
         int top = (this.height - this.imageHeight) / 2;
         guiGraphics.blit(RenderPipelines.GUI_TEXTURED, CONTAINER_BACKGROUND, left, top, 0, 0, this.imageWidth, this.imageHeight, TEXTURE_WIDTH, TEXTURE_HEIGHT);
@@ -82,7 +82,7 @@ public class CrateScreen extends AbstractContainerScreen<CrateMenu> {
             return false;
         }
 
-        this.scrollOffs = this.menu.subtractInputFromScroll(this.scrollOffs, scrollY);
+        this.scrollOffs = this.menu.subtractInputFromScroll(this.scrollOffs, scrollY * ClientConfig.scrollSensitivity.get());
         this.applyScroll();
         return true;
     }

@@ -36,7 +36,7 @@ body:
       label: Feature Area
       description: Which part of Flora Expansion would this request affect?
       options:
-        - Leaf / Pine Litter
+        - Leaf / Needle Litter
         - Pebbles
         - Flax / Linen
         - Blueberries / Strawberries
