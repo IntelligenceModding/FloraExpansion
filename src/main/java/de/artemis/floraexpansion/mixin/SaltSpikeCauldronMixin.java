@@ -11,7 +11,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-/** Let vanilla's delayed cauldron tick resolve salt spikes on 26.1.2. */
+/** Let vanilla's delayed cauldron tick resolve salt spikes on 26.1. */
 @Mixin(PointedDripstoneBlock.class)
 public abstract class SaltSpikeCauldronMixin {
     @Inject(method = "findStalactiteTipAboveCauldron", at = @At("RETURN"), cancellable = true)

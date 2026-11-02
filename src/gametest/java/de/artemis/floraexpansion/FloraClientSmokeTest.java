@@ -32,7 +32,7 @@ public final class FloraClientSmokeTest {
         if (!creatingWorld && minecraft.screen instanceof TitleScreen && minecraft.getOverlay() == null) {
             creatingWorld = true;
             minecraft.createWorldOpenFlows().createFreshLevel("port-smoke-" + System.currentTimeMillis(),
-                    new net.minecraft.world.level.LevelSettings("Flora 26.2 smoke test", net.minecraft.world.level.GameType.CREATIVE,
+                    new net.minecraft.world.level.LevelSettings("Flora 26.1 smoke test", net.minecraft.world.level.GameType.CREATIVE,
                             net.minecraft.world.level.LevelSettings.DifficultySettings.DEFAULT, true,
                             net.minecraft.world.level.WorldDataConfiguration.DEFAULT),
                     new net.minecraft.world.level.levelgen.WorldOptions(12345L, true, false),

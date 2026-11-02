@@ -110,7 +110,7 @@ final class SignRenderSmokeTest {
                         .collectParts(minecraft.level, minecraft.player.blockPosition(), state, RandomSource.create(0), parts);
                 int quads = parts.stream().mapToInt(part -> part.getQuads(null).size()).sum();
                 for (Direction side : Direction.values()) quads += parts.stream().mapToInt(part -> part.getQuads(side).size()).sum();
-                // 26.1.2 renders the sign board through its block entity, rather than JSON geometry.
+                // 26.1 renders the sign board through its block entity, rather than JSON geometry.
                 var entity = ((net.minecraft.world.level.block.EntityBlock) block).newBlockEntity(BlockPos.ZERO, state);
                 if (entity == null || minecraft.getBlockEntityRenderDispatcher().getRenderer(entity) == null)
                     throw new IllegalStateException("Missing sign renderer: " + state);

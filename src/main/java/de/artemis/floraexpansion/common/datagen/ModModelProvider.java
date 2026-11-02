@@ -635,7 +635,7 @@ public class ModModelProvider extends ModelProvider {
     }
 
     private void createCactusSignModels(BlockModelGenerators blockModels) {
-        // In 26.1.2 the sign board is rendered by the block entity, with particle-only block models.
+        // In 26.1 the sign board is rendered by the block entity, with particle-only block models.
         var model = BlockModelGenerators.plainVariant(ModelTemplates.PARTICLE_ONLY.create(ModBlocks.CACTUS_SIGN.get(), TextureMapping.cube(ModBlocks.CACTUS_PLANKS.get()), blockModels.modelOutput));
         blockModels.blockStateOutput.accept(BlockModelGenerators.createSimpleBlock(ModBlocks.CACTUS_SIGN.get(), model));
         blockModels.blockStateOutput.accept(BlockModelGenerators.createSimpleBlock(ModBlocks.CACTUS_WALL_SIGN.get(), model));
