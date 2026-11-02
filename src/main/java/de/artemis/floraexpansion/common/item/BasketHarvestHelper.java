@@ -1,11 +1,10 @@
 package de.artemis.floraexpansion.common.item;
 
-import de.artemis.floraexpansion.common.block.LargeBlueberryBushBlock;
-import de.artemis.floraexpansion.common.block.FruitingCherryLeavesBlock;
-import de.artemis.floraexpansion.common.block.FruitingOakLeavesBlock;
-import de.artemis.floraexpansion.common.block.FlaxCropBlock;
+import de.artemis.floraexpansion.common.util.InventoryUtils;
+import de.artemis.floraexpansion.common.block.HarvestableBlock;
+import de.artemis.floraexpansion.common.block.FlaxBlock;
 import de.artemis.floraexpansion.common.block.SmallBlueberryBushBlock;
-import de.artemis.floraexpansion.common.registry.ModItems;
+import de.artemis.floraexpansion.common.registry.ModTags;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.core.BlockPos;
@@ -27,17 +26,21 @@ import net.minecraft.world.level.block.GrowingPlantBodyBlock;
 import net.minecraft.world.level.block.GrowingPlantHeadBlock;
 import net.minecraft.world.level.block.NetherWartBlock;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.pattern.BlockInWorld;
 import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.BlockHitResult;
+import net.neoforged.neoforge.common.NeoForge;
+import net.neoforged.neoforge.event.level.block.BreakBlockEvent;
 
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import de.artemis.floraexpansion.common.config.ServerConfig;
 
 public final class BasketHarvestHelper {
     private BasketHarvestHelper() {
@@ -45,7 +48,7 @@ public final class BasketHarvestHelper {
 
     public static boolean tryHarvest(UseOnContext context) {
         Player player = context.getPlayer();
-        if (player == null) {
+        if (player == null || context.getLevel().isClientSide()) {
             return false;
         }
 
@@ -53,75 +56,43 @@ public final class BasketHarvestHelper {
         BlockState state = context.getLevel().getBlockState(pos);
         ItemStack basket = context.getItemInHand();
 
-        if (tryHarvestFlax(context, state, basket)) {
-            BasketItem.syncPlayerInventory(player);
-            return true;
+        boolean harvested = ServerConfig.basketCrops.get() && (tryHarvestFlax(context, state, basket)
+                || tryHarvestCrop(context, state, basket)
+                || tryHarvestNetherWart(context, state, basket)
+                || tryHarvestCocoa(context, state, basket)
+                || tryHarvestPlant(context, state, basket)
+                || tryHarvestSweetBerryBush(context, state, basket)
+                || tryHarvestGlowBerries(context, state, basket)
+                || tryHarvestInteractivePlant(context, state, basket))
+                || ServerConfig.basketGathering.get() && tryGatherPlant(context, state, basket);
+        if (harvested) {
+            de.artemis.floraexpansion.common.advancement.FloraActionTrigger.fire(player, "basket_harvest");
+            InventoryUtils.syncPlayerInventory(player);
         }
-
-        if (tryHarvestCrop(context, state, basket)) {
-            BasketItem.syncPlayerInventory(player);
-            return true;
-        }
-
-        if (tryHarvestNetherWart(context, state, basket)) {
-            BasketItem.syncPlayerInventory(player);
-            return true;
-        }
-
-        if (tryHarvestCocoa(context, state, basket)) {
-            BasketItem.syncPlayerInventory(player);
-            return true;
-        }
-
-        if (tryHarvestBlueberryBush(context, state, basket)) {
-            BasketItem.syncPlayerInventory(player);
-            return true;
-        }
-
-        if (tryHarvestSweetBerryBush(context, state, basket)) {
-            BasketItem.syncPlayerInventory(player);
-            return true;
-        }
-
-        if (tryHarvestGlowBerries(context, state, basket)) {
-            BasketItem.syncPlayerInventory(player);
-            return true;
-        }
-
-        if (tryHarvestFruitingLeaves(context, state, basket)) {
-            BasketItem.syncPlayerInventory(player);
-            return true;
-        }
-
-        if (tryHarvestInteractivePlant(context, state, basket)) {
-            BasketItem.syncPlayerInventory(player);
-            return true;
-        }
-
-        return false;
+        return harvested;
     }
 
     private static boolean tryHarvestFlax(UseOnContext context, BlockState state, ItemStack basket) {
-        if (!(state.getBlock() instanceof FlaxCropBlock) || context.getLevel().isClientSide()) {
+        if (!(state.getBlock() instanceof FlaxBlock) || context.getLevel().isClientSide()) {
             return false;
         }
 
-        BlockPos lowerPos = state.getValue(FlaxCropBlock.HALF) == DoubleBlockHalf.UPPER
+        BlockPos lowerPos = state.getValue(FlaxBlock.HALF) == DoubleBlockHalf.UPPER
                 ? context.getClickedPos().below()
                 : context.getClickedPos();
         BlockState lowerState = context.getLevel().getBlockState(lowerPos);
-        if (!(lowerState.getBlock() instanceof FlaxCropBlock)
-                || lowerState.getValue(FlaxCropBlock.HALF) != DoubleBlockHalf.LOWER) {
+        if (!(lowerState.getBlock() instanceof FlaxBlock)
+                || lowerState.getValue(FlaxBlock.HALF) != DoubleBlockHalf.LOWER) {
             return false;
         }
 
-        int age = lowerState.getValue(FlaxCropBlock.AGE);
+        int age = lowerState.getValue(FlaxBlock.AGE);
         if (age < 2) {
             return false;
         }
 
         List<ItemStack> drops = Block.getDrops(lowerState, (net.minecraft.server.level.ServerLevel) context.getLevel(), lowerPos, null, context.getPlayer(), ItemStack.EMPTY);
-        ((FlaxCropBlock) lowerState.getBlock()).growCropBy(context.getLevel(), lowerPos, lowerState, -age);
+        ((FlaxBlock) lowerState.getBlock()).growCropBy(context.getLevel(), lowerPos, lowerState, -age);
         context.getLevel().levelEvent(2001, lowerPos, Block.getId(lowerState));
         context.getLevel().levelEvent(2001, lowerPos.above(), Block.getId(state));
         depositOrDrop(context.getLevel(), lowerPos, basket, drops);
@@ -184,36 +155,14 @@ public final class BasketHarvestHelper {
         return true;
     }
 
-    private static boolean tryHarvestBlueberryBush(UseOnContext context, BlockState state, ItemStack basket) {
-        if (state.getBlock() instanceof SmallBlueberryBushBlock) {
-            int age = state.getValue(SmallBlueberryBushBlock.AGE);
-            if (age < 3) {
-                return false;
-            }
-
-            int amount = 1 + context.getLevel().getRandom().nextInt(2);
-            depositOrDrop(context.getLevel(), context.getClickedPos(), basket, List.of(new ItemStack(ModItems.BLUEBERRIES.get(), amount)));
-            playBerryHarvestEffects(context, state.setValue(SmallBlueberryBushBlock.AGE, 2));
-            return true;
+    private static boolean tryHarvestPlant(UseOnContext context, BlockState state, ItemStack basket) {
+        if (!(state.getBlock() instanceof HarvestableBlock plant) || !plant.canHarvest(state)) {
+            return false;
         }
-
-        if (state.getBlock() instanceof LargeBlueberryBushBlock) {
-            int age = state.getValue(LargeBlueberryBushBlock.AGE);
-            if (age < 2) {
-                return false;
-            }
-
-            int amount = 1 + context.getLevel().getRandom().nextInt(2);
-            if (age == LargeBlueberryBushBlock.MAX_AGE) {
-                amount *= 2;
-            }
-
-            depositOrDrop(context.getLevel(), context.getClickedPos(), basket, List.of(new ItemStack(ModItems.BLUEBERRIES.get(), amount)));
-            playBerryHarvestEffects(context, state.setValue(LargeBlueberryBushBlock.AGE, 1));
-            return true;
-        }
-
-        return false;
+        var drops = plant.getHarvestDrops(state, (net.minecraft.server.level.ServerLevel) context.getLevel(), context.getClickedPos(), context.getPlayer());
+        depositOrDrop(context.getLevel(), context.getClickedPos(), basket, drops);
+        playBerryHarvestEffects(context, plant.getHarvestedState(state));
+        return true;
     }
 
     private static boolean tryHarvestSweetBerryBush(UseOnContext context, BlockState state, ItemStack basket) {
@@ -255,44 +204,6 @@ public final class BasketHarvestHelper {
         return true;
     }
 
-    private static boolean tryHarvestFruitingLeaves(UseOnContext context, BlockState state, ItemStack basket) {
-        if (state.getBlock() instanceof FruitingCherryLeavesBlock) {
-            int age = state.getValue(FruitingCherryLeavesBlock.AGE);
-            if (age <= 0) {
-                return false;
-            }
-
-            int amount = switch (age) {
-                case 1 -> 1;
-                case 2 -> 2 + context.getLevel().getRandom().nextInt(2);
-                case 3 -> 3 + context.getLevel().getRandom().nextInt(2);
-                default -> 0;
-            };
-
-            if (amount <= 0) {
-                return false;
-            }
-
-            depositOrDrop(context.getLevel(), context.getClickedPos(), basket, List.of(new ItemStack(ModItems.CHERRIES.get(), amount)));
-            context.getLevel().setBlock(context.getClickedPos(), state.setValue(FruitingCherryLeavesBlock.AGE, 0), 3);
-            context.getLevel().gameEvent(GameEvent.BLOCK_CHANGE, context.getClickedPos(), GameEvent.Context.of(context.getPlayer(), state.setValue(FruitingCherryLeavesBlock.AGE, 0)));
-            return true;
-        }
-
-        if (state.getBlock() instanceof FruitingOakLeavesBlock) {
-            if (state.getValue(FruitingOakLeavesBlock.AGE) < FruitingOakLeavesBlock.MAX_AGE) {
-                return false;
-            }
-
-            depositOrDrop(context.getLevel(), context.getClickedPos(), basket, List.of(new ItemStack(Items.APPLE)));
-            context.getLevel().setBlock(context.getClickedPos(), state.setValue(FruitingOakLeavesBlock.AGE, 0), 3);
-            context.getLevel().gameEvent(GameEvent.BLOCK_CHANGE, context.getClickedPos(), GameEvent.Context.of(context.getPlayer(), state.setValue(FruitingOakLeavesBlock.AGE, 0)));
-            return true;
-        }
-
-        return false;
-    }
-
     private static boolean tryHarvestInteractivePlant(UseOnContext context, BlockState state, ItemStack basket) {
         if (!isLikelyInteractivePlant(state)) {
             return false;
@@ -318,6 +229,47 @@ public final class BasketHarvestHelper {
         return true;
     }
 
+    public static boolean canGather(BlockState state) {
+        return state.is(ModTags.Blocks.BASKET_GATHERABLE) && !state.hasBlockEntity()
+                && !(state.getBlock() instanceof HarvestableBlock)
+                && !(state.getBlock() instanceof CropBlock)
+                && !(state.getBlock() instanceof FlaxBlock)
+                && !(state.getBlock() instanceof NetherWartBlock)
+                && !(state.getBlock() instanceof CocoaBlock)
+                && !(state.getBlock() instanceof net.minecraft.world.level.block.SweetBerryBushBlock);
+    }
+
+    private static boolean tryGatherPlant(UseOnContext context, BlockState state, ItemStack basket) {
+        if (!canGather(state)) return false;
+        var level = (net.minecraft.server.level.ServerLevel) context.getLevel();
+        BlockPos pos = context.getClickedPos();
+        if (state.hasProperty(BlockStateProperties.DOUBLE_BLOCK_HALF)
+                && state.getValue(BlockStateProperties.DOUBLE_BLOCK_HALF) == DoubleBlockHalf.UPPER) {
+            pos = pos.below();
+            BlockState lower = level.getBlockState(pos);
+            if (!lower.is(state.getBlock()) || !canGather(lower)) return false;
+            state = lower;
+        }
+        if (!canBreakForGathering(context, pos, state)) return false;
+        if (state.hasProperty(BlockStateProperties.DOUBLE_BLOCK_HALF)) {
+            var upper = level.getBlockState(pos.above());
+            if (upper.is(state.getBlock()) && !canBreakForGathering(context, pos.above(), upper)) return false;
+        }
+
+        var drops = Block.getDrops(state, level, pos, null, context.getPlayer(), basket);
+        if (!level.destroyBlock(pos, false, context.getPlayer())) return false;
+        depositOrDrop(level, pos, basket, drops);
+        return true;
+    }
+
+    private static boolean canBreakForGathering(UseOnContext context, BlockPos pos, BlockState state) {
+        Player player = context.getPlayer();
+        var level = context.getLevel();
+        return player != null && !player.isSpectator() && level.mayInteract(player, pos)
+                && (player.mayBuild() || context.getItemInHand().canBreakBlockInAdventureMode(new BlockInWorld(level, pos, false)))
+                && !NeoForge.EVENT_BUS.post(new BreakBlockEvent(level, pos, state, player)).isCanceled();
+    }
+
     private static void playBerryHarvestEffects(UseOnContext context, BlockState resetState) {
         context.getLevel().playSound(null, context.getClickedPos(), SoundEvents.SWEET_BERRY_BUSH_PICK_BERRIES, SoundSource.BLOCKS, 1.0F, 0.8F + context.getLevel().getRandom().nextFloat() * 0.4F);
         context.getLevel().setBlock(context.getClickedPos(), resetState, 3);
@@ -331,7 +283,8 @@ public final class BasketHarvestHelper {
     }
 
     private static boolean isLikelyInteractivePlant(BlockState state) {
-        return state.getBlock() instanceof BushBlock
+        return canGather(state)
+                || state.getBlock() instanceof BushBlock
                 || state.getBlock() instanceof GrowingPlantHeadBlock
                 || state.getBlock() instanceof GrowingPlantBodyBlock;
     }

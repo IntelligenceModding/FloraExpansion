@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    "floraexpansion:needle_litter"
+  ],
+  "result": {
+    "id": "floraexpansion:spruce_cone"
+  }
+}

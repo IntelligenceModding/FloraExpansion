@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "C": "minecraft:cobblestone",
+    "P": "minecraft:stone_slab"
+  },
+  "pattern": [
+    "PPP",
+    "CCC"
+  ],
+  "result": {
+    "id": "floraexpansion:hand_mill"
+  }
+}

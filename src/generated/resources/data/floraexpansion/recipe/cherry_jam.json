@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    "floraexpansion:cherries",
+    "floraexpansion:cherries",
+    "floraexpansion:cherries",
+    "floraexpansion:cherries",
+    "minecraft:sugar",
+    "floraexpansion:glass_jar"
+  ],
+  "result": {
+    "id": "floraexpansion:cherry_jam"
+  }
+}

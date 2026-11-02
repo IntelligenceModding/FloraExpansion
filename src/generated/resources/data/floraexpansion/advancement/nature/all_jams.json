@@ -1,0 +1,72 @@
+{
+  "parent": "floraexpansion:nature/jam",
+  "criteria": {
+    "apple_jam": {
+      "conditions": {
+        "items": [
+          {
+            "items": "floraexpansion:apple_jam"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "blueberry_jam": {
+      "conditions": {
+        "items": [
+          {
+            "items": "floraexpansion:blueberry_jam"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "cherry_jam": {
+      "conditions": {
+        "items": [
+          {
+            "items": "floraexpansion:cherry_jam"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "strawberry_jam": {
+      "conditions": {
+        "items": [
+          {
+            "items": "floraexpansion:strawberry_jam"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.floraexpansion.all_jams.description"
+    },
+    "frame": "goal",
+    "icon": {
+      "id": "floraexpansion:strawberry_jam"
+    },
+    "title": {
+      "translate": "advancements.floraexpansion.all_jams.title"
+    }
+  },
+  "requirements": [
+    [
+      "blueberry_jam"
+    ],
+    [
+      "strawberry_jam"
+    ],
+    [
+      "cherry_jam"
+    ],
+    [
+      "apple_jam"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

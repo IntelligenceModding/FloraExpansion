@@ -1,0 +1,10 @@
+{
+  "type": "minecraft:campfire_cooking",
+  "category": "food",
+  "cookingtime": 150,
+  "experience": 0.1,
+  "ingredient": "floraexpansion:spruce_nuts",
+  "result": {
+    "id": "floraexpansion:toasted_spruce_nuts"
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "type": "floraexpansion:grinding",
+  "ingredient": "minecraft:beetroot",
+  "result": {
+    "count": 2,
+    "id": "minecraft:red_dye"
+  },
+  "show_notification": false
+}

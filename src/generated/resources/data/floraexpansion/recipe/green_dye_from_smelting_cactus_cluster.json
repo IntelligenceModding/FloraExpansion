@@ -1,8 +1,0 @@
-{
-  "type": "minecraft:smelting",
-  "experience": 0.2,
-  "ingredient": "floraexpansion:cactus_cluster",
-  "result": {
-    "id": "minecraft:green_dye"
-  }
-}

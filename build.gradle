@@ -1,7 +1,7 @@
 plugins {
     id 'java-library'
     id 'maven-publish'
-    id 'net.neoforged.moddev' version '2.0.144'
+    id 'net.neoforged.moddev' version '2.0.148'
     id 'idea'
 }
 
@@ -9,7 +9,7 @@ tasks.named('wrapper', Wrapper).configure {
     distributionType = Wrapper.DistributionType.BIN
 }
 
-version = minecraft_version + "-" + mod_version
+version = "${mod_version}-neoforge-mc${minecraft_version}"
 group = mod_group_id
 
 repositories {
@@ -38,7 +38,32 @@ neoForge {
     runs {
         client {
             client()
+            if (project.providers.gradleProperty('brineSpringSmokeTest').isPresent()) {
+                gameDirectory = file('build/brine-spring-client')
+                systemProperty 'floraexpansion.brineSpringSmokeTest', 'true'
+                systemProperty 'floraexpansion.brineSpringSeed', providers.gradleProperty('brineSpringSeed').getOrElse('12345')
+            }
+            if (project.providers.gradleProperty('saltCaveSmokeTest').isPresent()) {
+                gameDirectory = file('build/salt-cave-client')
+                systemProperty 'floraexpansion.saltCaveSmokeTest', 'true'
+            }
+            if (project.providers.gradleProperty('saltWaterSmokeTest').isPresent()) {
+                gameDirectory = file('build/salt-water-client')
+                systemProperty 'floraexpansion.saltWaterSmokeTest', 'true'
+            }
+            if (project.providers.gradleProperty('saltSpikeSmokeTest').isPresent()) {
+                gameDirectory = file('build/salt-spike-client')
+                systemProperty 'floraexpansion.saltSpikeSmokeTest', 'true'
+            }
+            if (project.providers.gradleProperty('saltingTubSmokeTest').isPresent()) {
+                gameDirectory = file('build/salting-tub-client')
+                systemProperty 'floraexpansion.saltingTubSmokeTest', 'true'
+            }
             systemProperty 'neoforge.enabledGameTestNamespaces', project.mod_id
+            if (providers.gradleProperty('clientSmokeTest').isPresent()) {
+                gameDirectory = file('build/port-client')
+                systemProperty 'floraexpansion.clientSmokeTest', 'true'
+            }
         }
 
         server {
@@ -61,6 +86,9 @@ neoForge {
         }
 
         configureEach {
+            if (project.providers.gradleProperty('customizationOverrides').isPresent()) {
+                systemProperty 'floraexpansion.customizationOverrides', 'true'
+            }
             systemProperty 'forge.logging.markers', 'REGISTRIES'
             systemProperty 'terminal.jline', 'false'
             logLevel = org.slf4j.event.Level.DEBUG
@@ -74,7 +102,16 @@ neoForge {
     }
 }
 
-sourceSets.main.resources { srcDir 'src/generated/resources' }
+sourceSets.main.resources {
+    srcDir 'src/generated/resources'
+    exclude '.cache/**'
+}
+
+// Opt-in server regression suite; excluded from normal release builds.
+if (providers.gradleProperty('portTests').isPresent()) {
+    sourceSets.main.java.srcDir 'src/gametest/java'
+    sourceSets.main.resources.srcDir 'src/gametest/resources'
+}
 
 configurations {
     runtimeClasspath.extendsFrom localRuntime
@@ -82,12 +119,14 @@ configurations {
 
 dependencies {
     compileOnly("mezz.jei:jei-${minecraft_version}-neoforge-api:${jei_version}")
-    runtimeOnly("mezz.jei:jei-${minecraft_version}-neoforge:${jei_version}")
-
-    runtimeOnly("squeek.appleskin:appleskin-neoforge:${appleskin_version}")
+    if (!providers.gradleProperty('withoutOptionalMods').isPresent()) {
+        localRuntime("mezz.jei:jei-${minecraft_version}-neoforge:${jei_version}")
+        localRuntime("squeek.appleskin:appleskin-neoforge:${appleskin_version}")
+    }
 }
 
 tasks.named('processResources', ProcessResources).configure {
+    includeEmptyDirs = false
     var replaceProperties = [
             minecraft_version      : minecraft_version,
             minecraft_version_range: minecraft_version_range,
@@ -122,6 +161,10 @@ publishing {
     }
 }
 
+tasks.named('jar', Jar).configure {
+    from('LICENSE')
+}
+
 tasks.withType(JavaCompile).configureEach {
     options.encoding = 'UTF-8'
 }
@@ -133,8 +176,10 @@ idea {
     }
 }
 
+def mainCompileClasspath = sourceSets.main.compileClasspath
 tasks.register('printCompileClasspath') {
+    inputs.files(mainCompileClasspath)
     doLast {
-        project.sourceSets.main.compileClasspath.files.each { println it.absolutePath }
+        mainCompileClasspath.files.each { println it.absolutePath }
     }
 }

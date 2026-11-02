@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    "floraexpansion:giant_cactus_shoot"
+  ],
+  "result": {
+    "id": "minecraft:pink_dye"
+  }
+}

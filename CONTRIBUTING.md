@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://raw.githubusercontent.com/IntelligenceModding/FloraExpansion/refs/heads/assets/Version%200.4%20Berries%20%26%20Barrels.png" alt="Flora Expansion" width="900">
+  <img src="https://raw.githubusercontent.com/IntelligenceModding/FloraExpansion/refs/heads/assets/Salty%20Springs%20Title.png" alt="Flora Expansion — Salty Springs" width="900">
 </p>
 
 <h1 align="center">Contributing to Flora Expansion</h1>
@@ -232,6 +232,26 @@ Running the development client is strongly recommended for changes that affect g
 
 Changes should be tested before being submitted.
 
+The 26.2 branch includes an opt-in gameplay regression suite:
+
+```bat
+gradlew.bat runGameTestServer -PportTests
+```
+
+It checks block states, crop growth and harvests, loot conditions and counts, storage, wooden buckets, fuels and composting, signs, pots, cactus stripping, entities, creative tabs, and feature placement. CI runs this suite with Java 25.
+
+To test client resource loading, all block and item models, a fresh world join, and optional integrations, run:
+
+```bat
+gradlew.bat runClient -PportTests -PclientSmokeTest
+```
+
+This creates a test world under `build/port-client` and closes the client after the checks pass. The test sources in `src/gametest/java` are excluded from normal builds. Regenerate resources with `gradlew.bat runClientData`, then build the release with `gradlew.bat build` without test properties. On Linux or macOS, use `./gradlew` instead of `gradlew.bat`.
+
+Release jars follow `floraexpansion-<mod_version>-neoforge-mc26.2.jar`, matching Laboratoryblocks' naming convention.
+
+Add `-PwithoutOptionalMods` to either test command to verify operation without JEI and AppleSkin.
+
 There is currently no expectation that every contribution includes automated tests. For most Flora Expansion changes, practical in-game testing is more useful.
 
 At minimum:
@@ -245,7 +265,7 @@ At minimum:
 
 For visual changes, check the result in-game rather than relying only on models or textures viewed outside Minecraft.
 
-For changes affecting plants, crops, fruiting leaves, litter, pebbles, crates, baskets, wooden buckets, foods, cactus content, or other blocks and items, make sure placement, growth, harvesting, interactions, storage, crafting, and other supported behavior continue to work correctly where applicable.
+For changes affecting plants, crops, fruit leaves, litter, pebbles, crates, baskets, wooden buckets, foods, cactus content, or other blocks and items, make sure placement, growth, harvesting, interactions, storage, crafting, and other supported behavior continue to work correctly where applicable.
 
 For changes affecting naturally generated plants, trees, cactus features, or other world-generation content, test the result in newly generated chunks and in the relevant biomes.
 

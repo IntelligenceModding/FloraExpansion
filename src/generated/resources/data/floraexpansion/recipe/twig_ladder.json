@@ -1,7 +1,7 @@
 {
   "type": "minecraft:crafting_shaped",
   "key": {
-    "A": "floraexpansion:linen_thread",
+    "A": "#floraexpansion:linen_threads",
     "B": "floraexpansion:twig"
   },
   "pattern": [

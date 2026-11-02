@@ -1,0 +1,141 @@
+{
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "conditions": [
+        {
+          "block": "floraexpansion:scattered_pebbles",
+          "condition": "minecraft:block_state_property",
+          "properties": {
+            "pebble_amount": "1"
+          }
+        }
+      ],
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "functions": [
+            {
+              "count": 1.0,
+              "function": "minecraft:set_count"
+            },
+            {
+              "function": "minecraft:explosion_decay"
+            }
+          ],
+          "name": "floraexpansion:pebbles"
+        }
+      ],
+      "rolls": 1.0
+    },
+    {
+      "conditions": [
+        {
+          "block": "floraexpansion:scattered_pebbles",
+          "condition": "minecraft:block_state_property",
+          "properties": {
+            "pebble_amount": "2"
+          }
+        }
+      ],
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "functions": [
+            {
+              "count": 2.0,
+              "function": "minecraft:set_count"
+            },
+            {
+              "function": "minecraft:explosion_decay"
+            }
+          ],
+          "name": "floraexpansion:pebbles"
+        }
+      ],
+      "rolls": 1.0
+    },
+    {
+      "conditions": [
+        {
+          "block": "floraexpansion:scattered_pebbles",
+          "condition": "minecraft:block_state_property",
+          "properties": {
+            "pebble_amount": "3"
+          }
+        }
+      ],
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "functions": [
+            {
+              "count": 3.0,
+              "function": "minecraft:set_count"
+            },
+            {
+              "function": "minecraft:explosion_decay"
+            }
+          ],
+          "name": "floraexpansion:pebbles"
+        }
+      ],
+      "rolls": 1.0
+    },
+    {
+      "conditions": [
+        {
+          "block": "floraexpansion:scattered_pebbles",
+          "condition": "minecraft:block_state_property",
+          "properties": {
+            "pebble_amount": "4"
+          }
+        }
+      ],
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "functions": [
+            {
+              "count": 4.0,
+              "function": "minecraft:set_count"
+            },
+            {
+              "function": "minecraft:explosion_decay"
+            }
+          ],
+          "name": "floraexpansion:pebbles"
+        }
+      ],
+      "rolls": 1.0
+    },
+    {
+      "conditions": [
+        {
+          "block": "floraexpansion:scattered_pebbles",
+          "condition": "minecraft:block_state_property",
+          "properties": {
+            "pebble_amount": "5"
+          }
+        }
+      ],
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "functions": [
+            {
+              "count": 5.0,
+              "function": "minecraft:set_count"
+            },
+            {
+              "function": "minecraft:explosion_decay"
+            }
+          ],
+          "name": "floraexpansion:pebbles"
+        }
+      ],
+      "rolls": 1.0
+    }
+  ],
+  "random_sequence": "floraexpansion:blocks/scattered_pebbles"
+}

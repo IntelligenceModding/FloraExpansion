@@ -1,0 +1,10 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    "floraexpansion:spruce_cone"
+  ],
+  "result": {
+    "count": 2,
+    "id": "floraexpansion:spruce_nuts"
+  }
+}

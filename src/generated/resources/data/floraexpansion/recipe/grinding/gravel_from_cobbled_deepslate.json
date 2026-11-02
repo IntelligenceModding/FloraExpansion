@@ -1,0 +1,9 @@
+{
+  "type": "floraexpansion:grinding",
+  "ingredient": "minecraft:cobbled_deepslate",
+  "result": {
+    "id": "minecraft:gravel"
+  },
+  "show_notification": false,
+  "turns": 8
+}

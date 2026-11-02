@@ -21,6 +21,7 @@ import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
+import de.artemis.floraexpansion.common.config.ServerConfig;
 
 public class WoodenBucketItem extends BucketItem {
     public WoodenBucketItem(Fluid content, Properties properties) {
@@ -36,7 +37,7 @@ public class WoodenBucketItem extends BucketItem {
                 this.content == Fluids.EMPTY ? ClipContext.Fluid.SOURCE_ONLY : ClipContext.Fluid.NONE
         );
 
-        if (hitResult.getType() == HitResult.Type.MISS || hitResult.getType() != HitResult.Type.BLOCK) {
+        if (hitResult.getType() != HitResult.Type.BLOCK) {
             return InteractionResult.PASS;
         }
 
@@ -49,6 +50,7 @@ public class WoodenBucketItem extends BucketItem {
 
         if (this.content == Fluids.EMPTY) {
             BlockState blockState = level.getBlockState(blockPos);
+            if (blockState.getFluidState().is(net.minecraft.tags.FluidTags.LAVA) && !ServerConfig.lavaEnabled.get()) return InteractionResult.FAIL;
             if (blockState.getBlock() instanceof BucketPickup bucketPickup) {
                 ItemStack pickedUpStack = bucketPickup.pickupBlock(player, level, blockPos, blockState);
                 if (!pickedUpStack.isEmpty() && WoodenBucketUtil.isSupportedFluidBucket(pickedUpStack)) {
@@ -70,21 +72,13 @@ public class WoodenBucketItem extends BucketItem {
 
         BlockState blockState = level.getBlockState(blockPos);
         BlockPos placePos = canBlockContainFluid(player, level, blockPos, blockState) ? blockPos : relativePos;
-        if (!this.emptyContents(player, level, placePos, hitResult, itemStack)) {
-            return InteractionResult.FAIL;
-        }
-
-        this.checkExtraContent(player, level, itemStack, placePos);
-        if (!level.isClientSide() && player instanceof ServerPlayer serverPlayer) {
-            CriteriaTriggers.PLACED_BLOCK.trigger(serverPlayer, placePos, itemStack);
-        }
-
-        player.awardStat(Stats.ITEM_USED.get(this));
-        ItemStack emptiedResult = WoodenBucketUtil.damageInto(itemStack, player, ModItems.WOODEN_BUCKET.get());
-        return InteractionResult.SUCCESS.heldItemTransformedTo(emptiedResult);
+        return WoodenBucketUtil.emptyContents(this, level, player, itemStack, placePos, hitResult);
     }
 
     private ItemStack getFilledPickupResult(ItemStack sourceStack, Player player, Level level, ItemStack pickedUpStack) {
+        if (pickedUpStack.is(ModItems.SALT_WATER_BUCKET.get())) {
+            return WoodenBucketUtil.transformInto(sourceStack, player, ModItems.WOODEN_SALT_WATER_BUCKET.get());
+        }
         if (pickedUpStack.is(Items.WATER_BUCKET)) {
             return WoodenBucketUtil.transformInto(sourceStack, player, ModItems.WOODEN_WATER_BUCKET.get());
         }

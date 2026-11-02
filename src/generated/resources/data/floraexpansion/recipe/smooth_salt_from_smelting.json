@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:smelting",
+  "category": "blocks",
+  "experience": 0.1,
+  "ingredient": "floraexpansion:crystalline_salt",
+  "result": {
+    "id": "floraexpansion:smooth_salt"
+  }
+}

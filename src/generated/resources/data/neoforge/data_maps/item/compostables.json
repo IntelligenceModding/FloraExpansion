@@ -3,6 +3,12 @@
     "floraexpansion:apple_core": {
       "chance": 0.3
     },
+    "floraexpansion:apple_jam": {
+      "chance": 0.65
+    },
+    "floraexpansion:apple_leaves": {
+      "chance": 0.5
+    },
     "floraexpansion:blueberries": {
       "chance": 0.3
     },
@@ -15,17 +21,14 @@
     "floraexpansion:blueberry_pie": {
       "chance": 1.0
     },
-    "floraexpansion:blueberry_pie_slice": {
-      "chance": 0.85
-    },
-    "floraexpansion:cactus_cluster": {
-      "chance": 0.5
-    },
     "floraexpansion:cactus_slice": {
       "chance": 0.5
     },
     "floraexpansion:cherries": {
       "chance": 0.3
+    },
+    "floraexpansion:cherry_jam": {
+      "chance": 0.65
     },
     "floraexpansion:cherry_pit": {
       "chance": 0.3
@@ -42,40 +45,46 @@
     "floraexpansion:flax_flower": {
       "chance": 0.65
     },
-    "floraexpansion:flax_seed": {
+    "floraexpansion:flax_seeds": {
       "chance": 0.3
     },
-    "floraexpansion:fruiting_cherry_leaves": {
-      "chance": 0.5
+    "floraexpansion:flowering_desert_moss": {
+      "chance": 0.3
     },
-    "floraexpansion:fruiting_oak_leaves": {
-      "chance": 0.5
-    },
-    "floraexpansion:giant_cactus_blossom": {
+    "floraexpansion:giant_cactus_shoot": {
       "chance": 0.65
+    },
+    "floraexpansion:glasswort": {
+      "chance": 0.5
     },
     "floraexpansion:large_blueberry_bush": {
       "chance": 0.65
     },
-    "floraexpansion:pine_cone": {
+    "floraexpansion:needle_litter": {
       "chance": 0.3
     },
-    "floraexpansion:pine_litter": {
-      "chance": 0.3
-    },
-    "floraexpansion:pine_nuts": {
-      "chance": 0.3
+    "floraexpansion:orchard_cherry_leaves": {
+      "chance": 0.5
     },
     "floraexpansion:prickly_pear": {
       "chance": 0.5
     },
-    "floraexpansion:strawberry": {
+    "floraexpansion:slice_of_blueberry_pie": {
+      "chance": 0.85
+    },
+    "floraexpansion:small_cactus": {
+      "chance": 0.5
+    },
+    "floraexpansion:spruce_cone": {
       "chance": 0.3
     },
-    "floraexpansion:strawberry_jam": {
+    "floraexpansion:spruce_nuts": {
+      "chance": 0.3
+    },
+    "floraexpansion:strawberry": {
       "chance": 0.65
     },
-    "floraexpansion:toasted_pine_nuts": {
+    "floraexpansion:toasted_spruce_nuts": {
       "chance": 0.3
     }
   }

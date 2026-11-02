@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_raw_salt": {
+      "conditions": {
+        "items": [
+          {
+            "items": "floraexpansion:raw_salt"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "floraexpansion:hand_mill"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_raw_salt"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "floraexpansion:hand_mill"
+    ]
+  }
+}

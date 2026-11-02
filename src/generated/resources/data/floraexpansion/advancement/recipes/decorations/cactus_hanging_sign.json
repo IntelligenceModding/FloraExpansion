@@ -1,11 +1,11 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_stripped_giant_cactus_base": {
+    "has_stripped_cactus_log": {
       "conditions": {
         "items": [
           {
-            "items": "floraexpansion:stripped_giant_cactus_base"
+            "items": "floraexpansion:stripped_cactus_log"
           }
         ]
       },
@@ -21,7 +21,7 @@
   "requirements": [
     [
       "has_the_recipe",
-      "has_stripped_giant_cactus_base"
+      "has_stripped_cactus_log"
     ]
   ],
   "rewards": {

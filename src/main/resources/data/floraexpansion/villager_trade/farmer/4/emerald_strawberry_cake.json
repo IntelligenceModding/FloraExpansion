@@ -1,0 +1,7 @@
+{
+  "gives": {"id": "floraexpansion:strawberry_cake", "count": 1},
+  "max_uses": 12,
+  "reputation_discount": 0.05,
+  "wants": {"id": "minecraft:emerald", "count": 3},
+  "xp": 15
+}

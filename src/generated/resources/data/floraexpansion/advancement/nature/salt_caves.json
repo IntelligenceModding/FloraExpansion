@@ -1,0 +1,38 @@
+{
+  "parent": "floraexpansion:nature/raw_salt",
+  "criteria": {
+    "explore": {
+      "conditions": {
+        "player": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "minecraft:location": {
+                "biomes": "floraexpansion:salt_caves"
+              }
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:location"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.floraexpansion.salt_caves.description"
+    },
+    "icon": {
+      "id": "floraexpansion:crystalline_salt"
+    },
+    "title": {
+      "translate": "advancements.floraexpansion.salt_caves.title"
+    }
+  },
+  "requirements": [
+    [
+      "explore"
+    ]
+  ],
+  "sends_telemetry_event": true
+}
