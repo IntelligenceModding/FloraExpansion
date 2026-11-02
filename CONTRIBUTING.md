@@ -89,7 +89,7 @@ You can view the available branches [here][branches].
 
 When contributing, always work against the branch matching the Minecraft version and loader your change targets.
 
-For example, a change developed for Minecraft 26.1.2 with NeoForge should target the corresponding 26.1.2 NeoForge branch.
+For example, a change developed for Minecraft 26.1.1 with NeoForge should target the corresponding 26.1.1 NeoForge branch.
 
 Do **not** target the `assets` branch for code changes. The `assets` branch is used for project images and other repository assets.
 
@@ -117,7 +117,7 @@ Check the following line in the branch's `build.gradle` file if you are unsure:
 java.toolchain.languageVersion = JavaLanguageVersion.of(...)
 ```
 
-For example, the Minecraft 26.1.2 NeoForge branch uses Java 25.
+For example, the Minecraft 26.1.1 NeoForge branch uses Java 25.
 
 Java builds such as Eclipse Temurin can be downloaded from [Adoptium][adoptium].
 
@@ -149,7 +149,7 @@ Before beginning work, switch to the branch matching the Minecraft version you w
 For example:
 
 ```bash
-git switch 26.1.2-neoforge
+git switch 26.1.1-neoforge
 ```
 
 It is recommended to create your own development branch from there.
@@ -232,7 +232,7 @@ Running the development client is strongly recommended for changes that affect g
 
 Changes should be tested before being submitted.
 
-The 26.1.2 branch includes an opt-in gameplay regression suite:
+The 26.1.1 branch includes an opt-in gameplay regression suite:
 
 ```bat
 gradlew.bat runGameTestServer -PportTests
@@ -248,7 +248,7 @@ gradlew.bat runClient -PportTests -PclientSmokeTest
 
 This creates a test world under `build/port-client` and closes the client after the checks pass. The test sources in `src/gametest/java` are excluded from normal builds. Regenerate resources with `gradlew.bat runClientData`, then build the release with `gradlew.bat build` without test properties. On Linux or macOS, use `./gradlew` instead of `gradlew.bat`.
 
-Release jars follow `floraexpansion-<mod_version>-neoforge-mc26.1.2.jar`, matching Laboratoryblocks' naming convention.
+Release jars follow `floraexpansion-<mod_version>-neoforge-mc26.1.1.jar`, matching Laboratoryblocks' naming convention.
 
 Add `-PwithoutOptionalMods` to either test command to verify operation without JEI and AppleSkin.
 
