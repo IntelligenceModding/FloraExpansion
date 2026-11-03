@@ -1,5 +1,7 @@
 package de.artemis.floraexpansion.common.item;
 
+import org.jetbrains.annotations.NotNull;
+
 import de.artemis.floraexpansion.common.block.CrateBlock;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.component.DataComponents;
@@ -10,9 +12,10 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.component.ItemContainerContents;
+
 import net.minecraft.world.level.block.Block;
 
-import java.util.List;
+import de.artemis.floraexpansion.common.config.ClientConfig;
 
 public class CrateBlockItem extends BlockItem {
     public CrateBlockItem(Block block, Item.Properties properties) {
@@ -20,18 +23,10 @@ public class CrateBlockItem extends BlockItem {
     }
 
     @Override
-    public void verifyComponentsAfterLoad(ItemStack stack) {
-        super.verifyComponentsAfterLoad(stack);
-
-        if (CrateBlock.isPackedItem(stack) && !stack.has(DataComponents.CUSTOM_MODEL_DATA)) {
-            CrateBlock.setPackedItem(stack, true);
-        }
-    }
-
-    @Override
-    public void appendHoverText(ItemStack stack, Item.TooltipContext context, List<Component> tooltipComponents, TooltipFlag tooltipFlag) {
+    public void appendHoverText(@NotNull ItemStack stack, @NotNull Item.TooltipContext context, @NotNull java.util.List<Component> tooltipComponents, @NotNull TooltipFlag tooltipFlag) {
         super.appendHoverText(stack, context, tooltipComponents, tooltipFlag);
 
+        if (ClientConfig.hints()) tooltipComponents.add(Component.translatable("tooltip.floraexpansion.crate_controls").withStyle(ChatFormatting.GRAY));
         if (!CrateBlock.isPackedItem(stack)) {
             return;
         }
@@ -40,7 +35,7 @@ public class CrateBlockItem extends BlockItem {
         ItemStack storedType = ItemStack.EMPTY;
         int totalCount = 0;
 
-        for (ItemStack contentStack : contents.nonEmptyItems()) {
+        for (ItemStack contentStack : contents.nonEmptyStream().toList()) {
             if (storedType.isEmpty()) {
                 storedType = contentStack.copyWithCount(1);
             }
@@ -49,6 +44,10 @@ public class CrateBlockItem extends BlockItem {
         }
 
         if (!storedType.isEmpty() && totalCount > 0) {
+            if (ClientConfig.expanded(tooltipFlag)) {
+                int capacity = de.artemis.floraexpansion.common.block.entity.CrateBlockEntity.CONTAINER_SIZE * storedType.getMaxStackSize();
+                tooltipComponents.add(Component.translatable("tooltip.floraexpansion.crate_capacity", totalCount, capacity).withStyle(ChatFormatting.GRAY));
+            }
             MutableComponent storedName = Component.empty().append(storedType.getHoverName()).withStyle(storedType.getRarity().color());
             if (storedType.has(DataComponents.CUSTOM_NAME)) {
                 storedName.withStyle(ChatFormatting.ITALIC);

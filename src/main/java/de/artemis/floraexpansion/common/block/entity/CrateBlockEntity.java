@@ -3,16 +3,21 @@ package de.artemis.floraexpansion.common.block.entity;
 import de.artemis.floraexpansion.common.block.CrateBlock;
 import de.artemis.floraexpansion.common.inventory.CrateMenu;
 import de.artemis.floraexpansion.common.registry.ModBlockEntities;
+import de.artemis.floraexpansion.common.registry.ModTags;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.NonNullList;
+
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.ContainerHelper;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.component.ItemContainerContents;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.RandomizableContainerBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
@@ -20,9 +25,9 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.UUID;
+import de.artemis.floraexpansion.common.config.ServerConfig;
 
 public class CrateBlockEntity extends RandomizableContainerBlockEntity {
-    private static final long BULK_INSERT_WINDOW_TICKS = 8L;
     public static final int CONTAINER_SIZE = CrateMenu.CONTAINER_SLOT_COUNT;
 
     private NonNullList<ItemStack> items = NonNullList.withSize(CONTAINER_SIZE, ItemStack.EMPTY);
@@ -35,20 +40,16 @@ public class CrateBlockEntity extends RandomizableContainerBlockEntity {
     }
 
     @Override
-    protected void saveAdditional(@NotNull CompoundTag tag, @NotNull HolderLookup.Provider registries) {
-        super.saveAdditional(tag, registries);
-        if (!this.trySaveLootTable(tag)) {
-            ContainerHelper.saveAllItems(tag, this.items, registries);
-        }
+    protected void saveAdditional(@NotNull net.minecraft.nbt.CompoundTag output, @NotNull net.minecraft.core.HolderLookup.Provider registries) {
+        super.saveAdditional(output, registries);
+        ContainerHelper.saveAllItems(output, this.items, registries);
     }
 
     @Override
-    protected void loadAdditional(@NotNull CompoundTag tag, @NotNull HolderLookup.Provider registries) {
-        super.loadAdditional(tag, registries);
+    protected void loadAdditional(@NotNull net.minecraft.nbt.CompoundTag input, @NotNull net.minecraft.core.HolderLookup.Provider registries) {
+        super.loadAdditional(input, registries);
         this.items = NonNullList.withSize(this.getContainerSize(), ItemStack.EMPTY);
-        if (!this.tryLoadLootTable(tag)) {
-            ContainerHelper.loadAllItems(tag, this.items, registries);
-        }
+        ContainerHelper.loadAllItems(input, this.items, registries);
     }
 
     @Override
@@ -57,12 +58,7 @@ public class CrateBlockEntity extends RandomizableContainerBlockEntity {
     }
 
     public int insertItem(@NotNull ItemStack stack) {
-        if (stack.isEmpty() || this.isStorageLocked()) {
-            return 0;
-        }
-
-        ItemStack storedType = this.getStoredType();
-        if (!storedType.isEmpty() && !ItemStack.isSameItemSameComponents(storedType, stack)) {
+        if (!this.canPlaceItem(0, stack)) {
             return 0;
         }
 
@@ -181,7 +177,7 @@ public class CrateBlockEntity extends RandomizableContainerBlockEntity {
             return false;
         }
 
-        if (gameTime - this.lastInsertGameTime > BULK_INSERT_WINDOW_TICKS) {
+        if (!ServerConfig.crateBulk.get() || gameTime - this.lastInsertGameTime > ServerConfig.crateDoubleClickTicks.get()) {
             return false;
         }
 
@@ -210,7 +206,7 @@ public class CrateBlockEntity extends RandomizableContainerBlockEntity {
 
     @Override
     public boolean canPlaceItem(int slot, @NotNull ItemStack stack) {
-        if (stack.isEmpty() || this.isStorageLocked()) {
+        if (!stack.is(ModTags.Items.CRATE_STORABLE) || this.isStorageLocked()) {
             return false;
         }
 
@@ -219,24 +215,32 @@ public class CrateBlockEntity extends RandomizableContainerBlockEntity {
     }
 
     @Override
-    public boolean canTakeItem(net.minecraft.world.Container target, int slot, @NotNull ItemStack stack) {
+    public boolean canTakeItem(@NotNull net.minecraft.world.Container target, int slot, @NotNull ItemStack stack) {
         return !this.isStorageLocked();
     }
 
     @Override
-    public boolean canOpen(net.minecraft.world.entity.player.Player player) {
+    public boolean canOpen(@NotNull net.minecraft.world.entity.player.Player player) {
         return !this.isStorageLocked() && super.canOpen(player);
     }
 
     @Override
-    public boolean stillValid(net.minecraft.world.entity.player.Player player) {
+    public boolean stillValid(@NotNull net.minecraft.world.entity.player.Player player) {
         return !this.isStorageLocked() && super.stillValid(player);
     }
 
     @Override
     public void setItem(int slot, @NotNull ItemStack stack) {
+        this.setItem(slot, stack, false);
+    }
+
+    public void setItem(int slot, @NotNull ItemStack stack, boolean insideTransaction) {
         if (!stack.isEmpty() && !this.canPlaceItem(slot, stack)) {
-            return;
+            ItemStack previous = this.items.get(slot);
+            if (this.isStorageLocked() || !ItemStack.isSameItemSameComponents(previous, stack)
+                    || stack.getCount() > previous.getCount()) {
+                return;
+            }
         }
 
         super.setItem(slot, stack);
@@ -264,6 +268,28 @@ public class CrateBlockEntity extends RandomizableContainerBlockEntity {
     @Override
     public @NotNull CompoundTag getUpdateTag(@NotNull HolderLookup.Provider registries) {
         return this.saveWithoutMetadata(registries);
+    }
+
+    public void saveToItem(@NotNull ItemStack stack, @NotNull HolderLookup.Provider registries) {
+        net.minecraft.nbt.CompoundTag output = new net.minecraft.nbt.CompoundTag();
+        this.saveAdditional(output, registries);
+        this.removeComponentsFromTag(output);
+        BlockItem.setBlockEntityData(stack, ModBlockEntities.CRATE.get(), output);
+        stack.applyComponents(this.collectComponents());
+    }
+
+    @Override
+    protected void applyImplicitComponents(@NotNull net.minecraft.world.level.block.entity.BlockEntity.DataComponentInput components) {
+        // Pre-0.4.2 packed crates stored Items inside BLOCK_ENTITY_DATA. Placement
+        // loads that tag first; the vanilla container base would then erase it
+        // when no modern CONTAINER component is present. An explicit component,
+        // including an explicitly empty one, must still take precedence.
+        var legacyContents = components.get(DataComponents.CONTAINER) == null
+                ? ItemContainerContents.fromItems(this.items) : null;
+        super.applyImplicitComponents(components);
+        if (legacyContents != null) {
+            legacyContents.copyInto(this.items);
+        }
     }
 
     @Override

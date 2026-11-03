@@ -1,0 +1,37 @@
+{
+  "parent": "floraexpansion:nature/cactus_wood",
+  "criteria": {
+    "obtained": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "floraexpansion:cactus_boat",
+              "floraexpansion:cactus_chest_boat"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.floraexpansion.cactus_boat.description"
+    },
+    "frame": "goal",
+    "icon": {
+      "count": 1,
+      "id": "floraexpansion:cactus_boat"
+    },
+    "title": {
+      "translate": "advancements.floraexpansion.cactus_boat.title"
+    }
+  },
+  "requirements": [
+    [
+      "obtained"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

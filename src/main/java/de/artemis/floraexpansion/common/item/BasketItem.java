@@ -1,11 +1,9 @@
 package de.artemis.floraexpansion.common.item;
 
+import de.artemis.floraexpansion.common.util.InventoryUtils;
 import de.artemis.floraexpansion.common.inventory.BasketMenu;
-import de.artemis.floraexpansion.common.block.FlaxCropBlock;
-import de.artemis.floraexpansion.common.block.FruitingCherryLeavesBlock;
-import de.artemis.floraexpansion.common.block.FruitingOakLeavesBlock;
-import de.artemis.floraexpansion.common.block.LargeBlueberryBushBlock;
-import de.artemis.floraexpansion.common.block.SmallBlueberryBushBlock;
+import de.artemis.floraexpansion.common.block.FlaxBlock;
+import de.artemis.floraexpansion.common.block.HarvestableBlock;
 import de.artemis.floraexpansion.common.registry.ModItems;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
@@ -16,13 +14,13 @@ import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.Container;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.SimpleMenuProvider;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.component.ItemContainerContents;
+
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.BushBlock;
@@ -45,6 +43,8 @@ import org.jetbrains.annotations.Nullable;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import de.artemis.floraexpansion.common.config.ServerConfig;
+import de.artemis.floraexpansion.common.config.ClientConfig;
 
 public class BasketItem extends Item {
     public static final int SLOT_COUNT = 9;
@@ -67,7 +67,7 @@ public class BasketItem extends Item {
                 openBasket(player, context.getHand());
             }
 
-            return InteractionResult.sidedSuccess(level.isClientSide);
+            return ((level.isClientSide ? InteractionResult.SUCCESS : InteractionResult.CONSUME));
         }
 
         if (level.isClientSide) {
@@ -83,31 +83,32 @@ public class BasketItem extends Item {
     }
 
     @Override
-    public @NotNull InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand usedHand) {
+    public @NotNull net.minecraft.world.InteractionResultHolder<ItemStack> use(Level level, @NotNull Player player, @NotNull InteractionHand usedHand) {
         if (!level.isClientSide) {
             openBasket(player, usedHand);
         }
 
-        return InteractionResultHolder.sidedSuccess(player.getItemInHand(usedHand), level.isClientSide);
+        return net.minecraft.world.InteractionResultHolder.sidedSuccess(player.getItemInHand(usedHand), level.isClientSide);
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> tooltipComponents, TooltipFlag tooltipFlag) {
+    public void appendHoverText(@NotNull ItemStack stack, @NotNull TooltipContext context, @NotNull java.util.List<Component> tooltipComponents, @NotNull TooltipFlag tooltipFlag) {
         super.appendHoverText(stack, context, tooltipComponents, tooltipFlag);
 
         List<PreviewEntry> entries = this.getPreviewEntries(stack);
+        if (ClientConfig.hints()) tooltipComponents.add(Component.translatable("tooltip.floraexpansion.basket_controls").withStyle(ChatFormatting.GRAY));
         if (entries.isEmpty()) {
             return;
         }
-
-        int displayed = Math.min(TOOLTIP_ENTRY_COUNT, entries.size());
+        int previewLimit = ClientConfig.expanded(tooltipFlag) ? SLOT_COUNT : TOOLTIP_ENTRY_COUNT;
+        int displayed = Math.min(previewLimit, entries.size());
         for (int i = 0; i < displayed; i++) {
             PreviewEntry entry = entries.get(i);
             tooltipComponents.add(Component.literal(entry.count() + " ").withStyle(ChatFormatting.GRAY)
                     .append(getStyledItemName(entry.displayStack())));
         }
 
-        if (entries.size() > TOOLTIP_ENTRY_COUNT) {
+        if (entries.size() > previewLimit) {
             tooltipComponents.add(Component.literal("...").withStyle(ChatFormatting.DARK_GRAY));
         }
     }
@@ -172,12 +173,6 @@ public class BasketItem extends Item {
         return inserted;
     }
 
-    public static void syncPlayerInventory(Player player) {
-        player.getInventory().setChanged();
-        player.inventoryMenu.broadcastChanges();
-        player.containerMenu.broadcastChanges();
-    }
-
     public static int getSourceSlot(Player player, InteractionHand hand) {
         return hand == InteractionHand.OFF_HAND ? 40 : player.getInventory().selected;
     }
@@ -197,6 +192,7 @@ public class BasketItem extends Item {
     }
 
     public static boolean tryDepositIntoContainer(Level level, BlockPos pos, Player player, ItemStack basket) {
+        if (!ServerConfig.basketDeposits.get()) return false;
         Container container = findTargetContainer(level, pos, player);
         if (container == null) {
             return false;
@@ -226,7 +222,7 @@ public class BasketItem extends Item {
 
         saveContents(basket, contents);
         container.setChanged();
-        syncPlayerInventory(player);
+        InventoryUtils.syncPlayerInventory(player);
         return true;
     }
 
@@ -268,8 +264,12 @@ public class BasketItem extends Item {
     }
 
     private boolean canPredictHandled(Level level, BlockPos pos, BlockState state, Player player) {
-        if (state.getBlock() instanceof FlaxCropBlock) {
-            return state.getValue(FlaxCropBlock.AGE) >= 2;
+        if (!ServerConfig.basketCrops.get()) {
+            return ServerConfig.basketGathering.get() && BasketHarvestHelper.canGather(state)
+                    || ServerConfig.basketDeposits.get() && findTargetContainer(level, pos, player) != null;
+        }
+        if (state.getBlock() instanceof FlaxBlock) {
+            return state.getValue(FlaxBlock.AGE) >= 2;
         }
 
         if (state.getBlock() instanceof CropBlock cropBlock) {
@@ -284,12 +284,8 @@ public class BasketItem extends Item {
             return state.getValue(CocoaBlock.AGE) >= 2;
         }
 
-        if (state.getBlock() instanceof SmallBlueberryBushBlock) {
-            return state.getValue(SmallBlueberryBushBlock.AGE) >= 3;
-        }
-
-        if (state.getBlock() instanceof LargeBlueberryBushBlock) {
-            return state.getValue(LargeBlueberryBushBlock.AGE) >= 2;
+        if (state.getBlock() instanceof HarvestableBlock plant) {
+            return plant.canHarvest(state);
         }
 
         if (state.getBlock() instanceof SweetBerryBushBlock) {
@@ -300,19 +296,12 @@ public class BasketItem extends Item {
             return true;
         }
 
-        if (state.getBlock() instanceof FruitingCherryLeavesBlock) {
-            return state.getValue(FruitingCherryLeavesBlock.AGE) > 0;
-        }
-
-        if (state.getBlock() instanceof FruitingOakLeavesBlock) {
-            return state.getValue(FruitingOakLeavesBlock.AGE) >= FruitingOakLeavesBlock.MAX_AGE;
-        }
-
-        if (findTargetContainer(level, pos, player) != null) {
+        if (ServerConfig.basketDeposits.get() && findTargetContainer(level, pos, player) != null) {
             return true;
         }
 
-        return state.getBlock() instanceof BushBlock
+        return ServerConfig.basketGathering.get() && BasketHarvestHelper.canGather(state)
+                || state.getBlock() instanceof BushBlock
                 || state.getBlock() instanceof GrowingPlantHeadBlock
                 || state.getBlock() instanceof GrowingPlantBodyBlock
                 || state.getBlock() instanceof CaveVinesBlock

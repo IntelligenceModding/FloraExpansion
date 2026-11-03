@@ -1,0 +1,8 @@
+{
+  "replace": false,
+  "values": [
+    "#minecraft:azalea_root_replaceable",
+    "floraexpansion:crystalline_salt",
+    "floraexpansion:smooth_salt"
+  ]
+}

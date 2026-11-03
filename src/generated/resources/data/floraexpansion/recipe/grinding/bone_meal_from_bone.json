@@ -1,0 +1,11 @@
+{
+  "type": "floraexpansion:grinding",
+  "ingredient": {
+    "item": "minecraft:bone"
+  },
+  "result": {
+    "count": 6,
+    "id": "minecraft:bone_meal"
+  },
+  "show_notification": false
+}

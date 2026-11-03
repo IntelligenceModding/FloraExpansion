@@ -1,94 +1,66 @@
 package de.artemis.floraexpansion.client.renderer;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
-import de.artemis.floraexpansion.FloraExpansion;
+import de.artemis.floraexpansion.client.renderer.state.CrateRenderState;
+import de.artemis.floraexpansion.common.block.CrateBlock;
 import de.artemis.floraexpansion.common.block.entity.CrateBlockEntity;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.RenderType;
+
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
-import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.ItemStack;
+
+
+import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
+import de.artemis.floraexpansion.common.config.ClientConfig;
 
 public class CrateBlockEntityRenderer implements BlockEntityRenderer<CrateBlockEntity> {
-    private static final String CONTENT_TEXTURE_ROOT = "textures/block/crate_contents/";
-    private static final ResourceLocation DEFAULT_CONTENT_TEXTURE = ResourceLocation.fromNamespaceAndPath(
-            FloraExpansion.MODID,
-            CONTENT_TEXTURE_ROOT + "default.png"
-    );
-    private static final ResourceLocation FALLBACK_TEXTURE = ResourceLocation.fromNamespaceAndPath(
-            FloraExpansion.MODID,
-            "textures/block/linen_block.png"
-    );
-    private static final float MIN_X = 2.0F / 16.0F;
-    private static final float MAX_X = 14.0F / 16.0F;
-    private static final float MIN_Z = 2.0F / 16.0F;
-    private static final float MAX_Z = 14.0F / 16.0F;
-    private static final float MIN_Y = 3.0F / 16.0F;
-    private static final float MAX_Y = 13.0F / 16.0F;
-    private static final float SURFACE_OFFSET = 0.001F;
+    private static final int[] EMPTY = new int[0];
+    private final ContentsFillRenderer fill;
 
     public CrateBlockEntityRenderer(BlockEntityRendererProvider.Context context) {
+        fill = new ContentsFillRenderer();
     }
 
     @Override
-    public void render(@NotNull CrateBlockEntity blockEntity, float partialTick, @NotNull PoseStack poseStack, @NotNull MultiBufferSource bufferSource, int packedLight, int packedOverlay) {
-        float fillRatio = blockEntity.getFillRatio();
-        if (fillRatio <= 0.0F) {
+    public int getViewDistance() {
+        return (int) Math.ceil(ClientConfig.crateFillDistance.get());
+    }
+
+    public @NotNull CrateRenderState createRenderState() {
+        return new CrateRenderState();
+    }
+
+    public void extractRenderState(@NotNull CrateBlockEntity blockEntity,
+                                   @NotNull CrateRenderState renderState,
+                                   float partialTick,
+                                   @NotNull Vec3 cameraPosition,
+                                   @Nullable Object breakProgress) {
+
+        renderState.fillRatio = blockEntity.getFillRatio();
+        renderState.contentsPixels = EMPTY;
+        if (!ClientConfig.crateFill.get() || cameraPosition.distanceToSqr(Vec3.atCenterOf(blockEntity.getBlockPos())) > Math.pow(ClientConfig.crateFillDistance.get(), 2)
+                || renderState.fillRatio <= 0.0F || blockEntity.getBlockState().getValue(CrateBlock.PACKED)
+                || blockEntity.getBlockState().getValue(CrateBlock.POWERED)) {
             return;
         }
 
-        float surfaceY = MIN_Y + (MAX_Y - MIN_Y) * fillRatio + SURFACE_OFFSET;
-        VertexConsumer vertexConsumer = bufferSource.getBuffer(RenderType.entityCutoutNoCull(this.resolveFillTexture(blockEntity)));
-        PoseStack.Pose pose = poseStack.last();
-
-        this.addVertex(vertexConsumer, pose, MIN_X, surfaceY, MAX_Z, 0.0F, 1.0F, packedLight, packedOverlay);
-        this.addVertex(vertexConsumer, pose, MAX_X, surfaceY, MAX_Z, 1.0F, 1.0F, packedLight, packedOverlay);
-        this.addVertex(vertexConsumer, pose, MAX_X, surfaceY, MIN_Z, 1.0F, 0.0F, packedLight, packedOverlay);
-        this.addVertex(vertexConsumer, pose, MIN_X, surfaceY, MIN_Z, 0.0F, 0.0F, packedLight, packedOverlay);
+        renderState.contentsPixels = fill.pattern(blockEntity.getStoredTypeCopy(), blockEntity.getLevel());
     }
 
-    private ResourceLocation resolveFillTexture(CrateBlockEntity blockEntity) {
-        Minecraft minecraft = Minecraft.getInstance();
-        ItemStack storedType = blockEntity.getStoredTypeCopy();
-
-        if (!storedType.isEmpty()) {
-            ResourceLocation itemId = BuiltInRegistries.ITEM.getKey(storedType.getItem());
-
-            ResourceLocation namespacedTexture = ResourceLocation.fromNamespaceAndPath(
-                    FloraExpansion.MODID,
-                    CONTENT_TEXTURE_ROOT + itemId.getNamespace() + "/" + itemId.getPath() + ".png"
-            );
-            if (minecraft.getResourceManager().getResource(namespacedTexture).isPresent()) {
-                return namespacedTexture;
-            }
-
-            ResourceLocation flatTexture = ResourceLocation.fromNamespaceAndPath(
-                    FloraExpansion.MODID,
-                    CONTENT_TEXTURE_ROOT + itemId.getPath() + ".png"
-            );
-            if (minecraft.getResourceManager().getResource(flatTexture).isPresent()) {
-                return flatTexture;
-            }
-        }
-
-        if (minecraft.getResourceManager().getResource(DEFAULT_CONTENT_TEXTURE).isPresent()) {
-            return DEFAULT_CONTENT_TEXTURE;
-        }
-
-        return FALLBACK_TEXTURE;
+    private void submit(@NotNull CrateRenderState state,
+                       @NotNull PoseStack poseStack,
+                       @NotNull GeometryCollector collector) {
+        fill.submit(poseStack, collector, state.contentsPixels, state.fillRatio, state.lightCoords);
     }
 
-    private void addVertex(VertexConsumer vertexConsumer, PoseStack.Pose pose, float x, float y, float z, float u, float v, int packedLight, int packedOverlay) {
-        vertexConsumer.addVertex(pose.pose(), x, y, z)
-                .setColor(255, 255, 255, 255)
-                .setUv(u, v)
-                .setOverlay(packedOverlay)
-                .setLight(packedLight)
-                .setNormal(pose, 0.0F, 1.0F, 0.0F);
+    @Override public void render(@NotNull CrateBlockEntity entity, float partialTick, @NotNull PoseStack poses,
+            @NotNull net.minecraft.client.renderer.MultiBufferSource buffers, int light, int overlay) {
+        var state = createRenderState();
+        state.lightCoords = light;
+        extractRenderState(entity, state, partialTick,
+                net.minecraft.client.Minecraft.getInstance().gameRenderer.getMainCamera().getPosition(), null);
+        submit(state, poses, new GeometryCollector(buffers));
     }
 }

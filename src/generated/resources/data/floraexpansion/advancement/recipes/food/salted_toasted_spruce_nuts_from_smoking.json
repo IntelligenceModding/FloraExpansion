@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_salted_spruce_nuts": {
+      "conditions": {
+        "items": [
+          {
+            "items": "floraexpansion:salted_spruce_nuts"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "floraexpansion:salted_toasted_spruce_nuts_from_smoking"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_salted_spruce_nuts"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "floraexpansion:salted_toasted_spruce_nuts_from_smoking"
+    ]
+  }
+}

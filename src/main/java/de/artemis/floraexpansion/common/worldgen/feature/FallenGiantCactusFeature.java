@@ -1,9 +1,9 @@
 package de.artemis.floraexpansion.common.worldgen.feature;
 
-import de.artemis.floraexpansion.common.block.CactusThornBlock;
+import de.artemis.floraexpansion.common.block.CactusSpineBlock;
 import de.artemis.floraexpansion.common.block.DesertMossBlock;
-import de.artemis.floraexpansion.common.block.CactusFlowerBlock;
-import de.artemis.floraexpansion.common.block.GiantCactusWoodBlock;
+import de.artemis.floraexpansion.common.block.GiantCactusShootBlock;
+import de.artemis.floraexpansion.common.block.CactusWoodBlock;
 import de.artemis.floraexpansion.common.registry.ModBlocks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -14,39 +14,36 @@ import net.minecraft.world.level.block.RotatedPillarBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.levelgen.feature.Feature;
-import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
-import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
 
-public class FallenGiantCactusFeature extends Feature<NoneFeatureConfiguration> {
+public class FallenGiantCactusFeature extends Feature<net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration> {
     private static final Direction[] HORIZONTAL_DIRECTIONS = new Direction[]{
             Direction.NORTH, Direction.SOUTH, Direction.WEST, Direction.EAST
     };
 
-    public FallenGiantCactusFeature(com.mojang.serialization.Codec<NoneFeatureConfiguration> codec) {
-        super(codec);
-    }
+    public FallenGiantCactusFeature() { super(net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration.CODEC); }
+
 
     @Override
-    public boolean place(FeaturePlaceContext<NoneFeatureConfiguration> context) {
-        WorldGenLevel level = context.level();
-        RandomSource random = context.random();
-
-        BlockPos origin = level.getHeightmapPos(Heightmap.Types.WORLD_SURFACE_WG, context.origin());
+    public boolean place(net.minecraft.world.level.levelgen.feature.FeaturePlaceContext<net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration> context) {
+        var level = context.level();
+        var random = context.random();
+        var featureOrigin = context.origin();
+        BlockPos origin = level.getHeightmapPos((level instanceof net.minecraft.server.level.WorldGenRegion ? Heightmap.Types.WORLD_SURFACE_WG : Heightmap.Types.WORLD_SURFACE), featureOrigin);
 
         Direction direction = HORIZONTAL_DIRECTIONS[random.nextInt(HORIZONTAL_DIRECTIONS.length)];
-        int length = 3 + random.nextInt(4); // 3-6
+        int length = 3 + random.nextInt(4);
         boolean woodAtFront = random.nextBoolean();
 
         if (!canPlaceFallenCactus(level, origin, direction, length)) {
             return false;
         }
 
-        BlockState baseState = ModBlocks.GIANT_CACTUS_BASE.get().defaultBlockState()
+        BlockState baseState = ModBlocks.CACTUS_LOG.get().defaultBlockState()
                 .setValue(RotatedPillarBlock.AXIS, direction.getAxis());
 
-        BlockState woodState = ModBlocks.GIANT_CACTUS_WOOD.get().defaultBlockState()
+        BlockState woodState = ModBlocks.CACTUS_WOOD.get().defaultBlockState()
                 .setValue(RotatedPillarBlock.AXIS, direction.getAxis())
-                .setValue(GiantCactusWoodBlock.GENERATED, true);
+                .setValue(CactusWoodBlock.GENERATED, true);
 
         for (int i = 0; i < length; i++) {
             BlockPos placePos = origin.relative(direction, i);
@@ -54,7 +51,7 @@ public class FallenGiantCactusFeature extends Feature<NoneFeatureConfiguration> 
             level.setBlock(placePos, isWood ? woodState : baseState, 2);
         }
 
-        placeBodyThorns(level, random, origin, direction, length);
+        placeBodySpines(level, random, origin, direction, length);
         placeFlowers(level, random, origin, direction, length);
         placeDesertMossAround(level, random, origin, direction, length);
 
@@ -81,7 +78,7 @@ public class FallenGiantCactusFeature extends Feature<NoneFeatureConfiguration> 
         return true;
     }
 
-    private static void placeBodyThorns(WorldGenLevel level, RandomSource random, BlockPos start, Direction direction, int length) {
+    private static void placeBodySpines(WorldGenLevel level, RandomSource random, BlockPos start, Direction direction, int length) {
         for (int i = 0; i < length; i++) {
             BlockPos cactusPos = start.relative(direction, i);
 
@@ -92,15 +89,14 @@ public class FallenGiantCactusFeature extends Feature<NoneFeatureConfiguration> 
 
                 float chance = (i == 0 || i == length - 1) ? 0.14F : 0.28F;
                 if (random.nextFloat() < chance) {
-                    tryPlaceThorn(level, cactusPos, side);
+                    tryPlaceSpine(level, cactusPos, side);
                 }
             }
         }
     }
 
     private static void placeFlowers(WorldGenLevel level, RandomSource random, BlockPos start, Direction direction, int length) {
-        // Only place flowers directly on top of the fallen cactus itself.
-        int flowerAttempts = 1 + random.nextInt(2); // 1-2 attempts
+        int flowerAttempts = 1 + random.nextInt(2);
 
         for (int i = 0; i < flowerAttempts; i++) {
             if (random.nextFloat() >= 0.55F) {
@@ -114,8 +110,8 @@ public class FallenGiantCactusFeature extends Feature<NoneFeatureConfiguration> 
                 continue;
             }
 
-            BlockState flower = CactusFlowerBlock.withRandomVariant(
-                    ModBlocks.CACTUS_FLOWER.get().defaultBlockState(),
+            BlockState flower = GiantCactusShootBlock.withRandomVariant(
+                    ModBlocks.GIANT_CACTUS_SHOOT.get().defaultBlockState(),
                     random
             );
             if (flower.canSurvive(level, flowerPos)) {
@@ -127,7 +123,7 @@ public class FallenGiantCactusFeature extends Feature<NoneFeatureConfiguration> 
     private static void placeDesertMossAround(WorldGenLevel level, RandomSource random, BlockPos start, Direction direction, int length) {
         BlockPos center = start.relative(direction, length / 2);
 
-        int attempts = 18 + random.nextInt(10); // 18-27
+        int attempts = 18 + random.nextInt(10);
 
         for (int i = 0; i < attempts; i++) {
             int dx = Math.round((random.nextFloat() - random.nextFloat()) * 4.0F);
@@ -154,7 +150,7 @@ public class FallenGiantCactusFeature extends Feature<NoneFeatureConfiguration> 
             }
 
             BlockPos sample = center.offset(dx, 0, dz);
-            BlockPos pos = level.getHeightmapPos(Heightmap.Types.WORLD_SURFACE_WG, sample);
+            BlockPos pos = level.getHeightmapPos((level instanceof net.minecraft.server.level.WorldGenRegion ? Heightmap.Types.WORLD_SURFACE_WG : Heightmap.Types.WORLD_SURFACE), sample);
 
             tryPlaceDesertMoss(level, pos, random);
         }
@@ -170,8 +166,7 @@ public class FallenGiantCactusFeature extends Feature<NoneFeatureConfiguration> 
             return;
         }
 
-        BlockState moss = ModBlocks.DESERT_MOSS.get().defaultBlockState()
-                .setValue(DesertMossBlock.VARIANT, random.nextInt(4));
+        BlockState moss = DesertMossBlock.naturalState(random);
 
         if (moss.canSurvive(level, pos)) {
             level.setBlock(pos, moss, 2);
@@ -182,19 +177,18 @@ public class FallenGiantCactusFeature extends Feature<NoneFeatureConfiguration> 
         return state.is(Blocks.SAND) || state.is(Blocks.RED_SAND);
     }
 
-    private static void tryPlaceThorn(WorldGenLevel level, BlockPos cactusPos, Direction side) {
-        BlockPos thornPos = cactusPos.relative(side);
+    private static void tryPlaceSpine(WorldGenLevel level, BlockPos cactusPos, Direction side) {
+        BlockPos spinePos = cactusPos.relative(side);
 
-        if (!level.isEmptyBlock(thornPos)) {
+        if (!level.isEmptyBlock(spinePos)) {
             return;
         }
 
-        BlockState thornState = ModBlocks.CACTUS_THORN.get().defaultBlockState()
-                .setValue(CactusThornBlock.FACING, side);
+        BlockState spineState = ModBlocks.CACTUS_SPINE.get().defaultBlockState()
+                .setValue(CactusSpineBlock.FACING, side);
 
-        if (thornState.canSurvive(level, thornPos)) {
-            level.setBlock(thornPos, thornState, 2);
+        if (spineState.canSurvive(level, spinePos)) {
+            level.setBlock(spinePos, spineState, 2);
         }
     }
 }
-

@@ -1,0 +1,354 @@
+{
+  "parent": "minecraft:block/block",
+  "ambientocclusion": false,
+  "elements": [
+    {
+      "faces": {
+        "down": {
+          "texture": "#body",
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ]
+        },
+        "east": {
+          "texture": "#body",
+          "uv": [
+            0,
+            13,
+            16,
+            16
+          ]
+        },
+        "north": {
+          "texture": "#body",
+          "uv": [
+            0,
+            13,
+            16,
+            16
+          ]
+        },
+        "south": {
+          "texture": "#body",
+          "uv": [
+            0,
+            13,
+            16,
+            16
+          ]
+        },
+        "up": {
+          "texture": "#body",
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ]
+        },
+        "west": {
+          "texture": "#body",
+          "uv": [
+            0,
+            13,
+            16,
+            16
+          ]
+        }
+      },
+      "from": [
+        0,
+        0,
+        0
+      ],
+      "to": [
+        16,
+        3,
+        16
+      ]
+    },
+    {
+      "faces": {
+        "down": {
+          "texture": "#stone",
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ]
+        },
+        "east": {
+          "texture": "#stone",
+          "uv": [
+            0,
+            15,
+            16,
+            16
+          ]
+        },
+        "north": {
+          "texture": "#stone",
+          "uv": [
+            0,
+            15,
+            16,
+            16
+          ]
+        },
+        "south": {
+          "texture": "#stone",
+          "uv": [
+            0,
+            15,
+            16,
+            16
+          ]
+        },
+        "up": {
+          "texture": "#stone",
+          "uv": [
+            0,
+            0,
+            16,
+            16
+          ]
+        },
+        "west": {
+          "texture": "#stone",
+          "uv": [
+            0,
+            15,
+            16,
+            16
+          ]
+        }
+      },
+      "from": [
+        0,
+        3,
+        0
+      ],
+      "to": [
+        16,
+        4,
+        16
+      ]
+    },
+    {
+      "faces": {
+        "down": {
+          "texture": "#runner",
+          "uv": [
+            0,
+            4,
+            12,
+            16
+          ]
+        },
+        "east": {
+          "texture": "#runner",
+          "uv": [
+            0,
+            14,
+            12,
+            16
+          ]
+        },
+        "north": {
+          "texture": "#runner",
+          "uv": [
+            0,
+            14,
+            12,
+            16
+          ]
+        },
+        "south": {
+          "texture": "#runner",
+          "uv": [
+            0,
+            14,
+            12,
+            16
+          ]
+        },
+        "up": {
+          "texture": "#runner",
+          "uv": [
+            0,
+            4,
+            12,
+            16
+          ]
+        },
+        "west": {
+          "texture": "#runner",
+          "uv": [
+            0,
+            14,
+            12,
+            16
+          ]
+        }
+      },
+      "from": [
+        2,
+        4,
+        2
+      ],
+      "to": [
+        14,
+        6,
+        14
+      ]
+    },
+    {
+      "faces": {
+        "down": {
+          "texture": "#wood",
+          "uv": [
+            0,
+            14,
+            2,
+            16
+          ]
+        },
+        "east": {
+          "texture": "#wood",
+          "uv": [
+            0,
+            6,
+            2,
+            16
+          ]
+        },
+        "north": {
+          "texture": "#wood",
+          "uv": [
+            0,
+            6,
+            2,
+            16
+          ]
+        },
+        "south": {
+          "texture": "#wood",
+          "uv": [
+            0,
+            6,
+            2,
+            16
+          ]
+        },
+        "up": {
+          "texture": "#wood",
+          "uv": [
+            0,
+            14,
+            2,
+            16
+          ]
+        },
+        "west": {
+          "texture": "#wood",
+          "uv": [
+            0,
+            6,
+            2,
+            16
+          ]
+        }
+      },
+      "from": [
+        7,
+        6,
+        7
+      ],
+      "to": [
+        9,
+        16,
+        9
+      ]
+    },
+    {
+      "faces": {
+        "down": {
+          "texture": "#millstone",
+          "uv": [
+            0,
+            6,
+            10,
+            16
+          ]
+        },
+        "east": {
+          "texture": "#millstone",
+          "uv": [
+            0,
+            12,
+            10,
+            16
+          ]
+        },
+        "north": {
+          "texture": "#millstone",
+          "uv": [
+            0,
+            12,
+            10,
+            16
+          ]
+        },
+        "south": {
+          "texture": "#millstone",
+          "uv": [
+            0,
+            12,
+            10,
+            16
+          ]
+        },
+        "up": {
+          "texture": "#millstone",
+          "uv": [
+            0,
+            6,
+            10,
+            16
+          ]
+        },
+        "west": {
+          "texture": "#millstone",
+          "uv": [
+            0,
+            12,
+            10,
+            16
+          ]
+        }
+      },
+      "from": [
+        3,
+        7,
+        3
+      ],
+      "to": [
+        13,
+        11,
+        13
+      ]
+    }
+  ],
+  "textures": {
+    "body": "minecraft:block/spruce_planks",
+    "millstone": "minecraft:block/polished_andesite",
+    "particle": "minecraft:block/polished_andesite",
+    "runner": "minecraft:block/deepslate_tiles",
+    "stone": "minecraft:block/polished_deepslate",
+    "wood": "minecraft:block/stripped_spruce_log"
+  }
+}

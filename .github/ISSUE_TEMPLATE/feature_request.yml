@@ -36,7 +36,7 @@ body:
       label: Feature Area
       description: Which part of Flora Expansion would this request affect?
       options:
-        - Leaf / Pine Litter
+        - Leaf / Needle Litter
         - Pebbles
         - Flax / Linen
         - Blueberries / Strawberries
@@ -77,7 +77,7 @@ body:
     attributes:
       label: Relevant Minecraft Version
       description: If this request relates to a specific Minecraft version, enter it here.
-      placeholder: "Example: 1.21.1 or N/A"
+      placeholder: "Example: 1.21.11 or N/A"
 
   - type: checkboxes
     id: checks

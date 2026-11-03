@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/ladder",
+  "render_type": "cutout",
+  "textures": {
+    "particle": "floraexpansion:block/twig_ladder",
+    "texture": "floraexpansion:block/twig_ladder"
+  }
+}

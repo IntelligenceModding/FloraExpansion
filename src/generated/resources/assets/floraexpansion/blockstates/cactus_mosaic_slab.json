@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "floraexpansion:block/cactus_mosaic_slab"
+    },
+    "type=double": {
+      "model": "floraexpansion:block/cactus_mosaic"
+    },
+    "type=top": {
+      "model": "floraexpansion:block/cactus_mosaic_slab_top"
+    }
+  }
+}

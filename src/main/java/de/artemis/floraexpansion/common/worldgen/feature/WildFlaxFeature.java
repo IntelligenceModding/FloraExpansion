@@ -1,28 +1,23 @@
 package de.artemis.floraexpansion.common.worldgen.feature;
 
-import com.mojang.serialization.Codec;
-import de.artemis.floraexpansion.common.block.FlaxCropBlock;
+import de.artemis.floraexpansion.common.block.FlaxBlock;
 import de.artemis.floraexpansion.common.registry.ModBlocks;
 import net.minecraft.core.BlockPos;
-import net.minecraft.util.RandomSource;
-import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
 import net.minecraft.world.level.levelgen.feature.Feature;
-import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
-import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
 
-public class WildFlaxFeature extends Feature<NoneFeatureConfiguration> {
+public class WildFlaxFeature extends Feature<net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration> {
 
-    public WildFlaxFeature(Codec<NoneFeatureConfiguration> codec) {
-        super(codec);
-    }
+    public WildFlaxFeature() { super(net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration.CODEC); }
+
 
     @Override
-    public boolean place(FeaturePlaceContext<NoneFeatureConfiguration> context) {
-        WorldGenLevel level = context.level();
-        BlockPos pos = context.origin();
-        RandomSource random = context.random();
+    public boolean place(net.minecraft.world.level.levelgen.feature.FeaturePlaceContext<net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration> context) {
+        var level = context.level();
+        var random = context.random();
+        var featureOrigin = context.origin();
+        BlockPos pos = featureOrigin;
 
         if (!level.isEmptyBlock(pos)) {
             return false;
@@ -36,10 +31,10 @@ public class WildFlaxFeature extends Feature<NoneFeatureConfiguration> {
         else if (roll <= 7) age = 3;
         else age = 4;
 
-        BlockState lower = ModBlocks.FLAX_CROP.get().defaultBlockState()
-                .setValue(FlaxCropBlock.WILD, true)
-                .setValue(FlaxCropBlock.HALF, DoubleBlockHalf.LOWER)
-                .setValue(FlaxCropBlock.AGE, age);
+        BlockState lower = ModBlocks.FLAX.get().defaultBlockState()
+                .setValue(FlaxBlock.WILD, true)
+                .setValue(FlaxBlock.HALF, DoubleBlockHalf.LOWER)
+                .setValue(FlaxBlock.AGE, age);
 
         if (!lower.canSurvive(level, pos)) {
             return false;
@@ -52,10 +47,10 @@ public class WildFlaxFeature extends Feature<NoneFeatureConfiguration> {
                 return false;
             }
 
-            BlockState upper = ModBlocks.FLAX_CROP.get().defaultBlockState()
-                    .setValue(FlaxCropBlock.WILD, true)
-                    .setValue(FlaxCropBlock.HALF, DoubleBlockHalf.UPPER)
-                    .setValue(FlaxCropBlock.AGE, age);
+            BlockState upper = ModBlocks.FLAX.get().defaultBlockState()
+                    .setValue(FlaxBlock.WILD, true)
+                    .setValue(FlaxBlock.HALF, DoubleBlockHalf.UPPER)
+                    .setValue(FlaxBlock.AGE, age);
 
             level.setBlock(pos, lower, 2);
             level.setBlock(above, upper, 2);

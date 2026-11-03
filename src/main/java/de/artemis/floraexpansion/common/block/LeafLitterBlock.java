@@ -1,32 +1,22 @@
 package de.artemis.floraexpansion.common.block;
 
-import de.artemis.floraexpansion.common.registry.ModItems;
-import de.artemis.floraexpansion.common.registry.ModParticles;
+import org.jetbrains.annotations.NotNull;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleOptions;
-import net.minecraft.world.item.ItemStack;
+import net.minecraft.core.particles.DustParticleOptions;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.state.BlockState;
-import java.util.List;
 
-public class LeafLitterBlock extends PineLitterBlock {
-    public LeafLitterBlock(Properties properties) {
-        super(properties);
+/** Retains 0.4.1 leaf litter on 1.21.1, which has no vanilla leaf-litter replacement. */
+public final class LeafLitterBlock extends NeedleLitterBlock {
+    public LeafLitterBlock(Properties properties) { super(properties); }
+    @NotNull @Override protected com.mojang.serialization.MapCodec<LeafLitterBlock> codec() { return simpleCodec(LeafLitterBlock::new); }
+    @Override protected ParticleOptions getFootstepFluffParticle() {
+        return new DustParticleOptions(new org.joml.Vector3f(.55F, .36F, .16F), .5F);
     }
-
-    @Override
-    protected List<ItemStack> getHarvestDrops(Level level, BlockState state) {
-        return List.of(new ItemStack(ModItems.TWIG.get(), level.random.nextInt(2 * state.getValue(AMOUNT))));
-    }
-
-    @Override
-    protected ParticleOptions getFootstepFluffParticle() {
-        return ModParticles.LEAF_FLUFF_PARTICLES.get();
-    }
-
-    @Override
-    protected net.minecraft.sounds.SoundEvent getFootstepSound() {
-        return net.minecraft.sounds.SoundEvents.CHERRY_LEAVES_STEP;
-    }
+    @Override protected SoundEvent getFootstepSound() { return SoundEvents.CHERRY_LEAVES_STEP; }
+    @Override protected void spawnExtraFootstepParticles(Level level, BlockPos pos, RandomSource random) {}
 }
-

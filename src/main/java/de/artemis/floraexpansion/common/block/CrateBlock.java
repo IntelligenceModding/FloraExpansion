@@ -1,10 +1,10 @@
 package de.artemis.floraexpansion.common.block;
 
-import com.mojang.serialization.MapCodec;
+import de.artemis.floraexpansion.common.util.InventoryUtils;
 import de.artemis.floraexpansion.common.block.entity.CrateBlockEntity;
 import de.artemis.floraexpansion.common.registry.ModItems;
+import de.artemis.floraexpansion.common.registry.ModTags;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -12,7 +12,6 @@ import net.minecraft.stats.Stats;
 import net.minecraft.Util;
 import net.minecraft.world.Containers;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.monster.piglin.PiglinAi;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -30,6 +29,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
+
 import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.world.phys.BlockHitResult;
@@ -44,7 +44,7 @@ import javax.annotation.Nullable;
 import java.util.List;
 
 public class CrateBlock extends BaseEntityBlock {
-    public static final MapCodec<CrateBlock> CODEC = simpleCodec(CrateBlock::new);
+ @NotNull @Override public com.mojang.serialization.MapCodec<CrateBlock> codec() { return simpleCodec(CrateBlock::new); }
     public static final BooleanProperty POWERED = BlockStateProperties.POWERED;
     public static final BooleanProperty PACKED = BooleanProperty.create("packed");
     private static final String PACKED_ITEM_KEY = "Packed";
@@ -59,28 +59,23 @@ public class CrateBlock extends BaseEntityBlock {
     }
 
     @Override
-    protected @NotNull MapCodec<? extends BaseEntityBlock> codec() {
-        return CODEC;
-    }
-
-    @Override
-    protected @NotNull ItemInteractionResult useItemOn(@NotNull ItemStack stack, @NotNull BlockState state, @NotNull Level level, @NotNull BlockPos pos, @NotNull Player player, @NotNull net.minecraft.world.InteractionHand hand, @NotNull BlockHitResult hitResult) {
+    protected @NotNull net.minecraft.world.ItemInteractionResult useItemOn(@NotNull ItemStack stack, @NotNull BlockState state, @NotNull Level level, @NotNull BlockPos pos, @NotNull Player player, @NotNull net.minecraft.world.InteractionHand hand, @NotNull BlockHitResult hitResult) {
         if (state.getValue(POWERED)) {
-            return ItemInteractionResult.CONSUME;
+            return net.minecraft.world.ItemInteractionResult.CONSUME;
         }
 
         BlockEntity blockEntity = level.getBlockEntity(pos);
         if (!(blockEntity instanceof CrateBlockEntity crate)) {
-            return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
+            return net.minecraft.world.ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
         }
 
         if (state.getValue(PACKED)) {
             if (level.isClientSide) {
-                return ItemInteractionResult.SUCCESS;
+                return net.minecraft.world.ItemInteractionResult.SUCCESS;
             }
 
             this.untieCrate(level, pos, state, player, hand);
-            return ItemInteractionResult.CONSUME;
+            return net.minecraft.world.ItemInteractionResult.CONSUME;
         }
 
         if (stack.is(ModItems.LINEN_THREAD.get())) {
@@ -89,13 +84,17 @@ public class CrateBlock extends BaseEntityBlock {
 
         if (player.isShiftKeyDown()) {
             if (level.isClientSide) {
-                return ItemInteractionResult.SUCCESS;
+                return net.minecraft.world.ItemInteractionResult.SUCCESS;
             }
 
             player.openMenu(crate);
             player.awardStat(Stats.OPEN_BARREL);
             PiglinAi.angerNearbyPiglins(player, true);
-            return ItemInteractionResult.CONSUME;
+            return net.minecraft.world.ItemInteractionResult.CONSUME;
+        }
+
+        if (!stack.isEmpty() && !stack.is(ModTags.Items.CRATE_STORABLE)) {
+            return net.minecraft.world.ItemInteractionResult.FAIL;
         }
 
         ItemStack referenceStack = this.getBulkInsertReference(crate, stack);
@@ -104,10 +103,10 @@ public class CrateBlock extends BaseEntityBlock {
         if (inserted <= 0) {
             if (!level.isClientSide && !referenceStack.isEmpty()) {
                 crate.recordInsertClick(player, referenceStack, level.getGameTime());
-                return ItemInteractionResult.CONSUME;
+                return net.minecraft.world.ItemInteractionResult.CONSUME;
             }
 
-            return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
+            return net.minecraft.world.ItemInteractionResult.CONSUME;
         }
 
         if (!level.isClientSide) {
@@ -116,11 +115,11 @@ public class CrateBlock extends BaseEntityBlock {
             }
 
             crate.recordInsertClick(player, referenceStack, level.getGameTime());
-            this.syncPlayerInventory(player);
-            level.playSound(null, pos, SoundEvents.ITEM_FRAME_ADD_ITEM, SoundSource.BLOCKS, 0.6F, 0.9F + level.random.nextFloat() * 0.2F);
+            InventoryUtils.syncPlayerInventory(player);
+            level.playSound(null, pos, SoundEvents.ITEM_FRAME_ADD_ITEM, SoundSource.BLOCKS, 0.6F, 0.9F + level.getRandom().nextFloat() * 0.2F);
         }
 
-        return ItemInteractionResult.sidedSuccess(level.isClientSide);
+        return ((level.isClientSide ? net.minecraft.world.ItemInteractionResult.SUCCESS : net.minecraft.world.ItemInteractionResult.CONSUME));
     }
 
     @Override
@@ -171,20 +170,21 @@ public class CrateBlock extends BaseEntityBlock {
         int inserted = this.insertMatchingInventory(player, crate, referenceStack);
         if (inserted > 0) {
             crate.recordInsertClick(player, referenceStack, level.getGameTime());
-            this.syncPlayerInventory(player);
-            level.playSound(null, pos, SoundEvents.ITEM_FRAME_ADD_ITEM, SoundSource.BLOCKS, 0.6F, 0.9F + level.random.nextFloat() * 0.2F);
+            InventoryUtils.syncPlayerInventory(player);
+            level.playSound(null, pos, SoundEvents.ITEM_FRAME_ADD_ITEM, SoundSource.BLOCKS, 0.6F, 0.9F + level.getRandom().nextFloat() * 0.2F);
         }
 
         return InteractionResult.CONSUME;
     }
 
     @Override
-    protected void onRemove(@NotNull BlockState state, @NotNull Level level, @NotNull BlockPos pos, @NotNull BlockState newState, boolean isMoving) {
-        if (!state.getValue(PACKED)) {
-            Containers.dropContentsOnDestroy(state, newState, level, pos);
+    protected void onRemove(@NotNull BlockState state, @NotNull Level level, @NotNull BlockPos pos, BlockState newState, boolean movedByPiston) {
+        if (state.is(newState.getBlock())) return;
+        if (!state.getValue(PACKED) && level.getBlockEntity(pos) instanceof CrateBlockEntity crate) {
+            Containers.dropContents(level, pos, crate);
         }
 
-        super.onRemove(state, level, pos, newState, isMoving);
+        super.onRemove(state, level, pos, newState, movedByPiston);
     }
 
     @Override
@@ -328,26 +328,28 @@ public class CrateBlock extends BaseEntityBlock {
         return heldStack.copyWithCount(1);
     }
 
-    private ItemInteractionResult tieCrate(Level level, BlockPos pos, BlockState state, Player player, ItemStack stack) {
+    private net.minecraft.world.ItemInteractionResult tieCrate(Level level, BlockPos pos, BlockState state, Player player, ItemStack stack) {
         if (level.isClientSide) {
-            return ItemInteractionResult.SUCCESS;
+            return net.minecraft.world.ItemInteractionResult.SUCCESS;
         }
 
         level.setBlock(pos, state.setValue(PACKED, true), 3);
+        if (level.getBlockEntity(pos) instanceof CrateBlockEntity crate && !crate.isEmpty())
+            de.artemis.floraexpansion.common.advancement.FloraActionTrigger.fire(player, "tie_crate");
         if (!player.hasInfiniteMaterials()) {
             stack.shrink(1);
         }
 
-        this.syncPlayerInventory(player);
+        InventoryUtils.syncPlayerInventory(player);
         level.playSound(null, pos, SoundEvents.WOOL_PLACE, SoundSource.BLOCKS, 0.65F, 0.9F);
-        return ItemInteractionResult.CONSUME;
+        return net.minecraft.world.ItemInteractionResult.CONSUME;
     }
 
     private void untieCrate(Level level, BlockPos pos, BlockState state, Player player, @Nullable net.minecraft.world.InteractionHand preferredHand) {
         level.setBlock(pos, state.setValue(PACKED, false), 3);
         if (!player.hasInfiniteMaterials()) {
             this.giveItemToPlayer(player, new ItemStack(ModItems.LINEN_THREAD.get()), preferredHand);
-            this.syncPlayerInventory(player);
+            InventoryUtils.syncPlayerInventory(player);
         }
 
         level.playSound(null, pos, SoundEvents.WOOL_BREAK, SoundSource.BLOCKS, 0.65F, 0.95F);
@@ -362,12 +364,6 @@ public class CrateBlock extends BaseEntityBlock {
                 0.5F,
                 locking ? 0.9F : 0.95F
         );
-    }
-
-    private void syncPlayerInventory(Player player) {
-        player.getInventory().setChanged();
-        player.inventoryMenu.broadcastChanges();
-        player.containerMenu.broadcastChanges();
     }
 
     private ItemStack createPackedCrateStack(@Nullable CrateBlockEntity crate, Level level) {
@@ -391,9 +387,7 @@ public class CrateBlock extends BaseEntityBlock {
             return;
         }
 
-        if (!player.getInventory().add(stack)) {
-            player.drop(stack, false);
-        }
+        InventoryUtils.giveOrDrop(player, stack);
     }
 
     public static boolean isPackedItem(ItemStack stack) {

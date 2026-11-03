@@ -1,0 +1,11 @@
+{
+  "type": "floraexpansion:grinding",
+  "ingredient": {
+    "item": "minecraft:blue_orchid"
+  },
+  "result": {
+    "count": 2,
+    "id": "minecraft:light_blue_dye"
+  },
+  "show_notification": false
+}

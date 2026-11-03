@@ -1,0 +1,14 @@
+{
+  "type": "floraexpansion:salting",
+  "ingredient": {
+    "tag": "floraexpansion:curable_fish"
+  },
+  "result": {
+    "count": 4,
+    "id": "floraexpansion:salted_raw_fish"
+  },
+  "salt": {
+    "item": "floraexpansion:salt"
+  },
+  "show_notification": false
+}

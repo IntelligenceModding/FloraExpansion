@@ -1,0 +1,11 @@
+{
+  "type": "floraexpansion:grinding",
+  "ingredient": {
+    "item": "floraexpansion:strawberry"
+  },
+  "result": {
+    "count": 2,
+    "id": "minecraft:red_dye"
+  },
+  "show_notification": false
+}

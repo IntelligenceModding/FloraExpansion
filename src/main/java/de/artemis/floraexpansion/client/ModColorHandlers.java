@@ -1,39 +1,26 @@
 package de.artemis.floraexpansion.client;
 
-import de.artemis.floraexpansion.FloraExpansion;
 import de.artemis.floraexpansion.common.registry.ModBlocks;
-import net.minecraft.client.renderer.BiomeColors;
-import net.minecraft.world.level.FoliageColor;
+
 import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.RegisterColorHandlersEvent;
 
-@EventBusSubscriber(modid = FloraExpansion.MODID)
 public class ModColorHandlers {
 
     @SubscribeEvent
-    public static void registerBlockColors(RegisterColorHandlersEvent.Block event) {
-        event.register((state, level, pos, tintIndex) -> {
-            if (tintIndex != 0) {
-                return -1;
-            }
-
-            if (level != null && pos != null) {
-                return BiomeColors.getAverageFoliageColor(level, pos);
-            }
-
-            return FoliageColor.getDefaultColor();
-        }, ModBlocks.FRUITING_OAK_LEAVES.get());
+    public static void registerItemColors(RegisterColorHandlersEvent.Item event) {
+        event.register((stack, tint) -> tint == 0 ? net.minecraft.world.level.FoliageColor.getDefaultColor() : -1,
+                ModBlocks.APPLE_LEAVES.get());
     }
 
     @SubscribeEvent
-    public static void registerItemColors(RegisterColorHandlersEvent.Item event) {
-        event.register((stack, tintIndex) -> {
-            if (tintIndex != 0) {
-                return -1;
-            }
-
-            return FoliageColor.getDefaultColor();
-        }, ModBlocks.FRUITING_OAK_LEAVES.get());
+    public static void registerBlockColors(RegisterColorHandlersEvent.Block event) {
+        event.register((state, level, pos, tint) -> de.artemis.floraexpansion.common.registry.ModFluids.SALT_WATER_COLOR,
+                ModBlocks.SALT_WATER_CAULDRON.get());
+        event.register((state, level, pos, tint) -> level != null && pos != null ? net.minecraft.client.renderer.BiomeColors.getAverageFoliageColor(level, pos) : net.minecraft.world.level.FoliageColor.getDefaultColor(), ModBlocks.APPLE_LEAVES.get());
+        event.register((state, level, pos, tint) -> 0xA0FFFFFF,
+                ModBlocks.BLUEBERRY_JAM.get(), ModBlocks.STRAWBERRY_JAM.get(),
+                ModBlocks.CHERRY_JAM.get(), ModBlocks.APPLE_JAM.get());
     }
+
 }

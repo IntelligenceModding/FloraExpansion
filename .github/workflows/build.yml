@@ -30,3 +30,9 @@ jobs:
 
       - name: Build with Gradle
         run: ./gradlew build
+
+      - name: Server gameplay regression tests
+        run: |
+          mkdir -p build/compatibility-1211-server
+          printf 'eula=true\n' > build/compatibility-1211-server/eula.txt
+          ./gradlew runServer -PcompatibilityAudit -PwithoutOptionalMods

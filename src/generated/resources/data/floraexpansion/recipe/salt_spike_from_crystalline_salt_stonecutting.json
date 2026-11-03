@@ -1,0 +1,10 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "floraexpansion:crystalline_salt"
+  },
+  "result": {
+    "count": 4,
+    "id": "floraexpansion:salt_spike"
+  }
+}

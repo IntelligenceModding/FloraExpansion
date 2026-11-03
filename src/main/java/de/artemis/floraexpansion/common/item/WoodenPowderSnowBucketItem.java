@@ -1,5 +1,7 @@
 package de.artemis.floraexpansion.common.item;
 
+import org.jetbrains.annotations.NotNull;
+
 import de.artemis.floraexpansion.common.registry.ModItems;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
@@ -14,11 +16,13 @@ public class WoodenPowderSnowBucketItem extends SolidBucketItem {
     }
 
     @Override
-    public InteractionResult useOn(UseOnContext context) {
+    @NotNull public InteractionResult useOn(UseOnContext context) {
+        // SolidBucketItem replaces the held stack with a vanilla bucket after placement.
+        ItemStack source = context.getItemInHand().copy();
         InteractionResult result = super.useOn(context);
         Player player = context.getPlayer();
         if (result.consumesAction() && player != null) {
-            ItemStack emptiedResult = WoodenBucketUtil.damageInto(context.getItemInHand(), player, ModItems.WOODEN_BUCKET.get());
+            ItemStack emptiedResult = WoodenBucketUtil.damageInto(source, player, ModItems.WOODEN_BUCKET.get());
             player.setItemInHand(context.getHand(), emptiedResult);
         }
 

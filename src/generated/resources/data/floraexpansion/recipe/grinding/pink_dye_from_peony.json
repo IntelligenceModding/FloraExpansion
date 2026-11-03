@@ -1,0 +1,11 @@
+{
+  "type": "floraexpansion:grinding",
+  "ingredient": {
+    "item": "minecraft:peony"
+  },
+  "result": {
+    "count": 4,
+    "id": "minecraft:pink_dye"
+  },
+  "show_notification": false
+}

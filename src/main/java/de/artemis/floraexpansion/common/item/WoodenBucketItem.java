@@ -1,5 +1,7 @@
 package de.artemis.floraexpansion.common.item;
 
+import org.jetbrains.annotations.NotNull;
+
 import de.artemis.floraexpansion.common.registry.ModItems;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.core.BlockPos;
@@ -7,7 +9,6 @@ import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.stats.Stats;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.BucketItem;
 import net.minecraft.world.item.ItemStack;
@@ -21,6 +22,7 @@ import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
+import de.artemis.floraexpansion.common.config.ServerConfig;
 
 public class WoodenBucketItem extends BucketItem {
     public WoodenBucketItem(Fluid content, Properties properties) {
@@ -28,7 +30,7 @@ public class WoodenBucketItem extends BucketItem {
     }
 
     @Override
-    public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
+    @NotNull public net.minecraft.world.InteractionResultHolder<ItemStack> use(@NotNull Level level, Player player, @NotNull InteractionHand hand) {
         ItemStack itemStack = player.getItemInHand(hand);
         BlockHitResult hitResult = getPlayerPOVHitResult(
                 level,
@@ -36,19 +38,20 @@ public class WoodenBucketItem extends BucketItem {
                 this.content == Fluids.EMPTY ? ClipContext.Fluid.SOURCE_ONLY : ClipContext.Fluid.NONE
         );
 
-        if (hitResult.getType() == HitResult.Type.MISS || hitResult.getType() != HitResult.Type.BLOCK) {
-            return InteractionResultHolder.pass(itemStack);
+        if (hitResult.getType() != HitResult.Type.BLOCK) {
+            return net.minecraft.world.InteractionResultHolder.pass(player.getItemInHand(hand));
         }
 
         BlockPos blockPos = hitResult.getBlockPos();
         Direction direction = hitResult.getDirection();
         BlockPos relativePos = blockPos.relative(direction);
         if (!level.mayInteract(player, blockPos) || !player.mayUseItemAt(relativePos, direction, itemStack)) {
-            return InteractionResultHolder.fail(itemStack);
+            return net.minecraft.world.InteractionResultHolder.fail(player.getItemInHand(hand));
         }
 
         if (this.content == Fluids.EMPTY) {
             BlockState blockState = level.getBlockState(blockPos);
+            if (blockState.getFluidState().is(net.minecraft.tags.FluidTags.LAVA) && !ServerConfig.lavaEnabled.get()) return net.minecraft.world.InteractionResultHolder.fail(player.getItemInHand(hand));
             if (blockState.getBlock() instanceof BucketPickup bucketPickup) {
                 ItemStack pickedUpStack = bucketPickup.pickupBlock(player, level, blockPos, blockState);
                 if (!pickedUpStack.isEmpty() && WoodenBucketUtil.isSupportedFluidBucket(pickedUpStack)) {
@@ -61,37 +64,29 @@ public class WoodenBucketItem extends BucketItem {
                         CriteriaTriggers.FILLED_BUCKET.trigger(serverPlayer, pickedUpStack);
                     }
 
-                    return InteractionResultHolder.sidedSuccess(filledResult, level.isClientSide());
+                    return net.minecraft.world.InteractionResultHolder.sidedSuccess(filledResult, level.isClientSide);
                 }
             }
 
-            return InteractionResultHolder.fail(itemStack);
+            return net.minecraft.world.InteractionResultHolder.fail(player.getItemInHand(hand));
         }
 
         BlockState blockState = level.getBlockState(blockPos);
         BlockPos placePos = canBlockContainFluid(player, level, blockPos, blockState) ? blockPos : relativePos;
-        if (!this.emptyContents(player, level, placePos, hitResult, itemStack)) {
-            return InteractionResultHolder.fail(itemStack);
-        }
-
-        this.checkExtraContent(player, level, itemStack, placePos);
-        if (!level.isClientSide && player instanceof ServerPlayer serverPlayer) {
-            CriteriaTriggers.PLACED_BLOCK.trigger(serverPlayer, placePos, itemStack);
-        }
-
-        player.awardStat(Stats.ITEM_USED.get(this));
-        ItemStack emptiedResult = WoodenBucketUtil.damageInto(itemStack, player, ModItems.WOODEN_BUCKET.get());
-        return InteractionResultHolder.sidedSuccess(emptiedResult, level.isClientSide());
+        return WoodenBucketUtil.emptyContents(this, level, player, itemStack, placePos, hitResult);
     }
 
     private ItemStack getFilledPickupResult(ItemStack sourceStack, Player player, Level level, ItemStack pickedUpStack) {
+        if (pickedUpStack.is(ModItems.SALT_WATER_BUCKET.get())) {
+            return WoodenBucketUtil.transformInto(sourceStack, player, ModItems.WOODEN_SALT_WATER_BUCKET.get());
+        }
         if (pickedUpStack.is(Items.WATER_BUCKET)) {
             return WoodenBucketUtil.transformInto(sourceStack, player, ModItems.WOODEN_WATER_BUCKET.get());
         }
 
         if (pickedUpStack.is(Items.LAVA_BUCKET)) {
             return WoodenBucketUtil.transformInto(sourceStack, player, ModItems.WOODEN_LAVA_BUCKET.get(),
-                    result -> WoodenBucketUtil.initializeLavaTimeout(result, level.getGameTime(), level.random));
+                    result -> WoodenBucketUtil.initializeLavaTimeout(result, level.getGameTime(), level.getRandom()));
         }
 
         if (pickedUpStack.is(Items.POWDER_SNOW_BUCKET)) {

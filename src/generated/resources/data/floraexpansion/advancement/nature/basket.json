@@ -1,0 +1,33 @@
+{
+  "parent": "floraexpansion:nature/foraging",
+  "criteria": {
+    "obtained": {
+      "conditions": {
+        "items": [
+          {
+            "items": "floraexpansion:basket"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.floraexpansion.basket.description"
+    },
+    "icon": {
+      "count": 1,
+      "id": "floraexpansion:basket"
+    },
+    "title": {
+      "translate": "advancements.floraexpansion.basket.title"
+    }
+  },
+  "requirements": [
+    [
+      "obtained"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

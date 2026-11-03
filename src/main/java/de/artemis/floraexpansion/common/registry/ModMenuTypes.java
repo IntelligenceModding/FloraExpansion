@@ -20,6 +20,10 @@ public final class ModMenuTypes {
     public static final DeferredHolder<MenuType<?>, MenuType<BasketMenu>> BASKET =
             MENU_TYPES.register("basket", () -> IMenuTypeExtension.create(BasketMenu::new));
 
+    public static final DeferredHolder<MenuType<?>, MenuType<de.artemis.floraexpansion.common.inventory.HandMillMenu>> HAND_MILL =
+            MENU_TYPES.register("hand_mill", () -> IMenuTypeExtension.create((id, inventory, data) ->
+                    new de.artemis.floraexpansion.common.inventory.HandMillMenu(id, inventory)));
+
     private ModMenuTypes() {
     }
 

@@ -1,198 +1,85 @@
 package de.artemis.floraexpansion.common.worldgen.feature;
 
-import com.mojang.serialization.Codec;
+import de.artemis.floraexpansion.common.block.ScatteredPebblesBlock;
 import de.artemis.floraexpansion.common.registry.ModBlocks;
-import de.artemis.floraexpansion.common.block.PebblePatchBlock;
+import de.artemis.floraexpansion.common.registry.ModTags;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.tags.FluidTags;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.WorldGenLevel;
-import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.biome.Biomes;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.DoublePlantBlock;
-import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.levelgen.feature.Feature;
-import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
-import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
+import net.minecraft.world.level.levelgen.synth.SimplexNoise;
 
-public class PebbleClusterFeature extends Feature<NoneFeatureConfiguration> {
-
-    public PebbleClusterFeature(Codec<NoneFeatureConfiguration> codec) {
-        super(codec);
+/** Loose shoreline stones and occasional rocky scree beds; never clears plants or drains water. */
+public final class PebbleClusterFeature extends Feature<PebbleClusterFeature.Config> {
+    public PebbleClusterFeature() {
+        super(Config.CODEC);
     }
 
-    @Override
-    public boolean place(FeaturePlaceContext<NoneFeatureConfiguration> context) {
-        WorldGenLevel level = context.level();
-        BlockPos origin = context.origin();
-        RandomSource random = context.random();
+    @Override public boolean place(net.minecraft.world.level.levelgen.feature.FeaturePlaceContext<PebbleClusterFeature.Config> context) {
+        var level = context.level();
+        var random = context.random();
+        var origin = context.origin();
+        int radius = context.config().minRadius() + random.nextInt(context.config().maxRadius() - context.config().minRadius() + 1);
+        var noise = new SimplexNoise(RandomSource.create(level.getSeed() ^ 0x504542424c45L));
+        boolean placed = false;
+        int originY = level.getHeight(Heightmap.Types.OCEAN_FLOOR_WG, origin.getX(), origin.getZ());
+        for (int x = -radius - 1; x <= radius + 1; x++) for (int z = -radius - 1; z <= radius + 1; z++) {
+            int wx = origin.getX() + x, wz = origin.getZ() + z;
+            double edge = (x * x + z * z * .7) / (double)(radius * radius)
+                    + noise.getValue(wx * .4, wz * .4) * .65;
+            if (edge > 1.05 || random.nextFloat() > .75 - Math.max(0, edge) * .3) continue;
+            var pos = level.getHeightmapPos(Heightmap.Types.OCEAN_FLOOR_WG, new BlockPos(wx, origin.getY(), wz));
+            var ground = pos.below();
+            if (Math.abs(pos.getY() - originY) > 4 || !level.ensureCanWrite(pos) || !level.ensureCanWrite(ground)
+                    || !level.getBiome(pos).is(ModTags.Biomes.HAS_PEBBLE_CLUSTERS)
+                    || !level.getBlockState(ground).is(ModTags.Blocks.PEBBLE_GROUND)) continue;
+            var old = level.getBlockState(pos);
+            var fluid = old.getFluidState();
+            boolean wet = fluid.is(FluidTags.WATER) || fluid.is(ModTags.Fluids.SALT_WATER);
+            if (wet && !fluid.isSource()) continue;
+            if (!old.isAir() && !(wet && old.getBlock() instanceof net.minecraft.world.level.block.LiquidBlock)) continue;
+            if (wet && level.getHeight((level instanceof net.minecraft.server.level.WorldGenRegion ? Heightmap.Types.WORLD_SURFACE_WG : Heightmap.Types.WORLD_SURFACE), wx, wz) - pos.getY() > 2) continue;
+            var biome = level.getBiome(pos);
+            boolean rocky = biome.is(Biomes.WINDSWEPT_HILLS) || biome.is(Biomes.WINDSWEPT_GRAVELLY_HILLS)
+                    || biome.is(Biomes.WINDSWEPT_FOREST) || biome.is(Biomes.STONY_PEAKS) || biome.is(Biomes.STONY_SHORE);
+            if (!rocky && !wet && !nearWater(level, ground)) continue;
+            var state = ModBlocks.SCATTERED_PEBBLES.get().defaultBlockState()
+                    .setValue(ScatteredPebblesBlock.AMOUNT, edge < .35 ? 3 + random.nextInt(3) : 1 + random.nextInt(3))
+                    .setValue(ScatteredPebblesBlock.FACING, Direction.Plane.HORIZONTAL.getRandomDirection(random))
+                    .setValue(ScatteredPebblesBlock.WATERLOGGED, wet)
+                    .setValue(ScatteredPebblesBlock.BRINE, fluid.is(ModTags.Fluids.SALT_WATER));
+            if (!state.canSurvive(level, pos)) continue;
+            if (rocky && !wet && edge < .45 && random.nextInt(3) == 0) {
+                level.setBlock(ground, Blocks.GRAVEL.defaultBlockState(), 2);
+            }
+            level.setBlock(pos, state, 2);
+            placed = true;
+        }
+        return placed;
+    }
 
-        boolean placedAny = false;
-
-        // radius 1..3 => diameter about 3..7
-        int radius = 1 + random.nextInt(3);
-
-        for (int dx = -radius; dx <= radius; dx++) {
-            for (int dz = -radius; dz <= radius; dz++) {
-                double distSq = dx * dx + dz * dz;
-                double radiusSq = radius * radius;
-
-                if (distSq > radiusSq) {
-                    continue;
-                }
-
-                BlockPos topPos = level.getHeightmapPos(
-                        Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
-                        origin.offset(dx, 0, dz)
-                );
-                BlockPos groundPos = topPos.below();
-                BlockPos decorationPos = groundPos.above();
-
-                BlockState originalGround = level.getBlockState(groundPos);
-                if (!isValidGround(originalGround)) {
-                    continue;
-                }
-
-                double normalizedDist = Math.sqrt(distSq) / radius;
-
-                // -----------------------------
-                // 1. Replace ground
-                // -----------------------------
-                float replaceChance;
-                if (normalizedDist <= 0.33D) {
-                    replaceChance = 0.92f; // dense center
-                } else if (normalizedDist <= 0.66D) {
-                    replaceChance = 0.62f; // mixed middle
-                } else {
-                    replaceChance = 0.28f; // loose edge
-                }
-
-                boolean replacedGround = false;
-                if (random.nextFloat() < replaceChance) {
-                    BlockState replacement = getGroundReplacement(random, normalizedDist);
-                    level.setBlock(groundPos, replacement, 2);
-                    replacedGround = true;
-                    placedAny = true;
-                }
-
-                if (!level.getBlockState(decorationPos).canBeReplaced()) {
-                    continue;
-                }
-
-                // -----------------------------
-                // 2. Main pebble decoration
-                // -----------------------------
-                float patchChance;
-                if (normalizedDist <= 0.33D) {
-                    patchChance = 0.78f;
-                } else if (normalizedDist <= 0.66D) {
-                    patchChance = 0.58f;
-                } else {
-                    patchChance = 0.30f;
-                }
-
-                if (random.nextFloat() < patchChance) {
-                    int amount = getPatchAmount(random, normalizedDist);
-                    Direction facing = Direction.Plane.HORIZONTAL.getRandomDirection(random);
-
-                    BlockState patchState = ModBlocks.PEBBLE_PATCH.get().defaultBlockState()
-                            .setValue(PebblePatchBlock.FACING, facing)
-                            .setValue(PebblePatchBlock.AMOUNT, amount);
-
-                    if (replacedGround || patchState.canSurvive(level, decorationPos)) {
-                        level.setBlock(decorationPos, patchState, 2);
-                        placedAny = true;
-                        continue;
-                    }
-                }
-
-                // -----------------------------
-                // 3. Edge decoration variation
-                // only rarely, mostly near the outer ring
-                // -----------------------------
-                if (normalizedDist > 0.50D && random.nextFloat() < 0.18f) {
-                    BlockState edgeDecoration = getEdgeDecoration(random);
-
-                    if (edgeDecoration != null && edgeDecoration.canSurvive(level, decorationPos)) {
-                        level.setBlock(decorationPos, edgeDecoration, 2);
-                        placedAny = true;
-                    }
-                }
+    private static boolean nearWater(WorldGenLevel level, BlockPos ground) {
+        for (int x = -3; x <= 3; x++) for (int z = -3; z <= 3; z++) {
+            if (Math.abs(x) + Math.abs(z) > 3) continue;
+            for (int y = -1; y <= 1; y++) {
+                var pos = ground.offset(x, y, z);
+                if (!level.ensureCanWrite(pos)) continue;
+                var fluid = level.getFluidState(pos);
+                if (fluid.is(FluidTags.WATER) || fluid.is(ModTags.Fluids.SALT_WATER)) return true;
             }
         }
-
-        return placedAny;
+        return false;
+    }
+    public record Config(int minRadius, int maxRadius) implements net.minecraft.world.level.levelgen.feature.configurations.FeatureConfiguration {
+        public static final com.mojang.serialization.Codec<Config> CODEC = com.mojang.serialization.codecs.RecordCodecBuilder.<Config>create(i -> i.group(
+            com.mojang.serialization.Codec.intRange(1, 8).optionalFieldOf("min_radius", 1).forGetter(Config::minRadius),
+            com.mojang.serialization.Codec.intRange(1, 8).optionalFieldOf("max_radius", 3).forGetter(Config::maxRadius)
+        ).apply(i, Config::new)).validate(c -> c.maxRadius >= c.minRadius ? com.mojang.serialization.DataResult.success(c) : com.mojang.serialization.DataResult.error(() -> "max_radius must be at least min_radius"));
     }
 
-    private BlockState getGroundReplacement(RandomSource random, double normalizedDist) {
-        int roll = random.nextInt(100);
-
-        if (normalizedDist <= 0.33D) {
-            // dense center: mostly pebble block
-            if (roll < 68) return ModBlocks.PEBBLE_BLOCK.get().defaultBlockState();
-            if (roll < 88) return Blocks.GRAVEL.defaultBlockState();
-            if (roll < 96) return Blocks.COARSE_DIRT.defaultBlockState();
-            return Blocks.ANDESITE.defaultBlockState();
-        } else if (normalizedDist <= 0.66D) {
-            // mixed middle
-            if (roll < 42) return ModBlocks.PEBBLE_BLOCK.get().defaultBlockState();
-            if (roll < 72) return Blocks.GRAVEL.defaultBlockState();
-            if (roll < 90) return Blocks.COARSE_DIRT.defaultBlockState();
-            return Blocks.STONE.defaultBlockState();
-        } else {
-            // edge transition
-            if (roll < 18) return ModBlocks.PEBBLE_BLOCK.get().defaultBlockState();
-            if (roll < 52) return Blocks.GRAVEL.defaultBlockState();
-            if (roll < 82) return Blocks.COARSE_DIRT.defaultBlockState();
-            return Blocks.STONE.defaultBlockState();
-        }
-    }
-
-    private int getPatchAmount(RandomSource random, double normalizedDist) {
-        if (normalizedDist <= 0.33D) {
-            int roll = random.nextInt(10);
-            if (roll < 1) return 2;
-            if (roll < 3) return 3;
-            if (roll < 6) return 4;
-            return 5;
-        } else if (normalizedDist <= 0.66D) {
-            int roll = random.nextInt(10);
-            if (roll < 2) return 1;
-            if (roll < 5) return 2;
-            if (roll < 8) return 3;
-            return 4;
-        } else {
-            int roll = random.nextInt(10);
-            if (roll < 5) return 1;
-            if (roll < 8) return 2;
-            return 3;
-        }
-    }
-
-    private BlockState getEdgeDecoration(RandomSource random) {
-        int roll = random.nextInt(10);
-
-        if (roll < 6) {
-            return Blocks.SHORT_GRASS.defaultBlockState();
-        } else if (roll < 9) {
-            return Blocks.FERN.defaultBlockState();
-        } else {
-            return null;
-        }
-    }
-
-    private boolean isValidGround(BlockState state) {
-        Block block = state.getBlock();
-        return block == Blocks.GRASS_BLOCK
-                || block == Blocks.DIRT
-                || block == Blocks.COARSE_DIRT
-                || block == Blocks.PODZOL
-                || block == Blocks.GRAVEL
-                || block == Blocks.STONE
-                || block == Blocks.ANDESITE
-                || block == Blocks.DIORITE
-                || block == Blocks.GRANITE
-                || block == Blocks.MOSS_BLOCK;
-    }
 }

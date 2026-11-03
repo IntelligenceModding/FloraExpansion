@@ -1,5 +1,7 @@
 package de.artemis.floraexpansion.common.entity;
 
+import org.jetbrains.annotations.NotNull;
+
 import de.artemis.floraexpansion.common.registry.ModItems;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.vehicle.Boat;
@@ -23,7 +25,7 @@ public class CactusBoatEntity extends Boat {
     }
 
     @Override
-    public Item getDropItem() {
+    @NotNull public Item getDropItem() {
         return ModItems.CACTUS_BOAT.get();
     }
 }

@@ -6,8 +6,8 @@ import de.artemis.floraexpansion.common.registry.ModItems;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.animal.Bucketable;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.animal.Cow;
 import net.minecraft.world.entity.animal.Cod;
 import net.minecraft.world.entity.animal.Pufferfish;
@@ -52,7 +52,7 @@ public final class WoodenBucketEvents {
                     livingEntity.discard();
                 }
 
-                event.setCancellationResult(InteractionResult.sidedSuccess(player.level().isClientSide));
+                event.setCancellationResult(player.level().isClientSide ? InteractionResult.SUCCESS : InteractionResult.CONSUME);
                 event.setCanceled(true);
                 return;
             }
@@ -68,7 +68,7 @@ public final class WoodenBucketEvents {
             player.setItemInHand(event.getHand(), milkBucket);
         }
 
-        event.setCancellationResult(InteractionResult.sidedSuccess(player.level().isClientSide));
+        event.setCancellationResult(player.level().isClientSide ? InteractionResult.SUCCESS : InteractionResult.CONSUME);
         event.setCanceled(true);
     }
 

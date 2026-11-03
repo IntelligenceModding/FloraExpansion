@@ -1,0 +1,18 @@
+{
+  "values": [
+    "#minecraft:dirt",
+    "#minecraft:sand",
+    "minecraft:grass_block",
+    "minecraft:podzol",
+    "minecraft:mycelium",
+    "minecraft:mud",
+    "minecraft:muddy_mangrove_roots",
+    "minecraft:moss_block",
+    "floraexpansion:crystalline_salt",
+    "floraexpansion:smooth_salt",
+    "floraexpansion:cut_salt",
+    "floraexpansion:chiseled_salt",
+    "minecraft:calcite",
+    "minecraft:diorite"
+  ]
+}

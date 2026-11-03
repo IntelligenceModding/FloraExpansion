@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://raw.githubusercontent.com/IntelligenceModding/FloraExpansion/refs/heads/assets/Version%200.4%20Berries%20%26%20Barrels.png" alt="Flora Expansion" width="900">
+  <img src="https://raw.githubusercontent.com/IntelligenceModding/FloraExpansion/refs/heads/assets/Salty%20Springs%20Title.png" alt="Flora Expansion — Salty Springs" width="900">
 </p>
 
 <h1 align="center">Contributing to Flora Expansion</h1>
@@ -232,6 +232,30 @@ Running the development client is strongly recommended for changes that affect g
 
 Changes should be tested before being submitted.
 
+The 1.21.1 branch includes an opt-in runtime compatibility audit:
+
+```bat
+gradlew.bat runClient -PcompatibilityAudit
+```
+
+It checks all block and item models, generated textures, jam portion overrides, armor textures, recipes, block-entity persistence, signs, trades, storage, salting, grinding, falling salt, old save data, and surface spring placement and stability.
+
+The gameplay audit includes 20 detailed interaction scenarios covering jar nutrition and container returns, crank mounting and redstone timing, blocked mill output, real hopper transfers, salting batches, cauldrons, and salt spikes.
+
+The client audit also samples crank animation between ticks, checking rapid turns, all mounting directions, complete rotations, and synchronization with the mill renderer and interaction shapes.
+
+CI runs the server checks with Java 21. To run these without a display, create `build/compatibility-1211-server/eula.txt` with `eula=true`, then run:
+
+```bat
+gradlew.bat runServer -PcompatibilityAudit -PwithoutOptionalMods
+```
+
+The audits create isolated worlds under `build/compatibility-1211-client` or `build/compatibility-1211-server` and exit after the checks pass. Sources and fixtures in `src/compatibilityAudit` are excluded from normal builds. The newer-version suite in `src/gametest` is not compatible with 1.21.1. Regenerate resources with `gradlew.bat runData`, then build the release with `gradlew.bat build` without test properties. On Linux or macOS, use `./gradlew` instead of `gradlew.bat`.
+
+Release jars follow `floraexpansion-<mod_version>-neoforge-mc1.21.1.jar`, matching Laboratoryblocks' naming convention.
+
+Add `-PwithoutOptionalMods` to either test command to verify operation without JEI and AppleSkin.
+
 There is currently no expectation that every contribution includes automated tests. For most Flora Expansion changes, practical in-game testing is more useful.
 
 At minimum:
@@ -245,7 +269,7 @@ At minimum:
 
 For visual changes, check the result in-game rather than relying only on models or textures viewed outside Minecraft.
 
-For changes affecting plants, crops, fruiting leaves, litter, pebbles, crates, baskets, wooden buckets, foods, cactus content, or other blocks and items, make sure placement, growth, harvesting, interactions, storage, crafting, and other supported behavior continue to work correctly where applicable.
+For changes affecting plants, crops, fruit leaves, litter, pebbles, crates, baskets, wooden buckets, foods, cactus content, or other blocks and items, make sure placement, growth, harvesting, interactions, storage, crafting, and other supported behavior continue to work correctly where applicable.
 
 For changes affecting naturally generated plants, trees, cactus features, or other world-generation content, test the result in newly generated chunks and in the relevant biomes.
 

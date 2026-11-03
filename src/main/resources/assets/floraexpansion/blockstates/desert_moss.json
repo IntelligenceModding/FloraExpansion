@@ -1,8 +1,0 @@
-{
-  "variants": {
-    "variant=0": { "model": "floraexpansion:block/desert_moss_0" },
-    "variant=1": { "model": "floraexpansion:block/desert_moss_1" },
-    "variant=2": { "model": "floraexpansion:block/desert_moss_2" },
-    "variant=3": { "model": "floraexpansion:block/desert_moss_3" }
-  }
-}

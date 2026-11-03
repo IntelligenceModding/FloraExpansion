@@ -1,0 +1,6 @@
+{
+    "textures":  {
+                     "all":  "floraexpansion:block/calcite_coal_ore"
+                 },
+    "parent":  "minecraft:block/cube_all"
+}

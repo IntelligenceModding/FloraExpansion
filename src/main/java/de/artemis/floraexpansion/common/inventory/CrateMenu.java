@@ -1,6 +1,7 @@
 package de.artemis.floraexpansion.common.inventory;
 
 import de.artemis.floraexpansion.common.registry.ModMenuTypes;
+import de.artemis.floraexpansion.common.registry.ModTags;
 import net.minecraft.util.Mth;
 import net.minecraft.world.Container;
 import net.minecraft.world.SimpleContainer;
@@ -184,7 +185,8 @@ public class CrateMenu extends AbstractContainerMenu {
         if (stack.isStackable()) {
             for (int i = 0; i < this.container.getContainerSize() && !stack.isEmpty(); i++) {
                 ItemStack slotStack = this.container.getItem(i);
-                if (!slotStack.isEmpty() && ItemStack.isSameItemSameComponents(stack, slotStack)) {
+                if (!slotStack.isEmpty() && this.container.canPlaceItem(i, stack)
+                        && ItemStack.isSameItemSameComponents(stack, slotStack)) {
                     int maxStackSize = this.container.getMaxStackSize(slotStack);
                     int combined = slotStack.getCount() + stack.getCount();
                     if (combined <= maxStackSize) {
@@ -293,7 +295,7 @@ public class CrateMenu extends AbstractContainerMenu {
 
         @Override
         public boolean canPlaceItem(int slot, @NotNull ItemStack stack) {
-            if (stack.isEmpty()) {
+            if (!stack.is(ModTags.Items.CRATE_STORABLE)) {
                 return false;
             }
 

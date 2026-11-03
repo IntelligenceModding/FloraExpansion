@@ -1,33 +1,29 @@
 package de.artemis.floraexpansion.common.worldgen.feature;
 
-import com.mojang.serialization.Codec;
 import de.artemis.floraexpansion.common.block.LargeBlueberryBushBlock;
 import de.artemis.floraexpansion.common.block.SmallBlueberryBushBlock;
 import de.artemis.floraexpansion.common.registry.ModBlocks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.RandomSource;
-import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.feature.Feature;
-import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
-import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
 
-public class BlueberryBushPatchFeature extends Feature<NoneFeatureConfiguration> {
+public class BlueberryBushPatchFeature extends Feature<net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration> {
     private static final int TRIES = 32;
     private static final int XZ_SPREAD = 3;
     private static final int Y_SPREAD = 1;
     private static final int LARGE_BUSH_CHANCE = 10;
 
-    public BlueberryBushPatchFeature(Codec<NoneFeatureConfiguration> codec) {
-        super(codec);
-    }
+    public BlueberryBushPatchFeature() { super(net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration.CODEC); }
+
 
     @Override
-    public boolean place(FeaturePlaceContext<NoneFeatureConfiguration> context) {
-        WorldGenLevel level = context.level();
-        RandomSource random = context.random();
-        BlockPos patchOrigin = context.origin().above();
+    public boolean place(net.minecraft.world.level.levelgen.feature.FeaturePlaceContext<net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration> context) {
+        var level = context.level();
+        var random = context.random();
+        var featureOrigin = context.origin();
+        BlockPos patchOrigin = featureOrigin.above();
         boolean placedAny = false;
 
         for (int i = 0; i < TRIES; i++) {

@@ -1,0 +1,26 @@
+{
+  "parent": "minecraft:item/generated",
+  "overrides": [
+    {
+      "model": "floraexpansion:item/blueberry_jam_portion_3",
+      "predicate": {
+        "floraexpansion:eaten_portions": 1
+      }
+    },
+    {
+      "model": "floraexpansion:item/blueberry_jam_portion_2",
+      "predicate": {
+        "floraexpansion:eaten_portions": 2
+      }
+    },
+    {
+      "model": "floraexpansion:item/blueberry_jam_portion_1",
+      "predicate": {
+        "floraexpansion:eaten_portions": 3
+      }
+    }
+  ],
+  "textures": {
+    "layer0": "floraexpansion:item/blueberry_jam"
+  }
+}

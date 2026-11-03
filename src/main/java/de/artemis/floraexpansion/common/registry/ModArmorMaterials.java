@@ -1,7 +1,6 @@
 package de.artemis.floraexpansion.common.registry;
 
 import de.artemis.floraexpansion.FloraExpansion;
-import de.artemis.floraexpansion.common.registry.ModBlocks;
 import net.minecraft.Util;
 import net.minecraft.core.Holder;
 import net.minecraft.core.registries.Registries;
@@ -20,7 +19,7 @@ public final class ModArmorMaterials {
     public static final DeferredRegister<ArmorMaterial> ARMOR_MATERIALS =
             DeferredRegister.create(Registries.ARMOR_MATERIAL, FloraExpansion.MODID);
 
-    public static final Holder<ArmorMaterial> CACTUS = ARMOR_MATERIALS.register("cactus",
+    public static final Holder<ArmorMaterial> SPIKED_LEATHER_ARMOR_MATERIAL = ARMOR_MATERIALS.register("spiked_leather",
             () -> new ArmorMaterial(
                     Util.make(new EnumMap<>(ArmorItem.Type.class), map -> {
                         map.put(ArmorItem.Type.BOOTS, 1);
@@ -31,13 +30,13 @@ public final class ModArmorMaterials {
                     }),
                     18,
                     SoundEvents.ARMOR_EQUIP_LEATHER,
-                    () -> Ingredient.of(ModBlocks.CACTUS_THORN.get()),
+                    () -> Ingredient.of(ModTags.Items.SPIKED_LEATHER_ARMOR_REPAIRABLE),
                     List.of(
                             new ArmorMaterial.Layer(
-                                    ResourceLocation.fromNamespaceAndPath(FloraExpansion.MODID, "cactus")
+                                    ResourceLocation.fromNamespaceAndPath(FloraExpansion.MODID, "spiked_leather")
                             ),
                             new ArmorMaterial.Layer(
-                                    ResourceLocation.fromNamespaceAndPath(FloraExpansion.MODID, "cactus"),
+                                    ResourceLocation.fromNamespaceAndPath(FloraExpansion.MODID, "spiked_leather"),
                                     "_overlay",
                                     false
                             )

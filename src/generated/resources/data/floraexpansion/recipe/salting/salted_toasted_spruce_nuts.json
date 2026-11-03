@@ -1,0 +1,14 @@
+{
+  "type": "floraexpansion:salting",
+  "ingredient": {
+    "tag": "floraexpansion:toasted_spruce_nuts"
+  },
+  "result": {
+    "count": 4,
+    "id": "floraexpansion:salted_toasted_spruce_nuts"
+  },
+  "salt": {
+    "item": "floraexpansion:salt"
+  },
+  "show_notification": false
+}

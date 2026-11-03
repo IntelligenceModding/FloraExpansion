@@ -1,0 +1,11 @@
+{
+  "parent": "floraexpansion:block/crate",
+  "overrides": [
+    {
+      "model": "floraexpansion:item/crate_packed",
+      "predicate": {
+        "minecraft:custom_model_data": 1
+      }
+    }
+  ]
+}

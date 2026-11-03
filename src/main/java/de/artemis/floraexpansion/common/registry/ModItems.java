@@ -1,189 +1,209 @@
 package de.artemis.floraexpansion.common.registry;
 
 import de.artemis.floraexpansion.FloraExpansion;
-import de.artemis.floraexpansion.common.registry.ModBlocks;
-import de.artemis.floraexpansion.common.registry.ModArmorMaterials;
-import de.artemis.floraexpansion.common.registry.ModFoods;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.material.Fluids;
-import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemNameBlockItem;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.food.FoodProperties;
+
+import de.artemis.floraexpansion.common.projectile.SpruceConeProjectile;
+import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.ArmorItem;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import de.artemis.floraexpansion.common.item.*;
+import net.minecraft.world.level.block.Block;
+import java.util.function.Supplier;
 
 public class ModItems {
     public static final DeferredRegister.Items ITEMS = DeferredRegister.createItems(FloraExpansion.MODID);
+    public static final DeferredItem<Item> MUSIC_DISC_INTO_THE_CAVES = ITEMS.registerItem("music_disc_into_the_caves",
+            properties -> new Item(properties.stacksTo(1).rarity(net.minecraft.world.item.Rarity.UNCOMMON)
+                    .jukeboxPlayable(ModJukeboxSongs.INTO_THE_CAVES)));
+    public static final DeferredItem<BlockItem> RAW_SALT = ITEMS.registerItem("raw_salt",
+            properties -> new net.minecraft.world.item.ItemNameBlockItem(ModBlocks.SALT_DEPOSIT.get(), properties));
+    public static final DeferredItem<Item> SALT = ITEMS.registerSimpleItem("salt");
+    public static final DeferredItem<Item> SALTED_GLASSWORT = ITEMS.registerItem("salted_glasswort",
+            properties -> new Item(properties.food(ModFoods.SALTED_GLASSWORT)));
+    public static final DeferredItem<net.minecraft.world.item.BucketItem> SALT_WATER_BUCKET = ITEMS.registerItem("salt_water_bucket",
+            properties -> new net.minecraft.world.item.BucketItem(ModFluids.SALT_WATER.get(), properties.stacksTo(1).craftRemainder(Items.BUCKET)));
+    public static final DeferredItem<Item> WOODEN_SALT_WATER_BUCKET = ITEMS.registerItem("wooden_salt_water_bucket",
+            properties -> new WoodenBucketItem(ModFluids.SALT_WATER.get(), properties.stacksTo(1).durability(10)));
+    public static final DeferredItem<Item> SALTED_SPRUCE_NUTS = ITEMS.registerItem("salted_spruce_nuts",
+            properties -> new Item(properties.food(ModFoods.SALTED_SPRUCE_NUTS)));
+    public static final DeferredItem<Item> SALTED_TOASTED_SPRUCE_NUTS = ITEMS.registerItem("salted_toasted_spruce_nuts",
+            properties -> new Item(properties.food(ModFoods.SALTED_TOASTED_SPRUCE_NUTS)));
+    public static final DeferredItem<Item> SALTED_RAW_MEAT = ITEMS.registerSimpleItem("salted_raw_meat");
+    public static final DeferredItem<Item> SALTED_RAW_FISH = ITEMS.registerSimpleItem("salted_raw_fish");
+    public static final DeferredItem<Item> CURED_MEAT = ITEMS.registerItem("cured_meat",
+            properties -> new Item(properties.food(ModFoods.CURED_MEAT)));
+    public static final DeferredItem<Item> CURED_FISH = ITEMS.registerItem("cured_fish",
+            properties -> new Item(properties.food(ModFoods.CURED_FISH)));
 
-    public static final DeferredItem<PineConeItem> PINE_CONE = ITEMS.register("pine_cone",
-            () -> new PineConeItem(new Item.Properties()));
+    public static final DeferredItem<ThrowableResourceItem> SPRUCE_CONE = ITEMS.registerItem("spruce_cone",
+            properties -> new ThrowableResourceItem(properties, SoundEvents.SCAFFOLDING_BREAK,
+                    SpruceConeProjectile::new, SpruceConeProjectile::new));
 
-    public static final DeferredItem<PebblesItem> PEBBLES = ITEMS.register("pebbles",
-            () -> new PebblesItem(new Item.Properties()));
+    public static final DeferredItem<PebbleItem> PEBBLES = ITEMS.registerItem("pebbles", PebbleItem::new);
 
-    public static final DeferredItem<Item> PINE_NUTS = ITEMS.register("pine_nuts",
-            () -> new Item(new Item.Properties().food(ModFoods.PINE_NUTS)));
+    public static final DeferredItem<Item> SPRUCE_NUTS = ITEMS.registerItem("spruce_nuts",
+            properties -> new Item(properties.food(ModFoods.SPRUCE_NUTS)));
 
-    public static final DeferredItem<Item> TOASTED_PINE_NUTS = ITEMS.register("toasted_pine_nuts",
-            () -> new Item(new Item.Properties().food(ModFoods.TOASTED_PINE_NUTS)));
+    public static final DeferredItem<Item> TOASTED_SPRUCE_NUTS = ITEMS.registerItem("toasted_spruce_nuts",
+            properties -> new Item(properties.food(ModFoods.TOASTED_SPRUCE_NUTS)));
 
-    public static final DeferredItem<Item> TWIG = ITEMS.register("twig",
-            () -> new Item(new Item.Properties()));
+    public static final DeferredItem<Item> TWIG = ITEMS.registerSimpleItem("twig");
 
-    public static final DeferredItem<Item> FOREST_SNACK = ITEMS.register("forest_snack",
-            () -> new Item(new Item.Properties().food(ModFoods.FOREST_SNACK)));
+    public static final DeferredItem<Item> TRAIL_MIX = ITEMS.registerItem("trail_mix",
+            properties -> new Item(properties.food(ModFoods.TRAIL_MIX)));
 
-    public static final DeferredItem<Item> SWEET_BERRY_MIX = ITEMS.register("sweet_berry_mix",
-            () -> new Item(new Item.Properties().food(ModFoods.SWEET_BERRY_MIX)));
+    public static final DeferredItem<Item> MIXED_BERRIES = ITEMS.registerItem("mixed_berries",
+            properties -> new Item(properties.food(ModFoods.MIXED_BERRIES)));
 
-    public static final DeferredItem<Item> BLUEBERRIES = ITEMS.register("blueberries",
-            () -> new ItemNameBlockItem(ModBlocks.BLUEBERRY_BUSH.get(), new Item.Properties().food(ModFoods.BLUEBERRIES)));
+    public static final DeferredItem<Item> BLUEBERRIES = ITEMS.registerItem("blueberries",
+            properties -> new net.minecraft.world.item.ItemNameBlockItem(ModBlocks.BLUEBERRY_BUSH.get(), properties.food(ModFoods.BLUEBERRIES)));
 
-    public static final DeferredItem<Item> BLUEBERRY_COOKIE = ITEMS.register("blueberry_cookie",
-            () -> new Item(new Item.Properties().food(ModFoods.BLUEBERRY_COOKIE)));
+    public static final DeferredItem<Item> BLUEBERRY_COOKIE = ITEMS.registerItem("blueberry_cookie",
+            properties -> new Item(properties.food(ModFoods.BLUEBERRY_COOKIE)));
 
-    public static final DeferredItem<Item> BLUEBERRY_PIE = ITEMS.register("blueberry_pie",
-            () -> new BlueberryPieItem(new Item.Properties().food(ModFoods.BLUEBERRY_PIE).stacksTo(1)));
+    public static final DeferredItem<Item> BLUEBERRY_PIE = ITEMS.registerItem("blueberry_pie",
+            properties -> new Item(properties.food(ModFoods.BLUEBERRY_PIE).stacksTo(1)));
 
-    public static final DeferredItem<Item> BLUEBERRY_PIE_SLICE = ITEMS.register("blueberry_pie_slice",
-            () -> new Item(new Item.Properties().food(ModFoods.BLUEBERRY_PIE_SLICE)));
+    public static final DeferredItem<Item> SLICE_OF_BLUEBERRY_PIE = ITEMS.registerItem("slice_of_blueberry_pie",
+            properties -> new Item(properties.food(ModFoods.SLICE_OF_BLUEBERRY_PIE)));
 
-    public static final DeferredItem<Item> BLUEBERRY_JUICE = ITEMS.register("blueberry_juice",
-            () -> new BottledJuiceItem(new Item.Properties().food(ModFoods.BLUEBERRY_JUICE).stacksTo(16)));
+    public static final DeferredItem<Item> BLUEBERRY_JUICE = registerJuice("blueberry_juice", ModFoods.BLUEBERRY_JUICE);
 
-    public static final DeferredItem<Item> BASKET = ITEMS.register("basket",
-            () -> new BasketItem(new Item.Properties().stacksTo(1)));
+    public static final DeferredItem<Item> BASKET = ITEMS.registerItem("basket",
+            properties -> new BasketItem(properties.stacksTo(1)));
 
-    public static final DeferredItem<Item> EMPTY_JAR = ITEMS.register("empty_jar",
-            () -> new Item(new Item.Properties().stacksTo(16)));
+    public static final DeferredItem<Item> GLASS_JAR = ITEMS.registerItem("glass_jar",
+            properties -> new net.minecraft.world.item.ItemNameBlockItem(ModBlocks.GLASS_JAR.get(), properties.stacksTo(16)));
 
-    public static final DeferredItem<Item> BLUEBERRY_JAM = ITEMS.register("blueberry_jam",
-            () -> new JarFoodItem(new Item.Properties().food(ModFoods.BLUEBERRY_JAM).stacksTo(16)));
+    public static final DeferredItem<Item> BLUEBERRY_JAM = registerJam("blueberry_jam", () -> ModBlocks.BLUEBERRY_JAM.get());
 
-    public static final DeferredItem<Item> STRAWBERRY = ITEMS.register("strawberry",
-            () -> new ItemNameBlockItem(ModBlocks.STRAWBERRY_PLANT.get(), new Item.Properties().food(ModFoods.STRAWBERRY)));
+    public static final DeferredItem<Item> STRAWBERRY = ITEMS.registerItem("strawberry",
+            properties -> new net.minecraft.world.item.ItemNameBlockItem(ModBlocks.STRAWBERRY_PLANT.get(), properties.food(ModFoods.STRAWBERRY)));
 
-    public static final DeferredItem<Item> STRAWBERRY_JAM = ITEMS.register("strawberry_jam",
-            () -> new JarFoodItem(new Item.Properties().food(ModFoods.STRAWBERRY_JAM).stacksTo(16)));
+    public static final DeferredItem<Item> STRAWBERRY_JUICE = registerJuice("strawberry_juice", ModFoods.STRAWBERRY_JUICE);
 
-    public static final DeferredItem<Item> WOODEN_BUCKET = ITEMS.register("wooden_bucket",
-            () -> new WoodenBucketItem(Fluids.EMPTY, new Item.Properties().stacksTo(1).durability(10)));
+    public static final DeferredItem<Item> STRAWBERRY_JAM = registerJam("strawberry_jam", () -> ModBlocks.STRAWBERRY_JAM.get());
+    public static final DeferredItem<Item> CHERRY_JAM = registerJam("cherry_jam", () -> ModBlocks.CHERRY_JAM.get());
+    public static final DeferredItem<Item> APPLE_JAM = registerJam("apple_jam", () -> ModBlocks.APPLE_JAM.get());
 
-    public static final DeferredItem<Item> WOODEN_WATER_BUCKET = ITEMS.register("wooden_water_bucket",
-            () -> new WoodenBucketItem(Fluids.WATER, new Item.Properties().stacksTo(1).durability(10)));
+    public static final DeferredItem<Item> WOODEN_BUCKET = ITEMS.registerItem("wooden_bucket",
+            properties -> new WoodenBucketItem(Fluids.EMPTY, properties.stacksTo(1).durability(10)));
 
-    public static final DeferredItem<Item> WOODEN_LAVA_BUCKET = ITEMS.register("wooden_lava_bucket",
-            () -> new WoodenLavaBucketItem(new Item.Properties().stacksTo(1).durability(10)));
+    public static final DeferredItem<Item> WOODEN_WATER_BUCKET = ITEMS.registerItem("wooden_water_bucket",
+            properties -> new WoodenBucketItem(Fluids.WATER, properties.stacksTo(1).durability(10)));
 
-    public static final DeferredItem<Item> WOODEN_POWDER_SNOW_BUCKET = ITEMS.register("wooden_powder_snow_bucket",
-            () -> new WoodenPowderSnowBucketItem(new Item.Properties().stacksTo(1).durability(10)));
+    public static final DeferredItem<Item> WOODEN_LAVA_BUCKET = ITEMS.registerItem("wooden_lava_bucket",
+            properties -> new WoodenLavaBucketItem(properties.stacksTo(1).durability(10)));
 
-    public static final DeferredItem<Item> WOODEN_MILK_BUCKET = ITEMS.register("wooden_milk_bucket",
-            () -> new WoodenMilkBucketItem(new Item.Properties().stacksTo(1).durability(10)));
+    public static final DeferredItem<Item> WOODEN_POWDER_SNOW_BUCKET = ITEMS.registerItem("wooden_powder_snow_bucket",
+            properties -> new WoodenPowderSnowBucketItem(properties.stacksTo(1).durability(10)));
 
-    public static final DeferredItem<Item> COD_WOODEN_BUCKET = ITEMS.register("cod_wooden_bucket",
-            () -> new WoodenMobBucketItem(EntityType.COD, SoundEvents.BUCKET_EMPTY_FISH, new Item.Properties().stacksTo(1).durability(10)));
+    public static final DeferredItem<Item> WOODEN_MILK_BUCKET = ITEMS.registerItem("wooden_milk_bucket",
+            properties -> new WoodenMilkBucketItem(properties.stacksTo(1).durability(10)));
 
-    public static final DeferredItem<Item> SALMON_WOODEN_BUCKET = ITEMS.register("salmon_wooden_bucket",
-            () -> new WoodenMobBucketItem(EntityType.SALMON, SoundEvents.BUCKET_EMPTY_FISH, new Item.Properties().stacksTo(1).durability(10)));
+    public static final DeferredItem<Item> COD_WOODEN_BUCKET = ITEMS.registerItem("cod_wooden_bucket",
+            properties -> new WoodenMobBucketItem(EntityType.COD, SoundEvents.BUCKET_EMPTY_FISH, properties.stacksTo(1).durability(10)));
 
-    public static final DeferredItem<Item> PUFFERFISH_WOODEN_BUCKET = ITEMS.register("pufferfish_wooden_bucket",
-            () -> new WoodenMobBucketItem(EntityType.PUFFERFISH, SoundEvents.BUCKET_EMPTY_FISH, new Item.Properties().stacksTo(1).durability(10)));
+    public static final DeferredItem<Item> SALMON_WOODEN_BUCKET = ITEMS.registerItem("salmon_wooden_bucket",
+            properties -> new WoodenMobBucketItem(EntityType.SALMON, SoundEvents.BUCKET_EMPTY_FISH, properties.stacksTo(1).durability(10)));
 
-    public static final DeferredItem<Item> TROPICAL_FISH_WOODEN_BUCKET = ITEMS.register("tropical_fish_wooden_bucket",
-            () -> new WoodenMobBucketItem(EntityType.TROPICAL_FISH, SoundEvents.BUCKET_EMPTY_FISH, new Item.Properties().stacksTo(1).durability(10)));
+    public static final DeferredItem<Item> PUFFERFISH_WOODEN_BUCKET = ITEMS.registerItem("pufferfish_wooden_bucket",
+            properties -> new WoodenMobBucketItem(EntityType.PUFFERFISH, SoundEvents.BUCKET_EMPTY_FISH, properties.stacksTo(1).durability(10)));
 
-    public static final DeferredItem<Item> AXOLOTL_WOODEN_BUCKET = ITEMS.register("axolotl_wooden_bucket",
-            () -> new WoodenMobBucketItem(EntityType.AXOLOTL, SoundEvents.BUCKET_EMPTY_AXOLOTL, new Item.Properties().stacksTo(1).durability(10)));
+    public static final DeferredItem<Item> TROPICAL_FISH_WOODEN_BUCKET = ITEMS.registerItem("tropical_fish_wooden_bucket",
+            properties -> new WoodenMobBucketItem(EntityType.TROPICAL_FISH, SoundEvents.BUCKET_EMPTY_FISH, properties.stacksTo(1).durability(10)));
 
-    public static final DeferredItem<Item> TADPOLE_WOODEN_BUCKET = ITEMS.register("tadpole_wooden_bucket",
-            () -> new WoodenMobBucketItem(EntityType.TADPOLE, SoundEvents.BUCKET_EMPTY_TADPOLE, new Item.Properties().stacksTo(1).durability(10)));
+    public static final DeferredItem<Item> AXOLOTL_WOODEN_BUCKET = ITEMS.registerItem("axolotl_wooden_bucket",
+            properties -> new WoodenMobBucketItem(EntityType.AXOLOTL, SoundEvents.BUCKET_EMPTY_AXOLOTL, properties.stacksTo(1).durability(10)));
 
-    public static final DeferredItem<Item> FLAX_SEED = ITEMS.register("flax_seed",
-            () -> new ItemNameBlockItem(ModBlocks.FLAX_CROP.get(), new Item.Properties()));
+    public static final DeferredItem<Item> TADPOLE_WOODEN_BUCKET = ITEMS.registerItem("tadpole_wooden_bucket",
+            properties -> new WoodenMobBucketItem(EntityType.TADPOLE, SoundEvents.BUCKET_EMPTY_TADPOLE, properties.stacksTo(1).durability(10)));
 
-    public static final DeferredItem<Item> FLAX_FIBER = ITEMS.register("flax_fiber",
-            () -> new Item(new Item.Properties()));
+    public static final DeferredItem<Item> FLAX_SEEDS = ITEMS.registerItem("flax_seeds",
+            properties -> new net.minecraft.world.item.ItemNameBlockItem(ModBlocks.FLAX.get(), properties));
 
-    public static final DeferredItem<Item> FLAX_FLOWER = ITEMS.register("flax_flower",
-            () -> new Item(new Item.Properties()));
+    public static final DeferredItem<Item> FLAX_FIBER = ITEMS.registerSimpleItem("flax_fiber");
 
-    public static final DeferredItem<Item> LINEN_THREAD = ITEMS.register("linen_thread",
-            () -> new Item(new Item.Properties()));
+    public static final DeferredItem<Item> FLAX_FLOWER = ITEMS.registerSimpleItem("flax_flower");
 
-    public static final DeferredItem<Item> LINEN_CLOTH = ITEMS.register("linen_cloth",
-            () -> new Item(new Item.Properties()));
+    public static final DeferredItem<Item> LINEN_THREAD = ITEMS.registerSimpleItem("linen_thread");
 
-    public static final DeferredItem<Item> CHERRIES = ITEMS.register("cherries",
-            () -> new CherriesItem(new Item.Properties().food(ModFoods.CHERRIES)));
+    public static final DeferredItem<Item> LINEN_FABRIC = ITEMS.registerSimpleItem("linen_fabric");
 
-    public static final DeferredItem<Item> CHERRY_JUICE = ITEMS.register("cherry_juice",
-            () -> new BottledJuiceItem(new Item.Properties().food(ModFoods.CHERRY_JUICE).stacksTo(16)));
+    public static final DeferredItem<Item> CHERRIES = ITEMS.registerItem("cherries",
+            properties -> new CherriesItem(properties.food(ModFoods.CHERRIES)));
 
-    public static final DeferredItem<Item> APPLE_JUICE = ITEMS.register("apple_juice",
-            () -> new BottledJuiceItem(new Item.Properties().food(ModFoods.APPLE_JUICE).stacksTo(16)));
+    public static final DeferredItem<Item> CHERRY_JUICE = registerJuice("cherry_juice", ModFoods.CHERRY_JUICE);
 
-    public static final DeferredItem<Item> CACTUS_SIGN = ITEMS.register("cactus_sign",
-            () -> new net.minecraft.world.item.SignItem(new Item.Properties().stacksTo(16),
+    public static final DeferredItem<Item> APPLE_JUICE = registerJuice("apple_juice", ModFoods.APPLE_JUICE);
+
+    public static final DeferredItem<Item> CACTUS_SIGN = ITEMS.registerItem("cactus_sign",
+            properties -> new net.minecraft.world.item.StandingAndWallBlockItem(
                     ModBlocks.CACTUS_SIGN.get(),
-                    ModBlocks.CACTUS_WALL_SIGN.get()));
+                    ModBlocks.CACTUS_WALL_SIGN.get(),
+                    properties.stacksTo(16),
+                    net.minecraft.core.Direction.DOWN));
 
-    public static final DeferredItem<Item> CACTUS_HANGING_SIGN = ITEMS.register("cactus_hanging_sign",
-            () -> new net.minecraft.world.item.HangingSignItem(
+    public static final DeferredItem<Item> CACTUS_HANGING_SIGN = ITEMS.registerItem("cactus_hanging_sign",
+            properties -> new net.minecraft.world.item.HangingSignItem(
                     ModBlocks.CACTUS_HANGING_SIGN.get(),
                     ModBlocks.CACTUS_WALL_HANGING_SIGN.get(),
-                    new Item.Properties().stacksTo(16)));
+                    properties.stacksTo(16)));
 
-    public static final DeferredItem<Item> CACTUS_BOAT = ITEMS.register("cactus_boat",
-            () -> new CactusBoatItem(false, new Item.Properties().stacksTo(1)));
+    public static final DeferredItem<Item> CACTUS_BOAT = ITEMS.registerItem("cactus_boat",
+            properties -> new CactusBoatItem(false, properties.stacksTo(1)));
 
-    public static final DeferredItem<Item> CACTUS_CHEST_BOAT = ITEMS.register("cactus_chest_boat",
-            () -> new CactusBoatItem(true, new Item.Properties().stacksTo(1)));
+    public static final DeferredItem<Item> CACTUS_CHEST_BOAT = ITEMS.registerItem("cactus_chest_boat",
+            properties -> new CactusBoatItem(true, properties.stacksTo(1)));
 
-    public static final DeferredItem<Item> CACTUS_HELMET = ITEMS.register("cactus_helmet",
-            () -> new CactusArmorItem(
-                    ModArmorMaterials.CACTUS,
-                    ArmorItem.Type.HELMET,
-                    new Item.Properties().durability(ArmorItem.Type.HELMET.getDurability(7))
-            ));
+    public static final DeferredItem<SpikedLeatherArmorItem> SPIKED_LEATHER_HELMET =
+            ITEMS.registerItem("spiked_leather_helmet",
+                    properties -> new SpikedLeatherArmorItem(ArmorItem.Type.HELMET, properties
+                    ));
 
-    public static final DeferredItem<Item> PRICKLY_PEAR = ITEMS.register("prickly_pear",
-            () -> new ItemNameBlockItem(ModBlocks.OPUNTIA_CACTUS.get(), new Item.Properties().food(ModFoods.PRICKLY_PEAR)));
+    public static final DeferredItem<Item> PRICKLY_PEAR = ITEMS.registerItem("prickly_pear",
+            properties -> new net.minecraft.world.item.ItemNameBlockItem(ModBlocks.PRICKLY_PEAR_CACTUS.get(), properties.food(ModFoods.PRICKLY_PEAR)));
 
-    public static final DeferredItem<Item> CACTUS_SLICE = ITEMS.register("cactus_slice",
-            () -> new Item(new Item.Properties().food(ModFoods.CACTUS_SLICE)));
+    public static final DeferredItem<Item> CACTUS_SLICE = ITEMS.registerItem("cactus_slice",
+            properties -> new Item(properties.food(ModFoods.CACTUS_SLICE)));
 
-    public static final DeferredItem<Item> CACTUS_JUICE = ITEMS.register("cactus_juice",
-            () -> new BottledJuiceItem(new Item.Properties().food(ModFoods.CACTUS_JUICE).stacksTo(16)));
+    public static final DeferredItem<Item> CACTUS_JUICE = registerJuice("cactus_juice", ModFoods.CACTUS_JUICE);
 
-    public static final DeferredItem<Item> CACTUS_CHESTPLATE = ITEMS.register("cactus_chestplate",
-            () -> new CactusArmorItem(
-                    ModArmorMaterials.CACTUS,
-                    ArmorItem.Type.CHESTPLATE,
-                    new Item.Properties().durability(ArmorItem.Type.CHESTPLATE.getDurability(7))
-            ));
+    public static final DeferredItem<SpikedLeatherArmorItem> SPIKED_LEATHER_CHESTPLATE =
+            ITEMS.registerItem("spiked_leather_chestplate",
+                    properties -> new SpikedLeatherArmorItem(ArmorItem.Type.CHESTPLATE, properties
+                    ));
 
-    public static final DeferredItem<Item> CACTUS_LEGGINGS = ITEMS.register("cactus_leggings",
-            () -> new CactusArmorItem(
-                    ModArmorMaterials.CACTUS,
-                    ArmorItem.Type.LEGGINGS,
-                    new Item.Properties().durability(ArmorItem.Type.LEGGINGS.getDurability(7))
-            ));
+    public static final DeferredItem<SpikedLeatherArmorItem> SPIKED_LEATHER_LEGGINGS =
+            ITEMS.registerItem("spiked_leather_leggings",
+                    properties -> new SpikedLeatherArmorItem(ArmorItem.Type.LEGGINGS, properties
+                    ));
 
-    public static final DeferredItem<Item> CACTUS_BOOTS = ITEMS.register("cactus_boots",
-            () -> new CactusArmorItem(
-                    ModArmorMaterials.CACTUS,
-                    ArmorItem.Type.BOOTS,
-                    new Item.Properties().durability(ArmorItem.Type.BOOTS.getDurability(7))
-            ));
+    public static final DeferredItem<SpikedLeatherArmorItem> SPIKED_LEATHER_BOOTS =
+            ITEMS.registerItem("spiked_leather_boots",
+                    properties -> new SpikedLeatherArmorItem(ArmorItem.Type.BOOTS, properties
+                    ));
+
+    private static DeferredItem<Item> registerJuice(String name, FoodProperties food) {
+        return ITEMS.registerItem(name, properties -> new ContainerFoodItem(
+                properties.food(food).stacksTo(16), () -> Items.GLASS_BOTTLE));
+    }
+
+    private static DeferredItem<Item> registerJam(String name, Supplier<? extends Block> block) {
+        return ITEMS.registerItem(name, properties -> new ContainerFoodBlockItem(
+                block.get(),
+                properties.food(ModFoods.JAM).stacksTo(16), GLASS_JAR::get));
+    }
 
     public static void register(IEventBus eventBus) {
         ITEMS.register(eventBus);
     }
 }
-
-
-

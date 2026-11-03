@@ -1,5 +1,7 @@
 package de.artemis.floraexpansion.common.network.payload;
 
+import org.jetbrains.annotations.NotNull;
+
 import de.artemis.floraexpansion.FloraExpansion;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.RegistryFriendlyByteBuf;
@@ -19,7 +21,7 @@ public record CrateExtractPayload(BlockPos pos, boolean fullStack) implements Cu
     );
 
     @Override
-    public Type<CrateExtractPayload> type() {
+    @NotNull public Type<CrateExtractPayload> type() {
         return TYPE;
     }
 }

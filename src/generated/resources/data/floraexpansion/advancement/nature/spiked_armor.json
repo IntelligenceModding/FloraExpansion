@@ -1,0 +1,51 @@
+{
+  "parent": "floraexpansion:nature/desert",
+  "criteria": {
+    "wear": {
+      "conditions": {
+        "player": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "equipment": {
+                "chest": {
+                  "items": "floraexpansion:spiked_leather_chestplate"
+                },
+                "feet": {
+                  "items": "floraexpansion:spiked_leather_boots"
+                },
+                "head": {
+                  "items": "floraexpansion:spiked_leather_helmet"
+                },
+                "legs": {
+                  "items": "floraexpansion:spiked_leather_leggings"
+                }
+              }
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:location"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.floraexpansion.spiked_armor.description"
+    },
+    "frame": "goal",
+    "icon": {
+      "count": 1,
+      "id": "floraexpansion:spiked_leather_chestplate"
+    },
+    "title": {
+      "translate": "advancements.floraexpansion.spiked_armor.title"
+    }
+  },
+  "requirements": [
+    [
+      "wear"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

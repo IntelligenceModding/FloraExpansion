@@ -1,0 +1,30 @@
+{
+  "parent": "floraexpansion:nature/crate",
+  "criteria": {
+    "performed": {
+      "conditions": {
+        "action": "tie_crate"
+      },
+      "trigger": "floraexpansion:action"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.floraexpansion.tie_crate.description"
+    },
+    "frame": "goal",
+    "icon": {
+      "count": 1,
+      "id": "floraexpansion:linen_thread"
+    },
+    "title": {
+      "translate": "advancements.floraexpansion.tie_crate.title"
+    }
+  },
+  "requirements": [
+    [
+      "performed"
+    ]
+  ],
+  "sends_telemetry_event": true
+}
