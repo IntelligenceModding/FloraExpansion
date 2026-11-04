@@ -39,6 +39,15 @@ dependencies {
  }
 }
 mixin { add sourceSets.main, 'main.refmap.json'; config 'floraexpansion.mixins.json' }
+// MixinGradle writes these outside the classes directory. Include them in
+// Gradle's cached outputs so a restored compilation also restores its mappings.
+def mixinRefmap = layout.buildDirectory.file('tmp/compileJava/main.refmap.json')
+tasks.named('compileJava', JavaCompile) {
+ options.incremental = false
+ outputs.files(mixinRefmap,
+         layout.buildDirectory.file('tmp/compileJava/compileJava-refmap.json'),
+         layout.buildDirectory.file('tmp/compileJava/compileJava-mappings.tsrg'))
+}
 sourceSets.main.resources { srcDir 'src/generated/resources'; exclude '.cache/**' }
 tasks.named('processResources', ProcessResources) {
  def props = project.properties.findAll { k, v -> k.startsWith('mod_') || k.endsWith('_version_range') || k == 'minecraft_version' }
@@ -46,6 +55,12 @@ tasks.named('processResources', ProcessResources) {
  filesMatching('META-INF/mods.toml') { expand props }
 }
 tasks.named('jar', Jar) {
+ doFirst {
+  def refmap = mixinRefmap.get().asFile
+  if (!refmap.isFile() || !new groovy.json.JsonSlurper().parse(refmap).mappings) {
+   throw new GradleException('Mixin reference map is missing or empty; refusing to package an unusable mod.')
+  }
+ }
  exclude '**/ForgePortTests*', 'data/floraexpansion/structures/empty.nbt'
  from('LICENSE')
  manifest { attributes('MixinConfigs': 'floraexpansion.mixins.json') }
