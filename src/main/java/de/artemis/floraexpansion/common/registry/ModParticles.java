@@ -4,15 +4,15 @@ import de.artemis.floraexpansion.FloraExpansion;
 import net.minecraft.core.particles.ParticleType;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.neoforged.bus.api.IEventBus;
-import net.neoforged.neoforge.registries.DeferredRegister;
+import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.registries.DeferredRegister;
 
 import java.util.function.Supplier;
 
 public class ModParticles {
 
     public static final DeferredRegister<ParticleType<?>> PARTICLE_TYPES =
-            DeferredRegister.create(BuiltInRegistries.PARTICLE_TYPE, FloraExpansion.MODID);
+            DeferredRegister.create(net.minecraft.core.registries.Registries.PARTICLE_TYPE, FloraExpansion.MODID);
     public static final Supplier<SimpleParticleType> DRIPPING_SALT_WATER = PARTICLE_TYPES.register("dripping_salt_water", () -> new SimpleParticleType(false));
     public static final Supplier<SimpleParticleType> FALLING_SALT_WATER = PARTICLE_TYPES.register("falling_salt_water", () -> new SimpleParticleType(false));
     public static final Supplier<SimpleParticleType> LANDING_SALT_WATER = PARTICLE_TYPES.register("landing_salt_water", () -> new SimpleParticleType(false));

@@ -1,7 +1,0 @@
-{
-  "type": "floraexpansion:salting",
-  "ingredient": "minecraft:potato",
-  "processing_time": 40,
-  "salt": "floraexpansion:raw_salt",
-  "result": { "id": "minecraft:baked_potato", "count": 5 }
-}

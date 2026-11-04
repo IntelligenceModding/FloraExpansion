@@ -32,7 +32,7 @@ public record SaltSpriteSource(ResourceLocation resource, ResourceLocation sprit
             FloraExpansion.LOGGER.warn("Missing salt item source texture: {}", resource);
             return;
         }
-        output.add(sprite, loader -> loader.loadSprite(sprite, source.get(), (id, frame, image, metadata) -> {
+        output.add(sprite, loader -> SpriteLoader.load(sprite, source.get(), (id, frame, image, metadata) -> {
             for (int y = 0; y < image.getHeight(); y++) for (int x = 0; x < image.getWidth(); x++) {
                 int color = NativePixels.get(image, x, y);
                 if ((color >>> 24) == 0) continue;

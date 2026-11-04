@@ -1,0 +1,6 @@
+{
+  "type": "forge:add_features",
+  "biomes": "#floraexpansion:has_pebble_clusters",
+  "features": "floraexpansion:pebble_cluster_placed",
+  "step": "local_modifications"
+}

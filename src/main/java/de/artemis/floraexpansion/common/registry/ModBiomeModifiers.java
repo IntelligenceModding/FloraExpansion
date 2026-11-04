@@ -7,9 +7,9 @@ import net.minecraft.data.worldgen.BootstrapContext;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.levelgen.GenerationStep;
-import net.neoforged.neoforge.common.world.BiomeModifier;
-import net.neoforged.neoforge.common.world.BiomeModifiers;
-import net.neoforged.neoforge.registries.NeoForgeRegistries;
+import net.minecraftforge.common.world.BiomeModifier;
+import net.minecraftforge.common.world.ForgeBiomeModifiers;
+import net.minecraftforge.registries.ForgeRegistries;
 
 public class ModBiomeModifiers {
     public static final ResourceKey<BiomeModifier> ADD_SALT_CAVE = registerKey("add_salt_cave");
@@ -34,99 +34,99 @@ public class ModBiomeModifiers {
     public static void bootstrap(BootstrapContext<BiomeModifier> context) {
         var placedFeatures = context.lookup(Registries.PLACED_FEATURE);
         var biomes = context.lookup(Registries.BIOME);
-        context.register(ADD_SALT_CAVE, new BiomeModifiers.AddFeaturesBiomeModifier(
+        context.register(ADD_SALT_CAVE, new ForgeBiomeModifiers.AddFeaturesBiomeModifier(
                 biomes.getOrThrow(ModTags.Biomes.HAS_SALT_CAVE),
                 HolderSet.direct(placedFeatures.getOrThrow(ModPlacedFeatures.SALT_CAVE_SURFACE_PLACED_KEY)),
                 GenerationStep.Decoration.UNDERGROUND_DECORATION));
-        context.register(ADD_SALT_FORMATION, new BiomeModifiers.AddFeaturesBiomeModifier(
+        context.register(ADD_SALT_FORMATION, new ForgeBiomeModifiers.AddFeaturesBiomeModifier(
                 biomes.getOrThrow(ModTags.Biomes.HAS_SALT_FORMATION),
                 HolderSet.direct(placedFeatures.getOrThrow(ModPlacedFeatures.SALT_FORMATION_PLACED_KEY)),
                 GenerationStep.Decoration.UNDERGROUND_ORES));
-        context.register(ADD_SALT_DEPOSIT, new BiomeModifiers.AddFeaturesBiomeModifier(
+        context.register(ADD_SALT_DEPOSIT, new ForgeBiomeModifiers.AddFeaturesBiomeModifier(
                 biomes.getOrThrow(ModTags.Biomes.HAS_SALT_DEPOSIT),
                 HolderSet.direct(placedFeatures.getOrThrow(ModPlacedFeatures.SALT_DEPOSIT_PLACED_KEY)),
                 GenerationStep.Decoration.VEGETAL_DECORATION));
 
-        context.register(ADD_PRICKLY_PEAR_CACTUS, new BiomeModifiers.AddFeaturesBiomeModifier(
+        context.register(ADD_PRICKLY_PEAR_CACTUS, new ForgeBiomeModifiers.AddFeaturesBiomeModifier(
                 biomes.getOrThrow(ModTags.Biomes.HAS_PRICKLY_PEAR_CACTUS),
                 HolderSet.direct(placedFeatures.getOrThrow(ModPlacedFeatures.PRICKLY_PEAR_CACTUS_PLACED_KEY)),
                 GenerationStep.Decoration.VEGETAL_DECORATION
         ));
 
-        context.register(ADD_SMALL_CACTUS, new BiomeModifiers.AddFeaturesBiomeModifier(
+        context.register(ADD_SMALL_CACTUS, new ForgeBiomeModifiers.AddFeaturesBiomeModifier(
                 biomes.getOrThrow(ModTags.Biomes.HAS_SMALL_CACTUS),
                 HolderSet.direct(placedFeatures.getOrThrow(ModPlacedFeatures.SMALL_CACTUS_PLACED_KEY)),
                 GenerationStep.Decoration.VEGETAL_DECORATION
         ));
 
-        context.register(ADD_FALLEN_GIANT_CACTUS, new BiomeModifiers.AddFeaturesBiomeModifier(
+        context.register(ADD_FALLEN_GIANT_CACTUS, new ForgeBiomeModifiers.AddFeaturesBiomeModifier(
                 biomes.getOrThrow(ModTags.Biomes.HAS_FALLEN_GIANT_CACTUS),
                 HolderSet.direct(placedFeatures.getOrThrow(ModPlacedFeatures.FALLEN_GIANT_CACTUS_PLACED_KEY)),
                 GenerationStep.Decoration.VEGETAL_DECORATION
         ));
 
-        context.register(ADD_PEBBLE_CLUSTERS, new BiomeModifiers.AddFeaturesBiomeModifier(
+        context.register(ADD_PEBBLE_CLUSTERS, new ForgeBiomeModifiers.AddFeaturesBiomeModifier(
                 biomes.getOrThrow(ModTags.Biomes.HAS_PEBBLE_CLUSTERS),
                 HolderSet.direct(placedFeatures.getOrThrow(ModPlacedFeatures.PEBBLE_CLUSTER_PLACED_KEY)),
                 GenerationStep.Decoration.LOCAL_MODIFICATIONS));
 
-        context.register(ADD_NEEDLE_LITTER, new BiomeModifiers.AddFeaturesBiomeModifier(
+        context.register(ADD_NEEDLE_LITTER, new ForgeBiomeModifiers.AddFeaturesBiomeModifier(
                 biomes.getOrThrow(ModTags.Biomes.HAS_NEEDLE_LITTER),
                 HolderSet.direct(placedFeatures.getOrThrow(ModPlacedFeatures.NEEDLE_LITTER_PLACED_KEY)),
                 GenerationStep.Decoration.VEGETAL_DECORATION));
 
-        context.register(ADD_BLUEBERRY_BUSHES, new BiomeModifiers.AddFeaturesBiomeModifier(
+        context.register(ADD_BLUEBERRY_BUSHES, new ForgeBiomeModifiers.AddFeaturesBiomeModifier(
                 biomes.getOrThrow(ModTags.Biomes.HAS_BLUEBERRY_BUSHES),
                 HolderSet.direct(placedFeatures.getOrThrow(ModPlacedFeatures.BLUEBERRY_BUSH_PLACED_KEY)),
                 GenerationStep.Decoration.VEGETAL_DECORATION));
 
-        context.register(ADD_WILD_FLAX, new BiomeModifiers.AddFeaturesBiomeModifier(
+        context.register(ADD_WILD_FLAX, new ForgeBiomeModifiers.AddFeaturesBiomeModifier(
                 biomes.getOrThrow(ModTags.Biomes.HAS_WILD_FLAX),
                 HolderSet.direct(placedFeatures.getOrThrow(ModPlacedFeatures.WILD_FLAX_PLACED_KEY)),
                 GenerationStep.Decoration.VEGETAL_DECORATION));
 
-        context.register(ADD_WILD_STRAWBERRIES, new BiomeModifiers.AddFeaturesBiomeModifier(
+        context.register(ADD_WILD_STRAWBERRIES, new ForgeBiomeModifiers.AddFeaturesBiomeModifier(
                 biomes.getOrThrow(ModTags.Biomes.HAS_WILD_STRAWBERRIES),
                 HolderSet.direct(placedFeatures.getOrThrow(ModPlacedFeatures.WILD_STRAWBERRY_PLACED_KEY)),
                 GenerationStep.Decoration.VEGETAL_DECORATION));
 
-        context.register(ADD_ORCHARD_CHERRY_TREES, new BiomeModifiers.AddFeaturesBiomeModifier(
+        context.register(ADD_ORCHARD_CHERRY_TREES, new ForgeBiomeModifiers.AddFeaturesBiomeModifier(
                 biomes.getOrThrow(ModTags.Biomes.HAS_ORCHARD_CHERRY_TREES),
                 HolderSet.direct(placedFeatures.getOrThrow(ModPlacedFeatures.ORCHARD_CHERRY_TREE_PLACED_KEY)),
                 GenerationStep.Decoration.VEGETAL_DECORATION
         ));
 
-        context.register(ADD_APPLE_TREES_SPARSE, new BiomeModifiers.AddFeaturesBiomeModifier(
+        context.register(ADD_APPLE_TREES_SPARSE, new ForgeBiomeModifiers.AddFeaturesBiomeModifier(
                 biomes.getOrThrow(ModTags.Biomes.HAS_APPLE_TREES_SPARSE),
                 HolderSet.direct(placedFeatures.getOrThrow(ModPlacedFeatures.APPLE_SPARSE_PLACED_KEY)),
                 GenerationStep.Decoration.VEGETAL_DECORATION
         ));
 
-        context.register(ADD_APPLE_TREES_FOREST, new BiomeModifiers.AddFeaturesBiomeModifier(
+        context.register(ADD_APPLE_TREES_FOREST, new ForgeBiomeModifiers.AddFeaturesBiomeModifier(
                 biomes.getOrThrow(ModTags.Biomes.HAS_APPLE_TREES_FOREST),
                 HolderSet.direct(placedFeatures.getOrThrow(ModPlacedFeatures.APPLE_FOREST_PLACED_KEY)),
                 GenerationStep.Decoration.VEGETAL_DECORATION
         ));
 
-        context.register(ADD_FANCY_APPLE_TREES_RARE, new BiomeModifiers.AddFeaturesBiomeModifier(
+        context.register(ADD_FANCY_APPLE_TREES_RARE, new ForgeBiomeModifiers.AddFeaturesBiomeModifier(
                 biomes.getOrThrow(ModTags.Biomes.HAS_FANCY_APPLE_TREES_RARE),
                 HolderSet.direct(placedFeatures.getOrThrow(ModPlacedFeatures.FANCY_APPLE_RARE_PLACED_KEY)),
                 GenerationStep.Decoration.VEGETAL_DECORATION
         ));
 
-        context.register(ADD_FANCY_APPLE_TREES_JUNGLE, new BiomeModifiers.AddFeaturesBiomeModifier(
+        context.register(ADD_FANCY_APPLE_TREES_JUNGLE, new ForgeBiomeModifiers.AddFeaturesBiomeModifier(
                 biomes.getOrThrow(ModTags.Biomes.HAS_FANCY_APPLE_TREES_JUNGLE),
                 HolderSet.direct(placedFeatures.getOrThrow(ModPlacedFeatures.FANCY_APPLE_JUNGLE_PLACED_KEY)),
                 GenerationStep.Decoration.VEGETAL_DECORATION
         ));
 
-        context.register(ADD_APPLE_TREES_DARK_FOREST, new BiomeModifiers.AddFeaturesBiomeModifier(
+        context.register(ADD_APPLE_TREES_DARK_FOREST, new ForgeBiomeModifiers.AddFeaturesBiomeModifier(
                 biomes.getOrThrow(ModTags.Biomes.HAS_APPLE_TREES_DARK_FOREST),
                 HolderSet.direct(placedFeatures.getOrThrow(ModPlacedFeatures.APPLE_DARK_FOREST_PLACED_KEY)),
                 GenerationStep.Decoration.VEGETAL_DECORATION
         ));
 
-        context.register(ADD_GIANT_CACTUS, new BiomeModifiers.AddFeaturesBiomeModifier(
+        context.register(ADD_GIANT_CACTUS, new ForgeBiomeModifiers.AddFeaturesBiomeModifier(
                 biomes.getOrThrow(ModTags.Biomes.HAS_GIANT_CACTUS),
                 HolderSet.direct(placedFeatures.getOrThrow(ModPlacedFeatures.GIANT_CACTUS_PLACED_KEY)),
                 GenerationStep.Decoration.VEGETAL_DECORATION
@@ -135,7 +135,7 @@ public class ModBiomeModifiers {
 
     private static ResourceKey<BiomeModifier> registerKey(String name) {
         return ResourceKey.create(
-                NeoForgeRegistries.Keys.BIOME_MODIFIERS,
+                ForgeRegistries.Keys.BIOME_MODIFIERS,
                 ResourceLocation.fromNamespaceAndPath(FloraExpansion.MODID, name)
         );
     }

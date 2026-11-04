@@ -118,7 +118,7 @@ public class FlaxBlock extends CropBlock {
         if (age >= getMaxAge()) return;
         if (!ensureSpaceForTop(serverLevel, blockPos, age + 1)) return;
 
-        float speed = getGrowthSpeed(blockState, serverLevel, blockPos);
+        float speed = getGrowthSpeed(blockState.getBlock(), serverLevel, blockPos);
         if (PlantGrowth.canGrow(serverLevel, blockPos, blockState, random, (int) (25.0F / speed) + 1, ServerConfig.cropGrowth.get())) {
             growCropBy(serverLevel, blockPos, blockState, 1);
             PlantGrowth.grown(serverLevel, blockPos, blockState);
@@ -315,7 +315,7 @@ public class FlaxBlock extends CropBlock {
 
     @Override
     protected @NotNull ItemLike getBaseSeedId() {
-        return ModItems.FLAX_SEEDS;
+        return ModItems.FLAX_SEEDS.get();
     }
 
     @Override

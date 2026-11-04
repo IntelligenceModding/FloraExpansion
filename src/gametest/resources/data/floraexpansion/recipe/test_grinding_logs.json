@@ -1,6 +1,0 @@
-{
-  "type": "floraexpansion:grinding",
-  "ingredient": "#minecraft:logs",
-  "result": {"id": "minecraft:stick", "count": 3},
-  "turns": 2
-}

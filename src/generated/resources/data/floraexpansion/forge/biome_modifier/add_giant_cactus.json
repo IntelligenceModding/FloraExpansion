@@ -1,0 +1,6 @@
+{
+  "type": "forge:add_features",
+  "biomes": "#floraexpansion:has_giant_cactus",
+  "features": "floraexpansion:giant_cactus_placed",
+  "step": "vegetal_decoration"
+}

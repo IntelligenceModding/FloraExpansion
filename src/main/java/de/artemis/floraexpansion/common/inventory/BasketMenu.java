@@ -1,7 +1,7 @@
 package de.artemis.floraexpansion.common.inventory;
 
 import de.artemis.floraexpansion.common.registry.ModMenuTypes;
-import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.Container;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Inventory;
@@ -24,7 +24,7 @@ public class BasketMenu extends AbstractContainerMenu {
     private final InteractionHand sourceHand;
     private final int sourceSlot;
 
-    public BasketMenu(int containerId, Inventory playerInventory, RegistryFriendlyByteBuf extraData) {
+    public BasketMenu(int containerId, Inventory playerInventory, FriendlyByteBuf extraData) {
         this(containerId, playerInventory, extraData.readEnum(InteractionHand.class), extraData.readVarInt());
     }
 

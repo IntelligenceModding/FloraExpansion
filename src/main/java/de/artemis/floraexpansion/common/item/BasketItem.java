@@ -179,7 +179,8 @@ public class BasketItem extends Item {
 
     public static void openBasket(Player player, InteractionHand hand) {
         int sourceSlot = getSourceSlot(player, hand);
-        player.openMenu(
+        if (!(player instanceof net.minecraft.server.level.ServerPlayer serverPlayer)) return;
+        serverPlayer.openMenu(
                 new SimpleMenuProvider(
                         (containerId, inventory, basketPlayer) -> new BasketMenu(containerId, inventory, hand, sourceSlot),
                         Component.translatable(ModItems.BASKET.get().getDescriptionId())

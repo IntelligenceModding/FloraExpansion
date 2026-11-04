@@ -1,0 +1,6 @@
+{
+  "type": "forge:add_features",
+  "biomes": "#floraexpansion:has_wild_flax",
+  "features": "floraexpansion:wild_flax_placed",
+  "step": "vegetal_decoration"
+}

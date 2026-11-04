@@ -1,0 +1,6 @@
+{
+  "type": "forge:add_features",
+  "biomes": "#floraexpansion:has_prickly_pear_cactus",
+  "features": "floraexpansion:prickly_pear_cactus_placed",
+  "step": "vegetal_decoration"
+}

@@ -17,6 +17,6 @@ public class SaltWaterCauldronBlock extends LayeredCauldronBlock {
         return fluid == de.artemis.floraexpansion.common.registry.ModFluids.SALT_WATER.get();
     }
     @Override protected void receiveStalactiteDrip(@NotNull BlockState state, @NotNull Level level, @NotNull BlockPos pos, @NotNull Fluid fluid) {
-        if (!isFull(state) && canReceiveStalactiteDrip(fluid)) fluid.getFluidType().handleCauldronDrip(fluid, level, pos);
+        if (!isFull(state) && canReceiveStalactiteDrip(fluid)) de.artemis.floraexpansion.common.registry.ModFluids.handleCauldronDrip(fluid, level, pos);
     }
 }

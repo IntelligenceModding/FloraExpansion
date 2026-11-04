@@ -2,8 +2,8 @@ package de.artemis.floraexpansion.client;
 
 import de.artemis.floraexpansion.common.registry.ModBlocks;
 
-import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.neoforge.client.event.RegisterColorHandlersEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.client.event.RegisterColorHandlersEvent;
 
 public class ModColorHandlers {
 

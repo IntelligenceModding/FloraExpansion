@@ -1,0 +1,6 @@
+{
+  "type": "forge:add_features",
+  "biomes": "#floraexpansion:has_needle_litter",
+  "features": "floraexpansion:needle_litter_placed",
+  "step": "vegetal_decoration"
+}

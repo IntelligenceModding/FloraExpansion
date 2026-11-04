@@ -5,14 +5,14 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
-import net.neoforged.neoforge.registries.DeferredBlock;
+import net.minecraftforge.registries.RegistryObject;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Map;
 
 /** Rehosts existing vanilla ore deposits without changing their distribution or replacing modded ores. */
 public final class CalciteOreVariants {
-    private static final Map<Block, DeferredBlock<? extends Block>> VARIANTS = Map.ofEntries(
+    private static final Map<Block, RegistryObject<? extends Block>> VARIANTS = Map.ofEntries(
             Map.entry(Blocks.COAL_ORE, ModBlocks.CALCITE_COAL_ORE), Map.entry(Blocks.DEEPSLATE_COAL_ORE, ModBlocks.CALCITE_COAL_ORE),
             Map.entry(Blocks.IRON_ORE, ModBlocks.CALCITE_IRON_ORE), Map.entry(Blocks.DEEPSLATE_IRON_ORE, ModBlocks.CALCITE_IRON_ORE),
             Map.entry(Blocks.COPPER_ORE, ModBlocks.CALCITE_COPPER_ORE), Map.entry(Blocks.DEEPSLATE_COPPER_ORE, ModBlocks.CALCITE_COPPER_ORE),

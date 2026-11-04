@@ -39,7 +39,7 @@ public class WoodenMobBucketItem extends MobBucketItem {
         }
 
         BlockState blockState = level.getBlockState(blockPos);
-        BlockPos placePos = canBlockContainFluid(player, level, blockPos, blockState) ? blockPos : relativePos;
+        BlockPos placePos = canBlockContainFluid(level, blockPos, blockState) ? blockPos : relativePos;
         return WoodenBucketUtil.emptyContents(this, level, player, itemStack, placePos, hitResult);
     }
 }

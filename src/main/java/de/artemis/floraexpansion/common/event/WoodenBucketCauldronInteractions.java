@@ -21,13 +21,13 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.LayeredCauldronBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.gameevent.GameEvent;
-import net.neoforged.bus.api.SubscribeEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 
 
 /** Vanilla cauldron rules, with wooden-bucket transformations instead of iron buckets. */
 public final class WoodenBucketCauldronInteractions {
     @SubscribeEvent
-    public static void register(net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent event) {
+    public static void register(net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent event) {
         event.enqueueWork(WoodenBucketCauldronInteractions::registerInteractions);
     }
     private static void registerInteractions() {

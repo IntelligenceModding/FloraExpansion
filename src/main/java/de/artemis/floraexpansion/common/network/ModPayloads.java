@@ -15,21 +15,28 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
-import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
-import net.neoforged.neoforge.network.handling.IPayloadContext;
+import net.minecraftforge.network.ChannelBuilder;
+import net.minecraftforge.network.SimpleChannel;
+import net.minecraftforge.event.network.CustomPayloadEvent;
 import de.artemis.floraexpansion.common.config.ServerConfig;
 
 public final class ModPayloads {
     private ModPayloads() {
     }
 
-    public static void register(RegisterPayloadHandlersEvent event) {
-        event.registrar("1").playToServer(CrateExtractPayload.TYPE, CrateExtractPayload.STREAM_CODEC, ModPayloads::handleCrateExtract);
+    public static final SimpleChannel CHANNEL = ChannelBuilder.named("floraexpansion:main").networkProtocolVersion(1).simpleChannel();
+    public static void register() {
+        CHANNEL.messageBuilder(CrateExtractPayload.class, net.minecraftforge.network.NetworkDirection.PLAY_TO_SERVER)
+            .encoder((packet, buffer) -> { buffer.writeBlockPos(packet.pos()); buffer.writeBoolean(packet.fullStack()); })
+            .decoder(buffer -> new CrateExtractPayload(buffer.readBlockPos(), buffer.readBoolean()))
+            .consumerNetworkThread(ModPayloads::handleCrateExtract).add();
     }
 
-    private static void handleCrateExtract(CrateExtractPayload payload, IPayloadContext context) {
+    private static void handleCrateExtract(CrateExtractPayload payload, CustomPayloadEvent.Context context) {
+        context.setPacketHandled(true);
         context.enqueueWork(() -> {
-            if (!(context.player() instanceof ServerPlayer player) || player.isSpectator() || !ServerConfig.crateExtraction.get()) {
+            ServerPlayer player = context.getSender();
+            if (player == null || player.isSpectator() || !ServerConfig.crateExtraction.get()) {
                 return;
             }
 

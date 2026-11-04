@@ -7,7 +7,7 @@ import net.minecraft.data.recipes.*;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.ItemTags;
 import de.artemis.floraexpansion.common.registry.ModTags;
-import net.neoforged.neoforge.common.Tags;
+import net.minecraftforge.common.Tags;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.level.ItemLike;
@@ -192,7 +192,7 @@ public class ModRecipeProvider extends RecipeProvider {
                 .save(recipeOutput, modLoc("cactus_planks_from_giant_cactus_stem"));
 
         shapeless(RecipeCategory.BUILDING_BLOCKS, ModItems.CACTUS_SLICE.get(), 2)
-                .requires(ModBlocks.GIANT_CACTUS_STEM, 1)
+                .requires(ModBlocks.GIANT_CACTUS_STEM.get(), 1)
                 .unlockedBy(getHasName(ModBlocks.GIANT_CACTUS_STEM.get()),
                         has(ModBlocks.GIANT_CACTUS_STEM.get()))
                 .save(recipeOutput);
@@ -251,14 +251,14 @@ public class ModRecipeProvider extends RecipeProvider {
                 .unlockedBy(getHasName(ModBlocks.CACTUS_SLAB.get()), has(ModBlocks.CACTUS_SLAB.get()))
                 .save(recipeOutput);
 
-        shaped(RecipeCategory.MISC, ModBlocks.TWIG_LADDER, 3)
+        shaped(RecipeCategory.MISC, ModBlocks.TWIG_LADDER.get(), 3)
                 .pattern("A A")
                 .pattern("BBB")
                 .pattern("A A")
                 .define('A', ModTags.Items.LINEN_THREADS)
-                .define('B', ModItems.TWIG)
+                .define('B', ModItems.TWIG.get())
                 .unlockedBy("has_linen_thread", has(ModTags.Items.LINEN_THREADS))
-                .unlockedBy("has_twig", has(ModItems.TWIG))
+                .unlockedBy("has_twig", has(ModItems.TWIG.get()))
                 .save(recipeOutput);
 
         shaped(RecipeCategory.DECORATIONS, ModBlocks.CRATE.get())
@@ -284,7 +284,7 @@ public class ModRecipeProvider extends RecipeProvider {
                 .unlockedBy("has_planks", has(ItemTags.PLANKS))
                 .save(recipeOutput);
 
-        shaped(RecipeCategory.DECORATIONS, ModBlocks.LINEN_CARPET, 3)
+        shaped(RecipeCategory.DECORATIONS, ModBlocks.LINEN_CARPET.get(), 3)
                 .pattern("CC")
                 .define('C', ModBlocks.LINEN_BALE.get())
                 .unlockedBy("has_linen_bale", has(ModBlocks.LINEN_BALE.get()))
@@ -316,48 +316,48 @@ public class ModRecipeProvider extends RecipeProvider {
                 .unlockedBy("has_linen_bale", has(ModBlocks.LINEN_BALE.get()))
                 .save(recipeOutput, modLoc("white_bed_from_linen_bale"));
 
-        shapeless(RecipeCategory.MISC, ModItems.SPRUCE_CONE, 1)
-                .requires(ModBlocks.NEEDLE_LITTER)
-                .unlockedBy("has_needle_litter", has(ModBlocks.NEEDLE_LITTER))
+        shapeless(RecipeCategory.MISC, ModItems.SPRUCE_CONE.get(), 1)
+                .requires(ModBlocks.NEEDLE_LITTER.get())
+                .unlockedBy("has_needle_litter", has(ModBlocks.NEEDLE_LITTER.get()))
                 .save(recipeOutput);
 
-        shapeless(RecipeCategory.MISC, ModItems.PEBBLES, 1)
-                .requires(ModBlocks.SCATTERED_PEBBLES)
-                .unlockedBy("has_scattered_pebbles", has(ModBlocks.SCATTERED_PEBBLES))
+        shapeless(RecipeCategory.MISC, ModItems.PEBBLES.get(), 1)
+                .requires(ModBlocks.SCATTERED_PEBBLES.get())
+                .unlockedBy("has_scattered_pebbles", has(ModBlocks.SCATTERED_PEBBLES.get()))
                 .save(recipeOutput, modLoc("pebbles_from_scattered_pebbles"));
 
         shapeless(RecipeCategory.MISC, Items.LIGHT_BLUE_DYE, 1)
-                .requires(ModItems.FLAX_FLOWER)
-                .unlockedBy("has_flax_flower", has(ModItems.FLAX_FLOWER))
+                .requires(ModItems.FLAX_FLOWER.get())
+                .unlockedBy("has_flax_flower", has(ModItems.FLAX_FLOWER.get()))
                 .save(recipeOutput, modLoc("light_blue_dye_from_flax_flower"));
 
-        shapeless(RecipeCategory.MISC, ModItems.SPRUCE_NUTS, 2)
-                .requires(ModItems.SPRUCE_CONE)
-                .unlockedBy("has_spruce_cone", has(ModItems.SPRUCE_CONE))
+        shapeless(RecipeCategory.MISC, ModItems.SPRUCE_NUTS.get(), 2)
+                .requires(ModItems.SPRUCE_CONE.get())
+                .unlockedBy("has_spruce_cone", has(ModItems.SPRUCE_CONE.get()))
                 .save(recipeOutput);
 
         shapeless(RecipeCategory.MISC, Items.STICK, 2)
-                .requires(ModItems.TWIG)
-                .unlockedBy("has_twig", has(ModItems.TWIG))
+                .requires(ModItems.TWIG.get())
+                .unlockedBy("has_twig", has(ModItems.TWIG.get()))
                 .save(recipeOutput, modLoc("stick_from_twig"));
 
-        shapeless(RecipeCategory.MISC, ModItems.TRAIL_MIX, 3)
+        shapeless(RecipeCategory.MISC, ModItems.TRAIL_MIX.get(), 3)
                 .requires(tag(ModTags.Items.TOASTED_SPRUCE_NUTS))
                 .requires(Items.PUMPKIN_SEEDS)
                 .requires(Items.SWEET_BERRIES)
                 .requires(Items.HONEY_BOTTLE)
-                .unlockedBy("has_toasted_spruce_nuts", has(ModItems.TOASTED_SPRUCE_NUTS))
+                .unlockedBy("has_toasted_spruce_nuts", has(ModItems.TOASTED_SPRUCE_NUTS.get()))
                 .unlockedBy("has_pumpkin_seeds", has(Items.PUMPKIN_SEEDS))
                 .unlockedBy("has_sweet_berries", has(Items.SWEET_BERRIES))
                 .unlockedBy("has_honey_bottle", has(Items.HONEY_BOTTLE))
                 .save(recipeOutput);
 
-        shapeless(RecipeCategory.FOOD, ModItems.MIXED_BERRIES, 3)
-                .requires(ModItems.BLUEBERRIES)
-                .requires(ModItems.STRAWBERRY)
+        shapeless(RecipeCategory.FOOD, ModItems.MIXED_BERRIES.get(), 3)
+                .requires(ModItems.BLUEBERRIES.get())
+                .requires(ModItems.STRAWBERRY.get())
                 .requires(tag(Tags.Items.FOODS_BERRY))
-                .unlockedBy("has_blueberries", has(ModItems.BLUEBERRIES))
-                .unlockedBy("has_strawberry", has(ModItems.STRAWBERRY))
+                .unlockedBy("has_blueberries", has(ModItems.BLUEBERRIES.get()))
+                .unlockedBy("has_strawberry", has(ModItems.STRAWBERRY.get()))
                 .unlockedBy("has_berries", has(Tags.Items.FOODS_BERRY))
                 .save(recipeOutput);
 
@@ -384,72 +384,72 @@ public class ModRecipeProvider extends RecipeProvider {
                 .unlockedBy("has_blueberry_pie", has(ModItems.BLUEBERRY_PIE.get()))
                 .save(recipeOutput);
 
-        shapeless(RecipeCategory.MISC, ModItems.LINEN_THREAD, 2)
+        shapeless(RecipeCategory.MISC, ModItems.LINEN_THREAD.get(), 2)
                 .requires(tag(ModTags.Items.LINEN_FIBERS), 4)
                 .unlockedBy("has_flax_fiber", has(ModTags.Items.LINEN_FIBERS))
                 .save(recipeOutput);
 
-        shapeless(RecipeCategory.MISC, ModItems.LINEN_FABRIC, 2)
+        shapeless(RecipeCategory.MISC, ModItems.LINEN_FABRIC.get(), 2)
                 .requires(tag(ModTags.Items.LINEN_THREADS), 4)
                 .unlockedBy("has_linen_thread", has(ModTags.Items.LINEN_THREADS))
                 .save(recipeOutput);
 
-        shapeless(RecipeCategory.MISC, ModBlocks.LINEN_BALE, 1)
-                .requires(ModItems.LINEN_FABRIC, 4)
-                .unlockedBy("has_linen_fabric", has(ModItems.LINEN_FABRIC))
+        shapeless(RecipeCategory.MISC, ModBlocks.LINEN_BALE.get(), 1)
+                .requires(ModItems.LINEN_FABRIC.get(), 4)
+                .unlockedBy("has_linen_fabric", has(ModItems.LINEN_FABRIC.get()))
                 .save(recipeOutput);
 
 
 
-        shapeless(RecipeCategory.MISC, ModBlocks.FLAX_BALE, 1)
+        shapeless(RecipeCategory.MISC, ModBlocks.FLAX_BALE.get(), 1)
                 .requires(tag(ModTags.Items.LINEN_FIBERS), 9)
                 .unlockedBy("has_flax_fiber", has(ModTags.Items.LINEN_FIBERS))
                 .save(recipeOutput);
 
-        shapeless(RecipeCategory.MISC, ModItems.FLAX_FIBER, 9)
-                .requires(ModBlocks.FLAX_BALE, 1)
-                .unlockedBy("has_flax_bale", has(ModBlocks.FLAX_BALE))
+        shapeless(RecipeCategory.MISC, ModItems.FLAX_FIBER.get(), 9)
+                .requires(ModBlocks.FLAX_BALE.get(), 1)
+                .unlockedBy("has_flax_bale", has(ModBlocks.FLAX_BALE.get()))
                 .save(recipeOutput);
 
         shapeless(RecipeCategory.MISC, Items.BROWN_DYE, 1)
-                .requires(ModBlocks.CHERRY_PIT, 1)
-                .unlockedBy("has_cherry_pit", has(ModBlocks.CHERRY_PIT))
+                .requires(ModBlocks.CHERRY_PIT.get(), 1)
+                .unlockedBy("has_cherry_pit", has(ModBlocks.CHERRY_PIT.get()))
                 .save(recipeOutput, modLoc("brown_dye_from_cherry_pit"));
 
         shapeless(RecipeCategory.MISC, Items.BROWN_DYE, 1)
-                .requires(ModBlocks.APPLE_CORE, 1)
-                .unlockedBy("has_apple_core", has(ModBlocks.APPLE_CORE))
+                .requires(ModBlocks.APPLE_CORE.get(), 1)
+                .unlockedBy("has_apple_core", has(ModBlocks.APPLE_CORE.get()))
                 .save(recipeOutput, modLoc("brown_dye_from_apple_core"));
 
-        shapeless(RecipeCategory.FOOD, ModItems.CHERRY_JUICE, 1)
-                .requires(ModItems.CHERRIES, 3)
+        shapeless(RecipeCategory.FOOD, ModItems.CHERRY_JUICE.get(), 1)
+                .requires(ModItems.CHERRIES.get(), 3)
                 .requires(Items.GLASS_BOTTLE)
-                .unlockedBy("has_cherries", has(ModItems.CHERRIES))
+                .unlockedBy("has_cherries", has(ModItems.CHERRIES.get()))
                 .unlockedBy("has_glass_bottle", has(Items.GLASS_BOTTLE))
                 .save(recipeOutput);
 
-        shapeless(RecipeCategory.FOOD, ModItems.CACTUS_JUICE, 1)
-                .requires(ModItems.CACTUS_SLICE, 2)
+        shapeless(RecipeCategory.FOOD, ModItems.CACTUS_JUICE.get(), 1)
+                .requires(ModItems.CACTUS_SLICE.get(), 2)
                 .requires(Items.GLASS_BOTTLE)
-                .unlockedBy("has_cactus_slice", has(ModItems.CACTUS_SLICE))
+                .unlockedBy("has_cactus_slice", has(ModItems.CACTUS_SLICE.get()))
                 .unlockedBy("has_glass_bottle", has(Items.GLASS_BOTTLE))
                 .save(recipeOutput);
 
-        shapeless(RecipeCategory.FOOD, ModItems.BLUEBERRY_JUICE, 1)
+        shapeless(RecipeCategory.FOOD, ModItems.BLUEBERRY_JUICE.get(), 1)
                 .requires(ModItems.BLUEBERRIES.get(), 3)
                 .requires(Items.GLASS_BOTTLE)
                 .unlockedBy("has_blueberries", has(ModItems.BLUEBERRIES.get()))
                 .unlockedBy("has_glass_bottle", has(Items.GLASS_BOTTLE))
                 .save(recipeOutput);
 
-        jam(ModItems.BLUEBERRY_JAM, ModItems.BLUEBERRIES);
-        jam(ModItems.STRAWBERRY_JAM, ModItems.STRAWBERRY);
-        shapeless(RecipeCategory.FOOD, ModItems.STRAWBERRY_JUICE, 1)
+        jam(ModItems.BLUEBERRY_JAM.get(), ModItems.BLUEBERRIES.get());
+        jam(ModItems.STRAWBERRY_JAM.get(), ModItems.STRAWBERRY.get());
+        shapeless(RecipeCategory.FOOD, ModItems.STRAWBERRY_JUICE.get(), 1)
                 .requires(ModItems.STRAWBERRY.get(), 3).requires(Items.GLASS_BOTTLE)
-                .unlockedBy("has_strawberry", has(ModItems.STRAWBERRY))
+                .unlockedBy("has_strawberry", has(ModItems.STRAWBERRY.get()))
                 .unlockedBy("has_glass_bottle", has(Items.GLASS_BOTTLE)).save(recipeOutput);
-        jam(ModItems.CHERRY_JAM, ModItems.CHERRIES);
-        jam(ModItems.APPLE_JAM, Items.APPLE);
+        jam(ModItems.CHERRY_JAM.get(), ModItems.CHERRIES.get());
+        jam(ModItems.APPLE_JAM.get(), Items.APPLE);
 
         shapeless(RecipeCategory.FOOD, ModBlocks.STRAWBERRY_CAKE.get())
                 .requires(Items.CAKE)
@@ -466,7 +466,7 @@ public class ModRecipeProvider extends RecipeProvider {
                 .unlockedBy("has_glass", has(Items.GLASS))
                 .save(recipeOutput);
 
-        shapeless(RecipeCategory.FOOD, ModItems.APPLE_JUICE, 1)
+        shapeless(RecipeCategory.FOOD, ModItems.APPLE_JUICE.get(), 1)
                 .requires(Items.APPLE, 2)
                 .requires(Items.GLASS_BOTTLE)
                 .unlockedBy("has_apples", has(Items.APPLE))
@@ -535,11 +535,13 @@ public class ModRecipeProvider extends RecipeProvider {
 
     protected static <T extends AbstractCookingRecipe> void oreCooking(@NotNull RecipeOutput recipeOutput, AbstractCookingRecipe.@NotNull Factory<T> factory, List<ItemLike> ingredients, @NotNull RecipeCategory category, @NotNull ItemLike result, float experience, int cookingTime, @NotNull String group, String recipeName) {
         for (ItemLike input : ingredients) {
-            // 1.21.11's builder infers MISC for ore outputs; keep 0.5's explicit BLOCKS category.
+            // Keep the explicit BLOCKS recipe-book category for ore outputs.
             RecipeOutput categorized = new RecipeOutput() {
+                @Override public void accept(ResourceLocation id, Recipe<?> recipe, ResourceLocation advancementId, com.google.gson.JsonElement json) { recipeOutput.accept(id, recipe, advancementId, json); }
+                @Override public net.minecraft.core.HolderLookup.Provider registry() { return recipeOutput.registry(); }
                 @NotNull @Override public net.minecraft.advancements.Advancement.Builder advancement() { return recipeOutput.advancement(); }
-                @Override public void accept(@NotNull ResourceLocation key, @NotNull Recipe<?> ignored, net.minecraft.advancements.AdvancementHolder advancement, net.neoforged.neoforge.common.conditions.ICondition @NotNull ... conditions) {
-                    recipeOutput.accept(key, factory.create(group, CookingBookCategory.BLOCKS, Ingredient.of(input), new net.minecraft.world.item.ItemStack(result), experience, cookingTime), advancement, conditions);
+                @Override public void accept(@NotNull ResourceLocation key, @NotNull Recipe<?> ignored, net.minecraft.advancements.AdvancementHolder advancement) {
+                    recipeOutput.accept(key, factory.create(group, CookingBookCategory.BLOCKS, Ingredient.of(input), new net.minecraft.world.item.ItemStack(result), experience, cookingTime), advancement);
                 }
             };
             (recipeName.contains("blasting") ? SimpleCookingRecipeBuilder.blasting(Ingredient.of(input), category, result, experience, cookingTime) : SimpleCookingRecipeBuilder.smelting(Ingredient.of(input), category, result, experience, cookingTime))

@@ -186,12 +186,12 @@ public class SaltSpikeBlock extends PointedDripstoneBlock {
 
     @VisibleForTesting
     public static void maybeTransferFluid(BlockState state, ServerLevel level, BlockPos pos, float randomValue) {
-        // NeoForge fluid drip settings also support modded brine.
+        // Salt spikes transfer vanilla fluids and registered brine.
         if (isStalactiteStartPos(state, level, pos)) {
             Optional<SaltSpikeBlock.FluidInfo> fluidInfo = getFluidAboveStalactite(level, pos, state);
             if (!fluidInfo.isEmpty()) {
                 Fluid fluid = fluidInfo.get().fluid;
-                net.neoforged.neoforge.fluids.FluidType.DripstoneDripInfo dripInfo = fluid.getFluidType().getDripInfo();
+                de.artemis.floraexpansion.common.registry.ModFluids.DripstoneDripInfo dripInfo = de.artemis.floraexpansion.common.registry.ModFluids.getDripInfo(fluid);
                 if (dripInfo != null && !(randomValue >= dripInfo.chance())) {
                     BlockPos stalactiteTipPos = findTip(state, level, pos, 11, false);
                     if (stalactiteTipPos != null) {
@@ -529,7 +529,7 @@ public class SaltSpikeBlock extends PointedDripstoneBlock {
     }
 
     private static boolean canFillCauldron(Fluid fluidAbove) {
-        return fluidAbove.getFluidType().getDripInfo() != null;
+        return de.artemis.floraexpansion.common.registry.ModFluids.getDripInfo(fluidAbove) != null;
     }
 
     private static boolean canGrow(BlockState rootState, BlockState aboveState) {
@@ -541,7 +541,7 @@ public class SaltSpikeBlock extends PointedDripstoneBlock {
         if (fluidAbove.isSame(Fluids.EMPTY)) {
             return (level.dimensionType().ultraWarm() ? ParticleTypes.DRIPPING_DRIPSTONE_LAVA : ParticleTypes.DRIPPING_DRIPSTONE_WATER);
         } else {
-            ParticleOptions options = fluidAbove.getFluidType().getDripInfo() != null ? fluidAbove.getFluidType().getDripInfo().dripParticle() : ParticleTypes.DRIPPING_DRIPSTONE_WATER;
+            ParticleOptions options = de.artemis.floraexpansion.common.registry.ModFluids.getDripInfo(fluidAbove) != null ? de.artemis.floraexpansion.common.registry.ModFluids.getDripInfo(fluidAbove).dripParticle() : ParticleTypes.DRIPPING_DRIPSTONE_WATER;
             if (options == null) options = (level.dimensionType().ultraWarm() ? ParticleTypes.DRIPPING_DRIPSTONE_LAVA : ParticleTypes.DRIPPING_DRIPSTONE_WATER);
             return options;
         }
@@ -589,4 +589,3 @@ public class SaltSpikeBlock extends PointedDripstoneBlock {
     record FluidInfo(BlockPos pos, Fluid fluid, BlockState sourceState) {
     }
 }
-

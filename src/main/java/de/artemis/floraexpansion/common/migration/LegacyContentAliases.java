@@ -7,14 +7,14 @@ import de.artemis.floraexpansion.common.registry.ModItems;
 import de.artemis.floraexpansion.common.registry.ModParticles;
 import de.artemis.floraexpansion.common.registry.ModTreeDecorators;
 import net.minecraft.resources.ResourceLocation;
-import net.neoforged.neoforge.registries.DeferredRegister;
+import net.minecraftforge.registries.DeferredRegister;
 
 import java.util.Map;
 
 /**
  * Permanent read aliases for renamed registry IDs.
  *
- * Register before registry events, on both sides. Aliases return the current object/holder,
+ * Register during the matching Forge registry event, on both sides. Aliases return the current object/holder,
  * so vanilla codecs retain state properties and components and save the canonical ID.
  * Do not gate these by the last-played version: old chunks and nested containers may
  * remain unloaded through any number of newer sessions.
@@ -110,23 +110,31 @@ public final class LegacyContentAliases {
     private LegacyContentAliases() {
     }
 
-    public static void register() {
+    public static void register(net.minecraftforge.eventbus.api.IEventBus modEventBus) {
+        modEventBus.addListener(LegacyContentAliases::aliases);
+    }
+    private static void aliases(net.minecraftforge.registries.RegisterEvent event) {
         // Removed packed-pebble content resolves to ordinary gravel in existing saves.
         for (String old : java.util.List.of("pebble_block", "packed_pebbles", "packed_pebbles_stairs", "packed_pebbles_slab", "packed_pebbles_wall")) {
-            ModBlocks.BLOCKS.addAlias(id(old), ResourceLocation.withDefaultNamespace("gravel"));
-            ModItems.ITEMS.addAlias(id(old), ResourceLocation.withDefaultNamespace("gravel"));
+            alias(event, ModBlocks.BLOCKS, id(old), ResourceLocation.withDefaultNamespace("gravel"));
+            alias(event, ModItems.ITEMS, id(old), ResourceLocation.withDefaultNamespace("gravel"));
         }
-        addAliases(ModBlocks.BLOCKS, BLOCKS);
-        addAliases(ModItems.ITEMS, ITEMS);
-        addAliases(ModFeatures.FEATURES, FEATURE_TYPES);
-        addAliases(ModTreeDecorators.TREE_DECORATORS, TREE_DECORATOR_TYPES);
-        addAliases(ModParticles.PARTICLE_TYPES, PARTICLE_TYPES);
+        addAliases(event, ModBlocks.BLOCKS, BLOCKS);
+        addAliases(event, ModItems.ITEMS, ITEMS);
+        addAliases(event, ModFeatures.FEATURES, FEATURE_TYPES);
+        addAliases(event, ModTreeDecorators.TREE_DECORATORS, TREE_DECORATOR_TYPES);
+        addAliases(event, ModParticles.PARTICLE_TYPES, PARTICLE_TYPES);
     }
 
-    private static void addAliases(DeferredRegister<?> registry, Map<String, String> renames) {
-        renames.forEach((oldName, newName) -> registry.addAlias(id(oldName), id(newName)));
+    private static void addAliases(net.minecraftforge.registries.RegisterEvent event, DeferredRegister<?> registry, Map<String, String> renames) {
+        renames.forEach((oldName, newName) -> alias(event, registry, id(oldName), id(newName)));
     }
 
+    private static void alias(net.minecraftforge.registries.RegisterEvent event, DeferredRegister<?> register, ResourceLocation oldId, ResourceLocation newId) {
+        if (!event.getRegistryKey().equals(register.getRegistryKey())) return;
+        var registry = net.minecraftforge.registries.RegistryManager.ACTIVE.getRegistry(register.getRegistryKey());
+        if (registry instanceof net.minecraftforge.registries.ForgeRegistry<?> forge) forge.addAlias(oldId, newId);
+    }
     private static ResourceLocation id(String path) {
         return ResourceLocation.fromNamespaceAndPath(FloraExpansion.MODID, path);
     }

@@ -30,7 +30,7 @@ final class SaltingRecipeParticles {
         var mc = Minecraft.getInstance();
         var random = RandomSource.create(seed);
         var sprite = mc.getItemRenderer().getModel(ingredient, mc.level, null, 0)
-                .getParticleIcon(net.neoforged.neoforge.client.model.data.ModelData.EMPTY);
+                .getParticleIcon(net.minecraftforge.client.model.data.ModelData.EMPTY);
         if (sprite == null) return;
         float ticks = seconds * 20;
         for (int i = 0; i < count; i++) {

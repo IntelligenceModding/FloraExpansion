@@ -23,7 +23,7 @@ import net.minecraft.world.entity.vehicle.Boat;
 import org.jetbrains.annotations.NotNull;
 import org.joml.Quaternionf;
 
-@net.neoforged.api.distmarker.OnlyIn(net.neoforged.api.distmarker.Dist.CLIENT)
+@net.minecraftforge.api.distmarker.OnlyIn(net.minecraftforge.api.distmarker.Dist.CLIENT)
 public class CactusBoatRenderer<T extends Boat> extends EntityRenderer<T> {
     private final Pair<ResourceLocation, ListModel<Boat>> boatResource;
 

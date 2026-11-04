@@ -89,7 +89,7 @@ You can view the available branches [here][branches].
 
 When contributing, always work against the branch matching the Minecraft version and loader your change targets.
 
-For example, a change developed for Minecraft 1.21.1 with NeoForge should target the corresponding 1.21.1 NeoForge branch.
+For example, a change developed for Minecraft 1.21.1 with Forge should target the corresponding 1.21.1 Forge branch.
 
 Do **not** target the `assets` branch for code changes. The `assets` branch is used for project images and other repository assets.
 
@@ -117,7 +117,7 @@ Check the following line in the branch's `build.gradle` file if you are unsure:
 java.toolchain.languageVersion = JavaLanguageVersion.of(...)
 ```
 
-For example, the Minecraft 1.21.1 NeoForge branch uses Java 21.
+For example, the Minecraft 1.21.1 Forge branch uses Java 21.
 
 Java builds such as Eclipse Temurin can be downloaded from [Adoptium][adoptium].
 
@@ -149,7 +149,7 @@ Before beginning work, switch to the branch matching the Minecraft version you w
 For example:
 
 ```bash
-git switch 1.21.1-neoforge
+git switch 1.21.1-forge
 ```
 
 It is recommended to create your own development branch from there.
@@ -232,29 +232,22 @@ Running the development client is strongly recommended for changes that affect g
 
 Changes should be tested before being submitted.
 
-The 1.21.1 branch includes an opt-in runtime compatibility audit:
+This branch targets Minecraft 1.21.1, Forge 52.1.20 or later within 52.x, and Java 21.
+
+Regenerate resources and build with the included wrapper:
 
 ```bat
-gradlew.bat runClient -PcompatibilityAudit
+gradlew.bat runData
+gradlew.bat build
 ```
 
-It checks all block and item models, generated textures, jam portion overrides, armor textures, recipes, block-entity persistence, signs, trades, storage, salting, grinding, falling salt, old save data, and surface spring placement and stability.
+On Linux or macOS, use `./gradlew` instead of `gradlew.bat`. The installable release is `build/libs/floraexpansion-<mod_version>-forge-mc1.21.1.jar`; the build produces one jar in that directory.
 
-The gameplay audit includes 20 detailed interaction scenarios covering jar nutrition and container returns, crank mounting and redstone timing, blocked mill output, real hopper transfers, salting batches, cauldrons, and salt spikes.
+Launch the development client with `gradlew.bat runClient`. JEI loads by default as an optional development dependency; add `-PwithoutOptionalMods` to verify operation without it. AppleSkin has no official Forge release for Minecraft 1.21.1.
 
-The client audit also samples crank animation between ticks, checking rapid turns, all mounting directions, complete rotations, and synchronization with the mill renderer and interaction shapes.
+Local regression suites under `src/forgeTest`, `src/gametest`, and `src/compatibilityAudit` are ignored by Git. If the Forge suite is present locally, run `gradlew.bat runGameTestServer -PforgeTests`. A fresh checkout does not include those tests. The historical gameplay and compatibility-audit suites target other APIs and are not wired into this branch's build. CI validates data generation and the release build.
 
-CI runs the server checks with Java 21. To run these without a display, create `build/compatibility-1211-server/eula.txt` with `eula=true`, then run:
-
-```bat
-gradlew.bat runServer -PcompatibilityAudit -PwithoutOptionalMods
-```
-
-The audits create isolated worlds under `build/compatibility-1211-client` or `build/compatibility-1211-server` and exit after the checks pass. Sources and fixtures in `src/compatibilityAudit` are excluded from normal builds. The newer-version suite in `src/gametest` is not compatible with 1.21.1. Regenerate resources with `gradlew.bat runData`, then build the release with `gradlew.bat build` without test properties. On Linux or macOS, use `./gradlew` instead of `gradlew.bat`.
-
-Release jars follow `floraexpansion-<mod_version>-neoforge-mc1.21.1.jar`, matching Laboratoryblocks' naming convention.
-
-Add `-PwithoutOptionalMods` to either test command to verify operation without JEI and AppleSkin.
+Test the packaged jar in a normal Forge installation as well as the development client, especially after changes to mixins or build configuration. This branch uses Mojang mappings in both development and production; do not remap its release jar or mixin targets to SRG names.
 
 There is currently no expectation that every contribution includes automated tests. For most Flora Expansion changes, practical in-game testing is more useful.
 

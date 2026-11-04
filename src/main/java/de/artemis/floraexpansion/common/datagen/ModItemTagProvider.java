@@ -10,15 +10,15 @@ import net.minecraft.tags.ItemTags;
 
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
-import net.neoforged.neoforge.common.Tags;
+import net.minecraftforge.common.Tags;
 import net.minecraft.data.tags.IntrinsicHolderTagsProvider;
-import net.neoforged.neoforge.registries.DeferredBlock;
+import net.minecraftforge.registries.RegistryObject;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.concurrent.CompletableFuture;
 
 public class ModItemTagProvider extends IntrinsicHolderTagsProvider<Item> {
-    public ModItemTagProvider(PackOutput output, CompletableFuture<HolderLookup.Provider> lookupProvider, net.neoforged.neoforge.common.data.ExistingFileHelper existingFiles) {
+    public ModItemTagProvider(PackOutput output, CompletableFuture<HolderLookup.Provider> lookupProvider, net.minecraftforge.common.data.ExistingFileHelper existingFiles) {
         super(output, Registries.ITEM, lookupProvider, item -> item.builtInRegistryHolder().key(), FloraExpansion.MODID, existingFiles);
     }
 
@@ -176,7 +176,7 @@ public class ModItemTagProvider extends IntrinsicHolderTagsProvider<Item> {
                 .add(ModItems.PRICKLY_PEAR.get());
     }
 
-    private static Item blockItemKey(DeferredBlock<? extends Block> block) {
+    private static Item blockItemKey(RegistryObject<? extends Block> block) {
         return block.get().asItem();
     }
 }

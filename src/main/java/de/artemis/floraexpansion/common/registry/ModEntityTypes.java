@@ -10,17 +10,17 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
-import net.neoforged.bus.api.IEventBus;
-import net.neoforged.neoforge.registries.DeferredHolder;
-import net.neoforged.neoforge.registries.DeferredRegister;
+import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.registries.RegistryObject;
+import net.minecraftforge.registries.DeferredRegister;
 import de.artemis.floraexpansion.common.entity.CactusBoatEntity;
 import de.artemis.floraexpansion.common.entity.CactusChestBoatEntity;
 
 public class ModEntityTypes {
     public static final DeferredRegister<EntityType<?>> ENTITY_TYPES =
-            DeferredRegister.create(BuiltInRegistries.ENTITY_TYPE, FloraExpansion.MODID);
+            DeferredRegister.create(net.minecraft.core.registries.Registries.ENTITY_TYPE, FloraExpansion.MODID);
 
-    public static final DeferredHolder<EntityType<?>, EntityType<CactusBoatEntity>> CACTUS_BOAT =
+    public static final RegistryObject<EntityType<CactusBoatEntity>> CACTUS_BOAT =
             ENTITY_TYPES.register("cactus_boat",
                     () -> EntityType.Builder.<CactusBoatEntity>of(CactusBoatEntity::new, MobCategory.MISC)
                             .sized(1.375F, 0.5625F)
@@ -28,7 +28,7 @@ public class ModEntityTypes {
                             .updateInterval(1)
                             .build(key("cactus_boat").location().toString()));
 
-    public static final DeferredHolder<EntityType<?>, EntityType<CactusChestBoatEntity>> CACTUS_CHEST_BOAT =
+    public static final RegistryObject<EntityType<CactusChestBoatEntity>> CACTUS_CHEST_BOAT =
             ENTITY_TYPES.register("cactus_chest_boat",
                     () -> EntityType.Builder.<CactusChestBoatEntity>of(CactusChestBoatEntity::new, MobCategory.MISC)
                             .sized(1.375F, 0.5625F)
@@ -36,13 +36,13 @@ public class ModEntityTypes {
                             .updateInterval(1)
                             .build(key("cactus_chest_boat").location().toString()));
 
-    public static final DeferredHolder<EntityType<?>, EntityType<SpruceConeProjectile>> SPRUCE_CONE =
+    public static final RegistryObject<EntityType<SpruceConeProjectile>> SPRUCE_CONE =
             registerProjectile("spruce_cone", SpruceConeProjectile::new);
 
-    public static final DeferredHolder<EntityType<?>, EntityType<PebblesProjectile>> PEBBLES =
+    public static final RegistryObject<EntityType<PebblesProjectile>> PEBBLES =
             registerProjectile("pebbles", PebblesProjectile::new);
 
-    private static <T extends ResourceProjectile> DeferredHolder<EntityType<?>, EntityType<T>> registerProjectile(
+    private static <T extends ResourceProjectile> RegistryObject<EntityType<T>> registerProjectile(
             String name, EntityType.EntityFactory<T> factory) {
         return ENTITY_TYPES.register(name, () -> EntityType.Builder.of(factory, MobCategory.MISC)
                 .sized(0.25F, 0.25F).clientTrackingRange(4).updateInterval(name.equals("pebbles") ? 1 : 10).build(key(name).location().toString()));

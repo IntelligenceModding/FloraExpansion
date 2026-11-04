@@ -988,20 +988,20 @@ public class ModModelProvider implements net.minecraft.data.DataProvider {
         return ResourceLocation.fromNamespaceAndPath(FloraExpansion.MODID, "item/" + path);
     }
 
-    protected @NotNull Stream<? extends Holder<Block>> getKnownBlocks() {
-        return ModBlocks.BLOCKS.getEntries().stream().filter(block -> !block.is(ModBlocks.SALT_SPIKE) && !block.is(ModBlocks.GLASSWORT) && !block.is(ModBlocks.POTTED_GLASSWORT))
-                .filter(block -> ModBlocks.CALCITE_ORES.stream().noneMatch(ore -> block.is(ore)));
+    protected @NotNull Stream<? extends net.minecraftforge.registries.RegistryObject<Block>> getKnownBlocks() {
+        return ModBlocks.BLOCKS.getEntries().stream().filter(block -> !block.equals(ModBlocks.SALT_SPIKE) && !block.equals(ModBlocks.GLASSWORT) && !block.equals(ModBlocks.POTTED_GLASSWORT))
+                .filter(block -> ModBlocks.CALCITE_ORES.stream().noneMatch(ore -> block.equals(ore)));
     }
 
-    protected @NotNull Stream<? extends Holder<Item>> getKnownItems() {
+    protected @NotNull Stream<? extends net.minecraftforge.registries.RegistryObject<Item>> getKnownItems() {
         return ModItems.ITEMS.getEntries().stream()
-                .filter(item -> ModBlocks.CALCITE_ORES.stream().noneMatch(ore -> item.value() == ore.get().asItem()))
-                .filter(item -> item.value() != ModBlocks.SALT_SPIKE.get().asItem()
-                        && item.value() != ModBlocks.GLASSWORT.get().asItem()
-                        && !item.is(ModItems.SPIKED_LEATHER_HELMET)
-                        && !item.is(ModItems.SPIKED_LEATHER_CHESTPLATE)
-                        && !item.is(ModItems.SPIKED_LEATHER_LEGGINGS)
-                        && !item.is(ModItems.SPIKED_LEATHER_BOOTS));
+                .filter(item -> ModBlocks.CALCITE_ORES.stream().noneMatch(ore -> item.get() == ore.get().asItem()))
+                .filter(item -> item.get() != ModBlocks.SALT_SPIKE.get().asItem()
+                        && item.get() != ModBlocks.GLASSWORT.get().asItem()
+                        && !item.equals(ModItems.SPIKED_LEATHER_HELMET)
+                        && !item.equals(ModItems.SPIKED_LEATHER_CHESTPLATE)
+                        && !item.equals(ModItems.SPIKED_LEATHER_LEGGINGS)
+                        && !item.equals(ModItems.SPIKED_LEATHER_BOOTS));
     }
 
     private static Stream<Item> getFlatItems() {

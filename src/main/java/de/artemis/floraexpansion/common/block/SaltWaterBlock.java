@@ -18,8 +18,8 @@ public final class SaltWaterBlock extends LiquidBlock {
                 && level.dimensionType().ultraWarm()) {
             // Also covers direct fluid placement and callers using the legacy bucket overload.
             ModFluids.SALT_WATER_TYPE.get().onVaporize(null,level,pos,
-                    new net.neoforged.neoforge.fluids.FluidStack(ModFluids.SALT_WATER.get(),
-                            net.neoforged.neoforge.fluids.FluidType.BUCKET_VOLUME));
+                    new net.minecraftforge.fluids.FluidStack(ModFluids.SALT_WATER.get(),
+                            net.minecraftforge.fluids.FluidType.BUCKET_VOLUME));
             return;
         }
         super.onPlace(state,level,pos,oldState,movedByPiston);

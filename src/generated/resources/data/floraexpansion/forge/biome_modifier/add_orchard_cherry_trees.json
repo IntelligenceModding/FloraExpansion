@@ -1,0 +1,6 @@
+{
+  "type": "forge:add_features",
+  "biomes": "#floraexpansion:has_orchard_cherry_trees",
+  "features": "floraexpansion:orchard_cherry_tree_placed",
+  "step": "vegetal_decoration"
+}

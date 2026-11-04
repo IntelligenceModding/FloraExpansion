@@ -90,7 +90,7 @@ public class ScatteredPebblesBlock extends BushBlock implements net.minecraft.wo
         if (player.getMainHandItem().isEmpty()) {
             if (player.isSpectator() || !player.mayBuild() || !level.mayInteract(player, pos)) return InteractionResult.FAIL;
             if (!level.isClientSide) {
-                if (net.neoforged.neoforge.common.NeoForge.EVENT_BUS.post(new net.neoforged.neoforge.event.level.BlockEvent.BreakEvent(level, pos, state, player)).isCanceled()) return InteractionResult.FAIL;
+                if (net.minecraftforge.common.MinecraftForge.EVENT_BUS.post(new net.minecraftforge.event.level.BlockEvent.BreakEvent(level, pos, state, player))) return InteractionResult.FAIL;
                 int count = player.isShiftKeyDown() ? state.getValue(AMOUNT) : 1;
                 level.setBlock(pos, count == state.getValue(AMOUNT) ? state.getFluidState().createLegacyBlock()
                         : state.setValue(AMOUNT, state.getValue(AMOUNT) - count), 3);

@@ -23,6 +23,8 @@ public abstract class OverworldBiomeParametersMixin {
     @Inject(method = "<init>", at = @At("TAIL"))
     private void floraexpansion$addSaltCaves(MultiNoiseBiomeSourceParameterList.Preset preset,
                                             HolderGetter<Biome> biomes, CallbackInfo ci) {
+        // Vanilla datagen bootstraps this list before mod biomes exist.
+        if (net.minecraftforge.fml.loading.FMLLoader.getLaunchHandler().isData()) return;
         if (preset != MultiNoiseBiomeSourceParameterList.Preset.OVERWORLD) return;
         var saltBiome = biomes instanceof HolderLookup<Biome> lookup
                 ? lookup.listElements().filter(holder -> holder.is(ModBiomes.SALT_CAVES)).findFirst()

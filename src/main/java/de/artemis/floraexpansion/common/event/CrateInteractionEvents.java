@@ -8,11 +8,11 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.common.EventBusSubscriber;
-import net.neoforged.neoforge.client.event.ClientTickEvent;
-import net.neoforged.neoforge.network.PacketDistributor;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
+import net.minecraftforge.event.TickEvent.ClientTickEvent;
+import net.minecraftforge.network.PacketDistributor;
 import de.artemis.floraexpansion.common.config.ServerConfig;
 import de.artemis.floraexpansion.common.config.ClientConfig;
 
@@ -24,7 +24,8 @@ public final class CrateInteractionEvents {
     }
 
     @SubscribeEvent
-    public static void onClientTick(ClientTickEvent.Post event) {
+    public static void onClientTick(ClientTickEvent event) {
+        if (event.phase != net.minecraftforge.event.TickEvent.Phase.END) return;
         Minecraft minecraft = Minecraft.getInstance();
         if (minecraft.player == null || minecraft.level == null) {
             wasAttackDown = false;
@@ -47,6 +48,6 @@ public final class CrateInteractionEvents {
         }
 
         wasAttackDown = attackDown;
-        PacketDistributor.sendToServer(new CrateExtractPayload(pos.immutable(), minecraft.player.isShiftKeyDown()));
+        de.artemis.floraexpansion.common.network.ModPayloads.CHANNEL.send(new CrateExtractPayload(pos.immutable(), minecraft.player.isShiftKeyDown()), PacketDistributor.SERVER.noArg());
     }
 }

@@ -13,18 +13,18 @@ import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.storage.loot.predicates.LootItemBlockStatePropertyCondition;
 import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
 import net.minecraft.world.level.storage.loot.predicates.LootItemRandomChanceCondition;
-import net.neoforged.neoforge.common.data.GlobalLootModifierProvider;
-import net.neoforged.neoforge.common.loot.LootTableIdCondition;
+import net.minecraftforge.common.data.GlobalLootModifierProvider;
+import net.minecraftforge.common.loot.LootTableIdCondition;
 
 import java.util.concurrent.CompletableFuture;
 
 public class ModGlobalLootModifierProvider extends GlobalLootModifierProvider {
     public ModGlobalLootModifierProvider(PackOutput output, CompletableFuture<HolderLookup.Provider> registries) {
-        super(output, registries, FloraExpansion.MODID);
+        super(output, FloraExpansion.MODID, registries);
     }
 
     @Override
-    protected void start() {
+    protected void start(HolderLookup.Provider registries) {
         addFromBlock("spruce_cone_to_spruce_leaves", Blocks.SPRUCE_LEAVES, 0.2f, ModItems.SPRUCE_CONE.get());
 
         addFromBlock("needle_litter_to_spruce_leaves", Blocks.SPRUCE_LEAVES, 0.1f, ModBlocks.NEEDLE_LITTER.get().asItem());

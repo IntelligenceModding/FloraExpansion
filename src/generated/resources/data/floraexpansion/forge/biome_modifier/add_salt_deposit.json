@@ -1,0 +1,6 @@
+{
+  "type": "forge:add_features",
+  "biomes": "#floraexpansion:has_salt_deposit",
+  "features": "floraexpansion:salt_deposit_placed",
+  "step": "vegetal_decoration"
+}

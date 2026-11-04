@@ -25,3 +25,12 @@ runs
 run-data
 
 repo
+
+# Local regression suites and compatibility audits
+/src/gametest/
+/src/forgeTest/
+/src/compatibilityAudit/
+/src/compatibility-audit/
+/gametest/
+/forgeTest/
+/compatibility-audit/

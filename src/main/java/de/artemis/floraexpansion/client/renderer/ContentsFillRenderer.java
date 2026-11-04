@@ -31,7 +31,7 @@ final class ContentsFillRenderer {
         if (stack.isEmpty()) return new int[0];
         var mc = Minecraft.getInstance();
         var model = mc.getItemRenderer().getModel(stack, level, null, 0);
-        var sprite = model.getParticleIcon(net.neoforged.neoforge.client.model.data.ModelData.EMPTY);
+        var sprite = model.getParticleIcon(net.minecraftforge.client.model.data.ModelData.EMPTY);
         int tint = mc.getItemColors().getColor(stack, 0);
         if (tint == -1) tint = 0xFFFFFFFF;
         else tint |= 0xFF000000;

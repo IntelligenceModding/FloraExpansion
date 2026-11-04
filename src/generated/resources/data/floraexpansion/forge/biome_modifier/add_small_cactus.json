@@ -1,0 +1,6 @@
+{
+  "type": "forge:add_features",
+  "biomes": "#floraexpansion:has_small_cactus",
+  "features": "floraexpansion:small_cactus_placed",
+  "step": "vegetal_decoration"
+}

@@ -19,34 +19,35 @@ import de.artemis.floraexpansion.common.registry.ModParticles;
 import net.minecraft.client.renderer.entity.ThrownItemRenderer;
 import net.minecraft.client.renderer.blockentity.HangingSignRenderer;
 import net.minecraft.client.renderer.blockentity.SignRenderer;
-import net.neoforged.api.distmarker.Dist;
-import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.ModContainer;
-import net.neoforged.fml.common.Mod;
-import net.neoforged.neoforge.client.event.EntityRenderersEvent;
-import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
-import net.neoforged.neoforge.client.event.RegisterParticleProvidersEvent;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.ModContainer;
+import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.client.event.EntityRenderersEvent;
+
+import net.minecraftforge.client.event.RegisterParticleProvidersEvent;
 import de.artemis.floraexpansion.common.config.ClientConfig;
 import de.artemis.floraexpansion.client.texture.JamPortionSpriteSource;
 import de.artemis.floraexpansion.client.texture.FloweringMossSpriteSource;
-import net.neoforged.neoforge.client.event.RegisterSpriteSourceTypesEvent;
+
 import net.minecraft.resources.ResourceLocation;
 
-@Mod(value = FloraExpansion.MODID, dist = Dist.CLIENT)
+
 public class FloraExpansionClient {
-    public FloraExpansionClient(ModContainer container, net.neoforged.bus.api.IEventBus modEventBus) {
+    public static void initialize(net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext context) {
+        var modEventBus = context.getModEventBus();
         modEventBus.register(FloraExpansionClient.class);
         modEventBus.register(de.artemis.floraexpansion.client.ModColorHandlers.class);
         de.artemis.floraexpansion.common.block.entity.HandCrankBlockEntity.setClientPartialTickSupplier(
                 () -> net.minecraft.client.Minecraft.getInstance().getTimer().getGameTimeDeltaPartialTick(false));
         de.artemis.floraexpansion.common.block.entity.HandCrankBlockEntity.setClientAnimationTimeSupplier(
                 de.artemis.floraexpansion.client.ClientAnimationClock::time);
-        container.registerConfig(net.neoforged.fml.config.ModConfig.Type.CLIENT, ClientConfig.SPEC);
-        container.registerExtensionPoint(net.neoforged.neoforge.client.gui.IConfigScreenFactory.class, net.neoforged.neoforge.client.gui.ConfigurationScreen::new);
+        context.registerConfig(net.minecraftforge.fml.config.ModConfig.Type.CLIENT, ClientConfig.SPEC);
+        registerSpriteSources();
     }
 
     @SubscribeEvent
-    public static void onClientSetup(net.neoforged.fml.event.lifecycle.FMLClientSetupEvent event) {
+    public static void onClientSetup(net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent event) {
         event.enqueueWork(() -> {
             for (var jam : java.util.List.of(
                     de.artemis.floraexpansion.common.registry.ModItems.BLUEBERRY_JAM.get(),
@@ -64,12 +65,12 @@ public class FloraExpansionClient {
     }
 
     @SubscribeEvent
-    public static void registerSaltingSceneReload(net.neoforged.neoforge.client.event.RegisterClientReloadListenersEvent event) {
+    public static void registerSaltingSceneReload(net.minecraftforge.client.event.RegisterClientReloadListenersEvent event) {
         event.registerReloadListener(
                 de.artemis.floraexpansion.client.renderer.SaltingSceneModel.INSTANCE);
     }
     @SubscribeEvent
-    public static void registerMachineRecipeCategories(net.neoforged.neoforge.client.event.RegisterRecipeBookCategoriesEvent event) {
+    public static void registerMachineRecipeCategories(net.minecraftforge.client.event.RegisterRecipeBookCategoriesEvent event) {
         // These machines use their own GUI/JEI, rather than a vanilla crafting or furnace book.
         event.registerRecipeCategoryFinder(de.artemis.floraexpansion.common.registry.ModRecipes.GRINDING.get(),
                 recipe -> net.minecraft.client.RecipeBookCategories.UNKNOWN);
@@ -89,17 +90,15 @@ public class FloraExpansionClient {
         event.registerSpriteSet(ModParticles.FALLING_APPLE.get(), FallingFruitParticle.Provider::new);
     }
 
-    @SubscribeEvent
-    public static void registerSpriteSources(RegisterSpriteSourceTypesEvent event) {
-        event.register(ResourceLocation.fromNamespaceAndPath(FloraExpansion.MODID, "jam_portions"), JamPortionSpriteSource.TYPE);
-        event.register(ResourceLocation.fromNamespaceAndPath(FloraExpansion.MODID, "flowering_moss"), FloweringMossSpriteSource.TYPE);
-        event.register(ResourceLocation.fromNamespaceAndPath(FloraExpansion.MODID, "salt_item"),
+    public static void registerSpriteSources() {
+        de.artemis.floraexpansion.mixin.SpriteSourcesAccessor.floraexpansion$types().put(ResourceLocation.fromNamespaceAndPath(FloraExpansion.MODID, "jam_portions"), JamPortionSpriteSource.TYPE);
+        de.artemis.floraexpansion.mixin.SpriteSourcesAccessor.floraexpansion$types().put(ResourceLocation.fromNamespaceAndPath(FloraExpansion.MODID, "flowering_moss"), FloweringMossSpriteSource.TYPE);
+        de.artemis.floraexpansion.mixin.SpriteSourcesAccessor.floraexpansion$types().put(ResourceLocation.fromNamespaceAndPath(FloraExpansion.MODID, "salt_item"),
                 de.artemis.floraexpansion.client.texture.SaltSpriteSource.TYPE);
     }
 
-    @SubscribeEvent
-    public static void registerFluidExtensions(net.neoforged.neoforge.client.extensions.common.RegisterClientExtensionsEvent event) {
-        event.registerFluidType(new net.neoforged.neoforge.client.extensions.common.IClientFluidTypeExtensions() {
+    public static void registerFluidExtensions(java.util.function.Consumer<net.minecraftforge.client.extensions.common.IClientFluidTypeExtensions> consumer) {
+        consumer.accept(new net.minecraftforge.client.extensions.common.IClientFluidTypeExtensions() {
             @NotNull @Override public ResourceLocation getStillTexture() { return ResourceLocation.withDefaultNamespace("block/water_still"); }
             @NotNull @Override public ResourceLocation getFlowingTexture() { return ResourceLocation.withDefaultNamespace("block/water_flow"); }
             @Override public ResourceLocation getOverlayTexture() { return ResourceLocation.withDefaultNamespace("block/water_overlay"); }
@@ -111,14 +110,16 @@ public class FloraExpansionClient {
                     @NotNull net.minecraft.client.multiplayer.ClientLevel level, int renderDistance, float darkenWorldAmount, @NotNull org.joml.Vector3f color) {
                 return color.set(0.18F, 0.38F, 0.44F);
             }
-        }, de.artemis.floraexpansion.common.registry.ModFluids.SALT_WATER_TYPE.get());
+        });
     }
 
     @SubscribeEvent
-    public static void registerMenuScreens(RegisterMenuScreensEvent event) {
-        event.register(ModMenuTypes.CRATE.get(), CrateScreen::new);
-        event.register(ModMenuTypes.HAND_MILL.get(), de.artemis.floraexpansion.client.screen.HandMillScreen::new);
-        event.register(ModMenuTypes.BASKET.get(), BasketScreen::new);
+    public static void registerMenuScreens(net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent event) {
+        event.enqueueWork(() -> {
+        net.minecraft.client.gui.screens.MenuScreens.register(ModMenuTypes.CRATE.get(), CrateScreen::new);
+        net.minecraft.client.gui.screens.MenuScreens.register(ModMenuTypes.HAND_MILL.get(), de.artemis.floraexpansion.client.screen.HandMillScreen::new);
+        net.minecraft.client.gui.screens.MenuScreens.register(ModMenuTypes.BASKET.get(), BasketScreen::new);
+        });
     }
 
     @SubscribeEvent

@@ -5,7 +5,7 @@ import de.artemis.floraexpansion.common.registry.ModBlocks;
 import net.minecraft.data.PackOutput;
 
 @SuppressWarnings("unused")
-public class ModLanguageProvider extends net.neoforged.neoforge.common.data.LanguageProvider {
+public class ModLanguageProvider extends net.minecraftforge.common.data.LanguageProvider {
     public ModLanguageProvider(PackOutput output, String locale) {
         super(output, FloraExpansion.MODID, locale);
     }

@@ -5,23 +5,23 @@ import de.artemis.floraexpansion.common.inventory.BasketMenu;
 import de.artemis.floraexpansion.common.inventory.CrateMenu;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.inventory.MenuType;
-import net.neoforged.bus.api.IEventBus;
-import net.neoforged.neoforge.common.extensions.IMenuTypeExtension;
-import net.neoforged.neoforge.registries.DeferredHolder;
-import net.neoforged.neoforge.registries.DeferredRegister;
+import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.common.extensions.IForgeMenuType;
+import net.minecraftforge.registries.RegistryObject;
+import net.minecraftforge.registries.DeferredRegister;
 
 public final class ModMenuTypes {
     public static final DeferredRegister<MenuType<?>> MENU_TYPES =
-            DeferredRegister.create(BuiltInRegistries.MENU, FloraExpansion.MODID);
+            DeferredRegister.create(net.minecraft.core.registries.Registries.MENU, FloraExpansion.MODID);
 
-    public static final DeferredHolder<MenuType<?>, MenuType<CrateMenu>> CRATE =
-            MENU_TYPES.register("crate", () -> IMenuTypeExtension.create((windowId, inventory, data) -> new CrateMenu(windowId, inventory)));
+    public static final RegistryObject<MenuType<CrateMenu>> CRATE =
+            MENU_TYPES.register("crate", () -> IForgeMenuType.create((windowId, inventory, data) -> new CrateMenu(windowId, inventory)));
 
-    public static final DeferredHolder<MenuType<?>, MenuType<BasketMenu>> BASKET =
-            MENU_TYPES.register("basket", () -> IMenuTypeExtension.create(BasketMenu::new));
+    public static final RegistryObject<MenuType<BasketMenu>> BASKET =
+            MENU_TYPES.register("basket", () -> IForgeMenuType.create(BasketMenu::new));
 
-    public static final DeferredHolder<MenuType<?>, MenuType<de.artemis.floraexpansion.common.inventory.HandMillMenu>> HAND_MILL =
-            MENU_TYPES.register("hand_mill", () -> IMenuTypeExtension.create((id, inventory, data) ->
+    public static final RegistryObject<MenuType<de.artemis.floraexpansion.common.inventory.HandMillMenu>> HAND_MILL =
+            MENU_TYPES.register("hand_mill", () -> IForgeMenuType.create((id, inventory, data) ->
                     new de.artemis.floraexpansion.common.inventory.HandMillMenu(id, inventory)));
 
     private ModMenuTypes() {

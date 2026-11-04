@@ -1,0 +1,6 @@
+{
+  "type": "forge:add_features",
+  "biomes": "#floraexpansion:has_fancy_apple_trees_jungle",
+  "features": "floraexpansion:fancy_apple_jungle_placed",
+  "step": "vegetal_decoration"
+}

@@ -35,7 +35,7 @@ public class WoodenBucketItem extends BucketItem {
         BlockHitResult hitResult = getPlayerPOVHitResult(
                 level,
                 player,
-                this.content == Fluids.EMPTY ? ClipContext.Fluid.SOURCE_ONLY : ClipContext.Fluid.NONE
+                this.getFluid() == Fluids.EMPTY ? ClipContext.Fluid.SOURCE_ONLY : ClipContext.Fluid.NONE
         );
 
         if (hitResult.getType() != HitResult.Type.BLOCK) {
@@ -49,7 +49,7 @@ public class WoodenBucketItem extends BucketItem {
             return net.minecraft.world.InteractionResultHolder.fail(player.getItemInHand(hand));
         }
 
-        if (this.content == Fluids.EMPTY) {
+        if (this.getFluid() == Fluids.EMPTY) {
             BlockState blockState = level.getBlockState(blockPos);
             if (blockState.getFluidState().is(net.minecraft.tags.FluidTags.LAVA) && !ServerConfig.lavaEnabled.get()) return net.minecraft.world.InteractionResultHolder.fail(player.getItemInHand(hand));
             if (blockState.getBlock() instanceof BucketPickup bucketPickup) {
@@ -72,7 +72,7 @@ public class WoodenBucketItem extends BucketItem {
         }
 
         BlockState blockState = level.getBlockState(blockPos);
-        BlockPos placePos = canBlockContainFluid(player, level, blockPos, blockState) ? blockPos : relativePos;
+        BlockPos placePos = canBlockContainFluid(level, blockPos, blockState) ? blockPos : relativePos;
         return WoodenBucketUtil.emptyContents(this, level, player, itemStack, placePos, hitResult);
     }
 

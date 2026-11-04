@@ -16,8 +16,8 @@ import de.artemis.floraexpansion.common.registry.ModCreativeModeTabs;
 
 import com.mojang.logging.LogUtils;
 
-import net.neoforged.bus.api.IEventBus;
-import net.neoforged.fml.common.Mod;
+import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.fml.common.Mod;
 import de.artemis.floraexpansion.common.config.ServerConfig;
 
 @Mod(FloraExpansion.MODID)
@@ -25,18 +25,23 @@ public class FloraExpansion {
     public static final String MODID = "floraexpansion";
     public static final Logger LOGGER = LogUtils.getLogger();
 
-    public FloraExpansion(net.neoforged.fml.ModContainer container, IEventBus modEventBus) {
+    public FloraExpansion(net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext context) {
+        IEventBus modEventBus = context.getModEventBus();
         // Register explicitly so older 1.21.1 loaders also use the correct bus.
         modEventBus.register(de.artemis.floraexpansion.common.datagen.DataGenerators.class);
         modEventBus.register(de.artemis.floraexpansion.common.event.SaltWaterInteractions.class);
         modEventBus.register(de.artemis.floraexpansion.common.event.WoodenBucketCauldronInteractions.class);
-        container.registerConfig(net.neoforged.fml.config.ModConfig.Type.SERVER, ServerConfig.SPEC);
-        LegacyContentAliases.register();
-        modEventBus.addListener(ModPayloads::register);
-        modEventBus.addListener((net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent event) -> event.enqueueWork(() ->
+        context.registerConfig(net.minecraftforge.fml.config.ModConfig.Type.SERVER, ServerConfig.SPEC);
+        LegacyContentAliases.register(modEventBus);
+        ModPayloads.register();
+        if (!net.minecraftforge.fml.loading.FMLLoader.getLaunchHandler().isData()) {
+            net.minecraftforge.fml.DistExecutor.unsafeRunWhenOn(net.minecraftforge.api.distmarker.Dist.CLIENT, () -> () -> FloraExpansionClient.initialize(context));
+        }
+        modEventBus.addListener((net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent event) -> event.enqueueWork(de.artemis.floraexpansion.common.datagen.ModDataMapProvider::registerCompostables));
+        modEventBus.addListener((net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent event) -> event.enqueueWork(() ->
                 net.minecraft.world.level.block.DispenserBlock.registerProjectileBehavior(ModItems.PEBBLES.get())));
 
-        modEventBus.addListener((net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent event) -> event.enqueueWork(() -> {
+        modEventBus.addListener((net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent event) -> event.enqueueWork(() -> {
             var pot = (net.minecraft.world.level.block.FlowerPotBlock) net.minecraft.world.level.block.Blocks.FLOWER_POT;
             pot.addPlant(ModBlocks.APPLE_CORE.getId(), ModBlocks.POTTED_APPLE_CORE);
             pot.addPlant(ModBlocks.CHERRY_PIT.getId(), ModBlocks.POTTED_CHERRY_PIT);

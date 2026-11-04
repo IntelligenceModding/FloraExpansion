@@ -1,0 +1,6 @@
+{
+  "type": "forge:add_features",
+  "biomes": "#floraexpansion:has_salt_formation",
+  "features": "floraexpansion:salt_formation_placed",
+  "step": "underground_ores"
+}

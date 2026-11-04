@@ -13,7 +13,7 @@ public final class ModJukeboxSongs {
             ResourceLocation.fromNamespaceAndPath(FloraExpansion.MODID, "into_the_caves"));
 
     public static void bootstrap(BootstrapContext<JukeboxSong> context) {
-        context.register(INTO_THE_CAVES, new JukeboxSong(ModSounds.MUSIC_DISC_INTO_THE_CAVES,
+        context.register(INTO_THE_CAVES, new JukeboxSong(ModSounds.MUSIC_DISC_INTO_THE_CAVES.getHolder().orElseThrow(),
                 Component.translatable("jukebox_song.floraexpansion.into_the_caves"), 100.310204F, 13));
     }
 

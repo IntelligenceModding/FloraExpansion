@@ -9,8 +9,8 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.ArmorMaterial;
 import net.minecraft.world.item.crafting.Ingredient;
-import net.neoforged.bus.api.IEventBus;
-import net.neoforged.neoforge.registries.DeferredRegister;
+import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.registries.DeferredRegister;
 
 import java.util.EnumMap;
 import java.util.List;
@@ -19,7 +19,7 @@ public final class ModArmorMaterials {
     public static final DeferredRegister<ArmorMaterial> ARMOR_MATERIALS =
             DeferredRegister.create(Registries.ARMOR_MATERIAL, FloraExpansion.MODID);
 
-    public static final Holder<ArmorMaterial> SPIKED_LEATHER_ARMOR_MATERIAL = ARMOR_MATERIALS.register("spiked_leather",
+    public static final net.minecraftforge.registries.RegistryObject<ArmorMaterial> SPIKED_LEATHER_ARMOR_MATERIAL = ARMOR_MATERIALS.register("spiked_leather",
             () -> new ArmorMaterial(
                     Util.make(new EnumMap<>(ArmorItem.Type.class), map -> {
                         map.put(ArmorItem.Type.BOOTS, 1);
@@ -53,4 +53,3 @@ public final class ModArmorMaterials {
         ARMOR_MATERIALS.register(eventBus);
     }
 }
-

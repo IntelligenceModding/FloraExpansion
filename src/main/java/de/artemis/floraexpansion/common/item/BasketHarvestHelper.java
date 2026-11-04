@@ -33,8 +33,8 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.BlockHitResult;
-import net.neoforged.neoforge.common.NeoForge;
-import net.neoforged.neoforge.event.level.BlockEvent.BreakEvent;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.level.BlockEvent.BreakEvent;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -267,7 +267,7 @@ public final class BasketHarvestHelper {
         var level = context.getLevel();
         return player != null && !player.isSpectator() && level.mayInteract(player, pos)
                 && (player.mayBuild() || context.getItemInHand().canBreakBlockInAdventureMode(new BlockInWorld(level, pos, false)))
-                && !NeoForge.EVENT_BUS.post(new BreakEvent(level, pos, state, player)).isCanceled();
+                && !MinecraftForge.EVENT_BUS.post(new BreakEvent(level, pos, state, player));
     }
 
     private static void playBerryHarvestEffects(UseOnContext context, BlockState resetState) {

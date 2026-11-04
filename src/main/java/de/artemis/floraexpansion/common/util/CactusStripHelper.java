@@ -20,7 +20,7 @@ public final class CactusStripHelper {
     }
 
     public static boolean canStrip(ItemStack stack) {
-        return stack.canPerformAction(net.neoforged.neoforge.common.ItemAbilities.AXE_STRIP);
+        return stack.canPerformAction(net.minecraftforge.common.ToolActions.AXE_STRIP);
     }
 
     public static ItemInteractionResult stripAndDropSpine(Level level, BlockPos pos, Player player,

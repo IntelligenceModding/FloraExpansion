@@ -1,6 +1,6 @@
 # Configuration
 
-Open **Mods > Flora Expansion > Config**, or edit the TOML files below. Restart after editing files directly.
+Edit the Forge TOML configuration files below. Restart the game or server after editing them.
 
 | File | When to use it |
 | --- | --- |

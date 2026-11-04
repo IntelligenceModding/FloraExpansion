@@ -26,13 +26,13 @@ import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
-import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.common.EventBusSubscriber;
-import net.neoforged.neoforge.common.ItemAbilities;
-import net.neoforged.neoforge.common.NeoForge;
-import net.neoforged.neoforge.event.entity.living.LivingEntityUseItemEvent;
-import net.neoforged.neoforge.event.level.BlockEvent.BreakEvent;
-import net.neoforged.neoforge.event.tick.PlayerTickEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
+import net.minecraftforge.common.ToolActions;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.entity.living.LivingEntityUseItemEvent;
+import net.minecraftforge.event.level.BlockEvent.BreakEvent;
+import net.minecraftforge.event.TickEvent.PlayerTickEvent;
 
 import java.util.Map;
 import java.util.WeakHashMap;
@@ -49,11 +49,12 @@ public final class SaltDepositBrushing {
         if (event.getEntity() instanceof Player player && !player.level().isClientSide) PROGRESS.remove(player);
     }
 
-    @SubscribeEvent public static void tick(PlayerTickEvent.Post event) {
-        var player = event.getEntity();
+    @SubscribeEvent public static void tick(PlayerTickEvent event) {
+        if (event.phase != net.minecraftforge.event.TickEvent.Phase.END) return;
+        var player = event.player;
         if (!(player.level() instanceof ServerLevel level)) return;
         var tool = player.getUseItem();
-        if (!player.isUsingItem() || player.isSpectator() || !tool.canPerformAction(ItemAbilities.BRUSH_BRUSH)) {
+        if (!player.isUsingItem() || player.isSpectator() || !tool.is(net.minecraft.world.item.Items.BRUSH)) {
             PROGRESS.remove(player);
             return;
         }
@@ -87,7 +88,7 @@ public final class SaltDepositBrushing {
             return;
         }
         PROGRESS.remove(player);
-        if (NeoForge.EVENT_BUS.post(new BreakEvent(level, pos, state, player)).isCanceled()) return;
+        if (MinecraftForge.EVENT_BUS.post(new BreakEvent(level, pos, state, player))) return;
         int layers = state.getValue(SaltDepositBlock.LAYERS);
         var remaining = layers == 1 ? state.getFluidState().createLegacyBlock() : state.setValue(SaltDepositBlock.LAYERS, layers - 1);
         if (!level.setBlock(pos, remaining, 3)) return;

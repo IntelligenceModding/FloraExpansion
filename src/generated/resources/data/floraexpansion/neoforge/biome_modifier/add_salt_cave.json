@@ -1,6 +1,0 @@
-{
-  "type": "neoforge:add_features",
-  "biomes": "#floraexpansion:has_salt_cave",
-  "features": "floraexpansion:salt_cave_surface_placed",
-  "step": "underground_decoration"
-}

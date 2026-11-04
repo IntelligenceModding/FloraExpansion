@@ -36,7 +36,7 @@ public record JamPortionSpriteSource(ResourceLocation resource) implements Sprit
                 output.add(sprite, replacement.get());
                 continue;
             }
-            output.add(sprite, loader -> loader.loadSprite(sprite, full.get(), (id, frame, image, metadata) -> {
+            output.add(sprite, loader -> SpriteLoader.load(sprite, full.get(), (id, frame, image, metadata) -> {
                 try (var stream = empty.get().open(); var emptyImage = NativeImage.read(stream)) {
                     applyPortions(image, frame, emptyImage, amount);
                     return new SpriteContents(id, frame, image, metadata);

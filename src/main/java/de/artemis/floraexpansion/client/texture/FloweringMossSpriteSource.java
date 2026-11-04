@@ -34,7 +34,7 @@ public record FloweringMossSpriteSource() implements SpriteSource {
             FloraExpansion.LOGGER.warn("Missing source texture for flowering desert moss icon");
             return;
         }
-        output.add(SPRITE, loader -> loader.loadSprite(SPRITE, moss.get(), (id, frame, image, metadata) -> {
+        output.add(SPRITE, loader -> SpriteLoader.load(SPRITE, moss.get(), (id, frame, image, metadata) -> {
             try (var stream = flowers.get().open(); var petals = NativeImage.read(stream)) {
                 applyFlowers(image, frame, petals);
                 return new SpriteContents(id, frame, image, metadata);

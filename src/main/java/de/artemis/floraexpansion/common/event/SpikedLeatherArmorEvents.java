@@ -17,10 +17,10 @@ import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.item.enchantment.ItemEnchantments;
-import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.common.EventBusSubscriber;
-import net.neoforged.neoforge.event.AnvilUpdateEvent;
-import net.neoforged.neoforge.event.entity.living.LivingDamageEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
+import net.minecraftforge.event.AnvilUpdateEvent;
+import net.minecraftforge.event.entity.living.LivingDamageEvent;
 import de.artemis.floraexpansion.common.config.ServerConfig;
 
 @EventBusSubscriber(modid = FloraExpansion.MODID)
@@ -52,12 +52,12 @@ public final class SpikedLeatherArmorEvents {
     }
 
     @SubscribeEvent
-    public static void onLivingDamage(LivingDamageEvent.Pre event) {
+    public static void onLivingDamage(LivingDamageEvent event) {
         if (!(event.getEntity().level() instanceof ServerLevel serverLevel)) {
             return;
         }
 
-        if (event.getNewDamage() <= 0.0F) {
+        if (event.getAmount() <= 0.0F) {
             return;
         }
 
@@ -137,6 +137,6 @@ public final class SpikedLeatherArmorEvents {
         if (!SpikedLeatherArmorItem.isSpikedLeatherArmor(stack)) {
             return 0;
         }
-        return EnchantmentHelper.getTagEnchantmentLevel(enchantment, stack);
+        return EnchantmentHelper.getItemEnchantmentLevel(enchantment, stack);
     }
 }

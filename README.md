@@ -19,10 +19,11 @@
 <p align="center">
   <img src="https://img.shields.io/badge/Minecraft-1.21.1-3C8527?style=for-the-badge&logo=minecraft&logoColor=white" alt="Minecraft 1.21.1">
   &nbsp;&nbsp;&nbsp;
-  <img src="https://img.shields.io/badge/Loader-NeoForge-6C47FF?style=for-the-badge" alt="NeoForge">
+  <img src="https://img.shields.io/badge/Loader-Forge-F16436?style=for-the-badge" alt="Forge">
 </p>
 
 <p align="center">
+  This branch targets <strong>Minecraft 1.21.1, Forge 52.1.20 or later in the 52.x series, and Java 21</strong>.<br>
   <strong>JEI is an optional integration.</strong>
 </p>
 
@@ -147,7 +148,7 @@
 </p>
 
 <p align="center">
-  &bull; The NeoForged team for NeoForge and its documentation<br>
+  &bull; The Minecraft Forge team for Forge and its documentation<br>
   &bull; The Minecraft modding community for examples, tools, and support<br>
   &bull; The Intelligence Modding community for feedback, testing, and ideas<br>
   &bull; Everyone who reports issues, suggests improvements, or includes the mod in their worlds or modpacks

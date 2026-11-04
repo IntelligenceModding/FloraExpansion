@@ -1,0 +1,6 @@
+{
+  "type": "forge:add_features",
+  "biomes": "#floraexpansion:has_apple_trees_dark_forest",
+  "features": "floraexpansion:apple_dark_forest_placed",
+  "step": "vegetal_decoration"
+}

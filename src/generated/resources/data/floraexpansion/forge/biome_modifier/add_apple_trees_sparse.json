@@ -1,0 +1,6 @@
+{
+  "type": "forge:add_features",
+  "biomes": "#floraexpansion:has_apple_trees_sparse",
+  "features": "floraexpansion:apple_sparse_placed",
+  "step": "vegetal_decoration"
+}

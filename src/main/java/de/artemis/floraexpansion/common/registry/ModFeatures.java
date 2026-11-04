@@ -3,8 +3,8 @@ package de.artemis.floraexpansion.common.registry;
 import de.artemis.floraexpansion.FloraExpansion;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.level.levelgen.feature.Feature;
-import net.neoforged.bus.api.IEventBus;
-import net.neoforged.neoforge.registries.DeferredRegister;
+import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.registries.DeferredRegister;
 import de.artemis.floraexpansion.common.worldgen.feature.BlueberryBushPatchFeature;
 import de.artemis.floraexpansion.common.worldgen.feature.SmallCactusFeature;
 import de.artemis.floraexpansion.common.worldgen.feature.FallenGiantCactusFeature;
@@ -18,7 +18,7 @@ import java.util.function.Supplier;
 
 public class ModFeatures {
     public static final DeferredRegister<Feature<?>> FEATURES =
-            DeferredRegister.create(BuiltInRegistries.FEATURE, FloraExpansion.MODID);
+            DeferredRegister.create(net.minecraft.core.registries.Registries.FEATURE, FloraExpansion.MODID);
     public static final Supplier<de.artemis.floraexpansion.common.worldgen.feature.BrineSpringFeature> BRINE_SPRING_FEATURE =
             FEATURES.register("brine_spring_feature", de.artemis.floraexpansion.common.worldgen.feature.BrineSpringFeature::new);
     public static final Supplier<de.artemis.floraexpansion.common.worldgen.feature.SaltCaveSurfaceFeature> SALT_CAVE_SURFACE_FEATURE =

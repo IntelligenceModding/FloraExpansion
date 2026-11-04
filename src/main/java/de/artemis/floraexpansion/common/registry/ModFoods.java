@@ -15,7 +15,7 @@ public class ModFoods {
 
     public static final FoodProperties BLUEBERRIES = (new FoodProperties.Builder()).nutrition(1).saturationModifier(0.3F).build();
     public static final FoodProperties BLUEBERRY_COOKIE = (new FoodProperties.Builder()).nutrition(2).saturationModifier(0.25F).build();
-    public static final FoodProperties BLUEBERRY_PIE = withDuration((new FoodProperties.Builder()).nutrition(8).saturationModifier(0.3F).effect(() -> new net.minecraft.world.effect.MobEffectInstance(net.minecraft.world.effect.MobEffects.REGENERATION, 100, 0), 1F).build(), 6.4F);
+    public static final FoodProperties BLUEBERRY_PIE = withDuration((new FoodProperties.Builder()).nutrition(8).saturationModifier(0.3F).effect(new net.minecraft.world.effect.MobEffectInstance(net.minecraft.world.effect.MobEffects.REGENERATION, 100, 0), 1F).build(), 6.4F);
 
     private static FoodProperties withDuration(FoodProperties food, float seconds) {
         return new FoodProperties(food.nutrition(), food.saturation(), food.canAlwaysEat(), seconds, food.usingConvertsTo(), food.effects());

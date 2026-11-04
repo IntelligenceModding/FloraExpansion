@@ -94,8 +94,8 @@ public final class ModBiomes {
                     .skyColor(net.minecraft.util.Mth.hsvToRgb(.62222224F - .8F / 3F * .05F, .5F + .8F / 3F * .1F, 1F))
                     .fogColor(0xB8C9CD).waterFogColor(0x436F79)
                     .ambientParticle(new net.minecraft.world.level.biome.AmbientParticleSettings(ParticleTypes.WHITE_ASH, .0025F))
-                    .ambientMoodSound(new net.minecraft.world.level.biome.AmbientMoodSettings(ModSounds.SALT_CAVE_MOOD, 6000, 8, 2D))
-                    .ambientAdditionsSound(new net.minecraft.world.level.biome.AmbientAdditionsSettings(ModSounds.SALT_CAVE_ADDITIONS, .003D))
+                    .ambientMoodSound(new net.minecraft.world.level.biome.AmbientMoodSettings(ModSounds.SALT_CAVE_MOOD.getHolder().orElseThrow(), 6000, 8, 2D))
+                    .ambientAdditionsSound(new net.minecraft.world.level.biome.AmbientAdditionsSettings(ModSounds.SALT_CAVE_ADDITIONS.getHolder().orElseThrow(), .003D))
                     .backgroundMusic(net.minecraft.sounds.Musics.createGameMusic(SoundEvents.MUSIC_BIOME_DRIPSTONE_CAVES)).build())
                 .mobSpawnSettings(mobs.build()).generationSettings(generation.build()).build());
     }

@@ -11,7 +11,7 @@ import org.jetbrains.annotations.NotNull;
 
 public class SpikedLeatherArmorItem extends ArmorItem {
     public SpikedLeatherArmorItem(ArmorItem.Type type, Properties properties) {
-        super(de.artemis.floraexpansion.common.registry.ModArmorMaterials.SPIKED_LEATHER_ARMOR_MATERIAL, type, properties.durability(type.getDurability(7)));
+        super(de.artemis.floraexpansion.common.registry.ModArmorMaterials.SPIKED_LEATHER_ARMOR_MATERIAL.getHolder().orElseThrow(), type, properties.durability(type.getDurability(7)));
     }
 
     public static boolean isSpikedLeatherArmor(ItemStack stack) {
@@ -54,13 +54,8 @@ public class SpikedLeatherArmorItem extends ArmorItem {
         return true;
     }
 
-    @Override
-    public boolean supportsEnchantment(@NotNull ItemStack stack, @NotNull Holder<Enchantment> enchantment) {
-        return supportsSpikedLeatherArmorEnchantment(stack, enchantment);
-    }
-
-    @Override
-    public boolean isPrimaryItemFor(@NotNull ItemStack stack, @NotNull Holder<Enchantment> enchantment) {
-        return supportsSpikedLeatherArmorEnchantment(stack, enchantment);
+    @Override public boolean canApplyAtEnchantingTable(ItemStack stack, Enchantment enchantment) {
+        if (enchantment.description().equals(net.minecraft.network.chat.Component.translatable("enchantment.minecraft.thorns"))) return false;
+        return enchantment.description().equals(net.minecraft.network.chat.Component.translatable("enchantment.minecraft.fire_aspect")) || enchantment.isSupportedItem(getVanillaArmorReference(stack));
     }
 }

@@ -4,7 +4,7 @@
     "floraexpansion:glasswort",
     "#minecraft:flowers",
     "#minecraft:saplings",
-    { "id": "#c:mushrooms", "required": false },
+    { "id": "#forge:mushrooms", "required": false },
     "minecraft:brown_mushroom",
     "minecraft:red_mushroom",
     "minecraft:crimson_fungus",
@@ -21,4 +21,3 @@
     "minecraft:pumpkin"
   ]
 }
-

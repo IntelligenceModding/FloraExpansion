@@ -19,13 +19,13 @@ import net.minecraft.world.level.block.DispenserBlock;
 import net.minecraft.world.level.block.LayeredCauldronBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.gameevent.GameEvent;
-import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 
 public final class SaltWaterInteractions {
     public static final CauldronInteraction.InteractionMap CAULDRON = CauldronInteraction.newInteractionMap("floraexpansion:salt_water");
     private static void interactions() {
-        // 1.21.11 stores washing interactions by item, rather than by item tag.
+        // Register the custom leather armor with vanilla washing interactions.
         for (var armor : java.util.List.of(ModItems.SPIKED_LEATHER_HELMET.get(), ModItems.SPIKED_LEATHER_CHESTPLATE.get(), ModItems.SPIKED_LEATHER_LEGGINGS.get(), ModItems.SPIKED_LEATHER_BOOTS.get()))
             CauldronInteraction.WATER.map().put(armor, CauldronInteraction.WATER.map().get(Items.LEATHER_CHESTPLATE));
         // Copy washing handlers only: freshwater bottles/potions must never collect or dilute brine.

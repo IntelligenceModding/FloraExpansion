@@ -69,7 +69,7 @@ public class StrawberryCropBlock extends CropBlock {
             return;
         }
 
-        float growthSpeed = getGrowthSpeed(state, level, pos);
+        float growthSpeed = getGrowthSpeed(state.getBlock(), level, pos);
         if (PlantGrowth.canGrow(level, pos, state, random, (int) (25.0F / growthSpeed) + 1, ServerConfig.cropGrowth.get())) {
             level.setBlock(pos, state.setValue(AGE, age + 1), 2);
             PlantGrowth.grown(level, pos, state);

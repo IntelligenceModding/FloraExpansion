@@ -1,215 +1,83 @@
 plugins {
-    id 'java-library'
-    id 'maven-publish'
-    id 'net.neoforged.moddev' version '2.0.148'
-    id 'idea'
+ id 'java-library'
+ id 'maven-publish'
+ id 'idea'
+ id 'net.minecraftforge.gradle' version '[7.0.29,8)'
+ id 'net.minecraftforge.renamer' version '1.0.14'
 }
-
-tasks.named('wrapper', Wrapper).configure {
-    distributionType = Wrapper.DistributionType.BIN
-}
-
-version = "${mod_version}-neoforge-mc${minecraft_version}"
+version = "${mod_version}-forge-mc${minecraft_version}"
 group = mod_group_id
-
-repositories {
-    maven {
-        name = "Jared's maven"
-        url = "https://maven.blamejared.com/"
-    }
-    maven {
-        name = "ModMaven"
-        url = "https://modmaven.dev"
-    }
-    maven {
-        url = "https://maven.ryanliptak.com/"
-    }
-}
-
-base {
-    archivesName = mod_id
-}
-
+base { archivesName = mod_id }
 java.toolchain.languageVersion = JavaLanguageVersion.of(21)
-
-neoForge {
-    version = project.neo_version
-    parchment {
-        mappingsVersion = project.parchment_mappings_version
-        minecraftVersion = project.parchment_minecraft_version
-    }
-
-    runs {
-        client {
-            client()
-            if (providers.gradleProperty("handMillRenderSmokeTest").isPresent()) {
-                gameDirectory = file("build/hand-mill-client")
-                systemProperty "floraexpansion.handMillRenderSmokeTest", "true"
-            }
-            if (project.providers.gradleProperty('brineSpringSmokeTest').isPresent()) {
-                gameDirectory = file('build/brine-spring-client')
-                systemProperty 'floraexpansion.brineSpringSmokeTest', 'true'
-                systemProperty 'floraexpansion.brineSpringSeed', providers.gradleProperty('brineSpringSeed').getOrElse('12345')
-            }
-            if (project.providers.gradleProperty('saltCaveSmokeTest').isPresent()) {
-                gameDirectory = file('build/salt-cave-client')
-                systemProperty 'floraexpansion.saltCaveSmokeTest', 'true'
-            }
-            if (project.providers.gradleProperty('saltWaterSmokeTest').isPresent()) {
-                gameDirectory = file('build/salt-water-client')
-                systemProperty 'floraexpansion.saltWaterSmokeTest', 'true'
-            }
-            if (project.providers.gradleProperty('saltSpikeSmokeTest').isPresent()) {
-                gameDirectory = file('build/salt-spike-client')
-                systemProperty 'floraexpansion.saltSpikeSmokeTest', 'true'
-            }
-            if (project.providers.gradleProperty('saltingTubSmokeTest').isPresent()) {
-                gameDirectory = file('build/salting-tub-client')
-                systemProperty 'floraexpansion.saltingTubSmokeTest', 'true'
-            }
-            systemProperty 'neoforge.enabledGameTestNamespaces', project.mod_id
-            if (providers.gradleProperty('clientSmokeTest').isPresent()) {
-                gameDirectory = file('build/port-client')
-                systemProperty 'floraexpansion.clientSmokeTest', 'true'
-            }
-        }
-
-        server {
-            server()
-            programArgument '--nogui'
-            systemProperty 'neoforge.enabledGameTestNamespaces', project.mod_id
-        }
-
-        gameTestServer {
-            type = "gameTestServer"
-            systemProperty 'neoforge.enabledGameTestNamespaces', project.mod_id
-        }
-
-        data {
-            data()
-            programArguments.addAll '--mod', project.mod_id,
-                    '--all',
-                    '--output', file('src/generated/resources/').getAbsolutePath(),
-                    '--existing', file('src/main/resources/').getAbsolutePath()
-        }
-
-        configureEach {
-            if (project.providers.gradleProperty('customizationOverrides').isPresent()) {
-                systemProperty 'floraexpansion.customizationOverrides', 'true'
-            }
-            systemProperty 'forge.logging.markers', 'REGISTRIES'
-            systemProperty 'terminal.jline', 'false'
-            logLevel = org.slf4j.event.Level.DEBUG
-        }
-    }
-
-    mods {
-        "${mod_id}" {
-            sourceSet(sourceSets.main)
-        }
-    }
+minecraft {
+ useDefaultAccessTransformer()
+ mappings channel: 'official', version: minecraft_version
+ runs {
+  configureEach {
+   mods { register(mod_id) }
+   environment 'MOD_CLASSES', '{source_roots}'
+   args '--mixin', 'floraexpansion.mixins.json'
+   workingDir = layout.projectDirectory.dir('run')
+   systemProperty 'forge.enabledGameTestNamespaces', mod_id
+  }
+  register('client') { workingDir = layout.buildDirectory.dir('forge-client') }
+  register('server') { args '--nogui' }
+  register('gameTestServer')
+  register('data') {
+   args '--mod', mod_id, '--all', '--output', file('src/generated/resources'), '--existing', file('src/main/resources')
+  }
+ }
 }
-
-sourceSets.main.resources {
-    srcDir 'src/generated/resources'
-    exclude '.cache/**'
+repositories {
+ minecraft.mavenizer(it)
+ maven fg.forgeMaven
+ maven fg.minecraftLibsMaven
+ mavenCentral()
+ maven { url = 'https://maven.blamejared.com/' }
+ maven { url = 'https://maven.ryanliptak.com/' }
 }
-
-// Version-specific runtime audit; never included in release builds.
-if (providers.gradleProperty('compatibilityAudit').isPresent()) {
-    sourceSets.main.java.srcDir 'src/compatibilityAudit/java'
-    sourceSets.main.resources.srcDir 'src/compatibilityAudit/resources'
-    neoForge.runs.client {
-        gameDirectory = file('build/compatibility-1211-client')
-        systemProperty 'floraexpansion.compatibilityAudit', 'true'
-    }
-    neoForge.runs.server {
-        gameDirectory = file('build/compatibility-1211-server')
-        systemProperty 'floraexpansion.compatibilityAudit', 'true'
-        programArguments.addAll '--port', '0'
-    }
-    def auditSuccess = layout.buildDirectory.file('compatibility-1211-server/audit-success.txt').get().asFile
-    tasks.named('runServer') {
-        doFirst { auditSuccess.delete() }
-        doLast {
-            if (!auditSuccess.isFile()) throw new GradleException('The 1.21.1 compatibility audit did not pass; see the server log.')
-        }
-    }
-}
-
-// Opt-in server regression suite; excluded from normal release builds.
-if (providers.gradleProperty('portTests').isPresent()) {
-    sourceSets.main.java.srcDir 'src/gametest/java'
-    sourceSets.main.resources.srcDir 'src/gametest/resources'
-}
-
-configurations {
-    runtimeClasspath.extendsFrom localRuntime
-}
-
 dependencies {
-    compileOnly("mezz.jei:jei-${minecraft_version}-neoforge-api:${jei_version}")
-    if (!providers.gradleProperty('withoutOptionalMods').isPresent()) {
-        localRuntime("mezz.jei:jei-${minecraft_version}-neoforge:${jei_version}")
-        localRuntime("squeek.appleskin:appleskin-neoforge:${appleskin_version}")
-    }
+ implementation minecraft.dependency("net.minecraftforge:forge:${minecraft_version}-${forge_version}")
+ compileOnly "mezz.jei:jei-${minecraft_version}-forge-api:${jei_version}"
+ if (!providers.gradleProperty('withoutOptionalMods').isPresent()) {
+  runtimeOnly renamer.dependency("mezz.jei:jei-${minecraft_version}-forge:${jei_version}") {
+   reverse = true
+   naiveSrg = true
+  }
+ }
+}
+sourceSets.main.resources { srcDir 'src/generated/resources'; exclude '.cache/**' }
+
+tasks.named('processResources', ProcessResources) {
+ def props = project.properties.findAll { k, v -> k.startsWith('mod_') || k.endsWith('_version_range') || k == 'minecraft_version' }
+ inputs.properties props
+ filesMatching('META-INF/mods.toml') { expand props }
+}
+renamer.mappings(minecraft.dependency.toSrg)
+
+tasks.named('jar', Jar) {
+ archiveClassifier = ''
+ exclude '**/ForgePortTests*', 'data/floraexpansion/structure/empty.nbt'
+ from('LICENSE')
+ manifest { attributes('MixinConfigs': 'floraexpansion.mixins.json') }
+}
+tasks.withType(JavaCompile).configureEach { options.encoding = 'UTF-8'; options.compilerArgs += ['-Xmaxerrs', '500'] }
+publishing { publications { mavenJava(MavenPublication) { from components.java } } }
+
+// Forge 52 scans development mods as a single output directory.
+sourceSets.main.output.resourcesDir = layout.buildDirectory.dir('classes/java/main').get().asFile
+tasks.named('processResources') { mustRunAfter tasks.named('compileJava') }
+
+if (providers.gradleProperty('forgeTests').isPresent() || providers.gradleProperty('portTests').isPresent()) {
+ sourceSets.main.java.srcDir 'src/forgeTest/java'
+ sourceSets.main.resources.srcDir 'src/forgeTest/resources'
+ def testLog = layout.buildDirectory.file('forge-gametest/logs/latest.log').get().asFile
+ tasks.matching { it.name == 'runGameTestServer' }.configureEach {
+  doLast {
+   def log = testLog
+   if (!log.exists() || !(log.text =~ /All [1-9][0-9]* required tests passed/)) throw new GradleException('Forge game tests did not pass; see build/forge-gametest/logs/latest.log')
+  }
+ }
 }
 
-tasks.named('processResources', ProcessResources).configure {
-    includeEmptyDirs = false
-    var replaceProperties = [
-            minecraft_version      : minecraft_version,
-            minecraft_version_range: minecraft_version_range,
-            neo_version            : neo_version,
-            neo_version_range      : neo_version_range,
-            loader_version_range   : loader_version_range,
-            mod_id                 : mod_id,
-            mod_name               : mod_name,
-            mod_license            : mod_license,
-            mod_version            : mod_version,
-            mod_authors            : mod_authors,
-            mod_description        : mod_description
-    ]
-
-    inputs.properties replaceProperties
-
-    filesMatching('META-INF/neoforge.mods.toml') {
-        expand replaceProperties
-    }
-}
-
-publishing {
-    publications {
-        register('mavenJava', MavenPublication) {
-            from components.java
-        }
-    }
-    repositories {
-        maven {
-            url = "file://${project.projectDir}/repo"
-        }
-    }
-}
-
-tasks.named('jar', Jar).configure {
-    from('LICENSE')
-}
-
-tasks.withType(JavaCompile).configureEach {
-    options.encoding = 'UTF-8'
-}
-
-idea {
-    module {
-        downloadSources = true
-        downloadJavadoc = true
-    }
-}
-
-def mainCompileClasspath = sourceSets.main.compileClasspath
-tasks.register('printCompileClasspath') {
-    inputs.files(mainCompileClasspath)
-    doLast {
-        mainCompileClasspath.files.each { println it.absolutePath }
-    }
-}
+minecraft.runs.named('gameTestServer') { workingDir = layout.buildDirectory.dir('forge-gametest') }
