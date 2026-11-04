@@ -1,6 +1,6 @@
 package de.artemis.floraexpansion.common.loot;
 
-import com.mojang.serialization.MapCodec;
+import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -16,7 +16,7 @@ import org.jetbrains.annotations.NotNull;
 
 public class AddItemModifier extends LootModifier {
 
-    public static final MapCodec<AddItemModifier> CODEC = RecordCodecBuilder.mapCodec(inst ->
+    public static final Codec<AddItemModifier> CODEC = RecordCodecBuilder.create(inst ->
             LootModifier.codecStart(inst).and(inst.group(
                     BuiltInRegistries.ITEM.byNameCodec().fieldOf("item").forGetter(m -> m.item),
                     com.mojang.serialization.Codec.INT.optionalFieldOf("min_count", 1).forGetter(m -> m.minCount),
@@ -50,7 +50,7 @@ public class AddItemModifier extends LootModifier {
     }
 
     @Override
-    public @NotNull MapCodec<? extends IGlobalLootModifier> codec() {
+    public @NotNull Codec<? extends IGlobalLootModifier> codec() {
         return CODEC;
     }
 }

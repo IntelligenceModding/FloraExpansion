@@ -5,7 +5,8 @@ import de.artemis.floraexpansion.common.block.entity.CrateBlockEntity;
 import de.artemis.floraexpansion.common.registry.ModItems;
 import de.artemis.floraexpansion.common.registry.ModTags;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.component.DataComponents;
+import de.artemis.floraexpansion.common.util.ItemData;
+import de.artemis.floraexpansion.common.util.ItemData.DataComponents;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.stats.Stats;
@@ -15,11 +16,11 @@ import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.monster.piglin.PiglinAi;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.component.CustomModelData;
-import net.minecraft.world.item.component.CustomData;
+import de.artemis.floraexpansion.common.util.ItemData.CustomModelData;
+import de.artemis.floraexpansion.common.util.ItemData.CustomData;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.LevelReader;
+
 import net.minecraft.world.level.block.BaseEntityBlock;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.RenderShape;
@@ -44,7 +45,13 @@ import javax.annotation.Nullable;
 import java.util.List;
 
 public class CrateBlock extends BaseEntityBlock {
- @NotNull @Override public com.mojang.serialization.MapCodec<CrateBlock> codec() { return simpleCodec(CrateBlock::new); }
+    @NotNull @Override public net.minecraft.world.InteractionResult use(@NotNull net.minecraft.world.level.block.state.BlockState state, @NotNull net.minecraft.world.level.Level level, @NotNull net.minecraft.core.BlockPos pos, @NotNull net.minecraft.world.entity.player.Player player, @NotNull net.minecraft.world.InteractionHand hand, @NotNull net.minecraft.world.phys.BlockHitResult hit) {
+        var result = useWithItem(player.getItemInHand(hand), state, level, pos, player, hand, hit);
+        if (result != net.minecraft.world.InteractionResult.PASS) return result;
+        return useWithoutItem(state, level, pos, player, hit);
+    }
+
+
     public static final BooleanProperty POWERED = BlockStateProperties.POWERED;
     public static final BooleanProperty PACKED = BooleanProperty.create("packed");
     private static final String PACKED_ITEM_KEY = "Packed";
@@ -58,24 +65,23 @@ public class CrateBlock extends BaseEntityBlock {
         this.registerDefaultState(this.stateDefinition.any().setValue(POWERED, false).setValue(PACKED, false));
     }
 
-    @Override
-    protected @NotNull net.minecraft.world.ItemInteractionResult useItemOn(@NotNull ItemStack stack, @NotNull BlockState state, @NotNull Level level, @NotNull BlockPos pos, @NotNull Player player, @NotNull net.minecraft.world.InteractionHand hand, @NotNull BlockHitResult hitResult) {
+    public @NotNull net.minecraft.world.InteractionResult useWithItem(@NotNull ItemStack stack, @NotNull BlockState state, @NotNull Level level, @NotNull BlockPos pos, @NotNull Player player, @NotNull net.minecraft.world.InteractionHand hand, @NotNull BlockHitResult hitResult) {
         if (state.getValue(POWERED)) {
-            return net.minecraft.world.ItemInteractionResult.CONSUME;
+            return net.minecraft.world.InteractionResult.CONSUME;
         }
 
         BlockEntity blockEntity = level.getBlockEntity(pos);
         if (!(blockEntity instanceof CrateBlockEntity crate)) {
-            return net.minecraft.world.ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
+            return net.minecraft.world.InteractionResult.PASS;
         }
 
         if (state.getValue(PACKED)) {
             if (level.isClientSide) {
-                return net.minecraft.world.ItemInteractionResult.SUCCESS;
+                return net.minecraft.world.InteractionResult.SUCCESS;
             }
 
             this.untieCrate(level, pos, state, player, hand);
-            return net.minecraft.world.ItemInteractionResult.CONSUME;
+            return net.minecraft.world.InteractionResult.CONSUME;
         }
 
         if (stack.is(ModItems.LINEN_THREAD.get())) {
@@ -84,17 +90,17 @@ public class CrateBlock extends BaseEntityBlock {
 
         if (player.isShiftKeyDown()) {
             if (level.isClientSide) {
-                return net.minecraft.world.ItemInteractionResult.SUCCESS;
+                return net.minecraft.world.InteractionResult.SUCCESS;
             }
 
             player.openMenu(crate);
             player.awardStat(Stats.OPEN_BARREL);
             PiglinAi.angerNearbyPiglins(player, true);
-            return net.minecraft.world.ItemInteractionResult.CONSUME;
+            return net.minecraft.world.InteractionResult.CONSUME;
         }
 
         if (!stack.isEmpty() && !stack.is(ModTags.Items.CRATE_STORABLE)) {
-            return net.minecraft.world.ItemInteractionResult.FAIL;
+            return net.minecraft.world.InteractionResult.FAIL;
         }
 
         ItemStack referenceStack = this.getBulkInsertReference(crate, stack);
@@ -103,14 +109,14 @@ public class CrateBlock extends BaseEntityBlock {
         if (inserted <= 0) {
             if (!level.isClientSide && !referenceStack.isEmpty()) {
                 crate.recordInsertClick(player, referenceStack, level.getGameTime());
-                return net.minecraft.world.ItemInteractionResult.CONSUME;
+                return net.minecraft.world.InteractionResult.CONSUME;
             }
 
-            return net.minecraft.world.ItemInteractionResult.CONSUME;
+            return net.minecraft.world.InteractionResult.CONSUME;
         }
 
         if (!level.isClientSide) {
-            if (!bulkInsert && !player.hasInfiniteMaterials()) {
+            if (!bulkInsert && !player.getAbilities().instabuild) {
                 stack.shrink(inserted);
             }
 
@@ -119,11 +125,10 @@ public class CrateBlock extends BaseEntityBlock {
             level.playSound(null, pos, SoundEvents.ITEM_FRAME_ADD_ITEM, SoundSource.BLOCKS, 0.6F, 0.9F + level.getRandom().nextFloat() * 0.2F);
         }
 
-        return ((level.isClientSide ? net.minecraft.world.ItemInteractionResult.SUCCESS : net.minecraft.world.ItemInteractionResult.CONSUME));
+        return ((level.isClientSide ? net.minecraft.world.InteractionResult.SUCCESS : net.minecraft.world.InteractionResult.CONSUME));
     }
 
-    @Override
-    protected @NotNull InteractionResult useWithoutItem(@NotNull BlockState state, @NotNull Level level, @NotNull BlockPos pos, @NotNull Player player, @NotNull BlockHitResult hitResult) {
+    public @NotNull InteractionResult useWithoutItem(@NotNull BlockState state, @NotNull Level level, @NotNull BlockPos pos, @NotNull Player player, @NotNull BlockHitResult hitResult) {
         if (state.getValue(POWERED)) {
             return InteractionResult.CONSUME;
         }
@@ -178,7 +183,7 @@ public class CrateBlock extends BaseEntityBlock {
     }
 
     @Override
-    protected void onRemove(@NotNull BlockState state, @NotNull Level level, @NotNull BlockPos pos, BlockState newState, boolean movedByPiston) {
+    public void onRemove(@NotNull BlockState state, @NotNull Level level, @NotNull BlockPos pos, BlockState newState, boolean movedByPiston) {
         if (state.is(newState.getBlock())) return;
         if (!state.getValue(PACKED) && level.getBlockEntity(pos) instanceof CrateBlockEntity crate) {
             Containers.dropContents(level, pos, crate);
@@ -188,7 +193,7 @@ public class CrateBlock extends BaseEntityBlock {
     }
 
     @Override
-    protected @NotNull List<ItemStack> getDrops(@NotNull BlockState state, @NotNull LootParams.Builder params) {
+    public @NotNull List<ItemStack> getDrops(@NotNull BlockState state, @NotNull LootParams.Builder params) {
         if (!state.getValue(PACKED)) {
             return super.getDrops(state, params);
         }
@@ -204,27 +209,27 @@ public class CrateBlock extends BaseEntityBlock {
     }
 
     @Override
-    protected @NotNull RenderShape getRenderShape(@NotNull BlockState state) {
+    public @NotNull RenderShape getRenderShape(@NotNull BlockState state) {
         return RenderShape.MODEL;
     }
 
     @Override
-    protected @NotNull VoxelShape getShape(@NotNull BlockState state, @NotNull BlockGetter level, @NotNull BlockPos pos, @NotNull CollisionContext context) {
+    public @NotNull VoxelShape getShape(@NotNull BlockState state, @NotNull BlockGetter level, @NotNull BlockPos pos, @NotNull CollisionContext context) {
         return this.isClosedState(state) ? OUTER_SHAPE : CRATE_SHAPE;
     }
 
     @Override
-    protected @NotNull VoxelShape getInteractionShape(@NotNull BlockState state, @NotNull BlockGetter level, @NotNull BlockPos pos) {
+    public @NotNull VoxelShape getInteractionShape(@NotNull BlockState state, @NotNull BlockGetter level, @NotNull BlockPos pos) {
         return OUTER_SHAPE;
     }
 
     @Override
-    protected @NotNull VoxelShape getCollisionShape(@NotNull BlockState state, @NotNull BlockGetter level, @NotNull BlockPos pos, @NotNull CollisionContext context) {
+    public @NotNull VoxelShape getCollisionShape(@NotNull BlockState state, @NotNull BlockGetter level, @NotNull BlockPos pos, @NotNull CollisionContext context) {
         return this.isClosedState(state) ? OUTER_SHAPE : CRATE_SHAPE;
     }
 
     @Override
-    protected boolean useShapeForLightOcclusion(@NotNull BlockState state) {
+    public boolean useShapeForLightOcclusion(@NotNull BlockState state) {
         return true;
     }
 
@@ -233,12 +238,12 @@ public class CrateBlock extends BaseEntityBlock {
     }
 
     @Override
-    protected boolean hasAnalogOutputSignal(@NotNull BlockState state) {
+    public boolean hasAnalogOutputSignal(@NotNull BlockState state) {
         return true;
     }
 
     @Override
-    protected int getAnalogOutputSignal(@NotNull BlockState state, @NotNull Level level, @NotNull BlockPos pos) {
+    public int getAnalogOutputSignal(@NotNull BlockState state, @NotNull Level level, @NotNull BlockPos pos) {
         BlockEntity blockEntity = level.getBlockEntity(pos);
         if (!(blockEntity instanceof CrateBlockEntity crate)) {
             return 0;
@@ -253,7 +258,7 @@ public class CrateBlock extends BaseEntityBlock {
     }
 
     @Override
-    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
+    public void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
         builder.add(POWERED, PACKED);
     }
 
@@ -265,7 +270,7 @@ public class CrateBlock extends BaseEntityBlock {
     }
 
     @Override
-    protected void neighborChanged(@NotNull BlockState state, @NotNull Level level, @NotNull BlockPos pos, @NotNull Block neighborBlock, @NotNull BlockPos neighborPos, boolean movedByPiston) {
+    public void neighborChanged(@NotNull BlockState state, @NotNull Level level, @NotNull BlockPos pos, @NotNull Block neighborBlock, @NotNull BlockPos neighborPos, boolean movedByPiston) {
         boolean powered = level.hasNeighborSignal(pos);
         if (powered != state.getValue(POWERED)) {
             if (!level.isClientSide) {
@@ -277,11 +282,11 @@ public class CrateBlock extends BaseEntityBlock {
     }
 
     @Override
-    public @NotNull ItemStack getCloneItemStack(@NotNull LevelReader level, @NotNull BlockPos pos, @NotNull BlockState state) {
+    public @NotNull ItemStack getCloneItemStack(@NotNull net.minecraft.world.level.BlockGetter level, @NotNull BlockPos pos, @NotNull BlockState state) {
         ItemStack stack = super.getCloneItemStack(level, pos, state);
         if (state.getValue(PACKED)) {
             if (level.getBlockEntity(pos) instanceof CrateBlockEntity crate) {
-                crate.saveToItem(stack, level.registryAccess());
+                crate.saveToItem(stack);
             }
             setPackedItem(stack, true);
         }
@@ -294,7 +299,7 @@ public class CrateBlock extends BaseEntityBlock {
 
         for (int i = 0; i < player.getInventory().getContainerSize(); i++) {
             ItemStack inventoryStack = player.getInventory().getItem(i);
-            if (!ItemStack.isSameItemSameComponents(referenceStack, inventoryStack)) {
+            if (!ItemStack.isSameItemSameTags(referenceStack, inventoryStack)) {
                 continue;
             }
 
@@ -304,7 +309,7 @@ public class CrateBlock extends BaseEntityBlock {
             }
 
             inserted += moved;
-            if (!player.hasInfiniteMaterials()) {
+            if (!player.getAbilities().instabuild) {
                 inventoryStack.shrink(moved);
                 if (inventoryStack.isEmpty()) {
                     player.getInventory().setItem(i, ItemStack.EMPTY);
@@ -321,33 +326,33 @@ public class CrateBlock extends BaseEntityBlock {
             return storedType;
         }
 
-        if (!storedType.isEmpty() && !ItemStack.isSameItemSameComponents(heldStack, storedType)) {
+        if (!storedType.isEmpty() && !ItemStack.isSameItemSameTags(heldStack, storedType)) {
             return storedType;
         }
 
         return heldStack.copyWithCount(1);
     }
 
-    private net.minecraft.world.ItemInteractionResult tieCrate(Level level, BlockPos pos, BlockState state, Player player, ItemStack stack) {
+    private net.minecraft.world.InteractionResult tieCrate(Level level, BlockPos pos, BlockState state, Player player, ItemStack stack) {
         if (level.isClientSide) {
-            return net.minecraft.world.ItemInteractionResult.SUCCESS;
+            return net.minecraft.world.InteractionResult.SUCCESS;
         }
 
         level.setBlock(pos, state.setValue(PACKED, true), 3);
         if (level.getBlockEntity(pos) instanceof CrateBlockEntity crate && !crate.isEmpty())
             de.artemis.floraexpansion.common.advancement.FloraActionTrigger.fire(player, "tie_crate");
-        if (!player.hasInfiniteMaterials()) {
+        if (!player.getAbilities().instabuild) {
             stack.shrink(1);
         }
 
         InventoryUtils.syncPlayerInventory(player);
         level.playSound(null, pos, SoundEvents.WOOL_PLACE, SoundSource.BLOCKS, 0.65F, 0.9F);
-        return net.minecraft.world.ItemInteractionResult.CONSUME;
+        return net.minecraft.world.InteractionResult.CONSUME;
     }
 
     private void untieCrate(Level level, BlockPos pos, BlockState state, Player player, @Nullable net.minecraft.world.InteractionHand preferredHand) {
         level.setBlock(pos, state.setValue(PACKED, false), 3);
-        if (!player.hasInfiniteMaterials()) {
+        if (!player.getAbilities().instabuild) {
             this.giveItemToPlayer(player, new ItemStack(ModItems.LINEN_THREAD.get()), preferredHand);
             InventoryUtils.syncPlayerInventory(player);
         }
@@ -369,7 +374,7 @@ public class CrateBlock extends BaseEntityBlock {
     private ItemStack createPackedCrateStack(@Nullable CrateBlockEntity crate, Level level) {
         ItemStack stack = new ItemStack(this);
         if (crate != null) {
-            crate.saveToItem(stack, level.registryAccess());
+            crate.saveToItem(stack);
         }
 
         setPackedItem(stack, true);
@@ -391,7 +396,7 @@ public class CrateBlock extends BaseEntityBlock {
     }
 
     public static boolean isPackedItem(ItemStack stack) {
-        return stack.getOrDefault(DataComponents.CUSTOM_DATA, CustomData.EMPTY).copyTag().getBoolean(PACKED_ITEM_KEY);
+        return ItemData.getOrDefault(stack, DataComponents.CUSTOM_DATA, CustomData.EMPTY).copyTag().getBoolean(PACKED_ITEM_KEY);
     }
 
     public static void setPackedItem(ItemStack stack, boolean packed) {
@@ -404,9 +409,9 @@ public class CrateBlock extends BaseEntityBlock {
         });
 
         if (packed) {
-            stack.set(DataComponents.CUSTOM_MODEL_DATA, new CustomModelData(PACKED_ITEM_MODEL));
+            ItemData.set(stack, DataComponents.CUSTOM_MODEL_DATA, new CustomModelData(PACKED_ITEM_MODEL));
         } else {
-            stack.remove(DataComponents.CUSTOM_MODEL_DATA);
+            ItemData.remove(stack, DataComponents.CUSTOM_MODEL_DATA);
         }
     }
 }

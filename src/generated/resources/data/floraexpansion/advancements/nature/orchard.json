@@ -1,0 +1,51 @@
+{
+  "parent": "floraexpansion:nature/fruit",
+  "criteria": {
+    "apple_core": {
+      "conditions": {
+        "location": [
+          {
+            "block": "floraexpansion:apple_core",
+            "condition": "minecraft:block_state_property"
+          }
+        ]
+      },
+      "trigger": "minecraft:placed_block"
+    },
+    "cherry_pit": {
+      "conditions": {
+        "location": [
+          {
+            "block": "floraexpansion:cherry_pit",
+            "condition": "minecraft:block_state_property"
+          }
+        ]
+      },
+      "trigger": "minecraft:placed_block"
+    }
+  },
+  "display": {
+    "announce_to_chat": true,
+    "description": {
+      "translate": "advancements.floraexpansion.orchard.description"
+    },
+    "frame": "task",
+    "hidden": false,
+    "icon": {
+      "item": "floraexpansion:cherry_pit"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancements.floraexpansion.orchard.title"
+    }
+  },
+  "requirements": [
+    [
+      "cherry_pit"
+    ],
+    [
+      "apple_core"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

@@ -7,7 +7,7 @@ import net.minecraft.data.recipes.*;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.ItemTags;
 import de.artemis.floraexpansion.common.registry.ModTags;
-import net.minecraftforge.common.Tags;
+
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.level.ItemLike;
@@ -18,7 +18,7 @@ import java.util.List;
 
 public class ModRecipeProvider extends RecipeProvider {
     private RecipeOutput output;
-    public ModRecipeProvider(net.minecraft.data.PackOutput output, java.util.concurrent.CompletableFuture<net.minecraft.core.HolderLookup.Provider> lookup) { super(output, lookup); }
+    public ModRecipeProvider(net.minecraft.data.PackOutput output, java.util.concurrent.CompletableFuture<net.minecraft.core.HolderLookup.Provider> lookup) { super(output); }
     private static ShapedRecipeBuilder shaped(RecipeCategory category, ItemLike result, int count) { return ShapedRecipeBuilder.shaped(category, result, count); }
     private static ShapedRecipeBuilder shaped(RecipeCategory category, ItemLike result) { return shaped(category, result, 1); }
     private static ShapelessRecipeBuilder shapeless(RecipeCategory category, ItemLike result, int count) { return ShapelessRecipeBuilder.shapeless(category, result, count); }
@@ -35,7 +35,8 @@ public class ModRecipeProvider extends RecipeProvider {
     private void wall(RecipeCategory category, ItemLike result, ItemLike base) { RecipeProvider.wall(output, category, result, base); }
     private void pressurePlate(ItemLike result, ItemLike base) { RecipeProvider.pressurePlate(output, result, base); }
     @Override
-    protected void buildRecipes(@NotNull RecipeOutput recipeOutput) {
+    protected void buildRecipes(@NotNull java.util.function.Consumer<FinishedRecipe> writer) {
+        RecipeOutput recipeOutput = new RecipeOutput(writer);
         this.output = recipeOutput;
         calciteOreCooking(recipeOutput, ModBlocks.CALCITE_COAL_ORE.get(), Items.COAL, .1F);
         calciteOreCooking(recipeOutput, ModBlocks.CALCITE_IRON_ORE.get(), Items.IRON_INGOT, .7F);
@@ -355,10 +356,10 @@ public class ModRecipeProvider extends RecipeProvider {
         shapeless(RecipeCategory.FOOD, ModItems.MIXED_BERRIES.get(), 3)
                 .requires(ModItems.BLUEBERRIES.get())
                 .requires(ModItems.STRAWBERRY.get())
-                .requires(tag(Tags.Items.FOODS_BERRY))
+                .requires(tag(net.minecraft.tags.TagKey.create(net.minecraft.core.registries.Registries.ITEM, net.minecraft.resources.ResourceLocation.parse("forge:foods/berries"))))
                 .unlockedBy("has_blueberries", has(ModItems.BLUEBERRIES.get()))
                 .unlockedBy("has_strawberry", has(ModItems.STRAWBERRY.get()))
-                .unlockedBy("has_berries", has(Tags.Items.FOODS_BERRY))
+                .unlockedBy("has_berries", has(net.minecraft.tags.TagKey.create(net.minecraft.core.registries.Registries.ITEM, net.minecraft.resources.ResourceLocation.parse("forge:foods/berries"))))
                 .save(recipeOutput);
 
         shaped(RecipeCategory.FOOD, ModItems.BLUEBERRY_COOKIE.get(), 8)
@@ -505,49 +506,37 @@ public class ModRecipeProvider extends RecipeProvider {
         oreBlasting(output, List.of(ore), RecipeCategory.MISC, result, experience, 100, getItemName(result));
     }
 
-    protected static void oreSmelting(@NotNull RecipeOutput recipeOutput, List<ItemLike> ingredients, @NotNull RecipeCategory category, @NotNull ItemLike result, float experience, int cookingTime, @NotNull String group) {
-        oreCooking(recipeOutput, SmeltingRecipe::new, ingredients, category, result,
+    private static void oreSmelting(@NotNull RecipeOutput recipeOutput, List<ItemLike> ingredients, @NotNull RecipeCategory category, @NotNull ItemLike result, float experience, int cookingTime, @NotNull String group) {
+        oreCooking(recipeOutput, ingredients, category, result,
                 experience, cookingTime, group, "_from_smelting");
     }
 
-    protected static void oreBlasting(@NotNull RecipeOutput recipeOutput, List<ItemLike> ingredients, @NotNull RecipeCategory category, @NotNull ItemLike result, float experience, int cookingTime, @NotNull String group) {
-        oreCooking(recipeOutput, BlastingRecipe::new, ingredients, category, result,
+    private static void oreBlasting(@NotNull RecipeOutput recipeOutput, List<ItemLike> ingredients, @NotNull RecipeCategory category, @NotNull ItemLike result, float experience, int cookingTime, @NotNull String group) {
+        oreCooking(recipeOutput, ingredients, category, result,
                 experience, cookingTime, group, "_from_blasting");
     }
 
-    protected void foodSmelting(RecipeOutput recipeOutput, ItemLike input, ItemLike output, float exp, int time) {
+    private void foodSmelting(RecipeOutput recipeOutput, ItemLike input, ItemLike output, float exp, int time) {
         SimpleCookingRecipeBuilder.smelting(Ingredient.of(input), RecipeCategory.FOOD, output, exp, time)
                 .unlockedBy(getHasName(input), has(input))
                 .save(recipeOutput, FloraExpansion.MODID + ":" + getItemName(output) + "_from_smelting");
     }
 
-    protected void foodSmoking(RecipeOutput recipeOutput, ItemLike input, ItemLike output, float exp, int time) {
+    private void foodSmoking(RecipeOutput recipeOutput, ItemLike input, ItemLike output, float exp, int time) {
         SimpleCookingRecipeBuilder.smoking(Ingredient.of(input), RecipeCategory.FOOD, output, exp, time)
                 .unlockedBy(getHasName(input), has(input))
                 .save(recipeOutput, FloraExpansion.MODID + ":" + getItemName(output) + "_from_smoking");
     }
 
-    protected void foodCampfireCooking(RecipeOutput recipeOutput, ItemLike input, ItemLike output, float exp, int time) {
+    private void foodCampfireCooking(RecipeOutput recipeOutput, ItemLike input, ItemLike output, float exp, int time) {
         SimpleCookingRecipeBuilder.campfireCooking(Ingredient.of(input), RecipeCategory.FOOD, output, exp, time)
                 .unlockedBy(getHasName(input), has(input))
                 .save(recipeOutput, FloraExpansion.MODID + ":" + getItemName(output) + "_from_campfire_cooking");
     }
 
-    protected static <T extends AbstractCookingRecipe> void oreCooking(@NotNull RecipeOutput recipeOutput, AbstractCookingRecipe.@NotNull Factory<T> factory, List<ItemLike> ingredients, @NotNull RecipeCategory category, @NotNull ItemLike result, float experience, int cookingTime, @NotNull String group, String recipeName) {
-        for (ItemLike input : ingredients) {
-            // Keep the explicit BLOCKS recipe-book category for ore outputs.
-            RecipeOutput categorized = new RecipeOutput() {
-                @Override public void accept(ResourceLocation id, Recipe<?> recipe, ResourceLocation advancementId, com.google.gson.JsonElement json) { recipeOutput.accept(id, recipe, advancementId, json); }
-                @Override public net.minecraft.core.HolderLookup.Provider registry() { return recipeOutput.registry(); }
-                @NotNull @Override public net.minecraft.advancements.Advancement.Builder advancement() { return recipeOutput.advancement(); }
-                @Override public void accept(@NotNull ResourceLocation key, @NotNull Recipe<?> ignored, net.minecraft.advancements.AdvancementHolder advancement) {
-                    recipeOutput.accept(key, factory.create(group, CookingBookCategory.BLOCKS, Ingredient.of(input), new net.minecraft.world.item.ItemStack(result), experience, cookingTime), advancement);
-                }
-            };
-            (recipeName.contains("blasting") ? SimpleCookingRecipeBuilder.blasting(Ingredient.of(input), category, result, experience, cookingTime) : SimpleCookingRecipeBuilder.smelting(Ingredient.of(input), category, result, experience, cookingTime))
-                    .group(group).unlockedBy(getHasName(input), has(input))
-                    .save(categorized, FloraExpansion.MODID + ":" + getItemName(result) + recipeName + "_" + getItemName(input));
-        }
+    private static void oreCooking(RecipeOutput recipeOutput, List<ItemLike> ingredients, RecipeCategory category, ItemLike result, float experience, int cookingTime, String group, String recipeName) {
+        for(ItemLike input:ingredients) (recipeName.contains("blasting") ? SimpleCookingRecipeBuilder.blasting(Ingredient.of(input), category, result, experience, cookingTime) : SimpleCookingRecipeBuilder.smelting(Ingredient.of(input), category, result, experience, cookingTime))
+            .group(group).unlockedBy(getHasName(input), has(input)).save(recipeOutput, FloraExpansion.MODID + ":" + getItemName(result) + recipeName + "_" + getItemName(input));
     }
 
     private void jam(ItemLike result, ItemLike fruit) {

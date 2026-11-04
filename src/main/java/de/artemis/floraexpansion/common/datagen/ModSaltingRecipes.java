@@ -4,7 +4,7 @@ import de.artemis.floraexpansion.FloraExpansion;
 import de.artemis.floraexpansion.common.recipe.SaltingRecipe;
 import de.artemis.floraexpansion.common.registry.ModItems;
 import de.artemis.floraexpansion.common.registry.ModTags;
-import net.minecraft.data.recipes.RecipeOutput;
+
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;

@@ -2,7 +2,7 @@ package de.artemis.floraexpansion.client.texture;
 
 import org.jetbrains.annotations.NotNull;
 
-import com.mojang.serialization.MapCodec;
+import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import de.artemis.floraexpansion.FloraExpansion;
 import net.minecraft.client.renderer.texture.SpriteContents;
@@ -11,7 +11,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.ResourceManager;
 
 public record SaltSpriteSource(ResourceLocation resource, ResourceLocation sprite, String effect) implements SpriteSource {
-    public static final MapCodec<SaltSpriteSource> MAP_CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
+    public static final Codec<SaltSpriteSource> MAP_CODEC = RecordCodecBuilder.create(instance -> instance.group(
             ResourceLocation.CODEC.fieldOf("resource").forGetter(SaltSpriteSource::resource),
             ResourceLocation.CODEC.fieldOf("sprite").forGetter(SaltSpriteSource::sprite),
             com.mojang.serialization.Codec.STRING.fieldOf("effect").forGetter(SaltSpriteSource::effect)
@@ -32,7 +32,7 @@ public record SaltSpriteSource(ResourceLocation resource, ResourceLocation sprit
             FloraExpansion.LOGGER.warn("Missing salt item source texture: {}", resource);
             return;
         }
-        output.add(sprite, loader -> SpriteLoader.load(sprite, source.get(), (id, frame, image, metadata) -> {
+        output.add(sprite, () -> SpriteLoader.load(sprite, source.get(), (id, frame, image, metadata) -> {
             for (int y = 0; y < image.getHeight(); y++) for (int x = 0; x < image.getWidth(); x++) {
                 int color = NativePixels.get(image, x, y);
                 if ((color >>> 24) == 0) continue;

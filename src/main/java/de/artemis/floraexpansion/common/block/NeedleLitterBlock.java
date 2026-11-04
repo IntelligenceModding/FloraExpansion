@@ -36,7 +36,13 @@ import de.artemis.floraexpansion.common.config.ClientConfig;
 import de.artemis.floraexpansion.common.loot.HarvestLoot;
 
 public class NeedleLitterBlock extends BushBlock implements BonemealableBlock {
-    @NotNull @Override protected com.mojang.serialization.MapCodec<? extends NeedleLitterBlock> codec() { return simpleCodec(NeedleLitterBlock::new); }
+    @NotNull @Override public net.minecraft.world.InteractionResult use(@NotNull net.minecraft.world.level.block.state.BlockState state, @NotNull net.minecraft.world.level.Level level, @NotNull net.minecraft.core.BlockPos pos, @NotNull net.minecraft.world.entity.player.Player player, @NotNull net.minecraft.world.InteractionHand hand, @NotNull net.minecraft.world.phys.BlockHitResult hit) {
+        var result = useWithItem(player.getItemInHand(hand), state, level, pos, player, hand, hit);
+        if (result != net.minecraft.world.InteractionResult.PASS) return result;
+        return super.use(state, level, pos, player, hand, hit);
+    }
+
+
 
     public static final int MIN_SEGMENTS = 1;
     public static final int MAX_SEGMENTS = 4;
@@ -71,11 +77,11 @@ public class NeedleLitterBlock extends BushBlock implements BonemealableBlock {
         return blockstate.is(this) ? blockstate.setValue(AMOUNT, Math.min(4, blockstate.getValue(AMOUNT) + 1)) : this.defaultBlockState().setValue(FACING, context.getHorizontalDirection().getOpposite());
     }
 
-    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> blockBlockStateBuilder) {
+    public void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> blockBlockStateBuilder) {
         blockBlockStateBuilder.add(FACING, AMOUNT);
     }
 
-    public boolean isValidBonemealTarget(@NotNull LevelReader levelReader, @NotNull BlockPos blockPos, @NotNull BlockState blockState) {
+    public boolean isValidBonemealTarget(@NotNull LevelReader levelReader, @NotNull BlockPos blockPos, @NotNull BlockState blockState, boolean isClientSide) {
         return true;
     }
 
@@ -93,14 +99,13 @@ public class NeedleLitterBlock extends BushBlock implements BonemealableBlock {
 
     }
 
-    @Override
-    protected @NotNull net.minecraft.world.ItemInteractionResult useItemOn(@NotNull ItemStack itemStack, @NotNull BlockState blockState, @NotNull Level level, @NotNull BlockPos blockPos, @NotNull Player player, @NotNull InteractionHand interactionHand, @NotNull BlockHitResult blockHitResult) {
+    public @NotNull net.minecraft.world.InteractionResult useWithItem(@NotNull ItemStack itemStack, @NotNull BlockState blockState, @NotNull Level level, @NotNull BlockPos blockPos, @NotNull Player player, @NotNull InteractionHand interactionHand, @NotNull BlockHitResult blockHitResult) {
         if (player.getItemInHand(interactionHand).isEmpty() && interactionHand == InteractionHand.MAIN_HAND) {
             harvestLitter(level, blockPos, player, blockState);
-            return ((level.isClientSide ? net.minecraft.world.ItemInteractionResult.SUCCESS : net.minecraft.world.ItemInteractionResult.CONSUME));
+            return ((level.isClientSide ? net.minecraft.world.InteractionResult.SUCCESS : net.minecraft.world.InteractionResult.CONSUME));
         }
 
-        return net.minecraft.world.ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
+        return net.minecraft.world.InteractionResult.PASS;
     }
 
     static {
@@ -115,7 +120,7 @@ public class NeedleLitterBlock extends BushBlock implements BonemealableBlock {
                 shape = Shapes.or(shape, segments[j]);
             }
 
-            return shape.singleEncompassing();
+            return net.minecraft.world.phys.shapes.Shapes.create(shape.bounds());
         });
     }
 
@@ -139,7 +144,7 @@ public class NeedleLitterBlock extends BushBlock implements BonemealableBlock {
         }
     }
 
-    protected void harvestLitter(Level level, BlockPos pos, Player player, BlockState state) {
+    public void harvestLitter(Level level, BlockPos pos, Player player, BlockState state) {
         if (level.isClientSide) {
             return;
         }
@@ -153,15 +158,15 @@ public class NeedleLitterBlock extends BushBlock implements BonemealableBlock {
         ModUtils.awardBlockMinedStat(player, this);
     }
 
-    protected ParticleOptions getFootstepFluffParticle() {
+    public ParticleOptions getFootstepFluffParticle() {
         return ModParticles.NEEDLE_FLUFF_PARTICLES.get();
     }
 
-    protected SoundEvent getFootstepSound() {
+    public SoundEvent getFootstepSound() {
         return SoundEvents.HANGING_ROOTS_STEP;
     }
 
-    protected void spawnExtraFootstepParticles(Level level, BlockPos pos, RandomSource random) {
+    public void spawnExtraFootstepParticles(Level level, BlockPos pos, RandomSource random) {
         if (random.nextFloat() >= 0.2F) {
             return;
         }

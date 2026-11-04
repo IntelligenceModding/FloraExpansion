@@ -1,0 +1,40 @@
+{
+  "parent": "floraexpansion:nature/foraging",
+  "criteria": {
+    "obtained": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "floraexpansion:blueberries",
+              "floraexpansion:strawberry",
+              "floraexpansion:cherries"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "announce_to_chat": true,
+    "description": {
+      "translate": "advancements.floraexpansion.fruit.description"
+    },
+    "frame": "task",
+    "hidden": false,
+    "icon": {
+      "item": "floraexpansion:blueberries"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancements.floraexpansion.fruit.title"
+    }
+  },
+  "requirements": [
+    [
+      "obtained"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

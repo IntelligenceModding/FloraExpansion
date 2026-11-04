@@ -1,0 +1,32 @@
+{
+  "parent": "floraexpansion:nature/brush_salt",
+  "criteria": {
+    "performed": {
+      "conditions": {
+        "action": "salt_find"
+      },
+      "trigger": "floraexpansion:action"
+    }
+  },
+  "display": {
+    "announce_to_chat": true,
+    "description": {
+      "translate": "advancements.floraexpansion.salt_find.description"
+    },
+    "frame": "goal",
+    "hidden": false,
+    "icon": {
+      "item": "minecraft:angler_pottery_sherd"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancements.floraexpansion.salt_find.title"
+    }
+  },
+  "requirements": [
+    [
+      "performed"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

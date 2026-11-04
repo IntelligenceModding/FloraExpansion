@@ -15,8 +15,8 @@ import de.artemis.floraexpansion.common.config.ClientConfig;
 
 public class CrateScreen extends AbstractContainerScreen<CrateMenu> {
     private static final ResourceLocation CONTAINER_BACKGROUND = ResourceLocation.fromNamespaceAndPath("floraexpansion", "textures/gui/container/crate.png");
-    private static final ResourceLocation SCROLLER_SPRITE = ResourceLocation.withDefaultNamespace("container/creative_inventory/scroller");
-    private static final ResourceLocation SCROLLER_DISABLED_SPRITE = ResourceLocation.withDefaultNamespace("container/creative_inventory/scroller_disabled");
+
+
     private static final int SCROLLER_X = 156;
     private static final int SCROLLER_Y = 18;
     private static final int SCROLLER_WIDTH = 12;
@@ -46,7 +46,7 @@ public class CrateScreen extends AbstractContainerScreen<CrateMenu> {
         int left = (this.width - this.imageWidth) / 2;
         int top = (this.height - this.imageHeight) / 2;
         guiGraphics.blit(CONTAINER_BACKGROUND, left, top, 0, 0, this.imageWidth, this.imageHeight, TEXTURE_WIDTH, TEXTURE_HEIGHT);
-        guiGraphics.blitSprite(this.menu.canScroll() ? SCROLLER_SPRITE : SCROLLER_DISABLED_SPRITE, left + SCROLLER_X, top + SCROLLER_Y + (int) (SCROLLER_TRAVEL * this.scrollOffs), SCROLLER_WIDTH, SCROLLER_HEIGHT);
+        guiGraphics.blit(ResourceLocation.fromNamespaceAndPath("minecraft", "textures/gui/container/creative_inventory/tabs.png"), left + SCROLLER_X, top + SCROLLER_Y + (int) (SCROLLER_TRAVEL * this.scrollOffs), this.menu.canScroll() ? 232 : 244, 0, SCROLLER_WIDTH, SCROLLER_HEIGHT);
     }
 
     @Override
@@ -79,7 +79,7 @@ public class CrateScreen extends AbstractContainerScreen<CrateMenu> {
     }
 
     @Override
-    public boolean mouseScrolled(double mouseX, double mouseY, double scrollX, double scrollY) {
+    public boolean mouseScrolled(double mouseX, double mouseY, double scrollY) {
         if (!this.menu.canScroll()) {
             return false;
         }

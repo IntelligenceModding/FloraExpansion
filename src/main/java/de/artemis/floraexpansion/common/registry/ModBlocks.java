@@ -3,7 +3,7 @@ package de.artemis.floraexpansion.common.registry;
 import de.artemis.floraexpansion.FloraExpansion;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.resources.ResourceKey;
+
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.*;
@@ -31,7 +31,7 @@ public class ModBlocks {
     public static final RegistryObject<DropExperienceBlock> CALCITE_COPPER_ORE = registerCalciteOre("copper", Blocks.COPPER_ORE, 0, 0);
     public static final RegistryObject<DropExperienceBlock> CALCITE_GOLD_ORE = registerCalciteOre("gold", Blocks.GOLD_ORE, 0, 0);
     public static final RegistryObject<RedStoneOreBlock> CALCITE_REDSTONE_ORE = registerBlock("calcite_redstone_ore",
-            () -> new RedStoneOreBlock(blockProperties("calcite_redstone_ore", BlockBehaviour.Properties.ofFullCopy(Blocks.REDSTONE_ORE)
+            () -> new RedStoneOreBlock(blockProperties("calcite_redstone_ore", BlockBehaviour.Properties.copy(Blocks.REDSTONE_ORE)
                     .mapColor(MapColor.TERRACOTTA_WHITE).sound(SoundType.CALCITE))), new Item.Properties());
     public static final RegistryObject<DropExperienceBlock> CALCITE_EMERALD_ORE = registerCalciteOre("emerald", Blocks.EMERALD_ORE, 3, 7);
     public static final RegistryObject<DropExperienceBlock> CALCITE_LAPIS_ORE = registerCalciteOre("lapis", Blocks.LAPIS_ORE, 2, 5);
@@ -50,14 +50,14 @@ public class ModBlocks {
             () -> new LadderBlock(blockProperties("twig_ladder", BlockBehaviour.Properties.of().forceSolidOff().strength(0.4F).sound(SoundType.CHERRY_WOOD).noOcclusion().pushReaction(PushReaction.DESTROY))));
 
     public static final RegistryObject<CrateBlock> CRATE = registerBlock("crate",
-            () -> new CrateBlock(blockProperties("crate", BlockBehaviour.Properties.ofFullCopy(Blocks.COMPOSTER))),
+            () -> new CrateBlock(blockProperties("crate", BlockBehaviour.Properties.copy(Blocks.COMPOSTER))),
             new Item.Properties(), CrateBlockItem::new);
 
     public static final RegistryObject<JarBlock> GLASS_JAR = registerJar("glass_jar");
     public static final RegistryObject<LiquidBlock> SALT_WATER = registerBlockWithoutItem("salt_water",
-            () -> new SaltWaterBlock(blockProperties("salt_water", BlockBehaviour.Properties.ofFullCopy(Blocks.WATER).randomTicks())));
+            () -> new SaltWaterBlock(blockProperties("salt_water", BlockBehaviour.Properties.copy(Blocks.WATER).randomTicks())));
     public static final RegistryObject<SaltWaterCauldronBlock> SALT_WATER_CAULDRON = registerBlockWithoutItem("salt_water_cauldron",
-            () -> new SaltWaterCauldronBlock(blockProperties("salt_water_cauldron", BlockBehaviour.Properties.ofFullCopy(Blocks.WATER_CAULDRON))));
+            () -> new SaltWaterCauldronBlock(blockProperties("salt_water_cauldron", BlockBehaviour.Properties.copy(Blocks.WATER_CAULDRON))));
     public static final RegistryObject<GlasswortBlock> GLASSWORT = registerBlock("glasswort",
             () -> new GlasswortBlock(blockProperties("glasswort", BlockBehaviour.Properties.of()
                     .mapColor(MapColor.PLANT).noCollission().instabreak().sound(SoundType.GRASS)
@@ -65,9 +65,9 @@ public class ModBlocks {
                     .food(ModFoods.GLASSWORT));
     public static final RegistryObject<FlowerPotBlock> POTTED_GLASSWORT = registerBlockWithoutItem("potted_glasswort",
             () -> new FlowerPotBlock(() -> (FlowerPotBlock) Blocks.FLOWER_POT, GLASSWORT,
-                    blockProperties("potted_glasswort", BlockBehaviour.Properties.ofFullCopy(Blocks.POTTED_FERN))));
+                    blockProperties("potted_glasswort", BlockBehaviour.Properties.copy(Blocks.POTTED_FERN))));
     public static final RegistryObject<SaltingTubBlock> SALTING_TUB = registerBlock("salting_tub",
-            () -> new SaltingTubBlock(blockProperties("salting_tub", BlockBehaviour.Properties.ofFullCopy(Blocks.COMPOSTER)
+            () -> new SaltingTubBlock(blockProperties("salting_tub", BlockBehaviour.Properties.copy(Blocks.COMPOSTER)
                     .noOcclusion())));
     public static final RegistryObject<Block> SALT_DEPOSIT = registerBlockWithoutItem("salt_deposit",
             () -> new SaltDepositBlock(blockProperties("salt_deposit", BlockBehaviour.Properties.of()
@@ -76,34 +76,34 @@ public class ModBlocks {
             () -> new HandCrankBlock(blockProperties("hand_crank", BlockBehaviour.Properties.of()
                     .strength(0.5F).sound(SoundType.WOOD).noOcclusion().dynamicShape().pushReaction(PushReaction.DESTROY))));
     public static final RegistryObject<HandMillBlock> HAND_MILL = registerBlock("hand_mill",
-            () -> new HandMillBlock(blockProperties("hand_mill", BlockBehaviour.Properties.ofFullCopy(Blocks.STONE)
+            () -> new HandMillBlock(blockProperties("hand_mill", BlockBehaviour.Properties.copy(Blocks.STONE)
                     .strength(2.0F).noOcclusion().dynamicShape())));
     public static final RegistryObject<Block> CRYSTALLINE_SALT = registerBlock("crystalline_salt",
-            () -> new Block(blockProperties("crystalline_salt", BlockBehaviour.Properties.ofFullCopy(Blocks.CALCITE)
+            () -> new Block(blockProperties("crystalline_salt", BlockBehaviour.Properties.copy(Blocks.CALCITE)
                     .requiresCorrectToolForDrops())));
     public static final RegistryObject<SaltSpikeBlock> SALT_SPIKE = registerBlock("salt_spike",
-            () -> new SaltSpikeBlock(blockProperties("salt_spike", BlockBehaviour.Properties.ofFullCopy(Blocks.POINTED_DRIPSTONE)
+            () -> new SaltSpikeBlock(blockProperties("salt_spike", BlockBehaviour.Properties.copy(Blocks.POINTED_DRIPSTONE)
                     .mapColor(MapColor.SNOW))));
     public static final RegistryObject<Block> SMOOTH_SALT = registerBlock("smooth_salt",
-            () -> new Block(blockProperties("smooth_salt", BlockBehaviour.Properties.ofFullCopy(CRYSTALLINE_SALT.get()))));
+            () -> new Block(blockProperties("smooth_salt", BlockBehaviour.Properties.copy(CRYSTALLINE_SALT.get()))));
     public static final RegistryObject<Block> CUT_SALT = registerBlock("cut_salt",
-            () -> new Block(blockProperties("cut_salt", BlockBehaviour.Properties.ofFullCopy(CRYSTALLINE_SALT.get()))));
+            () -> new Block(blockProperties("cut_salt", BlockBehaviour.Properties.copy(CRYSTALLINE_SALT.get()))));
     public static final RegistryObject<Block> CHISELED_SALT = registerBlock("chiseled_salt",
-            () -> new Block(blockProperties("chiseled_salt", BlockBehaviour.Properties.ofFullCopy(CRYSTALLINE_SALT.get()))));
+            () -> new Block(blockProperties("chiseled_salt", BlockBehaviour.Properties.copy(CRYSTALLINE_SALT.get()))));
     public static final RegistryObject<StairBlock> CRYSTALLINE_SALT_STAIRS = registerBlock("crystalline_salt_stairs",
             () -> new StairBlock(CRYSTALLINE_SALT.get().defaultBlockState(),
-                    blockProperties("crystalline_salt_stairs", BlockBehaviour.Properties.ofFullCopy(CRYSTALLINE_SALT.get()))));
+                    blockProperties("crystalline_salt_stairs", BlockBehaviour.Properties.copy(CRYSTALLINE_SALT.get()))));
     public static final RegistryObject<SlabBlock> CRYSTALLINE_SALT_SLAB = registerBlock("crystalline_salt_slab",
-            () -> new SlabBlock(blockProperties("crystalline_salt_slab", BlockBehaviour.Properties.ofFullCopy(CRYSTALLINE_SALT.get()))));
+            () -> new SlabBlock(blockProperties("crystalline_salt_slab", BlockBehaviour.Properties.copy(CRYSTALLINE_SALT.get()))));
     public static final RegistryObject<WallBlock> CRYSTALLINE_SALT_WALL = registerBlock("crystalline_salt_wall",
-            () -> new WallBlock(blockProperties("crystalline_salt_wall", BlockBehaviour.Properties.ofFullCopy(CRYSTALLINE_SALT.get()))));
+            () -> new WallBlock(blockProperties("crystalline_salt_wall", BlockBehaviour.Properties.copy(CRYSTALLINE_SALT.get()))));
     public static final RegistryObject<JamJarBlock> BLUEBERRY_JAM = registerJamJar("blueberry_jam");
     public static final RegistryObject<JamJarBlock> STRAWBERRY_JAM = registerJamJar("strawberry_jam");
     public static final RegistryObject<JamJarBlock> CHERRY_JAM = registerJamJar("cherry_jam");
     public static final RegistryObject<JamJarBlock> APPLE_JAM = registerJamJar("apple_jam");
 
     public static final RegistryObject<StrawberryCakeBlock> STRAWBERRY_CAKE = registerBlock("strawberry_cake",
-            () -> new StrawberryCakeBlock(blockProperties("strawberry_cake", BlockBehaviour.Properties.ofFullCopy(Blocks.CAKE))), new Item.Properties().stacksTo(1));
+            () -> new StrawberryCakeBlock(blockProperties("strawberry_cake", BlockBehaviour.Properties.copy(Blocks.CAKE))), new Item.Properties().stacksTo(1));
 
     public static final RegistryObject<StrawberryCakeWithCandleBlock> STRAWBERRY_CAKE_WITH_CANDLE = registerCandleCake("strawberry_cake_with_candle", Blocks.CANDLE);
     public static final RegistryObject<StrawberryCakeWithCandleBlock> STRAWBERRY_CAKE_WITH_WHITE_CANDLE = registerCandleCake("strawberry_cake_with_white_candle", Blocks.WHITE_CANDLE);
@@ -144,10 +144,10 @@ public class ModBlocks {
     );
 
     public static final RegistryObject<SmallBlueberryBushBlock> BLUEBERRY_BUSH =
-            BLOCKS.register("blueberry_bush", () -> new SmallBlueberryBushBlock(blockProperties("blueberry_bush", BlockBehaviour.Properties.ofFullCopy(Blocks.SWEET_BERRY_BUSH).randomTicks())));
+            BLOCKS.register("blueberry_bush", () -> new SmallBlueberryBushBlock(blockProperties("blueberry_bush", BlockBehaviour.Properties.copy(Blocks.SWEET_BERRY_BUSH).randomTicks())));
 
     public static final RegistryObject<LargeBlueberryBushBlock> LARGE_BLUEBERRY_BUSH = registerBlock("large_blueberry_bush",
-            () -> new LargeBlueberryBushBlock(blockProperties("large_blueberry_bush", BlockBehaviour.Properties.ofFullCopy(Blocks.FERN).randomTicks())));
+            () -> new LargeBlueberryBushBlock(blockProperties("large_blueberry_bush", BlockBehaviour.Properties.copy(Blocks.FERN).randomTicks())));
 
     public static final RegistryObject<StrawberryCropBlock> STRAWBERRY_PLANT =
             BLOCKS.register("strawberry_plant", () -> new StrawberryCropBlock(blockProperties("strawberry_plant", BlockBehaviour.Properties.of().noCollission().randomTicks().instabreak().sound(SoundType.CROP).pushReaction(PushReaction.DESTROY))));
@@ -169,22 +169,22 @@ public class ModBlocks {
             () -> new HayBlock(blockProperties("flax_bale", BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_LIGHT_GREEN).instrument(NoteBlockInstrument.BANJO).strength(0.5F).sound(SoundType.MOSS))));
 
     public static final RegistryObject<Block> CHERRY_PIT = registerBlock("cherry_pit",
-            () -> new SaplingBlock(ModTreeGrowers.CHERRY_PIT, blockProperties("cherry_pit", BlockBehaviour.Properties.ofFullCopy(Blocks.CHERRY_SAPLING))));
+            () -> new SaplingBlock(ModTreeGrowers.CHERRY_PIT, blockProperties("cherry_pit", BlockBehaviour.Properties.copy(Blocks.CHERRY_SAPLING))));
 
     public static final RegistryObject<Block> POTTED_CHERRY_PIT = BLOCKS.register("potted_cherry_pit",
-            () -> new FlowerPotBlock(() -> (FlowerPotBlock) Blocks.FLOWER_POT, CHERRY_PIT, blockProperties("potted_cherry_pit", BlockBehaviour.Properties.ofFullCopy(Blocks.POTTED_CHERRY_SAPLING).noOcclusion())));
+            () -> new FlowerPotBlock(() -> (FlowerPotBlock) Blocks.FLOWER_POT, CHERRY_PIT, blockProperties("potted_cherry_pit", BlockBehaviour.Properties.copy(Blocks.POTTED_CHERRY_SAPLING).noOcclusion())));
 
     public static final RegistryObject<Block> ORCHARD_CHERRY_LEAVES = registerBlock("orchard_cherry_leaves",
-            () -> new OrchardCherryLeavesBlock(blockProperties("orchard_cherry_leaves", BlockBehaviour.Properties.ofFullCopy(Blocks.CHERRY_LEAVES).randomTicks())));
+            () -> new OrchardCherryLeavesBlock(blockProperties("orchard_cherry_leaves", BlockBehaviour.Properties.copy(Blocks.CHERRY_LEAVES).randomTicks())));
 
     public static final RegistryObject<Block> APPLE_CORE = registerBlock("apple_core",
-            () -> new SaplingBlock(ModTreeGrowers.APPLE_CORE, blockProperties("apple_core", BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_SAPLING))));
+            () -> new SaplingBlock(ModTreeGrowers.APPLE_CORE, blockProperties("apple_core", BlockBehaviour.Properties.copy(Blocks.OAK_SAPLING))));
 
     public static final RegistryObject<Block> POTTED_APPLE_CORE = BLOCKS.register("potted_apple_core",
-            () -> new FlowerPotBlock(() -> (FlowerPotBlock) Blocks.FLOWER_POT, APPLE_CORE, blockProperties("potted_apple_core", BlockBehaviour.Properties.ofFullCopy(Blocks.POTTED_OAK_SAPLING).noOcclusion())));
+            () -> new FlowerPotBlock(() -> (FlowerPotBlock) Blocks.FLOWER_POT, APPLE_CORE, blockProperties("potted_apple_core", BlockBehaviour.Properties.copy(Blocks.POTTED_OAK_SAPLING).noOcclusion())));
 
     public static final RegistryObject<Block> APPLE_LEAVES = registerBlock("apple_leaves",
-            () -> new AppleLeavesBlock(blockProperties("apple_leaves", BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_LEAVES).randomTicks())));
+            () -> new AppleLeavesBlock(blockProperties("apple_leaves", BlockBehaviour.Properties.copy(Blocks.OAK_LEAVES).randomTicks())));
 
     public static final RegistryObject<Block> CACTUS_LOG = registerBlock("cactus_log",
             () -> new CactusLogBlock(blockProperties("cactus_log", BlockBehaviour.Properties.of()
@@ -210,7 +210,7 @@ public class ModBlocks {
                     .randomTicks())));
 
     public static final RegistryObject<Block> POTTED_GIANT_CACTUS_STEM = BLOCKS.register("potted_giant_cactus_stem",
-            () -> new FlowerPotBlock(() -> (FlowerPotBlock) Blocks.FLOWER_POT, GIANT_CACTUS_STEM, blockProperties("potted_giant_cactus_stem", BlockBehaviour.Properties.ofFullCopy(Blocks.POTTED_CHERRY_SAPLING).noOcclusion())));
+            () -> new FlowerPotBlock(() -> (FlowerPotBlock) Blocks.FLOWER_POT, GIANT_CACTUS_STEM, blockProperties("potted_giant_cactus_stem", BlockBehaviour.Properties.copy(Blocks.POTTED_CHERRY_SAPLING).noOcclusion())));
 
     public static final RegistryObject<Block> CACTUS_SPINE = registerBlock("cactus_spine",
             () -> new CactusSpineBlock(blockProperties("cactus_spine", BlockBehaviour.Properties.of()
@@ -254,7 +254,7 @@ public class ModBlocks {
 
     public static final RegistryObject<Block> FLOWERING_DESERT_MOSS = registerBlock("flowering_desert_moss",
             () -> new DesertMossBlock(blockProperties("flowering_desert_moss",
-                    BlockBehaviour.Properties.ofFullCopy(DESERT_MOSS.get())), true));
+                    BlockBehaviour.Properties.copy(DESERT_MOSS.get())), true));
 
     public static final RegistryObject<Block> SMALL_CACTUS = registerBlock("small_cactus",
             () -> new SmallCactusBlock(blockProperties("small_cactus", BlockBehaviour.Properties.of()
@@ -275,69 +275,63 @@ public class ModBlocks {
                     .randomTicks())));
 
     public static final RegistryObject<Block> CACTUS_PLANKS = registerBlock("cactus_planks",
-            () -> new Block(blockProperties("cactus_planks", BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_PLANKS))));
+            () -> new Block(blockProperties("cactus_planks", BlockBehaviour.Properties.copy(Blocks.OAK_PLANKS))));
 
     public static final RegistryObject<Block> CACTUS_MOSAIC = registerBlock("cactus_mosaic",
-            () -> new Block(blockProperties("cactus_mosaic", BlockBehaviour.Properties.ofFullCopy(ModBlocks.CACTUS_PLANKS.get()))));
+            () -> new Block(blockProperties("cactus_mosaic", BlockBehaviour.Properties.copy(ModBlocks.CACTUS_PLANKS.get()))));
 
     public static final RegistryObject<Block> CACTUS_MOSAIC_STAIRS = registerBlock("cactus_mosaic_stairs",
             () -> new StairBlock(ModBlocks.CACTUS_MOSAIC.get().defaultBlockState(),
-                    blockProperties("cactus_mosaic_stairs", BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_STAIRS))));
+                    blockProperties("cactus_mosaic_stairs", BlockBehaviour.Properties.copy(Blocks.OAK_STAIRS))));
 
     public static final RegistryObject<Block> CACTUS_MOSAIC_SLAB = registerBlock("cactus_mosaic_slab",
-            () -> new SlabBlock(blockProperties("cactus_mosaic_slab", BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_SLAB))));
+            () -> new SlabBlock(blockProperties("cactus_mosaic_slab", BlockBehaviour.Properties.copy(Blocks.OAK_SLAB))));
 
     public static final RegistryObject<Block> CACTUS_STAIRS = registerBlock("cactus_stairs",
             () -> new StairBlock(ModBlocks.CACTUS_PLANKS.get().defaultBlockState(),
-                    blockProperties("cactus_stairs", BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_STAIRS))));
+                    blockProperties("cactus_stairs", BlockBehaviour.Properties.copy(Blocks.OAK_STAIRS))));
 
     public static final RegistryObject<Block> CACTUS_SLAB = registerBlock("cactus_slab",
-            () -> new SlabBlock(blockProperties("cactus_slab", BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_SLAB))));
+            () -> new SlabBlock(blockProperties("cactus_slab", BlockBehaviour.Properties.copy(Blocks.OAK_SLAB))));
 
     public static final RegistryObject<Block> CACTUS_FENCE = registerBlock("cactus_fence",
-            () -> new FenceBlock(blockProperties("cactus_fence", BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_FENCE))));
+            () -> new FenceBlock(blockProperties("cactus_fence", BlockBehaviour.Properties.copy(Blocks.OAK_FENCE))));
 
     public static final RegistryObject<Block> CACTUS_FENCE_GATE = registerBlock("cactus_fence_gate",
-            () -> new FenceGateBlock(ModWoodTypes.CACTUS_WOOD_TYPE,
-                    blockProperties("cactus_fence_gate", BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_FENCE_GATE))));
+            () -> new FenceGateBlock(blockProperties("cactus_fence_gate", BlockBehaviour.Properties.copy(Blocks.OAK_FENCE_GATE)), ModWoodTypes.CACTUS_WOOD_TYPE));
 
     public static final RegistryObject<Block> CACTUS_BUTTON = registerBlock("cactus_button",
-            () -> new ButtonBlock(ModWoodTypes.CACTUS_SET_TYPE, 30,
-                    blockProperties("cactus_button", BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_BUTTON).noCollission())));
+            () -> new ButtonBlock(blockProperties("cactus_button", BlockBehaviour.Properties.copy(Blocks.OAK_BUTTON).noCollission()), ModWoodTypes.CACTUS_SET_TYPE, 30, true));
 
     public static final RegistryObject<Block> CACTUS_PRESSURE_PLATE = registerBlock("cactus_pressure_plate",
-            () -> new PressurePlateBlock(ModWoodTypes.CACTUS_SET_TYPE,
-                    blockProperties("cactus_pressure_plate", BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_PRESSURE_PLATE))));
+            () -> new PressurePlateBlock(PressurePlateBlock.Sensitivity.EVERYTHING, blockProperties("cactus_pressure_plate", BlockBehaviour.Properties.copy(Blocks.OAK_PRESSURE_PLATE)), ModWoodTypes.CACTUS_SET_TYPE));
 
     public static final RegistryObject<Block> CACTUS_DOOR = registerBlock("cactus_door",
-            () -> new DoorBlock(ModWoodTypes.CACTUS_SET_TYPE,
-                    blockProperties("cactus_door", BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_DOOR).noOcclusion())));
+            () -> new DoorBlock(blockProperties("cactus_door", BlockBehaviour.Properties.copy(Blocks.OAK_DOOR).noOcclusion()), ModWoodTypes.CACTUS_SET_TYPE));
 
     public static final RegistryObject<Block> CACTUS_TRAPDOOR = registerBlock("cactus_trapdoor",
-            () -> new TrapDoorBlock(ModWoodTypes.CACTUS_SET_TYPE,
-                    blockProperties("cactus_trapdoor", BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_TRAPDOOR).noOcclusion())));
+            () -> new TrapDoorBlock(blockProperties("cactus_trapdoor", BlockBehaviour.Properties.copy(Blocks.OAK_TRAPDOOR).noOcclusion()), ModWoodTypes.CACTUS_SET_TYPE));
 
     public static final RegistryObject<Block> CACTUS_SIGN = BLOCKS.register("cactus_sign",
-            () -> new CactusStandingSignBlock(blockProperties("cactus_sign", BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_SIGN).noCollission().strength(1.0F))));
+            () -> new CactusStandingSignBlock(blockProperties("cactus_sign", BlockBehaviour.Properties.copy(Blocks.OAK_SIGN).noCollission().strength(1.0F))));
 
     public static final RegistryObject<Block> CACTUS_WALL_SIGN = BLOCKS.register("cactus_wall_sign",
-            () -> new CactusWallSignBlock(blockProperties("cactus_wall_sign", BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_WALL_SIGN).noCollission().strength(1.0F))));
+            () -> new CactusWallSignBlock(blockProperties("cactus_wall_sign", BlockBehaviour.Properties.copy(Blocks.OAK_WALL_SIGN).noCollission().strength(1.0F))));
 
     public static final RegistryObject<Block> CACTUS_HANGING_SIGN = BLOCKS.register("cactus_hanging_sign",
-            () -> new CactusCeilingHangingSignBlock(blockProperties("cactus_hanging_sign", BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_HANGING_SIGN).noCollission().strength(1.0F))));
+            () -> new CactusCeilingHangingSignBlock(blockProperties("cactus_hanging_sign", BlockBehaviour.Properties.copy(Blocks.OAK_HANGING_SIGN).noCollission().strength(1.0F))));
 
     public static final RegistryObject<Block> CACTUS_WALL_HANGING_SIGN = BLOCKS.register("cactus_wall_hanging_sign",
-            () -> new CactusWallHangingSignBlock(blockProperties("cactus_wall_hanging_sign", BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_WALL_HANGING_SIGN).noCollission().strength(1.0F))));
+            () -> new CactusWallHangingSignBlock(blockProperties("cactus_wall_hanging_sign", BlockBehaviour.Properties.copy(Blocks.OAK_WALL_HANGING_SIGN).noCollission().strength(1.0F))));
     private static RegistryObject<DropExperienceBlock> registerCalciteOre(String mineral, Block original, int minXp, int maxXp) {
         String name = "calcite_" + mineral + "_ore";
-        return registerBlock(name, () -> new DropExperienceBlock(net.minecraft.util.valueproviders.UniformInt.of(minXp, maxXp),
-                blockProperties(name, BlockBehaviour.Properties.ofFullCopy(original)
-                        .mapColor(MapColor.TERRACOTTA_WHITE).sound(SoundType.CALCITE))), new Item.Properties());
+        return registerBlock(name, () -> new DropExperienceBlock(blockProperties(name, BlockBehaviour.Properties.copy(original)
+                        .mapColor(MapColor.TERRACOTTA_WHITE).sound(SoundType.CALCITE)), net.minecraft.util.valueproviders.UniformInt.of(minXp, maxXp)), new Item.Properties());
     }
 
     private static RegistryObject<StrawberryCakeWithCandleBlock> registerCandleCake(String name, Block candle) {
         return registerBlockWithoutItem(name, () -> new StrawberryCakeWithCandleBlock(candle,
-                blockProperties(name, BlockBehaviour.Properties.ofFullCopy(Blocks.CANDLE_CAKE)
+                blockProperties(name, BlockBehaviour.Properties.copy(Blocks.CANDLE_CAKE)
                         .lightLevel(state -> state.getValue(StrawberryCakeWithCandleBlock.LIT)
                                 ? 3 * state.getValue(StrawberryCakeWithCandleBlock.CANDLES) : 0))));
     }
@@ -375,7 +369,7 @@ public class ModBlocks {
 
     private static BlockBehaviour.Properties blockProperties(String name, BlockBehaviour.Properties properties) {
         ResourceLocation id = ResourceLocation.fromNamespaceAndPath(FloraExpansion.MODID, name);
-        properties.drops = ResourceKey.create(Registries.LOOT_TABLE, id.withPrefix("blocks/"));
+        properties.drops = id.withPrefix("blocks/");
         return properties;
     }
 

@@ -1,0 +1,10 @@
+{
+  "type": "minecraft:smelting",
+  "category": "food",
+  "cookingtime": 100,
+  "experience": 0.1,
+  "ingredient": {
+    "item": "floraexpansion:salted_spruce_nuts"
+  },
+  "result": "floraexpansion:salted_toasted_spruce_nuts"
+}

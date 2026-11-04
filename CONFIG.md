@@ -1,6 +1,8 @@
 # Configuration
 
-Edit the Forge TOML configuration files below. Restart the game or server after editing them.
+Open **Mods → Flora Expansion → Config** to change client settings. Press **Save** to apply and persist changes, **Cancel** (or Escape) to discard them, or **Reset** to restore the defaults before saving. Client changes apply immediately after saving.
+
+For gameplay settings, edit the Forge TOML configuration files below. Restart the game or server after editing them.
 
 | File | When to use it |
 | --- | --- |

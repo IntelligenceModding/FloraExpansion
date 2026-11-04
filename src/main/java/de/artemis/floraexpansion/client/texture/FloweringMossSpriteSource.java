@@ -3,7 +3,7 @@ package de.artemis.floraexpansion.client.texture;
 import org.jetbrains.annotations.NotNull;
 
 import com.mojang.blaze3d.platform.NativeImage;
-import com.mojang.serialization.MapCodec;
+import com.mojang.serialization.Codec;
 import de.artemis.floraexpansion.FloraExpansion;
 import net.minecraft.client.renderer.texture.SpriteContents;
 import net.minecraft.client.renderer.texture.atlas.SpriteSource;
@@ -12,10 +12,10 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.ResourceManager;
 
 public record FloweringMossSpriteSource() implements SpriteSource {
-    public static final MapCodec<FloweringMossSpriteSource> MAP_CODEC = MapCodec.unit(FloweringMossSpriteSource::new);
+    public static final Codec<FloweringMossSpriteSource> MAP_CODEC = Codec.unit(FloweringMossSpriteSource::new);
     private static final ResourceLocation SPRITE = ResourceLocation.fromNamespaceAndPath(FloraExpansion.MODID, "item/flowering_desert_moss");
     private static final ResourceLocation MOSS = ResourceLocation.fromNamespaceAndPath(FloraExpansion.MODID, "block/desert_moss_2");
-    private static final ResourceLocation FLOWERS = ResourceLocation.withDefaultNamespace("block/pink_petals");
+    private static final ResourceLocation FLOWERS = ResourceLocation.fromNamespaceAndPath("minecraft", "block/pink_petals");
 
     public static final net.minecraft.client.renderer.texture.atlas.SpriteSourceType TYPE = new net.minecraft.client.renderer.texture.atlas.SpriteSourceType(MAP_CODEC);
     @Override
@@ -34,7 +34,7 @@ public record FloweringMossSpriteSource() implements SpriteSource {
             FloraExpansion.LOGGER.warn("Missing source texture for flowering desert moss icon");
             return;
         }
-        output.add(SPRITE, loader -> SpriteLoader.load(SPRITE, moss.get(), (id, frame, image, metadata) -> {
+        output.add(SPRITE, () -> SpriteLoader.load(SPRITE, moss.get(), (id, frame, image, metadata) -> {
             try (var stream = flowers.get().open(); var petals = NativeImage.read(stream)) {
                 applyFlowers(image, frame, petals);
                 return new SpriteContents(id, frame, image, metadata);

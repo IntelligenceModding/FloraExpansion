@@ -1,0 +1,11 @@
+{
+  "type": "floraexpansion:grinding",
+  "ingredient": {
+    "item": "minecraft:orange_tulip"
+  },
+  "result": {
+    "count": 2,
+    "item": "minecraft:orange_dye"
+  },
+  "turns": 4
+}

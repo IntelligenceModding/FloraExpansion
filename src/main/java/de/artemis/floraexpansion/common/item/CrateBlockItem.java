@@ -4,14 +4,15 @@ import org.jetbrains.annotations.NotNull;
 
 import de.artemis.floraexpansion.common.block.CrateBlock;
 import net.minecraft.ChatFormatting;
-import net.minecraft.core.component.DataComponents;
+import de.artemis.floraexpansion.common.util.ItemData;
+import de.artemis.floraexpansion.common.util.ItemData.DataComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
-import net.minecraft.world.item.component.ItemContainerContents;
+import de.artemis.floraexpansion.common.util.ItemData.ItemContainerContents;
 
 import net.minecraft.world.level.block.Block;
 
@@ -23,7 +24,7 @@ public class CrateBlockItem extends BlockItem {
     }
 
     @Override
-    public void appendHoverText(@NotNull ItemStack stack, @NotNull Item.TooltipContext context, @NotNull java.util.List<Component> tooltipComponents, @NotNull TooltipFlag tooltipFlag) {
+    public void appendHoverText(@NotNull ItemStack stack, @org.jetbrains.annotations.Nullable net.minecraft.world.level.Level context, @NotNull java.util.List<Component> tooltipComponents, @NotNull TooltipFlag tooltipFlag) {
         super.appendHoverText(stack, context, tooltipComponents, tooltipFlag);
 
         if (ClientConfig.hints()) tooltipComponents.add(Component.translatable("tooltip.floraexpansion.crate_controls").withStyle(ChatFormatting.GRAY));
@@ -31,7 +32,7 @@ public class CrateBlockItem extends BlockItem {
             return;
         }
 
-        ItemContainerContents contents = stack.getOrDefault(DataComponents.CONTAINER, ItemContainerContents.EMPTY);
+        ItemContainerContents contents = ItemData.getOrDefault(stack, DataComponents.CONTAINER, ItemContainerContents.EMPTY);
         ItemStack storedType = ItemStack.EMPTY;
         int totalCount = 0;
 
@@ -48,8 +49,8 @@ public class CrateBlockItem extends BlockItem {
                 int capacity = de.artemis.floraexpansion.common.block.entity.CrateBlockEntity.CONTAINER_SIZE * storedType.getMaxStackSize();
                 tooltipComponents.add(Component.translatable("tooltip.floraexpansion.crate_capacity", totalCount, capacity).withStyle(ChatFormatting.GRAY));
             }
-            MutableComponent storedName = Component.empty().append(storedType.getHoverName()).withStyle(storedType.getRarity().color());
-            if (storedType.has(DataComponents.CUSTOM_NAME)) {
+            MutableComponent storedName = Component.empty().append(storedType.getHoverName()).withStyle(storedType.getRarity().getStyleModifier());
+            if (ItemData.has(storedType, DataComponents.CUSTOM_NAME)) {
                 storedName.withStyle(ChatFormatting.ITALIC);
             }
 

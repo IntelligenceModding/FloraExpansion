@@ -13,12 +13,12 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.ProjectileItem;
+
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 
 /** One resource for placement, throwing and dispenser projectiles. */
-public final class PebbleItem extends BlockItem implements ProjectileItem {
+public final class PebbleItem extends BlockItem {
     @NotNull @Override public String getDescriptionId() { return "item.floraexpansion.pebbles"; }
     public PebbleItem(Properties properties) { super(ModBlocks.SCATTERED_PEBBLES.get(), properties); }
     @Override public void registerBlocks(@NotNull java.util.Map<net.minecraft.world.level.block.Block, net.minecraft.world.item.Item> map,
@@ -44,11 +44,11 @@ public final class PebbleItem extends BlockItem implements ProjectileItem {
         }
         player.getCooldowns().addCooldown(stack.getItem(), 8);
         player.awardStat(Stats.ITEM_USED.get(this));
-        stack.consume(1, player);
+        de.artemis.floraexpansion.common.util.ItemData.consume(stack, 1, player);
         return net.minecraft.world.InteractionResultHolder.sidedSuccess(stack, level.isClientSide);
     }
 
-    @NotNull @Override public Projectile asProjectile(@NotNull Level level, Position pos, @NotNull ItemStack stack, @NotNull Direction direction) {
+    @NotNull public Projectile asProjectile(@NotNull Level level, Position pos, @NotNull ItemStack stack, @NotNull Direction direction) {
         return new PebblesProjectile(level, pos.x(), pos.y(), pos.z(), stack);
     }
 }

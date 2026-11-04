@@ -1,6 +1,6 @@
 package de.artemis.floraexpansion.common.block;
 
-import org.jetbrains.annotations.NotNull;
+
 
 import de.artemis.floraexpansion.common.registry.ModParticles;
 import net.minecraft.core.particles.SimpleParticleType;
@@ -9,7 +9,7 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
 
 public class AppleLeavesBlock extends FruitLeavesBlock {
- @NotNull @Override public com.mojang.serialization.MapCodec<AppleLeavesBlock> codec() { return simpleCodec(AppleLeavesBlock::new); }
+
     public static final IntegerProperty AGE = BlockStateProperties.AGE_2;
     public static final int MAX_AGE = 2;
 
@@ -18,27 +18,27 @@ public class AppleLeavesBlock extends FruitLeavesBlock {
     }
 
     @Override
-    protected IntegerProperty getAgeProperty() {
+    public IntegerProperty getAgeProperty() {
         return AGE;
     }
 
     @Override
-    protected int getMaxAge() {
+    public int getMaxAge() {
         return MAX_AGE;
     }
 
     @Override
-    protected int getGrowthChance() {
+    public int getGrowthChance() {
         return 24;
     }
 
     @Override
-    protected boolean shouldSpawnFruitParticle(int age) {
+    public boolean shouldSpawnFruitParticle(int age) {
         return age > 0;
     }
 
     @Override
-    protected SimpleParticleType getFruitParticle() {
+    public SimpleParticleType getFruitParticle() {
         return ModParticles.FALLING_APPLE.get();
     }
 

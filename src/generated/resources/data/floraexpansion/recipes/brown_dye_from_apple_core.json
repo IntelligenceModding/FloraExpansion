@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "floraexpansion:apple_core"
+    }
+  ],
+  "result": {
+    "item": "minecraft:brown_dye"
+  }
+}

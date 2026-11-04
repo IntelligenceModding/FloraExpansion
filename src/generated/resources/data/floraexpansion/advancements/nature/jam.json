@@ -1,0 +1,41 @@
+{
+  "parent": "floraexpansion:nature/fruit",
+  "criteria": {
+    "obtained": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "floraexpansion:blueberry_jam",
+              "floraexpansion:strawberry_jam",
+              "floraexpansion:cherry_jam",
+              "floraexpansion:apple_jam"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "announce_to_chat": true,
+    "description": {
+      "translate": "advancements.floraexpansion.jam.description"
+    },
+    "frame": "task",
+    "hidden": false,
+    "icon": {
+      "item": "floraexpansion:blueberry_jam"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancements.floraexpansion.jam.title"
+    }
+  },
+  "requirements": [
+    [
+      "obtained"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

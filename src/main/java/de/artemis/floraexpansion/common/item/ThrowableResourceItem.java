@@ -39,11 +39,10 @@ public class ThrowableResourceItem extends SnowballItem {
             level.addFreshEntity(projectile);
         }
         player.awardStat(Stats.ITEM_USED.get(this));
-        stack.consume(1, player);
+        de.artemis.floraexpansion.common.util.ItemData.consume(stack, 1, player);
         return net.minecraft.world.InteractionResultHolder.sidedSuccess(stack, level.isClientSide);
     }
 
-    @Override
     public @NotNull Projectile asProjectile(@NotNull Level level, Position pos, @NotNull ItemStack stack, @NotNull Direction direction) {
         return positionFactory.create(level, pos.x(), pos.y(), pos.z(), stack);
     }

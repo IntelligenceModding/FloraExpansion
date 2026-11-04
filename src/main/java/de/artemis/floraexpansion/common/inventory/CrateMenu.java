@@ -186,8 +186,8 @@ public class CrateMenu extends AbstractContainerMenu {
             for (int i = 0; i < this.container.getContainerSize() && !stack.isEmpty(); i++) {
                 ItemStack slotStack = this.container.getItem(i);
                 if (!slotStack.isEmpty() && this.container.canPlaceItem(i, stack)
-                        && ItemStack.isSameItemSameComponents(stack, slotStack)) {
-                    int maxStackSize = this.container.getMaxStackSize(slotStack);
+                        && ItemStack.isSameItemSameTags(stack, slotStack)) {
+                    int maxStackSize = this.container.getMaxStackSize();
                     int combined = slotStack.getCount() + stack.getCount();
                     if (combined <= maxStackSize) {
                         stack.setCount(0);
@@ -206,7 +206,7 @@ public class CrateMenu extends AbstractContainerMenu {
 
         for (int i = 0; i < this.container.getContainerSize() && !stack.isEmpty(); i++) {
             if (this.container.getItem(i).isEmpty() && this.container.canPlaceItem(i, stack)) {
-                int movedCount = Math.min(stack.getCount(), this.container.getMaxStackSize(stack));
+                int movedCount = Math.min(stack.getCount(), this.container.getMaxStackSize());
                 this.container.setItem(i, stack.split(movedCount));
                 moved = true;
             }
@@ -241,7 +241,7 @@ public class CrateMenu extends AbstractContainerMenu {
         }
 
         @Override
-        public void setByPlayer(@NotNull ItemStack stack, @NotNull ItemStack oldStack) {
+        public void setByPlayer(@NotNull ItemStack stack) {
             if (this.hasMappedSlot()) {
                 this.container.setItem(this.getContainerSlot(), stack);
                 this.setChanged();
@@ -300,7 +300,7 @@ public class CrateMenu extends AbstractContainerMenu {
             }
 
             ItemStack storedType = this.getStoredType();
-            return storedType.isEmpty() || ItemStack.isSameItemSameComponents(storedType, stack);
+            return storedType.isEmpty() || ItemStack.isSameItemSameTags(storedType, stack);
         }
 
         private @NotNull ItemStack getStoredType() {

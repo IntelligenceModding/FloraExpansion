@@ -39,12 +39,12 @@ public class WoodenMilkBucketItem extends Item {
             return WoodenBucketUtil.damageInto(stack, player, ModItems.WOODEN_BUCKET.get());
         }
 
-        stack.consume(1, entity);
+        de.artemis.floraexpansion.common.util.ItemData.consume(stack, 1, entity);
         return stack;
     }
 
     @Override
-    public int getUseDuration(@NotNull ItemStack stack, @NotNull LivingEntity entity) {
+    public int getUseDuration(@NotNull ItemStack stack) {
         return 32;
     }
 

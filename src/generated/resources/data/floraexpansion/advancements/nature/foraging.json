@@ -1,0 +1,40 @@
+{
+  "parent": "floraexpansion:nature/root",
+  "criteria": {
+    "obtained": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "floraexpansion:twig",
+              "floraexpansion:spruce_cone",
+              "floraexpansion:spruce_nuts"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "announce_to_chat": true,
+    "description": {
+      "translate": "advancements.floraexpansion.foraging.description"
+    },
+    "frame": "task",
+    "hidden": false,
+    "icon": {
+      "item": "floraexpansion:spruce_cone"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancements.floraexpansion.foraging.title"
+    }
+  },
+  "requirements": [
+    [
+      "obtained"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

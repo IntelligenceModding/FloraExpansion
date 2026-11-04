@@ -40,6 +40,12 @@ import de.artemis.floraexpansion.common.util.PlantGrowth;
 import de.artemis.floraexpansion.common.registry.ModTags;
 
 public class FlaxBlock extends CropBlock {
+    @NotNull @Override public net.minecraft.world.InteractionResult use(@NotNull net.minecraft.world.level.block.state.BlockState state, @NotNull net.minecraft.world.level.Level level, @NotNull net.minecraft.core.BlockPos pos, @NotNull net.minecraft.world.entity.player.Player player, @NotNull net.minecraft.world.InteractionHand hand, @NotNull net.minecraft.world.phys.BlockHitResult hit) {
+        var result = useWithItem(player.getItemInHand(hand), state, level, pos, player, hand, hit);
+        if (result != net.minecraft.world.InteractionResult.PASS) return result;
+        return super.use(state, level, pos, player, hand, hit);
+    }
+
     public static final IntegerProperty AGE = BlockStateProperties.AGE_4;
     public static final BooleanProperty WILD = ModBlockStateProperties.WILD_FLAX;
     public static final EnumProperty<@NotNull DoubleBlockHalf> HALF = BlockStateProperties.DOUBLE_BLOCK_HALF;
@@ -95,7 +101,7 @@ public class FlaxBlock extends CropBlock {
     }
 
     @Override
-    protected @NotNull IntegerProperty getAgeProperty() {
+    public @NotNull IntegerProperty getAgeProperty() {
         return AGE;
     }
 
@@ -105,7 +111,7 @@ public class FlaxBlock extends CropBlock {
     }
 
     @Override
-    protected boolean isRandomlyTicking(@NotNull BlockState blockState) {
+    public boolean isRandomlyTicking(@NotNull BlockState blockState) {
         return !isMaxAge(blockState) && isLower(blockState);
     }
 
@@ -185,7 +191,7 @@ public class FlaxBlock extends CropBlock {
     }
 
     @Override
-    public @NotNull BlockState playerWillDestroy(@NotNull Level level, @NotNull BlockPos pos, @NotNull BlockState state, @NotNull Player player) {
+    public void playerWillDestroy(@NotNull Level level, @NotNull BlockPos pos, @NotNull BlockState state, @NotNull Player player) {
         if (isUpper(state)) {
             if (!level.isClientSide) {
                 BlockPos below = pos.below();
@@ -213,11 +219,10 @@ public class FlaxBlock extends CropBlock {
                 }
             }
         }
-        return super.playerWillDestroy(level, pos, state, player);
+        super.playerWillDestroy(level, pos, state, player);
     }
 
-    @Override
-    protected @NotNull net.minecraft.world.ItemInteractionResult useItemOn(@NotNull ItemStack itemStack,
+    public @NotNull net.minecraft.world.InteractionResult useWithItem(@NotNull ItemStack itemStack,
                                                    @NotNull BlockState blockState,
                                                    @NotNull Level level,
                                                    @NotNull BlockPos blockPos,
@@ -225,27 +230,27 @@ public class FlaxBlock extends CropBlock {
                                                    @NotNull InteractionHand hand,
                                                    @NotNull BlockHitResult result) {
         if (!isUpper(blockState)) {
-            return super.useItemOn(itemStack, blockState, level, blockPos, player, hand, result);
+            return super.use(blockState, level, blockPos, player, hand, result);
         }
 
         ItemStack held = player.getItemInHand(hand);
         if (!(held.getItem() instanceof ShearsItem)) {
-            return super.useItemOn(itemStack, blockState, level, blockPos, player, hand, result);
+            return super.use(blockState, level, blockPos, player, hand, result);
         }
 
         if (level.isClientSide) {
-            return net.minecraft.world.ItemInteractionResult.SUCCESS;
+            return net.minecraft.world.InteractionResult.SUCCESS;
         }
 
         BlockPos belowPos = blockPos.below();
         BlockState belowState = level.getBlockState(belowPos);
         if (!(belowState.getBlock() == this && isLower(belowState))) {
-            return net.minecraft.world.ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
+            return net.minecraft.world.InteractionResult.PASS;
         }
 
         int age = getAge(belowState);
         if (age < DOUBLE_AGE) {
-            return net.minecraft.world.ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
+            return net.minecraft.world.InteractionResult.PASS;
         }
 
         Block.dropResources(belowState, level, belowPos, null, player, held);
@@ -259,9 +264,9 @@ public class FlaxBlock extends CropBlock {
         }
 
         EquipmentSlot slot = (hand == InteractionHand.MAIN_HAND) ? EquipmentSlot.MAINHAND : EquipmentSlot.OFFHAND;
-        held.hurtAndBreak(1, player, slot);
+        de.artemis.floraexpansion.common.util.ItemData.damage(held, 1, player, slot);
 
-        return net.minecraft.world.ItemInteractionResult.CONSUME;
+        return net.minecraft.world.InteractionResult.CONSUME;
     }
 
     @Override
@@ -270,7 +275,7 @@ public class FlaxBlock extends CropBlock {
     }
 
     @Override
-    public boolean isValidBonemealTarget(@NotNull LevelReader level, @NotNull BlockPos blockPos, @NotNull BlockState blockState) {
+    public boolean isValidBonemealTarget(@NotNull LevelReader level, @NotNull BlockPos blockPos, @NotNull BlockState blockState, boolean isClientSide) {
         if (isUpper(blockState)) {
             blockPos = blockPos.below();
             blockState = level.getBlockState(blockPos);
@@ -314,12 +319,12 @@ public class FlaxBlock extends CropBlock {
     }
 
     @Override
-    protected @NotNull ItemLike getBaseSeedId() {
+    public @NotNull ItemLike getBaseSeedId() {
         return ModItems.FLAX_SEEDS.get();
     }
 
     @Override
-    protected void createBlockStateDefinition(StateDefinition.Builder<Block, @NotNull BlockState> builder) {
+    public void createBlockStateDefinition(StateDefinition.Builder<Block, @NotNull BlockState> builder) {
         builder.add(AGE, HALF, WILD);
     }
 }

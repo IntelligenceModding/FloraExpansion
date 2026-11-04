@@ -8,7 +8,7 @@ import de.artemis.floraexpansion.common.registry.ModItems;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.core.registries.Registries;
+
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
@@ -23,12 +23,12 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.pattern.BlockInWorld;
 import net.minecraft.world.level.gameevent.GameEvent;
-import net.minecraft.world.level.storage.loot.LootTable;
+
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
-import net.minecraftforge.common.ToolActions;
+
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.living.LivingEntityUseItemEvent;
 import net.minecraftforge.event.level.BlockEvent.BreakEvent;
@@ -40,8 +40,7 @@ import java.util.WeakHashMap;
 /** Runs after vanilla brush strokes so their animation, hit particles and brushing sound stay intact. */
 @EventBusSubscriber(modid = FloraExpansion.MODID)
 public final class SaltDepositBrushing {
-    public static final ResourceKey<LootTable> FINDS = ResourceKey.create(Registries.LOOT_TABLE,
-            ResourceLocation.fromNamespaceAndPath(FloraExpansion.MODID, "archaeology/salt_deposit"));
+    public static final ResourceLocation FINDS = ResourceLocation.fromNamespaceAndPath(FloraExpansion.MODID, "archaeology/salt_deposit");
     private static final int STROKES_PER_LAYER = 4;
     private static final Map<Player, Progress> PROGRESS = new WeakHashMap<>();
 
@@ -58,8 +57,8 @@ public final class SaltDepositBrushing {
             PROGRESS.remove(player);
             return;
         }
-        int elapsed = tool.getUseDuration(player) - player.getUseItemRemainingTicks();
-        var hit = ProjectileUtil.getHitResultOnViewVector(player, entity -> !entity.isSpectator() && entity.isPickable(), player.blockInteractionRange());
+        int elapsed = tool.getUseDuration() - player.getUseItemRemainingTicks();
+        var hit = ProjectileUtil.getHitResultOnViewVector(player, entity -> !entity.isSpectator() && entity.isPickable(), player.getAttributeValue(net.minecraftforge.common.ForgeMod.BLOCK_REACH.get()));
         if (!(hit instanceof BlockHitResult blockHit) || hit.getType() != HitResult.Type.BLOCK) {
             PROGRESS.remove(player);
             return;
@@ -68,7 +67,7 @@ public final class SaltDepositBrushing {
         var state = level.getBlockState(pos);
         if (!state.is(ModBlocks.SALT_DEPOSIT.get()) || !level.mayInteract(player, pos)
                 || !player.mayUseItemAt(pos, blockHit.getDirection(), tool)
-                || !player.mayBuild() && !tool.canBreakBlockInAdventureMode(new BlockInWorld(level, pos, false))) {
+                || !player.mayBuild() && !tool.hasAdventureModeBreakTagForBlock(net.minecraft.core.registries.BuiltInRegistries.BLOCK, new BlockInWorld(level, pos, false))) {
             PROGRESS.remove(player);
             return;
         }
@@ -105,7 +104,7 @@ public final class SaltDepositBrushing {
                 pos.getX() + .5, surface, pos.getZ() + .5, 8, .25, .03, .25, .025);
         level.playSound(null, pos, SoundEvents.BRUSH_SAND_COMPLETED, SoundSource.BLOCKS, .6F, 1.1F);
         level.gameEvent(GameEvent.BLOCK_CHANGE, pos, GameEvent.Context.of(player, remaining));
-        tool.hurtAndBreak(1, player, player.getUsedItemHand() == net.minecraft.world.InteractionHand.MAIN_HAND
+        de.artemis.floraexpansion.common.util.ItemData.damage(tool, 1, player, player.getUsedItemHand() == net.minecraft.world.InteractionHand.MAIN_HAND
                 ? EquipmentSlot.MAINHAND : EquipmentSlot.OFFHAND);
     }
 

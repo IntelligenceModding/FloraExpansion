@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "I": {
+      "item": "minecraft:iron_nugget"
+    },
+    "S": {
+      "tag": "minecraft:wooden_slabs"
+    }
+  },
+  "pattern": [
+    "SIS",
+    "S S",
+    "SSS"
+  ],
+  "result": {
+    "item": "floraexpansion:salting_tub"
+  },
+  "show_notification": true
+}

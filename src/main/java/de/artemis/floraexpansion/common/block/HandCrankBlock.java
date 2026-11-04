@@ -26,7 +26,13 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
 public class HandCrankBlock extends net.minecraft.world.level.block.BaseEntityBlock {
- @NotNull @Override public com.mojang.serialization.MapCodec<HandCrankBlock> codec() { return simpleCodec(HandCrankBlock::new); }
+    @NotNull @Override public net.minecraft.world.InteractionResult use(@NotNull net.minecraft.world.level.block.state.BlockState state, @NotNull net.minecraft.world.level.Level level, @NotNull net.minecraft.core.BlockPos pos, @NotNull net.minecraft.world.entity.player.Player player, @NotNull net.minecraft.world.InteractionHand hand, @NotNull net.minecraft.world.phys.BlockHitResult hit) {
+        var result = useWithItem(player.getItemInHand(hand), state, level, pos, player, hand, hit);
+        if (result != net.minecraft.world.InteractionResult.PASS) return result;
+        return useWithoutItem(state, level, pos, player, hit);
+    }
+
+
     public static final int PULSE_TICKS = 2;
     public static final int DECAY_TICKS = 20;
     public static final net.minecraft.world.level.block.state.properties.BooleanProperty STRENGTH_MODE =
@@ -41,7 +47,7 @@ public class HandCrankBlock extends net.minecraft.world.level.block.BaseEntityBl
     }
 
     @Override
-    protected boolean canSurvive(@NotNull BlockState state, LevelReader level, @NotNull BlockPos pos) {
+    public boolean canSurvive(@NotNull BlockState state, LevelReader level, @NotNull BlockPos pos) {
         var supportPos = supportPos(state, pos);
         var support = level.getBlockState(supportPos);
         return isOnMill(state, level, pos) || Block.isFaceFull(support.getCollisionShape(level, supportPos), state.getValue(FACING));
@@ -58,19 +64,17 @@ public class HandCrankBlock extends net.minecraft.world.level.block.BaseEntityBl
     }
 
     @Override
-    @NotNull protected BlockState updateShape(net.minecraft.world.level.block.state.BlockState state, @NotNull net.minecraft.core.Direction direction, @NotNull net.minecraft.world.level.block.state.BlockState neighbourState, @NotNull net.minecraft.world.level.LevelAccessor level, @NotNull net.minecraft.core.BlockPos pos, @NotNull net.minecraft.core.BlockPos neighbourPos) {
+    @NotNull public BlockState updateShape(net.minecraft.world.level.block.state.BlockState state, @NotNull net.minecraft.core.Direction direction, @NotNull net.minecraft.world.level.block.state.BlockState neighbourState, @NotNull net.minecraft.world.level.LevelAccessor level, @NotNull net.minecraft.core.BlockPos pos, @NotNull net.minecraft.core.BlockPos neighbourPos) {
         return !state.canSurvive(level, pos) ? Blocks.AIR.defaultBlockState()
                 : super.updateShape(state, direction, neighbourState, level, pos, neighbourPos);
     }
 
-    @Override
-    @NotNull protected net.minecraft.world.ItemInteractionResult useItemOn(@NotNull ItemStack stack, @NotNull BlockState state, @NotNull Level level, @NotNull BlockPos pos,
+    @NotNull public net.minecraft.world.InteractionResult useWithItem(@NotNull ItemStack stack, @NotNull BlockState state, @NotNull Level level, @NotNull BlockPos pos,
                                           @NotNull Player player, @NotNull InteractionHand hand, @NotNull BlockHitResult hit) {
-        return net.minecraft.world.ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
+        return net.minecraft.world.InteractionResult.PASS;
     }
 
-    @Override
-    @NotNull protected InteractionResult useWithoutItem(@NotNull BlockState state, Level level, @NotNull BlockPos pos, @NotNull Player player, @NotNull BlockHitResult hit) {
+    @NotNull public InteractionResult useWithoutItem(@NotNull BlockState state, Level level, @NotNull BlockPos pos, @NotNull Player player, @NotNull BlockHitResult hit) {
         if (level.isClientSide) return InteractionResult.SUCCESS;
         if (player.isShiftKeyDown()) {
             var switched = state.cycle(STRENGTH_MODE).setValue(POWER, 0);
@@ -102,19 +106,19 @@ public class HandCrankBlock extends net.minecraft.world.level.block.BaseEntityBl
     @Override public net.minecraft.world.level.block.entity.BlockEntity newBlockEntity(@NotNull BlockPos pos, @NotNull BlockState state) {
         return new de.artemis.floraexpansion.common.block.entity.HandCrankBlockEntity(pos, state);
     }
-    @NotNull @Override protected net.minecraft.world.level.block.RenderShape getRenderShape(@NotNull BlockState state) {
+    @NotNull @Override public net.minecraft.world.level.block.RenderShape getRenderShape(@NotNull BlockState state) {
         return net.minecraft.world.level.block.RenderShape.MODEL;
     }
-    @Override protected boolean isSignalSource(@NotNull BlockState state) { return true; }
-    @Override protected int getSignal(BlockState state, @NotNull BlockGetter level, @NotNull BlockPos pos, @NotNull Direction direction) { return state.getValue(POWER); }
-    @Override protected int getDirectSignal(BlockState state, @NotNull BlockGetter level, @NotNull BlockPos pos, @NotNull Direction direction) {
+    @Override public boolean isSignalSource(@NotNull BlockState state) { return true; }
+    @Override public int getSignal(BlockState state, @NotNull BlockGetter level, @NotNull BlockPos pos, @NotNull Direction direction) { return state.getValue(POWER); }
+    @Override public int getDirectSignal(BlockState state, @NotNull BlockGetter level, @NotNull BlockPos pos, @NotNull Direction direction) {
         return direction == state.getValue(FACING) ? state.getValue(POWER) : 0;
     }
     private void updatePower(Level level, BlockPos pos, BlockState state) {
         level.updateNeighborsAt(pos, this);
         level.updateNeighborsAt(supportPos(state, pos), this);
     }
-    @Override protected void tick(BlockState state, @NotNull net.minecraft.server.level.ServerLevel level, @NotNull BlockPos pos, @NotNull RandomSource random) {
+    @Override public void tick(BlockState state, @NotNull net.minecraft.server.level.ServerLevel level, @NotNull BlockPos pos, @NotNull RandomSource random) {
         if (state.getValue(POWER) == 0) return;
         if (level.getBlockEntity(pos) instanceof de.artemis.floraexpansion.common.block.entity.HandCrankBlockEntity crank
                 && crank.getNextDecay() > level.getGameTime()) {
@@ -130,29 +134,29 @@ public class HandCrankBlock extends net.minecraft.world.level.block.BaseEntityBl
             level.scheduleTick(pos, this, DECAY_TICKS);
         }
     }
-    @Override protected void onPlace(@NotNull BlockState state, @NotNull Level level, @NotNull BlockPos pos, @NotNull BlockState oldState, boolean movedByPiston) {
+    @Override public void onPlace(@NotNull BlockState state, @NotNull Level level, @NotNull BlockPos pos, @NotNull BlockState oldState, boolean movedByPiston) {
         super.onPlace(state, level, pos, oldState, movedByPiston);
         if (!oldState.is(this) && state.getValue(POWER) > 0) level.scheduleTick(pos, this, PULSE_TICKS);
     }
-    @Override protected void onRemove(BlockState state, @NotNull Level level, @NotNull BlockPos pos, BlockState newState, boolean movedByPiston) {
+    @Override public void onRemove(BlockState state, @NotNull Level level, @NotNull BlockPos pos, BlockState newState, boolean movedByPiston) {
         if (state.is(newState.getBlock())) return;
         if (state.getValue(POWER) > 0) updatePower(level, pos, state);
         super.onRemove(state, level, pos, newState, movedByPiston);
     }
     @Override
-    @NotNull protected VoxelShape getShape(@NotNull BlockState state, BlockGetter level, @NotNull BlockPos pos, @NotNull CollisionContext context) {
+    @NotNull public VoxelShape getShape(@NotNull BlockState state, BlockGetter level, @NotNull BlockPos pos, @NotNull CollisionContext context) {
         return level.getBlockEntity(pos) instanceof de.artemis.floraexpansion.common.block.entity.HandCrankBlockEntity crank
                 ? crank.getCrankShape() : HandMillShapes.crank(state.getValue(TURN) * 90,
                         !isOnMill(state, level, pos), state.getValue(FACING));
     }
 
     @Override
-    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) { builder.add(TURN, POWER, STRENGTH_MODE, FACING); }
+    public void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) { builder.add(TURN, POWER, STRENGTH_MODE, FACING); }
 
-    @NotNull @Override protected BlockState rotate(BlockState state, net.minecraft.world.level.block.Rotation rotation) {
+    @NotNull @Override public BlockState rotate(BlockState state, net.minecraft.world.level.block.Rotation rotation) {
         return state.setValue(FACING, rotation.rotate(state.getValue(FACING)));
     }
-    @NotNull @Override protected BlockState mirror(@NotNull BlockState state, net.minecraft.world.level.block.Mirror mirror) {
+    @NotNull @Override public BlockState mirror(@NotNull BlockState state, net.minecraft.world.level.block.Mirror mirror) {
         return rotate(state, mirror.getRotation(state.getValue(FACING)));
     }
 }

@@ -1,0 +1,35 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "floraexpansion:stick_from_twig"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    },
+    "has_twig": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "floraexpansion:twig"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_twig",
+      "has_the_recipe"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "floraexpansion:stick_from_twig"
+    ]
+  },
+  "sends_telemetry_event": false
+}

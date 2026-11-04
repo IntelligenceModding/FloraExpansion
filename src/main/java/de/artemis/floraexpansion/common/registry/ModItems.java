@@ -1,5 +1,7 @@
 package de.artemis.floraexpansion.common.registry;
 
+import org.jetbrains.annotations.NotNull;
+
 import de.artemis.floraexpansion.FloraExpansion;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.EntityType;
@@ -21,15 +23,15 @@ import java.util.function.Supplier;
 public class ModItems {
     public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(net.minecraft.core.registries.Registries.ITEM, FloraExpansion.MODID);
     public static final RegistryObject<Item> MUSIC_DISC_INTO_THE_CAVES = registerItem("music_disc_into_the_caves",
-            properties -> new Item(properties.stacksTo(1).rarity(net.minecraft.world.item.Rarity.UNCOMMON)
-                    .jukeboxPlayable(ModJukeboxSongs.INTO_THE_CAVES)));
+            // Forge's supplier overload takes ticks: ceil(100.310204 seconds * 20).
+            properties -> new net.minecraft.world.item.RecordItem(13, ModSounds.MUSIC_DISC_INTO_THE_CAVES, properties.stacksTo(1).rarity(net.minecraft.world.item.Rarity.UNCOMMON), 2007));
     public static final RegistryObject<BlockItem> RAW_SALT = registerItem("raw_salt",
             properties -> new net.minecraft.world.item.ItemNameBlockItem(ModBlocks.SALT_DEPOSIT.get(), properties));
     public static final RegistryObject<Item> SALT = ITEMS.register("salt", () -> new Item(new Item.Properties()));
     public static final RegistryObject<Item> SALTED_GLASSWORT = registerItem("salted_glasswort",
             properties -> new Item(properties.food(ModFoods.SALTED_GLASSWORT)));
     public static final RegistryObject<net.minecraft.world.item.BucketItem> SALT_WATER_BUCKET = registerItem("salt_water_bucket",
-            properties -> new net.minecraft.world.item.BucketItem(ModFluids.SALT_WATER.get(), properties.stacksTo(1).craftRemainder(Items.BUCKET)));
+            properties -> new net.minecraft.world.item.BucketItem(ModFluids.SALT_WATER, properties.stacksTo(1).craftRemainder(Items.BUCKET)));
     public static final RegistryObject<Item> WOODEN_SALT_WATER_BUCKET = registerItem("wooden_salt_water_bucket",
             properties -> new WoodenBucketItem(ModFluids.SALT_WATER.get(), properties.stacksTo(1).durability(10)));
     public static final RegistryObject<Item> SALTED_SPRUCE_NUTS = registerItem("salted_spruce_nuts",
@@ -70,7 +72,7 @@ public class ModItems {
             properties -> new Item(properties.food(ModFoods.BLUEBERRY_COOKIE)));
 
     public static final RegistryObject<Item> BLUEBERRY_PIE = registerItem("blueberry_pie",
-            properties -> new Item(properties.food(ModFoods.BLUEBERRY_PIE).stacksTo(1)));
+            properties -> new Item(properties.food(ModFoods.BLUEBERRY_PIE).stacksTo(1)) { @Override public int getUseDuration(@NotNull net.minecraft.world.item.ItemStack stack) { return 128; } });
 
     public static final RegistryObject<Item> SLICE_OF_BLUEBERRY_PIE = registerItem("slice_of_blueberry_pie",
             properties -> new Item(properties.food(ModFoods.SLICE_OF_BLUEBERRY_PIE)));

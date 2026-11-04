@@ -11,16 +11,17 @@ import mezz.jei.api.recipe.IRecipeManager;
 import mezz.jei.api.recipe.vanilla.IJeiAnvilRecipe;
 import mezz.jei.api.registration.IRecipeRegistration;
 import mezz.jei.api.runtime.IJeiRuntime;
-import net.minecraft.core.Holder;
-import net.minecraft.core.HolderLookup;
-import net.minecraft.core.component.DataComponents;
-import net.minecraft.core.registries.Registries;
+
+
+
+
+
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.enchantment.Enchantment;
+
 import net.minecraft.world.item.enchantment.Enchantments;
-import net.minecraft.world.item.enchantment.ItemEnchantments;
+
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
@@ -110,35 +111,7 @@ public final class FloraExpansionJeiPlugin implements IModPlugin {
                 && recipe.getRightInputs().stream().anyMatch(FloraExpansionJeiPlugin::hasThorns);
     }
 
-    private static boolean hasThorns(ItemStack stack) {
-        if (stack.isEmpty()) {
-            return false;
-        }
-
-        Holder.Reference<Enchantment> thorns = getThornsHolder();
-        if (thorns == null) {
-            return false;
-        }
-
-        ItemEnchantments stored = stack.get(DataComponents.STORED_ENCHANTMENTS);
-        if (stored != null && stored.getLevel(thorns) > 0) {
-            return true;
-        }
-
-        ItemEnchantments direct = stack.get(DataComponents.ENCHANTMENTS);
-        return direct != null && direct.getLevel(thorns) > 0;
-    }
-
-    private static Holder.Reference<Enchantment> getThornsHolder() {
-        var minecraft = net.minecraft.client.Minecraft.getInstance();
-        if (minecraft.level == null) {
-            return null;
-        }
-
-        HolderLookup.RegistryLookup<Enchantment> lookup =
-                minecraft.level.registryAccess().lookupOrThrow(Registries.ENCHANTMENT);
-        return lookup.getOrThrow(Enchantments.THORNS);
-    }
+    private static boolean hasThorns(ItemStack stack) { return net.minecraft.world.item.enchantment.EnchantmentHelper.getEnchantments(stack).getOrDefault(Enchantments.THORNS,0)>0; }
 
     private static Component[] translatedLines(String... keys) {
         Component[] lines = new Component[keys.length];

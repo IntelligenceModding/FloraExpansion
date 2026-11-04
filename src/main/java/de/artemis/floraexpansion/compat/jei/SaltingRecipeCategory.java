@@ -2,7 +2,7 @@ package de.artemis.floraexpansion.compat.jei;
 
 import org.jetbrains.annotations.NotNull;
 
-import de.artemis.floraexpansion.FloraExpansion;
+
 import de.artemis.floraexpansion.common.recipe.SaltingRecipe;
 import de.artemis.floraexpansion.common.registry.ModBlocks;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
@@ -16,23 +16,20 @@ import mezz.jei.api.recipe.RecipeType;
 
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.RecipeHolder;
 
+import net.minecraft.world.item.ItemStack;
 /** Each food slot is one layer; the separate salt slot is the single covering layer. */
-public class SaltingRecipeCategory implements IRecipeCategory<RecipeHolder<SaltingRecipe>> {
-    public static final RecipeType<RecipeHolder<SaltingRecipe>> TYPE = RecipeType.createRecipeHolderType(
-            ResourceLocation.fromNamespaceAndPath(FloraExpansion.MODID, "salting"));
+public class SaltingRecipeCategory implements IRecipeCategory<SaltingRecipe> {
+    public static final RecipeType<SaltingRecipe> TYPE = new RecipeType<>(net.minecraft.resources.ResourceLocation.fromNamespaceAndPath("floraexpansion", "salting"), SaltingRecipe.class);
     private final IDrawable icon;
     public SaltingRecipeCategory(IGuiHelper gui) { icon = gui.createDrawableItemStack(new ItemStack(ModBlocks.SALTING_TUB.get())); }
-    @NotNull @Override public RecipeType<RecipeHolder<SaltingRecipe>> getRecipeType() { return TYPE; }
+    @NotNull @Override public RecipeType<SaltingRecipe> getRecipeType() { return TYPE; }
     @NotNull @Override public Component getTitle() { return Component.translatable("recipe.floraexpansion.salting"); }
     @Override public int getWidth() { return 176; }
     @Override public int getHeight() { return 160; }
     @Override public IDrawable getIcon() { return icon; }
-    @Override public void setRecipe(@NotNull IRecipeLayoutBuilder builder, RecipeHolder<SaltingRecipe> holder, @NotNull IFocusGroup focuses) {
-        var recipe = holder.value();
+    @Override public void setRecipe(@NotNull IRecipeLayoutBuilder builder, @NotNull SaltingRecipe holder, @NotNull IFocusGroup focuses) {
+        var recipe = holder;
         for (int layer = 0; layer < recipe.layers(); layer++) {
             builder.addSlot(RecipeIngredientRole.INPUT, 6 + layer * 19, 16)
                     .addIngredients(recipe.ingredient()).setStandardSlotBackground();
@@ -40,8 +37,8 @@ public class SaltingRecipeCategory implements IRecipeCategory<RecipeHolder<Salti
         builder.addSlot(RecipeIngredientRole.INPUT, 94, 16).addIngredients(recipe.salt()).setStandardSlotBackground();
         builder.addSlot(RecipeIngredientRole.OUTPUT, 151, 16).addItemStack(recipe.result().copy()).setStandardSlotBackground();
     }
-    @Override public void draw(RecipeHolder<SaltingRecipe> holder, IRecipeSlotsView slots, @NotNull GuiGraphics graphics, double mouseX, double mouseY) {
-        var recipe = holder.value();
+    @Override public void draw(@NotNull SaltingRecipe holder, IRecipeSlotsView slots, @NotNull GuiGraphics graphics, double mouseX, double mouseY) {
+        var recipe = holder;
         float time = (net.minecraft.Util.getMillis() % 12000L) / 1000F;
         var food = slots.getSlotViews().stream()
                 .filter(slot -> slot.getRole() == RecipeIngredientRole.INPUT)

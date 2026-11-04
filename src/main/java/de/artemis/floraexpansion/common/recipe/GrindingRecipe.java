@@ -2,13 +2,11 @@ package de.artemis.floraexpansion.common.recipe;
 
 import org.jetbrains.annotations.NotNull;
 
-import com.mojang.serialization.Codec;
-import com.mojang.serialization.MapCodec;
-import com.mojang.serialization.codecs.RecordCodecBuilder;
+
+
+
 import de.artemis.floraexpansion.common.registry.ModRecipes;
-import net.minecraft.network.RegistryFriendlyByteBuf;
-import net.minecraft.network.codec.ByteBufCodecs;
-import net.minecraft.network.codec.StreamCodec;
+
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.*;
 
@@ -18,20 +16,9 @@ public class GrindingRecipe extends SingleItemRecipe {
     private final int turns;
     private final boolean showNotification;
     @Override public boolean showNotification() { return showNotification; }
-    public static final MapCodec<GrindingRecipe> MAP_CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
-            Codec.BOOL.optionalFieldOf("show_notification", true).forGetter(GrindingRecipe::showNotification),
-            Ingredient.CODEC.fieldOf("ingredient").forGetter(GrindingRecipe::input),
-            ItemStack.CODEC.fieldOf("result").forGetter(GrindingRecipe::result),
-            Codec.intRange(1, MAX_TURNS).optionalFieldOf("turns", DEFAULT_TURNS).forGetter(GrindingRecipe::turns)
-    ).apply(instance, GrindingRecipe::new));
-    public static final StreamCodec<RegistryFriendlyByteBuf, GrindingRecipe> STREAM_CODEC = StreamCodec.composite(
-            ByteBufCodecs.BOOL, GrindingRecipe::showNotification,
-            Ingredient.CONTENTS_STREAM_CODEC, GrindingRecipe::input,
-            ItemStack.STREAM_CODEC, GrindingRecipe::result,
-            ByteBufCodecs.VAR_INT, GrindingRecipe::turns, GrindingRecipe::new);
-
-    public GrindingRecipe(boolean showNotification, Ingredient ingredient, ItemStack result, int turns) {
-        super(ModRecipes.GRINDING.get(), ModRecipes.GRINDING_SERIALIZER.get(), "", ingredient, result.copy());
+    public GrindingRecipe(boolean show, Ingredient ingredient, ItemStack result, int turns) { this(net.minecraft.resources.ResourceLocation.fromNamespaceAndPath("floraexpansion", "generated"),show,ingredient,result,turns); }
+    public GrindingRecipe(net.minecraft.resources.ResourceLocation id, boolean showNotification, Ingredient ingredient, ItemStack result, int turns) {
+        super(ModRecipes.GRINDING.get(), ModRecipes.GRINDING_SERIALIZER.get(), id, "", ingredient, result.copy());
         this.showNotification = showNotification;
         if (turns < 1 || turns > MAX_TURNS) throw new IllegalArgumentException("Grinding turns must be 1.." + MAX_TURNS);
         if (result.getCount() < 1 || result.getCount() > 99) {
@@ -41,7 +28,7 @@ public class GrindingRecipe extends SingleItemRecipe {
     }
     public Ingredient input() { return ingredient; }
     public ItemStack result() { return result.copy(); }
-    @Override public boolean matches(SingleRecipeInput input, @NotNull net.minecraft.world.level.Level level) { return ingredient.test(input.item()); }
+    @Override public boolean matches(net.minecraft.world.Container input, @NotNull net.minecraft.world.level.Level level) { return ingredient.test(input.getItem(0)); }
     public int turns() { return turns; }
     public ItemStack output() { return result.copy(); }
     @NotNull @Override public RecipeType<GrindingRecipe> getType() { return ModRecipes.GRINDING.get(); }

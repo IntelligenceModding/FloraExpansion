@@ -64,9 +64,9 @@ public class StrawberryCakeBlockEntityRenderer implements BlockEntityRenderer<St
         for (int corner = 0; corner < 4; corner++) {
             float u = corner < 2 ? u1 : u2;
             float v = corner == 0 || corner == 3 ? v2 : v1;
-            vertices.addVertex(pose, xyz[corner*3]/16, xyz[corner*3+1]/16, xyz[corner*3+2]/16)
-                    .setColor(0xFFFFFFFF).setUv(u/16, v/16).setOverlay(OverlayTexture.NO_OVERLAY)
-                    .setLight(light).setNormal(pose, nx, ny, nz);
+            vertices.vertex(pose.pose(), xyz[corner*3]/16, xyz[corner*3+1]/16, xyz[corner*3+2]/16)
+                    .color(0xFFFFFFFF).uv(u/16, v/16).overlayCoords(OverlayTexture.NO_OVERLAY)
+                    .uv2(light).normal(pose.normal(), nx, ny, nz).endVertex();
         }
     }
 

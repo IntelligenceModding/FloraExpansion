@@ -3,7 +3,7 @@ package de.artemis.floraexpansion.common.registry;
 import de.artemis.floraexpansion.FloraExpansion;
 import net.minecraft.core.HolderSet;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.data.worldgen.BootstrapContext;
+import net.minecraft.data.worldgen.BootstapContext;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.levelgen.GenerationStep;
@@ -31,7 +31,7 @@ public class ModBiomeModifiers {
     public static final ResourceKey<BiomeModifier> ADD_SMALL_CACTUS = registerKey("add_small_cactus");
     public static final ResourceKey<BiomeModifier> ADD_PRICKLY_PEAR_CACTUS = registerKey("add_prickly_pear_cactus");
 
-    public static void bootstrap(BootstrapContext<BiomeModifier> context) {
+    public static void bootstrap(BootstapContext<BiomeModifier> context) {
         var placedFeatures = context.lookup(Registries.PLACED_FEATURE);
         var biomes = context.lookup(Registries.BIOME);
         context.register(ADD_SALT_CAVE, new ForgeBiomeModifiers.AddFeaturesBiomeModifier(

@@ -6,7 +6,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.ItemInteractionResult;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -23,7 +23,7 @@ public final class CactusStripHelper {
         return stack.canPerformAction(net.minecraftforge.common.ToolActions.AXE_STRIP);
     }
 
-    public static ItemInteractionResult stripAndDropSpine(Level level, BlockPos pos, Player player,
+    public static InteractionResult stripAndDropSpine(Level level, BlockPos pos, Player player,
                                                           InteractionHand hand, ItemStack tool,
                                                           BlockState strippedState) {
         if (!level.isClientSide) {
@@ -34,10 +34,10 @@ public final class CactusStripHelper {
             for (var drop : HarvestLoot.drops((ServerLevel) level, pos, originalState, player, tool, HarvestLoot.CACTUS_STRIPPING))
                 Block.popResource(level, pos, drop);
 
-            tool.hurtAndBreak(1, player,
+            de.artemis.floraexpansion.common.util.ItemData.damage(tool, 1, player,
                     hand == InteractionHand.MAIN_HAND ? EquipmentSlot.MAINHAND : EquipmentSlot.OFFHAND);
         }
 
-        return ((level.isClientSide ? ItemInteractionResult.SUCCESS : ItemInteractionResult.CONSUME));
+        return ((level.isClientSide ? InteractionResult.SUCCESS : InteractionResult.CONSUME));
     }
 }

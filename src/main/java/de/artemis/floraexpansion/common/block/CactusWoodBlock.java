@@ -17,6 +17,12 @@ import org.jetbrains.annotations.NotNull;
 import de.artemis.floraexpansion.common.registry.ModBlocks;
 
 public class CactusWoodBlock extends RotatedPillarBlock {
+    @NotNull @Override public net.minecraft.world.InteractionResult use(@NotNull net.minecraft.world.level.block.state.BlockState state, @NotNull net.minecraft.world.level.Level level, @NotNull net.minecraft.core.BlockPos pos, @NotNull net.minecraft.world.entity.player.Player player, @NotNull net.minecraft.world.InteractionHand hand, @NotNull net.minecraft.world.phys.BlockHitResult hit) {
+        var result = useWithItem(player.getItemInHand(hand), state, level, pos, player, hand, hit);
+        if (result != net.minecraft.world.InteractionResult.PASS) return result;
+        return super.use(state, level, pos, player, hand, hit);
+    }
+
 
     public static final BooleanProperty GENERATED = BooleanProperty.create("generated");
 
@@ -29,12 +35,11 @@ public class CactusWoodBlock extends RotatedPillarBlock {
 
 
     @Override
-    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
+    public void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
         builder.add(AXIS, GENERATED);
     }
 
-    @Override
-    protected @NotNull net.minecraft.world.ItemInteractionResult useItemOn(@NotNull ItemStack stack,
+    public @NotNull net.minecraft.world.InteractionResult useWithItem(@NotNull ItemStack stack,
                                                        @NotNull BlockState state,
                                                        @NotNull Level level,
                                                        @NotNull BlockPos pos,
@@ -42,11 +47,11 @@ public class CactusWoodBlock extends RotatedPillarBlock {
                                                        @NotNull InteractionHand hand,
                                                        @NotNull BlockHitResult hitResult) {
         if (!de.artemis.floraexpansion.common.util.CactusStripHelper.canStrip(stack)) {
-            return net.minecraft.world.ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
+            return net.minecraft.world.InteractionResult.PASS;
         }
 
         if (state.is(ModBlocks.STRIPPED_CACTUS_WOOD.get())) {
-            return net.minecraft.world.ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
+            return net.minecraft.world.InteractionResult.PASS;
         }
 
         BlockState strippedState = ModBlocks.STRIPPED_CACTUS_WOOD.get().defaultBlockState()

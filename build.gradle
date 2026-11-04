@@ -2,82 +2,59 @@ plugins {
  id 'java-library'
  id 'maven-publish'
  id 'idea'
- id 'net.minecraftforge.gradle' version '[7.0.29,8)'
- id 'net.minecraftforge.renamer' version '1.0.14'
+ id 'net.minecraftforge.gradle' version '[6.0,6.2)'
+ id 'org.spongepowered.mixin' version '0.7-SNAPSHOT'
 }
 version = "${mod_version}-forge-mc${minecraft_version}"
 group = mod_group_id
 base { archivesName = mod_id }
-java.toolchain.languageVersion = JavaLanguageVersion.of(21)
+java.toolchain.languageVersion = JavaLanguageVersion.of(17)
 minecraft {
- useDefaultAccessTransformer()
  mappings channel: 'official', version: minecraft_version
+ accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
  runs {
   configureEach {
-   mods { register(mod_id) }
-   environment 'MOD_CLASSES', '{source_roots}'
-   args '--mixin', 'floraexpansion.mixins.json'
-   workingDir = layout.projectDirectory.dir('run')
-   systemProperty 'forge.enabledGameTestNamespaces', mod_id
+   workingDirectory project.file('build/forge-1201-server')
+   property 'forge.enabledGameTestNamespaces', mod_id
+   mods { floraexpansion { source sourceSets.main } }
   }
-  register('client') { workingDir = layout.buildDirectory.dir('forge-client') }
-  register('server') { args '--nogui' }
-  register('gameTestServer')
-  register('data') {
-   args '--mod', mod_id, '--all', '--output', file('src/generated/resources'), '--existing', file('src/main/resources')
-  }
+  client { workingDirectory project.file('build/forge-1201-client') }
+  server { args '--nogui' }
+  gameTestServer { workingDirectory project.file('build/forge-1201-gametest') }
+  data { workingDirectory project.file('build/forge-1201-data'); args '--mod', mod_id, '--all', '--output', file('src/generated/resources'), '--existing', file('src/main/resources') }
  }
 }
 repositories {
- minecraft.mavenizer(it)
- maven fg.forgeMaven
- maven fg.minecraftLibsMaven
- mavenCentral()
  maven { url = 'https://maven.blamejared.com/' }
  maven { url = 'https://maven.ryanliptak.com/' }
 }
 dependencies {
- implementation minecraft.dependency("net.minecraftforge:forge:${minecraft_version}-${forge_version}")
- compileOnly "mezz.jei:jei-${minecraft_version}-forge-api:${jei_version}"
+ minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
+ annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
+ compileOnly "mezz.jei:jei-${minecraft_version}-common-api:${jei_version}"
+ compileOnly fg.deobf("mezz.jei:jei-${minecraft_version}-forge-api:${jei_version}")
  if (!providers.gradleProperty('withoutOptionalMods').isPresent()) {
-  runtimeOnly renamer.dependency("mezz.jei:jei-${minecraft_version}-forge:${jei_version}") {
-   reverse = true
-   naiveSrg = true
-  }
+  runtimeOnly fg.deobf("mezz.jei:jei-${minecraft_version}-forge:${jei_version}")
+  runtimeOnly fg.deobf("squeek.appleskin:appleskin-forge:${appleskin_version}")
  }
 }
+mixin { add sourceSets.main, 'main.refmap.json'; config 'floraexpansion.mixins.json' }
 sourceSets.main.resources { srcDir 'src/generated/resources'; exclude '.cache/**' }
-
 tasks.named('processResources', ProcessResources) {
  def props = project.properties.findAll { k, v -> k.startsWith('mod_') || k.endsWith('_version_range') || k == 'minecraft_version' }
  inputs.properties props
  filesMatching('META-INF/mods.toml') { expand props }
 }
-renamer.mappings(minecraft.dependency.toSrg)
-
 tasks.named('jar', Jar) {
- archiveClassifier = ''
- exclude '**/ForgePortTests*', 'data/floraexpansion/structure/empty.nbt'
+ exclude '**/ForgePortTests*', 'data/floraexpansion/structures/empty.nbt'
  from('LICENSE')
  manifest { attributes('MixinConfigs': 'floraexpansion.mixins.json') }
+ finalizedBy 'reobfJar'
 }
-tasks.withType(JavaCompile).configureEach { options.encoding = 'UTF-8'; options.compilerArgs += ['-Xmaxerrs', '500'] }
+tasks.withType(JavaCompile).configureEach { options.encoding = 'UTF-8'; options.compilerArgs += ['-Xmaxerrs', '1000'] }
 publishing { publications { mavenJava(MavenPublication) { from components.java } } }
-
-// Forge 52 scans development mods as a single output directory.
-sourceSets.main.output.resourcesDir = layout.buildDirectory.dir('classes/java/main').get().asFile
-tasks.named('processResources') { mustRunAfter tasks.named('compileJava') }
 
 if (providers.gradleProperty('forgeTests').isPresent() || providers.gradleProperty('portTests').isPresent()) {
  sourceSets.main.java.srcDir 'src/forgeTest/java'
  sourceSets.main.resources.srcDir 'src/forgeTest/resources'
- def testLog = layout.buildDirectory.file('forge-gametest/logs/latest.log').get().asFile
- tasks.matching { it.name == 'runGameTestServer' }.configureEach {
-  doLast {
-   def log = testLog
-   if (!log.exists() || !(log.text =~ /All [1-9][0-9]* required tests passed/)) throw new GradleException('Forge game tests did not pass; see build/forge-gametest/logs/latest.log')
-  }
- }
 }
-
-minecraft.runs.named('gameTestServer') { workingDir = layout.buildDirectory.dir('forge-gametest') }

@@ -1,39 +1,22 @@
 package de.artemis.floraexpansion.common.advancement;
 
 import org.jetbrains.annotations.NotNull;
-
-import com.mojang.serialization.Codec;
-import com.mojang.serialization.codecs.RecordCodecBuilder;
-import de.artemis.floraexpansion.FloraExpansion;
-import net.minecraft.advancements.Criterion;
-import net.minecraft.advancements.CriterionTrigger;
-import net.minecraft.advancements.critereon.SimpleCriterionTrigger;
-import net.minecraft.core.registries.Registries;
+import net.minecraft.advancements.*;
+import net.minecraft.advancements.critereon.*;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
-import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.registries.DeferredRegister;
-import java.util.Optional;
-import java.util.function.Supplier;
-
-/** Successful server actions, exposed as a normal, reloadable datapack criterion. */
 public final class FloraActionTrigger extends SimpleCriterionTrigger<FloraActionTrigger.Instance> {
-    private static final DeferredRegister<CriterionTrigger<?>> TRIGGERS = DeferredRegister.create(Registries.TRIGGER_TYPE, FloraExpansion.MODID);
-    private static final Supplier<FloraActionTrigger> ACTION = TRIGGERS.register("action", FloraActionTrigger::new);
-
-    public static void register(IEventBus bus) { TRIGGERS.register(bus); }
-    public static void fire(Player player, String action) {
-        if (player instanceof ServerPlayer server) ACTION.get().trigger(server, instance -> instance.action().equals(action));
-    }
-    public static Criterion<Instance> criterion(String action) {
-        return ACTION.get().createCriterion(new Instance(Optional.empty(), action));
-    }
-    @NotNull @Override public Codec<Instance> codec() { return Instance.CODEC; }
-
-    public record Instance(Optional<net.minecraft.advancements.critereon.ContextAwarePredicate> player, String action) implements SimpleInstance {
-        public static final Codec<Instance> CODEC = RecordCodecBuilder.create(instance -> instance.group(
-                net.minecraft.advancements.critereon.EntityPredicate.ADVANCEMENT_CODEC.optionalFieldOf("player").forGetter(Instance::player),
-                Codec.STRING.fieldOf("action").forGetter(Instance::action)
-        ).apply(instance, Instance::new));
-    }
+ private static final ResourceLocation ID=ResourceLocation.fromNamespaceAndPath("floraexpansion","action");
+ private static final FloraActionTrigger ACTION=CriteriaTriggers.register(new FloraActionTrigger());
+ public static void register(net.minecraftforge.eventbus.api.IEventBus bus){}
+ @NotNull public ResourceLocation getId(){return ID;}
+ public static void fire(Player player,String action){if(player instanceof ServerPlayer server)ACTION.trigger(server,i->i.action.equals(action));}
+ public static Instance criterion(String action){return new Instance(ContextAwarePredicate.ANY,action);}
+ @NotNull protected Instance createInstance(@NotNull com.google.gson.JsonObject json,@NotNull ContextAwarePredicate player,@NotNull DeserializationContext context){return new Instance(player,net.minecraft.util.GsonHelper.getAsString(json,"action"));}
+ public static final class Instance extends AbstractCriterionTriggerInstance {
+  private final String action;
+  public Instance(ContextAwarePredicate player,String action){super(ID,player);this.action=action;}
+  @NotNull public com.google.gson.JsonObject serializeToJson(@NotNull SerializationContext context){var json=super.serializeToJson(context);json.addProperty("action",action);return json;}
+ }
 }

@@ -26,7 +26,7 @@ import de.artemis.floraexpansion.common.config.ServerConfig;
 
 public class WoodenBucketItem extends BucketItem {
     public WoodenBucketItem(Fluid content, Properties properties) {
-        super(content, properties);
+        super(() -> content, properties);
     }
 
     @Override
@@ -53,7 +53,7 @@ public class WoodenBucketItem extends BucketItem {
             BlockState blockState = level.getBlockState(blockPos);
             if (blockState.getFluidState().is(net.minecraft.tags.FluidTags.LAVA) && !ServerConfig.lavaEnabled.get()) return net.minecraft.world.InteractionResultHolder.fail(player.getItemInHand(hand));
             if (blockState.getBlock() instanceof BucketPickup bucketPickup) {
-                ItemStack pickedUpStack = bucketPickup.pickupBlock(player, level, blockPos, blockState);
+                ItemStack pickedUpStack = bucketPickup.pickupBlock(level, blockPos, blockState);
                 if (!pickedUpStack.isEmpty() && WoodenBucketUtil.isSupportedFluidBucket(pickedUpStack)) {
                     player.awardStat(Stats.ITEM_USED.get(this));
                     bucketPickup.getPickupSound(blockState).ifPresent(sound -> player.playSound(sound, 1.0F, 1.0F));

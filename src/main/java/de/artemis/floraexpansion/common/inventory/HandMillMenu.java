@@ -41,7 +41,7 @@ public class HandMillMenu extends AbstractContainerMenu {
     }
     public int getProgress() { return data.get(0); }
     public int getRequiredTurns() { return data.get(1); }
-    public int getArrowWidth() { return getRequiredTurns() > 0 ? Math.clamp(getProgress() * 24 / getRequiredTurns(), 0, 24) : 0; }
+    public int getArrowWidth() { return getRequiredTurns() > 0 ? net.minecraft.util.Mth.clamp(getProgress() * 24 / getRequiredTurns(), 0, 24) : 0; }
     @Override public boolean stillValid(@NotNull Player player) { return inventory.stillValid(player); }
     @NotNull @Override public ItemStack quickMoveStack(@NotNull Player player, int index) {
         if (index < 0 || index >= slots.size()) return ItemStack.EMPTY;

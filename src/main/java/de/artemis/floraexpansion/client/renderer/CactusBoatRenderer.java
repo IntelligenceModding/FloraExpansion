@@ -93,7 +93,7 @@ public class CactusBoatRenderer<T extends Boat> extends EntityRenderer<T> {
         model.setupAnim(entity, partialTicks, 0.0F, -0.1F, 0.0F, 0.0F);
 
         VertexConsumer vertexConsumer = buffer.getBuffer(model.renderType(texture));
-        model.renderToBuffer(poseStack, vertexConsumer, packedLight, OverlayTexture.NO_OVERLAY);
+        model.renderToBuffer(poseStack, vertexConsumer, packedLight, OverlayTexture.NO_OVERLAY, 1F, 1F, 1F, 1F);
 
         if (!entity.isUnderWater()) {
             VertexConsumer waterMaskConsumer = buffer.getBuffer(RenderType.waterMask());

@@ -4,7 +4,7 @@ import de.artemis.floraexpansion.FloraExpansion;
 import de.artemis.floraexpansion.common.projectile.SpruceConeProjectile;
 import de.artemis.floraexpansion.common.projectile.PebblesProjectile;
 import de.artemis.floraexpansion.common.projectile.ResourceProjectile;
-import net.minecraft.core.registries.BuiltInRegistries;
+
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.resources.ResourceKey;

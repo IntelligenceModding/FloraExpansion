@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "tag": "floraexpansion:linen_fibers"
+    },
+    {
+      "tag": "floraexpansion:linen_fibers"
+    },
+    {
+      "tag": "floraexpansion:linen_fibers"
+    },
+    {
+      "tag": "floraexpansion:linen_fibers"
+    }
+  ],
+  "result": {
+    "count": 2,
+    "item": "floraexpansion:linen_thread"
+  }
+}

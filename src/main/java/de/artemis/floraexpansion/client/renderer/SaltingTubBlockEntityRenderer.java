@@ -94,8 +94,8 @@ public class SaltingTubBlockEntityRenderer implements BlockEntityRenderer<Saltin
     }
     private static void saltVertex(PoseStack.Pose pose, VertexConsumer out, float x,float y,float z,
                                    float u,float v,float nx,float ny,float nz,int light) {
-        out.addVertex(pose,x,y,z).setColor(0xFFFFFFFF).setUv(u,v)
-                .setOverlay(OverlayTexture.NO_OVERLAY).setLight(light).setNormal(pose,nx,ny,nz);
+        out.vertex(pose.pose(),x,y,z).color(0xFFFFFFFF).uv(u,v)
+                .overlayCoords(OverlayTexture.NO_OVERLAY).uv2(light).normal(pose.normal(),nx,ny,nz).endVertex();
     }
 
     @Override public void render(@NotNull SaltingTubBlockEntity entity, float partialTick, @NotNull PoseStack poses,

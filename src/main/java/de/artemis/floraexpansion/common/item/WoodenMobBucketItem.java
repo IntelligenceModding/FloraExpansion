@@ -19,7 +19,7 @@ import net.minecraft.world.phys.HitResult;
 
 public class WoodenMobBucketItem extends MobBucketItem {
     public WoodenMobBucketItem(EntityType<? extends Mob> entityType, net.minecraft.sounds.SoundEvent emptySound, Properties properties) {
-        super(entityType, Fluids.WATER, emptySound, properties);
+        super(() -> entityType, () -> Fluids.WATER, () -> emptySound, properties);
     }
 
     @Override

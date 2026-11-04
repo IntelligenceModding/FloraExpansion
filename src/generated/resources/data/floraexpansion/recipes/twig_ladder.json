@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "A": {
+      "tag": "floraexpansion:linen_threads"
+    },
+    "B": {
+      "item": "floraexpansion:twig"
+    }
+  },
+  "pattern": [
+    "A A",
+    "BBB",
+    "A A"
+  ],
+  "result": {
+    "count": 3,
+    "item": "floraexpansion:twig_ladder"
+  },
+  "show_notification": true
+}

@@ -3,7 +3,7 @@ package de.artemis.floraexpansion.client.texture;
 import org.jetbrains.annotations.NotNull;
 
 import com.mojang.blaze3d.platform.NativeImage;
-import com.mojang.serialization.MapCodec;
+import com.mojang.serialization.Codec;
 import de.artemis.floraexpansion.FloraExpansion;
 import net.minecraft.client.renderer.texture.SpriteContents;
 import net.minecraft.client.renderer.texture.atlas.SpriteSource;
@@ -12,8 +12,8 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.ResourceManager;
 
 public record JamPortionSpriteSource(ResourceLocation resource) implements SpriteSource {
-    public static final MapCodec<JamPortionSpriteSource> MAP_CODEC = ResourceLocation.CODEC.fieldOf("resource")
-            .xmap(JamPortionSpriteSource::new, JamPortionSpriteSource::resource);
+    public static final Codec<JamPortionSpriteSource> MAP_CODEC = ResourceLocation.CODEC.fieldOf("resource")
+            .xmap(JamPortionSpriteSource::new, JamPortionSpriteSource::resource).codec();
     private static final ResourceLocation EMPTY_JAR = ResourceLocation.fromNamespaceAndPath(FloraExpansion.MODID, "item/glass_jar");
 
     public static final net.minecraft.client.renderer.texture.atlas.SpriteSourceType TYPE = new net.minecraft.client.renderer.texture.atlas.SpriteSourceType(MAP_CODEC);
@@ -36,7 +36,7 @@ public record JamPortionSpriteSource(ResourceLocation resource) implements Sprit
                 output.add(sprite, replacement.get());
                 continue;
             }
-            output.add(sprite, loader -> SpriteLoader.load(sprite, full.get(), (id, frame, image, metadata) -> {
+            output.add(sprite, () -> SpriteLoader.load(sprite, full.get(), (id, frame, image, metadata) -> {
                 try (var stream = empty.get().open(); var emptyImage = NativeImage.read(stream)) {
                     applyPortions(image, frame, emptyImage, amount);
                     return new SpriteContents(id, frame, image, metadata);

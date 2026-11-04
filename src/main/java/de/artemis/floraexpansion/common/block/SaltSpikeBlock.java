@@ -8,7 +8,7 @@ import de.artemis.floraexpansion.common.registry.ModFluids;
 import de.artemis.floraexpansion.common.registry.ModParticles;
 
 import com.google.common.annotations.VisibleForTesting;
-import com.mojang.serialization.MapCodec;
+
 import java.util.Optional;
 import java.util.function.BiPredicate;
 import java.util.function.Predicate;
@@ -51,7 +51,7 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.Nullable;
 
 public class SaltSpikeBlock extends PointedDripstoneBlock {
-    public static final MapCodec<PointedDripstoneBlock> CODEC = simpleCodec(SaltSpikeBlock::new);
+
     public static final EnumProperty<Direction> TIP_DIRECTION = BlockStateProperties.VERTICAL_DIRECTION;
     public static final EnumProperty<DripstoneThickness> THICKNESS = BlockStateProperties.DRIPSTONE_THICKNESS;
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
@@ -67,12 +67,7 @@ public class SaltSpikeBlock extends PointedDripstoneBlock {
     private static final float MAX_HORIZONTAL_OFFSET = (float)SHAPE_BASE.min(Direction.Axis.X);
     private static final VoxelShape REQUIRED_SPACE_TO_DRIP_THROUGH_NON_SOLID_BLOCK = Block.box(6, 0.0, 6, 10, 16.0, 10);
 
-    @Override
-    @NotNull public MapCodec<PointedDripstoneBlock> codec() {
-        return CODEC;
-    }
-
-    public SaltSpikeBlock(BlockBehaviour.Properties properties) {
+public SaltSpikeBlock(BlockBehaviour.Properties properties) {
         super(properties);
         this.registerDefaultState(
             this.stateDefinition.any().setValue(TIP_DIRECTION, Direction.UP).setValue(THICKNESS, DripstoneThickness.TIP).setValue(WATERLOGGED, false)
@@ -80,17 +75,17 @@ public class SaltSpikeBlock extends PointedDripstoneBlock {
     }
 
     @Override
-    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
+    public void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
         builder.add(TIP_DIRECTION, THICKNESS, WATERLOGGED);
     }
 
     @Override
-    protected boolean canSurvive(BlockState state, @NotNull LevelReader level, @NotNull BlockPos pos) {
+    public boolean canSurvive(BlockState state, @NotNull LevelReader level, @NotNull BlockPos pos) {
         return isValidPointedDripstonePlacement(level, pos, state.getValue(TIP_DIRECTION));
     }
 
     @Override
-    @NotNull protected BlockState updateShape(net.minecraft.world.level.block.state.BlockState state, @NotNull net.minecraft.core.Direction directionToNeighbour, @NotNull net.minecraft.world.level.block.state.BlockState neighbourState, @NotNull net.minecraft.world.level.LevelAccessor level, @NotNull net.minecraft.core.BlockPos pos, @NotNull net.minecraft.core.BlockPos neighbourPos) {
+    @NotNull public BlockState updateShape(net.minecraft.world.level.block.state.BlockState state, @NotNull net.minecraft.core.Direction directionToNeighbour, @NotNull net.minecraft.world.level.block.state.BlockState neighbourState, @NotNull net.minecraft.world.level.LevelAccessor level, @NotNull net.minecraft.core.BlockPos pos, @NotNull net.minecraft.core.BlockPos neighbourPos) {
         var ticks = level;
         if (state.getValue(WATERLOGGED)) {
             ticks.scheduleTick(pos, Fluids.WATER, Fluids.WATER.getTickDelay(level));
@@ -119,12 +114,12 @@ public class SaltSpikeBlock extends PointedDripstoneBlock {
     }
 
     @Override
-    protected void onProjectileHit(Level level, @NotNull BlockState state, @NotNull BlockHitResult blockHit, @NotNull Projectile projectile) {
+    public void onProjectileHit(Level level, @NotNull BlockState state, @NotNull BlockHitResult blockHit, @NotNull Projectile projectile) {
         if (!level.isClientSide) {
             BlockPos blockPos = blockHit.getBlockPos();
             if (level instanceof ServerLevel serverLevel
                 && projectile.mayInteract(serverLevel, blockPos)
-                && projectile.mayBreak(serverLevel)
+                && (projectile.getOwner() instanceof net.minecraft.world.entity.player.Player || serverLevel.getGameRules().getBoolean(net.minecraft.world.level.GameRules.RULE_MOBGRIEFING))
                 && projectile instanceof ThrownTrident
                 && projectile.getDeltaMovement().length() > 0.6) {
                 level.destroyBlock(blockPos, true);
@@ -167,7 +162,7 @@ public class SaltSpikeBlock extends PointedDripstoneBlock {
     }
 
     @Override
-    protected void tick(@NotNull BlockState state, @NotNull ServerLevel level, @NotNull BlockPos pos, @NotNull RandomSource random) {
+    public void tick(@NotNull BlockState state, @NotNull ServerLevel level, @NotNull BlockPos pos, @NotNull RandomSource random) {
         if (isStalagmite(state) && !this.canSurvive(state, level, pos)) {
             level.destroyBlock(pos, true);
         } else {
@@ -176,7 +171,7 @@ public class SaltSpikeBlock extends PointedDripstoneBlock {
     }
 
     @Override
-    protected void randomTick(@NotNull BlockState state, @NotNull ServerLevel level, @NotNull BlockPos pos, @NotNull RandomSource random) {
+    public void randomTick(@NotNull BlockState state, @NotNull ServerLevel level, @NotNull BlockPos pos, @NotNull RandomSource random) {
         if (getDripFluid(level, pos) != ModFluids.SALT_WATER.get()) return;
         maybeTransferFluid(state, level, pos, random.nextFloat());
         if (random.nextFloat() < 0.011377778F && isStalactiteStartPos(state, level, pos)) {
@@ -237,12 +232,12 @@ public class SaltSpikeBlock extends PointedDripstoneBlock {
     }
 
     @Override
-    @NotNull protected FluidState getFluidState(BlockState state) {
+    @NotNull public FluidState getFluidState(BlockState state) {
         return state.getValue(WATERLOGGED) ? Fluids.WATER.getSource(false) : super.getFluidState(state);
     }
 
     @Override
-    @NotNull protected VoxelShape getShape(BlockState state, @NotNull BlockGetter level, @NotNull BlockPos pos, @NotNull CollisionContext context) {
+    @NotNull public VoxelShape getShape(BlockState state, @NotNull BlockGetter level, @NotNull BlockPos pos, @NotNull CollisionContext context) {
         VoxelShape shape = switch ((DripstoneThickness)state.getValue(THICKNESS)) {
             case TIP_MERGE -> SHAPE_TIP_MERGE;
             case TIP -> state.getValue(TIP_DIRECTION) == Direction.DOWN ? SHAPE_TIP_DOWN : SHAPE_TIP_UP;
@@ -255,12 +250,12 @@ public class SaltSpikeBlock extends PointedDripstoneBlock {
     }
 
     @Override
-    protected boolean isCollisionShapeFullBlock(@NotNull BlockState state, @NotNull BlockGetter level, @NotNull BlockPos pos) {
+    public boolean isCollisionShapeFullBlock(@NotNull BlockState state, @NotNull BlockGetter level, @NotNull BlockPos pos) {
         return false;
     }
 
     @Override
-    protected float getMaxHorizontalOffset() {
+    public float getMaxHorizontalOffset() {
         return MAX_HORIZONTAL_OFFSET;
     }
 
@@ -496,7 +491,7 @@ public class SaltSpikeBlock extends PointedDripstoneBlock {
     }
 
     @Override
-    protected boolean isPathfindable(@NotNull BlockState state, @NotNull PathComputationType type) {
+    public boolean isPathfindable(@NotNull BlockState state, @NotNull net.minecraft.world.level.BlockGetter level, @NotNull net.minecraft.core.BlockPos pos, @NotNull PathComputationType type) {
         return false;
     }
 
@@ -541,7 +536,8 @@ public class SaltSpikeBlock extends PointedDripstoneBlock {
         if (fluidAbove.isSame(Fluids.EMPTY)) {
             return (level.dimensionType().ultraWarm() ? ParticleTypes.DRIPPING_DRIPSTONE_LAVA : ParticleTypes.DRIPPING_DRIPSTONE_WATER);
         } else {
-            ParticleOptions options = de.artemis.floraexpansion.common.registry.ModFluids.getDripInfo(fluidAbove) != null ? de.artemis.floraexpansion.common.registry.ModFluids.getDripInfo(fluidAbove).dripParticle() : ParticleTypes.DRIPPING_DRIPSTONE_WATER;
+            var dripInfo = de.artemis.floraexpansion.common.registry.ModFluids.getDripInfo(fluidAbove);
+            ParticleOptions options = dripInfo != null ? dripInfo.dripParticle() : ParticleTypes.DRIPPING_DRIPSTONE_WATER;
             if (options == null) options = (level.dimensionType().ultraWarm() ? ParticleTypes.DRIPPING_DRIPSTONE_LAVA : ParticleTypes.DRIPPING_DRIPSTONE_WATER);
             return options;
         }

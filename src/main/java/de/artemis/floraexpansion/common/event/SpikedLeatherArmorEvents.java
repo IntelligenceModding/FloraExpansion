@@ -2,10 +2,11 @@ package de.artemis.floraexpansion.common.event;
 
 import de.artemis.floraexpansion.FloraExpansion;
 import de.artemis.floraexpansion.common.item.SpikedLeatherArmorItem;
-import net.minecraft.core.Holder;
-import net.minecraft.core.HolderLookup;
-import net.minecraft.core.component.DataComponents;
-import net.minecraft.core.registries.Registries;
+
+
+
+
+
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageTypes;
@@ -16,7 +17,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.item.enchantment.Enchantments;
-import net.minecraft.world.item.enchantment.ItemEnchantments;
+
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.event.AnvilUpdateEvent;
@@ -41,7 +42,7 @@ public final class SpikedLeatherArmorEvents {
             return;
         }
 
-        ItemEnchantments enchants = output.get(DataComponents.ENCHANTMENTS);
+        var enchants = EnchantmentHelper.getEnchantments(output);
         if (enchants == null || enchants.isEmpty()) {
             return;
         }
@@ -104,7 +105,7 @@ public final class SpikedLeatherArmorEvents {
 
         int fireAspectLevel = getHighestFireAspectLevel(serverLevel, victim);
         if (fireAspectLevel > 0) {
-            attacker.igniteForSeconds(2.0F * fireAspectLevel);
+            attacker.setSecondsOnFire(2 * fireAspectLevel);
         }
     }
 
@@ -120,9 +121,7 @@ public final class SpikedLeatherArmorEvents {
     }
 
     private static int getHighestFireAspectLevel(ServerLevel level, LivingEntity entity) {
-        HolderLookup.RegistryLookup<Enchantment> lookup =
-                level.registryAccess().lookupOrThrow(Registries.ENCHANTMENT);
-        Holder.Reference<Enchantment> fireAspect = lookup.getOrThrow(Enchantments.FIRE_ASPECT);
+        Enchantment fireAspect = Enchantments.FIRE_ASPECT;
 
         int highest = 0;
         highest = Math.max(highest, getLevel(fireAspect, entity.getItemBySlot(EquipmentSlot.HEAD)));
@@ -133,7 +132,7 @@ public final class SpikedLeatherArmorEvents {
         return highest;
     }
 
-    private static int getLevel(Holder<Enchantment> enchantment, ItemStack stack) {
+    private static int getLevel(Enchantment enchantment, ItemStack stack) {
         if (!SpikedLeatherArmorItem.isSpikedLeatherArmor(stack)) {
             return 0;
         }

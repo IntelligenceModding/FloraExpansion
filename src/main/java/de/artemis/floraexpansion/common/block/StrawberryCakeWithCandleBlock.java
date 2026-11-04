@@ -48,7 +48,13 @@ import java.util.Map;
  * vanilla's private candle-to-cake lookup during construction.
  */
 public class StrawberryCakeWithCandleBlock extends AbstractCandleBlock implements EntityBlock {
-    @NotNull @Override public com.mojang.serialization.MapCodec<StrawberryCakeWithCandleBlock> codec() { return com.mojang.serialization.codecs.RecordCodecBuilder.mapCodec(instance -> instance.group(net.minecraft.world.level.block.state.BlockState.CODEC.fieldOf("candle").forGetter(block -> block.candle.defaultBlockState()), propertiesCodec()).apply(instance, (state, properties) -> new StrawberryCakeWithCandleBlock(state.getBlock(), properties))); }
+    @NotNull @Override public net.minecraft.world.InteractionResult use(@NotNull net.minecraft.world.level.block.state.BlockState state, @NotNull net.minecraft.world.level.Level level, @NotNull net.minecraft.core.BlockPos pos, @NotNull net.minecraft.world.entity.player.Player player, @NotNull net.minecraft.world.InteractionHand hand, @NotNull net.minecraft.world.phys.BlockHitResult hit) {
+        var result = useWithItem(player.getItemInHand(hand), state, level, pos, player, hand, hit);
+        if (result != net.minecraft.world.InteractionResult.PASS) return result;
+        return useWithoutItem(state, level, pos, player, hit);
+    }
+
+
  public static final ResourceLocation CANDLE_DROPS = ResourceLocation.fromNamespaceAndPath("floraexpansion", "cake_candles");
     private static final Map<CandleBlock, StrawberryCakeWithCandleBlock> BY_CANDLE = new HashMap<>();
     public static final int MAX_CANDLES = 3;
@@ -96,44 +102,42 @@ public class StrawberryCakeWithCandleBlock extends AbstractCandleBlock implement
     }
 
     @Override
-    @NotNull protected Iterable<Vec3> getParticleOffsets(BlockState state) {
+    @NotNull public Iterable<Vec3> getParticleOffsets(BlockState state) {
         return candleOffsets(state.getValue(CANDLES));
     }
 
     @Override
-    protected @NotNull VoxelShape getShape(BlockState state, @NotNull BlockGetter level, @NotNull BlockPos pos, @NotNull CollisionContext context) {
+    public @NotNull VoxelShape getShape(BlockState state, @NotNull BlockGetter level, @NotNull BlockPos pos, @NotNull CollisionContext context) {
         return SHAPES[state.getValue(CANDLES) - 1];
     }
 
-    @Override
-    protected @NotNull net.minecraft.world.ItemInteractionResult useItemOn(ItemStack stack, @NotNull BlockState state, @NotNull Level level, @NotNull BlockPos pos,
+    public @NotNull net.minecraft.world.InteractionResult useWithItem(ItemStack stack, @NotNull BlockState state, @NotNull Level level, @NotNull BlockPos pos,
                                                    @NotNull Player player, @NotNull InteractionHand hand, @NotNull BlockHitResult hit) {
         if (stack.is(ItemTags.CANDLES)) {
             int count = state.getValue(CANDLES);
             if (count >= MAX_CANDLES || !(Block.byItem(stack.getItem()) instanceof CandleBlock addedCandle)
-                    || !(level.getBlockEntity(pos) instanceof StrawberryCakeBlockEntity cakeEntity)) return net.minecraft.world.ItemInteractionResult.FAIL;
+                    || !(level.getBlockEntity(pos) instanceof StrawberryCakeBlockEntity cakeEntity)) return net.minecraft.world.InteractionResult.FAIL;
             var colors = new java.util.ArrayList<>(cakeEntity.getCandles());
             colors.add(addedCandle);
-            stack.consume(1, player);
+            de.artemis.floraexpansion.common.util.ItemData.consume(stack, 1, player);
             level.setBlock(pos, state.setValue(CANDLES, count + 1), 3);
             cakeEntity.setCandles(colors);
             level.playSound(null, pos, SoundEvents.CAKE_ADD_CANDLE, SoundSource.BLOCKS, 1, 1);
             level.gameEvent(player, GameEvent.BLOCK_CHANGE, pos);
             player.awardStat(Stats.ITEM_USED.get(addedCandle.asItem()));
-            return net.minecraft.world.ItemInteractionResult.SUCCESS;
+            return net.minecraft.world.InteractionResult.SUCCESS;
         }
         if (stack.is(Items.FLINT_AND_STEEL) || stack.is(Items.FIRE_CHARGE)) {
-            return net.minecraft.world.ItemInteractionResult.SKIP_DEFAULT_BLOCK_INTERACTION;
+            return net.minecraft.world.InteractionResult.PASS;
         }
         if (hit.getLocation().y - pos.getY() > 0.5 && stack.isEmpty() && state.getValue(LIT)) {
             extinguish(player, state, level, pos);
-            return net.minecraft.world.ItemInteractionResult.SUCCESS;
+            return net.minecraft.world.InteractionResult.SUCCESS;
         }
-        return super.useItemOn(stack, state, level, pos, player, hand, hit);
+        return super.use(state, level, pos, player, hand, hit);
     }
 
-    @Override
-    protected @NotNull InteractionResult useWithoutItem(@NotNull BlockState state, Level level, @NotNull BlockPos pos, @NotNull Player player, @NotNull BlockHitResult hit) {
+    public @NotNull InteractionResult useWithoutItem(@NotNull BlockState state, Level level, @NotNull BlockPos pos, @NotNull Player player, @NotNull BlockHitResult hit) {
         BlockEntity cakeEntity = level.getBlockEntity(pos);
         InteractionResult result = StrawberryCakeBlock.eatSlice(level, pos, ModBlocks.STRAWBERRY_CAKE.get().defaultBlockState(), player);
         if (result.consumesAction()) {
@@ -143,38 +147,38 @@ public class StrawberryCakeWithCandleBlock extends AbstractCandleBlock implement
     }
 
     @Override
-    public @NotNull ItemStack getCloneItemStack(@NotNull LevelReader level, @NotNull BlockPos pos, @NotNull BlockState state) {
+    public @NotNull ItemStack getCloneItemStack(@NotNull net.minecraft.world.level.BlockGetter level, @NotNull BlockPos pos, @NotNull BlockState state) {
         return new ItemStack(ModBlocks.STRAWBERRY_CAKE.get());
     }
 
     @Override
-    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
+    public void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
         builder.add(LIT, CANDLES);
     }
 
     @Override
-    protected @NotNull BlockState updateShape(@NotNull net.minecraft.world.level.block.state.BlockState state, @NotNull net.minecraft.core.Direction direction, @NotNull net.minecraft.world.level.block.state.BlockState neighborState, @NotNull net.minecraft.world.level.LevelAccessor level, @NotNull net.minecraft.core.BlockPos pos, @NotNull net.minecraft.core.BlockPos neighborPos) {
+    public @NotNull BlockState updateShape(@NotNull net.minecraft.world.level.block.state.BlockState state, @NotNull net.minecraft.core.Direction direction, @NotNull net.minecraft.world.level.block.state.BlockState neighborState, @NotNull net.minecraft.world.level.LevelAccessor level, @NotNull net.minecraft.core.BlockPos pos, @NotNull net.minecraft.core.BlockPos neighborPos) {
         return direction == Direction.DOWN && !state.canSurvive(level, pos) ? Blocks.AIR.defaultBlockState()
                 : super.updateShape(state, direction, neighborState, level, pos, neighborPos);
     }
 
     @Override
-    protected boolean canSurvive(@NotNull BlockState state, LevelReader level, BlockPos pos) {
+    public boolean canSurvive(@NotNull BlockState state, LevelReader level, BlockPos pos) {
         return level.getBlockState(pos.below()).isSolid();
     }
 
     @Override
-    protected int getAnalogOutputSignal(@NotNull BlockState state, @NotNull Level level, @NotNull BlockPos pos) {
+    public int getAnalogOutputSignal(@NotNull BlockState state, @NotNull Level level, @NotNull BlockPos pos) {
         return CakeBlock.FULL_CAKE_SIGNAL;
     }
 
     @Override
-    protected boolean hasAnalogOutputSignal(@NotNull BlockState state) {
+    public boolean hasAnalogOutputSignal(@NotNull BlockState state) {
         return true;
     }
 
     @Override
-    protected boolean isPathfindable(@NotNull BlockState state, @NotNull PathComputationType type) {
+    public boolean isPathfindable(@NotNull BlockState state, @NotNull net.minecraft.world.level.BlockGetter level, @NotNull net.minecraft.core.BlockPos pos, @NotNull PathComputationType type) {
         return false;
     }
 
@@ -184,7 +188,7 @@ public class StrawberryCakeWithCandleBlock extends AbstractCandleBlock implement
     }
 
     @Override
-    @NotNull protected List<ItemStack> getDrops(@NotNull BlockState state, LootParams.Builder params) {
+    @NotNull public List<ItemStack> getDrops(@NotNull BlockState state, LootParams.Builder params) {
         var colors = params.getOptionalParameter(LootContextParams.BLOCK_ENTITY) instanceof StrawberryCakeBlockEntity cakeEntity
                 ? cakeEntity.getCandles() : java.util.Collections.nCopies(state.getValue(CANDLES), candle);
         params.withDynamicDrop(CANDLE_DROPS, output -> colors.forEach(color -> output.accept(new ItemStack(color))));

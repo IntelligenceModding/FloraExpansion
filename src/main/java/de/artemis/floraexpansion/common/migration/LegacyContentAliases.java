@@ -116,8 +116,8 @@ public final class LegacyContentAliases {
     private static void aliases(net.minecraftforge.registries.RegisterEvent event) {
         // Removed packed-pebble content resolves to ordinary gravel in existing saves.
         for (String old : java.util.List.of("pebble_block", "packed_pebbles", "packed_pebbles_stairs", "packed_pebbles_slab", "packed_pebbles_wall")) {
-            alias(event, ModBlocks.BLOCKS, id(old), ResourceLocation.withDefaultNamespace("gravel"));
-            alias(event, ModItems.ITEMS, id(old), ResourceLocation.withDefaultNamespace("gravel"));
+            alias(event, ModBlocks.BLOCKS, id(old), ResourceLocation.fromNamespaceAndPath("minecraft", "gravel"));
+            alias(event, ModItems.ITEMS, id(old), ResourceLocation.fromNamespaceAndPath("minecraft", "gravel"));
         }
         addAliases(event, ModBlocks.BLOCKS, BLOCKS);
         addAliases(event, ModItems.ITEMS, ITEMS);
@@ -133,7 +133,7 @@ public final class LegacyContentAliases {
     private static void alias(net.minecraftforge.registries.RegisterEvent event, DeferredRegister<?> register, ResourceLocation oldId, ResourceLocation newId) {
         if (!event.getRegistryKey().equals(register.getRegistryKey())) return;
         var registry = net.minecraftforge.registries.RegistryManager.ACTIVE.getRegistry(register.getRegistryKey());
-        if (registry instanceof net.minecraftforge.registries.ForgeRegistry<?> forge) forge.addAlias(oldId, newId);
+        if (registry != null) registry.addAlias(oldId, newId);
     }
     private static ResourceLocation id(String path) {
         return ResourceLocation.fromNamespaceAndPath(FloraExpansion.MODID, path);

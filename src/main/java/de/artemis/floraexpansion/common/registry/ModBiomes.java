@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.worldgen.BiomeDefaultFeatures;
-import net.minecraft.data.worldgen.BootstrapContext;
+import net.minecraft.data.worldgen.BootstapContext;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.sounds.SoundEvents;
@@ -73,7 +73,7 @@ public final class ModBiomes {
         return new Climate.ParameterPoint(p[0], p[1], p[2], p[3], p[4], p[5], offset);
     }
 
-    public static void bootstrap(BootstrapContext<Biome> context) {
+    public static void bootstrap(BootstapContext<Biome> context) {
         var generation = new BiomeGenerationSettings.Builder(context.lookup(Registries.PLACED_FEATURE),
                 context.lookup(Registries.CONFIGURED_CARVER));
         BiomeDefaultFeatures.addDefaultCarversAndLakes(generation);

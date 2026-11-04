@@ -9,7 +9,7 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.stats.Stats;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.ItemInteractionResult;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -23,40 +23,40 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 
 public final class SaltWaterInteractions {
-    public static final CauldronInteraction.InteractionMap CAULDRON = CauldronInteraction.newInteractionMap("floraexpansion:salt_water");
+    public static final java.util.Map<net.minecraft.world.item.Item,CauldronInteraction> CAULDRON = CauldronInteraction.newInteractionMap();
     private static void interactions() {
         // Register the custom leather armor with vanilla washing interactions.
         for (var armor : java.util.List.of(ModItems.SPIKED_LEATHER_HELMET.get(), ModItems.SPIKED_LEATHER_CHESTPLATE.get(), ModItems.SPIKED_LEATHER_LEGGINGS.get(), ModItems.SPIKED_LEATHER_BOOTS.get()))
-            CauldronInteraction.WATER.map().put(armor, CauldronInteraction.WATER.map().get(Items.LEATHER_CHESTPLATE));
+            CauldronInteraction.WATER.put(armor, CauldronInteraction.WATER.get(Items.LEATHER_CHESTPLATE));
         // Copy washing handlers only: freshwater bottles/potions must never collect or dilute brine.
-        var armorItems = java.util.Set.of(Items.LEATHER_BOOTS, Items.LEATHER_LEGGINGS, Items.LEATHER_CHESTPLATE, Items.LEATHER_HELMET, Items.LEATHER_HORSE_ARMOR, Items.WOLF_ARMOR,
+        var armorItems = java.util.Set.of(Items.LEATHER_BOOTS, Items.LEATHER_LEGGINGS, Items.LEATHER_CHESTPLATE, Items.LEATHER_HELMET, Items.LEATHER_HORSE_ARMOR,
                 ModItems.SPIKED_LEATHER_HELMET.get(), ModItems.SPIKED_LEATHER_CHESTPLATE.get(), ModItems.SPIKED_LEATHER_LEGGINGS.get(), ModItems.SPIKED_LEATHER_BOOTS.get());
-        CauldronInteraction.WATER.map().forEach((item, interaction) -> {
+        CauldronInteraction.WATER.forEach((item, interaction) -> {
             if (armorItems.contains(item) || item instanceof net.minecraft.world.item.BannerItem
                     || item instanceof net.minecraft.world.item.BlockItem block && block.getBlock() instanceof net.minecraft.world.level.block.ShulkerBoxBlock)
-                CAULDRON.map().put(item, interaction);
+                CAULDRON.put(item, interaction);
         });
         for (var filled : java.util.List.of(Items.WATER_BUCKET, Items.LAVA_BUCKET, Items.POWDER_SNOW_BUCKET))
-            CAULDRON.map().put(filled, CauldronInteraction.EMPTY.map().get(filled));
-        CauldronInteraction.WATER.map().put(ModItems.SALT.get(), SaltWaterInteractions::saltWater);
+            CAULDRON.put(filled, CauldronInteraction.EMPTY.get(filled));
+        CauldronInteraction.WATER.put(ModItems.SALT.get(), SaltWaterInteractions::saltWater);
         SaltWaterInteractions.registerToAll(ModItems.SALT_WATER_BUCKET.get(), SaltWaterInteractions::pourBucket);
         SaltWaterInteractions.registerToAll(ModItems.WOODEN_SALT_WATER_BUCKET.get(), SaltWaterInteractions::pourBucket);
-        CAULDRON.map().put(Items.BUCKET, (state, level, pos, player, hand, stack) -> CauldronInteraction.fillBucket(
+        CAULDRON.put(Items.BUCKET, (state, level, pos, player, hand, stack) -> CauldronInteraction.fillBucket(
                 state, level, pos, player, hand, stack, new ItemStack(ModItems.SALT_WATER_BUCKET.get()),
                 s -> s.getValue(LayeredCauldronBlock.LEVEL) == 3, SoundEvents.BUCKET_FILL));
-        CAULDRON.map().put(ModItems.WOODEN_BUCKET.get(), SaltWaterInteractions::fillWoodenBucket);
+        CAULDRON.put(ModItems.WOODEN_BUCKET.get(), SaltWaterInteractions::fillWoodenBucket);
 
     }
-    private static ItemInteractionResult saltWater(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, ItemStack stack) {
-        if (!state.is(Blocks.WATER_CAULDRON)) return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
+    private static InteractionResult saltWater(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, ItemStack stack) {
+        if (!state.is(Blocks.WATER_CAULDRON)) return InteractionResult.PASS;
         if (!level.isClientSide) {
             level.setBlock(pos, ModBlocks.SALT_WATER_CAULDRON.get().defaultBlockState()
                     .setValue(LayeredCauldronBlock.LEVEL, state.getValue(LayeredCauldronBlock.LEVEL)), 3);
-            if (!player.hasInfiniteMaterials()) stack.shrink(1);
+            if (!player.getAbilities().instabuild) stack.shrink(1);
             de.artemis.floraexpansion.common.util.InventoryUtils.syncPlayerInventory(player);
             changed(level, pos, player, ModItems.SALT.get(), true, SoundEvents.SAND_PLACE);
         }
-        return ItemInteractionResult.SUCCESS;
+        return InteractionResult.SUCCESS;
     }
     @SubscribeEvent public static void setup(FMLCommonSetupEvent event) {
         event.enqueueWork(() -> {
@@ -64,14 +64,14 @@ public final class SaltWaterInteractions {
             DispenserBlock.registerBehavior(ModItems.SALT_WATER_BUCKET.get(), DispenserBlock.DISPENSER_REGISTRY.get(Items.WATER_BUCKET));
         });
     }
-    private static ItemInteractionResult pourBucket(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, ItemStack stack) {
+    private static InteractionResult pourBucket(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, ItemStack stack) {
         var full = ModBlocks.SALT_WATER_CAULDRON.get().defaultBlockState().setValue(LayeredCauldronBlock.LEVEL, 3);
         if (stack.is(ModItems.SALT_WATER_BUCKET.get()))
             return CauldronInteraction.emptyBucket(level, pos, player, hand, stack, full, SoundEvents.BUCKET_EMPTY);
         return WoodenBucketCauldronInteractions.pour(level,pos,player,hand,stack,full,SoundEvents.BUCKET_EMPTY);
     }
-    private static ItemInteractionResult fillWoodenBucket(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, ItemStack stack) {
-        if (state.getValue(LayeredCauldronBlock.LEVEL) != 3) return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
+    private static InteractionResult fillWoodenBucket(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, ItemStack stack) {
+        if (state.getValue(LayeredCauldronBlock.LEVEL) != 3) return InteractionResult.PASS;
         return WoodenBucketCauldronInteractions.fill(level,pos,player,hand,stack,
                 ModItems.WOODEN_SALT_WATER_BUCKET.get(),SoundEvents.BUCKET_FILL);
     }
@@ -83,7 +83,7 @@ public final class SaltWaterInteractions {
     }
     // 26.1 has no registration event; use the native dispatcher registry during queued common setup.
     static void registerToAll(net.minecraft.world.item.Item item, CauldronInteraction interaction) {
-        CauldronInteraction.INTERACTIONS.values().forEach(dispatcher -> dispatcher.map().put(item, interaction));
+        java.util.List.of(CauldronInteraction.EMPTY, CauldronInteraction.WATER, CauldronInteraction.LAVA, CauldronInteraction.POWDER_SNOW, CAULDRON).forEach(dispatcher -> dispatcher.put(item, interaction));
     }
     private SaltWaterInteractions() {}
 }

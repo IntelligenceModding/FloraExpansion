@@ -13,7 +13,7 @@ import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.item.Items;
 import net.minecraft.util.RandomSource;
 import net.minecraft.server.level.ServerLevel;
-import org.jetbrains.annotations.Nullable;
+
 import de.artemis.floraexpansion.common.registry.ModFluids;
 import de.artemis.floraexpansion.common.registry.ModItems;
 
@@ -34,7 +34,7 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
 public class SaltDepositBlock extends FallingBlock implements SimpleWaterloggedBlock {
- @NotNull @Override public com.mojang.serialization.MapCodec<SaltDepositBlock> codec() { return simpleCodec(SaltDepositBlock::new); }
+
     public static final IntegerProperty LAYERS = IntegerProperty.create("layers", 1, 4);
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
     public static final BooleanProperty BRINE = BooleanProperty.create("brine");
@@ -48,11 +48,11 @@ public class SaltDepositBlock extends FallingBlock implements SimpleWaterloggedB
 
 
     @Override
-    protected boolean isRandomlyTicking(BlockState state) {
+    public boolean isRandomlyTicking(BlockState state) {
         return state.getValue(WATERLOGGED) && state.getValue(BRINE);
     }
     @Override
-    protected void randomTick(@NotNull BlockState state,@NotNull ServerLevel level,@NotNull BlockPos pos,@NotNull RandomSource random) {
+    public void randomTick(@NotNull BlockState state,@NotNull ServerLevel level,@NotNull BlockPos pos,@NotNull RandomSource random) {
         de.artemis.floraexpansion.common.worldgen.SaltWaterEvaporation.randomTick(level,pos,random);
     }
     @Override
@@ -108,14 +108,14 @@ public class SaltDepositBlock extends FallingBlock implements SimpleWaterloggedB
         }
     }
     @Override
-    protected void tick(BlockState state, @NotNull ServerLevel level, @NotNull BlockPos pos,
+    public void tick(BlockState state, @NotNull ServerLevel level, @NotNull BlockPos pos,
                         @NotNull RandomSource random) {
         if (!state.canSurvive(level, pos) && pos.getY() >= level.getMinBuildHeight()) {
             falling(FallingBlockEntity.fall(level, pos, state));
         }
     }
     @Override
-    protected boolean canSurvive(@NotNull BlockState state, LevelReader level, BlockPos pos) {
+    public boolean canSurvive(@NotNull BlockState state, LevelReader level, BlockPos pos) {
         var belowPos = pos.below();
         var below = level.getBlockState(belowPos);
         return Block.isFaceFull(below.getCollisionShape(level, belowPos), Direction.UP);
@@ -136,15 +136,14 @@ public class SaltDepositBlock extends FallingBlock implements SimpleWaterloggedB
     }
 
     @Override
-    @NotNull protected FluidState getFluidState(BlockState state) {
+    @NotNull public FluidState getFluidState(BlockState state) {
         return !state.getValue(WATERLOGGED) ? super.getFluidState(state)
                 : state.getValue(BRINE) ? ModFluids.SALT_WATER.get().defaultFluidState()
                 : Fluids.WATER.getSource(false);
     }
 
     @Override
-    public boolean canPlaceLiquid(@Nullable net.minecraft.world.entity.player.Player user,
-                                  @NotNull BlockGetter level, @NotNull BlockPos pos, BlockState state, @NotNull Fluid fluid) {
+    public boolean canPlaceLiquid(@NotNull BlockGetter level, @NotNull BlockPos pos, BlockState state, @NotNull Fluid fluid) {
         return state.getValue(LAYERS) < 4 && !state.getValue(WATERLOGGED)
                 && (fluid == Fluids.WATER
                 || fluid == ModFluids.SALT_WATER.get());
@@ -153,7 +152,7 @@ public class SaltDepositBlock extends FallingBlock implements SimpleWaterloggedB
     @Override
     public boolean placeLiquid(@NotNull LevelAccessor level, @NotNull BlockPos pos, @NotNull BlockState state,
                                FluidState fluid) {
-        if (!canPlaceLiquid(null, level, pos, state, fluid.getType())
+        if (!canPlaceLiquid(level, pos, state, fluid.getType())
                 || (fluid.is(ModFluids.SALT_WATER.get()) && !fluid.isSource())) return false;
         if (!level.isClientSide()) {
             level.setBlock(pos, withFluid(state, fluid), 3);
@@ -163,8 +162,7 @@ public class SaltDepositBlock extends FallingBlock implements SimpleWaterloggedB
     }
 
     @Override
-    @NotNull public ItemStack pickupBlock(@Nullable net.minecraft.world.entity.player.Player user,
-                                @NotNull LevelAccessor level, @NotNull BlockPos pos, BlockState state) {
+    @NotNull public ItemStack pickupBlock(@NotNull LevelAccessor level, @NotNull BlockPos pos, BlockState state) {
         if (!state.getValue(WATERLOGGED)) return ItemStack.EMPTY;
         var bucket = state.getValue(BRINE) ? ModItems.SALT_WATER_BUCKET.get()
                 : Items.WATER_BUCKET;
@@ -174,7 +172,7 @@ public class SaltDepositBlock extends FallingBlock implements SimpleWaterloggedB
     }
 
     @Override
-    @NotNull protected BlockState updateShape(net.minecraft.world.level.block.state.BlockState state, @NotNull net.minecraft.core.Direction direction, @NotNull net.minecraft.world.level.block.state.BlockState neighbor, @NotNull net.minecraft.world.level.LevelAccessor level, @NotNull net.minecraft.core.BlockPos pos, @NotNull net.minecraft.core.BlockPos neighborPos) {
+    @NotNull public BlockState updateShape(net.minecraft.world.level.block.state.BlockState state, @NotNull net.minecraft.core.Direction direction, @NotNull net.minecraft.world.level.block.state.BlockState neighbor, @NotNull net.minecraft.world.level.LevelAccessor level, @NotNull net.minecraft.core.BlockPos pos, @NotNull net.minecraft.core.BlockPos neighborPos) {
         var ticks = level;
         if (state.getValue(WATERLOGGED)) {
             var fluid = state.getFluidState().getType();
@@ -189,23 +187,23 @@ public class SaltDepositBlock extends FallingBlock implements SimpleWaterloggedB
     }
 
     @Override
-    protected boolean canBeReplaced(@NotNull BlockState state, BlockPlaceContext context) {
+    public boolean canBeReplaced(@NotNull BlockState state, BlockPlaceContext context) {
         return !context.isSecondaryUseActive() && context.getItemInHand().is(asItem()) && state.getValue(LAYERS) < 4
                 && (!context.replacingClickedOnBlock() || context.getClickedFace() == Direction.UP);
     }
 
     @Override
-    @NotNull protected VoxelShape getShape(BlockState state, @NotNull BlockGetter level, @NotNull BlockPos pos, @NotNull CollisionContext context) {
+    @NotNull public VoxelShape getShape(BlockState state, @NotNull BlockGetter level, @NotNull BlockPos pos, @NotNull CollisionContext context) {
         return Block.box(0, 0, 0, 16, state.getValue(LAYERS) * 4, 16);
     }
 
     @Override
-    @NotNull protected VoxelShape getCollisionShape(BlockState state, @NotNull BlockGetter level, @NotNull BlockPos pos, @NotNull CollisionContext context) {
+    @NotNull public VoxelShape getCollisionShape(BlockState state, @NotNull BlockGetter level, @NotNull BlockPos pos, @NotNull CollisionContext context) {
         return Block.box(0, 0, 0, 16, state.getValue(LAYERS) * 4, 16);
     }
 
     @Override
-    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
+    public void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
         builder.add(LAYERS, WATERLOGGED, BRINE, NATURAL);
     }
 }

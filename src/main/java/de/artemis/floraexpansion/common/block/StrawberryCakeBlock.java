@@ -28,6 +28,12 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.NotNull;
 
 public class StrawberryCakeBlock extends CakeBlock {
+    @NotNull @Override public net.minecraft.world.InteractionResult use(@NotNull net.minecraft.world.level.block.state.BlockState state, @NotNull net.minecraft.world.level.Level level, @NotNull net.minecraft.core.BlockPos pos, @NotNull net.minecraft.world.entity.player.Player player, @NotNull net.minecraft.world.InteractionHand hand, @NotNull net.minecraft.world.phys.BlockHitResult hit) {
+        var result = useWithItem(player.getItemInHand(hand), state, level, pos, player, hand, hit);
+        if (result != net.minecraft.world.InteractionResult.PASS) return result;
+        return useWithoutItem(state, level, pos, player, hit);
+    }
+
     public static final BooleanProperty HALF_SLICE = BooleanProperty.create("half_slice");
     public static final int PORTIONS = 14;
     private static final VoxelShape[] SHAPES = createShapes();
@@ -53,23 +59,22 @@ public class StrawberryCakeBlock extends CakeBlock {
     }
 
     @Override
-    protected void createBlockStateDefinition(@NotNull StateDefinition.Builder<Block, BlockState> builder) {
+    public void createBlockStateDefinition(@NotNull StateDefinition.Builder<Block, BlockState> builder) {
         super.createBlockStateDefinition(builder);
         builder.add(HALF_SLICE);
     }
 
     @Override
-    protected @NotNull VoxelShape getShape(@NotNull BlockState state, @NotNull BlockGetter level, @NotNull BlockPos pos, @NotNull CollisionContext context) {
+    public @NotNull VoxelShape getShape(@NotNull BlockState state, @NotNull BlockGetter level, @NotNull BlockPos pos, @NotNull CollisionContext context) {
         return SHAPES[portionsEaten(state)];
     }
 
     @Override
-    protected int getAnalogOutputSignal(@NotNull BlockState state, @NotNull Level level, @NotNull BlockPos pos) {
+    public int getAnalogOutputSignal(@NotNull BlockState state, @NotNull Level level, @NotNull BlockPos pos) {
         return PORTIONS - portionsEaten(state);
     }
 
-    @Override
-    protected @NotNull InteractionResult useWithoutItem(@NotNull BlockState state, @NotNull Level level, @NotNull BlockPos pos, @NotNull Player player, @NotNull BlockHitResult hit) {
+    public @NotNull InteractionResult useWithoutItem(@NotNull BlockState state, @NotNull Level level, @NotNull BlockPos pos, @NotNull Player player, @NotNull BlockHitResult hit) {
         InteractionResult result = eatSlice(level, pos, state, player);
         if (level.isClientSide && !result.consumesAction() && player.getMainHandItem().isEmpty()) {
             return InteractionResult.CONSUME;
@@ -94,20 +99,19 @@ public class StrawberryCakeBlock extends CakeBlock {
         return InteractionResult.SUCCESS;
     }
 
-    @Override
-    protected @NotNull net.minecraft.world.ItemInteractionResult useItemOn(
+    public @NotNull net.minecraft.world.InteractionResult useWithItem(
             ItemStack stack, @NotNull BlockState state, @NotNull Level level, @NotNull BlockPos pos, @NotNull Player player, @NotNull InteractionHand hand, @NotNull BlockHitResult hitResult
     ) {
         Item item = stack.getItem();
         if (stack.is(ItemTags.CANDLES) && portionsEaten(state) == 0 && Block.byItem(item) instanceof CandleBlock candleBlock) {
-            stack.consume(1, player);
+            de.artemis.floraexpansion.common.util.ItemData.consume(stack, 1, player);
             level.playSound(null, pos, SoundEvents.CAKE_ADD_CANDLE, SoundSource.BLOCKS, 1.0F, 1.0F);
             level.setBlock(pos, StrawberryCakeWithCandleBlock.byCandle(candleBlock), 3);
             level.gameEvent(player, GameEvent.BLOCK_CHANGE, pos);
             player.awardStat(Stats.ITEM_USED.get(item));
-            return net.minecraft.world.ItemInteractionResult.SUCCESS;
+            return net.minecraft.world.InteractionResult.SUCCESS;
         }
 
-        return net.minecraft.world.ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
+        return net.minecraft.world.InteractionResult.PASS;
     }
 }

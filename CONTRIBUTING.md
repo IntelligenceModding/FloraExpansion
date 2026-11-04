@@ -89,7 +89,7 @@ You can view the available branches [here][branches].
 
 When contributing, always work against the branch matching the Minecraft version and loader your change targets.
 
-For example, a change developed for Minecraft 1.21.1 with Forge should target the corresponding 1.21.1 Forge branch.
+For example, a change developed for Minecraft 1.20.1 with Forge should target the corresponding 1.20.1 Forge branch.
 
 Do **not** target the `assets` branch for code changes. The `assets` branch is used for project images and other repository assets.
 
@@ -117,7 +117,7 @@ Check the following line in the branch's `build.gradle` file if you are unsure:
 java.toolchain.languageVersion = JavaLanguageVersion.of(...)
 ```
 
-For example, the Minecraft 1.21.1 Forge branch uses Java 21.
+For example, the Minecraft 1.20.1 Forge branch uses Java 17.
 
 Java builds such as Eclipse Temurin can be downloaded from [Adoptium][adoptium].
 
@@ -149,7 +149,7 @@ Before beginning work, switch to the branch matching the Minecraft version you w
 For example:
 
 ```bash
-git switch 1.21.1-forge
+git switch 1.20.1-forge
 ```
 
 It is recommended to create your own development branch from there.
@@ -232,7 +232,7 @@ Running the development client is strongly recommended for changes that affect g
 
 Changes should be tested before being submitted.
 
-This branch targets Minecraft 1.21.1, Forge 52.1.20 or later within 52.x, and Java 21.
+This branch targets Minecraft 1.20.1, Forge 47.4.22 or later within 47.x, and Java 17.
 
 Regenerate resources and build with the included wrapper:
 
@@ -241,13 +241,13 @@ gradlew.bat runData
 gradlew.bat build
 ```
 
-On Linux or macOS, use `./gradlew` instead of `gradlew.bat`. The installable release is `build/libs/floraexpansion-<mod_version>-forge-mc1.21.1.jar`; the build produces one jar in that directory.
+On Linux or macOS, use `./gradlew` instead of `gradlew.bat`. The installable release is `build/libs/floraexpansion-<mod_version>-forge-mc1.20.1.jar`; the build produces one jar in that directory.
 
-Launch the development client with `gradlew.bat runClient`. JEI loads by default as an optional development dependency; add `-PwithoutOptionalMods` to verify operation without it. AppleSkin has no official Forge release for Minecraft 1.21.1.
+Launch the development client with `gradlew.bat runClient`. JEI loads by default as an optional development dependency; add `-PwithoutOptionalMods` to verify operation without it. AppleSkin is also available for Forge 1.20.1 and loads as an optional development dependency.
 
 Local regression suites under `src/forgeTest`, `src/gametest`, and `src/compatibilityAudit` are ignored by Git. If the Forge suite is present locally, run `gradlew.bat runGameTestServer -PforgeTests`. A fresh checkout does not include those tests. The historical gameplay and compatibility-audit suites target other APIs and are not wired into this branch's build. CI validates data generation and the release build.
 
-Test the packaged jar in a normal Forge installation as well as the development client, especially after changes to mixins or build configuration. This branch uses Mojang mappings in both development and production; do not remap its release jar or mixin targets to SRG names.
+Test the packaged jar in a normal Forge installation as well as the development client, especially after changes to mixins or build configuration. Forge 1.20.1 uses SRG mappings in production. The Gradle build automatically remaps the jar and mixin targets; install the single final jar from `build/libs`.
 
 There is currently no expectation that every contribution includes automated tests. For most Flora Expansion changes, practical in-game testing is more useful.
 

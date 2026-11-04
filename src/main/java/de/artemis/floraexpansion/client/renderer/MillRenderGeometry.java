@@ -48,9 +48,9 @@ final class MillRenderGeometry {
                                Direction face, int color, int light) {
         float u = 0.5F + (face.getAxis() == Direction.Axis.X ? z : x);
         float v = face.getAxis() == Direction.Axis.Y ? 0.5F + z : 1 - y;
-        out.addVertex(pose, x, y, z).setColor(color).setUv(u, v)
-                .setOverlay(OverlayTexture.NO_OVERLAY).setLight(light)
-                .setNormal(pose, face.getStepX(), face.getStepY(), face.getStepZ());
+        out.vertex(pose.pose(), x, y, z).color(color).uv(u, v)
+                .overlayCoords(OverlayTexture.NO_OVERLAY).uv2(light)
+                .normal(pose.normal(), face.getStepX(), face.getStepY(), face.getStepZ()).endVertex();
     }
     private MillRenderGeometry() {}
 }

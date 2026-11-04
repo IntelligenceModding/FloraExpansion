@@ -14,13 +14,13 @@ public final class ClientAnimationClock {
     @SubscribeEvent
     public static void tick(net.minecraftforge.event.TickEvent.LevelTickEvent event) {
         if (event.phase != net.minecraftforge.event.TickEvent.Phase.END) return;
-        if (event.level.isClientSide && event.level.tickRateManager().runsNormally()) ticks++;
+        if (event.level.isClientSide) ticks++;
     }
 
     public static double time(double partialTick) {
         // Network callbacks can run after the timer residual wraps but before the
         // level tick. Never let that intermediate ordering rewind a rendered frame.
-        lastTime = Math.max(lastTime, ticks + Math.clamp(partialTick, 0D, 1D));
+        lastTime = Math.max(lastTime, ticks + net.minecraft.util.Mth.clamp(partialTick, 0D, 1D));
         return lastTime;
     }
 

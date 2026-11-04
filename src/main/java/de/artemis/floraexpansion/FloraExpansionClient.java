@@ -19,10 +19,10 @@ import de.artemis.floraexpansion.common.registry.ModParticles;
 import net.minecraft.client.renderer.entity.ThrownItemRenderer;
 import net.minecraft.client.renderer.blockentity.HangingSignRenderer;
 import net.minecraft.client.renderer.blockentity.SignRenderer;
-import net.minecraftforge.api.distmarker.Dist;
+
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.ModContainer;
-import net.minecraftforge.fml.common.Mod;
+
+
 import net.minecraftforge.client.event.EntityRenderersEvent;
 
 import net.minecraftforge.client.event.RegisterParticleProvidersEvent;
@@ -39,10 +39,13 @@ public class FloraExpansionClient {
         modEventBus.register(FloraExpansionClient.class);
         modEventBus.register(de.artemis.floraexpansion.client.ModColorHandlers.class);
         de.artemis.floraexpansion.common.block.entity.HandCrankBlockEntity.setClientPartialTickSupplier(
-                () -> net.minecraft.client.Minecraft.getInstance().getTimer().getGameTimeDeltaPartialTick(false));
+                () -> net.minecraft.client.Minecraft.getInstance().getFrameTime());
         de.artemis.floraexpansion.common.block.entity.HandCrankBlockEntity.setClientAnimationTimeSupplier(
                 de.artemis.floraexpansion.client.ClientAnimationClock::time);
         context.registerConfig(net.minecraftforge.fml.config.ModConfig.Type.CLIENT, ClientConfig.SPEC);
+        context.registerExtensionPoint(net.minecraftforge.client.ConfigScreenHandler.ConfigScreenFactory.class,
+                () -> new net.minecraftforge.client.ConfigScreenHandler.ConfigScreenFactory(
+                        de.artemis.floraexpansion.client.screen.FloraConfigScreen::new));
         registerSpriteSources();
     }
 
@@ -99,12 +102,12 @@ public class FloraExpansionClient {
 
     public static void registerFluidExtensions(java.util.function.Consumer<net.minecraftforge.client.extensions.common.IClientFluidTypeExtensions> consumer) {
         consumer.accept(new net.minecraftforge.client.extensions.common.IClientFluidTypeExtensions() {
-            @NotNull @Override public ResourceLocation getStillTexture() { return ResourceLocation.withDefaultNamespace("block/water_still"); }
-            @NotNull @Override public ResourceLocation getFlowingTexture() { return ResourceLocation.withDefaultNamespace("block/water_flow"); }
-            @Override public ResourceLocation getOverlayTexture() { return ResourceLocation.withDefaultNamespace("block/water_overlay"); }
+            @NotNull @Override public ResourceLocation getStillTexture() { return ResourceLocation.fromNamespaceAndPath("minecraft", "block/water_still"); }
+            @NotNull @Override public ResourceLocation getFlowingTexture() { return ResourceLocation.fromNamespaceAndPath("minecraft", "block/water_flow"); }
+            @Override public ResourceLocation getOverlayTexture() { return ResourceLocation.fromNamespaceAndPath("minecraft", "block/water_overlay"); }
             @Override public int getTintColor() { return de.artemis.floraexpansion.common.registry.ModFluids.SALT_WATER_COLOR; }
             @Override public ResourceLocation getRenderOverlayTexture(@NotNull net.minecraft.client.Minecraft minecraft) {
-                return ResourceLocation.withDefaultNamespace("textures/misc/underwater.png");
+                return ResourceLocation.fromNamespaceAndPath("minecraft", "textures/misc/underwater.png");
             }
             @NotNull @Override public org.joml.Vector3f modifyFogColor(@NotNull net.minecraft.client.Camera camera, float partialTick,
                     @NotNull net.minecraft.client.multiplayer.ClientLevel level, int renderDistance, float darkenWorldAmount, @NotNull org.joml.Vector3f color) {

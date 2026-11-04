@@ -1,14 +1,19 @@
 {
   "required": true,
   "minVersion": "0.8",
+  "refmap": "main.refmap.json",
   "package": "de.artemis.floraexpansion.mixin",
-  "compatibilityLevel": "JAVA_21",
-  "client": ["SpriteSourcesAccessor"],
+  "compatibilityLevel": "JAVA_17",
+  "client": [
+    "SpriteSourcesAccessor"
+  ],
   "mixins": [
     "OverworldBiomeParametersMixin",
     "SaltSpikeCauldronMixin",
     "BrineCauldronMixin",
-    "SaltDepositFallingMixin"
+    "SaltDepositFallingMixin",
+    "ChickenFoodMixin",
+    "ParrotFoodMixin"
   ],
   "injectors": {
     "defaultRequire": 1

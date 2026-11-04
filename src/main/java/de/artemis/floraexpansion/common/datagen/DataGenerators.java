@@ -1,6 +1,6 @@
 package de.artemis.floraexpansion.common.datagen;
 
-import net.minecraft.core.HolderLookup;
+
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.loot.LootTableProvider;
@@ -15,12 +15,12 @@ public class DataGenerators {
 
     @SubscribeEvent
     public static void gatherData(GatherDataEvent event) { addProviders(event.getGenerator(), event.getLookupProvider(), event.getExistingFileHelper()); }
-    private static void addProviders(DataGenerator generator, CompletableFuture<HolderLookup.Provider> lookupProvider, net.minecraftforge.common.data.ExistingFileHelper existingFiles) {
+    private static void addProviders(DataGenerator generator, CompletableFuture<net.minecraft.core.HolderLookup.Provider> lookupProvider, net.minecraftforge.common.data.ExistingFileHelper existingFiles) {
         PackOutput output = generator.getPackOutput();
  var datapack = new ModDatapackProvider(output, lookupProvider);
  generator.addProvider(true, datapack);
- lookupProvider = datapack.getFullRegistries();
- generator.addProvider(true, new LootTableProvider(output, java.util.Set.of(), java.util.List.of(new LootTableProvider.SubProviderEntry(ModBlockLootTableProvider::new, LootContextParamSets.BLOCK)), lookupProvider));
+ lookupProvider = datapack.getRegistryProvider();
+ generator.addProvider(true, new LootTableProvider(output, java.util.Set.of(), java.util.List.of(new LootTableProvider.SubProviderEntry(ModBlockLootTableProvider::new, LootContextParamSets.BLOCK))));
  generator.addProvider(true, new ModRecipeProvider(output, lookupProvider));
  generator.addProvider(true, new net.minecraft.data.advancements.AdvancementProvider(output, lookupProvider, java.util.List.of(ModAdvancementProvider.tree())));
 

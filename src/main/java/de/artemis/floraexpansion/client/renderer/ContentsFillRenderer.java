@@ -83,16 +83,16 @@ final class ContentsFillRenderer {
         var info = net.minecraft.client.renderer.FaceInfo.fromFacing(direction);
         for (int i = 0; i < 4; i++) {
             var corner = info.getVertexInfo(i);
-            out.addVertex(pose,
+            out.vertex(pose.pose(),
                             coordinate(corner.xFace, x0,y0,z0,x1,y1,z1),
                             coordinate(corner.yFace, x0,y0,z0,x1,y1,z1),
                             coordinate(corner.zFace, x0,y0,z0,x1,y1,z1))
-                    .setColor(color).setUv(0.5F,0.5F).setOverlay(OverlayTexture.NO_OVERLAY).setLight(light)
-                    .setNormal(pose,direction.getStepX(),direction.getStepY(),direction.getStepZ());
+                    .color(color).uv(0.5F,0.5F).overlayCoords(OverlayTexture.NO_OVERLAY).uv2(light)
+                    .normal(pose.normal(),direction.getStepX(),direction.getStepY(),direction.getStepZ()).endVertex();
         }
     }    private static void vertex(PoseStack.Pose pose, VertexConsumer out, float x, float y, float z, int color, int light) {
-        out.addVertex(pose, x, y, z).setColor(color).setUv(0.5F, 0.5F)
-                .setOverlay(OverlayTexture.NO_OVERLAY).setLight(light).setNormal(pose, 0, 1, 0);
+        out.vertex(pose.pose(), x, y, z).color(color).uv(0.5F, 0.5F)
+                .overlayCoords(OverlayTexture.NO_OVERLAY).uv2(light).normal(pose.normal(), 0, 1, 0).endVertex();
     }
     static float coordinate(int face, float x0,float y0,float z0,float x1,float y1,float z1) {
         return switch (net.minecraft.core.Direction.from3DDataValue(face)) {

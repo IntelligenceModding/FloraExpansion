@@ -1,0 +1,11 @@
+{
+  "type": "floraexpansion:grinding",
+  "ingredient": {
+    "item": "floraexpansion:cherry_pit"
+  },
+  "result": {
+    "count": 2,
+    "item": "minecraft:brown_dye"
+  },
+  "turns": 4
+}

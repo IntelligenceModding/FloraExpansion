@@ -1,0 +1,36 @@
+{
+  "parent": "floraexpansion:nature/glasswort",
+  "criteria": {
+    "salted_glasswort": {
+      "conditions": {
+        "item": {
+          "items": [
+            "floraexpansion:salted_glasswort"
+          ]
+        }
+      },
+      "trigger": "minecraft:consume_item"
+    }
+  },
+  "display": {
+    "announce_to_chat": true,
+    "description": {
+      "translate": "advancements.floraexpansion.salted_glasswort.description"
+    },
+    "frame": "task",
+    "hidden": false,
+    "icon": {
+      "item": "floraexpansion:salted_glasswort"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancements.floraexpansion.salted_glasswort.title"
+    }
+  },
+  "requirements": [
+    [
+      "salted_glasswort"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

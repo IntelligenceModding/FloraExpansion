@@ -1,6 +1,6 @@
 package de.artemis.floraexpansion.common.worldgen.treedecorator;
 
-import com.mojang.serialization.MapCodec;
+
 import de.artemis.floraexpansion.common.registry.ModBlocks;
 import de.artemis.floraexpansion.common.registry.ModTreeDecorators;
 import net.minecraft.world.level.block.Blocks;
@@ -9,11 +9,11 @@ import org.jetbrains.annotations.NotNull;
 
 public class AppleLeavesDecorator extends FruitLeavesDecorator {
     public static final AppleLeavesDecorator INSTANCE = new AppleLeavesDecorator();
-    public static final MapCodec<AppleLeavesDecorator> CODEC = com.mojang.serialization.codecs.RecordCodecBuilder.<AppleLeavesDecorator>mapCodec(instance -> instance.group(
+    public static final com.mojang.serialization.Codec<AppleLeavesDecorator> CODEC = com.mojang.serialization.codecs.RecordCodecBuilder.<AppleLeavesDecorator>mapCodec(instance -> instance.group(
             com.mojang.serialization.Codec.intRange(1, 256).optionalFieldOf("replacement_divisor", 10).forGetter(AppleLeavesDecorator::replacementDivisor),
             com.mojang.serialization.Codec.intRange(0, Integer.MAX_VALUE).optionalFieldOf("max_replacements", 8).forGetter(AppleLeavesDecorator::maxReplacements),
             com.mojang.serialization.Codec.BOOL.optionalFieldOf("exposed_only", true).forGetter(AppleLeavesDecorator::exposedOnly)
-    ).apply(instance, AppleLeavesDecorator::new));
+    ).apply(instance, AppleLeavesDecorator::new)).codec();
 
     private AppleLeavesDecorator() {
         this(10, 8);

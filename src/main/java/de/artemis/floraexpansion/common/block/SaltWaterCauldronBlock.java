@@ -11,12 +11,12 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Fluid;
 
 public class SaltWaterCauldronBlock extends LayeredCauldronBlock {
-    public SaltWaterCauldronBlock(Properties properties) { super(Biome.Precipitation.NONE, SaltWaterInteractions.CAULDRON, properties); }
+    public SaltWaterCauldronBlock(Properties properties) { super(properties, precipitation -> false, SaltWaterInteractions.CAULDRON); }
     @Override public void handlePrecipitation(@NotNull BlockState state, @NotNull Level level, @NotNull BlockPos pos, @NotNull Biome.Precipitation precipitation) {}
-    @Override protected boolean canReceiveStalactiteDrip(@NotNull Fluid fluid) {
+    @Override public boolean canReceiveStalactiteDrip(@NotNull Fluid fluid) {
         return fluid == de.artemis.floraexpansion.common.registry.ModFluids.SALT_WATER.get();
     }
-    @Override protected void receiveStalactiteDrip(@NotNull BlockState state, @NotNull Level level, @NotNull BlockPos pos, @NotNull Fluid fluid) {
+    @Override public void receiveStalactiteDrip(@NotNull BlockState state, @NotNull Level level, @NotNull BlockPos pos, @NotNull Fluid fluid) {
         if (!isFull(state) && canReceiveStalactiteDrip(fluid)) de.artemis.floraexpansion.common.registry.ModFluids.handleCauldronDrip(fluid, level, pos);
     }
 }

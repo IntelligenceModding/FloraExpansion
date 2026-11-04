@@ -7,7 +7,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-/** 1.21.1 predates the falling-block callback used to merge salt layers. */
+/** 1.20.1 predates the falling-block callback used to merge salt layers. */
 @Mixin(FallingBlockEntity.class)
 abstract class SaltDepositFallingMixin {
     @Inject(method = "tick", at = @At("HEAD"), cancellable = true)

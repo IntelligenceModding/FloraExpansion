@@ -3,16 +3,16 @@ package de.artemis.floraexpansion.common.event;
 import org.jetbrains.annotations.NotNull;
 
 import com.google.gson.*;
-import com.mojang.serialization.JsonOps;
+
 import de.artemis.floraexpansion.FloraExpansion;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.resources.RegistryOps;
+
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.server.packs.resources.ResourceManagerReloadListener;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.npc.VillagerTrades;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.trading.ItemCost;
+
 import net.minecraft.world.item.trading.MerchantOffer;
 import net.minecraft.util.RandomSource;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -28,13 +28,13 @@ public final class LegacyTradeResources {
     }
 
     public record Trade(ResourceLocation id, JsonObject definition) implements VillagerTrades.ItemListing {
-        @Override public MerchantOffer getOffer(Entity trader, @NotNull RandomSource random) {
-            var ops = RegistryOps.create(JsonOps.INSTANCE, trader.registryAccess());
-            var cost = ItemCost.CODEC.parse(ops, definition.get("wants")).getOrThrow();
-            var result = ItemStack.CODEC.parse(ops, definition.get("gives")).getOrThrow();
+        @Override public MerchantOffer getOffer(@NotNull Entity trader, @NotNull RandomSource random) {
+            var cost = parseStack(definition.getAsJsonObject("wants"));
+            var result = parseStack(definition.getAsJsonObject("gives"));
             return new MerchantOffer(cost, result, number(definition, "max_uses", 12).intValue(), number(definition, "xp", 1).intValue(), number(definition, "reputation_discount", .05F).floatValue());
         }
     }
+    private static ItemStack parseStack(JsonObject json){return new ItemStack(net.minecraft.core.registries.BuiltInRegistries.ITEM.get(ResourceLocation.parse(json.get("id").getAsString())),json.has("count")?json.get("count").getAsInt():1);}
     private static Number number(JsonObject json, String key, Number fallback) { return json.has(key) ? json.get(key).getAsNumber() : fallback; }
     private static VillagerTrades.ItemListing[] withoutOwn(VillagerTrades.ItemListing[] listings) {
         return Arrays.stream(listings).filter(entry -> !(entry instanceof Trade)).toArray(VillagerTrades.ItemListing[]::new);
@@ -56,21 +56,21 @@ public final class LegacyTradeResources {
             if (additions.isEmpty()) continue;
             String pool = file.getPath().substring("tags/villager_trade/".length(), file.getPath().length()-5);
             if (pool.startsWith("wandering_trader/")) {
-                // 1.21.1 has common and rare pools; fold the later uncommon pool into common.
+                // 1.20.1 has common and rare pools; fold the later uncommon pool into common.
                 int index = pool.endsWith("/rare") ? 2 : 1;
                 var entries = new ArrayList<VillagerTrades.ItemListing>(Arrays.asList(VillagerTrades.WANDERING_TRADER_TRADES.get(index)));
                 entries.addAll(additions);
                 VillagerTrades.WANDERING_TRADER_TRADES.put(index, entries.toArray(VillagerTrades.ItemListing[]::new));
             } else {
                 var parts = pool.split("/level_"); if (parts.length != 2) continue;
-                var profession = net.minecraft.core.registries.BuiltInRegistries.VILLAGER_PROFESSION.get(ResourceLocation.withDefaultNamespace(parts[0]));
+                var profession = net.minecraft.core.registries.BuiltInRegistries.VILLAGER_PROFESSION.get(ResourceLocation.fromNamespaceAndPath("minecraft", parts[0]));
                 var levels = VillagerTrades.TRADES.get(profession); if (levels == null) throw new IllegalStateException("Unknown trade profession " + pool);
                 int level = Integer.parseInt(parts[1]);
                 var entries = new ArrayList<VillagerTrades.ItemListing>(Arrays.asList(levels.getOrDefault(level, new VillagerTrades.ItemListing[0]))); entries.addAll(additions);
                 levels.put(level, entries.toArray(VillagerTrades.ItemListing[]::new));
             }
         }
-        FloraExpansion.LOGGER.info("Loaded {} Flora Expansion trade definitions for 1.21.1", trades.size());
+        FloraExpansion.LOGGER.info("Loaded {} Flora Expansion trade definitions for 1.20.1", trades.size());
     }
     private static Set<ResourceLocation> readPool(ResourceManager resources, ResourceLocation file, Set<ResourceLocation> visiting) {
         if (!visiting.add(file)) throw new IllegalStateException("Cyclic trade pool tag: " + file);

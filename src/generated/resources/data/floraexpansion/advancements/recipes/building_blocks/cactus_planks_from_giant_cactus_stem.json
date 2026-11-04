@@ -1,0 +1,35 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_giant_cactus_stem": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "floraexpansion:giant_cactus_stem"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "floraexpansion:cactus_planks_from_giant_cactus_stem"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_giant_cactus_stem",
+      "has_the_recipe"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "floraexpansion:cactus_planks_from_giant_cactus_stem"
+    ]
+  },
+  "sends_telemetry_event": false
+}

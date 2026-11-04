@@ -1,0 +1,11 @@
+{
+  "type": "floraexpansion:grinding",
+  "ingredient": {
+    "item": "floraexpansion:salt_spike"
+  },
+  "result": {
+    "count": 1,
+    "item": "floraexpansion:raw_salt"
+  },
+  "turns": 4
+}

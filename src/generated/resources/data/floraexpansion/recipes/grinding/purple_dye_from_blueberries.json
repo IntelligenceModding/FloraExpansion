@@ -1,0 +1,11 @@
+{
+  "type": "floraexpansion:grinding",
+  "ingredient": {
+    "item": "floraexpansion:blueberries"
+  },
+  "result": {
+    "count": 2,
+    "item": "minecraft:purple_dye"
+  },
+  "turns": 4
+}

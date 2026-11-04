@@ -3,7 +3,7 @@ package de.artemis.floraexpansion.common.registry;
 import de.artemis.floraexpansion.FloraExpansion;
 import net.minecraft.core.particles.ParticleType;
 import net.minecraft.core.particles.SimpleParticleType;
-import net.minecraft.core.registries.BuiltInRegistries;
+
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 

@@ -53,7 +53,7 @@ public class PebblesProjectile extends ResourceProjectile {
         super.addAdditionalSaveData(output); output.putInt("PebbleSkips", skips);
     }
     @Override public void readAdditionalSaveData(@NotNull net.minecraft.nbt.CompoundTag input) {
-        super.readAdditionalSaveData(input); skips = Math.clamp(input.getInt("PebbleSkips"), 0, 200);
+        super.readAdditionalSaveData(input); skips = net.minecraft.util.Mth.clamp(input.getInt("PebbleSkips"), 0, 200);
     }
 
     public PebblesProjectile(EntityType<? extends ThrowableItemProjectile> entityType, Level level) {
@@ -97,7 +97,7 @@ public class PebblesProjectile extends ResourceProjectile {
         if (resolved || level().isClientSide) return;
         resolved = true;
         level().broadcastEntityEvent(this, (byte)3);
-        if (!(getOwner() instanceof net.minecraft.world.entity.player.Player player && player.hasInfiniteMaterials()))
+        if (!(getOwner() instanceof net.minecraft.world.entity.player.Player player && player.getAbilities().instabuild))
             spawnDrop(getItem().copyWithCount(1), getX(), getY(), getZ(), .1, .1);
         discard();
     }

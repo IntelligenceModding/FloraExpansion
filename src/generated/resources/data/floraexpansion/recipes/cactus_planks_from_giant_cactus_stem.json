@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "building",
+  "ingredients": [
+    {
+      "item": "floraexpansion:giant_cactus_stem"
+    },
+    {
+      "item": "floraexpansion:giant_cactus_stem"
+    },
+    {
+      "item": "floraexpansion:giant_cactus_stem"
+    },
+    {
+      "item": "floraexpansion:giant_cactus_stem"
+    }
+  ],
+  "result": {
+    "count": 4,
+    "item": "floraexpansion:cactus_planks"
+  }
+}

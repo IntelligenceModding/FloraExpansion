@@ -20,29 +20,35 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
 public class HandMillBlock extends BaseEntityBlock {
- @NotNull @Override public com.mojang.serialization.MapCodec<HandMillBlock> codec() { return simpleCodec(HandMillBlock::new); }
+    @NotNull @Override public net.minecraft.world.InteractionResult use(@NotNull net.minecraft.world.level.block.state.BlockState state, @NotNull net.minecraft.world.level.Level level, @NotNull net.minecraft.core.BlockPos pos, @NotNull net.minecraft.world.entity.player.Player player, @NotNull net.minecraft.world.InteractionHand hand, @NotNull net.minecraft.world.phys.BlockHitResult hit) {
+        var result = useWithItem(player.getItemInHand(hand), state, level, pos, player, hand, hit);
+        if (result != net.minecraft.world.InteractionResult.PASS) return result;
+        return useWithoutItem(state, level, pos, player, hit);
+    }
+
+
     public HandMillBlock(Properties properties) { super(properties); }
 
     @Override
-    @NotNull protected VoxelShape getShape(@NotNull BlockState state, BlockGetter level, BlockPos pos, @NotNull CollisionContext context) {
+    @NotNull public VoxelShape getShape(@NotNull BlockState state, BlockGetter level, BlockPos pos, @NotNull CollisionContext context) {
         return level.getBlockEntity(pos.above()) instanceof HandCrankBlockEntity crank && crank.isOnMill()
                 ? crank.getMillShape() : HandMillShapes.restingMill();
     }
 
     @Override
-    protected boolean propagatesSkylightDown(@NotNull BlockState state, @NotNull BlockGetter level, @NotNull BlockPos pos) { return true; }
+    public boolean propagatesSkylightDown(@NotNull BlockState state, @NotNull BlockGetter level, @NotNull BlockPos pos) { return true; }
 
     @Override
-    protected int getLightBlock(@NotNull BlockState state, @NotNull BlockGetter level, @NotNull BlockPos pos) { return 0; }
+    public int getLightBlock(@NotNull BlockState state, @NotNull BlockGetter level, @NotNull BlockPos pos) { return 0; }
 
     @Override
     public BlockEntity newBlockEntity(@NotNull BlockPos pos, @NotNull BlockState state) { return new HandMillBlockEntity(pos, state); }
 
     @Override
-    @NotNull protected RenderShape getRenderShape(@NotNull BlockState state) { return RenderShape.MODEL; }
+    @NotNull public RenderShape getRenderShape(@NotNull BlockState state) { return RenderShape.MODEL; }
 
     @Override
-    protected void onRemove(BlockState state, @NotNull Level level, @NotNull BlockPos pos, BlockState replacement, boolean movedByPiston) {
+    public void onRemove(BlockState state, @NotNull Level level, @NotNull BlockPos pos, BlockState replacement, boolean movedByPiston) {
         if (!state.is(replacement.getBlock())) {
             if (level.getBlockEntity(pos) instanceof HandMillBlockEntity mill) {
                 net.minecraft.world.Containers.dropContents(level, pos, mill);
@@ -52,15 +58,13 @@ public class HandMillBlock extends BaseEntityBlock {
         }
     }
 
-    @Override
-    @NotNull protected net.minecraft.world.ItemInteractionResult useItemOn(ItemStack stack, @NotNull BlockState state, @NotNull Level level, @NotNull BlockPos pos,
+    @NotNull public net.minecraft.world.InteractionResult useWithItem(ItemStack stack, @NotNull BlockState state, @NotNull Level level, @NotNull BlockPos pos,
                                           @NotNull Player player, @NotNull InteractionHand hand, @NotNull BlockHitResult hit) {
-        if (stack.is(de.artemis.floraexpansion.common.registry.ModBlocks.HAND_CRANK.get().asItem())) return net.minecraft.world.ItemInteractionResult.SKIP_DEFAULT_BLOCK_INTERACTION;
-        return net.minecraft.world.ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
+        if (stack.is(de.artemis.floraexpansion.common.registry.ModBlocks.HAND_CRANK.get().asItem())) return net.minecraft.world.InteractionResult.PASS;
+        return net.minecraft.world.InteractionResult.PASS;
     }
 
-    @Override
-    @NotNull protected InteractionResult useWithoutItem(@NotNull BlockState state, Level level, @NotNull BlockPos pos, @NotNull Player player, @NotNull BlockHitResult hit) {
+    @NotNull public InteractionResult useWithoutItem(@NotNull BlockState state, Level level, @NotNull BlockPos pos, @NotNull Player player, @NotNull BlockHitResult hit) {
         if (level.isClientSide) return InteractionResult.SUCCESS;
         if (level.getBlockEntity(pos) instanceof HandMillBlockEntity mill) player.openMenu(mill);
         return InteractionResult.CONSUME;

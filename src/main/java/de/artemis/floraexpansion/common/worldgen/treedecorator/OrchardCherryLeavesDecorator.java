@@ -1,6 +1,6 @@
 package de.artemis.floraexpansion.common.worldgen.treedecorator;
 
-import com.mojang.serialization.MapCodec;
+
 import de.artemis.floraexpansion.common.registry.ModBlocks;
 import de.artemis.floraexpansion.common.registry.ModTreeDecorators;
 import net.minecraft.world.level.block.Blocks;
@@ -9,11 +9,11 @@ import org.jetbrains.annotations.NotNull;
 
 public class OrchardCherryLeavesDecorator extends FruitLeavesDecorator {
     public static final OrchardCherryLeavesDecorator INSTANCE = new OrchardCherryLeavesDecorator();
-    public static final MapCodec<OrchardCherryLeavesDecorator> CODEC = com.mojang.serialization.codecs.RecordCodecBuilder.<OrchardCherryLeavesDecorator>mapCodec(instance -> instance.group(
+    public static final com.mojang.serialization.Codec<OrchardCherryLeavesDecorator> CODEC = com.mojang.serialization.codecs.RecordCodecBuilder.<OrchardCherryLeavesDecorator>mapCodec(instance -> instance.group(
             com.mojang.serialization.Codec.intRange(1, 256).optionalFieldOf("replacement_divisor", 2).forGetter(OrchardCherryLeavesDecorator::replacementDivisor),
             com.mojang.serialization.Codec.intRange(0, Integer.MAX_VALUE).optionalFieldOf("max_replacements", 30).forGetter(OrchardCherryLeavesDecorator::maxReplacements),
             com.mojang.serialization.Codec.BOOL.optionalFieldOf("exposed_only", true).forGetter(OrchardCherryLeavesDecorator::exposedOnly)
-    ).apply(instance, OrchardCherryLeavesDecorator::new));
+    ).apply(instance, OrchardCherryLeavesDecorator::new)).codec();
 
     private OrchardCherryLeavesDecorator() {
         this(2, 30);

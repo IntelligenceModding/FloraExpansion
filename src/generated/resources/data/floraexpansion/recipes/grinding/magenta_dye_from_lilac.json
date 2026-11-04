@@ -1,0 +1,11 @@
+{
+  "type": "floraexpansion:grinding",
+  "ingredient": {
+    "item": "minecraft:lilac"
+  },
+  "result": {
+    "count": 4,
+    "item": "minecraft:magenta_dye"
+  },
+  "turns": 4
+}

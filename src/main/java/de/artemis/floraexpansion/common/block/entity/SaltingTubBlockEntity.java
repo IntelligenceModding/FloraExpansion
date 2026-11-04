@@ -10,7 +10,7 @@ import de.artemis.floraexpansion.common.registry.ModRecipes;
 import de.artemis.floraexpansion.common.recipe.SaltingRecipe;
 import de.artemis.floraexpansion.common.recipe.SaltingRecipeInput;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.HolderLookup;
+
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.world.item.ItemStack;
@@ -35,7 +35,7 @@ public class SaltingTubBlockEntity extends BlockEntity implements net.minecraft.
     public boolean isSalted() { return salted; }
     public boolean isReady() { return ready; }
     public int remainingTicks() { return remainingTicks; }
-    public ItemStack displayFood() { return salted ? result.copy() : food.isEmpty() ? ItemStack.EMPTY : food.getLast().copy(); }
+    public ItemStack displayFood() { return salted ? result.copy() : food.isEmpty() ? ItemStack.EMPTY : food.get(food.size() - 1).copy(); }
 
     public boolean addFood(ItemStack stack) {
         if (!canAddFood(stack)) return false;
@@ -50,7 +50,7 @@ public class SaltingTubBlockEntity extends BlockEntity implements net.minecraft.
         var candidate = new ArrayList<>(food);
         candidate.add(stack.copyWithCount(1));
         return server.getRecipeManager().getAllRecipesFor(ModRecipes.SALTING.get()).stream()
-                .anyMatch(holder -> holder.value().acceptsFood(candidate));
+                .anyMatch(holder -> holder.acceptsFood(candidate));
     }
 
     @Override public int getContainerSize() { return 3; }
@@ -105,11 +105,11 @@ public class SaltingTubBlockEntity extends BlockEntity implements net.minecraft.
         var recipe = server.getRecipeManager().getRecipeFor(ModRecipes.SALTING.get(), input, server);
         if (recipe.isEmpty()) return false;
         // Save the assembled stack so recipe reloads cannot change a finished batch.
-        var assembled = recipe.get().value().assemble(input, level.registryAccess());
+        var assembled = recipe.get().assemble(input, level.registryAccess());
         if (assembled.isEmpty() || assembled.getCount() > assembled.getMaxStackSize()) return false;
         result = assembled;
         coveringSalt = salt.copyWithCount(1);
-        remainingTicks = recipe.get().value().processingTime();
+        remainingTicks = recipe.get().processingTime();
         ready = false;
         salted = true;
         sync();
@@ -145,7 +145,7 @@ public class SaltingTubBlockEntity extends BlockEntity implements net.minecraft.
             ready = false;
             coveringSalt = ItemStack.EMPTY;
             remainingTicks = 0;
-        } else result.add(food.removeLast());
+        } else result.add(food.remove(food.size() - 1));
         sync();
         return result;
     }
@@ -209,33 +209,33 @@ public class SaltingTubBlockEntity extends BlockEntity implements net.minecraft.
         level.updateNeighbourForOutputSignal(worldPosition, newState.getBlock());
     }
 
-    @Override protected void saveAdditional(@NotNull net.minecraft.nbt.CompoundTag output, @NotNull net.minecraft.core.HolderLookup.Provider registries) {
-        super.saveAdditional(output, registries);
-        net.minecraft.world.ContainerHelper.saveAllItems(output, supplies, registries);
-        de.artemis.floraexpansion.common.util.SavedComponents.store(output, "food", ItemStack.CODEC.listOf(), food, registries);
+    @Override public void saveAdditional(@NotNull net.minecraft.nbt.CompoundTag output) {
+        super.saveAdditional(output);
+        net.minecraft.world.ContainerHelper.saveAllItems(output, supplies);
+        de.artemis.floraexpansion.common.util.SavedComponents.store(output, "food", ItemStack.CODEC.listOf(), food);
         output.putBoolean("salted", salted);
-        de.artemis.floraexpansion.common.util.SavedComponents.store(output, "result", ItemStack.OPTIONAL_CODEC, result, registries);
-        de.artemis.floraexpansion.common.util.SavedComponents.store(output, "covering_salt", ItemStack.OPTIONAL_CODEC, coveringSalt, registries);
+        de.artemis.floraexpansion.common.util.SavedComponents.store(output, "result", de.artemis.floraexpansion.common.util.SavedComponents.STACK_CODEC, result);
+        de.artemis.floraexpansion.common.util.SavedComponents.store(output, "covering_salt", de.artemis.floraexpansion.common.util.SavedComponents.STACK_CODEC, coveringSalt);
         output.putInt("remaining_ticks", remainingTicks);
         output.putBoolean("ready", ready);
     }
-    @Override protected void loadAdditional(@NotNull net.minecraft.nbt.CompoundTag input, @NotNull net.minecraft.core.HolderLookup.Provider registries) {
-        super.loadAdditional(input, registries);
+    @Override public void load(@NotNull net.minecraft.nbt.CompoundTag input) {
+        super.load(input);
         supplies = net.minecraft.core.NonNullList.withSize(2, ItemStack.EMPTY);
-        net.minecraft.world.ContainerHelper.loadAllItems(input, supplies, registries);
+        net.minecraft.world.ContainerHelper.loadAllItems(input, supplies);
         food.clear();
-        de.artemis.floraexpansion.common.util.SavedComponents.read(input, "food", ItemStack.CODEC.listOf(), registries).orElse(List.of()).stream()
+        de.artemis.floraexpansion.common.util.SavedComponents.read(input, "food", ItemStack.CODEC.listOf()).orElse(List.of()).stream()
                 .filter(stack -> !stack.isEmpty()).limit(CAPACITY).map(stack -> stack.copyWithCount(1)).forEach(food::add);
         salted = input.getBoolean("salted") && !food.isEmpty();
-        var savedResult = de.artemis.floraexpansion.common.util.SavedComponents.read(input, "result", ItemStack.OPTIONAL_CODEC, registries);
+        var savedResult = de.artemis.floraexpansion.common.util.SavedComponents.read(input, "result", de.artemis.floraexpansion.common.util.SavedComponents.STACK_CODEC);
         result = savedResult.orElse(ItemStack.EMPTY);
         // Older tubs saved the converted servings in the food layers themselves.
-        if (salted && savedResult.isEmpty()) result = food.getFirst().copyWithCount(food.size());
+        if (salted && savedResult.isEmpty()) result = food.get(0).copyWithCount(food.size());
         if (!salted) result = ItemStack.EMPTY;
-        remainingTicks = salted ? Math.clamp(input.getInt("remaining_ticks"), 0, 72000) : 0;
+        remainingTicks = salted ? net.minecraft.util.Mth.clamp(input.getInt("remaining_ticks"), 0, 72000) : 0;
         ready = salted && remainingTicks == 0;
-        coveringSalt = salted ? de.artemis.floraexpansion.common.util.SavedComponents.read(input, "covering_salt", ItemStack.OPTIONAL_CODEC, registries).orElse(ItemStack.EMPTY) : ItemStack.EMPTY;
+        coveringSalt = salted ? de.artemis.floraexpansion.common.util.SavedComponents.read(input, "covering_salt", de.artemis.floraexpansion.common.util.SavedComponents.STACK_CODEC).orElse(ItemStack.EMPTY) : ItemStack.EMPTY;
     }
-    @NotNull @Override public CompoundTag getUpdateTag(@NotNull HolderLookup.Provider registries) { return saveWithoutMetadata(registries); }
+    @NotNull @Override public CompoundTag getUpdateTag() { return saveWithoutMetadata(); }
     @Override public ClientboundBlockEntityDataPacket getUpdatePacket() { return ClientboundBlockEntityDataPacket.create(this); }
 }

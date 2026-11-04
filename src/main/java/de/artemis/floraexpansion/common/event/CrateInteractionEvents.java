@@ -12,7 +12,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.event.TickEvent.ClientTickEvent;
-import net.minecraftforge.network.PacketDistributor;
+
 import de.artemis.floraexpansion.common.config.ServerConfig;
 import de.artemis.floraexpansion.common.config.ClientConfig;
 
@@ -48,6 +48,6 @@ public final class CrateInteractionEvents {
         }
 
         wasAttackDown = attackDown;
-        de.artemis.floraexpansion.common.network.ModPayloads.CHANNEL.send(new CrateExtractPayload(pos.immutable(), minecraft.player.isShiftKeyDown()), PacketDistributor.SERVER.noArg());
+        de.artemis.floraexpansion.common.network.ModPayloads.CHANNEL.sendToServer(new CrateExtractPayload(pos.immutable(), minecraft.player.isShiftKeyDown()));
     }
 }

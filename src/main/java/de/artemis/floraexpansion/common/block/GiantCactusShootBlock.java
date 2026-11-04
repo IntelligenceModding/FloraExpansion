@@ -29,7 +29,7 @@ import de.artemis.floraexpansion.common.util.PlantGrowth;
 import de.artemis.floraexpansion.common.registry.ModTags;
 
 public class GiantCactusShootBlock extends BushBlock implements BonemealableBlock {
-    @NotNull @Override protected com.mojang.serialization.MapCodec<GiantCactusShootBlock> codec() { return simpleCodec(GiantCactusShootBlock::new); }
+
 
     public static final int VARIANT_COUNT = 3;
     public static final IntegerProperty VARIANT = IntegerProperty.create("variant", 0, VARIANT_COUNT - 1);
@@ -43,7 +43,7 @@ public class GiantCactusShootBlock extends BushBlock implements BonemealableBloc
 
 
     @Override
-    protected boolean mayPlaceOn(@NotNull BlockState state, @NotNull BlockGetter level, @NotNull BlockPos pos) {
+    public boolean mayPlaceOn(@NotNull BlockState state, @NotNull BlockGetter level, @NotNull BlockPos pos) {
         return state.is(ModTags.Blocks.GIANT_CACTUS_GROWTH_SOILS)
                 || state.getBlock() instanceof CactusBlock
                 || state.getBlock() instanceof FarmBlock
@@ -52,7 +52,7 @@ public class GiantCactusShootBlock extends BushBlock implements BonemealableBloc
     }
 
     @Override
-    protected boolean canSurvive(@NotNull BlockState state, @NotNull LevelReader level, @NotNull BlockPos pos) {
+    public boolean canSurvive(@NotNull BlockState state, @NotNull LevelReader level, @NotNull BlockPos pos) {
         return mayPlaceOn(level.getBlockState(pos.below()), level, pos.below());
     }
 
@@ -62,17 +62,17 @@ public class GiantCactusShootBlock extends BushBlock implements BonemealableBloc
     }
 
     @Override
-    protected @NotNull VoxelShape getShape(@NotNull BlockState state, @NotNull BlockGetter level, @NotNull BlockPos pos, @NotNull CollisionContext context) {
+    public @NotNull VoxelShape getShape(@NotNull BlockState state, @NotNull BlockGetter level, @NotNull BlockPos pos, @NotNull CollisionContext context) {
         return SHAPE;
     }
 
     @Override
-    protected @NotNull VoxelShape getCollisionShape(@NotNull BlockState state, @NotNull BlockGetter level, @NotNull BlockPos pos, @NotNull CollisionContext context) {
+    public @NotNull VoxelShape getCollisionShape(@NotNull BlockState state, @NotNull BlockGetter level, @NotNull BlockPos pos, @NotNull CollisionContext context) {
         return Shapes.empty();
     }
 
     @Override
-    public boolean isValidBonemealTarget(@NotNull LevelReader level, @NotNull BlockPos pos, @NotNull BlockState state) {
+    public boolean isValidBonemealTarget(@NotNull LevelReader level, @NotNull BlockPos pos, @NotNull BlockState state, boolean isClientSide) {
         return true;
     }
 
@@ -114,12 +114,12 @@ public class GiantCactusShootBlock extends BushBlock implements BonemealableBloc
     }
 
     @Override
-    protected boolean isRandomlyTicking(@NotNull BlockState state) {
+    public boolean isRandomlyTicking(@NotNull BlockState state) {
         return true;
     }
 
     @Override
-    protected void randomTick(@NotNull BlockState state, @NotNull ServerLevel level, @NotNull BlockPos pos, @NotNull RandomSource random) {
+    public void randomTick(@NotNull BlockState state, @NotNull ServerLevel level, @NotNull BlockPos pos, @NotNull RandomSource random) {
         BlockState below = level.getBlockState(pos.below());
 
         if (!isValidGiantCactusGrowthGround(below)) {
@@ -152,7 +152,7 @@ public class GiantCactusShootBlock extends BushBlock implements BonemealableBloc
     }
 
     @Override
-    protected void createBlockStateDefinition(StateDefinition.Builder<Block, @NotNull BlockState> builder) {
+    public void createBlockStateDefinition(StateDefinition.Builder<Block, @NotNull BlockState> builder) {
         builder.add(VARIANT);
     }
 }

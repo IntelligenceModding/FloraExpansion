@@ -1,0 +1,11 @@
+{
+  "type": "floraexpansion:grinding",
+  "ingredient": {
+    "item": "minecraft:cornflower"
+  },
+  "result": {
+    "count": 2,
+    "item": "minecraft:blue_dye"
+  },
+  "turns": 4
+}

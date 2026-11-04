@@ -4,7 +4,7 @@ import de.artemis.floraexpansion.FloraExpansion;
 import de.artemis.floraexpansion.common.block.NeedleLitterBlock;
 import net.minecraft.core.Direction;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.data.worldgen.BootstrapContext;
+import net.minecraft.data.worldgen.BootstapContext;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.random.SimpleWeightedRandomList;
@@ -33,7 +33,7 @@ public class ModConfiguredFeatures {
     public static final ResourceKey<ConfiguredFeature<?, ?>> SMALL_CACTUS_KEY = registerKey("small_cactus");
     public static final ResourceKey<ConfiguredFeature<?, ?>> PRICKLY_PEAR_CACTUS_KEY = registerKey("prickly_pear_cactus");
 
-    public static void bootstrap(BootstrapContext<ConfiguredFeature<?, ?>> context) {
+    public static void bootstrap(BootstapContext<ConfiguredFeature<?, ?>> context) {
         register(context, BRINE_SPRING_KEY, ModFeatures.BRINE_SPRING_FEATURE.get());
         register(context, ROOTED_BRINE_SPRING_KEY, Feature.ROOT_SYSTEM, new RootSystemConfiguration(
                 net.minecraft.data.worldgen.placement.PlacementUtils.inlinePlaced(context.lookup(Registries.CONFIGURED_FEATURE).getOrThrow(BRINE_SPRING_KEY)),
@@ -96,14 +96,14 @@ public class ModConfiguredFeatures {
     }
 
     private static void register(
-            BootstrapContext<ConfiguredFeature<?, ?>> context,
+            BootstapContext<ConfiguredFeature<?, ?>> context,
             ResourceKey<ConfiguredFeature<?, ?>> key,
             Feature<NoneFeatureConfiguration> feature
     ) {
         context.register(key, new ConfiguredFeature<>(feature, NoneFeatureConfiguration.INSTANCE));
     }
 
-    private static <C extends FeatureConfiguration> void register(BootstrapContext<ConfiguredFeature<?, ?>> context,
+    private static <C extends FeatureConfiguration> void register(BootstapContext<ConfiguredFeature<?, ?>> context,
             ResourceKey<ConfiguredFeature<?, ?>> key, Feature<C> feature, C config) {
         context.register(key, new ConfiguredFeature<>(feature, config));
     }

@@ -3,7 +3,7 @@ package de.artemis.floraexpansion.common.registry;
 import de.artemis.floraexpansion.FloraExpansion;
 import net.minecraft.core.Holder;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.data.worldgen.BootstrapContext;
+import net.minecraft.data.worldgen.BootstapContext;
 import net.minecraft.data.worldgen.placement.PlacementUtils;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
@@ -36,7 +36,7 @@ public class ModPlacedFeatures {
     public static final ResourceKey<PlacedFeature> SMALL_CACTUS_PLACED_KEY = registerKey("small_cactus_placed");
     public static final ResourceKey<PlacedFeature> PRICKLY_PEAR_CACTUS_PLACED_KEY = registerKey("prickly_pear_cactus_placed");
 
-    public static void bootstrap(BootstrapContext<PlacedFeature> context) {
+    public static void bootstrap(BootstapContext<PlacedFeature> context) {
         var configuredFeatures = context.lookup(Registries.CONFIGURED_FEATURE);
         // Sample real cave layers in occasional chunks instead of scattering many full-height guesses.
         register(context, ROOTED_BRINE_SPRING_PLACED_KEY, configuredFeatures.getOrThrow(ModConfiguredFeatures.ROOTED_BRINE_SPRING_KEY),
@@ -119,7 +119,7 @@ public class ModPlacedFeatures {
         );
     }
 
-    private static void register(BootstrapContext<PlacedFeature> context,
+    private static void register(BootstapContext<PlacedFeature> context,
                                  ResourceKey<PlacedFeature> key,
                                  Holder<ConfiguredFeature<?, ?>> configuration,
                                  List<PlacementModifier> modifiers) {

@@ -28,7 +28,7 @@ public class WoodenLavaBucketItem extends WoodenBucketItem {
             if (slotId != -1) {
                 player.getInventory().setItem(slotId, new ItemStack(Items.CHARCOAL));
             }
-            player.igniteForSeconds(5.0F);
+            player.setSecondsOnFire(5);
             level.playSound(null, player.blockPosition(), SoundEvents.FIRECHARGE_USE, SoundSource.PLAYERS, 0.7F, 0.9F);
         }
     }

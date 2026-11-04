@@ -1,0 +1,14 @@
+{
+  "type": "floraexpansion:salting",
+  "ingredient": {
+    "item": "floraexpansion:spruce_nuts"
+  },
+  "processing_time": 100,
+  "result": {
+    "count": 4,
+    "item": "floraexpansion:salted_spruce_nuts"
+  },
+  "salt": {
+    "item": "floraexpansion:salt"
+  }
+}

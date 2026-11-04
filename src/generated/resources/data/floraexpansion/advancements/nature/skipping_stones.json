@@ -1,0 +1,35 @@
+{
+  "parent": "floraexpansion:nature/pebbles",
+  "criteria": {
+    "performed": {
+      "conditions": {
+        "action": "skipping_stones"
+      },
+      "trigger": "floraexpansion:action"
+    }
+  },
+  "display": {
+    "announce_to_chat": true,
+    "description": {
+      "translate": "advancements.floraexpansion.skipping_stones.description"
+    },
+    "frame": "challenge",
+    "hidden": false,
+    "icon": {
+      "item": "floraexpansion:pebbles"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancements.floraexpansion.skipping_stones.title"
+    }
+  },
+  "requirements": [
+    [
+      "performed"
+    ]
+  ],
+  "rewards": {
+    "experience": 25
+  },
+  "sends_telemetry_event": true
+}

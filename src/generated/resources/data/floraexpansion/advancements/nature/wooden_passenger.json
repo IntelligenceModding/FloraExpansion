@@ -1,0 +1,44 @@
+{
+  "parent": "floraexpansion:nature/wooden_bucket",
+  "criteria": {
+    "obtained": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "floraexpansion:cod_wooden_bucket",
+              "floraexpansion:salmon_wooden_bucket",
+              "floraexpansion:pufferfish_wooden_bucket",
+              "floraexpansion:tropical_fish_wooden_bucket",
+              "floraexpansion:axolotl_wooden_bucket",
+              "floraexpansion:tadpole_wooden_bucket"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "announce_to_chat": true,
+    "description": {
+      "translate": "advancements.floraexpansion.wooden_passenger.description"
+    },
+    "frame": "goal",
+    "hidden": false,
+    "icon": {
+      "item": "floraexpansion:axolotl_wooden_bucket",
+      "nbt": "{Damage:0}"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancements.floraexpansion.wooden_passenger.title"
+    }
+  },
+  "requirements": [
+    [
+      "obtained"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

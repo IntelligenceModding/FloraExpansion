@@ -11,7 +11,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 
 public class HandMillScreen extends AbstractContainerScreen<HandMillMenu> {
-    private static final ResourceLocation ARROW = ResourceLocation.withDefaultNamespace("container/furnace/burn_progress");
+
     public HandMillScreen(HandMillMenu menu, Inventory inventory, Component title) {
         super(menu, inventory, title);
         imageWidth = 176; imageHeight = 166;
@@ -37,7 +37,7 @@ public class HandMillScreen extends AbstractContainerScreen<HandMillMenu> {
             graphics.fill(x + 92 + column, y + 35 + column, x + 93 + column, y + 50 - column, 0xFF8B8B8B);
         }
         int width = menu.getArrowWidth();
-        if (width > 0) graphics.blitSprite(ARROW, 24, 16, 0, 0, x + 76, y + 35, width, 16);
+        if (width > 0) graphics.blit(ResourceLocation.fromNamespaceAndPath("minecraft", "textures/gui/container/furnace.png"), x + 76, y + 35, 176, 14, width, 16);
     }
     private static void slot(GuiGraphics graphics, int x, int y) {
         graphics.fill(x - 1, y - 1, x + 17, y + 17, 0xFF373737);

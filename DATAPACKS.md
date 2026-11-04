@@ -4,13 +4,13 @@ Use datapacks to change accepted items, soils, recipes, generation, rewards and 
 
 ## Create and load a pack
 
-Create `<world>/datapacks/my_pack/pack.mcmeta` for Minecraft 1.21.1:
+Create `<world>/datapacks/my_pack/pack.mcmeta` for Minecraft 1.20.1:
 
 ```json
 {
   "pack": {
     "description": "My Flora Expansion changes",
-    "pack_format": 34
+    "pack_format": 15
   }
 }
 ```
@@ -21,7 +21,7 @@ To override a file, copy its exact path from [main data](src/main/resources/data
 
 ## Change accepted items, plants and soils
 
-For example, let crates accept an optional mod's fertilizer and crops by adding `tags/item/crate_storable.json`:
+For example, let crates accept an optional mod's fertilizer and crops by adding `tags/items/crate_storable.json`:
 
 ```json
 {
@@ -37,23 +37,23 @@ Replace the example IDs with yours. `replace: false` adds entries; `true` replac
 
 | Edit | To change |
 | --- | --- |
-| `tags/item/crate_storable.json` | What crates accept; removed items remain withdrawable. |
-| `tags/block/basket_gatherable.json` | Blocks baskets collect using normal block loot. Inventory blocks remain excluded. |
-| `tags/item/linen_fibers.json`, `linen_threads.json` | Ingredients accepted in textile recipes. |
-| `tags/item/curable_meat.json`, `curable_fish.json`, `toasted_spruce_nuts.json` | Ingredients accepted by the corresponding salting recipes. |
-| `tags/item/spiked_leather_armor_repairable.json` | Armor repair materials. |
-| `tags/block/blueberry_soils.json`, `wild_strawberry_soils.json`, `wild_flax_soils.json` | Wild plant soils. |
-| `tags/block/crop_soils.json` | Cultivated flax/strawberry soils. |
-| `tags/block/cactus_soils.json`, `giant_cactus_growth_soils.json` | Cactus planting and shoot-growth soils. |
-| `tags/block/cactus_stem_supports.json`, `giant_cactus_supports.json` | Stem support and giant-cactus generation support. |
-| `tags/block/glasswort_plantable_on.json` | Glasswort soils; nearby brine and sturdy support are still required. |
-| `tags/block/pebble_ground.json` | Ground on which pebble patches generate. |
+| `tags/items/crate_storable.json` | What crates accept; removed items remain withdrawable. |
+| `tags/blocks/basket_gatherable.json` | Blocks baskets collect using normal block loot. Inventory blocks remain excluded. |
+| `tags/items/linen_fibers.json`, `linen_threads.json` | Ingredients accepted in textile recipes. |
+| `tags/items/curable_meat.json`, `curable_fish.json`, `toasted_spruce_nuts.json` | Ingredients accepted by the corresponding salting recipes. |
+| `tags/items/spiked_leather_armor_repairable.json` | Armor repair materials. |
+| `tags/blocks/blueberry_soils.json`, `wild_strawberry_soils.json`, `wild_flax_soils.json` | Wild plant soils. |
+| `tags/blocks/crop_soils.json` | Cultivated flax/strawberry soils. |
+| `tags/blocks/cactus_soils.json`, `giant_cactus_growth_soils.json` | Cactus planting and shoot-growth soils. |
+| `tags/blocks/cactus_stem_supports.json`, `giant_cactus_supports.json` | Stem support and giant-cactus generation support. |
+| `tags/blocks/glasswort_plantable_on.json` | Glasswort soils; nearby brine and sturdy support are still required. |
+| `tags/blocks/pebble_ground.json` | Ground on which pebble patches generate. |
 
 Use item IDs in item tags and block IDs in block tags. Adding a soil does not bypass light, space or water requirements.
 
 ## Add grinding or salting recipes
 
-Add files under `data/<namespace>/recipe/`, or copy an existing recipe to change it. Ingredients use objects such as `{"item": "minecraft:charcoal"}` or `{"tag": "minecraft:logs"}`, or lists of ingredient objects.
+Add files under `data/<namespace>/recipes/`, or copy an existing recipe to change it. Ingredients use objects such as `{"item": "minecraft:charcoal"}` or `{"tag": "minecraft:logs"}`, or lists of ingredient objects.
 
 For a four-turn mill recipe:
 
@@ -61,7 +61,7 @@ For a four-turn mill recipe:
 {
   "type": "floraexpansion:grinding",
   "ingredient": {"item": "floraexpansion:raw_salt"},
-  "result": {"id": "floraexpansion:salt", "count": 1},
+  "result": {"item": "floraexpansion:salt", "count": 1},
   "turns": 4
 }
 ```
@@ -76,13 +76,13 @@ For a salting batch:
   "ingredient": {"tag": "floraexpansion:curable_fish"},
   "salt": {"item": "floraexpansion:salt"},
   "processing_time": 100,
-  "result": {"id": "floraexpansion:salted_raw_fish", "count": 4}
+  "result": {"item": "floraexpansion:salted_raw_fish", "count": 4}
 }
 ```
 
-The tub consumes four matching food items and one matching `salt` item. `processing_time` accepts `1–72000` ticks and defaults to `100` (five seconds). `result` is the entire batch, not the output per food item. Both recipe types accept output components and counts of `1–99`, but the output must fit in one stack. Sealed tub batches retain their saved output and remaining time after a reload.
+The tub consumes four matching food items and one matching `salt` item. `processing_time` accepts `1–72000` ticks and defaults to `100` (five seconds). `result` is the entire batch, not the output per food item. Both recipe types accept output NBT through a `nbt` field and counts of `1–99`, but the output must fit in one stack. Sealed tub batches retain their saved output and remaining time after a reload.
 
-Copy [existing salting recipes](src/generated/resources/data/floraexpansion/recipe/salting) to change a particular food. Reload and check the result in JEI if installed.
+Copy [existing salting recipes](src/generated/resources/data/floraexpansion/recipes/salting) to change a particular food. Reload and check the result in JEI if installed.
 
 ## Change harvests and brushing finds
 
@@ -90,13 +90,13 @@ Copy a loot table and edit its entries, weights or `minecraft:set_count` values:
 
 | Path | Affects |
 | --- | --- |
-| `loot_table/harvest/*.json` | Right-click harvests, including basket harvests. |
-| `loot_table/blocks/*.json` | Block-breaking drops. |
-| `loot_table/archaeology/salt_deposit.json` | Extra finds from brushing natural salt. |
+| `loot_tables/harvest/*.json` | Right-click harvests, including basket harvests. |
+| `loot_tables/blocks/*.json` | Block-breaking drops. |
+| `loot_tables/archaeology/salt_deposit.json` | Extra finds from brushing natural salt. |
 
-For example, set the count in [apple harvest loot](src/main/resources/data/floraexpansion/loot_table/harvest/apple_leaves.json) to `3` for three apples. Keep maturity conditions when rewards should require ripe plants.
+For example, set the count in [apple harvest loot](src/main/resources/data/floraexpansion/loot_tables/harvest/apple_leaves.json) to `3` for three apples. Keep maturity conditions when rewards should require ripe plants.
 
-For salt finds, edit [the archaeology table](src/main/resources/data/floraexpansion/loot_table/archaeology/salt_deposit.json). Its weights total `100`, so the music disc's weight `1` gives a 1% chance per natural layer. Increasing its weight changes that total; reduce another weight to keep it at `100`. Keep the `natural=true` condition. Player-placed and evaporated salt cannot produce finds; the guaranteed raw-salt drop is handled separately.
+For salt finds, edit [the archaeology table](src/main/resources/data/floraexpansion/loot_tables/archaeology/salt_deposit.json). Its weights total `100`, so the music disc's weight `1` gives a 1% chance per natural layer. Increasing its weight changes that total; reduce another weight to keep it at `100`. Keep the `natural=true` condition. Player-placed and evaporated salt cannot produce finds; the guaranteed raw-salt drop is handled separately.
 
 To adjust added chest/block/archaeology rewards, copy a file from `loot_modifiers/` and edit `item`, `min_count`, `max_count` or `condition`. Generated chest contents remain unchanged. Keep the `floraexpansion:cake_candles` dynamic entry in candle-cake loot to return saved candle colors.
 
@@ -130,11 +130,11 @@ These custom parameters can be edited in feature definitions or tree decorator e
 
 A larger leaf divisor reduces replacements; maximum `0` disables them. Set `exposed_only: false` to include interior leaves.
 
-Surface springs sample actual cave layers in one out of four chunks, using `rarity_filter` and `count_on_every_layer` in `worldgen/placed_feature/rooted_brine_spring_placed.json`. The spring builder rejects nearby existing pools in the terrain safely available during decoration. This keeps the surface formations sparse while avoiding the old large full-height retry count. Adjust the rarity chance to change frequency, and the upward-search settings in `worldgen/configured_feature/rooted_brine_spring.json` to change cave-to-surface behavior. Keep solid support in `allowed_tree_position` so intermediate caves do not abort the search. Edit `tags/block/brine_spring_root_replaceable.json` to change which blocks become the mineral trail.
+Surface springs sample actual cave layers in one out of four chunks, using `rarity_filter` and `count_on_every_layer` in `worldgen/placed_feature/rooted_brine_spring_placed.json`. The spring builder rejects nearby existing pools in the terrain safely available during decoration. This keeps the surface formations sparse while avoiding the old large full-height retry count. Adjust the rarity chance to change frequency, and the upward-search settings in `worldgen/configured_feature/rooted_brine_spring.json` to change cave-to-surface behavior. Keep solid support in `allowed_tree_position` so intermediate caves do not abort the search. Edit `tags/blocks/brine_spring_root_replaceable.json` to change which blocks become the mineral trail.
 
 Edit `worldgen/biome/salt_caves.json` for ambience, spawns and carvers. The biome's climate selection is defined in code; changing `has_salt_cave.json` does not relocate it. The lining also checks the actual Salt Caves biome.
 
-For calcite-ore processing recipes, use `c:ores/<mineral>` or `c:ores_in_ground/calcite`; `c:ore_bearing_ground/calcite` identifies the host block. These tags exist for both blocks and items.
+For calcite-ore processing recipes, use `forge:ores/<mineral>` or `forge:ores_in_ground/calcite`; `forge:ore_bearing_ground/calcite` identifies the host block. These tags exist for both blocks and items.
 
 ## Adjust fuel and composting
 
@@ -148,7 +148,7 @@ Add an offer's ID to its pool tag under `data/minecraft/tags/villager_trade/`, s
 
 ## Change advancement requirements or rewards
 
-Copy a file from [advancement/nature](src/generated/resources/data/floraexpansion/advancement/nature) and edit its `criteria`, `requirements`, `parent`, `display` or `rewards`. Keep the same file ID to retain saved progress where criteria still match.
+Copy a file from [advancement/nature](src/generated/resources/data/floraexpansion/advancements/nature) and edit its `criteria`, `requirements`, `parent`, `display` or `rewards`. Keep the same file ID to retain saved progress where criteria still match.
 
 For a successful mod interaction, use this criterion inside `criteria`:
 

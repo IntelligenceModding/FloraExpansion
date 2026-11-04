@@ -26,7 +26,13 @@ import org.jetbrains.annotations.NotNull;
 import de.artemis.floraexpansion.common.loot.HarvestLoot;
 
 public class SmallCactusBlock extends BushBlock {
-    @NotNull @Override protected com.mojang.serialization.MapCodec<SmallCactusBlock> codec() { return simpleCodec(SmallCactusBlock::new); }
+    @NotNull @Override public net.minecraft.world.InteractionResult use(@NotNull net.minecraft.world.level.block.state.BlockState state, @NotNull net.minecraft.world.level.Level level, @NotNull net.minecraft.core.BlockPos pos, @NotNull net.minecraft.world.entity.player.Player player, @NotNull net.minecraft.world.InteractionHand hand, @NotNull net.minecraft.world.phys.BlockHitResult hit) {
+        var result = useWithItem(player.getItemInHand(hand), state, level, pos, player, hand, hit);
+        if (result != net.minecraft.world.InteractionResult.PASS) return result;
+        return super.use(state, level, pos, player, hand, hit);
+    }
+
+
 
     public static final IntegerProperty PICKLES = BlockStateProperties.PICKLES;
 
@@ -41,12 +47,12 @@ public class SmallCactusBlock extends BushBlock {
     }
 
     @Override
-    protected boolean mayPlaceOn(@NotNull BlockState state, @NotNull BlockGetter level, @NotNull BlockPos pos) {
+    public boolean mayPlaceOn(@NotNull BlockState state, @NotNull BlockGetter level, @NotNull BlockPos pos) {
         return PlantSoils.supportsCactus(state);
     }
 
     @Override
-    protected boolean canSurvive(@NotNull BlockState state, @NotNull LevelReader level, @NotNull BlockPos pos) {
+    public boolean canSurvive(@NotNull BlockState state, @NotNull LevelReader level, @NotNull BlockPos pos) {
         return this.mayPlaceOn(level.getBlockState(pos.below()), level, pos.below());
     }
 
@@ -68,8 +74,7 @@ public class SmallCactusBlock extends BushBlock {
         return this.defaultBlockState();
     }
 
-    @Override
-    protected @NotNull net.minecraft.world.ItemInteractionResult useItemOn(@NotNull ItemStack stack,
+    public @NotNull net.minecraft.world.InteractionResult useWithItem(@NotNull ItemStack stack,
                                                    @NotNull BlockState state,
                                                    @NotNull Level level,
                                                    @NotNull BlockPos pos,
@@ -77,12 +82,12 @@ public class SmallCactusBlock extends BushBlock {
                                                    @NotNull InteractionHand hand,
                                                    @NotNull BlockHitResult hitResult) {
         if (!stack.is(Items.GLASS_BOTTLE)) {
-            return net.minecraft.world.ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
+            return net.minecraft.world.InteractionResult.PASS;
         }
 
         if (!level.isClientSide) {
             var loot = HarvestLoot.drops((net.minecraft.server.level.ServerLevel) level, pos, state, player, stack);
-            ItemStack juiceStack = loot.isEmpty() ? ItemStack.EMPTY : loot.getFirst();
+            ItemStack juiceStack = loot.isEmpty() ? ItemStack.EMPTY : loot.get(0);
             for (int i = 1; i < loot.size(); i++) InventoryUtils.giveOrDrop(player, loot.get(i));
 
             if (!player.getAbilities().instabuild) {
@@ -104,11 +109,11 @@ public class SmallCactusBlock extends BushBlock {
             level.playSound(null, pos, SoundEvents.BOTTLE_FILL, SoundSource.BLOCKS, 1.0F, 1.0F);
         }
 
-        return net.minecraft.world.ItemInteractionResult.SUCCESS;
+        return net.minecraft.world.InteractionResult.SUCCESS;
     }
 
     @Override
-    protected @NotNull VoxelShape getShape(@NotNull BlockState state,
+    public @NotNull VoxelShape getShape(@NotNull BlockState state,
                                            @NotNull BlockGetter level,
                                            @NotNull BlockPos pos,
                                            @NotNull CollisionContext context) {
@@ -121,7 +126,7 @@ public class SmallCactusBlock extends BushBlock {
     }
 
     @Override
-    protected void createBlockStateDefinition(StateDefinition.Builder<Block, @NotNull BlockState> builder) {
+    public void createBlockStateDefinition(StateDefinition.Builder<Block, @NotNull BlockState> builder) {
         builder.add(PICKLES);
     }
 }

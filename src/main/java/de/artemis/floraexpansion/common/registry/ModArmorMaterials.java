@@ -1,55 +1,20 @@
 package de.artemis.floraexpansion.common.registry;
 
-import de.artemis.floraexpansion.FloraExpansion;
-import net.minecraft.Util;
-import net.minecraft.core.Holder;
-import net.minecraft.core.registries.Registries;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.sounds.SoundEvents;
-import net.minecraft.world.item.ArmorItem;
-import net.minecraft.world.item.ArmorMaterial;
+import org.jetbrains.annotations.NotNull;
+import net.minecraft.world.item.*;
 import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.registries.DeferredRegister;
-
-import java.util.EnumMap;
-import java.util.List;
-
+import net.minecraft.sounds.*;
 public final class ModArmorMaterials {
-    public static final DeferredRegister<ArmorMaterial> ARMOR_MATERIALS =
-            DeferredRegister.create(Registries.ARMOR_MATERIAL, FloraExpansion.MODID);
-
-    public static final net.minecraftforge.registries.RegistryObject<ArmorMaterial> SPIKED_LEATHER_ARMOR_MATERIAL = ARMOR_MATERIALS.register("spiked_leather",
-            () -> new ArmorMaterial(
-                    Util.make(new EnumMap<>(ArmorItem.Type.class), map -> {
-                        map.put(ArmorItem.Type.BOOTS, 1);
-                        map.put(ArmorItem.Type.LEGGINGS, 3);
-                        map.put(ArmorItem.Type.CHESTPLATE, 4);
-                        map.put(ArmorItem.Type.HELMET, 1);
-                        map.put(ArmorItem.Type.BODY, 4);
-                    }),
-                    18,
-                    SoundEvents.ARMOR_EQUIP_LEATHER,
-                    () -> Ingredient.of(ModTags.Items.SPIKED_LEATHER_ARMOR_REPAIRABLE),
-                    List.of(
-                            new ArmorMaterial.Layer(
-                                    ResourceLocation.fromNamespaceAndPath(FloraExpansion.MODID, "spiked_leather")
-                            ),
-                            new ArmorMaterial.Layer(
-                                    ResourceLocation.fromNamespaceAndPath(FloraExpansion.MODID, "spiked_leather"),
-                                    "_overlay",
-                                    false
-                            )
-                    ),
-                    0.0F,
-                    0.0F
-            )
-    );
-
-    private ModArmorMaterials() {
-    }
-
-    public static void register(IEventBus eventBus) {
-        ARMOR_MATERIALS.register(eventBus);
-    }
+ public static final ArmorMaterial SPIKED_LEATHER_ARMOR_MATERIAL=new ArmorMaterial(){
+  public int getDurabilityForType(ArmorItem.Type type){return switch(type){case BOOTS->13*7;case LEGGINGS->15*7;case CHESTPLATE->16*7;case HELMET->11*7;};}
+  public int getDefenseForType(ArmorItem.Type type){return switch(type){case BOOTS,HELMET->1;case LEGGINGS->3;case CHESTPLATE->4;};}
+  public int getEnchantmentValue(){return 18;}
+  @NotNull public SoundEvent getEquipSound(){return SoundEvents.ARMOR_EQUIP_LEATHER;}
+  @NotNull public Ingredient getRepairIngredient(){return Ingredient.of(ModTags.Items.SPIKED_LEATHER_ARMOR_REPAIRABLE);}
+  @NotNull public String getName(){return "floraexpansion:spiked_leather";}
+  public float getToughness(){return 0;}
+  public float getKnockbackResistance(){return 0;}
+ };
+ public static void register(net.minecraftforge.eventbus.api.IEventBus bus){}
+ private ModArmorMaterials(){}
 }

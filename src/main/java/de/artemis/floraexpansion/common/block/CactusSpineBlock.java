@@ -22,7 +22,7 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.NotNull;
 
 public class CactusSpineBlock extends FaceAttachedHorizontalDirectionalBlock {
- @NotNull @Override public com.mojang.serialization.MapCodec<CactusSpineBlock> codec() { return simpleCodec(CactusSpineBlock::new); }
+
 
     private static final VoxelShape FLOOR_SHAPE = Block.box(2.0D, 0.0D, 2.0D, 14.0D, 3.0D, 14.0D);
     private static final VoxelShape CEILING_SHAPE = Block.box(2.0D, 13.0D, 2.0D, 14.0D, 16.0D, 14.0D);
@@ -40,12 +40,12 @@ public class CactusSpineBlock extends FaceAttachedHorizontalDirectionalBlock {
 
 
     @Override
-    protected void createBlockStateDefinition(StateDefinition.Builder<Block, @NotNull BlockState> builder) {
+    public void createBlockStateDefinition(StateDefinition.Builder<Block, @NotNull BlockState> builder) {
         builder.add(FACE, FACING);
     }
 
     @Override
-    protected @NotNull VoxelShape getShape(@NotNull BlockState state, @NotNull BlockGetter level, @NotNull BlockPos pos, @NotNull CollisionContext context) {
+    public @NotNull VoxelShape getShape(@NotNull BlockState state, @NotNull BlockGetter level, @NotNull BlockPos pos, @NotNull CollisionContext context) {
         return switch (state.getValue(FACE)) {
             case FLOOR -> FLOOR_SHAPE;
             case CEILING -> CEILING_SHAPE;
@@ -60,12 +60,12 @@ public class CactusSpineBlock extends FaceAttachedHorizontalDirectionalBlock {
     }
 
     @Override
-    protected @NotNull VoxelShape getCollisionShape(@NotNull BlockState state, @NotNull BlockGetter level, @NotNull BlockPos pos, @NotNull CollisionContext context) {
+    public @NotNull VoxelShape getCollisionShape(@NotNull BlockState state, @NotNull BlockGetter level, @NotNull BlockPos pos, @NotNull CollisionContext context) {
         return Shapes.empty();
     }
 
     @Override
-    protected void entityInside(@NotNull BlockState state,
+    public void entityInside(@NotNull BlockState state,
                                 @NotNull Level level,
                                 @NotNull BlockPos pos,
                                 @NotNull Entity entity) {
@@ -75,7 +75,7 @@ public class CactusSpineBlock extends FaceAttachedHorizontalDirectionalBlock {
     }
 
     @Override
-    protected @NotNull BlockState updateShape(net.minecraft.world.level.block.state.BlockState state, @NotNull net.minecraft.core.Direction direction, @NotNull net.minecraft.world.level.block.state.BlockState neighborState, @NotNull net.minecraft.world.level.LevelAccessor level, @NotNull net.minecraft.core.BlockPos pos, @NotNull net.minecraft.core.BlockPos neighborPos) {
+    public @NotNull BlockState updateShape(net.minecraft.world.level.block.state.BlockState state, @NotNull net.minecraft.core.Direction direction, @NotNull net.minecraft.world.level.block.state.BlockState neighborState, @NotNull net.minecraft.world.level.LevelAccessor level, @NotNull net.minecraft.core.BlockPos pos, @NotNull net.minecraft.core.BlockPos neighborPos) {
         var scheduledTickAccess = level;
         if (!state.canSurvive(level, pos)) {
             scheduledTickAccess.scheduleTick(pos, this, 1);
@@ -84,14 +84,14 @@ public class CactusSpineBlock extends FaceAttachedHorizontalDirectionalBlock {
     }
 
     @Override
-    protected void tick(@NotNull BlockState state, @NotNull ServerLevel level, @NotNull BlockPos pos, @NotNull RandomSource random) {
+    public void tick(@NotNull BlockState state, @NotNull ServerLevel level, @NotNull BlockPos pos, @NotNull RandomSource random) {
         if (!state.canSurvive(level, pos)) {
             level.destroyBlock(pos, true);
         }
     }
 
     @Override
-    protected boolean canSurvive(@NotNull BlockState state, @NotNull LevelReader level, @NotNull BlockPos pos) {
+    public boolean canSurvive(@NotNull BlockState state, @NotNull LevelReader level, @NotNull BlockPos pos) {
         Direction supportSide = getConnectedDirection(state).getOpposite();
         BlockPos supportPos = pos.relative(supportSide);
         BlockState supportState = level.getBlockState(supportPos);

@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "C": {
+      "item": "minecraft:leather_chestplate"
+    },
+    "D": {
+      "item": "minecraft:green_dye"
+    },
+    "T": {
+      "item": "floraexpansion:cactus_spine"
+    }
+  },
+  "pattern": [
+    "TDT",
+    "TCT",
+    "TTT"
+  ],
+  "result": {
+    "item": "floraexpansion:spiked_leather_chestplate"
+  },
+  "show_notification": true
+}

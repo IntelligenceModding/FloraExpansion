@@ -28,31 +28,35 @@ import de.artemis.floraexpansion.common.util.PlantGrowth;
 
 /** Leaves that retain vanilla decay behavior while growing a harvestable fruit. */
 public abstract class FruitLeavesBlock extends LeavesBlock implements BonemealableBlock, HarvestableBlock {
-    protected FruitLeavesBlock(float fallingLeavesChance, Properties properties) {
+    @NotNull @Override public net.minecraft.world.InteractionResult use(@NotNull net.minecraft.world.level.block.state.BlockState state, @NotNull net.minecraft.world.level.Level level, @NotNull net.minecraft.core.BlockPos pos, @NotNull net.minecraft.world.entity.player.Player player, @NotNull net.minecraft.world.InteractionHand hand, @NotNull net.minecraft.world.phys.BlockHitResult hit) {
+        return useWithoutItem(state, level, pos, player, hit);
+    }
+
+    public FruitLeavesBlock(float fallingLeavesChance, Properties properties) {
         super(properties);
         registerDefaultState(defaultBlockState().setValue(getAgeProperty(), 0));
     }
 
     // Block constructs its state definition before instance fields are initialized.
-    protected abstract IntegerProperty getAgeProperty();
-    protected abstract int getMaxAge();
-    protected abstract int getGrowthChance();
-    protected abstract boolean shouldSpawnFruitParticle(int age);
-    protected abstract SimpleParticleType getFruitParticle();
+    public abstract IntegerProperty getAgeProperty();
+    public abstract int getMaxAge();
+    public abstract int getGrowthChance();
+    public abstract boolean shouldSpawnFruitParticle(int age);
+    public abstract SimpleParticleType getFruitParticle();
 
     @Override
-    protected void createBlockStateDefinition(StateDefinition.@NotNull Builder<Block, BlockState> builder) {
+    public void createBlockStateDefinition(StateDefinition.@NotNull Builder<Block, BlockState> builder) {
         super.createBlockStateDefinition(builder);
         builder.add(getAgeProperty());
     }
 
     @Override
-    protected boolean isRandomlyTicking(@NotNull BlockState state) {
+    public boolean isRandomlyTicking(@NotNull BlockState state) {
         return super.isRandomlyTicking(state) || canGrowFruit(state);
     }
 
     @Override
-    protected void randomTick(@NotNull BlockState state, @NotNull ServerLevel level, @NotNull BlockPos pos, @NotNull RandomSource random) {
+    public void randomTick(@NotNull BlockState state, @NotNull ServerLevel level, @NotNull BlockPos pos, @NotNull RandomSource random) {
         super.randomTick(state, level, pos, random);
         if (canGrowFruit(state) && PlantGrowth.canGrow(level, pos, state, random, getGrowthChance(), ServerConfig.fruitGrowth.get())) {
             level.setBlock(pos, state.cycle(getAgeProperty()), 2);
@@ -69,7 +73,7 @@ public abstract class FruitLeavesBlock extends LeavesBlock implements Bonemealab
         }
     }
 
-    protected void spawnFallingLeavesParticle(@NotNull Level level, @NotNull BlockPos pos, @NotNull RandomSource random) {
+    public void spawnFallingLeavesParticle(@NotNull Level level, @NotNull BlockPos pos, @NotNull RandomSource random) {
     }
 
     @Override
@@ -77,8 +81,7 @@ public abstract class FruitLeavesBlock extends LeavesBlock implements Bonemealab
         return state.setValue(getAgeProperty(), 0);
     }
 
-    @Override
-    protected @NotNull InteractionResult useWithoutItem(@NotNull BlockState state, @NotNull Level level, @NotNull BlockPos pos,
+    public @NotNull InteractionResult useWithoutItem(@NotNull BlockState state, @NotNull Level level, @NotNull BlockPos pos,
                                                         @NotNull Player player, @NotNull BlockHitResult hitResult) {
         if (!canHarvest(state)) {
             return InteractionResult.PASS;
@@ -98,7 +101,7 @@ public abstract class FruitLeavesBlock extends LeavesBlock implements Bonemealab
     }
 
     @Override
-    public boolean isValidBonemealTarget(@NotNull LevelReader level, @NotNull BlockPos pos, @NotNull BlockState state) {
+    public boolean isValidBonemealTarget(@NotNull LevelReader level, @NotNull BlockPos pos, @NotNull BlockState state, boolean isClientSide) {
         return canGrowFruit(state);
     }
 

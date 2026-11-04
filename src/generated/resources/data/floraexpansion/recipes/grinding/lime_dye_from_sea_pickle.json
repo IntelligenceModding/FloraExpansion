@@ -1,0 +1,11 @@
+{
+  "type": "floraexpansion:grinding",
+  "ingredient": {
+    "item": "minecraft:sea_pickle"
+  },
+  "result": {
+    "count": 2,
+    "item": "minecraft:lime_dye"
+  },
+  "turns": 4
+}

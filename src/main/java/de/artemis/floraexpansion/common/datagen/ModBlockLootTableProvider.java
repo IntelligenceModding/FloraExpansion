@@ -4,7 +4,7 @@ import de.artemis.floraexpansion.common.block.*;
 import net.minecraft.advancements.critereon.ItemPredicate;
 import de.artemis.floraexpansion.common.registry.ModItems;
 import net.minecraft.advancements.critereon.StatePropertiesPredicate;
-import net.minecraft.core.registries.Registries;
+
 import net.minecraft.data.loot.BlockLootSubProvider;
 import net.minecraft.world.flag.FeatureFlags;
 import net.minecraft.world.item.Items;
@@ -30,8 +30,8 @@ import java.util.Set;
 
 public class ModBlockLootTableProvider extends BlockLootSubProvider {
 
-    protected ModBlockLootTableProvider(net.minecraft.core.HolderLookup.Provider registries) {
-        super(Set.of(), FeatureFlags.REGISTRY.allFlags(), registries);
+    protected ModBlockLootTableProvider() {
+        super(Set.of(), FeatureFlags.REGISTRY.allFlags());
     }
 
     private static NumberProvider constant(float value) {
@@ -284,9 +284,7 @@ public class ModBlockLootTableProvider extends BlockLootSubProvider {
     }
 
     private LootTable.Builder createLargeBlueberryBushDrops() {
-        var itemLookup = registries.lookupOrThrow(Registries.ITEM);
-
-        return LootTable.lootTable()
+return LootTable.lootTable()
                 .withPool(LootPool.lootPool()
                         .setRolls(constant(1.0F))
                         .add(applyExplosionCondition(ModBlocks.LARGE_BLUEBERRY_BUSH.get(),
@@ -301,8 +299,7 @@ public class ModBlockLootTableProvider extends BlockLootSubProvider {
     }
 
     private LootTable.Builder createOrchardCherryLeavesDrops() {
-        var enchantmentLookup = registries.lookupOrThrow(Registries.ENCHANTMENT);
-        var fortune = enchantmentLookup.getOrThrow(Enchantments.FORTUNE);
+        var fortune = Enchantments.BLOCK_FORTUNE;
 
         return createSilkTouchOrShearsDispatchTable(
                 ModBlocks.ORCHARD_CHERRY_LEAVES.get(),
@@ -341,8 +338,7 @@ public class ModBlockLootTableProvider extends BlockLootSubProvider {
     }
 
     private LootTable.Builder createAppleLeavesDrops() {
-        var enchantmentLookup = registries.lookupOrThrow(Registries.ENCHANTMENT);
-        var fortune = enchantmentLookup.getOrThrow(Enchantments.FORTUNE);
+        var fortune = Enchantments.BLOCK_FORTUNE;
 
         return createSilkTouchOrShearsDispatchTable(
                 ModBlocks.APPLE_LEAVES.get(),

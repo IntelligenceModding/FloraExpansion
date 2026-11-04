@@ -1,0 +1,32 @@
+{
+  "parent": "floraexpansion:nature/raw_salt",
+  "criteria": {
+    "performed": {
+      "conditions": {
+        "action": "grind_salt"
+      },
+      "trigger": "floraexpansion:action"
+    }
+  },
+  "display": {
+    "announce_to_chat": true,
+    "description": {
+      "translate": "advancements.floraexpansion.grind_salt.description"
+    },
+    "frame": "task",
+    "hidden": false,
+    "icon": {
+      "item": "floraexpansion:hand_mill"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancements.floraexpansion.grind_salt.title"
+    }
+  },
+  "requirements": [
+    [
+      "performed"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

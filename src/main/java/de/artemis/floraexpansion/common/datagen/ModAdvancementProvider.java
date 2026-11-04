@@ -21,15 +21,15 @@ import java.util.*;
 public final class ModAdvancementProvider {
     public static AdvancementSubProvider tree() { return new Tree(); }
 
-    public record Milestone(String id, String parent, String icon, String title, String description, AdvancementType type, int experience) {}
+    public record Milestone(String id, String parent, String icon, String title, String description, FrameType type, int experience) {}
     private static Milestone task(String id, String parent, String icon, String title, String description) {
-        return new Milestone(id, parent, icon, title, description, AdvancementType.TASK, 0);
+        return new Milestone(id, parent, icon, title, description, FrameType.TASK, 0);
     }
     private static Milestone goal(String id, String parent, String icon, String title, String description) {
-        return new Milestone(id, parent, icon, title, description, AdvancementType.GOAL, 0);
+        return new Milestone(id, parent, icon, title, description, FrameType.GOAL, 0);
     }
     private static Milestone challenge(String id, String parent, String icon, String title, String description, int xp) {
-        return new Milestone(id, parent, icon, title, description, AdvancementType.CHALLENGE, xp);
+        return new Milestone(id, parent, icon, title, description, FrameType.CHALLENGE, xp);
     }
     public static final List<Milestone> MILESTONES = List.of(
         task("root", "", "flax_flower", "Flora Expansion", "Discover the little things nature has to offer"),
@@ -78,16 +78,16 @@ public final class ModAdvancementProvider {
     private static ResourceLocation itemId(String path) { return path.contains(":") ? ResourceLocation.parse(path) : id(path); }
 
     private static final class Tree implements AdvancementSubProvider {
- @Override public void generate(HolderLookup.Provider lookup, @NotNull java.util.function.Consumer<AdvancementHolder> output) {
+ @Override public void generate(net.minecraft.core.HolderLookup.Provider lookup, @NotNull java.util.function.Consumer<Advancement> output) {
             var items = lookup.lookupOrThrow(Registries.ITEM);
-            var parents = new HashMap<String, AdvancementHolder>();
+            var parents = new HashMap<String, Advancement>();
             for (var milestone : MILESTONES) {
                 var builder = Advancement.Builder.advancement();
                 var icon = items.getOrThrow(net.minecraft.resources.ResourceKey.create(Registries.ITEM, itemId(milestone.icon()))).value();
                 var title = Component.translatable(translation(milestone.id(), "title"));
                 var description = Component.translatable(translation(milestone.id(), "description"));
                 if (milestone.parent().isEmpty()) builder.display(icon, title, description,
-                        ResourceLocation.withDefaultNamespace("textures/gui/advancements/backgrounds/husbandry.png"), milestone.type(), false, false, false);
+                        ResourceLocation.fromNamespaceAndPath("minecraft", "textures/gui/advancements/backgrounds/husbandry.png"), milestone.type(), false, false, false);
                 else builder.display(icon, title, description, null, milestone.type(), true, true, false);
                 if (!milestone.parent().isEmpty()) builder.parent(Objects.requireNonNull(parents.get(milestone.parent())));
                 if (milestone.experience() > 0) builder.rewards(AdvancementRewards.Builder.experience(milestone.experience()));
@@ -96,9 +96,9 @@ public final class ModAdvancementProvider {
             }
         }
 
-        private static ItemPredicate.Builder predicate(HolderGetter<Item> items, String... names) {
+        private static ItemPredicate predicate(HolderGetter<Item> items, String... names) {
             return ItemPredicate.Builder.item().of(Arrays.stream(names).map(name -> items.getOrThrow(
-                    net.minecraft.resources.ResourceKey.create(Registries.ITEM, itemId(name))).value()).toArray(Item[]::new));
+                    net.minecraft.resources.ResourceKey.create(Registries.ITEM, itemId(name))).value()).toArray(Item[]::new)).build();
         }
         private static void inventory(Advancement.Builder builder, HolderGetter<Item> items, String... names) {
             builder.addCriterion("obtained", InventoryChangeTrigger.TriggerInstance.hasItems(predicate(items, names)));
@@ -109,15 +109,14 @@ public final class ModAdvancementProvider {
         private static void eat(Advancement.Builder builder, HolderGetter<Item> items, String... names) {
             for (String name : names) builder.addCriterion(name, ConsumeItemTrigger.TriggerInstance.usedItem(predicate(items, name)));
         }
-        private static void criteria(String name, Advancement.Builder builder, HolderLookup.Provider lookup, HolderGetter<Item> items) {
+        private static void criteria(String name, Advancement.Builder builder, net.minecraft.core.HolderLookup.Provider lookup, HolderGetter<Item> items) {
             switch (name) {
                 case "root" -> {
                     var modItems = net.minecraft.core.registries.BuiltInRegistries.ITEM.stream().filter(item -> item.builtInRegistryHolder().key().location().getNamespace().equals(FloraExpansion.MODID))
                             .toArray(Item[]::new);
-                    builder.addCriterion("discovery", InventoryChangeTrigger.TriggerInstance.hasItems(ItemPredicate.Builder.item().of(modItems)));
-                    builder.addCriterion("cave", PlayerTrigger.TriggerInstance.located(LocationPredicate.Builder.location().setBiomes(
-                            HolderSet.direct(lookup.lookupOrThrow(Registries.BIOME).getOrThrow(ModBiomes.SALT_CAVES)))));
-                    builder.requirements(AdvancementRequirements.Strategy.OR);
+                    builder.addCriterion("discovery", InventoryChangeTrigger.TriggerInstance.hasItems(ItemPredicate.Builder.item().of(modItems).build()));
+                    builder.addCriterion("cave", PlayerTrigger.TriggerInstance.located(LocationPredicate.Builder.location().setBiome(ModBiomes.SALT_CAVES).build()));
+                    builder.requirements(RequirementsStrategy.OR);
                 }
                 case "foraging" -> inventory(builder, items, "twig", "spruce_cone", "spruce_nuts");
                 case "basket", "pebbles", "linen", "crate", "wooden_bucket", "salting_tub", "raw_salt", "salt_spike", "glasswort" -> {
@@ -147,15 +146,15 @@ public final class ModAdvancementProvider {
                             blocks.getOrThrow(net.minecraft.resources.ResourceKey.create(Registries.BLOCK, id(sapling))).value()));
                 }
                 case "salt_caves" -> builder.addCriterion("explore", PlayerTrigger.TriggerInstance.located(LocationPredicate.Builder.location()
-                        .setBiomes(HolderSet.direct(lookup.lookupOrThrow(Registries.BIOME).getOrThrow(ModBiomes.SALT_CAVES)))));
+                        .setBiome(ModBiomes.SALT_CAVES).build()));
                 case "spiked_armor" -> builder.addCriterion("wear", PlayerTrigger.TriggerInstance.located(EntityPredicate.Builder.entity().equipment(
                         EntityEquipmentPredicate.Builder.equipment().head(predicate(items, "spiked_leather_helmet"))
                                 .chest(predicate(items, "spiked_leather_chestplate")).legs(predicate(items, "spiked_leather_leggings"))
-                                .feet(predicate(items, "spiked_leather_boots")))));
+                                .feet(predicate(items, "spiked_leather_boots")).build()).build()));
                 case "cave_music" -> builder.addCriterion("play", ItemUsedOnLocationTrigger.TriggerInstance.itemUsedOnBlock(
                         LocationPredicate.Builder.location().setBlock(BlockPredicate.Builder.block().of(Blocks.JUKEBOX)
-                                .setProperties(StatePropertiesPredicate.Builder.properties().hasProperty(net.minecraft.world.level.block.JukeboxBlock.HAS_RECORD, true))),
-                        predicate(items, "music_disc_into_the_caves")));
+                            .setProperties(StatePropertiesPredicate.Builder.properties().hasProperty(net.minecraft.world.level.block.JukeboxBlock.HAS_RECORD, true).build()).build()),
+                        ItemPredicate.Builder.item().of(de.artemis.floraexpansion.common.registry.ModItems.MUSIC_DISC_INTO_THE_CAVES.get())));
                 case "basket_harvest", "skipping_stones", "tie_crate", "grind_salt", "salt_food", "brush_salt", "salt_find" ->
                         builder.addCriterion("performed", FloraActionTrigger.criterion(name));
                 default -> throw new IllegalArgumentException("Missing advancement criteria: " + name);

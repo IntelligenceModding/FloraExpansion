@@ -30,7 +30,13 @@ import de.artemis.floraexpansion.common.util.PlantGrowth;
 import de.artemis.floraexpansion.common.loot.HarvestLoot;
 
 public class PricklyPearCactusBlock extends BushBlock implements BonemealableBlock {
-    @NotNull @Override protected com.mojang.serialization.MapCodec<PricklyPearCactusBlock> codec() { return simpleCodec(PricklyPearCactusBlock::new); }
+    @NotNull @Override public net.minecraft.world.InteractionResult use(@NotNull net.minecraft.world.level.block.state.BlockState state, @NotNull net.minecraft.world.level.Level level, @NotNull net.minecraft.core.BlockPos pos, @NotNull net.minecraft.world.entity.player.Player player, @NotNull net.minecraft.world.InteractionHand hand, @NotNull net.minecraft.world.phys.BlockHitResult hit) {
+        var result = useWithItem(player.getItemInHand(hand), state, level, pos, player, hand, hit);
+        if (result != net.minecraft.world.InteractionResult.PASS) return result;
+        return useWithoutItem(state, level, pos, player, hit);
+    }
+
+
 
     public static final IntegerProperty AGE = IntegerProperty.create("age", 0, 1);
     public static final int MAX_AGE = 1;
@@ -42,13 +48,13 @@ public class PricklyPearCactusBlock extends BushBlock implements BonemealableBlo
     }
 
     @Override
-    protected void createBlockStateDefinition(StateDefinition.@NotNull Builder<Block, @NotNull BlockState> builder) {
+    public void createBlockStateDefinition(StateDefinition.@NotNull Builder<Block, @NotNull BlockState> builder) {
         super.createBlockStateDefinition(builder);
         builder.add(AGE);
     }
 
     @Override
-    protected @NotNull VoxelShape getShape(@NotNull BlockState state,
+    public @NotNull VoxelShape getShape(@NotNull BlockState state,
                                            @NotNull BlockGetter level,
                                            @NotNull BlockPos pos,
                                            @NotNull CollisionContext context) {
@@ -56,17 +62,17 @@ public class PricklyPearCactusBlock extends BushBlock implements BonemealableBlo
     }
 
     @Override
-    protected boolean mayPlaceOn(@NotNull BlockState state, @NotNull BlockGetter level, @NotNull BlockPos pos) {
+    public boolean mayPlaceOn(@NotNull BlockState state, @NotNull BlockGetter level, @NotNull BlockPos pos) {
         return PlantSoils.supportsCactus(state);
     }
 
     @Override
-    protected boolean isRandomlyTicking(@NotNull BlockState state) {
+    public boolean isRandomlyTicking(@NotNull BlockState state) {
         return state.getValue(AGE) < MAX_AGE;
     }
 
     @Override
-    protected void randomTick(@NotNull BlockState state, @NotNull ServerLevel level, @NotNull BlockPos pos, @NotNull RandomSource random) {
+    public void randomTick(@NotNull BlockState state, @NotNull ServerLevel level, @NotNull BlockPos pos, @NotNull RandomSource random) {
         int age = state.getValue(AGE);
         if (age < MAX_AGE && PlantGrowth.canGrow(level, pos, state, random, 8, ServerConfig.cactusGrowth.get())) {
             level.setBlock(pos, state.setValue(AGE, age + 1), 2);
@@ -74,8 +80,7 @@ public class PricklyPearCactusBlock extends BushBlock implements BonemealableBlo
         }
     }
 
-    @Override
-    protected @NotNull InteractionResult useWithoutItem(@NotNull BlockState state,
+    public @NotNull InteractionResult useWithoutItem(@NotNull BlockState state,
                                                         @NotNull Level level,
                                                         @NotNull BlockPos pos,
                                                         @NotNull Player player,
@@ -83,8 +88,7 @@ public class PricklyPearCactusBlock extends BushBlock implements BonemealableBlo
         return harvest(state, level, pos, player, hitResult);
     }
 
-    @Override
-    protected @NotNull net.minecraft.world.ItemInteractionResult useItemOn(@NotNull ItemStack stack,
+    public @NotNull net.minecraft.world.InteractionResult useWithItem(@NotNull ItemStack stack,
                                                    @NotNull BlockState state,
                                                    @NotNull Level level,
                                                    @NotNull BlockPos pos,
@@ -92,11 +96,11 @@ public class PricklyPearCactusBlock extends BushBlock implements BonemealableBlo
                                                    @NotNull InteractionHand hand,
                                                    @NotNull BlockHitResult hitResult) {
         if (stack.is(Items.BONE_MEAL)) {
-            return net.minecraft.world.ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
+            return net.minecraft.world.InteractionResult.PASS;
         }
 
         InteractionResult result = harvest(state, level, pos, player, hitResult);
-        return result.consumesAction() ? net.minecraft.world.ItemInteractionResult.SUCCESS : net.minecraft.world.ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
+        return result.consumesAction() ? net.minecraft.world.InteractionResult.SUCCESS : net.minecraft.world.InteractionResult.PASS;
     }
 
     private @NotNull InteractionResult harvest(@NotNull BlockState state,
@@ -121,7 +125,7 @@ public class PricklyPearCactusBlock extends BushBlock implements BonemealableBlo
     }
 
     @Override
-    public boolean isValidBonemealTarget(@NotNull LevelReader level, @NotNull BlockPos pos, @NotNull BlockState state) {
+    public boolean isValidBonemealTarget(@NotNull LevelReader level, @NotNull BlockPos pos, @NotNull BlockState state, boolean isClientSide) {
         return state.getValue(AGE) < MAX_AGE;
     }
 

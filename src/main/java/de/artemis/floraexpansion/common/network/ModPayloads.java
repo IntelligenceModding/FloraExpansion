@@ -15,24 +15,24 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.network.ChannelBuilder;
-import net.minecraftforge.network.SimpleChannel;
-import net.minecraftforge.event.network.CustomPayloadEvent;
+import net.minecraftforge.network.NetworkRegistry;
+import net.minecraftforge.network.simple.SimpleChannel;
+import net.minecraftforge.network.NetworkEvent;
 import de.artemis.floraexpansion.common.config.ServerConfig;
 
 public final class ModPayloads {
     private ModPayloads() {
     }
 
-    public static final SimpleChannel CHANNEL = ChannelBuilder.named("floraexpansion:main").networkProtocolVersion(1).simpleChannel();
+    public static final SimpleChannel CHANNEL = NetworkRegistry.newSimpleChannel(net.minecraft.resources.ResourceLocation.fromNamespaceAndPath("floraexpansion","main"), () -> "1", "1"::equals, "1"::equals);
     public static void register() {
-        CHANNEL.messageBuilder(CrateExtractPayload.class, net.minecraftforge.network.NetworkDirection.PLAY_TO_SERVER)
+        CHANNEL.messageBuilder(CrateExtractPayload.class, 0, net.minecraftforge.network.NetworkDirection.PLAY_TO_SERVER)
             .encoder((packet, buffer) -> { buffer.writeBlockPos(packet.pos()); buffer.writeBoolean(packet.fullStack()); })
             .decoder(buffer -> new CrateExtractPayload(buffer.readBlockPos(), buffer.readBoolean()))
-            .consumerNetworkThread(ModPayloads::handleCrateExtract).add();
+            .consumerNetworkThread((payload, supplier) -> { handleCrateExtract(payload, supplier.get()); }).add();
     }
 
-    private static void handleCrateExtract(CrateExtractPayload payload, CustomPayloadEvent.Context context) {
+    private static void handleCrateExtract(CrateExtractPayload payload, NetworkEvent.Context context) {
         context.setPacketHandled(true);
         context.enqueueWork(() -> {
             ServerPlayer player = context.getSender();
@@ -74,7 +74,7 @@ public final class ModPayloads {
             return;
         }
 
-        if (ItemStack.isSameItemSameComponents(mainHandItem, stack) && mainHandItem.getCount() + stack.getCount() <= mainHandItem.getMaxStackSize()) {
+        if (ItemStack.isSameItemSameTags(mainHandItem, stack) && mainHandItem.getCount() + stack.getCount() <= mainHandItem.getMaxStackSize()) {
             mainHandItem.grow(stack.getCount());
             return;
         }

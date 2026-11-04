@@ -3,7 +3,7 @@ package de.artemis.floraexpansion.common.registry;
 import de.artemis.floraexpansion.FloraExpansion;
 import de.artemis.floraexpansion.common.inventory.BasketMenu;
 import de.artemis.floraexpansion.common.inventory.CrateMenu;
-import net.minecraft.core.registries.BuiltInRegistries;
+
 import net.minecraft.world.inventory.MenuType;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.common.extensions.IForgeMenuType;

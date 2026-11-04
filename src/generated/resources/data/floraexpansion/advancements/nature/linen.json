@@ -1,0 +1,53 @@
+{
+  "parent": "floraexpansion:nature/fabric",
+  "criteria": {
+    "linen_bale": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "floraexpansion:linen_bale"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "linen_carpet": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "floraexpansion:linen_carpet"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "announce_to_chat": true,
+    "description": {
+      "translate": "advancements.floraexpansion.linen.description"
+    },
+    "frame": "goal",
+    "hidden": false,
+    "icon": {
+      "item": "floraexpansion:linen_bale"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancements.floraexpansion.linen.title"
+    }
+  },
+  "requirements": [
+    [
+      "linen_bale"
+    ],
+    [
+      "linen_carpet"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

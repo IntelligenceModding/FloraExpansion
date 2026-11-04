@@ -22,8 +22,8 @@ import org.jetbrains.annotations.Nullable;
 
 /** The runner and connecting axle share the crank's rotation. */
 public class HandMillBlockEntityRenderer implements BlockEntityRenderer<HandMillBlockEntity> {
-    private static final ResourceLocation TEXTURE = ResourceLocation.withDefaultNamespace("textures/block/polished_andesite.png");
-    private static final ResourceLocation WOOD = ResourceLocation.withDefaultNamespace("textures/block/stripped_spruce_log.png");
+    private static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath("minecraft", "textures/block/polished_andesite.png");
+    private static final ResourceLocation WOOD = ResourceLocation.fromNamespaceAndPath("minecraft", "textures/block/stripped_spruce_log.png");
     // A ten-pixel square stays within the sixteen-pixel housing even at 45 degrees.
     private static final float HALF = 5.0F / 16;
     private static final float SOCKET = 1F / 16;

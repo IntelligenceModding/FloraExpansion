@@ -1,0 +1,11 @@
+{
+  "type": "floraexpansion:grinding",
+  "ingredient": {
+    "item": "minecraft:pitcher_plant"
+  },
+  "result": {
+    "count": 4,
+    "item": "minecraft:cyan_dye"
+  },
+  "turns": 4
+}

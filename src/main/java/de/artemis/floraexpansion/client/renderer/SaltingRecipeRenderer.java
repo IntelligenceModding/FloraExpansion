@@ -5,7 +5,7 @@ import com.mojang.math.Axis;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.world.item.ItemStack;
-/** The same animated cutaway rendered with the 1.21.1 GUI buffer. */
+/** The same animated cutaway rendered with the 1.20.1 GUI buffer. */
 public final class SaltingRecipeRenderer {
     private static final SaltingRecipeRenderer INSTANCE = new SaltingRecipeRenderer();
     // GuiGraphics looks along -Z; show the open north/east sides and the top.

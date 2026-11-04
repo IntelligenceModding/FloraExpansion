@@ -30,7 +30,13 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 
 /** A small open tub: load food one serving at a time, cap with salt, then collect. */
 public class SaltingTubBlock extends BaseEntityBlock {
- @NotNull @Override public com.mojang.serialization.MapCodec<SaltingTubBlock> codec() { return simpleCodec(SaltingTubBlock::new); }
+    @NotNull @Override public net.minecraft.world.InteractionResult use(@NotNull net.minecraft.world.level.block.state.BlockState state, @NotNull net.minecraft.world.level.Level level, @NotNull net.minecraft.core.BlockPos pos, @NotNull net.minecraft.world.entity.player.Player player, @NotNull net.minecraft.world.InteractionHand hand, @NotNull net.minecraft.world.phys.BlockHitResult hit) {
+        var result = useWithItem(player.getItemInHand(hand), state, level, pos, player, hand, hit);
+        if (result != net.minecraft.world.InteractionResult.PASS) return result;
+        return useWithoutItem(state, level, pos, player, hit);
+    }
+
+
     public static final IntegerProperty LAYERS = IntegerProperty.create("layers", 0, 4);
     public static final BooleanProperty SALTED = BooleanProperty.create("salted");
     public static final BooleanProperty READY = BooleanProperty.create("ready");
@@ -43,7 +49,7 @@ public class SaltingTubBlock extends BaseEntityBlock {
         registerDefaultState(defaultBlockState().setValue(LAYERS, 0).setValue(SALTED, false).setValue(READY, false));
     }
 
-    @Override protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
+    @Override public void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
         builder.add(LAYERS, SALTED, READY);
     }
     @Override public BlockEntity newBlockEntity(@NotNull BlockPos pos, @NotNull BlockState state) { return new SaltingTubBlockEntity(pos, state); }
@@ -52,24 +58,24 @@ public class SaltingTubBlock extends BaseEntityBlock {
         return level.isClientSide ? null : createTickerHelper(type,
                 de.artemis.floraexpansion.common.registry.ModBlockEntities.SALTING_TUB.get(), SaltingTubBlockEntity::serverTick);
     }
-    @NotNull @Override protected RenderShape getRenderShape(@NotNull BlockState state) { return RenderShape.MODEL; }
-    @Override protected int getLightBlock(@NotNull BlockState state, @NotNull BlockGetter level, @NotNull BlockPos pos) { return 0; }
-    @Override protected boolean propagatesSkylightDown(@NotNull BlockState state, @NotNull BlockGetter level, @NotNull BlockPos pos) { return true; }
-    @NotNull @Override protected VoxelShape getShape(BlockState state, @NotNull BlockGetter level, @NotNull BlockPos pos, @NotNull CollisionContext context) {
+    @NotNull @Override public RenderShape getRenderShape(@NotNull BlockState state) { return RenderShape.MODEL; }
+    @Override public int getLightBlock(@NotNull BlockState state, @NotNull BlockGetter level, @NotNull BlockPos pos) { return 0; }
+    @Override public boolean propagatesSkylightDown(@NotNull BlockState state, @NotNull BlockGetter level, @NotNull BlockPos pos) { return true; }
+    @NotNull @Override public VoxelShape getShape(BlockState state, @NotNull BlockGetter level, @NotNull BlockPos pos, @NotNull CollisionContext context) {
         int layers = state.getValue(LAYERS);
         return layers == 0 ? SHELL : Shapes.or(SHELL, Block.box(2, 2, 2, 14,
                 state.getValue(READY) ? 16 : 2 + Math.ceil(13 * layers / 4.0), 14));
     }
 
-    @NotNull @Override protected net.minecraft.world.ItemInteractionResult useItemOn(@NotNull ItemStack stack, @NotNull BlockState state, @NotNull Level level, @NotNull BlockPos pos,
+    @NotNull public net.minecraft.world.InteractionResult useWithItem(@NotNull ItemStack stack, @NotNull BlockState state, @NotNull Level level, @NotNull BlockPos pos,
                                                     @NotNull Player player, @NotNull InteractionHand hand, @NotNull BlockHitResult hit) {
         boolean salt = ModRecipes.isSaltingSalt(level, stack);
-        if (!salt && !ModRecipes.isSaltingFood(level, stack)) return net.minecraft.world.ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
-        if (level.isClientSide) return net.minecraft.world.ItemInteractionResult.SUCCESS;
-        if (!(level.getBlockEntity(pos) instanceof SaltingTubBlockEntity tub)) return net.minecraft.world.ItemInteractionResult.CONSUME;
+        if (!salt && !ModRecipes.isSaltingFood(level, stack)) return net.minecraft.world.InteractionResult.PASS;
+        if (level.isClientSide) return net.minecraft.world.InteractionResult.SUCCESS;
+        if (!(level.getBlockEntity(pos) instanceof SaltingTubBlockEntity tub)) return net.minecraft.world.InteractionResult.CONSUME;
         boolean success = salt ? tub.salt(stack) : tub.addFood(stack);
         if (success) {
-            if (!player.hasInfiniteMaterials()) stack.shrink(1);
+            if (!player.getAbilities().instabuild) stack.shrink(1);
             InventoryUtils.syncPlayerInventory(player);
             level.playSound(null, pos, salt ? SoundEvents.SAND_PLACE : SoundEvents.COMPOSTER_FILL,
                     SoundSource.BLOCKS, 0.7F, 1F);
@@ -80,10 +86,10 @@ public class SaltingTubBlock extends BaseEntityBlock {
                     : salt ? "message.floraexpansion.salting_tub.needs_food"
                     : "message.floraexpansion.salting_tub.same_food"), true);
         }
-        return net.minecraft.world.ItemInteractionResult.CONSUME;
+        return net.minecraft.world.InteractionResult.CONSUME;
     }
 
-    @NotNull @Override protected InteractionResult useWithoutItem(@NotNull BlockState state, Level level, @NotNull BlockPos pos,
+    @NotNull public InteractionResult useWithoutItem(@NotNull BlockState state, Level level, @NotNull BlockPos pos,
                                                          @NotNull Player player, @NotNull BlockHitResult hit) {
         if (level.isClientSide) return InteractionResult.SUCCESS;
         if (level.getBlockEntity(pos) instanceof SaltingTubBlockEntity tub) {
@@ -100,14 +106,14 @@ public class SaltingTubBlock extends BaseEntityBlock {
         return InteractionResult.CONSUME;
     }
 
-    @Override protected boolean hasAnalogOutputSignal(@NotNull BlockState state) { return true; }
-    @Override protected void onRemove(BlockState state, @NotNull Level level, @NotNull BlockPos pos, BlockState replacement, boolean moved) {
+    @Override public boolean hasAnalogOutputSignal(@NotNull BlockState state) { return true; }
+    @Override public void onRemove(BlockState state, @NotNull Level level, @NotNull BlockPos pos, BlockState replacement, boolean moved) {
         if (!state.is(replacement.getBlock())) {
             if (!level.isClientSide && level.getBlockEntity(pos) instanceof SaltingTubBlockEntity tub) tub.dropContents();
             super.onRemove(state, level, pos, replacement, moved);
         }
     }
-    @Override protected int getAnalogOutputSignal(BlockState state, @NotNull Level level, @NotNull BlockPos pos) {
+    @Override public int getAnalogOutputSignal(BlockState state, @NotNull Level level, @NotNull BlockPos pos) {
         return state.getValue(READY) ? 15 : state.getValue(SALTED) ? 14 : state.getValue(LAYERS) * 3;
     }
 }

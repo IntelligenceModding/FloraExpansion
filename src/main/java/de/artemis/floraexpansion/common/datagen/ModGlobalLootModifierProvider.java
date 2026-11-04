@@ -4,7 +4,7 @@ import de.artemis.floraexpansion.FloraExpansion;
 import de.artemis.floraexpansion.common.registry.ModBlocks;
 import de.artemis.floraexpansion.common.registry.ModItems;
 import de.artemis.floraexpansion.common.loot.AddItemModifier;
-import net.minecraft.core.HolderLookup;
+
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Blocks;
@@ -19,12 +19,12 @@ import net.minecraftforge.common.loot.LootTableIdCondition;
 import java.util.concurrent.CompletableFuture;
 
 public class ModGlobalLootModifierProvider extends GlobalLootModifierProvider {
-    public ModGlobalLootModifierProvider(PackOutput output, CompletableFuture<HolderLookup.Provider> registries) {
-        super(output, FloraExpansion.MODID, registries);
+    public ModGlobalLootModifierProvider(PackOutput output, CompletableFuture<net.minecraft.core.HolderLookup.Provider> registries) {
+        super(output, FloraExpansion.MODID);
     }
 
     @Override
-    protected void start(HolderLookup.Provider registries) {
+    protected void start() {
         addFromBlock("spruce_cone_to_spruce_leaves", Blocks.SPRUCE_LEAVES, 0.2f, ModItems.SPRUCE_CONE.get());
 
         addFromBlock("needle_litter_to_spruce_leaves", Blocks.SPRUCE_LEAVES, 0.1f, ModBlocks.NEEDLE_LITTER.get().asItem());
@@ -109,7 +109,7 @@ public class ModGlobalLootModifierProvider extends GlobalLootModifierProvider {
     }
 
     private void addFromLootTable(String name, String lootTable, float chance, ItemLike item, int minCount, int maxCount) {
-        addWithChance(name, LootTableIdCondition.builder(ResourceLocation.withDefaultNamespace(lootTable)).build(),
+        addWithChance(name, LootTableIdCondition.builder(ResourceLocation.fromNamespaceAndPath("minecraft", lootTable)).build(),
                 chance, item, minCount, maxCount);
     }
 

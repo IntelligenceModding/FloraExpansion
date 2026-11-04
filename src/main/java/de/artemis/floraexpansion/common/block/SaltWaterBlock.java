@@ -11,8 +11,8 @@ import net.minecraft.world.level.block.LiquidBlock;
 import net.minecraft.world.level.block.state.BlockState;
 
 public final class SaltWaterBlock extends LiquidBlock {
-    public SaltWaterBlock(Properties properties) { super(ModFluids.SALT_WATER.get(),properties); }
-    @Override protected void onPlace(@NotNull BlockState state,net.minecraft.world.level.Level level,@NotNull BlockPos pos,
+    public SaltWaterBlock(Properties properties) { super(ModFluids.SALT_WATER,properties); }
+    @Override public void onPlace(@NotNull BlockState state,net.minecraft.world.level.Level level,@NotNull BlockPos pos,
                                      @NotNull BlockState oldState,boolean movedByPiston) {
         if (!level.isClientSide && state.getFluidState().isSource()
                 && level.dimensionType().ultraWarm()) {
@@ -24,8 +24,8 @@ public final class SaltWaterBlock extends LiquidBlock {
         }
         super.onPlace(state,level,pos,oldState,movedByPiston);
     }
-    @Override protected boolean isRandomlyTicking(BlockState state) { return state.getFluidState().isSource(); }
-    @Override protected void randomTick(@NotNull BlockState state,@NotNull ServerLevel level,@NotNull BlockPos pos,@NotNull RandomSource random) {
+    @Override public boolean isRandomlyTicking(BlockState state) { return state.getFluidState().isSource(); }
+    @Override public void randomTick(@NotNull BlockState state,@NotNull ServerLevel level,@NotNull BlockPos pos,@NotNull RandomSource random) {
         super.randomTick(state,level,pos,random);
         SaltWaterEvaporation.randomTick(level,pos,random);
     }

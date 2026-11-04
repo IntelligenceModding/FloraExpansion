@@ -12,7 +12,7 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.stats.Stats;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.ItemInteractionResult;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -31,29 +31,29 @@ public final class WoodenBucketCauldronInteractions {
         event.enqueueWork(WoodenBucketCauldronInteractions::registerInteractions);
     }
     private static void registerInteractions() {
-        CauldronInteraction.WATER.map().put(ModItems.WOODEN_BUCKET.get(), (state, level, pos, player, hand, stack) ->
+        CauldronInteraction.WATER.put(ModItems.WOODEN_BUCKET.get(), (state, level, pos, player, hand, stack) ->
                 isFull(state) ? fill(level,pos,player,hand,stack,ModItems.WOODEN_WATER_BUCKET.get(),SoundEvents.BUCKET_FILL)
-                        : ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION);
-        CauldronInteraction.POWDER_SNOW.map().put(ModItems.WOODEN_BUCKET.get(), (state, level, pos, player, hand, stack) ->
+                        : InteractionResult.PASS);
+        CauldronInteraction.POWDER_SNOW.put(ModItems.WOODEN_BUCKET.get(), (state, level, pos, player, hand, stack) ->
                 isFull(state) ? fill(level,pos,player,hand,stack,ModItems.WOODEN_POWDER_SNOW_BUCKET.get(),SoundEvents.BUCKET_FILL_POWDER_SNOW)
-                        : ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION);
-        CauldronInteraction.LAVA.map().put(ModItems.WOODEN_BUCKET.get(), (state, level, pos, player, hand, stack) ->
+                        : InteractionResult.PASS);
+        CauldronInteraction.LAVA.put(ModItems.WOODEN_BUCKET.get(), (state, level, pos, player, hand, stack) ->
                 ServerConfig.lavaEnabled.get() ? fill(level,pos,player,hand,stack,ModItems.WOODEN_LAVA_BUCKET.get(),SoundEvents.BUCKET_FILL_LAVA)
-                        : ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION);
+                        : InteractionResult.PASS);
 
         // Includes custom cauldrons, just as vanilla's default filled-bucket interactions do.
         SaltWaterInteractions.registerToAll(ModItems.WOODEN_WATER_BUCKET.get(), (state, level, pos, player, hand, stack) ->
                 pour(level,pos,player,hand,stack,Blocks.WATER_CAULDRON.defaultBlockState()
                         .setValue(LayeredCauldronBlock.LEVEL,3),SoundEvents.BUCKET_EMPTY));
         SaltWaterInteractions.registerToAll(ModItems.WOODEN_LAVA_BUCKET.get(), (state, level, pos, player, hand, stack) ->
-                isUnderWater(level,pos) ? ItemInteractionResult.CONSUME :
+                isUnderWater(level,pos) ? InteractionResult.CONSUME :
                         pour(level,pos,player,hand,stack,Blocks.LAVA_CAULDRON.defaultBlockState(),SoundEvents.BUCKET_EMPTY_LAVA));
         SaltWaterInteractions.registerToAll(ModItems.WOODEN_POWDER_SNOW_BUCKET.get(), (state, level, pos, player, hand, stack) ->
-                isUnderWater(level,pos) ? ItemInteractionResult.CONSUME :
+                isUnderWater(level,pos) ? InteractionResult.CONSUME :
                         pour(level,pos,player,hand,stack,Blocks.POWDER_SNOW_CAULDRON.defaultBlockState()
                                 .setValue(LayeredCauldronBlock.LEVEL,3),SoundEvents.BUCKET_EMPTY_POWDER_SNOW));
     }
-    public static ItemInteractionResult fill(Level level, BlockPos pos, Player player, InteractionHand hand,
+    public static InteractionResult fill(Level level, BlockPos pos, Player player, InteractionHand hand,
                                          ItemStack stack, Item filledItem, SoundEvent sound) {
         if (!level.isClientSide) {
             var filled = WoodenBucketUtil.transformInto(stack,player,filledItem, result -> {
@@ -64,16 +64,16 @@ public final class WoodenBucketCauldronInteractions {
             level.setBlock(pos,Blocks.CAULDRON.defaultBlockState(), 3);
             changed(level,pos,player,stack.getItem(),false,sound);
         }
-        return ItemInteractionResult.SUCCESS;
+        return InteractionResult.SUCCESS;
     }
-    public static ItemInteractionResult pour(Level level, BlockPos pos, Player player, InteractionHand hand,
+    public static InteractionResult pour(Level level, BlockPos pos, Player player, InteractionHand hand,
                                          ItemStack stack, BlockState target, SoundEvent sound) {
         if (!level.isClientSide) {
             player.setItemInHand(hand,WoodenBucketUtil.damageInto(stack,player,ModItems.WOODEN_BUCKET.get()));
             level.setBlock(pos,target, 3);
             changed(level,pos,player,stack.getItem(),true,sound);
         }
-        return ItemInteractionResult.SUCCESS;
+        return InteractionResult.SUCCESS;
     }
     private static void changed(Level level, BlockPos pos, Player player, Item used, boolean pour, SoundEvent sound) {
         player.awardStat(pour ? Stats.FILL_CAULDRON : Stats.USE_CAULDRON);

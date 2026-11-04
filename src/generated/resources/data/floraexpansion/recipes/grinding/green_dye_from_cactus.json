@@ -1,0 +1,11 @@
+{
+  "type": "floraexpansion:grinding",
+  "ingredient": {
+    "item": "minecraft:cactus"
+  },
+  "result": {
+    "count": 2,
+    "item": "minecraft:green_dye"
+  },
+  "turns": 4
+}

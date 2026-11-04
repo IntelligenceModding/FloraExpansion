@@ -71,7 +71,7 @@ public class HandCrankBlockEntity extends BlockEntity {
     }
     private float rotation(float partialTick) {
         if (level == null || rotationStart < 0) return 0;
-        float fraction = (float) Math.clamp((animationTime(partialTick) - rotationStart) / ROTATION_TICKS, 0D, 1D);
+        float fraction = (float) net.minecraft.util.Mth.clamp((animationTime(partialTick) - rotationStart) / ROTATION_TICKS, 0D, 1D);
         float eased = 1 - (1 - fraction) * (1 - fraction) * (1 - fraction);
         return rotationFrom + (rotationTo - rotationFrom) * eased;
     }
@@ -114,12 +114,12 @@ public class HandCrankBlockEntity extends BlockEntity {
         rotationTo = rotationFrom + pending + degrees;
         rotationStart = animationTime(partialTick);
     }
-    @Override protected void saveAdditional(@NotNull net.minecraft.nbt.CompoundTag output, @NotNull net.minecraft.core.HolderLookup.Provider registries) {
-        super.saveAdditional(output, registries);
+    @Override public void saveAdditional(@NotNull net.minecraft.nbt.CompoundTag output) {
+        super.saveAdditional(output);
         output.putLong("next_decay", nextDecay);
     }
-    @Override protected void loadAdditional(@NotNull net.minecraft.nbt.CompoundTag input, @NotNull net.minecraft.core.HolderLookup.Provider registries) {
-        super.loadAdditional(input, registries);
+    @Override public void load(@NotNull net.minecraft.nbt.CompoundTag input) {
+        super.load(input);
         nextDecay = input.getLong("next_decay");
     }
 }

@@ -19,7 +19,7 @@ public class ModLanguageProvider extends net.minecraftforge.common.data.Language
             add(ModAdvancementProvider.translation(milestone.id(), "description"), milestone.description());
         }
         add("item.floraexpansion.music_disc_into_the_caves", "Music Disc");
-        add("jukebox_song.floraexpansion.into_the_caves", "Umplix - Into the Caves");
+        add("item.floraexpansion.music_disc_into_the_caves.desc", "Umplix - Into the Caves");
         add("biome.floraexpansion.salt_caves", "Salt Caves");
         add(ModBlocks.CALCITE_COAL_ORE.get(), "Calcite Coal Ore");
         add(ModBlocks.CALCITE_IRON_ORE.get(), "Calcite Iron Ore");
@@ -36,6 +36,12 @@ public class ModLanguageProvider extends net.minecraftforge.common.data.Language
         add("item.floraexpansion.salted_glasswort", "Salted Glasswort");
         add(ModBlocks.POTTED_GLASSWORT.get(), "Potted Glasswort");
         add("floraexpansion.configuration.title", "%s Configuration");
+        add("floraexpansion.configuration.reset", "Reset");
+        add("floraexpansion.configuration.save", "Save");
+        add("floraexpansion.configuration.serverFiles", "Gameplay settings: edit the server/world TOML file.");
+        add("floraexpansion.configuration.tooltipDetail.COMPACT", "Compact");
+        add("floraexpansion.configuration.tooltipDetail.EXPANDED", "Expanded");
+        add("floraexpansion.configuration.tooltipDetail.ON_SHIFT", "While holding Shift");
         add("floraexpansion.configuration.growth", "Growth");
         add("floraexpansion.configuration.remainders", "Food Remainders");
         add("floraexpansion.configuration.combat", "Combat");

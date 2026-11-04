@@ -5,10 +5,11 @@ import de.artemis.floraexpansion.common.inventory.CrateMenu;
 import de.artemis.floraexpansion.common.registry.ModBlockEntities;
 import de.artemis.floraexpansion.common.registry.ModTags;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.HolderLookup;
+
 import net.minecraft.core.NonNullList;
 
-import net.minecraft.core.component.DataComponents;
+
+
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.network.chat.Component;
@@ -17,7 +18,7 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.component.ItemContainerContents;
+
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.RandomizableContainerBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
@@ -40,16 +41,16 @@ public class CrateBlockEntity extends RandomizableContainerBlockEntity {
     }
 
     @Override
-    protected void saveAdditional(@NotNull net.minecraft.nbt.CompoundTag output, @NotNull net.minecraft.core.HolderLookup.Provider registries) {
-        super.saveAdditional(output, registries);
-        ContainerHelper.saveAllItems(output, this.items, registries);
+    public void saveAdditional(@NotNull net.minecraft.nbt.CompoundTag output) {
+        super.saveAdditional(output);
+        ContainerHelper.saveAllItems(output, this.items);
     }
 
     @Override
-    protected void loadAdditional(@NotNull net.minecraft.nbt.CompoundTag input, @NotNull net.minecraft.core.HolderLookup.Provider registries) {
-        super.loadAdditional(input, registries);
+    public void load(@NotNull net.minecraft.nbt.CompoundTag input) {
+        super.load(input);
         this.items = NonNullList.withSize(this.getContainerSize(), ItemStack.EMPTY);
-        ContainerHelper.loadAllItems(input, this.items, registries);
+        ContainerHelper.loadAllItems(input, this.items);
     }
 
     @Override
@@ -66,8 +67,8 @@ public class CrateBlockEntity extends RandomizableContainerBlockEntity {
 
         for (int i = 0; i < this.items.size() && remaining > 0; i++) {
             ItemStack slotStack = this.items.get(i);
-            if (!slotStack.isEmpty() && ItemStack.isSameItemSameComponents(slotStack, stack)) {
-                int space = Math.min(this.getMaxStackSize(slotStack), slotStack.getMaxStackSize()) - slotStack.getCount();
+            if (!slotStack.isEmpty() && ItemStack.isSameItemSameTags(slotStack, stack)) {
+                int space = Math.min(this.getMaxStackSize(), slotStack.getMaxStackSize()) - slotStack.getCount();
                 if (space > 0) {
                     int moved = Math.min(space, remaining);
                     slotStack.grow(moved);
@@ -79,7 +80,7 @@ public class CrateBlockEntity extends RandomizableContainerBlockEntity {
         for (int i = 0; i < this.items.size() && remaining > 0; i++) {
             ItemStack slotStack = this.items.get(i);
             if (slotStack.isEmpty()) {
-                int moved = Math.min(Math.min(this.getMaxStackSize(stack), stack.getMaxStackSize()), remaining);
+                int moved = Math.min(Math.min(this.getMaxStackSize(), stack.getMaxStackSize()), remaining);
                 this.items.set(i, stack.copyWithCount(moved));
                 remaining -= moved;
             }
@@ -103,12 +104,12 @@ public class CrateBlockEntity extends RandomizableContainerBlockEntity {
             return ItemStack.EMPTY;
         }
 
-        int remaining = Math.min(this.getMaxStackSize(storedType), storedType.getMaxStackSize());
+        int remaining = Math.min(this.getMaxStackSize(), storedType.getMaxStackSize());
         ItemStack extracted = storedType.copyWithCount(0);
 
         for (int i = this.items.size() - 1; i >= 0 && remaining > 0; i--) {
             ItemStack slotStack = this.items.get(i);
-            if (!slotStack.isEmpty() && ItemStack.isSameItemSameComponents(slotStack, storedType)) {
+            if (!slotStack.isEmpty() && ItemStack.isSameItemSameTags(slotStack, storedType)) {
                 int moved = Math.min(slotStack.getCount(), remaining);
                 extracted.grow(moved);
                 slotStack.shrink(moved);
@@ -159,7 +160,7 @@ public class CrateBlockEntity extends RandomizableContainerBlockEntity {
 
     public int getTotalCapacity() {
         ItemStack storedType = this.getStoredType();
-        int stackLimit = storedType.isEmpty() ? 64 : Math.min(this.getMaxStackSize(storedType), storedType.getMaxStackSize());
+        int stackLimit = storedType.isEmpty() ? 64 : Math.min(this.getMaxStackSize(), storedType.getMaxStackSize());
         return this.getContainerSize() * stackLimit;
     }
 
@@ -183,7 +184,7 @@ public class CrateBlockEntity extends RandomizableContainerBlockEntity {
 
         return !stack.isEmpty()
                 && !this.lastInsertType.isEmpty()
-                && ItemStack.isSameItemSameComponents(this.lastInsertType, stack);
+                && ItemStack.isSameItemSameTags(this.lastInsertType, stack);
     }
 
     public void recordInsertClick(net.minecraft.world.entity.player.Player player, @NotNull ItemStack stack, long gameTime) {
@@ -211,7 +212,7 @@ public class CrateBlockEntity extends RandomizableContainerBlockEntity {
         }
 
         ItemStack storedType = this.getStoredType();
-        return storedType.isEmpty() || ItemStack.isSameItemSameComponents(storedType, stack);
+        return storedType.isEmpty() || ItemStack.isSameItemSameTags(storedType, stack);
     }
 
     @Override
@@ -237,7 +238,7 @@ public class CrateBlockEntity extends RandomizableContainerBlockEntity {
     public void setItem(int slot, @NotNull ItemStack stack, boolean insideTransaction) {
         if (!stack.isEmpty() && !this.canPlaceItem(slot, stack)) {
             ItemStack previous = this.items.get(slot);
-            if (this.isStorageLocked() || !ItemStack.isSameItemSameComponents(previous, stack)
+            if (this.isStorageLocked() || !ItemStack.isSameItemSameTags(previous, stack)
                     || stack.getCount() > previous.getCount()) {
                 return;
             }
@@ -247,12 +248,12 @@ public class CrateBlockEntity extends RandomizableContainerBlockEntity {
     }
 
     @Override
-    protected @NotNull NonNullList<ItemStack> getItems() {
+    public @NotNull NonNullList<ItemStack> getItems() {
         return this.items;
     }
 
     @Override
-    protected void setItems(@NotNull NonNullList<ItemStack> items) {
+    public void setItems(@NotNull NonNullList<ItemStack> items) {
         this.items = items;
     }
 
@@ -266,30 +267,16 @@ public class CrateBlockEntity extends RandomizableContainerBlockEntity {
     }
 
     @Override
-    public @NotNull CompoundTag getUpdateTag(@NotNull HolderLookup.Provider registries) {
-        return this.saveWithoutMetadata(registries);
+    public @NotNull CompoundTag getUpdateTag() {
+        return this.saveWithoutMetadata();
     }
 
-    public void saveToItem(@NotNull ItemStack stack, @NotNull HolderLookup.Provider registries) {
+    public void saveToItem(@NotNull ItemStack stack) {
         net.minecraft.nbt.CompoundTag output = new net.minecraft.nbt.CompoundTag();
-        this.saveAdditional(output, registries);
-        this.removeComponentsFromTag(output);
-        BlockItem.setBlockEntityData(stack, ModBlockEntities.CRATE.get(), output);
-        stack.applyComponents(this.collectComponents());
-    }
+        this.saveAdditional(output);
 
-    @Override
-    protected void applyImplicitComponents(@NotNull net.minecraft.world.level.block.entity.BlockEntity.DataComponentInput components) {
-        // Pre-0.4.2 packed crates stored Items inside BLOCK_ENTITY_DATA. Placement
-        // loads that tag first; the vanilla container base would then erase it
-        // when no modern CONTAINER component is present. An explicit component,
-        // including an explicitly empty one, must still take precedence.
-        var legacyContents = components.get(DataComponents.CONTAINER) == null
-                ? ItemContainerContents.fromItems(this.items) : null;
-        super.applyImplicitComponents(components);
-        if (legacyContents != null) {
-            legacyContents.copyInto(this.items);
-        }
+        BlockItem.setBlockEntityData(stack, ModBlockEntities.CRATE.get(), output);
+
     }
 
     @Override
@@ -298,12 +285,12 @@ public class CrateBlockEntity extends RandomizableContainerBlockEntity {
     }
 
     @Override
-    protected @NotNull Component getDefaultName() {
+    public @NotNull Component getDefaultName() {
         return Component.translatable("block.floraexpansion.crate");
     }
 
     @Override
-    protected @NotNull AbstractContainerMenu createMenu(int containerId, @NotNull Inventory inventory) {
+    public @NotNull AbstractContainerMenu createMenu(int containerId, @NotNull Inventory inventory) {
         return new CrateMenu(containerId, inventory, this);
     }
 

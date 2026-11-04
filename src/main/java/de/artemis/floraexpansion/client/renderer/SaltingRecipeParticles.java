@@ -68,7 +68,7 @@ final class SaltingRecipeParticles {
             // Dust grows quickly at birth; vanilla does not fade or shrink the quad at the end.
             size *= Math.min(1, ticks/lifetime*32F);
             int frame = Math.min(7, (int)ticks * 7 / lifetime);
-            var texture = ResourceLocation.withDefaultNamespace("textures/particle/generic_"+(7-frame)+".png");
+            var texture = ResourceLocation.fromNamespaceAndPath("minecraft", "textures/particle/generic_"+(7-frame)+".png");
             var pos = position(emission,velocity,ticks,0F,0.96F,1F);
             billboard(poses,collector,texture,pos[0],pos[1],pos[2],size,0,0,1,1,
                     0xFF000000 | red << 16 | green << 8 | blue);
@@ -99,8 +99,8 @@ final class SaltingRecipeParticles {
             if (y < surface) { y=surface; vy=0; vx*=0.7; vz*=0.7; }
             // The preview's removed walls still bound the contents as they do in the world tub.
             if (y < 1) {
-                x=Math.clamp(x,0.225,0.775);
-                z=Math.clamp(z,0.225,0.775);
+                x=net.minecraft.util.Mth.clamp(x,0.225,0.775);
+                z=net.minecraft.util.Mth.clamp(z,0.225,0.775);
             }
             vx*=friction; vy*=friction; vz*=friction;
         }
@@ -116,14 +116,14 @@ final class SaltingRecipeParticles {
         poses.mulPose(Axis.YP.rotationDegrees(-SaltingRecipeRenderer.YAW));
         poses.mulPose(Axis.XP.rotationDegrees(-SaltingRecipeRenderer.PITCH));
         collector.submitCustomGeometry(poses, RenderType.entityTranslucent(texture), (pose,out) -> {
-            out.addVertex(pose,-size,size,0).setColor(color).setUv(u0,v0)
-                    .setOverlay(OverlayTexture.NO_OVERLAY).setLight(15728880).setNormal(pose,0,0,1);
-            out.addVertex(pose,-size,-size,0).setColor(color).setUv(u0,v1)
-                    .setOverlay(OverlayTexture.NO_OVERLAY).setLight(15728880).setNormal(pose,0,0,1);
-            out.addVertex(pose,size,-size,0).setColor(color).setUv(u1,v1)
-                    .setOverlay(OverlayTexture.NO_OVERLAY).setLight(15728880).setNormal(pose,0,0,1);
-            out.addVertex(pose,size,size,0).setColor(color).setUv(u1,v0)
-                    .setOverlay(OverlayTexture.NO_OVERLAY).setLight(15728880).setNormal(pose,0,0,1);
+            out.vertex(pose.pose(),-size,size,0).color(color).uv(u0,v0)
+                    .overlayCoords(OverlayTexture.NO_OVERLAY).uv2(15728880).normal(pose.normal(),0,0,1).endVertex();
+            out.vertex(pose.pose(),-size,-size,0).color(color).uv(u0,v1)
+                    .overlayCoords(OverlayTexture.NO_OVERLAY).uv2(15728880).normal(pose.normal(),0,0,1).endVertex();
+            out.vertex(pose.pose(),size,-size,0).color(color).uv(u1,v1)
+                    .overlayCoords(OverlayTexture.NO_OVERLAY).uv2(15728880).normal(pose.normal(),0,0,1).endVertex();
+            out.vertex(pose.pose(),size,size,0).color(color).uv(u1,v0)
+                    .overlayCoords(OverlayTexture.NO_OVERLAY).uv2(15728880).normal(pose.normal(),0,0,1).endVertex();
         });
         poses.popPose();
     }

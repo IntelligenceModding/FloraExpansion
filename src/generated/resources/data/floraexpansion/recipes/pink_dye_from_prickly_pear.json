@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "floraexpansion:prickly_pear"
+    }
+  ],
+  "result": {
+    "item": "minecraft:pink_dye"
+  }
+}

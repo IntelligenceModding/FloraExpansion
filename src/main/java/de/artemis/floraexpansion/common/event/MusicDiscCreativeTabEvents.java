@@ -14,7 +14,7 @@ import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
 public final class MusicDiscCreativeTabEvents {
     @SubscribeEvent public static void addDisc(BuildCreativeModeTabContentsEvent event) {
         if (event.getTabKey().equals(CreativeModeTabs.TOOLS_AND_UTILITIES)) {
-            event.getEntries().putAfter(new ItemStack(Items.MUSIC_DISC_CREATOR), new ItemStack(ModItems.MUSIC_DISC_INTO_THE_CAVES.get()),
+            event.getEntries().putAfter(new ItemStack(Items.MUSIC_DISC_5), new ItemStack(ModItems.MUSIC_DISC_INTO_THE_CAVES.get()),
                     CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
         }
     }

@@ -21,8 +21,8 @@ import org.jetbrains.annotations.Nullable;
 import static de.artemis.floraexpansion.client.renderer.MillRenderGeometry.*;
 
 public class HandCrankBlockEntityRenderer implements BlockEntityRenderer<HandCrankBlockEntity> {
-    private static final ResourceLocation WOOD = ResourceLocation.withDefaultNamespace("textures/block/stripped_spruce_log.png");
-    private static final ResourceLocation STONE = ResourceLocation.withDefaultNamespace("textures/block/polished_andesite.png");
+    private static final ResourceLocation WOOD = ResourceLocation.fromNamespaceAndPath("minecraft", "textures/block/stripped_spruce_log.png");
+    private static final ResourceLocation STONE = ResourceLocation.fromNamespaceAndPath("minecraft", "textures/block/polished_andesite.png");
     private static final String[] DIGITS = {"111101101101111", "010110010010111", "111001111100111", "111001111001111",
             "101101111001001", "111100111001111", "111100111101111", "111001010010010", "111101111101111", "111101111001111"};
     public HandCrankBlockEntityRenderer(BlockEntityRendererProvider.Context context) {}

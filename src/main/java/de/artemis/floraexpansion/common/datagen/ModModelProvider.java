@@ -31,7 +31,7 @@ import net.minecraft.data.models.model.ModelTemplates;
 import net.minecraft.data.models.model.TextureMapping;
 import net.minecraft.data.models.model.TextureSlot;
 
-import net.minecraft.core.Holder;
+
 import net.minecraft.core.Direction;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.BlockFamily;
@@ -67,7 +67,7 @@ public class ModModelProvider implements net.minecraft.data.DataProvider {
             if (item == net.minecraft.world.item.Items.AIR) continue;
             var id = net.minecraft.core.registries.BuiltInRegistries.ITEM.getKey(item).withPrefix("item/");
             if (!models.containsKey(id) && !java.util.Set.of("item/glasswort", "item/glass_jar", "item/salt_spike", "item/leaf_litter").contains(id.getPath())) {
-                var parent = entry.getId().withPrefix("block/");
+                var parent = java.util.Objects.requireNonNull(entry.getId()).withPrefix("block/");
                 models.put(id, () -> { var json=new JsonObject();json.addProperty("parent", parent.toString());return json; });
             }
         }
@@ -246,7 +246,7 @@ public class ModModelProvider implements net.minecraft.data.DataProvider {
                 ModelTemplates.CAULDRON_LEVEL2, ModelTemplates.CAULDRON_FULL};
         for (int fill=1; fill<=3; fill++) {
             var model = templates[fill-1].createWithSuffix(ModBlocks.SALT_WATER_CAULDRON.get(), "_level" + fill,
-                    TextureMapping.cauldron(ResourceLocation.withDefaultNamespace("block/water_still")), blockModels.modelOutput);
+                    TextureMapping.cauldron(ResourceLocation.fromNamespaceAndPath("minecraft", "block/water_still")), blockModels.modelOutput);
             states.select(fill, plainVariant(model));
         }
         blockModels.blockStateOutput.accept(MultiVariantGenerator.multiVariant(ModBlocks.SALT_WATER_CAULDRON.get()).with(states));

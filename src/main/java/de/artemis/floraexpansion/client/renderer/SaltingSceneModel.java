@@ -66,10 +66,10 @@ public final class SaltingSceneModel implements ResourceManagerReloadListener {
                         ContentsFillRenderer.coordinate(corner.xFace, face.min.x,face.min.y,face.min.z,face.max.x,face.max.y,face.max.z),
                         ContentsFillRenderer.coordinate(corner.yFace, face.min.x,face.min.y,face.min.z,face.max.x,face.max.y,face.max.z),
                         ContentsFillRenderer.coordinate(corner.zFace, face.min.x,face.min.y,face.min.z,face.max.x,face.max.y,face.max.z));
-                    out.addVertex(pose, vertex.x, vertex.y, vertex.z).setColor(-1)
-                            .setUv(i < 2 ? face.uv[0] : face.uv[2], i == 0 || i == 3 ? face.uv[1] : face.uv[3])
-                            .setOverlay(OverlayTexture.NO_OVERLAY).setLight(15728880)
-                            .setNormal(pose, face.direction.getStepX(), face.direction.getStepY(), face.direction.getStepZ());
+                    out.vertex(pose.pose(), vertex.x, vertex.y, vertex.z).color(-1)
+                            .uv(i < 2 ? face.uv[0] : face.uv[2], i == 0 || i == 3 ? face.uv[1] : face.uv[3])
+                            .overlayCoords(OverlayTexture.NO_OVERLAY).uv2(15728880)
+                            .normal(pose.normal(), face.direction.getStepX(), face.direction.getStepY(), face.direction.getStepZ()).endVertex();
                 }
             });
         }

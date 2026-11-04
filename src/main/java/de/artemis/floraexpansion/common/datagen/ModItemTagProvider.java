@@ -18,16 +18,16 @@ import org.jetbrains.annotations.NotNull;
 import java.util.concurrent.CompletableFuture;
 
 public class ModItemTagProvider extends IntrinsicHolderTagsProvider<Item> {
-    public ModItemTagProvider(PackOutput output, CompletableFuture<HolderLookup.Provider> lookupProvider, net.minecraftforge.common.data.ExistingFileHelper existingFiles) {
+    public ModItemTagProvider(PackOutput output, CompletableFuture<net.minecraft.core.HolderLookup.Provider> lookupProvider, net.minecraftforge.common.data.ExistingFileHelper existingFiles) {
         super(output, Registries.ITEM, lookupProvider, item -> item.builtInRegistryHolder().key(), FloraExpansion.MODID, existingFiles);
     }
 
     @Override
     protected void addTags(HolderLookup.@NotNull Provider provider) {
-        tag(Tags.Items.HIDDEN_FROM_RECIPE_VIEWERS).add(blockItemKey(ModBlocks.SCATTERED_PEBBLES));
-        tag(Tags.Items.FOODS).add(blockItemKey(ModBlocks.GLASSWORT), ModItems.SALTED_GLASSWORT.get());
+        tag(net.minecraft.tags.TagKey.create(net.minecraft.core.registries.Registries.ITEM, net.minecraft.resources.ResourceLocation.parse("forge:hidden_from_recipe_viewers"))).add(blockItemKey(ModBlocks.SCATTERED_PEBBLES));
+        tag(net.minecraft.tags.TagKey.create(net.minecraft.core.registries.Registries.ITEM, net.minecraft.resources.ResourceLocation.parse("forge:foods"))).add(blockItemKey(ModBlocks.GLASSWORT), ModItems.SALTED_GLASSWORT.get());
         tag(ItemTags.CREEPER_DROP_MUSIC_DISCS).add(ModItems.MUSIC_DISC_INTO_THE_CAVES.get());
-        tag(Tags.Items.MUSIC_DISCS).add(ModItems.MUSIC_DISC_INTO_THE_CAVES.get());
+        tag(net.minecraft.tags.TagKey.create(net.minecraft.core.registries.Registries.ITEM, net.minecraft.resources.ResourceLocation.parse("minecraft:music_discs"))).add(ModItems.MUSIC_DISC_INTO_THE_CAVES.get());
         tag(Tags.Items.ORE_RATES_DENSE).add(blockItemKey(ModBlocks.CALCITE_COPPER_ORE),
                 blockItemKey(ModBlocks.CALCITE_LAPIS_ORE), blockItemKey(ModBlocks.CALCITE_REDSTONE_ORE));
         tag(Tags.Items.ORE_RATES_SINGULAR).add(blockItemKey(ModBlocks.CALCITE_COAL_ORE), blockItemKey(ModBlocks.CALCITE_IRON_ORE),
@@ -43,20 +43,20 @@ public class ModItemTagProvider extends IntrinsicHolderTagsProvider<Item> {
         tag(ItemTags.STAIRS).add(blockItemKey(ModBlocks.CRYSTALLINE_SALT_STAIRS));
         tag(ItemTags.SLABS).add(blockItemKey(ModBlocks.CRYSTALLINE_SALT_SLAB));
         tag(ItemTags.WALLS).add(blockItemKey(ModBlocks.CRYSTALLINE_SALT_WALL));
-        tag(Tags.Items.FOODS).add(ModItems.SALTED_SPRUCE_NUTS.get(), ModItems.SALTED_TOASTED_SPRUCE_NUTS.get(),
+        tag(net.minecraft.tags.TagKey.create(net.minecraft.core.registries.Registries.ITEM, net.minecraft.resources.ResourceLocation.parse("forge:foods"))).add(ModItems.SALTED_SPRUCE_NUTS.get(), ModItems.SALTED_TOASTED_SPRUCE_NUTS.get(),
                 ModItems.CURED_MEAT.get(), ModItems.CURED_FISH.get());
-        tag(ItemTags.BEE_FOOD).add(blockItemKey(ModBlocks.FLOWERING_DESERT_MOSS));
+        tag(net.minecraft.tags.TagKey.create(net.minecraft.core.registries.Registries.ITEM, net.minecraft.resources.ResourceLocation.parse("minecraft:flowers"))).add(blockItemKey(ModBlocks.FLOWERING_DESERT_MOSS));
         tag(ItemTags.WOODEN_STAIRS).add(blockItemKey(ModBlocks.CACTUS_STAIRS)).add(blockItemKey(ModBlocks.CACTUS_MOSAIC_STAIRS));
         tag(ItemTags.WOODEN_SLABS).add(blockItemKey(ModBlocks.CACTUS_SLAB)).add(blockItemKey(ModBlocks.CACTUS_MOSAIC_SLAB));
-        tag(ItemTags.CHICKEN_FOOD)
+        tag(net.minecraft.tags.TagKey.create(net.minecraft.core.registries.Registries.ITEM, net.minecraft.resources.ResourceLocation.parse("forge:seeds")))
                 .add(ModItems.SPRUCE_NUTS.get())
                 .add(ModItems.FLAX_SEEDS.get());
 
-        tag(ItemTags.PARROT_FOOD)
+        tag(net.minecraft.tags.TagKey.create(net.minecraft.core.registries.Registries.ITEM, net.minecraft.resources.ResourceLocation.parse("forge:seeds")))
                 .add(ModItems.SPRUCE_NUTS.get())
                 .add(ModItems.FLAX_SEEDS.get());
 
-        tag(ItemTags.PARROT_POISONOUS_FOOD)
+        tag(net.minecraft.tags.TagKey.create(net.minecraft.core.registries.Registries.ITEM, net.minecraft.resources.ResourceLocation.parse("minecraft:parrot_poisonous_food")))
                 .add(ModItems.TOASTED_SPRUCE_NUTS.get());
 
         tag(ItemTags.DAMPENS_VIBRATIONS)
@@ -93,49 +93,49 @@ public class ModItemTagProvider extends IntrinsicHolderTagsProvider<Item> {
         tag(ItemTags.HANGING_SIGNS)
                 .add(ModItems.CACTUS_HANGING_SIGN.get());
 
-        tag(ItemTags.ARMOR_ENCHANTABLE)
+        tag(net.minecraft.tags.TagKey.create(net.minecraft.core.registries.Registries.ITEM, net.minecraft.resources.ResourceLocation.parse("forge:enchantable/armor")))
                 .add(ModItems.SPIKED_LEATHER_HELMET.get())
                 .add(ModItems.SPIKED_LEATHER_CHESTPLATE.get())
                 .add(ModItems.SPIKED_LEATHER_LEGGINGS.get())
                 .add(ModItems.SPIKED_LEATHER_BOOTS.get());
 
-        tag(ItemTags.FIRE_ASPECT_ENCHANTABLE)
+        tag(net.minecraft.tags.TagKey.create(net.minecraft.core.registries.Registries.ITEM, net.minecraft.resources.ResourceLocation.parse("forge:enchantable/fire_aspect")))
                 .add(ModItems.SPIKED_LEATHER_HELMET.get())
                 .add(ModItems.SPIKED_LEATHER_CHESTPLATE.get())
                 .add(ModItems.SPIKED_LEATHER_LEGGINGS.get())
                 .add(ModItems.SPIKED_LEATHER_BOOTS.get());
 
-        tag(ItemTags.HEAD_ARMOR_ENCHANTABLE)
+        tag(net.minecraft.tags.TagKey.create(net.minecraft.core.registries.Registries.ITEM, net.minecraft.resources.ResourceLocation.parse("forge:enchantable/head_armor")))
                 .add(ModItems.SPIKED_LEATHER_HELMET.get());
 
-        tag(ItemTags.CHEST_ARMOR_ENCHANTABLE)
+        tag(net.minecraft.tags.TagKey.create(net.minecraft.core.registries.Registries.ITEM, net.minecraft.resources.ResourceLocation.parse("forge:enchantable/chest_armor")))
                 .add(ModItems.SPIKED_LEATHER_CHESTPLATE.get());
 
-        tag(ItemTags.LEG_ARMOR_ENCHANTABLE)
+        tag(net.minecraft.tags.TagKey.create(net.minecraft.core.registries.Registries.ITEM, net.minecraft.resources.ResourceLocation.parse("forge:enchantable/leg_armor")))
                 .add(ModItems.SPIKED_LEATHER_LEGGINGS.get());
 
-        tag(ItemTags.FOOT_ARMOR_ENCHANTABLE)
+        tag(net.minecraft.tags.TagKey.create(net.minecraft.core.registries.Registries.ITEM, net.minecraft.resources.ResourceLocation.parse("forge:enchantable/foot_armor")))
                 .add(ModItems.SPIKED_LEATHER_BOOTS.get());
 
-        tag(ItemTags.HEAD_ARMOR)
+        tag(net.minecraft.tags.TagKey.create(net.minecraft.core.registries.Registries.ITEM, net.minecraft.resources.ResourceLocation.parse("forge:armors/helmets")))
                 .add(ModItems.SPIKED_LEATHER_HELMET.get());
 
-        tag(ItemTags.CHEST_ARMOR)
+        tag(net.minecraft.tags.TagKey.create(net.minecraft.core.registries.Registries.ITEM, net.minecraft.resources.ResourceLocation.parse("forge:armors/chestplates")))
                 .add(ModItems.SPIKED_LEATHER_CHESTPLATE.get());
 
-        tag(ItemTags.LEG_ARMOR)
+        tag(net.minecraft.tags.TagKey.create(net.minecraft.core.registries.Registries.ITEM, net.minecraft.resources.ResourceLocation.parse("forge:armors/leggings")))
                 .add(ModItems.SPIKED_LEATHER_LEGGINGS.get());
 
-        tag(ItemTags.FOOT_ARMOR)
+        tag(net.minecraft.tags.TagKey.create(net.minecraft.core.registries.Registries.ITEM, net.minecraft.resources.ResourceLocation.parse("forge:armors/boots")))
                 .add(ModItems.SPIKED_LEATHER_BOOTS.get());
 
         tag(ItemTags.FOX_FOOD)
                 .add(ModItems.PRICKLY_PEAR.get())
-                .add(ModItems.BLUEBERRIES.get())
+                .add(net.minecraft.world.item.Items.SWEET_BERRIES, net.minecraft.world.item.Items.GLOW_BERRIES).add(ModItems.BLUEBERRIES.get())
                 .add(ModItems.STRAWBERRY.get());
 
-        tag(Tags.Items.FOODS)
-                .add(ModItems.BLUEBERRIES.get())
+        tag(net.minecraft.tags.TagKey.create(net.minecraft.core.registries.Registries.ITEM, net.minecraft.resources.ResourceLocation.parse("forge:foods")))
+                .add(net.minecraft.world.item.Items.SWEET_BERRIES, net.minecraft.world.item.Items.GLOW_BERRIES).add(ModItems.BLUEBERRIES.get())
                 .add(ModItems.BLUEBERRY_COOKIE.get())
                 .add(ModItems.BLUEBERRY_PIE.get())
                 .add(ModItems.SLICE_OF_BLUEBERRY_PIE.get())
@@ -157,22 +157,22 @@ public class ModItemTagProvider extends IntrinsicHolderTagsProvider<Item> {
                 .add(ModItems.TRAIL_MIX.get())
                 .add(ModItems.PRICKLY_PEAR.get());
 
-        tag(Tags.Items.STRINGS)
+        tag(net.minecraft.tags.TagKey.create(net.minecraft.core.registries.Registries.ITEM, net.minecraft.resources.ResourceLocation.parse("forge:string")))
                 .add(ModItems.LINEN_THREAD.get());
 
         tag(Tags.Items.SEEDS)
                 .add(ModItems.FLAX_SEEDS.get())
                 .add(ModItems.STRAWBERRY.get());
 
-        tag(Tags.Items.FOODS_BERRY)
+        tag(net.minecraft.tags.TagKey.create(net.minecraft.core.registries.Registries.ITEM, net.minecraft.resources.ResourceLocation.parse("forge:foods/berries")))
                 .add(ModItems.PRICKLY_PEAR.get())
-                .add(ModItems.BLUEBERRIES.get())
+                .add(net.minecraft.world.item.Items.SWEET_BERRIES, net.minecraft.world.item.Items.GLOW_BERRIES).add(ModItems.BLUEBERRIES.get())
                 .add(ModItems.STRAWBERRY.get());
 
         tag(Tags.Items.CROPS).add(ModItems.FLAX_FIBER.get()).add(ModItems.FLAX_FLOWER.get());
-        tag(Tags.Items.FOODS_FRUIT).add(ModItems.CHERRIES.get()).add(ModItems.PRICKLY_PEAR.get());
+        tag(net.minecraft.tags.TagKey.create(net.minecraft.core.registries.Registries.ITEM, net.minecraft.resources.ResourceLocation.parse("forge:foods/fruits"))).add(net.minecraft.world.item.Items.APPLE, net.minecraft.world.item.Items.MELON_SLICE, net.minecraft.world.item.Items.CHORUS_FRUIT).add(ModItems.CHERRIES.get()).add(ModItems.PRICKLY_PEAR.get());
 
-        tag(Tags.Items.ANIMAL_FOODS)
+        tag(net.minecraft.tags.TagKey.create(net.minecraft.core.registries.Registries.ITEM, net.minecraft.resources.ResourceLocation.parse("forge:animal_foods")))
                 .add(ModItems.PRICKLY_PEAR.get());
     }
 

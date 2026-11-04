@@ -27,7 +27,7 @@ public class FloraExpansion {
 
     public FloraExpansion(net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext context) {
         IEventBus modEventBus = context.getModEventBus();
-        // Register explicitly so older 1.21.1 loaders also use the correct bus.
+        // Register explicitly so older 1.20.1 loaders also use the correct bus.
         modEventBus.register(de.artemis.floraexpansion.common.datagen.DataGenerators.class);
         modEventBus.register(de.artemis.floraexpansion.common.event.SaltWaterInteractions.class);
         modEventBus.register(de.artemis.floraexpansion.common.event.WoodenBucketCauldronInteractions.class);
@@ -38,15 +38,14 @@ public class FloraExpansion {
             net.minecraftforge.fml.DistExecutor.unsafeRunWhenOn(net.minecraftforge.api.distmarker.Dist.CLIENT, () -> () -> FloraExpansionClient.initialize(context));
         }
         modEventBus.addListener((net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent event) -> event.enqueueWork(de.artemis.floraexpansion.common.datagen.ModDataMapProvider::registerCompostables));
-        modEventBus.addListener((net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent event) -> event.enqueueWork(() ->
-                net.minecraft.world.level.block.DispenserBlock.registerProjectileBehavior(ModItems.PEBBLES.get())));
+        modEventBus.addListener((net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent event) -> event.enqueueWork(de.artemis.floraexpansion.common.projectile.PebbleDispenser::register));
 
         modEventBus.addListener((net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent event) -> event.enqueueWork(() -> {
             var pot = (net.minecraft.world.level.block.FlowerPotBlock) net.minecraft.world.level.block.Blocks.FLOWER_POT;
-            pot.addPlant(ModBlocks.APPLE_CORE.getId(), ModBlocks.POTTED_APPLE_CORE);
-            pot.addPlant(ModBlocks.CHERRY_PIT.getId(), ModBlocks.POTTED_CHERRY_PIT);
-            pot.addPlant(ModBlocks.GIANT_CACTUS_STEM.getId(), ModBlocks.POTTED_GIANT_CACTUS_STEM);
-            pot.addPlant(ModBlocks.GLASSWORT.getId(), ModBlocks.POTTED_GLASSWORT);
+            pot.addPlant(java.util.Objects.requireNonNull(ModBlocks.APPLE_CORE.getId()), ModBlocks.POTTED_APPLE_CORE);
+            pot.addPlant(java.util.Objects.requireNonNull(ModBlocks.CHERRY_PIT.getId()), ModBlocks.POTTED_CHERRY_PIT);
+            pot.addPlant(java.util.Objects.requireNonNull(ModBlocks.GIANT_CACTUS_STEM.getId()), ModBlocks.POTTED_GIANT_CACTUS_STEM);
+            pot.addPlant(java.util.Objects.requireNonNull(ModBlocks.GLASSWORT.getId()), ModBlocks.POTTED_GLASSWORT);
         }));
         de.artemis.floraexpansion.common.registry.ModArmorMaterials.register(modEventBus);
         ModItems.register(modEventBus);

@@ -79,7 +79,7 @@ public final class PebbleClusterFeature extends Feature<PebbleClusterFeature.Con
         public static final com.mojang.serialization.Codec<Config> CODEC = com.mojang.serialization.codecs.RecordCodecBuilder.<Config>create(i -> i.group(
             com.mojang.serialization.Codec.intRange(1, 8).optionalFieldOf("min_radius", 1).forGetter(Config::minRadius),
             com.mojang.serialization.Codec.intRange(1, 8).optionalFieldOf("max_radius", 3).forGetter(Config::maxRadius)
-        ).apply(i, Config::new)).validate(c -> c.maxRadius >= c.minRadius ? com.mojang.serialization.DataResult.success(c) : com.mojang.serialization.DataResult.error(() -> "max_radius must be at least min_radius"));
+        ).apply(i, Config::new)).flatXmap(c -> c.maxRadius >= c.minRadius ? com.mojang.serialization.DataResult.success(c) : com.mojang.serialization.DataResult.error(() -> "max_radius must be at least min_radius"), c -> com.mojang.serialization.DataResult.success(c));
     }
 
 }

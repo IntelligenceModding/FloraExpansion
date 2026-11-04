@@ -4,7 +4,7 @@ import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import java.util.function.BiConsumer;
-/** Emits the shared world and JEI geometry through 1.21.1's immediate renderer. */
+/** Emits the shared world and JEI geometry through 1.20.1's immediate renderer. */
 final class GeometryCollector {
     private final MultiBufferSource buffers;
     GeometryCollector(MultiBufferSource buffers) { this.buffers = buffers; }

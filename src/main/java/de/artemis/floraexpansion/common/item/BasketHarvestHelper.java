@@ -219,7 +219,7 @@ public final class BasketHarvestHelper {
         List<ItemStack> inventoryBefore = snapshotInventory(player.getInventory());
         Set<Integer> nearbyItemsBefore = snapshotNearbyItemIds(context.getLevel(), pos);
 
-        InteractionResult result = state.useWithoutItem(context.getLevel(), player, hitResult);
+        InteractionResult result = state.use(context.getLevel(), player, context.getHand(), hitResult);
         if (!result.consumesAction()) {
             return false;
         }
@@ -266,7 +266,7 @@ public final class BasketHarvestHelper {
         Player player = context.getPlayer();
         var level = context.getLevel();
         return player != null && !player.isSpectator() && level.mayInteract(player, pos)
-                && (player.mayBuild() || context.getItemInHand().canBreakBlockInAdventureMode(new BlockInWorld(level, pos, false)))
+                && (player.mayBuild() || context.getItemInHand().hasAdventureModeBreakTagForBlock(net.minecraft.core.registries.BuiltInRegistries.BLOCK, new BlockInWorld(level, pos, false)))
                 && !MinecraftForge.EVENT_BUS.post(new BreakEvent(level, pos, state, player));
     }
 
@@ -301,7 +301,7 @@ public final class BasketHarvestHelper {
 
     private static boolean consumeOne(List<ItemStack> drops, ItemStack target) {
         for (ItemStack drop : drops) {
-            if (!drop.isEmpty() && ItemStack.isSameItemSameComponents(drop, target)) {
+            if (!drop.isEmpty() && ItemStack.isSameItemSameTags(drop, target)) {
                 drop.shrink(1);
                 return true;
             }
@@ -367,7 +367,7 @@ public final class BasketHarvestHelper {
             return after.getCount();
         }
 
-        if (ItemStack.isSameItemSameComponents(before, after)) {
+        if (ItemStack.isSameItemSameTags(before, after)) {
             return Math.max(0, after.getCount() - before.getCount());
         }
 

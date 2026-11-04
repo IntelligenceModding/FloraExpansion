@@ -4,7 +4,7 @@ import de.artemis.floraexpansion.FloraExpansion;
 import de.artemis.floraexpansion.common.worldgen.treedecorator.OrchardCherryLeavesDecorator;
 import de.artemis.floraexpansion.common.worldgen.treedecorator.AppleLeavesDecorator;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.data.worldgen.BootstrapContext;
+import net.minecraft.data.worldgen.BootstapContext;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.util.valueproviders.ConstantInt;
@@ -52,7 +52,7 @@ public class ModTreeConfiguredFeatures {
     public static final ResourceKey<ConfiguredFeature<?, ?>> PLANTED_ORCHARD_CHERRY_TREE_KEY = ResourceKey.create(
             Registries.CONFIGURED_FEATURE, ResourceLocation.fromNamespaceAndPath(FloraExpansion.MODID, "planted_orchard_cherry_tree"));
 
-    public static void bootstrap(BootstrapContext<ConfiguredFeature<?, ?>> context) {
+    public static void bootstrap(BootstapContext<ConfiguredFeature<?, ?>> context) {
         var orchardCherryBuilder = new TreeConfiguration.TreeConfigurationBuilder(
                 SimpleStateProvider.simple(Blocks.CHERRY_LOG.defaultBlockState()),
                 new CherryTrunkPlacer(

@@ -8,7 +8,8 @@ import de.artemis.floraexpansion.common.registry.ModItems;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.NonNullList;
-import net.minecraft.core.component.DataComponents;
+import de.artemis.floraexpansion.common.util.ItemData;
+import de.artemis.floraexpansion.common.util.ItemData.DataComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.Container;
@@ -19,7 +20,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
-import net.minecraft.world.item.component.ItemContainerContents;
+import de.artemis.floraexpansion.common.util.ItemData.ItemContainerContents;
 
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
@@ -92,7 +93,7 @@ public class BasketItem extends Item {
     }
 
     @Override
-    public void appendHoverText(@NotNull ItemStack stack, @NotNull TooltipContext context, @NotNull java.util.List<Component> tooltipComponents, @NotNull TooltipFlag tooltipFlag) {
+    public void appendHoverText(@NotNull ItemStack stack, @org.jetbrains.annotations.Nullable net.minecraft.world.level.Level context, @NotNull java.util.List<Component> tooltipComponents, @NotNull TooltipFlag tooltipFlag) {
         super.appendHoverText(stack, context, tooltipComponents, tooltipFlag);
 
         List<PreviewEntry> entries = this.getPreviewEntries(stack);
@@ -115,7 +116,7 @@ public class BasketItem extends Item {
 
     public static NonNullList<ItemStack> getContents(ItemStack basket) {
         NonNullList<ItemStack> contents = NonNullList.withSize(SLOT_COUNT, ItemStack.EMPTY);
-        basket.getOrDefault(DataComponents.CONTAINER, ItemContainerContents.EMPTY).copyInto(contents);
+        ItemData.getOrDefault(basket, DataComponents.CONTAINER, ItemContainerContents.EMPTY).copyInto(contents);
         return contents;
     }
 
@@ -129,11 +130,11 @@ public class BasketItem extends Item {
         }
 
         if (!hasItems) {
-            basket.remove(DataComponents.CONTAINER);
+            ItemData.remove(basket, DataComponents.CONTAINER);
             return;
         }
 
-        basket.set(DataComponents.CONTAINER, ItemContainerContents.fromItems(contents));
+        ItemData.set(basket, DataComponents.CONTAINER, ItemContainerContents.fromItems(contents));
     }
 
     public static int insertItem(ItemStack basket, ItemStack stack) {
@@ -146,7 +147,7 @@ public class BasketItem extends Item {
 
         for (int i = 0; i < contents.size() && !stack.isEmpty(); i++) {
             ItemStack slotStack = contents.get(i);
-            if (!slotStack.isEmpty() && ItemStack.isSameItemSameComponents(slotStack, stack)) {
+            if (!slotStack.isEmpty() && ItemStack.isSameItemSameTags(slotStack, stack)) {
                 int maxStackSize = Math.min(slotStack.getMaxStackSize(), 64);
                 int space = maxStackSize - slotStack.getCount();
                 if (space > 0) {
@@ -180,7 +181,7 @@ public class BasketItem extends Item {
     public static void openBasket(Player player, InteractionHand hand) {
         int sourceSlot = getSourceSlot(player, hand);
         if (!(player instanceof net.minecraft.server.level.ServerPlayer serverPlayer)) return;
-        serverPlayer.openMenu(
+        net.minecraftforge.network.NetworkHooks.openScreen(serverPlayer,
                 new SimpleMenuProvider(
                         (containerId, inventory, basketPlayer) -> new BasketMenu(containerId, inventory, hand, sourceSlot),
                         Component.translatable(ModItems.BASKET.get().getDescriptionId())
@@ -234,7 +235,7 @@ public class BasketItem extends Item {
             ItemStack containerStack = container.getItem(slot);
             if (containerStack.isEmpty()
                     || !container.canPlaceItem(slot, stack)
-                    || !ItemStack.isSameItemSameComponents(containerStack, stack)) {
+                    || !ItemStack.isSameItemSameTags(containerStack, stack)) {
                 continue;
             }
 
@@ -332,7 +333,7 @@ public class BasketItem extends Item {
 
             PreviewEntry match = null;
             for (PreviewEntry entry : entries) {
-                if (ItemStack.isSameItemSameComponents(entry.displayStack(), contentStack)) {
+                if (ItemStack.isSameItemSameTags(entry.displayStack(), contentStack)) {
                     match = entry;
                     break;
                 }
@@ -350,8 +351,8 @@ public class BasketItem extends Item {
     }
 
     private static MutableComponent getStyledItemName(ItemStack stack) {
-        MutableComponent itemName = Component.empty().append(stack.getHoverName()).withStyle(stack.getRarity().color());
-        if (stack.has(DataComponents.CUSTOM_NAME)) {
+        MutableComponent itemName = Component.empty().append(stack.getHoverName()).withStyle(stack.getRarity().getStyleModifier());
+        if (ItemData.has(stack, DataComponents.CUSTOM_NAME)) {
             itemName.withStyle(ChatFormatting.ITALIC);
         }
 

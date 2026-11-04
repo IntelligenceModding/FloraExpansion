@@ -29,7 +29,13 @@ import de.artemis.floraexpansion.common.registry.ModTags;
 import de.artemis.floraexpansion.common.loot.HarvestLoot;
 
 public class GiantCactusStemBlock extends Block {
-    protected static final VoxelShape SHAPE = Block.box(1.0D, 0.0D, 1.0D, 15.0D, 16.0D, 15.0D);
+    @NotNull @Override public net.minecraft.world.InteractionResult use(@NotNull net.minecraft.world.level.block.state.BlockState state, @NotNull net.minecraft.world.level.Level level, @NotNull net.minecraft.core.BlockPos pos, @NotNull net.minecraft.world.entity.player.Player player, @NotNull net.minecraft.world.InteractionHand hand, @NotNull net.minecraft.world.phys.BlockHitResult hit) {
+        var result = useWithItem(player.getItemInHand(hand), state, level, pos, player, hand, hit);
+        if (result != net.minecraft.world.InteractionResult.PASS) return result;
+        return super.use(state, level, pos, player, hand, hit);
+    }
+
+    public static final VoxelShape SHAPE = Block.box(1.0D, 0.0D, 1.0D, 15.0D, 16.0D, 15.0D);
 
     public GiantCactusStemBlock(Properties properties) {
         super(properties);
@@ -37,30 +43,30 @@ public class GiantCactusStemBlock extends Block {
 
 
     @Override
-    protected boolean isRandomlyTicking(@NotNull BlockState state) {
+    public boolean isRandomlyTicking(@NotNull BlockState state) {
         return true;
     }
 
     @Override
-    protected @NotNull VoxelShape getShape(@NotNull BlockState state, @NotNull BlockGetter level,
+    public @NotNull VoxelShape getShape(@NotNull BlockState state, @NotNull BlockGetter level,
                                            @NotNull BlockPos pos, @NotNull CollisionContext context) {
         return SHAPE;
     }
 
     @Override
-    protected @NotNull VoxelShape getCollisionShape(@NotNull BlockState state, @NotNull BlockGetter level,
+    public @NotNull VoxelShape getCollisionShape(@NotNull BlockState state, @NotNull BlockGetter level,
                                                     @NotNull BlockPos pos, @NotNull CollisionContext context) {
         return SHAPE;
     }
 
     @Override
-    protected void entityInside(@NotNull BlockState state, @NotNull Level level, @NotNull BlockPos pos,
+    public void entityInside(@NotNull BlockState state, @NotNull Level level, @NotNull BlockPos pos,
                                 @NotNull Entity entity) {
         entity.hurt(level.damageSources().cactus(), 1.0F);
     }
 
     @Override
-    protected @NotNull BlockState updateShape(net.minecraft.world.level.block.state.BlockState state, @NotNull net.minecraft.core.Direction direction, @NotNull net.minecraft.world.level.block.state.BlockState neighborState, @NotNull net.minecraft.world.level.LevelAccessor level, @NotNull net.minecraft.core.BlockPos pos, @NotNull net.minecraft.core.BlockPos neighborPos) {
+    public @NotNull BlockState updateShape(net.minecraft.world.level.block.state.BlockState state, @NotNull net.minecraft.core.Direction direction, @NotNull net.minecraft.world.level.block.state.BlockState neighborState, @NotNull net.minecraft.world.level.LevelAccessor level, @NotNull net.minecraft.core.BlockPos pos, @NotNull net.minecraft.core.BlockPos neighborPos) {
         var scheduledTickAccess = level;
         if (!state.canSurvive(level, pos)) {
             scheduledTickAccess.scheduleTick(pos, this, 1);
@@ -69,7 +75,7 @@ public class GiantCactusStemBlock extends Block {
     }
 
     @Override
-    protected void tick(@NotNull BlockState state, @NotNull ServerLevel level, @NotNull BlockPos pos,
+    public void tick(@NotNull BlockState state, @NotNull ServerLevel level, @NotNull BlockPos pos,
                         @NotNull RandomSource random) {
         if (!state.canSurvive(level, pos)) {
             level.destroyBlock(pos, true);
@@ -77,7 +83,7 @@ public class GiantCactusStemBlock extends Block {
     }
 
     @Override
-    protected void randomTick(@NotNull BlockState state, @NotNull ServerLevel level, @NotNull BlockPos pos,
+    public void randomTick(@NotNull BlockState state, @NotNull ServerLevel level, @NotNull BlockPos pos,
                               @NotNull RandomSource random) {
         double multiplier = ServerConfig.cactusGrowth.get();
         BlockPos top = pos;
@@ -133,13 +139,12 @@ public class GiantCactusStemBlock extends Block {
     }
 
     @Override
-    protected boolean canSurvive(@NotNull BlockState state, @NotNull LevelReader level, @NotNull BlockPos pos) {
+    public boolean canSurvive(@NotNull BlockState state, @NotNull LevelReader level, @NotNull BlockPos pos) {
         BlockState below = level.getBlockState(pos.below());
         return below.is(ModTags.Blocks.CACTUS_STEM_SUPPORTS);
     }
 
-    @Override
-    protected @NotNull net.minecraft.world.ItemInteractionResult useItemOn(@NotNull ItemStack stack,
+    public @NotNull net.minecraft.world.InteractionResult useWithItem(@NotNull ItemStack stack,
                                                    @NotNull BlockState state,
                                                    @NotNull Level level,
                                                    @NotNull BlockPos pos,
@@ -147,7 +152,7 @@ public class GiantCactusStemBlock extends Block {
                                                    @NotNull InteractionHand hand,
                                                    @NotNull BlockHitResult hitResult) {
         if (!de.artemis.floraexpansion.common.util.CactusStripHelper.canStrip(stack)) {
-            return net.minecraft.world.ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
+            return net.minecraft.world.InteractionResult.PASS;
         }
 
         if (!level.isClientSide) {
@@ -160,7 +165,7 @@ public class GiantCactusStemBlock extends Block {
                 }
                 level.playSound(null, pos, SoundEvents.AXE_STRIP, SoundSource.BLOCKS, 1.0F, 1.0F);
 
-                stack.hurtAndBreak(
+                de.artemis.floraexpansion.common.util.ItemData.damage(stack,
                         harvestedStemCount,
                         player,
                         hand == InteractionHand.MAIN_HAND ? EquipmentSlot.MAINHAND : EquipmentSlot.OFFHAND
@@ -168,7 +173,7 @@ public class GiantCactusStemBlock extends Block {
             }
         }
 
-        return net.minecraft.world.ItemInteractionResult.SUCCESS;
+        return net.minecraft.world.InteractionResult.SUCCESS;
     }
 
     private int harvestStemColumn(Level level, BlockPos startPos) {

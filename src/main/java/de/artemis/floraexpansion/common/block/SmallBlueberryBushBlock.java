@@ -24,23 +24,29 @@ import de.artemis.floraexpansion.common.config.ServerConfig;
 import de.artemis.floraexpansion.common.util.PlantGrowth;
 
 public class SmallBlueberryBushBlock extends SweetBerryBushBlock implements HarvestableBlock {
-    protected static final int ROOTED_BUSH_GROWTH_CHANCE = 33;
+    @NotNull @Override public net.minecraft.world.InteractionResult use(@NotNull net.minecraft.world.level.block.state.BlockState state, @NotNull net.minecraft.world.level.Level level, @NotNull net.minecraft.core.BlockPos pos, @NotNull net.minecraft.world.entity.player.Player player, @NotNull net.minecraft.world.InteractionHand hand, @NotNull net.minecraft.world.phys.BlockHitResult hit) {
+        var result = useWithItem(player.getItemInHand(hand), state, level, pos, player, hand, hit);
+        if (result != net.minecraft.world.InteractionResult.PASS) return result;
+        return useWithoutItem(state, level, pos, player, hit);
+    }
+
+    public static final int ROOTED_BUSH_GROWTH_CHANCE = 33;
 
     public SmallBlueberryBushBlock(Properties properties) {
         super(properties);
     }
 
     @Override
-    protected void entityInside(@NotNull BlockState state, @NotNull Level level, @NotNull BlockPos pos, @NotNull net.minecraft.world.entity.Entity entity) {
+    public void entityInside(@NotNull BlockState state, @NotNull Level level, @NotNull BlockPos pos, @NotNull net.minecraft.world.entity.Entity entity) {
     }
 
     @Override
-    public @NotNull ItemStack getCloneItemStack(@NotNull net.minecraft.world.level.LevelReader level, @NotNull BlockPos pos, @NotNull BlockState state) {
+    public @NotNull ItemStack getCloneItemStack(@NotNull net.minecraft.world.level.BlockGetter level, @NotNull BlockPos pos, @NotNull BlockState state) {
         return new ItemStack(ModItems.BLUEBERRIES.get());
     }
 
     @Override
-    protected boolean mayPlaceOn(@NotNull BlockState state, @NotNull BlockGetter level, @NotNull BlockPos pos) {
+    public boolean mayPlaceOn(@NotNull BlockState state, @NotNull BlockGetter level, @NotNull BlockPos pos) {
         return PlantSoils.supportsBlueberry(state);
     }
 
@@ -63,7 +69,7 @@ public class SmallBlueberryBushBlock extends SweetBerryBushBlock implements Harv
         level.gameEvent(GameEvent.BLOCK_CHANGE, pos, GameEvent.Context.of(grownState));
     }
 
-    protected @NotNull BlockState getGrowthState(@NotNull LevelAccessor level, @NotNull BlockPos pos, @NotNull BlockState currentState, @NotNull RandomSource random, int nextAge) {
+    public @NotNull BlockState getGrowthState(@NotNull LevelAccessor level, @NotNull BlockPos pos, @NotNull BlockState currentState, @NotNull RandomSource random, int nextAge) {
         if (shouldBecomeRootedBush(currentState, nextAge, random)) {
             level.setBlock(pos.below(), Blocks.ROOTED_DIRT.defaultBlockState(), 2);
             return ModBlocks.LARGE_BLUEBERRY_BUSH.get().defaultBlockState().setValue(LargeBlueberryBushBlock.AGE, nextAge);
@@ -72,7 +78,7 @@ public class SmallBlueberryBushBlock extends SweetBerryBushBlock implements Harv
         return currentState.setValue(AGE, nextAge);
     }
 
-    protected boolean shouldBecomeRootedBush(@NotNull BlockState currentState, int nextAge, @NotNull RandomSource random) {
+    public boolean shouldBecomeRootedBush(@NotNull BlockState currentState, int nextAge, @NotNull RandomSource random) {
         int currentAge = currentState.getValue(AGE);
         boolean advancingIntoLeafyStage = (currentAge == 0 && nextAge == 1) || (currentAge == 1 && nextAge == 2);
 
@@ -92,18 +98,16 @@ public class SmallBlueberryBushBlock extends SweetBerryBushBlock implements Harv
         return state.setValue(AGE, 2);
     }
 
-    @Override
-    protected @NotNull net.minecraft.world.ItemInteractionResult useItemOn(@NotNull ItemStack stack, @NotNull BlockState state, @NotNull Level level, @NotNull BlockPos pos, @NotNull Player player, @NotNull net.minecraft.world.InteractionHand hand, @NotNull BlockHitResult hitResult) {
+    public @NotNull net.minecraft.world.InteractionResult useWithItem(@NotNull ItemStack stack, @NotNull BlockState state, @NotNull Level level, @NotNull BlockPos pos, @NotNull Player player, @NotNull net.minecraft.world.InteractionHand hand, @NotNull BlockHitResult hitResult) {
         int age = state.getValue(AGE);
         if (age < 3 && stack.is(Items.BONE_MEAL)) {
-            return net.minecraft.world.ItemInteractionResult.SKIP_DEFAULT_BLOCK_INTERACTION;
+            return net.minecraft.world.InteractionResult.PASS;
         }
 
-        return super.useItemOn(stack, state, level, pos, player, hand, hitResult);
+        return super.use(state, level, pos, player, hand, hitResult);
     }
 
-    @Override
-    protected @NotNull InteractionResult useWithoutItem(@NotNull BlockState state, @NotNull Level level, @NotNull BlockPos pos,
+    public @NotNull InteractionResult useWithoutItem(@NotNull BlockState state, @NotNull Level level, @NotNull BlockPos pos,
                                                         @NotNull Player player, @NotNull BlockHitResult hitResult) {
         return harvest(state, level, pos, player);
     }

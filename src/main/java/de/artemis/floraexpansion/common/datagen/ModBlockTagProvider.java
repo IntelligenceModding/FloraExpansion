@@ -14,7 +14,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.concurrent.CompletableFuture;
 
 public class ModBlockTagProvider extends BlockTagsProvider {
-    public ModBlockTagProvider(PackOutput output, CompletableFuture<HolderLookup.Provider> lookupProvider, net.minecraftforge.common.data.ExistingFileHelper existingFiles) {
+    public ModBlockTagProvider(PackOutput output, CompletableFuture<net.minecraft.core.HolderLookup.Provider> lookupProvider, net.minecraftforge.common.data.ExistingFileHelper existingFiles) {
         super(output, lookupProvider, FloraExpansion.MODID, existingFiles);
     }
 
@@ -64,7 +64,7 @@ public class ModBlockTagProvider extends BlockTagsProvider {
         tag(BlockTags.STAIRS).add(ModBlocks.CRYSTALLINE_SALT_STAIRS.get());
 
         tag(BlockTags.CAULDRONS).add(ModBlocks.SALT_WATER_CAULDRON.get());
-        tag(net.minecraft.tags.TagKey.create(net.minecraft.core.registries.Registries.BLOCK, net.minecraft.resources.ResourceLocation.withDefaultNamespace("dangerous_for_teleportation"))).add(ModBlocks.SALT_SPIKE.get());
+        tag(net.minecraft.tags.TagKey.create(net.minecraft.core.registries.Registries.BLOCK, net.minecraft.resources.ResourceLocation.fromNamespaceAndPath("minecraft", "dangerous_for_teleportation"))).add(ModBlocks.SALT_SPIKE.get());
         tag(BlockTags.SLABS).add(ModBlocks.CRYSTALLINE_SALT_SLAB.get());
         tag(BlockTags.WALLS).add(ModBlocks.CRYSTALLINE_SALT_WALL.get());
 

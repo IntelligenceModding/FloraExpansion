@@ -1,0 +1,11 @@
+{
+  "type": "floraexpansion:grinding",
+  "ingredient": {
+    "item": "floraexpansion:spruce_cone"
+  },
+  "result": {
+    "count": 4,
+    "item": "floraexpansion:spruce_nuts"
+  },
+  "turns": 4
+}

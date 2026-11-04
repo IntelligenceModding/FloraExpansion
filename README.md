@@ -17,13 +17,12 @@
 </p>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/Minecraft-1.21.1-3C8527?style=for-the-badge&logo=minecraft&logoColor=white" alt="Minecraft 1.21.1">
+  <img src="https://img.shields.io/badge/Minecraft-1.20.1-3C8527?style=for-the-badge&logo=minecraft&logoColor=white" alt="Minecraft 1.20.1">
   &nbsp;&nbsp;&nbsp;
   <img src="https://img.shields.io/badge/Loader-Forge-F16436?style=for-the-badge" alt="Forge">
 </p>
 
 <p align="center">
-  This branch targets <strong>Minecraft 1.21.1, Forge 52.1.20 or later in the 52.x series, and Java 21</strong>.<br>
   <strong>JEI is an optional integration.</strong>
 </p>
 

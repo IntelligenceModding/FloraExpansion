@@ -30,6 +30,12 @@ import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
 public class JarBlock extends Block implements WorldlyContainerHolder {
+    @NotNull @Override public net.minecraft.world.InteractionResult use(@NotNull net.minecraft.world.level.block.state.BlockState state, @NotNull net.minecraft.world.level.Level level, @NotNull net.minecraft.core.BlockPos pos, @NotNull net.minecraft.world.entity.player.Player player, @NotNull net.minecraft.world.InteractionHand hand, @NotNull net.minecraft.world.phys.BlockHitResult hit) {
+        var result = useWithItem(player.getItemInHand(hand), state, level, pos, player, hand, hit);
+        if (result != net.minecraft.world.InteractionResult.PASS) return result;
+        return super.use(state, level, pos, player, hand, hit);
+    }
+
     private static final VoxelShape SHAPE = Shapes.or(
             Block.box(4, 0, 4, 12, 8, 12),
             Block.box(5, 8, 5, 11, 10, 11),
@@ -66,13 +72,12 @@ public class JarBlock extends Block implements WorldlyContainerHolder {
         return true;
     }
 
-    @Override
-    @NotNull protected net.minecraft.world.ItemInteractionResult useItemOn(@NotNull ItemStack stack, @NotNull BlockState state, @NotNull Level level, @NotNull BlockPos pos, @NotNull Player player,
+    @NotNull public net.minecraft.world.InteractionResult useWithItem(@NotNull ItemStack stack, @NotNull BlockState state, @NotNull Level level, @NotNull BlockPos pos, @NotNull Player player,
                                            @NotNull InteractionHand hand, @NotNull BlockHitResult hit) {
-        if (jamForFruit(stack) == null) return net.minecraft.world.ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
-        if (player.isSpectator() || !canAddFruit(state, stack)) return net.minecraft.world.ItemInteractionResult.FAIL;
-        if (!level.isClientSide && addFruit(level, pos, stack)) stack.consume(1, player);
-        return level.isClientSide ? net.minecraft.world.ItemInteractionResult.SUCCESS : net.minecraft.world.ItemInteractionResult.CONSUME;
+        if (jamForFruit(stack) == null) return net.minecraft.world.InteractionResult.PASS;
+        if (player.isSpectator() || !canAddFruit(state, stack)) return net.minecraft.world.InteractionResult.FAIL;
+        if (!level.isClientSide && addFruit(level, pos, stack)) de.artemis.floraexpansion.common.util.ItemData.consume(stack, 1, player);
+        return level.isClientSide ? net.minecraft.world.InteractionResult.SUCCESS : net.minecraft.world.InteractionResult.CONSUME;
     }
 
     @Override
@@ -81,17 +86,17 @@ public class JarBlock extends Block implements WorldlyContainerHolder {
     }
 
     @Override
-    @NotNull protected VoxelShape getShape(@NotNull BlockState state, @NotNull BlockGetter level, @NotNull BlockPos pos, @NotNull CollisionContext context) {
+    @NotNull public VoxelShape getShape(@NotNull BlockState state, @NotNull BlockGetter level, @NotNull BlockPos pos, @NotNull CollisionContext context) {
         return SHAPE;
     }
 
     @Override
-    protected boolean canSurvive(@NotNull BlockState state, @NotNull LevelReader level, BlockPos pos) {
+    public boolean canSurvive(@NotNull BlockState state, @NotNull LevelReader level, BlockPos pos) {
         return Block.canSupportCenter(level, pos.below(), Direction.UP);
     }
 
     @Override
-    @NotNull protected BlockState updateShape(@NotNull net.minecraft.world.level.block.state.BlockState state, @NotNull net.minecraft.core.Direction direction, @NotNull net.minecraft.world.level.block.state.BlockState neighborState, @NotNull net.minecraft.world.level.LevelAccessor level, @NotNull net.minecraft.core.BlockPos pos, @NotNull net.minecraft.core.BlockPos neighborPos) {
+    @NotNull public BlockState updateShape(@NotNull net.minecraft.world.level.block.state.BlockState state, @NotNull net.minecraft.core.Direction direction, @NotNull net.minecraft.world.level.block.state.BlockState neighborState, @NotNull net.minecraft.world.level.LevelAccessor level, @NotNull net.minecraft.core.BlockPos pos, @NotNull net.minecraft.core.BlockPos neighborPos) {
         return direction == Direction.DOWN && !state.canSurvive(level, pos) ? Blocks.AIR.defaultBlockState()
                 : super.updateShape(state, direction, neighborState, level, pos, neighborPos);
     }

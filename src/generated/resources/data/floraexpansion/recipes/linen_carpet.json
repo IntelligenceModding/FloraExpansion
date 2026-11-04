@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "C": {
+      "item": "floraexpansion:linen_bale"
+    }
+  },
+  "pattern": [
+    "CC"
+  ],
+  "result": {
+    "count": 3,
+    "item": "floraexpansion:linen_carpet"
+  },
+  "show_notification": true
+}

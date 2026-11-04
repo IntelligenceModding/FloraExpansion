@@ -3,7 +3,8 @@ package de.artemis.floraexpansion.common.item;
 import de.artemis.floraexpansion.common.registry.ModItems;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.component.DataComponents;
+import de.artemis.floraexpansion.common.util.ItemData;
+import de.artemis.floraexpansion.common.util.ItemData.DataComponents;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.stats.Stats;
 import net.minecraft.world.item.BucketItem;
@@ -15,7 +16,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.item.component.CustomData;
+import de.artemis.floraexpansion.common.util.ItemData.CustomData;
 
 import java.util.function.Consumer;
 import de.artemis.floraexpansion.common.config.ServerConfig;
@@ -40,7 +41,7 @@ public final class WoodenBucketUtil {
     }
 
     public static ItemStack damageInto(ItemStack sourceStack, Player player, Item targetItem) {
-        if (player.hasInfiniteMaterials()) {
+        if (player.getAbilities().instabuild) {
             return sourceStack;
         }
 
@@ -61,7 +62,7 @@ public final class WoodenBucketUtil {
 
     public static ItemStack transformInto(ItemStack sourceStack, Player player, Item targetItem, Consumer<ItemStack> extraSetup) {
         int damage = sourceStack.getDamageValue();
-        if (!player.hasInfiniteMaterials()) {
+        if (!player.getAbilities().instabuild) {
             damage++;
             if (damage >= sourceStack.getMaxDamage()) {
                 return ItemStack.EMPTY;
@@ -89,16 +90,16 @@ public final class WoodenBucketUtil {
     }
 
     public static boolean hasExpiredLavaTimeout(ItemStack stack, long gameTime) {
-        long expireTime = stack.getOrDefault(DataComponents.CUSTOM_DATA, CustomData.EMPTY)
+        long expireTime = ItemData.getOrDefault(stack, DataComponents.CUSTOM_DATA, CustomData.EMPTY)
                 .copyTag()
                 .getLong(LAVA_EXPIRE_TIME_KEY);
         return expireTime > 0L && gameTime >= expireTime;
     }
 
     private static void copyCustomName(ItemStack sourceStack, ItemStack result) {
-        Component customName = sourceStack.get(DataComponents.CUSTOM_NAME);
+        Component customName = ItemData.get(sourceStack, DataComponents.CUSTOM_NAME);
         if (customName != null) {
-            result.set(DataComponents.CUSTOM_NAME, customName);
+            ItemData.set(result, DataComponents.CUSTOM_NAME, customName);
         }
     }
 }

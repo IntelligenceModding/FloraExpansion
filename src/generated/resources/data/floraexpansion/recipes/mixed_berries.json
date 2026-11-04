@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "floraexpansion:blueberries"
+    },
+    {
+      "item": "floraexpansion:strawberry"
+    },
+    {
+      "tag": "forge:foods/berries"
+    }
+  ],
+  "result": {
+    "count": 3,
+    "item": "floraexpansion:mixed_berries"
+  }
+}

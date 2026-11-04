@@ -8,7 +8,7 @@ import de.artemis.floraexpansion.common.registry.ModBlockEntities;
 import de.artemis.floraexpansion.common.registry.ModBlocks;
 import de.artemis.floraexpansion.common.registry.ModRecipes;
 import de.artemis.floraexpansion.common.recipe.GrindingRecipe;
-import net.minecraft.world.item.crafting.SingleRecipeInput;
+import de.artemis.floraexpansion.common.recipe.SingleRecipeInput;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.NonNullList;
@@ -42,12 +42,12 @@ public class HandMillBlockEntity extends BlockEntity implements WorldlyContainer
 
     public HandMillBlockEntity(BlockPos pos, BlockState state) { super(ModBlockEntities.HAND_MILL.get(), pos, state); }
     public int getProgress() { return progress; }
-    private java.util.Optional<net.minecraft.world.item.crafting.RecipeHolder<GrindingRecipe>> findRecipe() {
+    private java.util.Optional<GrindingRecipe> findRecipe() {
         return level instanceof net.minecraft.server.level.ServerLevel server
                 ? server.getRecipeManager().getRecipeFor(ModRecipes.GRINDING.get(), new SingleRecipeInput(items.get(0)), server)
                 : java.util.Optional.empty();
     }
-    public int getRequiredTurns() { return findRecipe().map(recipe -> recipe.value().turns()).orElse(0); }
+    public int getRequiredTurns() { return findRecipe().map(recipe -> recipe.turns()).orElse(0); }
 
     public boolean crank(Player player) {
         if (level == null || level.isClientSide) return false;
@@ -62,8 +62,8 @@ public class HandMillBlockEntity extends BlockEntity implements WorldlyContainer
             return false;
         }
         var holder = match.get();
-        var recipe = holder.value();
-        String recipeId = holder.id().toString();
+        var recipe = holder;
+        String recipeId = holder.getId().toString();
         if (!activeRecipe.equals(recipeId)) {
             progress = 0;
             activeRecipe = recipeId;
@@ -72,7 +72,7 @@ public class HandMillBlockEntity extends BlockEntity implements WorldlyContainer
         progress = Math.min(progress, recipe.turns() - 1);
         var result = recipe.assemble(new SingleRecipeInput(items.get(0)), level.registryAccess());
         var output = items.get(1);
-        if (result.getCount() > getMaxStackSize(result) || !output.isEmpty() && (!ItemStack.isSameItemSameComponents(output, result) || output.getCount() + result.getCount() > Math.min(getMaxStackSize(output), result.getMaxStackSize()))) {
+        if (result.getCount() > getMaxStackSize() || !output.isEmpty() && (!ItemStack.isSameItemSameTags(output, result) || output.getCount() + result.getCount() > Math.min(getMaxStackSize(), result.getMaxStackSize()))) {
             player.displayClientMessage(Component.translatable("message.floraexpansion.hand_mill.output_full"), true);
             return false;
         }
@@ -135,8 +135,8 @@ public class HandMillBlockEntity extends BlockEntity implements WorldlyContainer
         return removed;
     }
     @Override public void setItem(int slot, @NotNull ItemStack stack) {
-        if (slot == 0 && (!ItemStack.isSameItemSameComponents(items.get(0), stack) || stack.isEmpty())) progress = 0;
-        stack.limitSize(getMaxStackSize(stack));
+        if (slot == 0 && (!ItemStack.isSameItemSameTags(items.get(0), stack) || stack.isEmpty())) progress = 0;
+        stack.setCount(Math.min(stack.getCount(), getMaxStackSize()));
         items.set(slot, stack);
         setChanged();
     }
@@ -155,19 +155,19 @@ public class HandMillBlockEntity extends BlockEntity implements WorldlyContainer
     @Override public AbstractContainerMenu createMenu(int id, @NotNull Inventory inventory, @NotNull Player player) {
         return new HandMillMenu(id, inventory, this, data);
     }
-    @Override protected void saveAdditional(@NotNull net.minecraft.nbt.CompoundTag output, @NotNull net.minecraft.core.HolderLookup.Provider registries) {
-        super.saveAdditional(output, registries);
-        ContainerHelper.saveAllItems(output, items, registries);
+    @Override public void saveAdditional(@NotNull net.minecraft.nbt.CompoundTag output) {
+        super.saveAdditional(output);
+        ContainerHelper.saveAllItems(output, items);
         output.putInt("progress", progress);
         output.putString("active_recipe", activeRecipe);
     }
-    @Override protected void loadAdditional(@NotNull net.minecraft.nbt.CompoundTag input, @NotNull net.minecraft.core.HolderLookup.Provider registries) {
-        super.loadAdditional(input, registries);
+    @Override public void load(@NotNull net.minecraft.nbt.CompoundTag input) {
+        super.load(input);
         items = NonNullList.withSize(2, ItemStack.EMPTY);
-        ContainerHelper.loadAllItems(input, items, registries);
+        ContainerHelper.loadAllItems(input, items);
         // Preserve input from saves made with the former direct-interaction mill.
-        if (items.get(0).isEmpty()) items.set(0, de.artemis.floraexpansion.common.util.SavedComponents.read(input, "input", ItemStack.OPTIONAL_CODEC, registries).orElse(ItemStack.EMPTY));
+        if (items.get(0).isEmpty()) items.set(0, de.artemis.floraexpansion.common.util.SavedComponents.read(input, "input", de.artemis.floraexpansion.common.util.SavedComponents.STACK_CODEC).orElse(ItemStack.EMPTY));
         activeRecipe = input.getString("active_recipe");
-        progress = items.get(0).isEmpty() ? 0 : Math.clamp(input.getInt("progress"), 0, GrindingRecipe.MAX_TURNS - 1);
+        progress = items.get(0).isEmpty() ? 0 : net.minecraft.util.Mth.clamp(input.getInt("progress"), 0, GrindingRecipe.MAX_TURNS - 1);
     }
 }

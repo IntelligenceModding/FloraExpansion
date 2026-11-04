@@ -16,7 +16,7 @@ public final class CrateContentsPattern {
         for (int y = 0; y < ICON_SIZE; y++) {
             for (int x = 0; x < ICON_SIZE; x++) {
                 int color = de.artemis.floraexpansion.client.texture.NativePixels.get(contents.getOriginalImage(),  x * contents.width() / ICON_SIZE, y * contents.height() / ICON_SIZE);
-                if (ARGB32.alpha(color) >= 128) icon[y * ICON_SIZE + x] = ARGB32.opaque(ARGB32.multiply(color, tint));
+                if (ARGB32.alpha(color) >= 128) icon[y * ICON_SIZE + x] = (ARGB32.multiply(color, tint) | 0xFF000000);
             }
         }
         return compose(icon);
@@ -27,7 +27,7 @@ public final class CrateContentsPattern {
         var opaque = new int[icon.length];
         int opaqueCount = 0;
         for (int color : icon) {
-            if (ARGB32.alpha(color) >= 128) opaque[opaqueCount++] = ARGB32.opaque(color);
+            if (ARGB32.alpha(color) >= 128) opaque[opaqueCount++] = (color | 0xFF000000);
         }
         if (opaqueCount == 0) return new int[0];
 
@@ -51,7 +51,7 @@ public final class CrateContentsPattern {
                     }
                     int color = icon[sy * ICON_SIZE + sx];
                     if (ARGB32.alpha(color) >= 128) {
-                        pixels[target] = ARGB32.opaque(color);
+                        pixels[target] = (color | 0xFF000000);
                         remaining--;
                     }
                 }

@@ -27,11 +27,15 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+
 
 @SuppressWarnings("deprecation")
 public class ScatteredPebblesBlock extends BushBlock implements net.minecraft.world.level.block.SimpleWaterloggedBlock {
-    @NotNull @Override protected com.mojang.serialization.MapCodec<ScatteredPebblesBlock> codec() { return simpleCodec(ScatteredPebblesBlock::new); }
+    @NotNull @Override public net.minecraft.world.InteractionResult use(@NotNull net.minecraft.world.level.block.state.BlockState state, @NotNull net.minecraft.world.level.Level level, @NotNull net.minecraft.core.BlockPos pos, @NotNull net.minecraft.world.entity.player.Player player, @NotNull net.minecraft.world.InteractionHand hand, @NotNull net.minecraft.world.phys.BlockHitResult hit) {
+        return useWithoutItem(state, level, pos, player, hit);
+    }
+
+
 
     public static final net.minecraft.world.level.block.state.properties.BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
     public static final net.minecraft.world.level.block.state.properties.BooleanProperty BRINE = net.minecraft.world.level.block.state.properties.BooleanProperty.create("brine");
@@ -85,8 +89,7 @@ public class ScatteredPebblesBlock extends BushBlock implements net.minecraft.wo
                 .setValue(AMOUNT, 1);
     }
 
-    @Override
-    protected @NotNull InteractionResult useWithoutItem(@NotNull BlockState state, @NotNull Level level, @NotNull BlockPos pos, Player player, @NotNull BlockHitResult hitResult) {
+    public @NotNull InteractionResult useWithoutItem(@NotNull BlockState state, @NotNull Level level, @NotNull BlockPos pos, Player player, @NotNull BlockHitResult hitResult) {
         if (player.getMainHandItem().isEmpty()) {
             if (player.isSpectator() || !player.mayBuild() || !level.mayInteract(player, pos)) return InteractionResult.FAIL;
             if (!level.isClientSide) {
@@ -101,7 +104,7 @@ public class ScatteredPebblesBlock extends BushBlock implements net.minecraft.wo
                     if (slot == inventory.selected) continue;
                     var stored = inventory.getItem(slot);
                     if (stored.isEmpty()) { inventory.setItem(slot, collected.copy()); collected.setCount(0); }
-                    else if (ItemStack.isSameItemSameComponents(stored, collected)) {
+                    else if (ItemStack.isSameItemSameTags(stored, collected)) {
                         int added = Math.min(collected.getCount(), stored.getMaxStackSize() - stored.getCount());
                         stored.grow(added); collected.shrink(added);
                     }
@@ -119,25 +122,24 @@ public class ScatteredPebblesBlock extends BushBlock implements net.minecraft.wo
     }
 
     @Override
-    protected void createBlockStateDefinition(StateDefinition.Builder<Block, @NotNull BlockState> builder) {
+    public void createBlockStateDefinition(StateDefinition.Builder<Block, @NotNull BlockState> builder) {
         builder.add(FACING, AMOUNT, WATERLOGGED, BRINE);
     }
 
-    @NotNull @Override protected net.minecraft.world.level.material.FluidState getFluidState(BlockState state) {
+    @NotNull @Override public net.minecraft.world.level.material.FluidState getFluidState(BlockState state) {
         return !state.getValue(WATERLOGGED) ? super.getFluidState(state)
                 : state.getValue(BRINE) ? de.artemis.floraexpansion.common.registry.ModFluids.SALT_WATER.get().defaultFluidState()
                 : net.minecraft.world.level.material.Fluids.WATER.getSource(false);
     }
 
-    @Override public boolean canPlaceLiquid(@Nullable net.minecraft.world.entity.player.Player user,
-            @NotNull BlockGetter level, @NotNull BlockPos pos, BlockState state, @NotNull net.minecraft.world.level.material.Fluid fluid) {
+    @Override public boolean canPlaceLiquid(@NotNull BlockGetter level, @NotNull BlockPos pos, BlockState state, @NotNull net.minecraft.world.level.material.Fluid fluid) {
         return !state.getValue(WATERLOGGED) && (fluid == net.minecraft.world.level.material.Fluids.WATER
                 || fluid == de.artemis.floraexpansion.common.registry.ModFluids.SALT_WATER.get());
     }
 
     @Override public boolean placeLiquid(@NotNull net.minecraft.world.level.LevelAccessor level, @NotNull BlockPos pos, @NotNull BlockState state,
             net.minecraft.world.level.material.FluidState fluid) {
-        if (!canPlaceLiquid(null, level, pos, state, fluid.getType()) || !fluid.isSource()) return false;
+        if (!canPlaceLiquid(level, pos, state, fluid.getType()) || !fluid.isSource()) return false;
         if (!level.isClientSide()) {
             level.setBlock(pos, state.setValue(WATERLOGGED, true).setValue(BRINE,
                     fluid.is(de.artemis.floraexpansion.common.registry.ModTags.Fluids.SALT_WATER)), 3);
@@ -146,15 +148,14 @@ public class ScatteredPebblesBlock extends BushBlock implements net.minecraft.wo
         return true;
     }
 
-    @NotNull @Override public ItemStack pickupBlock(@Nullable net.minecraft.world.entity.player.Player user,
-            @NotNull net.minecraft.world.level.LevelAccessor level, @NotNull BlockPos pos, BlockState state) {
+    @NotNull @Override public ItemStack pickupBlock(@NotNull net.minecraft.world.level.LevelAccessor level, @NotNull BlockPos pos, BlockState state) {
         if (!state.getValue(WATERLOGGED)) return ItemStack.EMPTY;
         var bucket = state.getValue(BRINE) ? de.artemis.floraexpansion.common.registry.ModItems.SALT_WATER_BUCKET.get() : net.minecraft.world.item.Items.WATER_BUCKET;
         level.setBlock(pos, state.setValue(WATERLOGGED, false).setValue(BRINE, false), 3);
         return new ItemStack(bucket);
     }
 
-    @NotNull @Override protected BlockState updateShape(net.minecraft.world.level.block.state.BlockState state, @NotNull net.minecraft.core.Direction direction, @NotNull net.minecraft.world.level.block.state.BlockState neighbor, @NotNull net.minecraft.world.level.LevelAccessor level, @NotNull net.minecraft.core.BlockPos pos, @NotNull net.minecraft.core.BlockPos neighborPos) {
+    @NotNull @Override public BlockState updateShape(net.minecraft.world.level.block.state.BlockState state, @NotNull net.minecraft.core.Direction direction, @NotNull net.minecraft.world.level.block.state.BlockState neighbor, @NotNull net.minecraft.world.level.LevelAccessor level, @NotNull net.minecraft.core.BlockPos pos, @NotNull net.minecraft.core.BlockPos neighborPos) {
         var ticks = level;
         if (state.getValue(WATERLOGGED)) {
             var fluid = state.getFluidState().getType(); ticks.scheduleTick(pos, fluid, fluid.getTickDelay(level));
@@ -169,7 +170,7 @@ public class ScatteredPebblesBlock extends BushBlock implements net.minecraft.wo
     }
 
     @Override
-    protected boolean mayPlaceOn(@NotNull BlockState state, @NotNull BlockGetter level, @NotNull BlockPos pos) {
+    public boolean mayPlaceOn(@NotNull BlockState state, @NotNull BlockGetter level, @NotNull BlockPos pos) {
         return state.isFaceSturdy(level, pos, Direction.UP);
     }
 

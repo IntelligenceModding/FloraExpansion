@@ -19,12 +19,12 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 
 /** A salt-loving shore succulent; cave growth deliberately does not require light. */
 public final class GlasswortBlock extends BushBlock implements BonemealableBlock {
-    @NotNull @Override protected com.mojang.serialization.MapCodec<GlasswortBlock> codec() { return simpleCodec(GlasswortBlock::new); }
+
 
     private static final VoxelShape SHAPE = box(3,0,3,13,13,13);
     public GlasswortBlock(Properties properties) { super(properties); }
-    @NotNull @Override protected VoxelShape getShape(@NotNull BlockState state,@NotNull BlockGetter level,@NotNull BlockPos pos,@NotNull CollisionContext context) { return SHAPE; }
-    @Override protected boolean canSurvive(@NotNull BlockState state,LevelReader level,@NotNull BlockPos pos) {
+    @NotNull @Override public VoxelShape getShape(@NotNull BlockState state,@NotNull BlockGetter level,@NotNull BlockPos pos,@NotNull CollisionContext context) { return SHAPE; }
+    @Override public boolean canSurvive(@NotNull BlockState state,LevelReader level,@NotNull BlockPos pos) {
         if (!level.getFluidState(pos).isEmpty()) return false;
         var ground=pos.below(); var support=level.getBlockState(ground);
         if (!support.is(ModTags.Blocks.GLASSWORT_PLANTABLE_ON) || !support.isFaceSturdy(level,ground,Direction.UP)) return false;
@@ -35,7 +35,7 @@ public final class GlasswortBlock extends BushBlock implements BonemealableBlock
         }
         return false;
     }
-    @Override public boolean isValidBonemealTarget(@NotNull LevelReader level,@NotNull BlockPos pos,BlockState state) { return state.canSurvive(level,pos); }
+    @Override public boolean isValidBonemealTarget(@NotNull LevelReader level,@NotNull BlockPos pos,BlockState state, boolean isClientSide) { return state.canSurvive(level,pos); }
     @Override public boolean isBonemealSuccess(@NotNull Level level,@NotNull RandomSource random,@NotNull BlockPos pos,@NotNull BlockState state) { return true; }
     @Override public void performBonemeal(@NotNull ServerLevel level,@NotNull RandomSource random,@NotNull BlockPos pos,@NotNull BlockState state) {
         popResource(level,pos,new ItemStack(this));

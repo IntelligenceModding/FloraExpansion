@@ -5,7 +5,7 @@ import org.jetbrains.annotations.NotNull;
 import de.artemis.floraexpansion.common.block.StrawberryCakeWithCandleBlock;
 import de.artemis.floraexpansion.common.registry.ModBlockEntities;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.HolderLookup;
+
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
@@ -45,22 +45,22 @@ public class StrawberryCakeBlockEntity extends BlockEntity {
     }
 
     @Override
-    protected void loadAdditional(@NotNull net.minecraft.nbt.CompoundTag input, @NotNull net.minecraft.core.HolderLookup.Provider registries) {
-        super.loadAdditional(input, registries);
-        candles = de.artemis.floraexpansion.common.util.SavedComponents.read(input, "candles", BuiltInRegistries.BLOCK.byNameCodec().listOf(), registries).orElse(List.of()).stream()
+    public void load(@NotNull net.minecraft.nbt.CompoundTag input) {
+        super.load(input);
+        candles = de.artemis.floraexpansion.common.util.SavedComponents.read(input, "candles", BuiltInRegistries.BLOCK.byNameCodec().listOf()).orElse(List.of()).stream()
                 .filter(CandleBlock.class::isInstance).map(CandleBlock.class::cast)
                 .limit(StrawberryCakeWithCandleBlock.MAX_CANDLES).toList();
     }
 
     @Override
-    protected void saveAdditional(@NotNull net.minecraft.nbt.CompoundTag output, @NotNull net.minecraft.core.HolderLookup.Provider registries) {
-        super.saveAdditional(output, registries);
-        de.artemis.floraexpansion.common.util.SavedComponents.store(output, "candles", BuiltInRegistries.BLOCK.byNameCodec().listOf(), new ArrayList<Block>(getCandles()), registries);
+    public void saveAdditional(@NotNull net.minecraft.nbt.CompoundTag output) {
+        super.saveAdditional(output);
+        de.artemis.floraexpansion.common.util.SavedComponents.store(output, "candles", BuiltInRegistries.BLOCK.byNameCodec().listOf(), new ArrayList<Block>(getCandles()));
     }
 
     @Override
-    @NotNull public CompoundTag getUpdateTag(@NotNull HolderLookup.Provider registries) {
-        return saveWithoutMetadata(registries);
+    @NotNull public CompoundTag getUpdateTag() {
+        return saveWithoutMetadata();
     }
 
     @Override
